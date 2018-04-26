@@ -42,6 +42,23 @@ typedef union ksl_mat3x3_t {
 } ksl_mat3x3_t;
 
 /*!
+@brief general 3x3 double precision matrix
+
+allow accessing mat3x3 quantities by field name or by
+using at / as_array operators.  if using the at or as_array operators, then
+quantities are accessed in column major order
+*/
+typedef union ksl_mat3x3f_t {
+  float at[9];
+  float as_array[3][3];
+  struct {
+    float m00, m10, m20;
+    float m01, m11, m21;
+    float m02, m12, m22;
+  };
+} ksl_mat3x3f_t;
+
+/*!
 @brief general 4x4 double precision matrix
 
 allow accessing mat4x4 quantities by field name or
@@ -60,6 +77,24 @@ typedef union ksl_mat4x4_t {
 } ksl_mat4x4_t;
 
 /*!
+@brief general 4x4 double precision matrix
+
+allow accessing mat4x4 quantities by field name or
+using at / as_array operators.  if using the at / as_array operators,
+quantities are accessed in column major order
+*/
+typedef union ksl_mat4x4f_t {
+  float at[16];
+  float as_array[4][4];
+  struct {
+    float m00, m10, m20, m30;
+    float m01, m11, m21, m31;
+    float m02, m12, m22, m32;
+    float m03, m13, m23, m33;
+  };
+} ksl_mat4x4f_t;
+
+/*!
 @brief SE3 (3 Dimensional Special Euclidian group) consists of a
 SO3 (othonormalized 3x3 rotation matrix) and translation vector pair
 
@@ -75,5 +110,23 @@ typedef union ksl_SE3_t {
     ksl_vec3_t t;
   };
 } ksl_SE3_t;
+
+/*!
+@brief Single precision SE3 (3 Dimensional Special Euclidian group)
+consists of a single precision SO3 (othonormalized 3x3 rotation matrix) and
+single precision translation vector pair
+
+if using the at/as_array operators,
+quantities are accessed in column major order with Rotation matrix
+quantities coming first, followed by translation vector
+*/
+typedef union ksl_SE3f_t {
+  float at[12];
+  float as_array[4][3];
+  struct {
+    ksl_mat3x3f_t R;
+    ksl_vec3f_t t;
+  };
+} ksl_SE3f_t;
 
 #endif
