@@ -24,6 +24,7 @@ SUCH DAMAGE.
 
 #include <stdio.h>
 
+#include "inertia.h"
 #include "matrix.h"
 #include "quaternion.h"
 #include "screw.h"
@@ -57,5 +58,7 @@ void ksl_triang_print(FILE* f, int n, double* a);
 void ksl_triangi_print(FILE* f, int n, int* a);
 
 void ksl_triangb_print(FILE* f, int n, bool* a);
+
+void ksl_inertia_print(FILE* f, ksl_inertia_t* inertia);
 
 #endif
