@@ -1,2 +1,0 @@
-# ksl
-Kinematics Subroutine Library
