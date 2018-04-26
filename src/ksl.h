@@ -13,10 +13,13 @@ extern "C" {
 
 #include <assert.h>
 
+#include "axis.h"
+#include "inertia.h"
 #include "linalg.h"
 #include "matrix.h"
 #include "quaternion.h"
 #include "screw.h"
+#include "util.h"
 #include "vector.h"
 
 #endif
