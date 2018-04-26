@@ -9,7 +9,7 @@ mark_as_advanced(VERSION_MAJOR VERSION_MINOR VERSION_PATCH)
 add_definitions(-g3)
 add_definitions(-ggdb)
 add_definitions(-std=c11)
-add_definitions(-O0)
+add_definitions(-O3)
 add_definitions(-Wall)
 add_definitions(-D_GNU_SOURCE=1)
 add_definitions(-pipe)
@@ -32,6 +32,8 @@ add_library(ksl STATIC
   ${CMAKE_CURRENT_SOURCE_DIR}/src/matrix.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/screw.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/linalg.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/print.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/util.c
 )
 
 # build command line test application
