@@ -1,7 +1,7 @@
 /**
 @file
 @author Kristopher Wehage, Roger Wehage
-@brief Utilities to print KSL datastructures
+@brief Utilities related to axes to support KSL datastructures
 @date 2018
 @copyright Kristopher Wehage 2018
 
@@ -22,6 +22,8 @@ SUCH DAMAGE.
 #ifndef _KSL_AXIS_H_
 #define _KSL_AXIS_H_
 
+#include "vector.h"
+
 typedef enum {
   KSL_AXIS_XYZ,
   KSL_AXIS_YZX,
@@ -37,6 +39,8 @@ typedef enum {
   KSL_AXIS_ZYZ,
   KSL_AXIS_INVALID
 } ksl_axis_enum_t;
+
+ksl_vec3i_t ksl_axis_getVector(ksl_axis_enum_t axisType);
 
 ksl_axis_enum_t ksl_axis_enumFromChar(const char*);
 
