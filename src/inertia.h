@@ -22,6 +22,7 @@ SUCH DAMAGE.
 
 #include "matrix.h"
 #include "vector.h"
+
 /*!
 @brief double precision mass and inertia properties
 */
