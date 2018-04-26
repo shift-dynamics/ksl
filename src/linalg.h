@@ -22,4 +22,6 @@ SUCH DAMAGE.
 #ifndef _KSL_LINALG_H_
 #define _KSL_LINALG_H_
 
+void ksl_gramSchmidt(double* A, int m, int n);
+
 #endif
