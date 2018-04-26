@@ -36,6 +36,6 @@ add_library(ksl STATIC
   ${CMAKE_CURRENT_SOURCE_DIR}/src/util.c
 )
 
-# build command line test application
+# build test applications
 add_executable(ksl_test ${CMAKE_CURRENT_SOURCE_DIR}/test/ksl_test.c)
 target_link_libraries(ksl_test ksl)

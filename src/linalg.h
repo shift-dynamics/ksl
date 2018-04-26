@@ -22,6 +22,11 @@ SUCH DAMAGE.
 #ifndef _KSL_LINALG_H_
 #define _KSL_LINALG_H_
 
-void ksl_gramSchmidt(double* A, int m, int n);
+#include "matrix.h"
+#include "vector.h"
+
+void ksl_linalg_gramSchmidt(double* A, int m, int n);
+
+void ksl_linalg_pca(ksl_mat3x3_t* A, ksl_mat3x3_t* v);
 
 #endif
