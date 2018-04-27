@@ -22,6 +22,8 @@ SUCH DAMAGE.
 #ifndef _KSL_UTIL_H_
 #define _KSL_UTIL_H_
 
+#include <stdbool.h>
+
 double ksl_normalizeDegrees(double angle);
 
 float ksl_normalizeDegreesf(float angle);
@@ -37,5 +39,9 @@ double catan1pi(double y, double x, double theta);
 bool ksl_all_close(int count, double* a1, double* a2);
 
 void ksl_array_lerp(int count, double* y0, double* y1, double p, double* yOut);
+
+void ksl_daxpy(const int, const double, const double*, double*);
+
+void ksl_saxpy(const int, const float, float*, float*);
 
 #endif

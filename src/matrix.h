@@ -23,7 +23,9 @@ SUCH DAMAGE.
 #define _KSL_MATRIX_H_
 
 #include "axis.h"
-#include "vector.h"
+
+typedef union ksl_screw_t ksl_screw_t;
+typedef union ksl_screwf_t ksl_screwf_t;
 
 /*!
 @brief general 3x3 double precision matrix

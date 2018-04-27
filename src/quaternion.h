@@ -63,23 +63,31 @@ typedef union ksl_quaternionf_t {
 
 ksl_quaternion_t* ksl_quaternion_alloc(int);
 
+ksl_quaternionf_t* ksl_quaternionf_alloc(int);
+
+void ksl_axpy_qq(double, const ksl_quaternion_t*, ksl_quaternion_t*);
+
+void ksl_axpy_qqf(float, const ksl_quaternionf_t*, ksl_quaternionf_t*);
+
 void ksl_quaternion_normalize(ksl_quaternion_t* qi);
 
 void ksl_quaternionf_normalize(ksl_quaternionf_t* qi);
 
-void ksl_mat3x3_toQuaternion(ksl_mat3x3_t* ri, ksl_quaternion_t* qo);
+void ksl_mat3x3_toQuaternion(const ksl_mat3x3_t* ri, ksl_quaternion_t* qo);
 
-void ksl_mat3x3f_toQuaternion(ksl_mat3x3f_t* ri, ksl_quaternionf_t* qo);
+void ksl_mat3x3f_toQuaternion(const ksl_mat3x3f_t* ri, ksl_quaternionf_t* qo);
 
 void ksl_quaternion_toMat3x3(ksl_quaternion_t* qi, ksl_mat3x3_t* ro);
 
 void ksl_quaternionf_toMat3x3f(ksl_quaternionf_t* qi, ksl_mat3x3f_t* ro);
 
-void ksl_quaternion_slerp(ksl_quaternion_t* q1i, ksl_quaternion_t* q2i,
-                          double* t, ksl_quaternion_t* qo);
+void ksl_quaternion_slerp(const ksl_quaternion_t* q1i,
+                          const ksl_quaternion_t* q2i, double* t,
+                          ksl_quaternion_t* qo);
 
-void ksl_quaternionf_slerp(ksl_quaternionf_t* q1i, ksl_quaternionf_t* q2i,
-                           float* t, ksl_quaternionf_t* qo);
+void ksl_quaternionf_slerp(const ksl_quaternionf_t* q1i,
+                           const ksl_quaternionf_t* q2i, float* t,
+                           ksl_quaternionf_t* qo);
 
 void ksl_quaternion_squad(const ksl_quaternion_t qi[4], double* t,
                           ksl_quaternion_t* qo);
@@ -87,15 +95,17 @@ void ksl_quaternion_squad(const ksl_quaternion_t qi[4], double* t,
 void ksl_quaternionf_squad(const ksl_quaternionf_t qi[4], float* t,
                            ksl_quaternionf_t* qo);
 
-void ksl_quaternion_nlerp(ksl_quaternion_t q1i, ksl_quaternion_t* q2i,
-                          double* t, ksl_quaternion_t* qo);
+void ksl_quaternion_nlerp(const ksl_quaternion_t* q1i,
+                          const ksl_quaternion_t* q2i, const double* t,
+                          ksl_quaternion_t* qo);
 
-void ksl_quaternionf_nlerp(ksl_quaternionf_t* q1i, ksl_quaternionf_t* q2i,
-                           float* t, ksl_quaternionf_t* qo);
+void ksl_quaternionf_nlerp(const ksl_quaternionf_t* q1i,
+                           const ksl_quaternionf_t* q2i, const float* t,
+                           ksl_quaternionf_t* qo);
 
-void ksl_add_dpiToq(ksl_vec3_t* dpi, ksl_quaternion_t* qi);
+void ksl_add_dpiToq(const ksl_vec3_t* dpi, ksl_quaternion_t* qi);
 
-void ksl_subtract_dpiFromq(ksl_vec3_t* dpi, ksl_quaternion_t* qi);
+void ksl_subtract_dpiFromq(const ksl_vec3_t* dpi, ksl_quaternion_t* qi);
 
 void ksl_omega_to_dquaternion(ksl_vec3_t* w, ksl_quaternion_t* qi,
                               ksl_quaternion_t* dqo);

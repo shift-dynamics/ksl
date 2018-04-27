@@ -23,7 +23,6 @@ SUCH DAMAGE.
 #define _KSL_SCREW_H_
 
 #include "matrix.h"
-#include "vector.h"
 
 /*!
 @brief double precision screw consisting of a linear and angular vector pair in
@@ -84,6 +83,10 @@ typedef union ksl_coscrewf_t {
 ksl_screw_t* ksl_screw_alloc(int);
 
 ksl_screwf_t* ksl_screwf_alloc(int);
+
+ksl_coscrew_t* ksl_coscrew_alloc(int);
+
+ksl_coscrewf_t* ksl_coscrewf_alloc(int);
 
 double ksl_screw_l2norm(ksl_screw_t* v);
 
