@@ -138,13 +138,13 @@ double ksl_dot_vv(const ksl_vec3_t* vi0, const ksl_vec3_t* vi1);
 
 float ksl_dot_vvf(const ksl_vec3f_t* vi0, const ksl_vec3f_t* vi1);
 
-void ksl_product_vk(const ksl_vec3_t* vi, const double ki, ksl_vec3_t* vo);
+void ksl_product_va(const ksl_vec3_t* vi, const double ki, ksl_vec3_t* vo);
 
-void ksl_product_vinvk(const ksl_vec3_t* vi, const double ki, ksl_vec3_t* vo);
+void ksl_product_vinva(const ksl_vec3_t* vi, const double ki, ksl_vec3_t* vo);
 
-void ksl_product_vkinv(const ksl_vec3_t* vi, const double ki, ksl_vec3_t* vo);
+void ksl_product_vainv(const ksl_vec3_t* vi, const double ki, ksl_vec3_t* vo);
 
-void ksl_product_vkf(const ksl_vec3f_t* vi, const float ki, ksl_vec3f_t* vo);
+void ksl_product_vaf(const ksl_vec3f_t* vi, const float ki, ksl_vec3f_t* vo);
 
 void ksl_add_vv(const ksl_vec3_t* v1i, const ksl_vec3_t* v2i, ksl_vec3_t* vo);
 

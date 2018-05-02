@@ -36,6 +36,9 @@ typedef union ksl_screw_t {
     ksl_vec3_t ang; /*!< free angular vector, e.g. angular velocity or
                              angular acceleration (\omega, or \dot{\omega}) */
   };
+  struct {
+    double m0, m1, m2, m3, m4, m5, m6;
+  };
 } ksl_screw_t;
 
 /*!
@@ -49,6 +52,9 @@ typedef union ksl_screwf_t {
                             acceleration */
     ksl_vec3f_t ang; /*!< free angular vector, e.g. angular velocity or
                              angular acceleration (\omega, or \dot{\omega}) */
+  };
+  struct {
+    float m0, m1, m2, m3, m4, m5, m6;
   };
 } ksl_screwf_t;
 
@@ -64,6 +70,9 @@ typedef union ksl_coscrew_t {
     ksl_vec3_t ang; /*!< bound angular vector, e.g. moment/torque
                          or angular momentum*/
   };
+  struct {
+    double m0, m1, m2, m3, m4, m5, m6;
+  };
 } ksl_coscrew_t;
 
 /*!
@@ -77,6 +86,9 @@ typedef union ksl_coscrewf_t {
                          momentum */
     ksl_vec3f_t ang; /*!< bound angular vector, e.g. moment/torque
                          or angular momentum*/
+  };
+  struct {
+    float m0, m1, m2, m3, m4, m5, m6;
   };
 } ksl_coscrewf_t;
 
@@ -98,7 +110,8 @@ float ksl_dot_csf(const ksl_coscrewf_t*, const ksl_screwf_t*);
 
 void ksl_axpy_ss(const double scalar, const ksl_screw_t* v1x, ksl_screw_t* v2y);
 
-void ksl_axpy_ssf(const float scalar, const ksl_screwf_t* v1x, ksl_screwf_t* v2y);
+void ksl_axpy_ssf(const float scalar, const ksl_screwf_t* v1x,
+                  ksl_screwf_t* v2y);
 
 void ksl_screw_copy(const ksl_screw_t* si, ksl_screw_t* so);
 
@@ -112,71 +125,77 @@ void ksl_product_sk(const ksl_screw_t* si, const double ki, ksl_screw_t* so);
 
 void ksl_product_skf(const ksl_screwf_t* si, const float ki, ksl_screwf_t* so);
 
-void ksl_add_ss(const ksl_screw_t* s1i, const ksl_screw_t* s2i, ksl_screw_t* so);
+void ksl_add_ss(const ksl_screw_t* s1i, const ksl_screw_t* s2i,
+                ksl_screw_t* so);
 
-void ksl_add_ssf(const ksl_screwf_t* s1i, const ksl_screwf_t* s2i, ksl_screwf_t* so);
+void ksl_add_ssf(const ksl_screwf_t* s1i, const ksl_screwf_t* s2i,
+                 ksl_screwf_t* so);
 
 void ksl_addequal_ss(const ksl_screw_t* s1i, ksl_screw_t* s2i);
 
 void ksl_addequal_ssf(const ksl_screwf_t* s1i, ksl_screwf_t* s2i);
 
-void ksl_subtract_ss(const ksl_screw_t* s1i, const ksl_screw_t* s2i, ksl_screw_t* so);
+void ksl_subtract_ss(const ksl_screw_t* s1i, const ksl_screw_t* s2i,
+                     ksl_screw_t* so);
 
-void ksl_subtract_ssf(const ksl_screwf_t* s1i, const ksl_screwf_t* s2i, ksl_screwf_t* so);
+void ksl_subtract_ssf(const ksl_screwf_t* s1i, const ksl_screwf_t* s2i,
+                      ksl_screwf_t* so);
 
 void ksl_subtractequal_ss(const ksl_screw_t* s1i, ksl_screw_t* s2i);
 
 void ksl_subtractequal_ssf(const ksl_screwf_t* s1i, ksl_screwf_t* s2i);
 
-void ksl_add_sst(ksl_screw_t* si1, ksl_screw_t* si2, ksl_screw_t* so);
+void ksl_add_sst(const ksl_screw_t* si1, const ksl_screw_t* si2,
+                 ksl_screw_t* so);
 
-void ksl_add_sstf(ksl_screwf_t* si1, ksl_screwf_t* si2, ksl_screwf_t* so);
+void ksl_add_sstf(const ksl_screwf_t* si1, const ksl_screwf_t* si2,
+                  ksl_screwf_t* so);
 
-void ksl_htx(ksl_SE3_t* Di, ksl_screw_t* ho);
+void ksl_htx(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
-void ksl_htxf(ksl_SE3f_t* Di, ksl_screwf_t* ho);
+void ksl_htxf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
-void ksl_hty(ksl_SE3_t* Di, ksl_screw_t* ho);
+void ksl_hty(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
-void ksl_htyf(ksl_SE3f_t* Di, ksl_screwf_t* ho);
+void ksl_htyf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
-void ksl_htz(ksl_SE3_t* ri, ksl_screw_t* ho);
+void ksl_htz(const ksl_SE3_t* ri, ksl_screw_t* ho);
 
-void ksl_htzf(ksl_SE3f_t* ri, ksl_screwf_t* ho);
+void ksl_htzf(const ksl_SE3f_t* ri, ksl_screwf_t* ho);
 
-void ksl_hrx(ksl_SE3_t* Di, ksl_screw_t* ho);
+void ksl_hrx(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
-void ksl_hrxf(ksl_SE3f_t* Di, ksl_screwf_t* ho);
+void ksl_hrxf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
-void ksl_hry(ksl_SE3_t* Di, ksl_screw_t* ho);
+void ksl_hry(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
-void ksl_hrz(ksl_SE3_t* Di, ksl_screw_t* ho);
+void ksl_hrz(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
-void ksl_hrzf(ksl_SE3f_t* Di, ksl_screwf_t* ho);
+void ksl_hrzf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
-void ksl_htxinv(ksl_SE3_t* Di, ksl_screw_t* ho);
+void ksl_htxinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
-void ksl_htxinvf(ksl_SE3f_t* Di, ksl_screwf_t* ho);
+void ksl_htxinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
-void ksl_htyinv(ksl_SE3_t* Di, ksl_screw_t* ho);
+void ksl_htyinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
-void ksl_htyinvf(ksl_SE3f_t* Di, ksl_screwf_t* ho);
+void ksl_htyinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
-void ksl_htzinv(ksl_SE3_t* Di, ksl_screw_t* ho);
+void ksl_htzinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
-void ksl_htzinvf(ksl_SE3f_t* Di, ksl_screwf_t* ho);
+void ksl_htzinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
-void ksl_hrxinv(ksl_SE3_t* Di, ksl_screw_t* ho);
+void ksl_hrxinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
-void ksl_hrxinvf(ksl_SE3f_t* Di, ksl_screwf_t* ho);
+void ksl_hrxinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
-void ksl_hryinv(ksl_SE3_t* Di, ksl_screw_t* ho);
+void ksl_hryinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
-void ksl_hryinvf(ksl_SE3f_t* Di, ksl_screwf_t* ho);
+void ksl_hryinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
-void ksl_hrzinv(ksl_SE3_t* Di, ksl_screw_t* ho);
+void ksl_hrzinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
-void ksl_hrzinvf(ksl_SE3f_t* Di, ksl_screwf_t* ho);
+void ksl_hrzinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
 void ksl_cross_ss(ksl_screw_t* s1i, ksl_screw_t* s2i, ksl_screw_t* so);
 

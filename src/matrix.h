@@ -42,6 +42,9 @@ typedef union ksl_mat3x3_t {
     double m01, m11, m21;
     double m02, m12, m22;
   };
+  struct {
+    ksl_vec3_t v0, v1, v2;
+  };
 } ksl_mat3x3_t;
 
 /*!
@@ -58,6 +61,9 @@ typedef union ksl_mat3x3f_t {
     float m00, m10, m20;
     float m01, m11, m21;
     float m02, m12, m22;
+  };
+  struct {
+    ksl_vec3f_t v0, v1, v2;
   };
 } ksl_mat3x3f_t;
 
@@ -77,6 +83,9 @@ typedef union ksl_mat4x4_t {
     double m02, m12, m22, m32;
     double m03, m13, m23, m33;
   };
+  struct {
+    ksl_vec4_t v0, v1, v2, v3;
+  };
 } ksl_mat4x4_t;
 
 /*!
@@ -94,6 +103,9 @@ typedef union ksl_mat4x4f_t {
     float m01, m11, m21, m31;
     float m02, m12, m22, m32;
     float m03, m13, m23, m33;
+  };
+  struct {
+    ksl_vec4f_t v0, v1, v2, v3;
   };
 } ksl_mat4x4f_t;
 
