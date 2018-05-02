@@ -52,9 +52,9 @@ single precision
 short notation
 **************
 
-====================== ========================  =============
+====================== ========================= =============
 abbreviation           datastructure             description
----------------------- ------------------------  -------------
+---------------------- ------------------------- -------------
 **d**                  :code:`ksl_SE3f_t`        SE3 (rigid body transformation consisting of SO3 rotation and translation)
 **dinv**               :code:`ksl_SE3f_t`        inverse of an SE3 rigid body transformation
 **r**                  :code:`ksl_mat3x3f_t`     SO3 (3x3 orthonormal rotation matrix)
@@ -69,7 +69,8 @@ abbreviation           datastructure             description
 **v**                  :code:`ksl_vec3f_t`       vector
 **Ad**                 :code:`ksl_SE3f_t`        Adjoint matrix for transforming screws
 **CoAd**               :code:`ksl_SE3f_t`        CoAdjoint matrix for transforming coscrews
-====================== ========================  =============
+====================== ========================= =============
+
 
 example usage
 *************
