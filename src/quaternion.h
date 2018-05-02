@@ -44,7 +44,7 @@ typedef union ksl_quaternion_t {
 } ksl_quaternion_t;
 
 /*!
-@brief double precision quaternion data structure
+@brief single precision quaternion data structure
 */
 typedef union ksl_quaternionf_t {
   float at[4];
@@ -109,4 +109,67 @@ void ksl_subtract_dpiFromq(const ksl_vec3_t* dpi, ksl_quaternion_t* qi);
 
 void ksl_omega_to_dquaternion(ksl_vec3_t* w, ksl_quaternion_t* qi,
                               ksl_quaternion_t* dqo);
+
+void ksl_quaternion_product_qq(ksl_quaternion_t* q1i, ksl_quaternion_t* q2i,
+                               ksl_quaternion_t* qo);
+
+void ksl_quaternionf_product_qq(ksl_quaternionf_t* q1i, ksl_quaternionf_t* q2i,
+                                ksl_quaternionf_t* qo);
+
+void ksl_quaternion_product_qinverseq(ksl_quaternion_t* q1i,
+                                      ksl_quaternion_t* q2i,
+                                      ksl_quaternion_t* qo);
+
+void ksl_quaternionf_product_qinverseq(ksl_quaternionf_t* q1i,
+                                       ksl_quaternionf_t* q2i,
+                                       ksl_quaternionf_t* qo);
+
+void ksl_quaternion_product_qqinverse(ksl_quaternion_t* q1i,
+                                      ksl_quaternion_t* q2i,
+                                      ksl_quaternion_t* qo);
+
+void ksl_quaternionf_product_qqinverse(ksl_quaternionf_t* q1i,
+                                       ksl_quaternionf_t* q2i,
+                                       ksl_quaternionf_t* qo);
+
+void ksl_quaternion_product_qinverseqinverse(ksl_quaternion_t* q1i,
+                                             ksl_quaternion_t* q2i,
+                                             ksl_quaternion_t* qo);
+
+void ksl_quaternionf_product_qinverseqinverse(ksl_quaternionf_t* q1i,
+                                              ksl_quaternionf_t* q2i,
+                                              ksl_quaternionf_t* qo);
+
+void ksl_quaternion_product_uqinverseq(ksl_quaternion_t* q1i,
+                                       ksl_quaternion_t* q2i,
+                                       ksl_quaternion_t* qo);
+
+void ksl_quaternionf_product_uqinverseq(ksl_quaternionf_t* q1i,
+                                        ksl_quaternionf_t* q2i,
+                                        ksl_quaternionf_t* qo);
+
+void ksl_quaternion_product_quqinverse(ksl_quaternion_t* q1i,
+                                       ksl_quaternion_t* q2i,
+                                       ksl_quaternion_t* qo);
+
+void ksl_quaternionf_product_quqinverse(ksl_quaternionf_t* q1i,
+                                        ksl_quaternionf_t* q2i,
+                                        ksl_quaternionf_t* qo);
+
+void ksl_quaternion_product_uqinverseuqinverse(ksl_quaternion_t* q1i,
+                                               ksl_quaternion_t* q2i,
+                                               ksl_quaternion_t* qo);
+
+void ksl_quaternionf_product_uqinverseuqinverse(ksl_quaternionf_t* q1i,
+                                                ksl_quaternionf_t* q2i,
+                                                ksl_quaternionf_t* qo);
+
+void ksl_quaternion_product_uqinverseuqinverse(ksl_quaternion_t* q1i,
+                                               ksl_quaternion_t* q2i,
+                                               ksl_quaternion_t* qo);
+
+void ksl_quaternionf_product_uqinverseuqinverse(ksl_quaternionf_t* q1i,
+                                                ksl_quaternionf_t* q2i,
+                                                ksl_quaternionf_t* qo);
+
 #endif
