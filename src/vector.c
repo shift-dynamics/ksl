@@ -528,8 +528,22 @@ inline void ksl_cross_vv(const ksl_vec3_t* restrict v1i,
   vo->z = v1i->x * v2i->y - v1i->y * v2i->x;
 }
 
-void ksl_cross_vvinv(const ksl_vec3_t* restrict v1i,
-                     const ksl_vec3_t* restrict v2i, ksl_vec3_t* vo);
+/*!
+@brief Compute double precision cross product of v1i with v2i^-1
+
+\f$V_{1i} \times V_{2i} \rightarrow V_o\f$
+
+@param v1i [in] a first 3x1 vector
+@param v2i [in] a second 3x1 vector
+@param vo [out] results are stored in vo
+*/
+inline void ksl_cross_vvinv(const ksl_vec3_t* restrict v1i,
+                     const ksl_vec3_t* restrict v2i,
+                     ksl_vec3_t* vo) {
+  vo->x = v1i->z * v2i->y - v1i->y * v2i->z;
+  vo->y = v1i->x * v2i->z - v1i->z * v2i->x;
+  vo->z = v1i->y * v2i->x - v1i->x * v2i->y;
+}
 
 /*!
 @brief Compute single precision cross product of v1i with v2i
@@ -548,29 +562,326 @@ inline void ksl_cross_vvf(const ksl_vec3f_t* restrict v1i,
   vo->z = v1i->x * v2i->y - v1i->y * v2i->x;
 }
 
-void ksl_cross_vvinvf(const ksl_vec3f_t* v1i, const ksl_vec3f_t* v2i,
-                      ksl_vec3f_t* vo);
+/*!
+@brief Compute single precision cross product of v1i with v2i^-1
 
-void ksl_add_ttx(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
+\f$V_{1i} \times V_{2i} \rightarrow V_o\f$
 
-void ksl_add_ttxf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
+@param v1i [in] a first 3x1 vector
+@param v2i [in] a second 3x1 vector
+@param vo [out] results are stored in vo
+*/
+inline void ksl_cross_vvinvf(const ksl_vec3f_t* restrict v1i,
+                      const ksl_vec3f_t* restrict v2i,
+                      ksl_vec3f_t* restrict vo) {
+  vo->x = v1i->z * v2i->y - v1i->y * v2i->z;
+  vo->y = v1i->x * v2i->z - v1i->z * v2i->x;
+  vo->z = v1i->y * v2i->x - v1i->x * v2i->y;
+}
 
-void ksl_add_ttxinv(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
+/*!
+@brief Add a double precision Vector with a primitive translation along x-axis
 
-void ksl_add_ttxinvf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
+Computes the result of a general 3-d translation, followed by a translation along the x axis using sparse algebra.
 
-void ksl_add_tty(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
+\f$t_{i} + t_{x} \rightarrow t_o\f$
 
-void ksl_add_ttyf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
+is equivalent to:
 
-void ksl_add_ttyinv(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
+\f$t_{i} \rightarrow t_o\f$
 
-void ksl_add_ttyinvf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
+\f$t_o[0] + t_x \rightarrow t_o[0]\f$
 
-void ksl_add_ttz(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
+@param t1i a pointer to a general 3-d translation
+@param t2i a pointer to a double
+@param to a pointer to a general 3-d translation where the result is stored.
+*/
+inline void ksl_add_ttx(const ksl_vec3_t* restrict t1i,
+                        const double t2i,
+                        ksl_vec3_t* restrict to) {
+  ksl_vec3_copy(t1i, to);
+  to->x += t2i;
+}
 
-void ksl_add_ttzf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
+/*!
+@brief Add a single precision Vector with a primitive translation along x-axis
 
-void ksl_add_ttzinv(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
+Computes the result of a general 3-d translation, followed by a translation along the x axis using sparse algebra.
 
-void ksl_add_ttzinvf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
+\f$t_{i} + t_{x} \rightarrow t_o\f$
+
+is equivalent to:
+
+\f$t_{i} \rightarrow t_o\f$
+
+\f$t_o[0] + t_x \rightarrow t_o[0]\f$
+
+@param t1i a pointer to a general 3-d translation
+@param t2i a pointer to a double
+@param to a pointer to a general 3-d translation where the result is stored.
+*/
+inline void ksl_add_ttxf(const ksl_vec3f_t* restrict t1i,
+                         const float t2i,
+                         ksl_vec3f_t* restrict to) {
+  ksl_vec3f_copy(t1i, to);
+  to->x += t2i;
+}
+
+/*!
+@brief Add a double precision Vector with the inverse of a translation
+along the x-axis
+
+Computes the result of a general 3-d transformation, followed by a tranformation
+along the x axis using sparse algebra.
+
+\f$t_{i} + t_{x} \rightarrow t_o\f$
+
+is equivalent to:
+
+\f$t_{i} \rightarrow t_o\f$
+
+\f$t_o[0] + t_x \rightarrow t_o[0]\f$
+
+@param t1i a pointer to a general 3-d translation
+@param t2i a pointer to a double
+@param to a pointer to a general 3-d translation where the result is stored.
+*/
+inline void ksl_add_ttxinv(const ksl_vec3_t* restrict t1i,
+                           const double t2i,
+                           ksl_vec3_t* restrict to) {
+  ksl_vec3_copy(t1i, to);
+  to->x -= t2i;
+}
+
+/*!
+@brief Add a single precision Vector with the inverse of a translation
+along the x-axis
+
+Computes the result of a general 3-d transformation, followed by a tranformation
+along the x axis using sparse algebra.
+
+\f$t_{i} + t_{x} \rightarrow t_o\f$
+
+is equivalent to:
+
+\f$t_{i} \rightarrow t_o\f$
+
+\f$t_o[0] + t_x \rightarrow t_o[0]\f$
+
+@param t1i a pointer to a general 3-d translation
+@param t2i a pointer to a double
+@param to a pointer to a general 3-d translation where the result is stored.
+*/
+inline void ksl_add_ttxinvf(const ksl_vec3f_t* restrict t1i,
+                            const float t2i,
+                            ksl_vec3f_t* restrict to) {
+  ksl_vec3f_copy(t1i, to);
+  to->x -= t2i;
+}
+
+/*!
+@brief Add a double precision Vector with a translation
+along the y-axis
+
+Computes the result of a general 3-d transformation, followed by a tranformation
+along the y axis using sparse algebra.
+
+\f$t_{i} + t_{y} \rightarrow t_o\f$
+
+is equivalent to:
+
+\f$t_{i}[0:2] \rightarrow t_o[0:2]\f$
+
+\f$t_o[1] + t_y \rightarrow t_o[1]\f$
+
+@param t1i a pointer to a general 3-d translation
+@param t2i a pointer to a double
+@param to a pointer to a general 3-d translation where the result is stored.
+*/
+inline void ksl_add_tty(const ksl_vec3_t* restrict t1i,
+                        const double t2i,
+                        ksl_vec3_t* restrict to) {
+  ksl_vec3_copy(t1i, to);
+  to->y += t2i;
+}
+
+
+/*!
+@brief Add a single precision Vector with a translation
+along the y-axis
+
+Computes the result of a general 3-d transformation, followed by a tranformation
+along the y axis using sparse algebra.
+
+\f$t_{i} + t_{y} \rightarrow t_o\f$
+
+is equivalent to:
+
+\f$t_{i}[0:2] \rightarrow t_o[0:2]\f$
+
+\f$t_o[1] + t_y \rightarrow t_o[1]\f$
+
+@param t1i a pointer to a general 3-d translation
+@param t2i a pointer to a double
+@param to a pointer to a general 3-d translation where the result is stored.
+*/
+inline void ksl_add_ttyf(const ksl_vec3f_t* restrict t1i,
+                         const float t2i,
+                         ksl_vec3f_t* restrict to) {
+  ksl_vec3f_copy(t1i, to);
+  to->y += t2i;
+
+}
+
+/*!
+@brief Add a double precision Vector with the inverse of a translation
+along the y-axis
+
+Computes the result of a general 3-d transformation, followed by a tranformation
+along the y axis using sparse algebra.
+
+\f$t_{i} + t_{y} \rightarrow t_o\f$
+
+is equivalent to:
+
+\f$t_{i}[0:2] \rightarrow t_o[0:2]\f$
+
+\f$t_o[1] - t_y \rightarrow t_o[1]\f$
+
+@param t1i a pointer to a general 3-d translation
+@param t2i a pointer to a double
+@param to a pointer to a general 3-d translation where the result is stored.
+*/
+inline void ksl_add_ttyinv(const ksl_vec3_t* restrict t1i,
+                           const double t2i,
+                           ksl_vec3_t* restrict to) {
+  ksl_vec3_copy(t1i, to);
+  to->y -= t2i;
+}
+
+/*!
+@brief Add a single precision Vector with the inverse of a translation along the y-axis
+
+Computes the result of a general 3-d transformation, followed by a tranformation
+along the y axis using sparse algebra.
+
+\f$t_{i} + t_{y} \rightarrow t_o\f$
+
+is equivalent to:
+
+\f$t_{i}[0:2] \rightarrow t_o[0:2]\f$
+
+\f$t_o[1] - t_y \rightarrow t_o[1]\f$
+
+@param t1i a pointer to a general 3-d translation
+@param t2i a pointer to a double
+@param to a pointer to a general 3-d translation where the result is stored.
+*/
+inline void ksl_add_ttyinvf(const ksl_vec3f_t* restrict t1i,
+                            const float t2i,
+                            ksl_vec3f_t* restrict to) {
+  ksl_vec3f_copy(t1i, to);
+  to->y -= t2i;
+}
+
+/*!
+@brief Add a double precision Vector with a translation
+along the z-axis
+
+Computes the result of a general 3-d transformation, followed by a tranformation
+along the z axis using sparse algebra.
+
+\f$t_{i} + t_{z} \rightarrow t_o\f$
+
+is equivalent to:
+
+\f$t_{i}[0:2] \rightarrow t_o[0:2]\f$
+
+\f$t_o[2] + t_z \rightarrow t_o[2]\f$
+
+@param t1i a pointer to a general 3-d translation
+@param t2i a pointer to a double
+@param to a pointer to a general 3-d translation where the result is stored.
+*/
+inline void ksl_add_ttz(const ksl_vec3_t* restrict t1i,
+                        const double t2i,
+                        ksl_vec3_t* restrict to) {
+  ksl_vec3_copy(t1i, to);
+  to->z += t2i;
+}
+
+/*!
+@brief Add a single precision Vector with a translation
+along the z-axis
+
+Computes the result of a general 3-d transformation, followed by a tranformation
+along the z axis using sparse algebra.
+
+\f$t_{i} + t_{z} \rightarrow t_o\f$
+
+is equivalent to:
+
+\f$t_{i}[0:2] \rightarrow t_o[0:2]\f$
+
+\f$t_o[2] + t_z \rightarrow t_o[2]\f$
+
+@param t1i a pointer to a general 3-d translation
+@param t2i a pointer to a double
+@param to a pointer to a general 3-d translation where the result is stored.
+*/
+inline void ksl_add_ttzf(const ksl_vec3f_t* restrict t1i,
+                         const float t2i,
+                         ksl_vec3f_t* restrict to) {
+  ksl_vec3f_copy(t1i, to);
+  to->z += t2i;
+}
+
+/*!
+@brief Add a double precision Vector with the inverse of a translation along the z-axis
+
+Computes the result of a general 3-d transformation, followed by a tranformation
+along the z axis using sparse algebra.
+
+\f$t_{i} + t_{z} \rightarrow t_o\f$
+
+is equivalent to:
+
+\f$t_{i}[0:2] \rightarrow t_o[0:2]\f$
+
+\f$t_o[2] - t_z \rightarrow t_o[2]\f$
+
+@param t1i [in] a pointer to a general 3-d translation
+@param t2i [in] translation along z-axis
+@param to [out] a pointer to a general 3-d translation where the result is stored.
+*/
+inline void ksl_add_ttzinv(const ksl_vec3_t* restrict t1i,
+                           const double t2i,
+                           ksl_vec3_t* restrict to) {
+  ksl_vec3_copy(t1i, to);
+  to->z -= t2i;
+}
+
+/*!
+@brief Add a single precision vector with the inverse of a translation along the z-axis
+
+Computes the result of a general 3-d transformation, followed by a tranformation
+along the z axis using sparse algebra.
+
+\f$t_{i} + t_{z} \rightarrow t_o\f$
+
+is equivalent to:
+
+\f$t_{i}[0:2] \rightarrow t_o[0:2]\f$
+
+\f$t_o[2] - t_z \rightarrow t_o[2]\f$
+
+@param t1i [in] a pointer to a general 3-d translation
+@param t2i [in] translation along z-axis
+@param to [out] a pointer to a general 3-d translation where the result is stored.
+*/
+inline void ksl_add_ttzinvf(const ksl_vec3f_t* restrict t1i,
+                            const float t2i,
+                            ksl_vec3f_t* restrict to) {
+  ksl_vec3f_copy(t1i, to);
+  to->z -= t2i;
+}
