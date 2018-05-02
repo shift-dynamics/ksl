@@ -69,7 +69,7 @@ abbreviation           datastructure             description
 **v**                  :code:`ksl_vec3f_t`       vector
 **Ad**                 :code:`ksl_SE3f_t`        Adjoint matrix for transforming screws
 **CoAd**               :code:`ksl_SE3f_t`        CoAdjoint matrix for transforming coscrews
-====================== ======================== =============
+====================== ========================  =============
 
 example usage
 *************
