@@ -31,6 +31,7 @@ ksl_quaternionf_t* ksl_quaternionf_alloc(const int n) {
 @brief Normalize a double precision quaternion
 
 Normalize a quaternion and overwrite.
+Add assert(norm) > unit roundoff to avoid division by zero.
 
 @param qi euler parameters to normalize
 */
@@ -49,6 +50,7 @@ inline void ksl_quaternion_normalize(ksl_quaternion_t* restrict qi) {
 @brief Normalize single precision quaternion
 
 Normalize a quaternion and overwrite.
+Add assert(norm) > unit roundoff to avoid division by zero.
 
 @param qi euler parameters to normalize
 */
@@ -78,22 +80,22 @@ inline void ksl_axpy_qqf(const float a, const ksl_quaternionf_t* restrict x,
 }
 
 /*!
-@brief Double precision function to convert s2_mat3x3_t rotation matrix to
+@brief Double precision function to convert ksl_mat3x3_t rotation matrix to
 quaternion representation
 
 \f$R = \begin{bmatrix}
-e_0^2 + e_1^2-e_2^2-e_3^2 & e_1e_2+e_1e_2-e_0e_3+e_0e_3 &
-e_3e_1+e_3e_1+e_0e_2+e_0e_2 \\
-e_1e_2 + e_1e_2 + e_0e_3 + e_0e_3 & e_0^2 - e_1^2 + e_2^2 - e_3^2 & e_2e_3 +
-e_2e_3 - e_0e_1 - e_0e_1 \\
-e_3e_1+e_3e_1-e_0e_2-e_0e_2 & e_2e_3+e_2e_3+e_0e_1+e_0e_1 &
-e_0^2-e_1^2-e_2^2+e_3^2 \\ \end{bmatrix}\f$
+q3q3 + q0q0 - q1q1 - q2q2 & q0q1 + q0q1 - q3q2 + q3q2 &
+q2q0 + q2q0 + q3q1 + q3q1 \\
+q0q1 + q0q1 + q3q2 + q3q2 & q3q3 - q0q0 + q1q1 - q2q2 & q1q2 +
+q1q2 - q3q0 - q3q0 \\
+q2q0 + q2q0 - q3q1 - q3q1 & q1q2 + q1q2 + q3q0 + q3q0 &
+q3q3 - q0q0 - q1q1 + q2q2 \\ \end{bmatrix}\f$
 
-@todo Supply *ER*, a reference Euler Parameter. If necessary, flip the sign of
-*(E) so that each *(E+i) is the closest match to ER[i]. For this algorithm to
-work, *(E) must be a close follow-on to ER. This function would then prove more
-useful when continuous Euler Parameters are desired for interpolation purposes.
-Matrix R is quadratic in *(E) so *(E+i) and -*(E+i) give the same R.
+@todo Supply qr, a reference quaterniohn. If necessary, flip the sign of
+qo so that each qo[i] is the closest match to qr[i]. For this algorithm to
+work, qo must be a close follow-on to qr. This function would then prove more
+useful when continuous quaternions are desired for interpolation purposes.
+Matrix ri is quadratic in qo so qo and -qo give the same ri.
 
 @param ri a rotation matrix in a 9x1 column format
 @param qo the resulting euler parameters are stored in the 4x1 array, qo
@@ -104,61 +106,61 @@ void ksl_mat3x3_toQuaternion(const ksl_mat3x3_t* restrict ri,
   if(fabs(ri->m00) > 1e-9 || fabs(ri->m11) > 1e-9 || fabs(ri->m22) > 1e-9) {
     double p;
     if((p = ri->m00 + ri->m11 + ri->m22) > 0) {
-      // p = 4e0^2-1 > 0 or e0^2 > 1/4 or |e0| > 1/2
-      // Now p = 2|e0| > 1
+      // p = 4q3q3-1 > 0 or q3q3 > 1/4 or |q3| > 1/2
+      // Now p = 2|q3| > 1
       p = sqrt(p + 1);
 
-      // If (2|e0| - 2er0) > 1, then p = 2|e0| has the wrong sign.
-      // if ( p - ER[0] - ER[0] > 1 ) p = -p; // 2e0
-      qo->w = p / 2; // e0
-      p = p + p;     // 4e0
+      // If (2|q3| - 2q3) > 1, then p = 2|q3| has the wrong sign.
+      // if ( p - qr[3] - qr[3] > 1 ) p = -p; // 2q3
+      qo->w = p / 2; // q3
+      p = p + p;     // 4q3
 
-      qo->x = (ri->at[2 + 1 * 3] - ri->at[1 + 2 * 3]) / p; // e1 = 4e0e1/4e0
-      qo->y = (ri->at[0 + 2 * 3] - ri->at[2 + 0 * 3]) / p; // e2 = 4e0e2/4e0
-      qo->z = (ri->at[1 + 0 * 3] - ri->at[0 + 1 * 3]) / p; // e3 = 4e0e3/4e0
+      qo->x = (ri->at[2 + 1 * 3] - ri->at[1 + 2 * 3]) / p; // q0 = 4q3q0/4q3
+      qo->y = (ri->at[0 + 2 * 3] - ri->at[2 + 0 * 3]) / p; // q1 = 4q3q1/4q3
+      qo->z = (ri->at[1 + 0 * 3] - ri->at[0 + 1 * 3]) / p; // q2 = 4q3q2/4q3
     } else if((p = ri->m00 - ri->m11 - ri->m22) > 0) {
-      // 4e1^2-1 > 0 or e1^2 > 1/4 or |e1| > 1/2
-      // Now p = 2|e1| > 1
+      // 4q0q0-1 > 0 or q0q0 > 1/4 or |q0| > 1/2
+      // Now p = 2|q0| > 1
       p = sqrt(p + 1);
 
-      // If (2|e1| - 2er1) > 1, then p = 2|e1| has the wrong sign.
-      // if ( p - ER[1] - ER[1] > 1 ) p = -p; // 2e1
-      qo->x = p / 2; // e1
-      p = p + p;     // 4e1
+      // If (2|q0| - 2q0) > 1, then p = 2|q0| has the wrong sign.
+      // if ( p - qr[0] - qr[0] > 1 ) p = -p; // 2q0
+      qo->x = p / 2; // q0
+      p = p + p;     // 4q0
 
-      qo->w = (ri->at[2 + 1 * 3] - ri->at[1 + 2 * 3]) / p; // e0 = 4e0e1/4e1
-      qo->y = (ri->at[1 + 0 * 3] + ri->at[0 + 1 * 3]) / p; // e2 = 4e1e2/4e1
-      qo->z = (ri->at[2 + 0 * 3] + ri->at[0 + 2 * 3]) / p; // e3 = 4e3e1/4e1
+      qo->w = (ri->at[2 + 1 * 3] - ri->at[1 + 2 * 3]) / p; // q3 = 4q3q0/4q0
+      qo->y = (ri->at[1 + 0 * 3] + ri->at[0 + 1 * 3]) / p; // q1 = 4q0q1/4q0
+      qo->z = (ri->at[2 + 0 * 3] + ri->at[0 + 2 * 3]) / p; // q2 = 4q2q0/4q0
     } else if((p = ri->m11 - ri->m00 - ri->m22) > 0) {
-      // 4e2^2-1 > 0 or e2^2 > 1/4 or |e2| > 1/2
-      // Now p = 2|e2| > 1
+      // 4q1q1-1 > 0 or q1q1 > 1/4 or |q1| > 1/2
+      // Now p = 2|q1| > 1
       p = sqrt(p + 1);
 
-      // If (2|e2| - 2er2) > 1, then p = 2|e2| has the wrong sign.
-      // if ( p - ER[2] - ER[2] > 1 ) p = -p; // 2e2
+      // If (2|q1| - 2eq1) > 1, then p = 2|q1| has the wrong sign.
+      // if ( p - qr[1] - qr[1] > 1 ) p = -p; // 2q1
 
-      qo->y = p / 2; // e2
-      p = p + p;     // 4e2
+      qo->y = p / 2; // q1
+      p = p + p;     // 4q1
 
-      qo->w = (ri->at[0 + 2 * 3] - ri->at[2 + 0 * 3]) / p; // e0 = 4e0e2/4e2
-      qo->x = (ri->at[0 + 1 * 3] + ri->at[1 + 0 * 3]) / p; // e1 = 4e1e2/4e2
-      qo->z = (ri->at[1 + 2 * 3] + ri->at[2 + 1 * 3]) / p; // e3 = 4e2e3/4e2
+      qo->w = (ri->at[0 + 2 * 3] - ri->at[2 + 0 * 3]) / p; // q3 = 4q3q1/4q1
+      qo->x = (ri->at[0 + 1 * 3] + ri->at[1 + 0 * 3]) / p; // q0 = 4q0q1/4q1
+      qo->z = (ri->at[1 + 2 * 3] + ri->at[2 + 1 * 3]) / p; // q2 = 4q1q2/4q1
     } else {
-      // 4e3^2-1 > 0 or e3^2 > 1/4 or |e3| > 1/2
+      // 4q2q2-1 > 0 or q2q2 > 1/4 or |q2| > 1/2
       p = ri->m22 - ri->m00 - ri->m11;
 
-      // Now p = 2|e3| > 1
+      // Now p = 2|q2| > 1
       p = sqrt(p + 1);
 
-      // If (2|e3| - 2er3) > 1, then p = 2|e3| has the wrong sign.
-      // if ( p - ER[3] - ER[3] > 1 ) p = -p; // 2e3
+      // If (2|q2| - 2q2) > 1, then p = 2|q2| has the wrong sign.
+      // if ( p - qr[2] - qr[2] > 1 ) p = -p; // 2q2
 
-      qo->z = p / 2; // e3
-      p = p + p;     // 4e3
+      qo->z = p / 2; // q2
+      p = p + p;     // 4q2
 
-      qo->w = (ri->at[1 + 0 * 3] - ri->at[0 + 1 * 3]) / p; // e0 = 4e0e3/4e3
-      qo->x = (ri->at[0 + 2 * 3] + ri->at[2 + 0 * 3]) / p; // e1 = 4e3e1/4e3
-      qo->y = (ri->at[2 + 1 * 3] + ri->at[1 + 2 * 3]) / p; // e2 = 4e2e3/4e3
+      qo->w = (ri->at[1 + 0 * 3] - ri->at[0 + 1 * 3]) / p; // q3 = 4q3q2/4q2
+      qo->x = (ri->at[0 + 2 * 3] + ri->at[2 + 0 * 3]) / p; // q0 = 4q2q0/4q2
+      qo->y = (ri->at[2 + 1 * 3] + ri->at[1 + 2 * 3]) / p; // q1 = 4q1q2/4q2
     }
   } else {
     qo->w = 0.5;
@@ -170,22 +172,22 @@ void ksl_mat3x3_toQuaternion(const ksl_mat3x3_t* restrict ri,
 }
 
 /*!
-@brief single precision function to convert s2_mat3x3_t rotation matrix to
+@brief single precision function to convert ksl_mat3x3_t rotation matrix to
 single precision quaternion representation
 
 \f$R = \begin{bmatrix}
-e_0^2 + e_1^2-e_2^2-e_3^2 & e_1e_2+e_1e_2-e_0e_3+e_0e_3 &
-e_3e_1+e_3e_1+e_0e_2+e_0e_2 \\
-e_1e_2 + e_1e_2 + e_0e_3 + e_0e_3 & e_0^2 - e_1^2 + e_2^2 - e_3^2 & e_2e_3 +
-e_2e_3 - e_0e_1 - e_0e_1 \\
-e_3e_1+e_3e_1-e_0e_2-e_0e_2 & e_2e_3+e_2e_3+e_0e_1+e_0e_1 &
-e_0^2-e_1^2-e_2^2+e_3^2 \\ \end{bmatrix}\f$
+q3q3 + q0q0 - q1q1 - q2q2 & q0q1 + q0q1 - q3q2 + q3q2 &
+q2q0 + q2q0 + q3q1 + q3q1 \\
+q0q1 + q0q1 + q3q2 + q3q2 & q3q3 - q0q0 + q1q1 - q2q2 & q1q2 +
+q1q2 - q3q0 - q3q0 \\
+q2q0 + q2q0 - q3q1 - q3q1 & q1q2 + q1q2 + q3q0 + q3q0 &
+q3q3 - q0q0 - q1q1 + q2q2 \\ \end{bmatrix}\f$
 
-@todo Supply *ER*, a reference Euler Parameter. If necessary, flip the sign of
-*(E) so that each *(E+i) is the closest match to ER[i]. For this algorithm to
-work, *(E) must be a close follow-on to ER. This function would then prove more
-useful when continuous Euler Parameters are desired for interpolation purposes.
-Matrix R is quadratic in *(E) so *(E+i) and -*(E+i) give the same R.
+@todo Supply qr, a reference quaterniohn. If necessary, flip the sign of
+qo so that each qo[i] is the closest match to qr[i]. For this algorithm to
+work, qo must be a close follow-on to qr. This function would then prove more
+useful when continuous quaternions are desired for interpolation purposes.
+Matrix ri is quadratic in qo so qo and -qo give the same ri.
 
 @param ri [in] a rotation matrix in a 9x1 column format
 @param qo [out] resulting euler parameters
@@ -195,63 +197,63 @@ inline void ksl_mat3x3f_toQuaternion(const ksl_mat3x3f_t* restrict ri,
 
   if(fabs(ri->m00) > 1e-9 || fabs(ri->m11) > 1e-9 || fabs(ri->m22) > 1e-9) {
     double p;
-    // p = 4e0^2-1 > 0 or e0^2 > 1/4 or |e0| > 1/2
+    // p = 4q3q3-1 > 0 or q3q3 > 1/4 or |q3| > 1/2
     if((p = ri->m00 + ri->m11 + ri->m22) > 0) {
 
-      // Now p = 2|e0| > 1
+      // Now p = 2|q3| > 1
       p = sqrt(p + 1);
 
-      // If (2|e0| - 2er0) > 1, then p = 2|e0| has the wrong sign.
-      // if ( p - ER[0] - ER[0] > 1 ) p = -p; // 2e0
+      // If (2|q3| - 2q3) > 1, then p = 2|q3| has the wrong sign.
+      // if ( p - qr[3] - qr[3] > 1 ) p = -p; // 2q3
 
-      qo->w = p / 2; // e0
-      p = p + p;     // 4e0
+      qo->w = p / 2; // q3
+      p = p + p;     // 4q3
 
-      qo->x = (ri->at[2 + 1 * 3] - ri->at[1 + 2 * 3]) / p; // e1 = 4e0e1/4e0
-      qo->y = (ri->at[0 + 2 * 3] - ri->at[2 + 0 * 3]) / p; // e2 = 4e0e2/4e0
-      qo->z = (ri->at[1 + 0 * 3] - ri->at[0 + 1 * 3]) / p; // e3 = 4e0e3/4e0
+      qo->x = (ri->at[2 + 1 * 3] - ri->at[1 + 2 * 3]) / p; // q0 = 4q3q0/4q3
+      qo->y = (ri->at[0 + 2 * 3] - ri->at[2 + 0 * 3]) / p; // q1 = 4q3q1/4q3
+      qo->z = (ri->at[1 + 0 * 3] - ri->at[0 + 1 * 3]) / p; // q2 = 4q3q2/4q3
     } else if((p = ri->m00 - ri->m11 - ri->m22) > 0) {
-      // 4e1^2-1 > 0 or e1^2 > 1/4 or |e1| > 1/2
-      // Now p = 2|e1| > 1
+      // 4q0q0-1 > 0 or q0q0 > 1/4 or |q0| > 1/2
+      // Now p = 2|q0| > 1
       p = sqrt(p + 1);
 
-      // If (2|e1| - 2er1) > 1, then p = 2|e1| has the wrong sign.
-      // if ( p - ER[1] - ER[1] > 1 ) p = -p; // 2e1
-      qo->x = p / 2;                                       // e1
-      p = p + p;                                           // 4e1
-      qo->w = (ri->at[2 + 1 * 3] - ri->at[1 + 2 * 3]) / p; // e0 = 4e0e1/4e1
-      qo->y = (ri->at[1 + 0 * 3] + ri->at[0 + 1 * 3]) / p; // e2 = 4e1e2/4e1
-      qo->z = (ri->at[2 + 0 * 3] + ri->at[0 + 2 * 3]) / p; // e3 = 4e3e1/4e1
+      // If (2|q0| - 2q0) > 1, then p = 2|q0| has the wrong sign.
+      // if ( p - qr[0] - qr[0] > 1 ) p = -p; // 2q0
+      qo->x = p / 2;                                       // q0
+      p = p + p;                                           // 4q0
+      qo->w = (ri->at[2 + 1 * 3] - ri->at[1 + 2 * 3]) / p; // q3 = 4q3q0/4q0
+      qo->y = (ri->at[1 + 0 * 3] + ri->at[0 + 1 * 3]) / p; // q1 = 4q0q1/4q0
+      qo->z = (ri->at[2 + 0 * 3] + ri->at[0 + 2 * 3]) / p; // q2 = 4q2q0/4q0
     } else if((p = ri->m11 - ri->m00 - ri->m22) > 0) {
-      // 4e2^2-1 > 0 or e2^2 > 1/4 or |e2| > 1/2
-      // Now p = 2|e2| > 1
+      // 4q1q1-1 > 0 or q1q1 > 1/4 or |q1| > 1/2
+      // Now p = 2|q1| > 1
       p = sqrt(p + 1);
 
-      // If (2|e2| - 2er2) > 1, then p = 2|e2| has the wrong sign.
-      // if ( p - ER[2] - ER[2] > 1 ) p = -p; // 2e2
+      // If (2|q1| - 2q1) > 1, then p = 2|q1| has the wrong sign.
+      // if ( p - qr[1] - qr[1] > 1 ) p = -p; // 2q1
 
-      qo->y = p / 2; // e2
-      p = p + p;     // 4e2
+      qo->y = p / 2; // q1
+      p = p + p;     // 4q1
 
-      qo->w = (ri->at[0 + 2 * 3] - ri->at[2 + 0 * 3]) / p; // e0 = 4e0e2/4e2
-      qo->x = (ri->at[0 + 1 * 3] + ri->at[1 + 0 * 3]) / p; // e1 = 4e1e2/4e2
-      qo->z = (ri->at[1 + 2 * 3] + ri->at[2 + 1 * 3]) / p; // e3 = 4e2e3/4e2
+      qo->w = (ri->at[0 + 2 * 3] - ri->at[2 + 0 * 3]) / p; // q3 = 4q3q1/4q1
+      qo->x = (ri->at[0 + 1 * 3] + ri->at[1 + 0 * 3]) / p; // q0 = 4q0q1/4q1
+      qo->z = (ri->at[1 + 2 * 3] + ri->at[2 + 1 * 3]) / p; // q2 = 4q1q2/4q1
     } else {
-      // 4e3^2-1 > 0 or e3^2 > 1/4 or |e3| > 1/2
+      // 4q2q2-1 > 0 or q2q2 > 1/4 or |q2| > 1/2
       p = ri->m22 - ri->m00 - ri->m11;
 
-      // Now p = 2|e3| > 1
+      // Now p = 2|q2| > 1
       p = sqrt(p + 1);
 
-      // If (2|e3| - 2er3) > 1, then p = 2|e3| has the wrong sign.
-      // if ( p - ER[3] - ER[3] > 1 ) p = -p; // 2e3
+      // If (2|q2| - 2q2) > 1, then p = 2|q2| has the wrong sign.
+      // if ( p - qr[2] - qr[2] > 1 ) p = -p; // 2q2
 
-      qo->z = p / 2; // e3
-      p = p + p;     // 4e3
+      qo->z = p / 2; // q2
+      p = p + p;     // 4q2
 
-      qo->w = (ri->at[1 + 0 * 3] - ri->at[0 + 1 * 3]) / p; // e0 = 4e0e3/4e3
-      qo->x = (ri->at[0 + 2 * 3] + ri->at[2 + 0 * 3]) / p; // e1 = 4e3e1/4e3
-      qo->y = (ri->at[2 + 1 * 3] + ri->at[1 + 2 * 3]) / p; // e2 = 4e2e3/4e3
+      qo->w = (ri->at[1 + 0 * 3] - ri->at[0 + 1 * 3]) / p; // q3 = 4q3q2/4q2
+      qo->x = (ri->at[0 + 2 * 3] + ri->at[2 + 0 * 3]) / p; // q0 = 4q2q0/4q2
+      qo->y = (ri->at[2 + 1 * 3] + ri->at[1 + 2 * 3]) / p; // q1 = 4q1q2/4q2
     }
   } else {
     qo->w = 0.5;
@@ -269,12 +271,12 @@ matrix representation
 The following formula is used to perform conversion:
 
 \f$R = \begin{bmatrix}
-e_0^2 + e_1^2-e_2^2-e_3^2 & e_1e_2+e_1e_2-e_0e_3+e_0e_3 &
-e_3e_1+e_3e_1+e_0e_2+e_0e_2 \\
-e_1e_2 + e_1e_2 + e_0e_3 + e_0e_3 & e_0^2 - e_1^2 + e_2^2 - e_3^2 & e_2e_3 +
-e_2e_3 - e_0e_1 - e_0e_1 \\
-e_3e_1+e_3e_1-e_0e_2-e_0e_2 & e_2e_3+e_2e_3+e_0e_1+e_0e_1 &
-e_0^2-e_1^2-e_2^2+e_3^2 \\ \end{bmatrix}\f$
+q3q3 + q0q0 - q1q1 - q2q2 & q0q1 + q0q1 - q3q2 + q3q2 &
+q2q0 + q2q0 + q3q1 + q3q1 \\
+q0q1 + q0q1 + q3q2 + q3q2 & q3q3 - q0q0 + q1q1 - q2q2 & q1q2 +
+q1q2 - q3q0 - q3q0 \\
+q2q0 + q2q0 - q3q1 - q3q1 & q1q2 + q1q2 + q3q0 + q3q0 &
+q3q3 - q0q0 - q1q1 + q2q2 \\ \end{bmatrix}\f$
 
 The Quaternion will be normalized during conversion.
 
@@ -313,17 +315,17 @@ inline void ksl_quaternion_toMat3x3(ksl_quaternion_t* restrict qi,
 
 /*!
 @brief single precision function to convert Quaternionf to rotation
-matrix (s2_mat3x3f_t) representation
+matrix (ksl_mat3x3f_t) representation
 
 The following formula is used to perform conversion:
 
 \f$R = \begin{bmatrix}
-e_0^2 + e_1^2-e_2^2-e_3^2 & e_1e_2+e_1e_2-e_0e_3+e_0e_3 &
-e_3e_1+e_3e_1+e_0e_2+e_0e_2 \\
-e_1e_2 + e_1e_2 + e_0e_3 + e_0e_3 & e_0^2 - e_1^2 + e_2^2 - e_3^2 & e_2e_3 +
-e_2e_3 - e_0e_1 - e_0e_1 \\
-e_3e_1+e_3e_1-e_0e_2-e_0e_2 & e_2e_3+e_2e_3+e_0e_1+e_0e_1 &
-e_0^2-e_1^2-e_2^2+e_3^2 \\ \end{bmatrix}\f$
+q3q3 + q0q0 - q1q1 - q2q2 & q0q1 + q0q1 - q3q2 + q3q2 &
+q2q0 + q2q0 + q3q1 + q3q1 \\
+q0q1 + q0q1 + q3q2 + q3q2 & q3q3 - q0q0 + q1q1 - q2q2 & q1q2 +
+q1q2 - q3q0 - q3q0 \\
+q2q0 + q2q0 - q3q1 - q3q1 & q1q2 + q1q2 + q3q0 + q3q0 &
+q3q3 - q0q0 - q1q1 + q2q2 \\ \end{bmatrix}\f$
 
 The Quaternion will be normalized during conversion.
 
@@ -421,10 +423,10 @@ No. 3, 1985] (http://run.usc.edu/cs520-s12/assign2/p245-shoemake.pdf)
 @param t fraction from q1i to q2i (0<t<1)
 @param qo the resulting quaternion is returned in qo
 */
-inline void s2_quaternionf_slerp(const ksl_quaternionf_t* restrict q1i,
-                                 const ksl_quaternionf_t* restrict q2i,
-                                 float* restrict t,
-                                 ksl_quaternionf_t* restrict qo) {
+inline void ksl_quaternionf_slerp(const ksl_quaternionf_t* restrict q1i,
+                                  const ksl_quaternionf_t* restrict q2i,
+                                  float* restrict t,
+                                  ksl_quaternionf_t* restrict qo) {
 
   float cosHalfTheta = 0.0;
   for(int i = 0; i < 4; i++) {
@@ -460,7 +462,7 @@ inline void s2_quaternionf_slerp(const ksl_quaternionf_t* restrict q1i,
 /*!
 @brief Vectorized version of quaternion Linear Interpolation (Lerp)
 
-Less expensive numerically than Shoemake's Slerp algorithm (s2_slerp)
+Less expensive numerically than Shoemake's Slerp algorithm (ksl_slerp)
 but does not interpolate with constant velocity
 
 @param q1i a first quaternion in the form [w,x,y,z] to interpolate from
@@ -504,7 +506,7 @@ inline void ksl_quaternion_nlerp(const ksl_quaternion_t* restrict q1i,
 /*!
 @brief Vectorized version of quaternion Linear Interpolation (Lerp)
 
-Less expensive numerically than Shoemake's Slerp algorithm (s2_Slerp)
+Less expensive numerically than Shoemake's Slerp algorithm (ksl_Slerp)
 but does not interpolate with constant velocity
 
 @param q1i a first quaternion in the form [w,x,y,z] to interpolate from
@@ -512,10 +514,10 @@ but does not interpolate with constant velocity
 @param t fraction from q1i to q2i (0<t<1)
 @param qo the resulting quaternion is returned in qo
 */
-inline void s2_quaternionf_nlerp(const ksl_quaternionf_t* restrict q1i,
-                                 const ksl_quaternionf_t* restrict q2i,
-                                 const float* restrict t,
-                                 ksl_quaternionf_t* restrict qo) {
+inline void ksl_quaternionf_nlerp(const ksl_quaternionf_t* restrict q1i,
+                                  const ksl_quaternionf_t* restrict q2i,
+                                  const float* restrict t,
+                                  ksl_quaternionf_t* restrict qo) {
 
   if((*t) < 1e-9) {
     memcpy(qo, q1i, sizeof(ksl_quaternionf_t));
