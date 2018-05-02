@@ -164,12 +164,10 @@ void ksl_quaternionf_product_uqinverseuqinverse(ksl_quaternionf_t* q1i,
                                                 ksl_quaternionf_t* q2i,
                                                 ksl_quaternionf_t* qo);
 
-void ksl_quaternion_product_uqinverseuqinverse(ksl_quaternion_t* q1i,
-                                               ksl_quaternion_t* q2i,
-                                               ksl_quaternion_t* qo);
+void ksl_quaternion_product_uqv(ksl_quaternion_t* q1i, ksl_quaternion_t* q2i,
+                                ksl_quaternion_t* qo);
 
-void ksl_quaternionf_product_uqinverseuqinverse(ksl_quaternionf_t* q1i,
-                                                ksl_quaternionf_t* q2i,
-                                                ksl_quaternionf_t* qo);
+void ksl_quaternionf_product_uqv(ksl_quaternionf_t* q1i, ksl_quaternionf_t* q2i,
+                                 ksl_quaternionf_t* qo);
 
 #endif
