@@ -65,13 +65,18 @@ ksl_quaternion_t* ksl_quaternion_alloc(int);
 
 ksl_quaternionf_t* ksl_quaternionf_alloc(int);
 
-void ksl_axpy_qq(double, const ksl_quaternion_t*, ksl_quaternion_t*);
+double ksl_quaternion_dot_qq(const ksl_quaternion_t*, const ksl_quaternion_t*);
 
-void ksl_axpy_qqf(float, const ksl_quaternionf_t*, ksl_quaternionf_t*);
+float ksl_quaternionf_dot_qq(const ksl_quaternionf_t*,
+                             const ksl_quaternionf_t*);
 
 void ksl_quaternion_normalize(ksl_quaternion_t* qi);
 
 void ksl_quaternionf_normalize(ksl_quaternionf_t* qi);
+
+void ksl_axpy_qq(double, const ksl_quaternion_t*, ksl_quaternion_t*);
+
+void ksl_axpy_qqf(float, const ksl_quaternionf_t*, ksl_quaternionf_t*);
 
 void ksl_mat3x3_toQuaternion(const ksl_mat3x3_t* ri, ksl_quaternion_t* qo);
 
@@ -107,67 +112,49 @@ void ksl_add_dpiToq(const ksl_vec3_t* dpi, ksl_quaternion_t* qi);
 
 void ksl_subtract_dpiFromq(const ksl_vec3_t* dpi, ksl_quaternion_t* qi);
 
-void ksl_omega_to_dquaternion(ksl_vec3_t* w, ksl_quaternion_t* qi,
+void ksl_omega_to_dquaternion(const ksl_vec3_t* w, const ksl_quaternion_t* qi,
                               ksl_quaternion_t* dqo);
 
-void ksl_quaternion_product_qq(ksl_quaternion_t* q1i, ksl_quaternion_t* q2i,
+void ksl_quaternion_product_qq(const ksl_quaternion_t* q1i,
+                               const ksl_quaternion_t* q2i,
                                ksl_quaternion_t* qo);
 
-void ksl_quaternionf_product_qq(ksl_quaternionf_t* q1i, ksl_quaternionf_t* q2i,
+void ksl_quaternionf_product_qq(const ksl_quaternionf_t* q1i,
+                                const ksl_quaternionf_t* q2i,
                                 ksl_quaternionf_t* qo);
 
-void ksl_quaternion_product_qinverseq(ksl_quaternion_t* q1i,
-                                      ksl_quaternion_t* q2i,
-                                      ksl_quaternion_t* qo);
+void ksl_quaternion_product_qconjq(const ksl_quaternion_t* q1i,
+                                   const ksl_quaternion_t* q2i,
+                                   ksl_quaternion_t* qo);
 
-void ksl_quaternionf_product_qinverseq(ksl_quaternionf_t* q1i,
-                                       ksl_quaternionf_t* q2i,
-                                       ksl_quaternionf_t* qo);
+void ksl_quaternionf_product_qconjq(const ksl_quaternionf_t* q1i,
+                                    const ksl_quaternionf_t* q2i,
+                                    ksl_quaternionf_t* qo);
 
-void ksl_quaternion_product_qqinverse(ksl_quaternion_t* q1i,
-                                      ksl_quaternion_t* q2i,
-                                      ksl_quaternion_t* qo);
+void ksl_quaternion_product_qqconj(const ksl_quaternion_t* q1i,
+                                   const ksl_quaternion_t* q2i,
+                                   ksl_quaternion_t* qo);
 
-void ksl_quaternionf_product_qqinverse(ksl_quaternionf_t* q1i,
-                                       ksl_quaternionf_t* q2i,
-                                       ksl_quaternionf_t* qo);
+void ksl_quaternionf_product_qqconj(const ksl_quaternionf_t* q1i,
+                                    const ksl_quaternionf_t* q2i,
+                                    ksl_quaternionf_t* qo);
 
-void ksl_quaternion_product_qinverseqinverse(ksl_quaternion_t* q1i,
-                                             ksl_quaternion_t* q2i,
-                                             ksl_quaternion_t* qo);
+void ksl_quaternion_product_qconjqconj(const ksl_quaternion_t* q1i,
+                                       const ksl_quaternion_t* q2i,
+                                       ksl_quaternion_t* qo);
 
-void ksl_quaternionf_product_qinverseqinverse(ksl_quaternionf_t* q1i,
-                                              ksl_quaternionf_t* q2i,
-                                              ksl_quaternionf_t* qo);
+void ksl_quaternionf_product_qconjqconj(const ksl_quaternionf_t* q1i,
+                                        const ksl_quaternionf_t* q2i,
+                                        ksl_quaternionf_t* qo);
 
 void ksl_quaternion_product_uqinverseq(ksl_quaternion_t* q1i,
                                        ksl_quaternion_t* q2i,
                                        ksl_quaternion_t* qo);
 
-void ksl_quaternionf_product_uqinverseq(ksl_quaternionf_t* q1i,
-                                        ksl_quaternionf_t* q2i,
-                                        ksl_quaternionf_t* qo);
+void ksl_quaternion_product_qv(const ksl_quaternion_t* q1i,
+                               const ksl_vec3_t* vi, ksl_quaternion_t* qo);
 
-void ksl_quaternion_product_quqinverse(ksl_quaternion_t* q1i,
-                                       ksl_quaternion_t* q2i,
-                                       ksl_quaternion_t* qo);
-
-void ksl_quaternionf_product_quqinverse(ksl_quaternionf_t* q1i,
-                                        ksl_quaternionf_t* q2i,
-                                        ksl_quaternionf_t* qo);
-
-void ksl_quaternion_product_uqinverseuqinverse(ksl_quaternion_t* q1i,
-                                               ksl_quaternion_t* q2i,
-                                               ksl_quaternion_t* qo);
-
-void ksl_quaternionf_product_uqinverseuqinverse(ksl_quaternionf_t* q1i,
-                                                ksl_quaternionf_t* q2i,
-                                                ksl_quaternionf_t* qo);
-
-void ksl_quaternion_product_uqv(ksl_quaternion_t* q1i, ksl_quaternion_t* q2i,
-                                ksl_quaternion_t* qo);
-
-void ksl_quaternionf_product_uqv(ksl_quaternionf_t* q1i, ksl_quaternionf_t* q2i,
-                                 ksl_quaternionf_t* qo);
+void ksl_quaternionf_product_qv(const ksl_quaternionf_t* q1i,
+                                const ksl_vec3f_t* vi, ksl_quaternionf_t* qo);
 
 #endif
