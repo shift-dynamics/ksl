@@ -201,181 +201,181 @@ void ksl_mat3x3_transpose(ksl_mat3x3_t* ri, ksl_mat3x3_t* ro);
 
 void ksl_mat3x3f_transpose(ksl_mat3x3f_t* ri, ksl_mat3x3f_t* ro);
 
-void ksl_product_rv(ksl_mat3x3_t* ri, ksl_vec3_t* vi, ksl_vec3_t* vo);
+void ksl_product_rv(const ksl_mat3x3_t* ri, const ksl_vec3_t* vi, ksl_vec3_t* vo);
 
-void ksl_product_rvf(ksl_mat3x3f_t* ri, ksl_vec3f_t* vi, ksl_vec3f_t* vo);
+void ksl_product_rvf(const ksl_mat3x3f_t* ri, const ksl_vec3f_t* vi, ksl_vec3f_t* vo);
 
-void ksl_product_rvinv(ksl_mat3x3_t* ri, ksl_vec3_t* vi, ksl_vec3_t* vo);
+void ksl_product_rvinv(const ksl_mat3x3_t* ri, const ksl_vec3_t* vi, ksl_vec3_t* vo);
 
-void ksl_product_rvinvf(ksl_mat3x3f_t* ri, ksl_vec3f_t* vi, ksl_vec3f_t* vo);
+void ksl_product_rvinvf(const ksl_mat3x3f_t* ri, const ksl_vec3f_t* vi, ksl_vec3f_t* vo);
 
-void ksl_product_rinvv(ksl_mat3x3_t* ri, ksl_vec3_t* vi, ksl_vec3_t* vo);
+void ksl_product_rinvv(const ksl_mat3x3_t* ri, const ksl_vec3_t* vi, ksl_vec3_t* vo);
 
-void ksl_product_rinvvf(ksl_mat3x3f_t* ri, ksl_vec3f_t* vi, ksl_vec3f_t* vo);
+void ksl_product_rinvvf(const ksl_mat3x3f_t* ri, const ksl_vec3f_t* vi, ksl_vec3f_t* vo);
 
-void ksl_product_rinvvinv(ksl_mat3x3_t* ri, ksl_vec3_t* vi, ksl_vec3_t* vo);
+void ksl_product_rinvvinv(const ksl_mat3x3_t* ri, const ksl_vec3_t* vi, ksl_vec3_t* vo);
 
-void ksl_product_rinvvinvf(ksl_mat3x3f_t* ri, ksl_vec3f_t* vi, ksl_vec3f_t* vo);
+void ksl_product_rinvvinvf(const ksl_mat3x3f_t* ri, const ksl_vec3f_t* vi, ksl_vec3f_t* vo);
 
-void ksl_product_rrx(ksl_mat3x3_t* ri, double dc[2], ksl_mat3x3_t* ro);
+void ksl_product_rrx(const ksl_mat3x3_t* ri, const double dc[2], ksl_mat3x3_t* ro);
 
-void ksl_product_rrxf(ksl_mat3x3f_t* ri, float dc[2], ksl_mat3x3f_t* ro);
+void ksl_product_rrxf(const ksl_mat3x3f_t* ri, const float dc[2], ksl_mat3x3f_t* ro);
 
-void ksl_product_rrxinv(ksl_mat3x3_t* ri, double dc[2], ksl_mat3x3_t* ro);
+void ksl_product_rrxinv(const ksl_mat3x3_t* ri, const double dc[2], ksl_mat3x3_t* ro);
 
-void ksl_product_rrxinvf(ksl_mat3x3f_t* ri, float dc[2], ksl_mat3x3f_t* ro);
+void ksl_product_rrxinvf(const ksl_mat3x3f_t* ri, const float dc[2], ksl_mat3x3f_t* ro);
 
-void ksl_product_rry(ksl_mat3x3_t* ri, double dc[2], ksl_mat3x3_t* ro);
+void ksl_product_rry(const ksl_mat3x3_t* ri, const double dc[2], ksl_mat3x3_t* ro);
 
-void ksl_product_rryf(ksl_mat3x3f_t* ri, float dc[2], ksl_mat3x3f_t* ro);
+void ksl_product_rryf(const ksl_mat3x3f_t* ri, const float dc[2], ksl_mat3x3f_t* ro);
 
-void ksl_product_rryinv(ksl_mat3x3_t* ri, double dc[2], ksl_mat3x3_t* ro);
+void ksl_product_rryinv(const ksl_mat3x3_t* ri, const double dc[2], ksl_mat3x3_t* ro);
 
-void ksl_product_rryinvf(ksl_mat3x3f_t* ri, float dc[2], ksl_mat3x3f_t* ro);
+void ksl_product_rryinvf(const ksl_mat3x3f_t* ri, const float dc[2], ksl_mat3x3f_t* ro);
 
-void ksl_product_rrz(ksl_mat3x3_t* ri, double dc[2], ksl_mat3x3_t* ro);
+void ksl_product_rrz(const ksl_mat3x3_t* ri, const double dc[2], ksl_mat3x3_t* ro);
 
-void ksl_product_rrzf(ksl_mat3x3f_t* ri, float dc[2], ksl_mat3x3f_t* ro);
+void ksl_product_rrzf(const ksl_mat3x3f_t* ri, const float dc[2], ksl_mat3x3f_t* ro);
 
-void ksl_product_rrzinv(ksl_mat3x3_t* ri, double dc[2], ksl_mat3x3_t* ro);
+void ksl_product_rrzinv(const ksl_mat3x3_t* ri, const double dc[2], ksl_mat3x3_t* ro);
 
-void ksl_product_rrzinvf(ksl_mat3x3f_t* ri, float dc[2], ksl_mat3x3f_t* ro);
+void ksl_product_rrzinvf(const ksl_mat3x3f_t* ri, const float dc[2], ksl_mat3x3f_t* ro);
 
-void ksl_product_rr(ksl_mat3x3_t* r1i, ksl_mat3x3_t* r2i, ksl_mat3x3_t* ro);
+void ksl_product_rr(const ksl_mat3x3_t* r1i, const ksl_mat3x3_t* r2i, ksl_mat3x3_t* ro);
 
-void ksl_product_rrf(ksl_mat3x3f_t* r1i, ksl_mat3x3f_t* r2i, ksl_mat3x3f_t* ro);
+void ksl_product_rrf(const ksl_mat3x3f_t* r1i, const ksl_mat3x3f_t* r2i, ksl_mat3x3f_t* ro);
 
-void ksl_product_rrinv(ksl_mat3x3_t* r1i, ksl_mat3x3_t* r2i, ksl_mat3x3_t* ro);
+void ksl_product_rrinv(const ksl_mat3x3_t* r1i, const ksl_mat3x3_t* r2i, ksl_mat3x3_t* ro);
 
-void ksl_product_rrinvf(ksl_mat3x3f_t* r1i, ksl_mat3x3f_t* r2i,
+void ksl_product_rrinvf(const ksl_mat3x3f_t* r1i, const ksl_mat3x3f_t* r2i,
                         ksl_mat3x3f_t* ro);
 
-void ksl_product_rinvr(ksl_mat3x3_t* r1i, ksl_mat3x3_t* r2i, ksl_mat3x3_t* ro);
+void ksl_product_rinvr(const ksl_mat3x3_t* r1i, const ksl_mat3x3_t* r2i, ksl_mat3x3_t* ro);
 
-void ksl_product_rinvrf(ksl_mat3x3f_t* r1i, ksl_mat3x3f_t* r2i,
+void ksl_product_rinvrf(const ksl_mat3x3f_t* r1i, const ksl_mat3x3f_t* r2i,
                         ksl_mat3x3f_t* ro);
 
-void ksl_product_rtx(ksl_mat3x3_t* ri, const double* ti, ksl_vec3_t* to);
+void ksl_product_rtx(const ksl_mat3x3_t* ri, const double ti, ksl_vec3_t* to);
 
-void ksl_product_rtxf(ksl_mat3x3f_t* ri, const float* ti, ksl_vec3f_t* to);
+void ksl_product_rtxf(const ksl_mat3x3f_t* ri, const float ti, ksl_vec3f_t* to);
 
-void ksl_product_rtxinv(ksl_mat3x3_t* ri, const double* ti, ksl_vec3_t* to);
+void ksl_product_rtxinv(const ksl_mat3x3_t* ri, const double ti, ksl_vec3_t* to);
 
-void ksl_product_rtxinvf(ksl_mat3x3f_t* ri, const float* ti, ksl_vec3f_t* to);
+void ksl_product_rtxinvf(const ksl_mat3x3f_t* ri, const float ti, ksl_vec3f_t* to);
 
-void ksl_product_rty(ksl_mat3x3_t* ri, const double* ti, ksl_vec3_t* to);
+void ksl_product_rty(const ksl_mat3x3_t* ri, const double ti, ksl_vec3_t* to);
 
-void ksl_product_rtyf(ksl_mat3x3f_t* ri, const float* ti, ksl_vec3f_t* to);
+void ksl_product_rtyf(const ksl_mat3x3f_t* ri, const float ti, ksl_vec3f_t* to);
 
-void ksl_product_rtyinv(ksl_mat3x3_t* ri, const double* ti, ksl_vec3_t* to);
+void ksl_product_rtyinv(const ksl_mat3x3_t* ri, const double ti, ksl_vec3_t* to);
 
-void ksl_product_rtyinvf(ksl_mat3x3f_t* ri, const float* ti, ksl_vec3f_t* to);
+void ksl_product_rtyinvf(const ksl_mat3x3f_t* ri, const float ti, ksl_vec3f_t* to);
 
-void ksl_product_rtz(ksl_mat3x3_t* ri, const double* ti, ksl_vec3_t* to);
+void ksl_product_rtz(const ksl_mat3x3_t* ri, const double ti, ksl_vec3_t* to);
 
-void ksl_product_rtzf(ksl_mat3x3f_t* ri, const float* ti, ksl_vec3f_t* to);
+void ksl_product_rtzf(const ksl_mat3x3f_t* ri, const float ti, ksl_vec3f_t* to);
 
-void ksl_product_rtzinv(ksl_mat3x3_t* ri, const double* ti, ksl_vec3_t* to);
+void ksl_product_rtzinv(const ksl_mat3x3_t* ri, const double ti, ksl_vec3_t* to);
 
-void ksl_product_rtzinvf(ksl_mat3x3f_t* ri, const float* ti, ksl_vec3f_t* to);
+void ksl_product_rtzinvf(const ksl_mat3x3f_t* ri, const float ti, ksl_vec3f_t* to);
 
-void ksl_displacement_invert(ksl_SE3_t* Di, ksl_SE3_t* Do);
+void ksl_SE3_inverted(const ksl_SE3_t* Di, ksl_SE3_t* Do);
 
-void ksl_displacementf_invert(ksl_SE3f_t* Di, ksl_SE3f_t* Do);
+void ksl_SE3f_inverted(const ksl_SE3f_t* Di, ksl_SE3f_t* Do);
 
-void ksl_displacement_copy(ksl_SE3_t* Di, ksl_SE3_t* Do);
+void ksl_SE3_copy(const ksl_SE3_t* Di, ksl_SE3_t* Do);
 
-void ksl_displacementf_copy(ksl_SE3f_t* Di, ksl_SE3f_t* Do);
+void ksl_SE3f_copy(const ksl_SE3f_t* Di, ksl_SE3f_t* Do);
 
-void ksl_product_drx(ksl_SE3_t* Di, double dc[2], ksl_SE3_t* Do);
+void ksl_product_drx(const ksl_SE3_t* Di, const double dc[2], ksl_SE3_t* Do);
 
-void ksl_product_drxf(ksl_SE3f_t* Di, float dc[2], ksl_SE3f_t* Do);
+void ksl_product_drxf(const ksl_SE3f_t* Di, const float dc[2], ksl_SE3f_t* Do);
 
-void ksl_product_drxinv(ksl_SE3_t* Di, double dc[2], ksl_SE3_t* Do);
+void ksl_product_drxinv(const ksl_SE3_t* Di, const double dc[2], ksl_SE3_t* Do);
 
-void ksl_product_drxinvf(ksl_SE3f_t* Di, float dc[2], ksl_SE3f_t* Do);
+void ksl_product_drxinvf(const ksl_SE3f_t* Di, const float dc[2], ksl_SE3f_t* Do);
 
-void ksl_product_dry(ksl_SE3_t* Di, double dc[2], ksl_SE3_t* Do);
+void ksl_product_dry(const ksl_SE3_t* Di, const double dc[2], ksl_SE3_t* Do);
 
-void ksl_product_dryf(ksl_SE3f_t* Di, float dc[2], ksl_SE3f_t* Do);
+void ksl_product_dryf(const ksl_SE3f_t* Di, const float dc[2], ksl_SE3f_t* Do);
 
-void ksl_product_dryinv(ksl_SE3_t* Di, double dc[2], ksl_SE3_t* Do);
+void ksl_product_dryinv(const ksl_SE3_t* Di, const double dc[2], ksl_SE3_t* Do);
 
-void ksl_product_dryinvf(ksl_SE3f_t* Di, float dc[2], ksl_SE3f_t* Do);
+void ksl_product_dryinvf(const ksl_SE3f_t* Di, const float dc[2], ksl_SE3f_t* Do);
 
-void ksl_product_drz(ksl_SE3_t* Di, double dc[2], ksl_SE3_t* Do);
+void ksl_product_drz(const ksl_SE3_t* Di, const double dc[2], ksl_SE3_t* Do);
 
-void ksl_product_drzf(ksl_SE3f_t* Di, float dc[2], ksl_SE3f_t* Do);
+void ksl_product_drzf(const ksl_SE3f_t* Di, const float dc[2], ksl_SE3f_t* Do);
 
-void ksl_product_drzinv(ksl_SE3_t* Di, double dc[2], ksl_SE3_t* Do);
+void ksl_product_drzinv(const ksl_SE3_t* Di, const double dc[2], ksl_SE3_t* Do);
 
-void ksl_product_drzinvf(ksl_SE3f_t* Di, float dc[2], ksl_SE3f_t* Do);
+void ksl_product_drzinvf(const ksl_SE3f_t* Di, const float dc[2], ksl_SE3f_t* Do);
 
-void ksl_product_dt(ksl_SE3_t* Di, ksl_vec3_t* vi, ksl_SE3_t* Do);
+void ksl_product_dt(const ksl_SE3_t* Di, const ksl_vec3_t* vi, ksl_SE3_t* Do);
 
-void ksl_product_dtinv(ksl_SE3_t* Di, ksl_vec3_t* vi, ksl_SE3_t* Do);
+void ksl_product_dtinv(const ksl_SE3_t* Di, const ksl_vec3_t* vi, ksl_SE3_t* Do);
 
-void ksl_product_dv(ksl_SE3_t* Di, ksl_vec3_t* vi, ksl_vec3_t* vo);
+void ksl_product_dv(const ksl_SE3_t* Di, const ksl_vec3_t* vi, ksl_vec3_t* vo);
 
-void ksl_product_dinvv(ksl_SE3_t* Di, ksl_vec3_t* vi, ksl_vec3_t* vo);
+void ksl_product_dinvv(const ksl_SE3_t* Di, const ksl_vec3_t* vi, ksl_vec3_t* vo);
 
-void ksl_product_dtf(ksl_SE3f_t* Di, ksl_vec3f_t* vi, ksl_SE3f_t* Do);
+void ksl_product_dtf(const ksl_SE3f_t* Di, const ksl_vec3f_t* vi, ksl_SE3f_t* Do);
 
-void ksl_product_dinvt(ksl_SE3_t* Di, ksl_vec3_t* vi, ksl_SE3_t* Do);
+void ksl_product_dinvt(const ksl_SE3_t* Di, const ksl_vec3_t* vi, ksl_SE3_t* Do);
 
-void ksl_product_dinvtf(ksl_SE3f_t* Di, ksl_vec3f_t* vi, ksl_SE3f_t* Do);
+void ksl_product_dinvtf(const ksl_SE3f_t* Di, const ksl_vec3f_t* vi, ksl_SE3f_t* Do);
 
-void ksl_product_dtx(ksl_SE3_t* Di, const double* ti, ksl_SE3_t* Do);
+void ksl_product_dtx(const ksl_SE3_t* Di, const double ti, ksl_SE3_t* Do);
 
-void ksl_product_dtxinv(ksl_SE3_t* Di, const double* ti, ksl_SE3_t* Do);
+void ksl_product_dtxinv(const ksl_SE3_t* Di, const double ti, ksl_SE3_t* Do);
 
-void ksl_product_dtxinvf(ksl_SE3f_t* Di, const float* ti, ksl_SE3f_t* Do);
+void ksl_product_dtxinvf(const ksl_SE3f_t* Di, const float ti, ksl_SE3f_t* Do);
 
-void ksl_product_dty(ksl_SE3_t* Di, const double* ti, ksl_SE3_t* Do);
+void ksl_product_dty(const ksl_SE3_t* Di, const double ti, ksl_SE3_t* Do);
 
-void ksl_product_dtyf(ksl_SE3f_t* Di, const float* ti, ksl_SE3f_t* Do);
+void ksl_product_dtyf(const ksl_SE3f_t* Di, const float ti, ksl_SE3f_t* Do);
 
-void ksl_product_dtyinv(ksl_SE3_t* Di, const double* ti, ksl_SE3_t* Do);
+void ksl_product_dtyinv(const ksl_SE3_t* Di, const double ti, ksl_SE3_t* Do);
 
-void ksl_product_dtyinvf(ksl_SE3f_t* Di, const float* ti, ksl_SE3f_t* Do);
+void ksl_product_dtyinvf(const ksl_SE3f_t* Di, const float ti, ksl_SE3f_t* Do);
 
-void ksl_product_dtz(ksl_SE3_t* Di, const double* ti, ksl_SE3_t* Do);
+void ksl_product_dtz(const ksl_SE3_t* Di, const double ti, ksl_SE3_t* Do);
 
-void ksl_product_dtzf(ksl_SE3f_t* Di, const float* ti, ksl_SE3f_t* Do);
+void ksl_product_dtzf(const ksl_SE3f_t* Di, const float ti, ksl_SE3f_t* Do);
 
-void ksl_product_dtzinv(ksl_SE3_t* Di, const double* ti, ksl_SE3_t* Do);
+void ksl_product_dtzinv(const ksl_SE3_t* Di, const double ti, ksl_SE3_t* Do);
 
-void ksl_product_dr(ksl_SE3_t* Di, ksl_mat3x3_t* Ri, ksl_SE3_t* Do);
+void ksl_product_dr(const ksl_SE3_t* Di, const ksl_mat3x3_t* Ri, ksl_SE3_t* Do);
 
-void ksl_product_drf(ksl_SE3f_t* Di, ksl_mat3x3f_t* Ri, ksl_SE3f_t* Do);
+void ksl_product_drf(const ksl_SE3f_t* Di, const ksl_mat3x3f_t* Ri, ksl_SE3f_t* Do);
 
-void ksl_product_drinv(ksl_SE3_t* Di, ksl_mat3x3_t* Ri, ksl_SE3_t* Do);
+void ksl_product_drinv(const ksl_SE3_t* Di, const ksl_mat3x3_t* Ri, ksl_SE3_t* Do);
 
-void ksl_product_drinvf(ksl_SE3f_t* Di, ksl_mat3x3f_t* Ri, ksl_SE3f_t* Do);
+void ksl_product_drinvf(const ksl_SE3f_t* Di, const ksl_mat3x3f_t* Ri, ksl_SE3f_t* Do);
 
-void ksl_product_dd(ksl_SE3_t* D1i, ksl_SE3_t* D2i, ksl_SE3_t* Do);
+void ksl_product_dd(const ksl_SE3_t* D1i, const ksl_SE3_t* D2i, ksl_SE3_t* Do);
 
-void ksl_product_ddf(ksl_SE3f_t* D1i, ksl_SE3f_t* D2i, ksl_SE3f_t* Do);
+void ksl_product_ddf(const ksl_SE3f_t* D1i, const ksl_SE3f_t* D2i, ksl_SE3f_t* Do);
 
-void ksl_product_ddinv(ksl_SE3_t* D1i, ksl_SE3_t* D2i, ksl_SE3_t* Do);
+void ksl_product_ddinv(const ksl_SE3_t* D1i, const ksl_SE3_t* D2i, ksl_SE3_t* Do);
 
-void ksl_product_ddinvf(ksl_SE3f_t* D1i, ksl_SE3f_t* D2i, ksl_SE3f_t* Do);
+void ksl_product_ddinvf(const ksl_SE3f_t* D1i, const ksl_SE3f_t* D2i, ksl_SE3f_t* Do);
 
-void ksl_mat3x3_getEulerAngles(ksl_mat3x3_t* rin, ksl_vec3_t* angles,
-                               ksl_axis_enum_t axisType);
+void ksl_mat3x3_getEulerAngles(const ksl_mat3x3_t* rin, ksl_vec3_t* angles,
+                               const ksl_axis_enum_t axisType);
 
-void ksl_axis_getMat3x3(ksl_vec3_t*, ksl_axis_enum_t axisType, ksl_mat3x3_t*);
+void ksl_mat3x3_setFromEulerAngles(ksl_mat3x3_t*, const ksl_vec3_t*, const ksl_axis_enum_t axisType);
 
-double ksl_mat3x3_getScalar(ksl_mat3x3_t* ri);
+double ksl_mat3x3_getScalar(const ksl_mat3x3_t* ri);
 
-float ksl_mat3x3f_getScalar(ksl_mat3x3f_t* ri);
+float ksl_mat3x3f_getScalar(const ksl_mat3x3f_t* ri);
 
-void ksl_mat4x4_getTranslation(ksl_mat4x4_t* Mi, ksl_vec3_t* to);
+void ksl_mat4x4_getTranslation(const ksl_mat4x4_t* Mi, ksl_vec3_t* to);
 
-void ksl_mat4x4f_getTranslation(ksl_mat4x4f_t* Mi, ksl_vec3f_t* to);
+void ksl_mat4x4f_getTranslation(const ksl_mat4x4f_t* Mi, ksl_vec3f_t* to);
 
-void ksl_mat4x4f_get(ksl_mat4x4f_t* Mi, int row, int column);
+void ksl_mat4x4f_get(const ksl_mat4x4f_t* Mi, int row, int column);
 
-double ksl_mat3x3_determinant(ksl_mat3x3_t*);
+double ksl_mat3x3_determinant(const ksl_mat3x3_t*);
 
 #endif
