@@ -30,11 +30,17 @@ SUCH DAMAGE.
 #include "screw.h"
 #include "vector.h"
 
-void ksl_vector_print(FILE* f, ksl_vec3_t* v);
+void ksl_vec3_print(FILE* f, const ksl_vec3_t* vi);
 
-void ksl_quaternion_print(FILE* f, ksl_quaternion_t* q);
+void ksl_vec3f_print(FILE* f, const ksl_vec3f_t* vi);
 
-void ksl_screw_print(FILE* f, ksl_screw_t* s);
+void ksl_quaternion_print(FILE* f, const ksl_quaternion_t* qi);
+
+void ksl_quaternionf_print(FILE* f, const ksl_quaternionf_t* qi);
+
+void ksl_screw_print(FILE* f, const ksl_screw_t* si);
+
+void ksl_screwf_print(FILE* f, const ksl_screw_t* si);
 
 void ksl_mat3x3_print(FILE* f, ksl_mat3x3_t* r);
 
