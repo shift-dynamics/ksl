@@ -33,14 +33,14 @@ quaternions
 
 Return the dot product between two quaternions.
 
-@param qi1 and qi2 quaternions to form dot product.
+@param qi and q2i quaternions to form dot product.
 */
 
-inline double ksl_quaternion_dot_qq(const ksl_quaternion_t* restrict qi1,
-                                    const ksl_quaternion_t* restrict qi2) {
+inline double ksl_dot_qq(const ksl_quaternion_t* restrict q1i,
+                         const ksl_quaternion_t* restrict q2i) {
   register double qdotq = 0.0;
   for(int i = 0; i < 4; i++) {
-    qdotq += qi1->at[i] * qi2->at[i];
+    qdotq += q1i->at[i] * q2i->at[i];
   }
   return qdotq;
 }
@@ -51,13 +51,13 @@ quaternions
 
 Return the dot product between two quaternions.
 
-@param qi1 and qi2 quaternions to form dot product.
+@param q1i and q2i quaternions to form dot product.
 */
-inline float ksl_quaternionf_dot_qq(const ksl_quaternionf_t* restrict qi1,
-                                    const ksl_quaternionf_t* restrict qi2) {
+inline float ksl_dot_qqf(const ksl_quaternionf_t* restrict q1i,
+                         const ksl_quaternionf_t* restrict q2i) {
   register float qdotq = 0.0;
   for(int i = 0; i < 4; i++) {
-    qdotq += qi1->at[i] * qi2->at[i];
+    qdotq += q1i->at[i] * q2i->at[i];
   }
   return qdotq;
 }
@@ -70,7 +70,7 @@ Add assert(norm) > unit roundoff to avoid division by zero.
 
 @param qi quaternion to normalize.
 */
-inline void ksl_quaternion_normalize(ksl_quaternion_t* restrict qi) {
+inline void ksl_normalize(ksl_quaternion_t* restrict qi) {
   register double norm = sqrt(ksl_quaternion_dot_qq(qi, qi));
   for(int i = 0; i < 4; i++) {
     qi->at[i] /= norm;
@@ -85,8 +85,8 @@ Add assert(norm) > unit roundoff to avoid division by zero.
 
 @param qi euler parameters to normalize
 */
-inline void ksl_quaternionf_normalize(ksl_quaternionf_t* restrict qi) {
-  register float norm = sqrt(ksl_quaternionf_dot_qq(qi, qi));
+inline void ksl_normalizef(ksl_quaternionf_t* restrict qi) {
+  register float norm = sqrt(ksl_dot_qqf(qi, qi));
   for(int i = 0; i < 4; i++) {
     qi->at[i] /= norm;
   }
@@ -100,7 +100,7 @@ Scale quaternion x by a and add to quaternion y
 
 @param y += a*x
 */
-inline void ksl_axpy_qq(const double a, const ksl_quaternion_t* restrict x,
+inline void ksl_axpy_qq(const double a, const ksl_t* restrict x,
                         ksl_quaternion_t* restrict y) {
   for(int i = 0; i < 4; i++) {
     y->at[i] += a * x->at[i];
@@ -314,13 +314,13 @@ q2q0+q2q0 - q3q1-q3q1 & q1q2+q1q2 + q3q0+q3q0 & q3q3-q0q0 - q1q1+q2q2 \\
 
 The Quaternion will be normalized during conversion.
 
-@param qi [in] euler parameters to convert in a 4x1 array, in the form [w,x,y,z]
+@param qi [in] euler parameters to convert in a 4x1 array, in the form [x,y,z,w]
 @param ro [out] the resulting rotation matrix is stored in ro
 */
-inline void ksl_quaternion_toMat3x3(ksl_quaternion_t* restrict qi,
-                                    ksl_mat3x3_t* restrict ro) {
+inline void ksl_toMat3x3(ksl_quaternion_t* restrict qi,
+                         ksl_mat3x3_t* restrict ro) {
 
-  ksl_quaternion_normalize(qi);
+  ksl_normalize(qi);
 
   double w2 = qi->w * qi->w;
   double x2 = qi->x * qi->x;
@@ -361,12 +361,12 @@ q2q0+q2q0 - q3q1-q3q1 & q1q2+q1q2 + q3q0+q3q0 & q3q3-q0q0 - q1q1+q2q2 \\
 
 The Quaternion will be normalized during conversion.
 
-@param qi euler parameters to convert in a 4x1 array, in the form [w,x,y,z]
+@param qi euler parameters to convert in a 4x1 array, in the form [x,y,z,w]
 @param ro the resulting rotation matrix is stored in ro
 */
 inline void ksl_quaternionf_toMat3x3f(ksl_quaternionf_t* restrict qi,
                                       ksl_mat3x3f_t* restrict ro) {
-  ksl_quaternionf_normalize(qi);
+  ksl_normalizef(qi);
 
   float w2 = qi->w * qi->w;
   float x2 = qi->x * qi->x;
@@ -400,15 +400,14 @@ Linear Interpolation algorithm
 [Shoemake, Animating rotation with Quaternion Curves, SIGGRAPH, vol 19,
 No. 3, 1985] (http://run.usc.edu/cs520-s12/assign2/p245-shoemake.pdf)
 
-@param q1i a first quaternion in the form [w,x,y,z] to interpolate from
-@param q2i a second quaternion in the form [w,x,y,z] to interpolate to
+@param q1i a first quaternion in the form [x,y,z,w] to interpolate from
+@param q2i a second quaternion in the form [x,y,z,w] to interpolate to
 @param t fraction from q1i to q2i (0<t<1)
 @param qo the resulting quaternion is returned in qo
 */
-inline void ksl_quaternion_slerp(const ksl_quaternion_t* restrict q1i,
-                                 const ksl_quaternion_t* restrict q2i,
-                                 double* restrict t,
-                                 ksl_quaternion_t* restrict qo) {
+inline void ksl_slerp(const ksl_quaternion_t* restrict q1i,
+                      const ksl_quaternion_t* restrict q2i, double* restrict t,
+                      ksl_quaternion_t* restrict qo) {
 
   double cosHalfTheta = 0.0;
   for(int i = 0; i < 4; i++) {
@@ -450,8 +449,8 @@ Linear Interpolation algorithm
 [Shoemake, Animating rotation with Quaternion Curves, SIGGRAPH, vol 19,
 No. 3, 1985] (http://run.usc.edu/cs520-s12/assign2/p245-shoemake.pdf)
 
-@param q1i a first quaternion in the form [w,x,y,z] to interpolate from
-@param q2i a second quaternion in the form [w,x,y,z] to interpolate to
+@param q1i a first quaternion in the form [x,y,z,w] to interpolate from
+@param q2i a second quaternion in the form [x,y,z,w] to interpolate to
 @param t fraction from q1i to q2i (0<t<1)
 @param qo the resulting quaternion is returned in qo
 */
@@ -497,8 +496,8 @@ inline void ksl_quaternionf_slerp(const ksl_quaternionf_t* restrict q1i,
 Less expensive numerically than Shoemake's Slerp algorithm (ksl_slerp)
 but does not interpolate with constant velocity
 
-@param q1i a first quaternion in the form [w,x,y,z] to interpolate from
-@param q2i a second quaternion in the form [w,x,y,z] to interpolate to
+@param q1i a first quaternion in the form [x,y,z,w] to interpolate from
+@param q2i a second quaternion in the form [x,y,z,w] to interpolate to
 @param t fraction from q1i to q2i (0<t<1)
 @param qo the resulting quaternion is returned in qo
 */
@@ -541,8 +540,8 @@ inline void ksl_quaternion_nlerp(const ksl_quaternion_t* restrict q1i,
 Less expensive numerically than Shoemake's Slerp algorithm (ksl_Slerp)
 but does not interpolate with constant velocity
 
-@param q1i a first quaternion in the form [w,x,y,z] to interpolate from
-@param q2i a second quaternion in the form [w,x,y,z] to interpolate to
+@param q1i a first quaternion in the form [x,y,z,w] to interpolate from
+@param q2i a second quaternion in the form [x,y,z,w] to interpolate to
 @param t fraction from q1i to q2i (0<t<1)
 @param qo the resulting quaternion is returned in qo
 */
@@ -694,7 +693,7 @@ inline void ksl_omega_to_dquaternion(const ksl_vec3_t* restrict w,
   /* add feedback term to normalize quaternion */
 
   /* if tau is 0.5 */
-  double alpha = 1.0 - ksl_quaternion_dot_qq(qi, qi);
+  double alpha = 1.0 - ksl_dot_qq(qi, qi);
 
   /*
     if tau is not 0.5
@@ -708,8 +707,8 @@ inline void ksl_omega_to_dquaternion(const ksl_vec3_t* restrict w,
 }
 
 /*!
-@brief Double precision function to multiply double precision quaternion qi1
-with double precision quaternion qi2 and return results in double precision
+@brief Double precision function to multiply double precision quaternion q1i
+with double precision quaternion q2i and return results in double precision
 quaternion qo.
 
        | qw -qz  qy  qx|         | qw  qz -qy  qx|
@@ -717,19 +716,19 @@ L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
        |-qy  qx  qw  qz|         | qy -qx  qw  qz|
        |-qx -qy -qz  qw|         |-qx -qy -qz  qw|
 
- @param q1i a first quaternion in the form [w,x,y,z]
- @param q2i a second quaternion in the form [w,x,y,z]
- @param qo the returned quaternion in the form [w,x,y,z]
+ @param q1i a first quaternion in the form [x,y,z,w]
+ @param q2i a second quaternion in the form [x,y,z,w]
+ @param qo the returned quaternion in the form [x,y,z,w]
 */
 
-inline void ksl_quaternion_product_qq(const ksl_quaternion_t* restrict q1i,
-                                      const ksl_quaternion_t* restrict q2i,
-                                      ksl_quaternion_t* restrict qo) {
+inline void ksl_product_qq(const ksl_quaternion_t* restrict q1i,
+                           const ksl_quaternion_t* restrict q2i,
+                           ksl_quaternion_t* restrict qo) {
   /*
-                    | qi1w -qi1z  qi1y  qi1x| |qi2x|
-  qo = L(qi1)*qi2 = | qi1z  qi1w -qi1x  qi1y| |qi2y| = R(qi2)*qi1
-                    |-qi1y  qi1x  qi1w  qi1z| |qi2z|
-                    |-qi1x -qi1y -qi1z  qi1w| |qi2w|
+                    | q1iw -q1iz  q1iy  q1ix| |q2ix|
+  qo = L(q1i)*q2i = | q1iz  q1iw -q1ix  q1iy| |q2iy| = R(q2i)*q1i
+                    |-q1iy  q1ix  q1iw  q1iz| |q2iz|
+                    |-q1ix -q1iy -q1iz  q1iw| |q2iw|
   */
 
   qo->x = q1i->w * q2i->x - q1i->z * q2i->y + q1i->y * q2i->z + q1i->x * q2i->w;
@@ -741,8 +740,8 @@ inline void ksl_quaternion_product_qq(const ksl_quaternion_t* restrict q1i,
 }
 
 /*!
-@brief Single precision function to multiply single precision quaternion qi1
-with single precision quaternion qi2 and return results in single precision
+@brief Single precision function to multiply single precision quaternion q1i
+with single precision quaternion q2i and return results in single precision
 quaternion qo.
 
        | qw -qz  qy  qx|         | qw  qz -qy  qx|
@@ -750,19 +749,19 @@ L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
        |-qy  qx  qw  qz|         | qy -qx  qw  qz|
        |-qx -qy -qz  qw|         |-qx -qy -qz  qw|
 
-@param q1i a first quaternion in the form [w,x,y,z]
-@param q2i a second quaternion in the form [w,x,y,z]
-@param qo the returned quaternion in the form [w,x,y,z]
+@param q1i a first quaternion in the form [x,y,z,w]
+@param q2i a second quaternion in the form [x,y,z,w]
+@param qo the returned quaternion in the form [x,y,z,w]
 */
 
-inline void ksl_quaternionf_product_qq(const ksl_quaternionf_t* restrict q1i,
-                                       const ksl_quaternionf_t* restrict q2i,
-                                       ksl_quaternionf_t* restrict qo) {
+inline void ksl_product_qqf(const ksl_quaternionf_t* restrict q1i,
+                            const ksl_quaternionf_t* restrict q2i,
+                            ksl_quaternionf_t* restrict qo) {
   /*
-                    | qi1w -qi1z  qi1y  qi1x| |qi2x|
-  qo = L(qi1)*qi2 = | qi1z  qi1w -qi1x  qi1y| |qi2y| = R(qi2)*qi1
-                    |-qi1y  qi1x  qi1w  qi1z| |qi2z|
-                    |-qi1x -qi1y -qi1z  qi1w| |qi2w|
+                    | q1iw -q1iz  q1iy  q1ix| |q2ix|
+  qo = L(q1i)*q2i = | q1iz  q1iw -q1ix  q1iy| |q2iy| = R(q2i)*q1i
+                    |-q1iy  q1ix  q1iw  q1iz| |q2iz|
+                    |-q1ix -q1iy -q1iz  q1iw| |q2iw|
   */
 
   qo->x = q1i->w * q2i->x - q1i->z * q2i->y + q1i->y * q2i->z + q1i->x * q2i->w;
@@ -775,7 +774,7 @@ inline void ksl_quaternionf_product_qq(const ksl_quaternionf_t* restrict q1i,
 
 /*!
 @brief Double precision function to multiply the conjugate of double precision
-quaternion qi1 with double precision quaternion qi2 and return results in double
+quaternion q1i with double precision quaternion q2i and return results in double
 precision quaternion qo.
 
        | qw -qz  qy  qx|         | qw  qz -qy  qx|
@@ -783,19 +782,19 @@ L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
        |-qy  qx  qw  qz|         | qy -qx  qw  qz|
        |-qx -qy -qz  qw|         |-qx -qy -qz  qw|
 
-@param q1i a first quaternion in the form [w,x,y,z]
-@param q2i a second quaternion in the form [w,x,y,z]
-@param qo the returned quaternion in the form [w,x,y,z]
+@param q1i a first quaternion in the form [x,y,z,w]
+@param q2i a second quaternion in the form [x,y,z,w]
+@param qo the returned quaternion in the form [x,y,z,w]
 */
 
-inline void ksl_quaternion_product_qconjq(const ksl_quaternion_t* restrict q1i,
-                                          const ksl_quaternion_t* restrict q2i,
-                                          ksl_quaternion_t* restrict qo) {
+inline void ksl_product_qconjq(const ksl_quaternion_t* restrict q1i,
+                               const ksl_quaternion_t* restrict q2i,
+                               ksl_quaternion_t* restrict qo) {
   /*
-                      | qi1w  qi1z -qi1y -qi1x| |qi2x|
-  qo = L(qi1)^T*qi2 = |-qi1z  qi1w  qi1x -qi1y| |qi2y|
-                      | qi1y -qi1x  qi1w -qi1z| |qi2z|
-                      | qi1x  qi1y  qi1z  qi1w| |qi2w|
+                      | q1iw  q1iz -q1iy -q1ix| |q2ix|
+  qo = L(q1i)^T*q2i = |-q1iz  q1iw  q1ix -q1iy| |q2iy|
+                      | q1iy -q1ix  q1iw -q1iz| |q2iz|
+                      | q1ix  q1iy  q1iz  q1iw| |q2iw|
   */
 
   qo->x = q1i->w * q2i->x + q1i->z * q2i->y - q1i->y * q2i->z - q1i->x * q2i->w;
@@ -807,7 +806,7 @@ inline void ksl_quaternion_product_qconjq(const ksl_quaternion_t* restrict q1i,
 
 /*!
 @brief Single precision function to multiply the conjugate of single precision
-quaternion qi1 with single precision quaternion qi2 and return results in single
+quaternion q1i with single precision quaternion q2i and return results in single
 precision quaternion qo.
 
        | qw -qz  qy  qx|         | qw  qz -qy  qx|
@@ -815,20 +814,19 @@ L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
        |-qy  qx  qw  qz|         | qy -qx  qw  qz|
        |-qx -qy -qz  qw|         |-qx -qy -qz  qw|
 
-@param q1i a first quaternion in the form [w,x,y,z]
-@param q2i a second quaternion in the form [w,x,y,z]
-@param qo the returned quaternion in the form [w,x,y,z]
+@param q1i a first quaternion in the form [x,y,z,w]
+@param q2i a second quaternion in the form [x,y,z,w]
+@param qo the returned quaternion in the form [x,y,z,w]
 */
 
-inline void
-ksl_quaternionf_product_qconjq(const ksl_quaternionf_t* restrict q1i,
-                               const ksl_quaternionf_t* restrict q2i,
-                               ksl_quaternionf_t* restrict qo) {
+inline void ksl_product_qconjqf(const ksl_quaternionf_t* restrict q1i,
+                                const ksl_quaternionf_t* restrict q2i,
+                                ksl_quaternionf_t* restrict qo) {
   /*
-                      | qi1w  qi1z -qi1y -qi1x| |qi2x|
-  qo = L(qi1)^T*qi2 = |-qi1z  qi1w  qi1x -qi1y| |qi2y|
-                      | qi1y -qi1x  qi1w -qi1z| |qi2z|
-                      | qi1x  qi1y  qi1z  qi1w| |qi2w|
+                      | q1iw  q1iz -q1iy -q1ix| |q2ix|
+  qo = L(q1i)^T*q2i = |-q1iz  q1iw  q1ix -q1iy| |q2iy|
+                      | q1iy -q1ix  q1iw -q1iz| |q2iz|
+                      | q1ix  q1iy  q1iz  q1iw| |q2iw|
   */
 
   qo->x = q1i->w * q2i->x + q1i->z * q2i->y - q1i->y * q2i->z - q1i->x * q2i->w;
@@ -839,8 +837,8 @@ ksl_quaternionf_product_qconjq(const ksl_quaternionf_t* restrict q1i,
 }
 
 /*!
-@brief Double precision function to multiply double precision quaternion qi1
-with the conjugate of double precision quaternion qi2 and return results in
+@brief Double precision function to multiply double precision quaternion q1i
+with the conjugate of double precision quaternion q2i and return results in
 double precision quaternion qo.
 
        | qw -qz  qy  qx|         | qw  qz -qy  qx|
@@ -848,19 +846,19 @@ L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
        |-qy  qx  qw  qz|         | qy -qx  qw  qz|
        |-qx -qy -qz  qw|         |-qx -qy -qz  qw|
 
-@param q1i a first quaternion in the form [w,x,y,z]
-@param q2i a second quaternion in the form [w,x,y,z]
-@param qo the returned quaternion in the form [w,x,y,z]
+@param q1i a first quaternion in the form [x,y,z,w]
+@param q2i a second quaternion in the form [x,y,z,w]
+@param qo the returned quaternion in the form [x,y,z,w]
 */
 
-inline void ksl_quaternion_product_qqconj(const ksl_quaternion_t* restrict q1i,
-                                          const ksl_quaternion_t* restrict q2i,
-                                          ksl_quaternion_t* restrict qo) {
+inline void ksl_product_qqconj(const ksl_quaternion_t* restrict q1i,
+                               const ksl_quaternion_t* restrict q2i,
+                               ksl_quaternion_t* restrict qo) {
   /*
-                      | qi2w -qi2z  qi2y -qi2x| |qi1x|
-  qo = R(qi2)^T*qi1 = | qi2z  qi2w -qi2x -qi2y| |qi1y|
-                      |-qi2y  qi2x  qi2w -qi2z| |qi1z|
-                      | qi2x  qi2y  qi2z  qi2w| |qi1w|
+                      | q2iw -q2iz  q2iy -q2ix| |q1ix|
+  qo = R(q2i)^T*q1i = | q2iz  q2iw -q2ix -q2iy| |q1iy|
+                      |-q2iy  q2ix  q2iw -q2iz| |q1iz|
+                      | q2ix  q2iy  q2iz  q2iw| |q1iw|
   */
 
   qo->x = q2i->w * q1i->x - q2i->z * q1i->y + q2i->y * q1i->z - q2i->x * q1i->w;
@@ -871,8 +869,8 @@ inline void ksl_quaternion_product_qqconj(const ksl_quaternion_t* restrict q1i,
 }
 
 /*!
-@brief Single precision function to multiply single precision quaternion qi1
-with the conjugate of single precision quaternion qi2 and return results in
+@brief Single precision function to multiply single precision quaternion q1i
+with the conjugate of single precision quaternion q2i and return results in
 single precision quaternion qo.
 
        | qw -qz  qy  qx|         | qw  qz -qy  qx|
@@ -880,20 +878,19 @@ L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
        |-qy  qx  qw  qz|         | qy -qx  qw  qz|
        |-qx -qy -qz  qw|         |-qx -qy -qz  qw|
 
-@param q1i a first quaternion in the form [w,x,y,z]
-@param q2i a second quaternion in the form [w,x,y,z]
-@param qo the returned quaternion in the form [w,x,y,z]
+@param q1i a first quaternion in the form [x,y,z,w]
+@param q2i a second quaternion in the form [x,y,z,w]
+@param qo the returned quaternion in the form [x,y,z,w]
 */
 
-inline void
-ksl_quaternionf_product_qqconj(const ksl_quaternionf_t* restrict q1i,
-                               const ksl_quaternionf_t* restrict q2i,
-                               ksl_quaternionf_t* restrict qo) {
+inline void ksl_product_qqconjf(const ksl_quaternionf_t* restrict q1i,
+                                const ksl_quaternionf_t* restrict q2i,
+                                ksl_quaternionf_t* restrict qo) {
   /*
-                      | qi2w -qi2z  qi2y -qi2x| |qi1x|
-  qo = R(qi2)^T*qi1 = | qi2z  qi2w -qi2x -qi2y| |qi1y|
-                      |-qi2y  qi2x  qi2w -qi2z| |qi1z|
-                      | qi2x  qi2y  qi2z  qi2w| |qi1w|
+                      | q2iw -q2iz  q2iy -q2ix| |q1ix|
+  qo = R(q2i)^T*q1i = | q2iz  q2iw -q2ix -q2iy| |q1iy|
+                      |-q2iy  q2ix  q2iw -q2iz| |q1iz|
+                      | q2ix  q2iy  q2iz  q2iw| |q1iw|
   */
 
   qo->x = q2i->w * q1i->x - q2i->z * q1i->y + q2i->y * q1i->z - q2i->x * q1i->w;
@@ -905,7 +902,7 @@ ksl_quaternionf_product_qqconj(const ksl_quaternionf_t* restrict q1i,
 
 /*!
 @brief Double precision function to multiply the conjugate of double precision
-quaternion qi1 with the conjugate of double precision quaternion qi2 and return
+quaternion q1i with the conjugate of double precision quaternion q2i and return
 results in double precision quaternion qo.
 
        | qw -qz  qy  qx|         | qw  qz -qy  qx|
@@ -913,23 +910,23 @@ L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
        |-qy  qx  qw  qz|         | qy -qx  qw  qz|
        |-qx -qy -qz  qw|         |-qx -qy -qz  qw|
 
-@param q1i a first quaternion in the form [w,x,y,z]
-@param q2i a second quaternion in the form [w,x,y,z]
-@param qo the returned quaternion in the form [w,x,y,z]
+@param q1i a first quaternion in the form [x,y,z,w]
+@param q2i a second quaternion in the form [x,y,z,w]
+@param qo the returned quaternion in the form [x,y,z,w]
 */
-void ksl_quaternion_product_qconjqconj(const ksl_quaternion_t* restrict q1i,
-                                       const ksl_quaternion_t* restrict q2i,
-                                       ksl_quaternion_t* restrict qo) {
+void ksl_product_qconjqconj(const ksl_quaternion_t* restrict q1i,
+                            const ksl_quaternion_t* restrict q2i,
+                            ksl_quaternion_t* restrict qo) {
   /*
-                          | qi1w  qi1z -qi1y -qi1x| | qi2x|
-  qo = L(qi1)^T*qi2conj = |-qi1z  qi1w  qi1x -qi1y| |-qi2y|
-                          | qi1y -qi1x  qi1w -qi1z| |-qi2z|
-                          | qi1x  qi1y  qi1z  qi1w| |-qi2w|
+                          | q1iw  q1iz -q1iy -q1ix| | q2ix|
+  qo = L(q1i)^T*q2iconj = |-q1iz  q1iw  q1ix -q1iy| |-q2iy|
+                          | q1iy -q1ix  q1iw -q1iz| |-q2iz|
+                          | q1ix  q1iy  q1iz  q1iw| |-q2iw|
 
-                          | qi1w -qi1z  qi1y  qi1x| |qi2x|
-                        = |-qi1z -qi1w -qi1x  qi1y| |qi2y|
-                          | qi1y  qi1x -qi1w  qi1z| |qi2z|
-                          | qi1x -qi1y -qi1z -qi1w| |qi2w|
+                          | q1iw -q1iz  q1iy  q1ix| |q2ix|
+                        = |-q1iz -q1iw -q1ix  q1iy| |q2iy|
+                          | q1iy  q1ix -q1iw  q1iz| |q2iz|
+                          | q1ix -q1iy -q1iz -q1iw| |q2iw|
   */
   qo->x = q1i->w * q2i->x - q1i->z * q2i->y + q1i->y * q2i->z + q1i->x * q2i->w;
   qo->y =
@@ -940,7 +937,7 @@ void ksl_quaternion_product_qconjqconj(const ksl_quaternion_t* restrict q1i,
 
 /*!
 @brief Single precision function to multiply the conjugate of single precision
-quaternion qi1 with the conjugate of single precision quaternion qi2 and return
+quaternion q1i with the conjugate of single precision quaternion q2i and return
 results in single precision quaternion qo.
 
        | qw -qz  qy  qx|         | qw  qz -qy  qx|
@@ -948,24 +945,24 @@ L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
        |-qy  qx  qw  qz|         | qy -qx  qw  qz|
        |-qx -qy -qz  qw|         |-qx -qy -qz  qw|
 
-@param q1i a first quaternion in the form [w,x,y,z]
-@param q2i a second quaternion in the form [w,x,y,z]
-@param qo the returned quaternion in the form [w,x,y,z]
+@param q1i a first quaternion in the form [x,y,z,w]
+@param q2i a second quaternion in the form [x,y,z,w]
+@param qo the returned quaternion in the form [x,y,z,w]
 */
 
-void ksl_quaternionf_product_qconjqconj(const ksl_quaternionf_t* restrict q1i,
-                                        const ksl_quaternionf_t* restrict q2i,
-                                        ksl_quaternionf_t* restrict qo) {
+void ksl_product_qconjqconjf(const ksl_quaternionf_t* restrict q1i,
+                             const ksl_quaternionf_t* restrict q2i,
+                             ksl_quaternionf_t* restrict qo) {
   /*
-                          | qi1w  qi1z -qi1y -qi1x| | qi2x|
-  qo = L(qi1)^T*qi2conj = |-qi1z  qi1w  qi1x -qi1y| |-qi2y|
-                          | qi1y -qi1x  qi1w -qi1z| |-qi2z|
-                          | qi1x  qi1y  qi1z  qi1w| |-qi2w|
+                          | q1iw  q1iz -q1iy -q1ix| | q2ix|
+  qo = L(q1i)^T*q2iconj = |-q1iz  q1iw  q1ix -q1iy| |-q2iy|
+                          | q1iy -q1ix  q1iw -q1iz| |-q2iz|
+                          | q1ix  q1iy  q1iz  q1iw| |-q2iw|
 
-                          | qi1w -qi1z  qi1y  qi1x| |qi2x|
-                        = |-qi1z -qi1w -qi1x  qi1y| |qi2y|
-                          | qi1y  qi1x -qi1w  qi1z| |qi2z|
-                          | qi1x -qi1y -qi1z -qi1w| |qi2w|
+                          | q1iw -q1iz  q1iy  q1ix| |q2ix|
+                        = |-q1iz -q1iw -q1ix  q1iy| |q2iy|
+                          | q1iy  q1ix -q1iw  q1iz| |q2iz|
+                          | q1ix -q1iy -q1iz -q1iw| |q2iw|
   */
   qo->x = q1i->w * q2i->x - q1i->z * q2i->y + q1i->y * q2i->z + q1i->x * q2i->w;
   qo->y =
@@ -974,8 +971,328 @@ void ksl_quaternionf_product_qconjqconj(const ksl_quaternionf_t* restrict q1i,
   qo->w = q1i->x * q2i->x - q1i->y * q2i->y - q1i->z * q2i->z - q1i->w * q2i->w;
 }
 
+/*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
+
 /*!
-@brief Double precision function to multiply double precision quaternion qi1
+@brief Double precision function to multiply double precision quaternion dci
+with double precision quaternion qi and return results in double precision
+quaternion qo.
+
+       | qw  qz -qy  qx|
+R(q) = |-qz  qw  qx  qy|
+       | qy -qx  qw  qz|
+       |-qx -qy -qz  qw|
+
+@param dci[2] a quaternion in the form [w,x,0,0]
+@param qi a quaternion in the form [x,y,z,w]
+@param qo the returned quaternion in the form [x,y,z,w]
+*/
+
+void ksl_product_qxq(const double dci[2], const ksl_quaternion_t* restrict qi,
+                     ksl_quaternion_t* restrict qo) {
+  /*
+       | qiw  qiz -qiy  qix| |dci[1]|
+  qo = |-qiz  qiw  qix  qiy| |  0   |
+       | qiy -qix  qiw  qiz| |  0   |
+       |-qix -qiy -qiz  qiw| |dci[0]|
+  */
+  qo->x = qi->x * dci[0] + qi->w * dci[1];
+  qo->y = qi->y * dci[0] - qi->z * dci[1];
+  qo->z = qi->z * dci[0] + qi->y * dci[1];
+  qo->w = qi->w * dci[0] - qi->x * dci[1];
+}
+
+/*!
+@brief Single precision function to multiply single precision quaternion dci
+with single precision quaternion qi and return results in single precision
+quaternion qo.
+
+         | dci[0]    0       0     dci[1]|
+L(dci) = |   0     dci[0] -dci[1]    0   |
+         |   0     dci[1]  dci[0]    0   |
+         |-dci[1]    0       0     dci[0]|
+
+ @param dci[2] a quaternion in the form [w,x,0,0]
+ @param qi a quaternion in the form [x,y,z,w]
+ @param qo the returned quaternion in the form [x,y,z,w]
+*/
+
+void ksl_product_qxqf(const float dci[2], const ksl_quaternionf_t* restrict qi,
+                      ksl_quaternionf_t* restrict qo) {
+  /*
+                 | dci[0]    0       0     dci[1]| |qix|
+qo = L(dci) qi = |   0     dci[0] -dci[1]    0   | |qiy|
+                 |   0     dci[1]  dci[0]    0   | |qiz|
+                 |-dci[1]    0       0     dci[0]| |qiw|
+  */
+  qo->x = dci[0] * qi->x + dci[1] * qi->w;
+  qo->y = dci[0] * qi->y - dci[1] * qi->z;
+  qo->z = dci[0] * qi->z + dci[1] * qi->y;
+  qo->w = dci[0] * qi->w - dci[1] * qi->x;
+}
+
+void ksl_product_qqx(const ksl_quaternion_t* restrict qi, const double dci[2],
+                     ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qqxf(const ksl_quaternionf_t* restrict qi, const float dci[2],
+                      ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qxconjq(const double dci[2],
+                         const ksl_quaternion_t* restrict qi,
+                         ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qxconjqf(const float dci[2],
+                          const ksl_quaternionf_t* restrict qi,
+                          ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qconjqx(const ksl_quaternion_t* restrict qi,
+                         const double dci[2], ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qconjqxf(const ksl_quaternionf_t* restrict qi,
+                          const float dci[2], ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qxqconj(const double dci[2],
+                         const ksl_quaternion_t* restrict qi,
+                         ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qxqconjf(const float dci[2],
+                          const ksl_quaternionf_t* restrict qi,
+                          ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qqxconj(const ksl_quaternion_t* restrict qi,
+                         const double dci[2], ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qqxconjf(const ksl_quaternionf_t* restrict qi,
+                          const float dci[2], ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qxconjqconj(const double dci[2],
+                             const ksl_quaternion_t* restrict qi,
+                             ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qxconjqconjf(const float dci[2],
+                              const ksl_quaternionf_t* restrict qi,
+                              ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qconjqxconj(const ksl_quaternion_t* restrict qi,
+                             const double dci[2],
+                             ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qconjqxconjf(const ksl_quaternionf_t* restrict qi,
+                              const float dci[2],
+                              ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+/*yyyyyyyyyyyyyyyyyyyyyyyyyyyyy*/
+
+void ksl_product_qyq(const double dci[2], const ksl_quaternion_t* restrict qi,
+                     ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qyqf(const float dci[2], const ksl_quaternionf_t* restrict qi,
+                      ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qqy(const ksl_quaternion_t* restrict qi, const double dci[2],
+                     ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qqyf(const ksl_quaternionf_t* restrict qi, const float dci[2],
+                      ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qyconjq(const double dci[2],
+                         const ksl_quaternion_t* restrict qi,
+                         ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qyconjqf(const float dci[2],
+                          const ksl_quaternionf_t* restrict qi,
+                          ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qconjqy(const ksl_quaternion_t* restrict qi,
+                         const double dci[2], ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qconjqyf(const ksl_quaternionf_t* restrict qi,
+                          const float dci[2], ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qyqconj(const double dci[2],
+                         const ksl_quaternion_t* restrict qi,
+                         ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qyqconjf(const float dci[2],
+                          const ksl_quaternionf_t* restrict qi,
+                          ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qqyconj(const ksl_quaternion_t* restrict qi,
+                         const double dci[2], ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qqyconjf(const ksl_quaternionf_t* restrict qi,
+                          const float dci[2], ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qyconjqconj(const double dci[2],
+                             const ksl_quaternion_t* restrict qi,
+                             ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qyconjqconjf(const float dci[2],
+                              const ksl_quaternionf_t* restrict qi,
+                              ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qconjqyconj(const ksl_quaternion_t* restrict qi,
+                             const double dci[2],
+                             ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qconjqyconjf(const ksl_quaternionf_t* restrict qi,
+                              const float dci[2],
+                              ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+/*zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz*/
+
+void ksl_product_qzq(const double dci[2], const ksl_quaternion_t* restrict qi,
+                     ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qzqf(const float dci[2], const ksl_quaternionf_t* restrict qi,
+                      ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qqz(const ksl_quaternion_t* restrict qi, const double dci[2],
+                     ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qqzf(const ksl_quaternionf_t* restrict qi, const float dci[2],
+                      ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qzconjq(const double dci[2],
+                         const ksl_quaternion_t* restrict qi,
+                         ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qzconjqf(const float dci[2],
+                          const ksl_quaternionf_t* restrict qi,
+                          ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qconjqz(const ksl_quaternion_t* restrict qi,
+                         const double dci[2], ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qconjqzf(const ksl_quaternionf_t* restrict qi,
+                          const float dci[2], ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qzqconj(const double dci[2],
+                         const ksl_quaternion_t* restrict qi,
+                         ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qzqconjf(const float dci[2],
+                          const ksl_quaternionf_t* restrict qi,
+                          ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qqzconj(const ksl_quaternion_t* restrict qi,
+                         const double dci[2], ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qqzconjf(const ksl_quaternionf_t* restrict qi,
+                          const float dci[2], ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qzconjqconj(const double dci[2],
+                             const ksl_quaternion_t* restrict qi,
+                             ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qzconjqconjf(const float dci[2],
+                              const ksl_quaternionf_t* restrict qi,
+                              ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+void ksl_product_qconjqzconj(const ksl_quaternion_t* restrict qi,
+                             const double dci[2],
+                             ksl_quaternion_t* restrict qo) {
+  //
+}
+
+void ksl_product_qconjqzconjf(const ksl_quaternionf_t* restrict qi,
+                              const float dci[2],
+                              ksl_quaternionf_t* restrict qo) {
+  //
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+/*!
+@brief Double precision function to multiply double precision quaternion qi
 with double precision vector vi and return results in double precision
 quaternion qo.
 
@@ -984,29 +1301,29 @@ L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
        |-qy  qx  qw  qz|         | qy -qx  qw  qz|
        |-qx -qy -qz  qw|         |-qx -qy -qz  qw|
 
- @param q1i a first quaternion in the form [w,x,y,z]
- @param q2i a second quaternion in the form [w,x,y,z]
- @param qo the returned quaternion in the form [w,x,y,z]
+ @param qi a quaternion in the form [x,y,z,w]
+ @param vi a vector in the form [x,y,z]
+ @param qo the returned quaternion in the form [x,y,z,w]
 */
 
-void ksl_quaternion_product_qv(const ksl_quaternion_t* restrict q1i,
-                               const ksl_vec3_t* restrict vi,
-                               ksl_quaternion_t* restrict qo) {
+void ksl_product_qv(const ksl_quaternion_t* restrict qi,
+                    const ksl_vec3_t* restrict vi,
+                    ksl_quaternion_t* restrict qo) {
   /*
-                   | qi1w -qi1z  qi1y  qi1x| |vix|
-  qo = L(qi1)*vi = | qi1z  qi1w -qi1x  qi1y| |viy|
-                   |-qi1y  qi1x  qi1w  qi1z| |viz|
-                   |-qi1x -qi1y -qi1z  qi1w| | 0 |
+                  | qiw -qiz  qiy  qix| |vix|
+  qo = L(qi)*vi = | qiz  qiw -qix  qiy| |viy|
+                  |-qiy  qix  qiw  qiz| |viz|
+                  |-qix -qiy -qiz  qiw| | 0 |
 */
 
-  qo->x = q1i->w * vi->x - q1i->z * vi->y + q1i->y * vi->z;
-  qo->y = q1i->z * vi->x + q1i->w * vi->y - q1i->x * vi->z;
-  qo->z = -q1i->y * vi->x + q1i->x * vi->y + q1i->w * vi->z;
-  qo->w = -q1i->x * vi->x - q1i->y * vi->y - q1i->z * vi->z;
+  qo->x = qi->w * vi->x - qi->z * vi->y + qi->y * vi->z;
+  qo->y = qi->z * vi->x + qi->w * vi->y - qi->x * vi->z;
+  qo->z = -qi->y * vi->x + qi->x * vi->y + qi->w * vi->z;
+  qo->w = -qi->x * vi->x - qi->y * vi->y - qi->z * vi->z;
 }
 /*!
-@brief Single precision function to multiply single precision quaternion qi1
-with single precision quaternion qi2 and return results in single precision
+@brief Single precision function to multiply single precision quaternion qi
+with single precision quaternion q2i and return results in single precision
 quaternion qo.
 
        | qw -qz  qy  qx|         | qw  qz -qy  qx|
@@ -1014,23 +1331,206 @@ L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
        |-qy  qx  qw  qz|         | qy -qx  qw  qz|
        |-qx -qy -qz  qw|         |-qx -qy -qz  qw|
 
-@param q1i a first quaternion in the form [w,x,y,z]
-@param q2i a second quaternion in the form [w,x,y,z]
-@param qo the returned quaternion in the form [w,x,y,z]
+@param qi a quaternion in the form [x,y,z,w]
+@param vi a vector in the form [x,y,z]
+@param qo the returned quaternion in the form [x,y,z,w]
 */
 
-void ksl_quaternionf_product_qv(const ksl_quaternionf_t* restrict q1i,
-                                const ksl_vec3f_t* restrict vi,
-                                ksl_quaternionf_t* restrict qo) {
+void ksl_product_qvf(const ksl_quaternionf_t* restrict qi,
+                     const ksl_vec3f_t* restrict vi,
+                     ksl_quaternionf_t* restrict qo) {
   /*
-                   | qi1w -qi1z  qi1y  qi1x| |vix|
-  qo = L(qi1)*vi = | qi1z  qi1w -qi1x  qi1y| |viy|
-                   |-qi1y  qi1x  qi1w  qi1z| |viz|
-                   |-qi1x -qi1y -qi1z  qi1w| | 0 |
+                  | qiw -qiz  qiy  qix| |vix|
+  qo = L(qi)*vi = | qiz  qiw -qix  qiy| |viy|
+                  |-qiy  qix  qiw  qiz| |viz|
+                  |-qix -qiy -qiz  qiw| | 0 |
 */
 
-  qo->x = q1i->w * vi->x - q1i->z * vi->y + q1i->y * vi->z;
-  qo->y = q1i->z * vi->x + q1i->w * vi->y - q1i->x * vi->z;
-  qo->z = -q1i->y * vi->x + q1i->x * vi->y + q1i->w * vi->z;
-  qo->w = -q1i->x * vi->x - q1i->y * vi->y - q1i->z * vi->z;
+  qo->x = qi->w * vi->x - qi->z * vi->y + qi->y * vi->z;
+  qo->y = qi->z * vi->x + qi->w * vi->y - qi->x * vi->z;
+  qo->z = -qi->y * vi->x + qi->x * vi->y + qi->w * vi->z;
+  qo->w = -qi->x * vi->x - qi->y * vi->y - qi->z * vi->z;
+}
+
+/*!
+@brief Double precision function to multiply conjugate of double precision
+quaternion qi with double precision vector vi and return results in double
+precision quaternion qo.
+
+       | qw -qz  qy  qx|         | qw  qz -qy  qx|
+L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
+       |-qy  qx  qw  qz|         | qy -qx  qw  qz|
+       |-qx -qy -qz  qw|         |-qx -qy -qz  qw|
+
+ @param qi a quaternion in the form [x,y,z,w]
+ @param vi a vector in the form [x,y,z]
+ @param qo the returned quaternion in the form [x,y,z,w]
+*/
+
+void ksl_product_qconjv(const ksl_quaternion_t* restrict qi,
+                        const ksl_vec3_t* restrict vi,
+                        ksl_quaternion_t* restrict qo) {
+  /*
+                    | qiw  qiz -qiy -qix| |vix|
+  qo = L(qi)^T*vi = |-qiz  qiw  qix -qiy| |viy|
+                    | qiy -qix  qiw -qiz| |viz|
+                    | qix  qiy  qiz  qiw| | 0 |
+  */
+
+  qo->x = qi->w * vi->x + qi->z * vi->y - qi->y * vi->z;
+  qo->y = -qi->z * vi->x + qi->w * vi->y + qi->x * vi->z;
+  qo->z = qi->y * vi->x - qi->x * vi->y + qi->w * vi->z;
+  qo->w = qi->x * vi->x + qi->y * vi->y + qi->z * vi->z;
+}
+/*!
+@brief Single precision function to multiply conjugate of single precision
+quaternion qi with single precision quaternion q2i and return results in single
+precision quaternion qo.
+
+       | qw -qz  qy  qx|         | qw  qz -qy  qx|
+L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
+       |-qy  qx  qw  qz|         | qy -qx  qw  qz|
+       |-qx -qy -qz  qw|         |-qx -qy -qz  qw|
+
+@param qi a quaternion in the form [x,y,z,w]
+@param vi a vector in the form [x,y,z]
+@param qo the returned quaternion in the form [x,y,z,w]
+*/
+
+void ksl_product_qconjvf(const ksl_quaternionf_t* restrict qi,
+                         const ksl_vec3f_t* restrict vi,
+                         ksl_quaternionf_t* restrict qo) {
+  /*
+                  | qiw  qiz -qiy -qix| |vix|
+  qo = L(qi)*vi = |-qiz  qiw  qix -qiy| |viy|
+                  | qiy -qix  qiw -qiz| |viz|
+                  | qix  qiy  qiz  qiw| | 0 |
+  */
+
+  qo->x = qi->w * vi->x - qi->z * vi->y + qi->y * vi->z;
+  qo->y = qi->z * vi->x + qi->w * vi->y - qi->x * vi->z;
+  qo->z = -qi->y * vi->x + qi->x * vi->y + qi->w * vi->z;
+  qo->w = -qi->x * vi->x - qi->y * vi->y - qi->z * vi->z;
+}
+
+/*!
+@brief Double precision function to multiply double precision vector vi
+with double precision quaternion qi and return results in double precision
+quaternion qo.
+
+       | qw -qz  qy  qx|         | qw  qz -qy  qx|
+L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
+       |-qy  qx  qw  qz|         | qy -qx  qw  qz|
+       |-qx -qy -qz  qw|         |-qx -qy -qz  qw|
+
+@param vi a vector in the form [x,y,z]
+@param qi a quaternion in the form [x,y,z,w]
+@param qo the returned quaternion in the form [x,y,z,w]
+*/
+
+void ksl_product_vq(const ksl_vec3_t* restrict vi,
+                    const ksl_quaternion_t* restrict qi,
+                    ksl_quaternion_t* restrict qo) {
+  /*
+                 | qiw  qiz -qiy  qix| |vix|
+  qo =R(qi)*vi = |-qiz  qiw  qix  qiy| |viy|
+                 | qiy -qix  qiw  qiz| |viz|
+                 |-qix -qiy -qiz  qiw| | 0 |
+  */
+  qo->x = qi->w * vi->x + qi->z * vi->y - qi->y * vi->z;
+  qo->y = -qi->z * vi->x + qi->w * vi->y + qi->x * vi->z;
+  qo->z = qi->y * vi->x - qi->x * vi->y + qi->w * vi->z;
+  qo->w = -qi->x * vi->x - qi->y * vi->y - qi->z * vi->z;
+}
+
+/*!
+@brief Single precision function to multiply single precision vector vi
+with single precision quaternion qi and return results in single precision
+quaternion qo.
+
+       | qw -qz  qy  qx|         | qw  qz -qy  qx|
+L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
+       |-qy  qx  qw  qz|         | qy -qx  qw  qz|
+       |-qx -qy -qz  qw|         |-qx -qy -qz  qw|
+
+@param vi a vector in the form [x,y,z]
+@param qi a quaternion in the form [x,y,z,w]
+@param qo the returned quaternion in the form [x,y,z,w]
+*/
+
+void ksl_product_vqf(const ksl_vec3f_t* restrict vi,
+                     const ksl_quaternionf_t* restrict qi,
+                     ksl_quaternionf_t* restrict qo) {
+  /*
+                 | qiw  qiz -qiy  qix| |vix|
+  qo =R(qi)*vi = |-qiz  qiw  qix  qiy| |viy|
+                 | qiy -qix  qiw  qiz| |viz|
+                 |-qix -qiy -qiz  qiw| | 0 |
+  */
+  qo->x = qi->w * vi->x + qi->z * vi->y - qi->y * vi->z;
+  qo->y = -qi->z * vi->x + qi->w * vi->y + qi->x * vi->z;
+  qo->z = qi->y * vi->x - qi->x * vi->y + qi->w * vi->z;
+  qo->w = -qi->x * vi->x - qi->y * vi->y - qi->z * vi->z;
+}
+
+/*!
+@brief Double precision function to multiply double precision vector vi
+with double precision conjugate quaternion qi and return results in double
+precision quaternion qo.
+
+       | qw -qz  qy  qx|         | qw  qz -qy  qx|
+L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
+       |-qy  qx  qw  qz|         | qy -qx  qw  qz|
+       |-qx -qy -qz  qw|         |-qx -qy -qz  qw|
+
+@param vi a vector in the form [x,y,z]
+@param qi a quaternion in the form [x,y,z,w]
+@param qo the returned quaternion in the form [x,y,z,w]
+*/
+
+void ksl_product_vqconj(const ksl_vec3_t* restrict vi,
+                        const ksl_quaternion_t* restrict qi,
+                        ksl_quaternion_t* restrict qo) {
+  /*
+                    | qiw -qiz  qiy -qix| |vix|
+  qo = R(qi)^T*vi = | qiz  qiw -qix -qiy| |viy|
+                    |-qiy  qix  qiw -qiz| |viz|
+                    | qix  qiy  qiz  qiw| | 0 |
+  */
+
+  qo->x = qi->w * vi->x - qi->z * vi->y + qi->y * vi->z;
+  qo->y = qi->z * vi->x + qi->w * vi->y - qi->x * vi->z;
+  qo->z = -qi->y * vi->x + qi->x * vi->y + qi->w * vi->z;
+  qo->w = qi->x * vi->x + qi->y * vi->y + qi->z * vi->z;
+}
+
+/*!
+@brief Single precision function to multiply single precision vector vi
+with single precision conjugate quaternion qi and return results in single
+precision quaternion qo.
+
+       | qw -qz  qy  qx|         | qw  qz -qy  qx|
+L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
+       |-qy  qx  qw  qz|         | qy -qx  qw  qz|
+       |-qx -qy -qz  qw|         |-qx -qy -qz  qw|
+
+@param vi a vector in the form [x,y,z]
+@param qi a quaternion in the form [x,y,z,w]
+@param qo the returned quaternion in the form [x,y,z,w]
+*/
+
+void ksl_product_vqconjf(const ksl_vec3f_t* restrict vi,
+                         const ksl_quaternionf_t* restrict qi,
+                         ksl_quaternionf_t* restrict qo) {
+  /*
+                    | qiw -qiz  qiy -qix| |vix|
+  qo = R(qi)^T*vi = | qiz  qiw -qix -qiy| |viy|
+                    |-qiy  qix  qiw -qiz| |viz|
+                    | qix  qiy  qiz  qiw| | 0 |
+  */
+
+  qo->x = qi->w * vi->x - qi->z * vi->y + qi->y * vi->z;
+  qo->y = qi->z * vi->x + qi->w * vi->y - qi->x * vi->z;
+  qo->z = -qi->y * vi->x + qi->x * vi->y + qi->w * vi->z;
+  qo->w = qi->x * vi->x + qi->y * vi->y + qi->z * vi->z;
 }
