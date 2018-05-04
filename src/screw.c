@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "coscrew.h"
 #include "matrix.h"
 #include "screw.h"
 
@@ -16,20 +17,6 @@ ksl_screw_t* ksl_screw_alloc(const int n) {
 */
 ksl_screwf_t* ksl_screwf_alloc(const int n) {
   return calloc(n, sizeof(ksl_screwf_t));
-}
-
-/*!
-@brief allocate n double precision coscrew quantities
-*/
-ksl_coscrew_t* ksl_coscrew_alloc(const int n) {
-  return calloc(n, sizeof(ksl_coscrew_t));
-}
-
-/*!
-@brief allocate n single precision coscrew quantities
-*/
-ksl_coscrewf_t* ksl_coscrewf_alloc(const int n) {
-  return calloc(n, sizeof(ksl_coscrewf_t));
 }
 
 inline double ksl_screw_norm(const ksl_screw_t* restrict v);
@@ -82,26 +69,40 @@ inline void ksl_axpy_ssf(const float a, const ksl_screwf_t* restrict x,
   }
 }
 
+/*!
+@brief Copy double precision ksl_screw_t si to so.
+
+\f$S_i \rightarrow S_o\f$
+
+@param si [in] screw to copy
+@param so [out] si is copied to so
+*/
 inline void ksl_screw_copy(const ksl_screw_t* restrict si,
                            ksl_screw_t* restrict so) {
   memcpy(so, si, sizeof(ksl_screw_t));
 }
 
+/*!
+@brief Copy single precision ksl_screwf_t si to so.
+
+\f$S_i \rightarrow S_o\f$
+
+@param si [in] screw to copy
+@param so [out] si is copied to so
+*/
 inline void ksl_screwf_copy(const ksl_screwf_t* restrict si,
                             ksl_screwf_t* restrict so) {
   memcpy(so, si, sizeof(ksl_screwf_t));
 }
 
-inline void ksl_coscrew_copy(const ksl_coscrew_t* restrict ci,
-                             ksl_coscrew_t* restrict co) {
-  memcpy(co, ci, sizeof(ksl_coscrew_t));
-}
+/*!
+@brief Returns the inverse of a ksl_screw_t.
 
-inline void ksl_coscrewf_copy(const ksl_coscrewf_t* restrict ci,
-                              ksl_coscrewf_t* restrict co) {
-  memcpy(co, ci, sizeof(ksl_coscrewf_t));
-}
+\f$\mathbf{\underline{s}}_i^{-1} \rightarrow \mathbf{\underline{s}}_o\f$
 
+@param si [in] screw to invert
+@param so [out] inverse of si
+*/
 inline void ksl_screw_inverted(const ksl_screw_t* restrict si,
                                ksl_screw_t* restrict so) {
   for(int i = 0; i < 6; i++) {
@@ -109,6 +110,14 @@ inline void ksl_screw_inverted(const ksl_screw_t* restrict si,
   }
 }
 
+/*!
+@brief Returns the inverse of a ksl_screwf_t.
+
+\f$\mathbf{\underline{s}}_i^{-1} \rightarrow \mathbf{\underline{s}}_o\f$
+
+@param si [in] screw to invert
+@param so [out] inverse of si
+*/
 inline void ksl_screwf_inverted(const ksl_screwf_t* restrict si,
                                 ksl_screwf_t* restrict so) {
   for(int i = 0; i < 6; i++) {
@@ -116,51 +125,42 @@ inline void ksl_screwf_inverted(const ksl_screwf_t* restrict si,
   }
 }
 
+/*!
+@brief Invert (i.e. negate) a ksl_screw_t in place.
+
+\f$\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}\f$
+\f$-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}\f$
+
+@param si [in/out] screw to invert
+*/
 inline void ksl_screw_invert(ksl_screw_t* restrict s) {
   for(int i = 0; i < 6; i++) {
     s->at[i] = -s->at[i];
   }
 }
 
+/*!
+@brief Invert (i.e. negate) a ksl_screwf_t in place.
+
+\f$\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}\f$
+\f$-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}\f$
+
+@param si [in/out] screw to invert
+*/
 inline void ksl_screwf_invert(ksl_screwf_t* restrict s) {
   for(int i = 0; i < 6; i++) {
     s->at[i] = -s->at[i];
   }
 }
 
-inline void ksl_coscrew_inverted(const ksl_coscrew_t* restrict ci,
-                                 ksl_coscrew_t* restrict co) {
-  for(int i = 0; i < 6; i++) {
-    co->at[i] = -ci->at[i];
-  }
-}
-
-inline void ksl_coscrewf_inverted(const ksl_coscrewf_t* restrict ci,
-                                  ksl_coscrewf_t* restrict co) {
-  for(int i = 0; i < 6; i++) {
-    co->at[i] = -ci->at[i];
-  }
-}
-
-inline void ksl_coscrew_invert(ksl_coscrew_t* restrict c) {
-  for(int i = 0; i < 6; i++) {
-    c->at[i] = -c->at[i];
-  }
-}
-
-inline void ksl_coscrewf_invert(ksl_coscrewf_t* restrict c) {
-  for(int i = 0; i < 6; i++) {
-    c->at[i] = -c->at[i];
-  }
-}
-inline void ksl_product_sk(const ksl_screw_t* restrict si, const double k,
+inline void ksl_product_sa(const ksl_screw_t* restrict si, const double k,
                            ksl_screw_t* restrict so) {
   for(int i = 0; i < 6; i++) {
     so->at[i] = si->at[i] * k;
   }
 }
 
-void ksl_product_skf(const ksl_screwf_t* restrict si, const float k,
+void ksl_product_saf(const ksl_screwf_t* restrict si, const float k,
                      ksl_screwf_t* restrict so) {
   for(int i = 0; i < 6; i++) {
     so->at[i] = si->at[i] * k;
@@ -618,101 +618,3 @@ inline void ksl_product_Adinvsf(const ksl_SE3f_t* restrict Di,
 
   ksl_product_Adrinvsf(&Di->R, &temp, so);
 }
-
-inline void ksl_cross_cc(const ksl_coscrew_t* restrict c1i,
-                         const ksl_coscrew_t* restrict c2i,
-                         ksl_coscrew_t* restrict co) {
-  /* vo <- w1 x v2 */
-  ksl_cross_vv(&c1i->ang, &c2i->lin, &co->lin);
-
-  /* wo <- v1 x v2 */
-  ksl_cross_vv(&c1i->lin, &c2i->lin, &co->ang);
-
-  /* wo += w1 x w2 */
-  co->m3 += c1i->m4 * c2i->m5 - c1i->m5 * c2i->m4;
-  co->m4 += c1i->m5 * c2i->m3 - c1i->m3 * c2i->m5;
-  co->m5 += c1i->m3 * c2i->m4 - c1i->m4 * c2i->m3;
-}
-
-void ksl_cross_ccf(const ksl_coscrewf_t* restrict c1i,
-                   const ksl_coscrewf_t* restrict c2i,
-                   ksl_coscrewf_t* restrict co) {
-  /* vo <- w1 x v2 */
-  ksl_cross_vvf(&c1i->ang, &c2i->lin, &co->lin);
-
-  /* wo <- v1 x v2 */
-  ksl_cross_vvf(&c1i->lin, &c2i->lin, &co->ang);
-
-  /* wo += w1 x w2 */
-  co->m3 += c1i->m4 * c2i->m5 - c1i->m5 * c2i->m4;
-  co->m4 += c1i->m5 * c2i->m3 - c1i->m3 * c2i->m5;
-  co->m5 += c1i->m3 * c2i->m4 - c1i->m4 * c2i->m3;
-}
-
-void ksl_product_CoAdtc(const ksl_vec3_t* restrict ti,
-                        const ksl_coscrew_t* restrict ci,
-                        ksl_coscrew_t* restrict co) {
-  ksl_coscrew_copy(ci, co);
-
-  /* wo += w1 x w2 */
-  co->m3 += ti->y * ci->m2 - ti->z * ci->m1;
-  co->m4 += ti->z * ci->m0 - ti->x * ci->m2;
-  co->m5 += ti->x * ci->m1 - ti->y * ci->m0;
-}
-
-void ksl_product_CoAdtcf(const ksl_vec3f_t* restrict ti,
-                         const ksl_coscrewf_t* restrict ci,
-                         ksl_coscrewf_t* restrict co) {
-  ksl_coscrewf_copy(ci, co);
-
-  /* wo += w1 x w2 */
-  co->m3 += ti->y * ci->m2 - ti->z * ci->m1;
-  co->m4 += ti->z * ci->m0 - ti->x * ci->m2;
-  co->m5 += ti->x * ci->m1 - ti->y * ci->m0;
-}
-
-void ksl_product_CoAdtcinv(const ksl_vec3_t* ti, const ksl_coscrew_t* ci,
-                           ksl_coscrew_t* co) {
-  ksl_coscrew_t temp;
-  ksl_coscrew_inverted(ci, &temp);
-  ksl_product_CoAdtc(ti, &temp, co);
-}
-
-void ksl_product_CoAdtcinvf(const ksl_vec3f_t* ti, const ksl_coscrewf_t* ci,
-                            ksl_coscrewf_t* co) {
-
-  ksl_coscrewf_t temp;
-  ksl_coscrewf_inverted(ci, &temp);
-  ksl_product_CoAdtcf(ti, &temp, co);
-}
-
-void ksl_product_CoAdrc(const ksl_mat3x3_t* Ri, const ksl_coscrew_t* ci,
-                        ksl_coscrew_t* co) {}
-
-void ksl_product_CoAdrcf(const ksl_mat3x3f_t* Ri, const ksl_coscrewf_t* ci,
-                         ksl_coscrewf_t* co) {}
-
-void ksl_product_CoAdc(const ksl_SE3_t* Di, const ksl_coscrew_t* ci,
-                       ksl_coscrew_t* co) {
-  ksl_product_CoAdrc(&(Di->R), ci, co);
-
-  co->m3 += Di->t.y * co->m2 - Di->t.z * co->m1;
-  co->m4 += Di->t.z * co->m0 - Di->t.x * co->m2;
-  co->m5 += Di->t.x * co->m1 - Di->t.y * co->m0;
-}
-
-void ksl_product_CoAdcf(const ksl_SE3f_t* Di, const ksl_coscrewf_t* ci,
-                        ksl_coscrewf_t* co) {
-
-  ksl_product_CoAdrcf(&Di->R, ci, co);
-
-  co->m3 += Di->t.y * co->m2 - Di->t.z * co->m1;
-  co->m4 += Di->t.z * co->m0 - Di->t.x * co->m2;
-  co->m5 += Di->t.x * co->m1 - Di->t.y * co->m0;
-}
-
-void ksl_product_CoAdinvc(const ksl_SE3_t* Di, const ksl_coscrew_t* si,
-                          ksl_screw_t* so);
-
-void ksl_product_CoAdinvcf(const ksl_SE3f_t* Di, const ksl_coscrewf_t* si,
-                           ksl_coscrewf_t* so);

@@ -14,6 +14,7 @@ extern "C" {
 #include <assert.h>
 
 #include "axis.h"
+#include "coscrew.h"
 #include "inertia.h"
 #include "linalg.h"
 #include "matrix.h"

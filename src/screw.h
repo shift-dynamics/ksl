@@ -1,7 +1,7 @@
 /**
 @file
 @author Kristopher Wehage, Roger Wehage
-@brief Utilities to initialize and operate on quaternions
+@brief Utilities to initialize and operate on screws
 @date 2018
 @copyright Kristopher Wehage 2018
 
@@ -23,6 +23,9 @@ SUCH DAMAGE.
 #define _KSL_SCREW_H_
 
 #include "matrix.h"
+
+typedef union ksl_coscrew_t ksl_coscrew_t;
+typedef union ksl_coscrewf_t ksl_coscrewf_t;
 
 /*!
 @brief double precision screw consisting of a linear and angular vector pair in
@@ -58,47 +61,9 @@ typedef union ksl_screwf_t {
   };
 } ksl_screwf_t;
 
-/*!
-@brief double precision coscrew (i.e. a linear operator on a screw), consisting
-of a linear and angular vector pair in function space.
-*/
-typedef union ksl_coscrew_t {
-  double at[6];
-  struct {
-    ksl_vec3_t lin; /*!< free linear vector, e.g. force or linear
-                         momentum */
-    ksl_vec3_t ang; /*!< bound angular vector, e.g. moment/torque
-                         or angular momentum*/
-  };
-  struct {
-    double m0, m1, m2, m3, m4, m5, m6;
-  };
-} ksl_coscrew_t;
-
-/*!
-@brief single precision coscrew (i.e. a linear operator on a screw), consisting
-of a linear and angular vector pair in function space.
-*/
-typedef union ksl_coscrewf_t {
-  float at[6];
-  struct {
-    ksl_vec3f_t lin; /*!< free linear vector, e.g. force or linear
-                         momentum */
-    ksl_vec3f_t ang; /*!< bound angular vector, e.g. moment/torque
-                         or angular momentum*/
-  };
-  struct {
-    float m0, m1, m2, m3, m4, m5, m6;
-  };
-} ksl_coscrewf_t;
-
 ksl_screw_t* ksl_screw_alloc(int);
 
 ksl_screwf_t* ksl_screwf_alloc(int);
-
-ksl_coscrew_t* ksl_coscrew_alloc(int);
-
-ksl_coscrewf_t* ksl_coscrewf_alloc(int);
 
 double ksl_screw_l2norm(const ksl_screw_t* v);
 
@@ -119,15 +84,15 @@ void ksl_screwf_copy(const ksl_screwf_t* si, ksl_screwf_t* so);
 
 void ksl_screw_invert(ksl_screw_t* si);
 
-void ksl_screwf_invert( ksl_screwf_t* si);
+void ksl_screwf_invert(ksl_screwf_t* si);
 
 void ksl_screw_inverted(const ksl_screw_t* si, ksl_screw_t* so);
 
 void ksl_screwf_inverted(const ksl_screwf_t* si, ksl_screwf_t* so);
 
-void ksl_product_sk(const ksl_screw_t* si, const double ki, ksl_screw_t* so);
+void ksl_product_sa(const ksl_screw_t* si, const double ki, ksl_screw_t* so);
 
-void ksl_product_skf(const ksl_screwf_t* si, const float ki, ksl_screwf_t* so);
+void ksl_product_saf(const ksl_screwf_t* si, const float ki, ksl_screwf_t* so);
 
 void ksl_add_ss(const ksl_screw_t* s1i, const ksl_screw_t* s2i,
                 ksl_screw_t* so);
@@ -201,73 +166,67 @@ void ksl_hrzinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
 void ksl_hrzinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
-void ksl_cross_ss(const ksl_screw_t* s1i, const ksl_screw_t* s2i, ksl_screw_t* so);
+void ksl_cross_ss(const ksl_screw_t* s1i, const ksl_screw_t* s2i,
+                  ksl_screw_t* so);
 
-void ksl_cross_ssf(const ksl_screwf_t* s1i, const ksl_screwf_t* s2i, ksl_screwf_t* so);
+void ksl_cross_ssf(const ksl_screwf_t* s1i, const ksl_screwf_t* s2i,
+                   ksl_screwf_t* so);
 
-void ksl_cross_sst(const ksl_screw_t* s1i, const ksl_screw_t* s2i, ksl_screw_t* so);
+void ksl_cross_sst(const ksl_screw_t* s1i, const ksl_screw_t* s2i,
+                   ksl_screw_t* so);
 
-void ksl_cross_sstf(const ksl_screwf_t* s1i, const ksl_screwf_t* s2i, ksl_screwf_t* so);
+void ksl_cross_sstf(const ksl_screwf_t* s1i, const ksl_screwf_t* s2i,
+                    ksl_screwf_t* so);
 
-void ksl_product_Adrs(const ksl_mat3x3_t* ri, const ksl_screw_t* si, ksl_screw_t* so);
+void ksl_product_Adrs(const ksl_mat3x3_t* ri, const ksl_screw_t* si,
+                      ksl_screw_t* so);
 
-void ksl_product_Adrsinv(const ksl_mat3x3_t* ri, const ksl_screw_t* si, ksl_screw_t* so);
+void ksl_product_Adrsinv(const ksl_mat3x3_t* ri, const ksl_screw_t* si,
+                         ksl_screw_t* so);
 
-void ksl_product_Adrsf(const ksl_mat3x3f_t* ri, const ksl_screwf_t* si, ksl_screwf_t* so);
+void ksl_product_Adrsf(const ksl_mat3x3f_t* ri, const ksl_screwf_t* si,
+                       ksl_screwf_t* so);
 
 void ksl_product_Adrsinvf(const ksl_mat3x3f_t* ri, const ksl_screwf_t* si,
                           ksl_screwf_t* so);
 
-void ksl_product_Adrinvs(const ksl_mat3x3_t* ri, const ksl_screw_t* si, ksl_screw_t* so);
+void ksl_product_Adrinvs(const ksl_mat3x3_t* ri, const ksl_screw_t* si,
+                         ksl_screw_t* so);
 
 void ksl_product_Adrinvsf(const ksl_mat3x3f_t* ri, const ksl_screwf_t* si,
                           ksl_screwf_t* so);
 
-void ksl_product_Adts(const ksl_vec3_t* ti, const ksl_screw_t* si, ksl_screw_t* so);
+void ksl_product_Adts(const ksl_vec3_t* ti, const ksl_screw_t* si,
+                      ksl_screw_t* so);
 
-void ksl_product_Adtsf(const ksl_vec3f_t* ti, const ksl_screwf_t* si, ksl_screwf_t* so);
+void ksl_product_Adtsf(const ksl_vec3f_t* ti, const ksl_screwf_t* si,
+                       ksl_screwf_t* so);
 
-void ksl_product_Adtinvs(const ksl_vec3_t* ti, const ksl_screw_t* si, ksl_screw_t* so);
+void ksl_product_Adtinvs(const ksl_vec3_t* ti, const ksl_screw_t* si,
+                         ksl_screw_t* so);
 
-void ksl_product_Adtinvsf(const ksl_vec3f_t* ti, const ksl_screwf_t* si, ksl_screwf_t* so);
+void ksl_product_Adtinvsf(const ksl_vec3f_t* ti, const ksl_screwf_t* si,
+                          ksl_screwf_t* so);
 
-void ksl_product_Adtsinv(const ksl_vec3_t* ti, const ksl_screw_t* si, ksl_screw_t* so);
+void ksl_product_Adtsinv(const ksl_vec3_t* ti, const ksl_screw_t* si,
+                         ksl_screw_t* so);
 
-void ksl_product_Adtsinvf(const ksl_vec3f_t* ti, const ksl_screwf_t* si, ksl_screwf_t* so);
+void ksl_product_Adtsinvf(const ksl_vec3f_t* ti, const ksl_screwf_t* si,
+                          ksl_screwf_t* so);
 
-void ksl_product_Ads(const ksl_SE3_t* Di, const ksl_screw_t* si, ksl_screw_t* so);
+void ksl_product_Ads(const ksl_SE3_t* Di, const ksl_screw_t* si,
+                     ksl_screw_t* so);
 
-void ksl_product_Adsinv(const ksl_SE3_t* Di, const ksl_screw_t* si, ksl_screw_t* so);
+void ksl_product_Adsinv(const ksl_SE3_t* Di, const ksl_screw_t* si,
+                        ksl_screw_t* so);
 
-void ksl_product_Adsf(const ksl_SE3f_t* Di, const ksl_screwf_t* si, ksl_screwf_t* so);
+void ksl_product_Adsf(const ksl_SE3f_t* Di, const ksl_screwf_t* si,
+                      ksl_screwf_t* so);
 
-void ksl_product_Adinvs(const ksl_SE3_t* Di, const ksl_screw_t* si, ksl_screw_t* so);
+void ksl_product_Adinvs(const ksl_SE3_t* Di, const ksl_screw_t* si,
+                        ksl_screw_t* so);
 
-void ksl_product_Adinvsf(const ksl_SE3f_t* Di, const ksl_screwf_t* si, ksl_screwf_t* so);
-
-void ksl_cross_cc(const ksl_coscrew_t* s1i, const ksl_coscrew_t* s2i, ksl_coscrew_t* so);
-
-void ksl_cross_ccf(const ksl_coscrewf_t* s1i, const ksl_coscrewf_t* s2i,
-                   ksl_coscrewf_t* so);
-
-void ksl_product_CoAdtc(const ksl_vec3_t* ti, const ksl_coscrew_t* si, ksl_coscrew_t* so);
-
-void ksl_product_CoAdtcf(const ksl_vec3f_t* ti, const ksl_coscrewf_t* si,
-                         ksl_coscrewf_t* so);
-
-void ksl_product_CoAdtcinv(const ksl_vec3_t* ti, const ksl_coscrew_t* si,
-                           ksl_coscrew_t* so);
-
-void ksl_product_CoAdtcinvf(const ksl_vec3f_t* ti, const ksl_coscrewf_t* si,
-                            ksl_coscrewf_t* so);
-
-void ksl_product_CoAdc(const ksl_SE3_t* Di, const ksl_coscrew_t* si, ksl_coscrew_t* so);
-
-void ksl_product_CoAdcf(const ksl_SE3f_t* Di, const ksl_coscrewf_t* si, ksl_coscrewf_t* so);
-
-void ksl_product_CoAdinvc(const ksl_SE3_t* Di, const ksl_coscrew_t* si, ksl_screw_t* so);
-
-void ksl_product_CoAdinvcf(const ksl_SE3f_t* Di, const ksl_coscrewf_t* si,
-                           ksl_coscrewf_t* so);
+void ksl_product_Adinvsf(const ksl_SE3f_t* Di, const ksl_screwf_t* si,
+                         ksl_screwf_t* so);
 
 #endif
