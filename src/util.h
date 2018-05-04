@@ -22,7 +22,10 @@ SUCH DAMAGE.
 #ifndef _KSL_UTIL_H_
 #define _KSL_UTIL_H_
 
+#include <math.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
 
 double ksl_normalizeDegrees(double angle);
 
@@ -44,12 +47,14 @@ void ksl_axpy(const int, const double, const double*, double*);
 
 void ksl_axpyf(const int, const float, const float*, float*);
 
-bool ksl_allclose(int count, double* a1, double* a2);
+bool ksl_allclose(const int count, const double* a1, const double* a2);
 
-bool ksl_allclosef(int count, float* a1, float* a2);
+bool ksl_allclosef(const int count, const float* a1, const float* a2);
 
-void ksl_array_lerp(int count, double* y0, double* y1, double p, double* yOut);
+void ksl_arraylerp(const int count, const double p, const double* y1i,
+                   const double* y2i, double* yo);
 
-void ksl_array_lerpf(int count, float* y0, float* y1, float p, float* yOut);
+void ksl_arraylerpf(const int count, const float p, const float* y1i,
+                    const float* y2i, float* yo);
 
 #endif
