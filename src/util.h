@@ -22,7 +22,10 @@ SUCH DAMAGE.
 #ifndef _KSL_UTIL_H_
 #define _KSL_UTIL_H_
 
+#include <math.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
 
 double ksl_normalizeDegrees(double angle);
 
@@ -32,16 +35,26 @@ double ksl_normalizeRadians(double angle);
 
 float ksl_normalizeRadiansf(float angle);
 
-double catan2pi(double y, double x, double theta);
+double catan2pi(const double y, const double x, double theta);
 
-double catan1pi(double y, double x, double theta);
+float catan2pif(const float y, const float x, float theta);
 
-bool ksl_all_close(int count, double* a1, double* a2);
+double catan1pi(const double y, const double x, double theta);
 
-void ksl_array_lerp(int count, double* y0, double* y1, double p, double* yOut);
+float catan1pif(const float y, const float x, float theta);
 
-void ksl_daxpy(const int, const double, const double*, double*);
+void ksl_axpy(const int, const double, const double*, double*);
 
-void ksl_saxpy(const int, const float, float*, float*);
+void ksl_axpyf(const int, const float, const float*, float*);
+
+bool ksl_allclose(const int count, const double* a1, const double* a2);
+
+bool ksl_allclosef(const int count, const float* a1, const float* a2);
+
+void ksl_arraylerp(const int count, const double p, const double* y1i,
+                   const double* y2i, double* yo);
+
+void ksl_arraylerpf(const int count, const float p, const float* y1i,
+                    const float* y2i, float* yo);
 
 #endif
