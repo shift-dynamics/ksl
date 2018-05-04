@@ -100,7 +100,7 @@ Scale quaternion x by a and add to quaternion y
 
 @param y += a*x
 */
-inline void ksl_axpy_qq(const double a, const ksl_t* restrict x,
+inline void ksl_axpy_qq(const double a, const ksl_quaternion_t* restrict x,
                         ksl_quaternion_t* restrict y) {
   for(int i = 0; i < 4; i++) {
     y->at[i] += a * x->at[i];
