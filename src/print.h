@@ -22,6 +22,7 @@ SUCH DAMAGE.
 #ifndef _KSL_PRINT_H_
 #define _KSL_PRINT_H_
 
+#include <stdbool.h>
 #include <stdio.h>
 
 #include "inertia.h"
@@ -42,29 +43,29 @@ void ksl_screw_print(FILE* f, const ksl_screw_t* si);
 
 void ksl_screwf_print(FILE* f, const ksl_screw_t* si);
 
-void ksl_mat3x3_print(FILE* f, ksl_mat3x3_t* r);
+void ksl_mat3x3_print(FILE* f, const ksl_mat3x3_t* r);
 
 void ksl_mat3x3f_print(FILE* f, ksl_mat3x3f_t* r);
 
-void ksl_displacement_print(FILE* f, ksl_SE3_t* d);
+void ksl_SE3_print(FILE* f, const ksl_SE3_t* d);
 
-void ksl_mat4x4_print(FILE* f, ksl_mat4x4_t* d);
+void ksl_mat4x4_print(FILE* f, const ksl_mat4x4_t* d);
 
-void ksl_mat4x4f_print(FILE* f, ksl_mat4x4f_t* d);
+void ksl_mat4x4f_print(FILE* f, const ksl_mat4x4f_t* d);
 
-void ksl_array_print(FILE* f, int n, double* a);
+void ksl_array_print(FILE* f, const int n, const double* a);
 
-void ksl_array_print2D(FILE* f, int rowDim, int colDim, bool isRowMajor,
-                       double* a);
+void ksl_array_print2D(FILE* f, const int rowDim, const int colDim,
+                       const bool isRowMajor, const double* a);
 
-void ksl_arrayi_print(FILE* f, int n, int* a);
+void ksl_arrayi_print(FILE* f, const int n, const int* a);
 
-void ksl_triang_print(FILE* f, int n, double* a);
+void ksl_triang_print(FILE* f, const int n, const double* a);
 
-void ksl_triangi_print(FILE* f, int n, int* a);
+void ksl_triangi_print(FILE* f, const int n, const int* a);
 
-void ksl_triangb_print(FILE* f, int n, bool* a);
+void ksl_triangb_print(FILE* f, const int n, const bool* a);
 
-void ksl_inertia_print(FILE* f, ksl_inertia_t* inertia);
+void ksl_inertia_print(FILE* f, const ksl_inertia_t* inertia);
 
 #endif

@@ -1,5 +1,10 @@
 #include <print.h>
 
+typedef enum ksl_matrix_enum_t {
+  KSL_ROW_MAJOR,
+  KSL_COLUMN_MAJOR
+} ksl_matrix_enum_t;
+
 /*!
 @}
 @name Printing utilities
@@ -46,9 +51,10 @@ prints a 6x1 column vector as a row vector
 
 @param si 6x1 column vector
 */
-void ksl_screw_print(FILE* f, ksl_screw_t* restrict si) {
+void ksl_screw_print(FILE* f, const ksl_screw_t* restrict si) {
 
-  fprintf(f, "%g %g %g %g %g %g\n", si[0], si[1], si[2], si[3], si[4], si[5]);
+  fprintf(f, "%g %g %g %g %g %g\n", si->at[0], si->at[1], si->at[2], si->at[3],
+          si->at[4], si->at[5]);
 }
 
 /*!
@@ -58,7 +64,7 @@ prints a rotation matrix
 
 @param ri 3x3 rotation matrix
 */
-void ksl_mat3x3_print(FILE* f, ksl_mat3x3_t* __restrict__ ri) {
+void ksl_mat3x3_print(FILE* f, const ksl_mat3x3_t* __restrict__ ri) {
 
   fprintf(f, "%g %g %g\n", ri->m00, ri->m01, ri->m02);
   fprintf(f, "%g %g %g\n", ri->m10, ri->m11, ri->m12);
@@ -72,7 +78,7 @@ prints a rotation matrix
 
 @param ri 3x3 rotation matrix
 */
-void ksl_mat3x3f_print(FILE* f, ksl_mat3x3f_t* __restrict__ ri) {
+void ksl_mat3x3f_print(FILE* f, ksl_mat3x3f_t* restrict ri) {
 
   fprintf(f, "%g %g %g\n", ri->m00, ri->m01, ri->m02);
   fprintf(f, "%g %g %g\n", ri->m10, ri->m11, ri->m12);
@@ -90,7 +96,7 @@ translation terms in the last 3 entries of the array.
 
 @param Di A general displacement, \f$D_i\f$
 */
-void ksl_displacement_print(FILE* f, ksl_displacement_t* __restrict__ Di) {
+void ksl_SE3_print(FILE* f, const ksl_SE3_t* restrict Di) {
 
   fprintf(f, "  % 9.9f % 9.9f % 9.9f % 9.9f\n", Di->R.m00, Di->R.m01, Di->R.m02,
           Di->t.x);
@@ -116,7 +122,7 @@ translation terms in the last 3 entries of the array.
 
 @param Di A general displacement, \f$D_i\f$
 */
-void ksl_mat4x4_print(FILE* f, ksl_mat4x4_t* __restrict__ Di) {
+void ksl_mat4x4_print(FILE* f, const ksl_mat4x4_t* restrict Di) {
 
   fprintf(f, "%0.4f %0.4f %0.4f %0.4f\n", Di->m00, Di->m01, Di->m02, Di->m03);
   fprintf(f, "%0.4f %0.4f %0.4f %0.4f\n", Di->m10, Di->m11, Di->m12, Di->m13);
@@ -135,7 +141,7 @@ translation terms in the last 3 entries of the array.
 
 @param Di A general displacement, \f$D_i\f$
 */
-void ksl_mat4x4f_print(FILE* f, ksl_mat4x4f_t* __restrict__ Di) {
+void ksl_mat4x4f_print(FILE* f, const ksl_mat4x4f_t* restrict Di) {
 
   fprintf(f, "%0.4f %0.4f %0.4f %0.4f\n", Di->m00, Di->m01, Di->m02, Di->m03);
   fprintf(f, "%0.4f %0.4f %0.4f %0.4f\n", Di->m10, Di->m11, Di->m12, Di->m13);
@@ -146,9 +152,9 @@ void ksl_mat4x4f_print(FILE* f, ksl_mat4x4f_t* __restrict__ Di) {
 /*!
 @brief utility to print a general array of double of length n on one line
 */
-void ksl_array_print(FILE* f, const uint32_t n, double* __restrict__ a) {
+void ksl_array_print(FILE* f, const int n, const double* restrict a) {
 
-  for(uint32_t i = 0; i < n; i++) {
+  for(int i = 0; i < n; i++) {
     fprintf(f, "%0.6g ", a[i]);
   }
   fprintf(f, "\n");
@@ -158,13 +164,13 @@ void ksl_array_print(FILE* f, const uint32_t n, double* __restrict__ a) {
 @brief utility to print a 2D array stored in a single pointer
 with dimension rowDim * colDim
 */
-void ksl_array2D_print(FILE* f, const uint32_t rowDim, const uint32_t colDim,
-                       ksl_matrix_enum_t matrixType, double* __restrict__ A) {
+void ksl_array2D_print(FILE* f, const int rowDim, const int colDim,
+                       ksl_matrix_enum_t matrixType, double* restrict A) {
 
   switch(matrixType) {
 
-    case KSL_ROWMAJOR: {
-      for(uint32_t i = 0; i < rowDim; i++) {
+    case KSL_ROW_MAJOR: {
+      for(int i = 0; i < rowDim; i++) {
         fprintf(f, "  [");
         for(int j = 0; j < colDim; j++) {
           fprintf(f, "% 0.10f", A[i * colDim + j]);
@@ -176,7 +182,7 @@ void ksl_array2D_print(FILE* f, const uint32_t rowDim, const uint32_t colDim,
       }
     } break;
 
-    case KSL_COLMAJOR: {
+    case KSL_COLUMN_MAJOR: {
       for(int i = 0; i < rowDim; i++) {
         fprintf(f, "  ");
         for(int j = 0; j < colDim; j++) {
@@ -191,9 +197,9 @@ void ksl_array2D_print(FILE* f, const uint32_t rowDim, const uint32_t colDim,
 /*!
 @brief utility to print a general array of uint32_ts of length n on one line
 */
-void ksl_arrayi_print(FILE* f, const uint32_t n, int* __restrict__ a) {
+void ksl_arrayi_print(FILE* f, const int n, const int* restrict a) {
 
-  for(uint32_t i = 0; i < n; i++) {
+  for(int i = 0; i < n; i++) {
     fprintf(f, "%d ", a[i]);
   }
   fprintf(f, "\n");
@@ -203,11 +209,11 @@ void ksl_arrayi_print(FILE* f, const uint32_t n, int* __restrict__ a) {
 @brief utility to print a lower triangular matrix of doubles stored in a
 linear array
 */
-void ksl_triang_print(FILE* f, const uint32_t n, double* __restrict__ A) {
+void ksl_triang_print(FILE* f, const int n, const double* restrict A) {
 
-  for(uint32_t i = 0; i < n; i++) {
-    uint32_t i_s = (i * (i + 1) / 2);
-    for(uint32_t j = 0; j < i + 1; j++) {
+  for(int i = 0; i < n; i++) {
+    int i_s = (i * (i + 1) / 2);
+    for(int j = 0; j < i + 1; j++) {
       fprintf(f, "% 9.4f ", A[i_s + j]);
     }
     fprintf(f, "\n");
@@ -218,11 +224,11 @@ void ksl_triang_print(FILE* f, const uint32_t n, double* __restrict__ A) {
 @brief utility to print a lower triangular matrix of uint32_tegers stored in a
 linear array
 */
-void ksl_triangi_print(FILE* f, const uint32_t n, int* __restrict__ A) {
+void ksl_triangi_print(FILE* f, const int n, const int* restrict A) {
 
-  for(uint32_t i = 0; i < n; i++) {
-    uint32_t i_s = (i * (i + 1) / 2);
-    for(uint32_t j = 0; j < i + 1; j++) {
+  for(int i = 0; i < n; i++) {
+    int i_s = (i * (i + 1) / 2);
+    for(int j = 0; j < i + 1; j++) {
       fprintf(f, "% d ", A[i_s + j]);
     }
     fprintf(f, "\n");
@@ -233,10 +239,10 @@ void ksl_triangi_print(FILE* f, const uint32_t n, int* __restrict__ A) {
 @brief utility to print a lower triangular matrix of uint32_tegers stored in a
 linear array
 */
-void ksl_triangb_print(FILE* f, const uint32_t n, bool* __restrict__ A) {
+void ksl_triangb_print(FILE* f, const int n, const bool* restrict A) {
 
   for(int i = 0; i < n; i++) {
-    uint32_t i_s = (i * (i + 1) / 2);
+    int i_s = (i * (i + 1) / 2);
     for(int j = 0; j < i + 1; j++) {
       fprintf(f, "%s ", A[i_s + j] ? "1" : "0");
     }

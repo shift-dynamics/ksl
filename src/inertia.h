@@ -45,7 +45,7 @@ typedef union ksl_inertia_t {
     double Izx;    /*!< Izx centroidal inertia term, expressed in reference
                         frame coordinates */
   };
-} s2_inertia_t;
+} ksl_inertia_t;
 
 /*!
 @brief single precision mass and inertia properties
@@ -69,28 +69,28 @@ typedef union ksl_inertiaf_t {
     float Izx;      /*!< Izx centroidal inertia term, expressed in reference
                          frame coordinates */
   };
-} s2_inertiaf_t;
+} ksl_inertiaf_t;
 
-s2_inertia_t* s2_inertia_alloc(int);
+ksl_inertia_t* ksl_inertia_alloc(int);
 
-s2_inertiaf_t* s2_inertiaf_alloc(int);
+ksl_inertiaf_t* ksl_inertiaf_alloc(int);
 
-void ksl_inertia_rotate(s2_inertia_t* inertia_i, ksl_mat3x3_t* r,
-                        s2_inertia_t* inertia_o);
+void ksl_inertia_rotate(ksl_inertia_t* inertia_i, ksl_mat3x3_t* r,
+                        ksl_inertia_t* inertia_o);
 
-void ksl_inertia_rotate2(s2_inertia_t* inertia_i, ksl_mat3x3_t* r,
-                         s2_inertia_t* inertia_o);
+void ksl_inertia_rotate2(ksl_inertia_t* inertia_i, ksl_mat3x3_t* r,
+                         ksl_inertia_t* inertia_o);
 
-void ksl_inertia_transform(s2_inertia_t* inertia_i, ksl_SE3_t* d,
-                           s2_inertia_t* inertia_o);
+void ksl_inertia_transform(ksl_inertia_t* inertia_i, ksl_SE3_t* d,
+                           ksl_inertia_t* inertia_o);
 
-void ksl_inertiaf_rotate(s2_inertiaf_t* inertia_i, ksl_mat3x3f_t* r,
-                         s2_inertiaf_t* inertia_o);
+void ksl_inertiaf_rotate(ksl_inertiaf_t* inertia_i, ksl_mat3x3f_t* r,
+                         ksl_inertiaf_t* inertia_o);
 
-void ksl_inertiaf_rotate2(s2_inertiaf_t* inertia_i, ksl_mat3x3f_t* r,
-                          s2_inertiaf_t* inertia_o);
+void ksl_inertiaf_rotate2(ksl_inertiaf_t* inertia_i, ksl_mat3x3f_t* r,
+                          ksl_inertiaf_t* inertia_o);
 
-void ksl_inertiaf_transform(s2_inertiaf_t* inertia_i, ksl_SE3f_t* d,
-                            s2_inertiaf_t* inertia_o);
+void ksl_inertiaf_transform(ksl_inertiaf_t* inertia_i, ksl_SE3f_t* d,
+                            ksl_inertiaf_t* inertia_o);
 
 #endif

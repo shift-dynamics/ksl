@@ -31,6 +31,7 @@ add_library(ksl STATIC
   ${CMAKE_CURRENT_SOURCE_DIR}/src/quaternion.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/matrix.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/screw.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/coscrew.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/linalg.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/print.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/util.c
