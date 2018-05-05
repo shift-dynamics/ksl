@@ -1,6 +1,36 @@
 #include <util.h>
 
 /*!
+@brief swap two doubles
+*/
+inline void ksl_swap(double* restrict a, double* restrict b) {
+
+  double temp = *a;
+  *a = *b;
+  *b = temp;
+}
+
+/*!
+@brief swap two integers
+*/
+inline void ksl_swapi(int* restrict a, int* restrict b) {
+
+  int temp = *a;
+  *a = *b;
+  *b = temp;
+}
+
+/*!
+@brief swap two floats
+*/
+inline void ksl_swapf(float* restrict a, float* restrict b) {
+
+  double temp = *a;
+  *a = *b;
+  *b = temp;
+}
+
+/*!
 @brief Normalize double precision angle in degrees
 
 @param normalizes degrees to be between 0 and 360 degrees

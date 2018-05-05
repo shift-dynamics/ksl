@@ -27,6 +27,12 @@ SUCH DAMAGE.
 #include <stdio.h>
 #include <string.h>
 
+void ksl_swap(double* a, double* b);
+
+void ksl_swapf(float* a, float* b);
+
+void ksl_swapi(int* a, int* b);
+
 double ksl_normalizeDegrees(double angle);
 
 float ksl_normalizeDegreesf(float angle);
