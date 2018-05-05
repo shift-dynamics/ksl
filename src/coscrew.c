@@ -55,6 +55,36 @@ inline void ksl_coscrewf_copy(const ksl_coscrewf_t* restrict self,
 }
 
 /*!
+@brief Scale a double precision ksl_coscrew_t.
+
+\f$\mathbf{\underline{c}} * a \rightarrow \mathbf{\underline{c}}\f$
+
+@param ci [in] coscrew to invert
+@param co [out] inverse of ci
+*/
+inline void ksl_coscrew_scale(ksl_coscrew_t* restrict self,
+                              const double a) {
+  for(int i = 0; i < 6; i++) {
+    self->at[i] *= a;
+  }
+}
+
+/*!
+@brief Scale a single precision ksl_coscrew_t.
+
+\f$\mathbf{\underline{c}} * a \rightarrow \mathbf{\underline{c}}\f$
+
+@param ci [in] coscrew to invert
+@param co [out] inverse of ci
+*/
+inline void ksl_coscrewf_scale(ksl_coscrewf_t* restrict self,
+                                const double a) {
+  for(int i = 0; i < 6; i++) {
+    self->at[i] *= a;
+  }
+}
+
+/*!
 @brief Returns the inverse of a ksl_coscrew_t.
 
 \f$\mathbf{\underline{s}}_i^{-1} \rightarrow \mathbf{\underline{s}}_o\f$
@@ -112,8 +142,52 @@ inline void ksl_coscrewf_invert(ksl_coscrewf_t* restrict self) {
   }
 }
 
+
+
+/*!@}*/
+
 /*!
-@brief In-place add a double precision coscrew to an existing coscrew
+@defgroup Coscrew *functions*
+
+The following functions combine one or more coscrews with other quantities to generate another coscrew.
+*/
+
+/*!
+@brief In-place add a double precision coscrew multiplied with a scalar to an existing coscrew.
+
+\f$ a \mathbf{\underline{x}} + \mathbf{\underline{y}} \rightarrow
+\mathbf{\underline{y}}\f$
+
+@param a [in]
+@param x [in]
+@param y [in/out] coscrew to add
+*/
+void ksl_axpy_cc(const double a, const ksl_coscrew_t* restrict x,
+  ksl_coscrew_t* restrict y) {
+  for(int i = 0; i < 6; i++) {
+    y->at[i] += a * x->at[i];
+  }
+}
+
+/*!
+@brief In-place add a single precision coscrew multiplied with a scalar to an existing coscrew.
+
+\f$ a \mathbf{\underline{x}} + \mathbf{\underline{y}} \rightarrow
+\mathbf{\underline{y}}\f$
+
+@param a [in]
+@param x [in]
+@param y [in/out]
+*/
+void ksl_axpy_ccf(const float a, const ksl_coscrewf_t* restrict x,
+  ksl_coscrewf_t* restrict y) {
+  for(int i = 0; i < 6; i++) {
+    y->at[i] += a * x->at[i];
+  }
+}
+
+/*!
+@brief In-place add a double precision coscrew to an existing coscrew. This is a variant of axpy where the scalar term a is 1.
 
 \f$\mathbf{\underline{c}}_{1i} + \mathbf{\underline{c}}_{o} \rightarrow
 \mathbf{\underline{c}}_o\f$
@@ -121,15 +195,15 @@ inline void ksl_coscrewf_invert(ksl_coscrewf_t* restrict self) {
 @param c [in/out]
 @param ci [in] coscrew to add
 */
-void ksl_coscrew_add(ksl_coscrew_t* restrict self,
-                     const ksl_coscrew_t* restrict ci) {
+void ksl_xpy_cc(const ksl_coscrew_t* restrict x,
+  ksl_coscrew_t* restrict y) {
   for(int i = 0; i < 6; i++) {
-    self->at[i] += ci->at[i];
+    y->at[i] += x->at[i];
   }
 }
 
 /*!
-@brief In-place add a single precision coscrew to an existing coscrew
+@brief In-place add a single precision coscrew to an existing coscrew. This is a variant of axpy where there the scalar term is 1.
 
 \f$\mathbf{\underline{c}}_{1i} + \mathbf{\underline{c}}_{o} \rightarrow
 \mathbf{\underline{c}}_o\f$
@@ -137,15 +211,15 @@ void ksl_coscrew_add(ksl_coscrew_t* restrict self,
 @param co [in/out] sum of c1i and co
 @param c1i [in] first coscrew to add
 */
-void ksl_coscrewf_add(ksl_coscrewf_t* restrict self,
-                      const ksl_coscrewf_t* restrict ci) {
+void ksl_xpy_ccf(const ksl_coscrewf_t* restrict x,
+  ksl_coscrewf_t* restrict y) {
   for(int i = 0; i < 6; i++) {
-    self->at[i] += ci->at[i];
+    y->at[i] += x->at[i];
   }
 }
 
 /*!
-@brief In-place subtract a double precision coscrew from an existing coscrew
+@brief In-place subtract a double precision coscrew x from an  coscrew y. This is a variant of axpy where the scalar term is -1.
 
 \f$\mathbf{\underline{c}} - \mathbf{\underline{c}}_{i} \rightarrow
 \mathbf{\underline{c}}\f$
@@ -153,15 +227,15 @@ void ksl_coscrewf_add(ksl_coscrewf_t* restrict self,
 @param self [in/out]
 @param ci [in] first coscrew to subtract
 */
-void ksl_coscrew_subtract(ksl_coscrew_t* restrict self,
-                          const ksl_coscrew_t* restrict ci) {
+void ksl_nxpy_cc(const ksl_coscrew_t* restrict x,
+                ksl_coscrew_t* restrict y) {
   for(int i = 0; i < 6; i++) {
-    self->at[i] -= ci->at[i];
+    y->at[i] -= x->at[i];
   }
 }
 
 /*!
-@brief In-place subtract a single precision coscrew from an existing coscrew
+@brief In-place subtract a single precision coscrew from an existing coscrew. This is a variant of axpy where the scalar term is -1.
 
 \f$\mathbf{\underline{c}} - \mathbf{\underline{c}}_{i} \rightarrow
 \mathbf{\underline{c}}\f$
@@ -169,21 +243,12 @@ void ksl_coscrew_subtract(ksl_coscrew_t* restrict self,
 @param self [in/out]
 @param ci [in] first coscrew to subtract
 */
-void ksl_coscrewf_subtract(ksl_coscrewf_t* restrict self,
-                           const ksl_coscrewf_t* restrict ci) {
+void ksl_nxpy_ccf(const ksl_coscrewf_t* restrict x,
+                 ksl_coscrewf_t* restrict y) {
   for(int i = 0; i < 6; i++) {
-    self->at[i] -= ci->at[i];
+    y->at[i] -= x->at[i];
   }
 }
-
-/*!@}*/
-
-/*!
-@defgroup Coscrew *functions*
-
-The following functions combine one or more coscrews with other quantities and
-generally return another coscrew.
-*/
 
 /*!
 @brief Scale a double precision coscrew.
@@ -274,7 +339,7 @@ void ksl_subtract_cc(const ksl_coscrew_t* restrict c1i,
 
 @param c1i [in] first coscrew
 @param c2i [in] second coscrew
-@param co [out] c1i minus c2i
+@param co [out] result of c1i minus c2i
 */
 void ksl_subtract_ccf(const ksl_coscrewf_t* restrict c1i,
                       const ksl_coscrewf_t* restrict c2i,
@@ -284,6 +349,13 @@ void ksl_subtract_ccf(const ksl_coscrewf_t* restrict c1i,
   }
 }
 
+/*!
+@brief Compute the double precision coscrew cross product
+
+@param c1i [in] first coscrew
+@param c2i [in] second coscrew
+@param co [out] result of c1i x c2i
+*/
 inline void ksl_cross_cc(const ksl_coscrew_t* restrict c1i,
                          const ksl_coscrew_t* restrict c2i,
                          ksl_coscrew_t* restrict co) {
@@ -299,6 +371,13 @@ inline void ksl_cross_cc(const ksl_coscrew_t* restrict c1i,
   co->m5 += c1i->m3 * c2i->m4 - c1i->m4 * c2i->m3;
 }
 
+/*!
+@brief Compute the single precision coscrew cross product
+
+@param c1i [in] first coscrew
+@param c2i [in] second coscrew
+@param co [out] result of c1i x c2i
+*/
 void ksl_cross_ccf(const ksl_coscrewf_t* restrict c1i,
                    const ksl_coscrewf_t* restrict c2i,
                    ksl_coscrewf_t* restrict co) {
@@ -371,8 +450,8 @@ void ksl_product_CoAdrinvc(const ksl_mat3x3_t* Ri, const ksl_coscrew_t* ci,
 
 void ksl_product_CoAdrinvcf(const ksl_mat3x3f_t* Ri, const ksl_coscrewf_t* ci,
                             ksl_coscrewf_t* co) {
-  ksl_product_rinvv(Ri, &ci->lin, &co->lin);
-  ksl_product_rinvv(Ri, &ci->ang, &co->ang);
+  ksl_product_rinvvf(Ri, &ci->lin, &co->lin);
+  ksl_product_rinvvf(Ri, &ci->ang, &co->ang);
 }
 
 void ksl_product_CoAdc(const ksl_SE3_t* Di, const ksl_coscrew_t* ci,
