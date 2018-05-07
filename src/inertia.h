@@ -95,15 +95,10 @@ void ksl_inertia_translate(ksl_inertia_t* inertia_i, const ksl_vec3_t* r);
 
 void ksl_inertiaf_translate(ksl_inertiaf_t* inertia_i, const ksl_vec3f_t* r);
 
-void ksl_inertia_rotate2(const ksl_inertia_t* inertia_i, const ksl_mat3x3_t* r,
-                         ksl_inertia_t* inertia_o);
-
 void ksl_inertia_transformed(const ksl_inertia_t* inertia_i, const ksl_SE3_t* d,
                              ksl_inertia_t* inertia_o);
 
 void ksl_inertiaf_transformed(const ksl_inertiaf_t* inertia_i,
                               const ksl_SE3f_t* d, ksl_inertiaf_t* inertia_o);
-void ksl_inertiaf_rotate2(const ksl_inertiaf_t* inertia_i,
-                          const ksl_mat3x3f_t* r, ksl_inertiaf_t* inertia_o);
 
 #endif
