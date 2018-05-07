@@ -37,11 +37,24 @@ SUCH DAMAGE.
 #include "linalg.h"
 #include "util.h"
 
-inline void ksl_swapArray(const int n, double* a, const int a_stride, double* b,
-                          const int b_stride) {
+inline void ksl_swapArray(const int n, double* restrict a, const int a_stride,
+                          double* restrict b, const int b_stride) {
   for(int i = 0; i < n; i++) {
     ksl_swap(a + i * a_stride, b + i * b_stride);
   }
+}
+
+inline int ksl_maxIndex(const int n, const double* restrict a) {
+  register double max = fabs(a[0]);
+  int max_index = 0;
+  for(int i = 1; i < n; i++) {
+    double a_abs = fabs(a[i]);
+    if(a_abs > max) {
+      max_index = i;
+      max = a_abs;
+    }
+  }
+  return max_index;
 }
 
 /*!
@@ -78,8 +91,8 @@ A[0:rowDim-1][0:colDim-1], LU factors are overwritten in original matrix
 @param pc [out] output column permutation array with dimensions pc[0:colDim-1]
 @return rank of matrix A
 */
-int ksl_linalg_LU_full(const int rowDim, const int colDim, double* A,
-                       double eps, int* pr, int* pc) {
+int ksl_linalg_lu_full(const int rowDim, const int colDim, double* restrict A,
+                       const double eps, int* restrict pr, int* restrict pc) {
 
   // printf("Jacobian matrix in fullFactor_LU\n");
   // for(int i = 0; i < rowDim; i++) {
@@ -118,7 +131,11 @@ int ksl_linalg_LU_full(const int rowDim, const int colDim, double* A,
     Save that row and column number in pivotRow and
     pivotCol. Also intialize the row permutation array pr.
   */
+#ifdef KSL_WITH_BLAS_
   int index = cblas_idamax(size, A, 1);
+#else
+  int index = ksl_maxIndex(size, A);
+#endif
   div_t result = div(index, colDim);
   pivotRow = result.quot;
   pivotCol = result.rem;
@@ -170,12 +187,14 @@ int ksl_linalg_LU_full(const int rowDim, const int colDim, double* A,
           number of entries for column swap: colDim
           stride =
         */
-
+#ifdef KSL_WITH_BLAS_
         cblas_dswap(colDim, A + colDim * rank, 1, A + colDim * pivotRow, 1);
-
+#else
+        ksl_swapArray(colDim, A + colDim * rank, 1, A + colDim * pivotRow, 1);
+#endif
         /* Swap row permutation entries pr[rank] and
         pr[pivotRow] to reflect row swaps in A. */
-        ksl_iswap(pr + rank, pr + pivotRow);
+        ksl_swapi(pr + rank, pr + pivotRow);
       }
 
       /* pivotCol can never be less than rank.
@@ -188,11 +207,14 @@ int ksl_linalg_LU_full(const int rowDim, const int colDim, double* A,
           swapping column:
             N = rowDim
             stride = colDim */
+#ifdef KSL_WITH_BLAS_
         cblas_dswap(rowDim, A + rank, colDim, A + pivotCol, colDim);
-
+#else
+        ksl_swapArray(rowDim, A + rank, colDim, A + pivotCol, colDim);
+#endif
         /* Swap column permutation entries pc[rank] and
         pr[pivotCol] to reflect column swaps. */
-        ksl_iswap(pc + rank, pc + pivotCol);
+        ksl_swapi(pc + rank, pc + pivotCol);
       }
 
       /*
@@ -251,52 +273,6 @@ int ksl_linalg_LU_full(const int rowDim, const int colDim, double* A,
     }
   } /*End for col*/
 
-  /*
-    This block computes LR*inverse(Lr)
-    Here rank>0 means true rank is greater than 1.
-    If rank==0, the Lr matrix is a 1 by 1 identity
-    matrix, so there is nothing to do here. This loop
-    computes A[rank+1:rowDim-1][0:rank]=LR*inverse(Lr)
-    where LR is stored in A[rank+1:rowDim-1][0:rank]
-    and Lr is stored in A[0:rank][0:rank].
-    j is the column number in LR. It ends at 1
-    because the diagonal entry in row 0 of Lr is 1.
-    i is the row number in LR.
-    k is the column number in Lr
-  */
-  // if(rank > 0) {
-  //   for(j = rank; j > 0; j--) {
-  //     for(i = rowDim - 1; i > rank; i--) {
-  //       for(k = 0; k < j; k++)
-  //         A[i * colDim + k] -= A[i * colDim + j] *
-  //           A[j * colDim + k];
-  //     }
-  //   }
-  // }
-
-  /*
-    This block computes -inverse(Ur)*UR.
-    Here rank > -1 means the true rank is greater than 0.
-    If rank==0, nothing to process. This loop computes
-    A[0:rank][rank+1:colDim-1]=-inverse(Ur)*UR
-    where UR is stored in A[0:rank][rank+1:colDim-1]
-    and Ur is stored in upper part of A[0:rank][0:rank].
-    i is the row number in Ur.
-    j is the column number in Ur & row number in UR.
-    k is the column number in UR.
-  */
-  // if(rank > -1 && rank < colDim - 1) {
-  //   for(i = rank; i >= 0; i--) {
-  //     for(k = rank + 1; k < colDim; k++) {
-  //       save = 0;
-  //       for(j = rank; j > i; j--) {
-  //         save -= A[i * colDim + j] * A[j * colDim + k];
-  //       }
-  //       A[i * colDim + k] = (save - A[i * colDim + k]) / A[i * colDim + i];
-  //     }
-  //   }
-  // }
-
   return (rank + 1);
 }
 
@@ -335,8 +311,10 @@ A[0:rowDim-1][0:colDim-1]:
 @param pc output column permutation array with dimensions pc[0:colDim-1]
 @return rank of matrix A
 */
-int ksl_linalg_LU_full_specified(int rowDim, int colDim, double* A, double eps,
-                                 int* pr, int* pc, int specifiedIndex) {
+int ksl_linalg_lu_full_specified(const int rowDim, const int colDim,
+                                 double* restrict A, double eps,
+                                 int* restrict pr, int* restrict pc,
+                                 const int specifiedIndex) {
 
   // printf("Jacobian matrix in fullFactor_LU\n");
   // for(int i = 0; i < rowDim; i++) {
@@ -386,13 +364,16 @@ int ksl_linalg_LU_full_specified(int rowDim, int colDim, double* A, double eps,
     matrix
   */
   if(specifiedIndex != colDim - 1) {
+#ifdef KSL_WITH_BLAS
     cblas_dswap(rowDim, A + specifiedIndex, colDim, A + colDim - 1, colDim);
-
+#else
+    ksl_swapArray(rowDim, A + specifiedIndex, colDim, A + colDim - 1, colDim);
+#endif
     /*
       Swap column permutation entries pc[] and
       pc[pivotRow] to reflect row swaps in A.
     */
-    ksl_iswap(pc + specifiedIndex, pc + colDim - 1);
+    ksl_swapi(pc + specifiedIndex, pc + colDim - 1);
   }
 
   /*
@@ -452,14 +433,16 @@ int ksl_linalg_LU_full_specified(int rowDim, int colDim, double* A, double eps,
           number of entries for column swap: colDim
           stride = rowDim
         */
-
+#ifdef KSL_WITH_BLAS_
         cblas_dswap(colDim, A + colDim * rank, 1, A + colDim * pivotRow, 1);
-
+#else
+        ksl_swapArray(colDim, A + colDim * rank, 1, A + colDim * pivotRow, 1);
+#endif
         /*
           Swap row permutation entries pr[rank] and
           pr[pivotRow] to reflect row swaps in A.
         */
-        ksl_iswap(pr + rank, pr + pivotRow);
+        ksl_swapi(pr + rank, pr + pivotRow);
       }
 
       /*
@@ -477,13 +460,16 @@ int ksl_linalg_LU_full_specified(int rowDim, int colDim, double* A, double eps,
             N = rowDim
             stride = colDim
         */
+#ifdef KSL_WITH_BLAS_
         cblas_dswap(rowDim, A + rank, colDim, A + pivotCol, colDim);
-
+#else
+        ksl_swapArray(rowDim, A + rank, colDim, A + pivotCol, colDim);
+#endif
         /*
           Swap column permutation entries pc[rank] and
           pr[pivotCol] to reflect column swaps.
         */
-        ksl_iswap(pc + rank, pc + pivotCol);
+        ksl_swapi(pc + rank, pc + pivotCol);
       }
 
       /*
@@ -547,11 +533,12 @@ int ksl_linalg_LU_full_specified(int rowDim, int colDim, double* A, double eps,
 }
 
 /*!
-@brief LU Decomposition with no row or column pivoting
+@brief *Fast* LU Decomposition with no row or column pivoting for a rectangular
+matrix
 
-factor LU factors a double precision matrix, A[rowDim][colDim],
-using no row or column pivoting. Only the square rank x colDim submatrix of
-matrix A will be processed.
+This function LU factors a double precision matrix, A[rowDim][colDim],
+using no row or column pivoting. This function should only be used if the row x
+row submatrix is known to be nonsingular.
 
 The lower triangular (rank+1) by (rank+1) Lr matrix, except the unity
 diagonal, is stored below the diagonal in A[0:rank][0:rank]. The upper
@@ -567,7 +554,8 @@ C=LR*inverse(Lr)
 @param *A [in/out] matrix to be factored with dimensions
 A[0:rowDim-1][0:colDim-1]:
 */
-void ksl_linalg_LU(int rank, int colDim, double* A) {
+inline void ksl_linalg_lu(const int rank, const int colDim,
+                          double* restrict A) {
 
   /*
     Major loop to factor the matrix.
@@ -601,9 +589,9 @@ and Ur is stored in upper part of A[0:rank][0:rank].
 i is the row number in Ur.
 j is the column number in Ur & row number in UR.
 k is the column number in UR.
-
 */
-void ksl_linalg_setBMatrix(int rank, int colDim, double* A) {
+inline void ksl_linalg_lu_setBMatrix(const int rank, const int colDim,
+                                     double* restrict A) {
 
   if(rank > 0 && rank < colDim) {
     for(int i = rank - 1; i > -1; i--) {   /* rows of B */
@@ -633,7 +621,7 @@ because the diagonal entry in row 0 of Lr is 1.
 i is the row number in LR.
 k is the column number in Lr
 */
-void ksl_linalg_setCMatrix(int rowDim, int colDim, int rank, double* A) {
+void ksl_linalg_lu_setCMatrix(int rowDim, int colDim, int rank, double* A) {
 
   if(rank > 1) {
     for(int j = rank - 1; j > 0; j--) {
@@ -646,7 +634,8 @@ void ksl_linalg_setCMatrix(int rowDim, int colDim, int rank, double* A) {
 }
 
 /*!
-computes the L D L^T decomposition of a symmetric matrix without pivoting
+@brief computes the L D L^T decomposition of a symmetric matrix without
+pivoting
 
 returns the matrix L D L^T in the original matrix A
 */
@@ -666,6 +655,12 @@ int ksl_linalg_ldlt(double* restrict D, const int n) {
   return 0;
 }
 
+/*!
+@brief perform Cholesky (L * L^T) decomposition of a symmetric matrix without
+pivoting
+
+returns the matrix factor L in the lower triangular portion of matrix D
+*/
 int ksl_linalg_cholesky(double* restrict D, const int n) {
   for(int k = 0; k < n; k++) {
     D[k * 4 + k] = sqrt(D[k * 4 + k]);
@@ -693,10 +688,9 @@ L^T * x = y
 using backward substitution where L IS unit lower triangular
 
 x = L^-T * y
-
 */
-inline void ksl_linalg_ldlt_backwardSubstitution(double* restrict L,
-                                                 double* restrict y,
+inline void ksl_linalg_ldlt_backwardSubstitution(const double* restrict L,
+                                                 const double* restrict y,
                                                  double* restrict x,
                                                  const int n) {
   x[n - 1] = y[n - 1];
@@ -716,10 +710,9 @@ L^T * x = y
 using backward substitution where L IS NOT unit lower triangular
 
 x = L^-T * y
-
 */
-inline void ksl_linalg_cholesky_backwardSubstitution(double* restrict L,
-                                                     double* restrict y,
+inline void ksl_linalg_cholesky_backwardSubstitution(const double* restrict L,
+                                                     const double* restrict y,
                                                      double* restrict x,
                                                      const int n) {
   x[n - 1] = y[n - 1] / L[(n - 1) * n + (n - 1)];
@@ -740,10 +733,9 @@ L * y = b
 for y using forward substitution where L IS unit lower triangular
 
 y = L^-1 * b
-
 */
-inline void ksl_linalg_ldlt_forwardSubstitution(double* restrict L,
-                                                double* restrict b,
+inline void ksl_linalg_ldlt_forwardSubstitution(const double* restrict L,
+                                                const double* restrict b,
                                                 double* restrict y,
                                                 const int n) {
   for(int i = 0; i < n; i++) {
@@ -762,10 +754,9 @@ L * y = b
 for y using forward substitution where L IS NOT unit lower triangular
 
 y = L^-1 * b
-
 */
-inline void ksl_linalg_cholesky_forwardSubstitution(double* restrict L,
-                                                    double* restrict b,
+inline void ksl_linalg_cholesky_forwardSubstitution(const double* restrict L,
+                                                    const double* restrict b,
                                                     double* restrict y,
                                                     const int n) {
   for(int i = 0; i < n; i++) {
@@ -783,8 +774,9 @@ definite matrix A
 
 ksl_linalg_ldlt must be called on A prior to calling this function
 */
-inline void ksl_linalg_ldlt_solve(double* restrict A, double* restrict x,
-                                  double* restrict y, const int n) {
+inline void ksl_linalg_ldlt_solve(const double* restrict A,
+                                  const double* restrict x, double* restrict y,
+                                  const int n) {
   double b[n];
   ksl_linalg_ldlt_forwardSubstitution(A, x, b, n);
   for(int i = 0; i < n; i++) {
@@ -799,7 +791,8 @@ definite matrix A
 
 ksl_linalg_cholesky must be called on A prior to calling this function
 */
-inline void ksl_linalg_cholesky_solve(double* restrict A, double* restrict x,
+inline void ksl_linalg_cholesky_solve(const double* restrict A,
+                                      const double* restrict x,
                                       double* restrict y, const int n) {
   double b[n];
   ksl_linalg_ldlt_forwardSubstitution(A, x, b, n);

@@ -138,22 +138,18 @@ double ksl_dot_vv(const ksl_vec3_t* vi0, const ksl_vec3_t* vi1);
 
 float ksl_dot_vvf(const ksl_vec3f_t* vi0, const ksl_vec3f_t* vi1);
 
-void ksl_product_va(const ksl_vec3_t* vi, const double ki, ksl_vec3_t* vo);
+void ksl_product_av(const double ki, const ksl_vec3_t* vi, ksl_vec3_t* vo);
 
-void ksl_product_vinva(const ksl_vec3_t* vi, const double ki, ksl_vec3_t* vo);
+void ksl_product_avinv(const double ki, const ksl_vec3_t* vi, ksl_vec3_t* vo);
 
-void ksl_product_vainv(const ksl_vec3_t* vi, const double ki, ksl_vec3_t* vo);
+void ksl_product_ainvv(const double ki, const ksl_vec3_t* vi, ksl_vec3_t* vo);
 
-void ksl_product_vaf(const ksl_vec3f_t* vi, const float ki, ksl_vec3f_t* vo);
+void ksl_product_avf(const float ki, const ksl_vec3f_t* vi, ksl_vec3f_t* vo);
 
 void ksl_add_vv(const ksl_vec3_t* v1i, const ksl_vec3_t* v2i, ksl_vec3_t* vo);
 
 void ksl_add_vvf(const ksl_vec3f_t* v1i, const ksl_vec3f_t* v2i,
                  ksl_vec3f_t* vo);
-
-void ksl_addequal_vv(const ksl_vec3_t* v1i, ksl_vec3_t* v2i);
-
-void ksl_addequal_vvf(const ksl_vec3f_t* v1i, ksl_vec3f_t* v2i);
 
 void ksl_subtract_vv(const ksl_vec3_t* v1i, const ksl_vec3_t* v2i,
                      ksl_vec3_t* vo);
@@ -161,13 +157,17 @@ void ksl_subtract_vv(const ksl_vec3_t* v1i, const ksl_vec3_t* v2i,
 void ksl_subtract_vvf(const ksl_vec3f_t* v1i, const ksl_vec3f_t* v2i,
                       ksl_vec3f_t* vo);
 
-void ksl_subtractequal_vv(const ksl_vec3_t* v1i, ksl_vec3_t* v2i);
-
-void ksl_subtractequal_vvf(const ksl_vec3f_t* v1i, ksl_vec3f_t* v2i);
-
 void ksl_axpy_vv(const double scalar, const ksl_vec3_t* v1x, ksl_vec3_t* v2y);
 
 void ksl_axpy_vvf(const float scalar, const ksl_vec3f_t* v1x, ksl_vec3f_t* v2y);
+
+void ksl_nxpy_vv(const ksl_vec3_t* v1x, ksl_vec3_t* v2y);
+
+void ksl_nxpy_vvf(const ksl_vec3f_t* v1x, ksl_vec3f_t* v2y);
+
+void ksl_xpy_vv(const ksl_vec3_t* v1x, ksl_vec3_t* v2y);
+
+void ksl_xpy_vvf(const ksl_vec3f_t* v1x, ksl_vec3f_t* v2y);
 
 void ksl_cross_vv(const ksl_vec3_t* v1i, const ksl_vec3_t* v2i, ksl_vec3_t* vo);
 
@@ -180,28 +180,28 @@ void ksl_cross_vvf(const ksl_vec3f_t* v1i, const ksl_vec3f_t* v2i,
 void ksl_cross_vvinvf(const ksl_vec3f_t* v1i, const ksl_vec3f_t* v2i,
                       ksl_vec3f_t* vo);
 
-void ksl_add_ttx(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
+void ksl_add_vvx(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
 
-void ksl_add_ttxf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
+void ksl_add_vvxf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
 
-void ksl_add_ttxinv(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
+void ksl_add_vvxinv(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
 
-void ksl_add_ttxinvf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
+void ksl_add_vvxinvf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
 
-void ksl_add_tty(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
+void ksl_add_vvy(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
 
-void ksl_add_ttyf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
+void ksl_add_vvyf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
 
-void ksl_add_ttyinv(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
+void ksl_add_vvyinv(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
 
-void ksl_add_ttyinvf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
+void ksl_add_vvyinvf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
 
-void ksl_add_ttz(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
+void ksl_add_vvz(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
 
-void ksl_add_ttzf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
+void ksl_add_vvzf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
 
-void ksl_add_ttzinv(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
+void ksl_add_vvzinv(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
 
-void ksl_add_ttzinvf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
+void ksl_add_vvzinvf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
 
 #endif

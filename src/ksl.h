@@ -18,6 +18,7 @@ extern "C" {
 #include "inertia.h"
 #include "linalg.h"
 #include "matrix.h"
+#include "print.h"
 #include "quaternion.h"
 #include "screw.h"
 #include "util.h"

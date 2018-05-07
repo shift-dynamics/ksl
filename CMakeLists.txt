@@ -39,6 +39,14 @@ add_library(ksl STATIC
 
 find_library(M_LIB m REQUIRED)
 
+if (DEFINED KSL_WITH_BLAS)
+  find_package(cblas REQUIRED)
+endif()
+
+set(LIBS
+  ${M_LIB}
+  ${CBLAS_LIBRARIES})
+
 # build test applications
 add_executable(ksl_test ${CMAKE_CURRENT_SOURCE_DIR}/test/ksl_test.c)
-target_link_libraries(ksl_test ksl ${M_LIB})
+target_link_libraries(ksl_test ksl ${LIBS})

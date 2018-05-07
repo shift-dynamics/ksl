@@ -37,4 +37,16 @@ int main() {
     }
     printf("\n");
   }
+
+  /* example of using level 1 matrix vector ksl functions */
+  ksl_mat3x3_t r = {{1, 2, 3, 4, 5, 6, 7, 8, 9}};
+  ksl_vec3_t v = {{1, 2, 3}};
+  ksl_vec3_t vo;
+  ksl_product_drinvv(&r, &v, &vo);
+  ksl_mat3x3_print(stdout, &r);
+  ksl_vec3_print(stdout, &v);
+  ksl_vec3_print(stdout, &vo);
+
+  ksl_product_drvtx(&r, 0.5, &vo);
+  ksl_vec3_print(stdout, &vo);
 }
