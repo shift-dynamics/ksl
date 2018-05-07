@@ -2,10 +2,461 @@
 #include "matrix.h"
 #include "screw.h"
 #include <print.h>
+<<<<<<< HEAD
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+=======
+
+// typedef enum ksl_matrix_enum_t {
+//   KSL_ROW_MAJOR,
+//   KSL_COLUMN_MAJOR
+// } ksl_matrix_enum_t;
+
+static ksl_print_options_t __ksl_print_options = {
+  ", ", "%0.6g", "%0.6g, ", "[", "]", "[", "]", true, KSL_PRINT_ROW_MAJOR};
+
+ksl_print_options_t* ksl_print_options() {
+  ksl_print_options_t* options = calloc(1, sizeof(ksl_print_options_t));
+  sprintf(options->delimiter, ", ");
+  sprintf(options->fmt, "%0.6g");
+  sprintf(options->num_fmt, "%0.6g, ");
+  sprintf(options->outer_left_bracket, "[");
+  sprintf(options->outer_right_bracket, "]");
+  sprintf(options->inner_left_bracket, "[");
+  sprintf(options->inner_right_bracket, "]");
+  options->line_breaks_in_matrices = true;
+  options->print_row_column_major = KSL_PRINT_ROW_MAJOR;
+  return options;
+}
+
+void setNumpyMatrixFormatting(ksl_print_options_t* options) {
+  if(!options) {
+    options = &__ksl_print_options;
+  }
+  sprintf(options->delimiter, ", ");
+  sprintf(options->fmt, "%0.9f");
+  sprintf(options->num_fmt, "%0.9f, ");
+  sprintf(options->outer_left_bracket, " = numpy.matrix([");
+  sprintf(options->outer_right_bracket, "])");
+  sprintf(options->inner_left_bracket, "[");
+  sprintf(options->inner_right_bracket, "]");
+  options->line_breaks_in_matrices = true;
+  options->print_row_column_major = KSL_PRINT_ROW_MAJOR;
+}
+
+void setNumpyVectorFormatting(ksl_print_options_t* options) {
+  if(!options) {
+    options = &__ksl_print_options;
+  }
+  sprintf(options->delimiter, ", ");
+  sprintf(options->fmt, "%0.9f");
+  sprintf(options->num_fmt, "%0.9f, ");
+  sprintf(options->outer_left_bracket, " = numpy.matrix([");
+  sprintf(options->outer_right_bracket, "]).transpose()");
+  sprintf(options->inner_left_bracket, "[");
+  sprintf(options->inner_right_bracket, "]");
+  options->line_breaks_in_matrices = true;
+  options->print_row_column_major = KSL_PRINT_ROW_MAJOR;
+}
+
+void ksl_setDelimiter(ksl_print_options_t* options, const char* delimiter) {
+  if(!options) {
+    options = &__ksl_print_options;
+  }
+  sprintf(options->delimiter, "%s", delimiter);
+  sprintf(options->num_fmt, "%s%s", options->fmt, delimiter);
+}
+
+void ksl_setNumberFormat(ksl_print_options_t* options, const char* fmt) {
+  if(!options) {
+    options = &__ksl_print_options;
+  }
+  sprintf(options->fmt, "%s", fmt);
+  sprintf(options->num_fmt, "%s%s", fmt, options->delimiter);
+}
+
+void ksl_setInnerBrackets(ksl_print_options_t* options, const char* left,
+                          const char* right) {
+  if(!options) {
+    options = &__ksl_print_options;
+  }
+  sprintf(options->inner_left_bracket, "%s", left);
+  sprintf(options->inner_right_bracket, "%s", right);
+}
+
+void ksl_setOuterBrackets(ksl_print_options_t* options, const char* left,
+                          const char* right) {
+  if(!options) {
+    options = &__ksl_print_options;
+  }
+  sprintf(options->outer_left_bracket, "%s", left);
+  sprintf(options->outer_right_bracket, "%s", right);
+}
+
+void ksl_setBreakBetweenLinesInMatrix(ksl_print_options_t* options, bool val) {
+  if(!options) {
+    options = &__ksl_print_options;
+  }
+  options->line_breaks_in_matrices = val;
+}
+
+void ksl_setRowColumnMajorPrinting(
+  ksl_print_options_t* options,
+  ksl_print_row_column_major_enum_t print_row_column_major) {
+  if(!options) {
+    options = &__ksl_print_options;
+  }
+  options->print_row_column_major = print_row_column_major;
+}
+
+void ksl_vec3_print(FILE* f, const ksl_vec3_t* restrict vi) {
+  fprintf(f, "%s", __ksl_print_options.outer_left_bracket);
+  for(int i = 0; i < 3; i++) {
+    fprintf(f, __ksl_print_options.num_fmt, vi[i]);
+  }
+  for(int i = 0; i < strlen(__ksl_print_options.delimiter); i++) {
+    fprintf(f, "\b \b");
+  }
+  fprintf(f, "%s", __ksl_print_options.outer_right_bracket);
+  fprintf(f, "\n");
+}
+
+void ksl_vec3_printWithLabel(FILE* f, const char* label,
+                             const ksl_vec3_t* restrict vi) {
+  if(label) {
+    fprintf(f, "%s", label);
+  }
+  fprintf(f, "%s", __ksl_print_options.outer_left_bracket);
+  for(int i = 0; i < 3; i++) {
+    fprintf(f, __ksl_print_options.num_fmt, vi[i]);
+  }
+  for(int i = 0; i < strlen(__ksl_print_options.delimiter); i++) {
+    fprintf(f, "\b \b");
+  }
+  fprintf(f, "%s", __ksl_print_options.outer_right_bracket);
+  fprintf(f, "\n");
+}
+
+void ksl_vec3_printWithOptions(FILE* f, const char* label,
+                               const ksl_vec3_t* restrict vi,
+                               const ksl_print_options_t* options) {
+  if(!options) {
+    options = &__ksl_print_options;
+  }
+  if(label) {
+    fprintf(f, "%s", label);
+  }
+  fprintf(f, "%s", options->outer_left_bracket);
+  for(int i = 0; i < 3; i++) {
+    fprintf(f, options->num_fmt, vi[i]);
+  }
+  for(int i = 0; i < strlen(options->delimiter); i++) {
+    fprintf(f, "\b \b");
+  }
+  fprintf(f, "%s", options->outer_right_bracket);
+  fprintf(f, "\n");
+}
+
+void ksl_vec3f_print(FILE* f, const ksl_vec3f_t* restrict vi) {
+  fprintf(f, "%s", __ksl_print_options.outer_left_bracket);
+  for(int i = 0; i < 3; i++) {
+    fprintf(f, __ksl_print_options.num_fmt, vi[i]);
+  }
+  for(int i = 0; i < strlen(__ksl_print_options.delimiter); i++) {
+    fprintf(f, "\b \b");
+  }
+  fprintf(f, "%s", __ksl_print_options.outer_right_bracket);
+  fprintf(f, "\n");
+}
+
+void ksl_vec3f_printWithLabel(FILE* f, const char* label,
+                              const ksl_vec3f_t* restrict vi) {
+  if(label) {
+    fprintf(f, "%s", label);
+  }
+  fprintf(f, "%s", __ksl_print_options.outer_left_bracket);
+  for(int i = 0; i < 3; i++) {
+    fprintf(f, __ksl_print_options.num_fmt, vi[i]);
+  }
+  for(int i = 0; i < strlen(__ksl_print_options.delimiter); i++) {
+    fprintf(f, "\b \b");
+  }
+  fprintf(f, "%s", __ksl_print_options.outer_right_bracket);
+  fprintf(f, "\n");
+}
+
+void ksl_vec3f_printWithOptions(FILE* f, const char* label,
+                                const ksl_vec3f_t* restrict vi,
+                                const ksl_print_options_t* options) {
+  if(!options) {
+    options = &__ksl_print_options;
+  }
+  if(label) {
+    fprintf(f, "%s", label);
+  }
+  fprintf(f, "%s", options->outer_left_bracket);
+  for(int i = 0; i < 3; i++) {
+    fprintf(f, options->num_fmt, vi[i]);
+  }
+  for(int i = 0; i < strlen(options->delimiter); i++) {
+    fprintf(f, "\b \b");
+  }
+  fprintf(f, "%s", options->outer_right_bracket);
+  fprintf(f, "\n");
+}
+
+void ksl_mat3x3_print(FILE* f, const ksl_mat3x3_t* restrict mi) {
+  int lead_in_length = strlen(__ksl_print_options.outer_left_bracket);
+  fprintf(f, "%s", __ksl_print_options.outer_left_bracket);
+  for(int i = 0; i < 3; i++) {
+    fprintf(f, "%s", __ksl_print_options.inner_left_bracket);
+    for(int j = 0; j < 3; j++) {
+      switch(__ksl_print_options.print_row_column_major) {
+        case KSL_PRINT_ROW_MAJOR:
+          fprintf(f, __ksl_print_options.num_fmt, mi->as_array[j][i]);
+          break;
+        case KSL_PRINT_COLUMN_MAJOR:
+          fprintf(f, __ksl_print_options.num_fmt, mi->as_array[i][j]);
+          break;
+      }
+    }
+    for(int j = 0; j < strlen(__ksl_print_options.delimiter); j++) {
+      /* delete last delimiter */
+      fprintf(f, "\b \b");
+    }
+    fprintf(f, "%s%s", __ksl_print_options.inner_right_bracket,
+            __ksl_print_options.delimiter);
+    if(__ksl_print_options.line_breaks_in_matrices && i < 2) {
+      fprintf(f, "\n");
+      for(int j = 0; j < lead_in_length; j++) {
+        fprintf(f, " ");
+      }
+    }
+  }
+  for(int i = 0; i < strlen(__ksl_print_options.delimiter); i++) {
+    fprintf(f, "\b \b");
+  }
+  fprintf(f, "%s", __ksl_print_options.outer_right_bracket);
+  fprintf(f, "\n");
+}
+
+void ksl_mat3x3_printWithLabel(FILE* f, const char* label,
+                               const ksl_mat3x3_t* restrict mi) {
+  int label_length = 0;
+  if(label) {
+    fprintf(f, "%s", label);
+    label_length = strlen(label);
+  }
+  int lead_in_length =
+    label_length + strlen(__ksl_print_options.outer_left_bracket);
+  fprintf(f, "%s", __ksl_print_options.outer_left_bracket);
+  for(int i = 0; i < 3; i++) {
+    fprintf(f, "%s", __ksl_print_options.inner_left_bracket);
+    for(int j = 0; j < 3; j++) {
+      switch(__ksl_print_options.print_row_column_major) {
+        case KSL_PRINT_ROW_MAJOR: {
+          fprintf(f, __ksl_print_options.num_fmt, mi->as_array[j][i]);
+          break;
+        }
+        case KSL_PRINT_COLUMN_MAJOR: {
+          fprintf(f, __ksl_print_options.num_fmt, mi->as_array[i][j]);
+          break;
+        }
+      }
+    }
+    for(int j = 0; j < strlen(__ksl_print_options.delimiter); j++) {
+      /* delete last delimiter */
+      fprintf(f, "\b \b");
+    }
+    fprintf(f, "%s%s", __ksl_print_options.inner_right_bracket,
+            __ksl_print_options.delimiter);
+    if(__ksl_print_options.line_breaks_in_matrices && i < 2) {
+      fprintf(f, "\n");
+      for(int j = 0; j < lead_in_length; j++) {
+        fprintf(f, " ");
+      }
+    }
+  }
+  for(int i = 0; i < strlen(__ksl_print_options.delimiter); i++) {
+    fprintf(f, "\b \b");
+  }
+  fprintf(f, "%s", __ksl_print_options.outer_right_bracket);
+  fprintf(f, "\n");
+}
+
+void ksl_mat3x3_printWithOptions(FILE* f, const char* label,
+                                 const ksl_mat3x3_t* restrict mi,
+                                 const ksl_print_options_t* options) {
+  if(!options) {
+    options = &__ksl_print_options;
+  }
+  int label_length = 0;
+  if(label) {
+    fprintf(f, "%s", label);
+    label_length = strlen(label);
+  }
+  int lead_in_length = label_length + strlen(options->outer_left_bracket);
+  fprintf(f, "%s", options->outer_left_bracket);
+  for(int i = 0; i < 3; i++) {
+    fprintf(f, "%s", options->inner_left_bracket);
+    for(int j = 0; j < 3; j++) {
+      switch(options->print_row_column_major) {
+        case KSL_PRINT_ROW_MAJOR: {
+          fprintf(f, options->num_fmt, mi->as_array[j][i]);
+          break;
+        }
+        case KSL_PRINT_COLUMN_MAJOR: {
+          fprintf(f, options->num_fmt, mi->as_array[i][j]);
+          break;
+        }
+      }
+    }
+    for(int j = 0; j < strlen(options->delimiter); j++) {
+      /* delete last delimiter */
+      fprintf(f, "\b \b");
+    }
+    fprintf(f, "%s%s", options->inner_right_bracket, options->delimiter);
+    if(options->line_breaks_in_matrices && i < 2) {
+      fprintf(f, "\n");
+      for(int j = 0; j < lead_in_length; j++) {
+        fprintf(f, " ");
+      }
+    }
+  }
+  for(int i = 0; i < strlen(options->delimiter); i++) {
+    fprintf(f, "\b \b");
+  }
+  fprintf(f, "%s", options->outer_right_bracket);
+  fprintf(f, "\n");
+}
+
+void ksl_mat3x3f_print(FILE* f, const ksl_mat3x3f_t* restrict mi) {
+  int lead_in_length = strlen(__ksl_print_options.outer_left_bracket);
+  fprintf(f, "%s", __ksl_print_options.outer_left_bracket);
+  for(int i = 0; i < 3; i++) {
+    fprintf(f, "%s", __ksl_print_options.inner_left_bracket);
+    for(int j = 0; j < 3; j++) {
+      switch(__ksl_print_options.print_row_column_major) {
+        case KSL_PRINT_ROW_MAJOR:
+          fprintf(f, __ksl_print_options.num_fmt, mi->as_array[j][i]);
+          break;
+        case KSL_PRINT_COLUMN_MAJOR:
+          fprintf(f, __ksl_print_options.num_fmt, mi->as_array[i][j]);
+          break;
+      }
+    }
+    for(int j = 0; j < strlen(__ksl_print_options.delimiter); j++) {
+      /* delete last delimiter */
+      fprintf(f, "\b \b");
+    }
+    fprintf(f, "%s%s", __ksl_print_options.inner_right_bracket,
+            __ksl_print_options.delimiter);
+    if(__ksl_print_options.line_breaks_in_matrices && i < 2) {
+      fprintf(f, "\n");
+      for(int j = 0; j < lead_in_length; j++) {
+        fprintf(f, " ");
+      }
+    }
+  }
+  for(int i = 0; i < strlen(__ksl_print_options.delimiter); i++) {
+    fprintf(f, "\b \b");
+  }
+  fprintf(f, "%s", __ksl_print_options.outer_right_bracket);
+  fprintf(f, "\n");
+}
+
+void ksl_mat3x3f_printWithLabel(FILE* f, const char* label,
+                                const ksl_mat3x3f_t* restrict mi) {
+  int label_length = 0;
+  if(label) {
+    fprintf(f, "%s", label);
+    label_length = strlen(label);
+  }
+  int lead_in_length =
+    label_length + strlen(__ksl_print_options.outer_left_bracket);
+  fprintf(f, "%s", __ksl_print_options.outer_left_bracket);
+  for(int i = 0; i < 3; i++) {
+    fprintf(f, "%s", __ksl_print_options.inner_left_bracket);
+    for(int j = 0; j < 3; j++) {
+      switch(__ksl_print_options.print_row_column_major) {
+        case KSL_PRINT_ROW_MAJOR: {
+          fprintf(f, __ksl_print_options.num_fmt, mi->as_array[j][i]);
+          break;
+        }
+        case KSL_PRINT_COLUMN_MAJOR: {
+          fprintf(f, __ksl_print_options.num_fmt, mi->as_array[i][j]);
+          break;
+        }
+      }
+    }
+    for(int j = 0; j < strlen(__ksl_print_options.delimiter); j++) {
+      /* delete last delimiter */
+      fprintf(f, "\b \b");
+    }
+    fprintf(f, "%s%s", __ksl_print_options.inner_right_bracket,
+            __ksl_print_options.delimiter);
+    if(__ksl_print_options.line_breaks_in_matrices && i < 2) {
+      fprintf(f, "\n");
+      for(int j = 0; j < lead_in_length; j++) {
+        fprintf(f, " ");
+      }
+    }
+  }
+  for(int i = 0; i < strlen(__ksl_print_options.delimiter); i++) {
+    fprintf(f, "\b \b");
+  }
+  fprintf(f, "%s", __ksl_print_options.outer_right_bracket);
+  fprintf(f, "\n");
+}
+
+void ksl_mat3x3f_printWithOptions(FILE* f, const char* label,
+                                  const ksl_mat3x3f_t* restrict mi,
+                                  const ksl_print_options_t* options) {
+  if(!options) {
+    options = &__ksl_print_options;
+  }
+  int label_length = 0;
+  if(label) {
+    fprintf(f, "%s", label);
+    label_length = strlen(label);
+  }
+  int lead_in_length = label_length + strlen(options->outer_left_bracket);
+  fprintf(f, "%s", options->outer_left_bracket);
+  for(int i = 0; i < 3; i++) {
+    fprintf(f, "%s", options->inner_left_bracket);
+    for(int j = 0; j < 3; j++) {
+      switch(options->print_row_column_major) {
+        case KSL_PRINT_ROW_MAJOR: {
+          fprintf(f, options->num_fmt, mi->as_array[j][i]);
+          break;
+        }
+        case KSL_PRINT_COLUMN_MAJOR: {
+          fprintf(f, options->num_fmt, mi->as_array[i][j]);
+          break;
+        }
+      }
+    }
+    for(int j = 0; j < strlen(options->delimiter); j++) {
+      /* delete last delimiter */
+      fprintf(f, "\b \b");
+    }
+    fprintf(f, "%s%s", options->inner_right_bracket, options->delimiter);
+    if(options->line_breaks_in_matrices && i < 2) {
+      fprintf(f, "\n");
+      for(int j = 0; j < lead_in_length; j++) {
+        fprintf(f, " ");
+      }
+    }
+  }
+  for(int i = 0; i < strlen(options->delimiter); i++) {
+    fprintf(f, "\b \b");
+  }
+  fprintf(f, "%s", options->outer_right_bracket);
+  fprintf(f, "\n");
+}
+>>>>>>> Revise vec3 and mat3x3 print functions to be compatible with established conventions. Add single precision versions.
 
 /*!
 @}
@@ -25,6 +476,7 @@ static ksl_print_options_t __ksl_print_options = {
 options. If the pointer is NULL, the options are set in the global print
 options. This second argument is required in this function.
 */
+<<<<<<< HEAD
 void ksl_print_setDelimiterOption(const char* delimiter, ...) {
   va_list arguments;
   va_start(arguments, delimiter);
@@ -35,6 +487,12 @@ void ksl_print_setDelimiterOption(const char* delimiter, ...) {
   }
   sprintf(options->delimiter, "%s", delimiter);
 }
+=======
+// void ksl_vec3_print(FILE* f, const ksl_vec3_t* restrict vi) {
+//
+//   fprintf(f, "%g %g %g\n", vi->x, vi->y, vi->z);
+// }
+>>>>>>> Revise vec3 and mat3x3 print functions to be compatible with established conventions. Add single precision versions.
 
 /*!
 @brief used to set format for display of float and double values
@@ -43,6 +501,7 @@ void ksl_print_setDelimiterOption(const char* delimiter, ...) {
 options. If the pointer is NULL, the options are set in the global print
 options. This second argument is required in this function.
 */
+<<<<<<< HEAD
 void ksl_print_setRealFormatOption(const char* fmt, ...) {
   va_list arguments;
   va_start(arguments, fmt);
@@ -53,6 +512,8 @@ void ksl_print_setRealFormatOption(const char* fmt, ...) {
   }
   sprintf(options->real_fmt, "%s", fmt);
 }
+=======
+>>>>>>> Revise vec3 and mat3x3 print functions to be compatible with established conventions. Add single precision versions.
 
 /*!
 @brief used to set inner brackets in dispay of matrices
@@ -213,6 +674,7 @@ options. If the pointer is NULL, the options are set in the global
 print options. To pass an options struct with no label, call
 ksl_vec3_print(f, v, NULL, options); or ksl_vec3_print(f, v, "", options);
 */
+<<<<<<< HEAD
 void ksl_vec3_printWithOptions(FILE* f, const ksl_vec3_t* restrict v, ...) {
 
   va_list arguments;
@@ -244,6 +706,14 @@ void ksl_vec3_printWithOptions(FILE* f, const ksl_vec3_t* restrict v, ...) {
   fprintf(f, "%s", options->outer_right_bracket);
   fprintf(f, "\n");
 }
+=======
+// void ksl_mat3x3_print(FILE* f, const ksl_mat3x3_t* __restrict__ ri) {
+//
+//   fprintf(f, "%g %g %g\n", ri->m00, ri->m01, ri->m02);
+//   fprintf(f, "%g %g %g\n", ri->m10, ri->m11, ri->m12);
+//   fprintf(f, "%g %g %g\n", ri->m20, ri->m21, ri->m22);
+// }
+>>>>>>> Revise vec3 and mat3x3 print functions to be compatible with established conventions. Add single precision versions.
 
 /*!
 @brief print a ksl_vec3f_t data structure with user defined label and options.
@@ -302,6 +772,7 @@ required.
 containing print options. If the pointer is NULL or not present, the options
 are set in the global print options.
 */
+<<<<<<< HEAD
 void ksl_mat3x3_printWithOptions(FILE* f, const ksl_mat3x3_t* restrict r, ...) {
   va_list arguments;
   va_start(arguments, r);
@@ -434,6 +905,8 @@ void ksl_mat3x3f_printWithOptions(FILE* f, const ksl_mat3x3f_t* restrict r,
   fprintf(f, "%s", options->outer_right_bracket);
   fprintf(f, "\n");
 }
+=======
+>>>>>>> Revise vec3 and mat3x3 print functions to be compatible with established conventions. Add single precision versions.
 
 /*!
 @brief print a ksl_quaternion_t data structure with user defined label and

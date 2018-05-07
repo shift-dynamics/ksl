@@ -25,6 +25,8 @@ SUCH DAMAGE.
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "inertia.h"
 #include "matrix.h"
@@ -629,6 +631,7 @@ global print options.
 
 void ksl_mat4x4f_printWithOptions(FILE* f, const ksl_mat4x4f_t* d, ...);
 
+<<<<<<< HEAD
 /*!
 @brief "debug" print a double precision array. If NDEBUG is defined, this
 function is converted to a no-op and nothing will be output. If it is desired
@@ -664,6 +667,9 @@ global print options.
   { ksl_array_printWithOptions(f, n, a, ##__VA_ARGS__, NULL, NULL); }
 
 void ksl_array_printWithOptions(FILE* f, const int n, const double* a, ...);
+=======
+void ksl_SE3_print(FILE* f, const ksl_SE3_t* d);
+>>>>>>> Revise vec3 and mat3x3 print functions to be compatible with established conventions. Add single precision versions.
 
 /*!
 @brief "debug" print a double precision 2D array. If NDEBUG is defined, this
