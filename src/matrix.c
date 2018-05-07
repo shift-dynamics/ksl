@@ -315,22 +315,30 @@ inline void ksl_SE3f_invert(ksl_SE3f_t* D) {
   ksl_vec3f_copy(&temp, &D->t);
 }
 
+/*! @todo */
 inline void ksl_mat3x3_getEulerAngles(const ksl_mat3x3_t* rin,
                                       ksl_vec3_t* angles,
                                       const ksl_axis_enum_t axisType);
 
+/*! @todo */
 inline void ksl_mat3x3_setFromEulerAngles(ksl_mat3x3_t*, const ksl_vec3_t*,
                                           const ksl_axis_enum_t axisType);
 
+/*! @todo */
 double ksl_mat3x3_getScalar(const ksl_mat3x3_t* restrict ri);
 
+/*! @todo */
 float ksl_mat3x3f_getScalar(const ksl_mat3x3f_t* restrict ri);
 
 inline void ksl_mat4x4_getTranslation(const ksl_mat4x4_t* restrict Mi,
-                                      ksl_vec3_t* restrict to);
+                                      ksl_vec3_t* restrict to) {
+  memcpy(to, &Mi->v3, sizeof(ksl_vec3_t));
+}
 
 inline void ksl_mat4x4f_getTranslation(const ksl_mat4x4f_t* restrict Mi,
-                                       ksl_vec3f_t* to);
+                                       ksl_vec3f_t* to) {
+  memcpy(to, &Mi->v3, sizeof(ksl_vec3f_t));
+}
 
 inline double ksl_mat3x3_determinant(const ksl_mat3x3_t* restrict R) {
   return (R->m00 * (R->m11 * R->m22 - R->m21 * R->m12) -

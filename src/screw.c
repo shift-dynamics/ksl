@@ -493,29 +493,29 @@ void ksl_product_Adrsinv(const ksl_mat3x3_t* restrict ri,
                          const ksl_screw_t* restrict si,
                          ksl_screw_t* restrict so) {
 
-  ksl_product_rvinv(ri, &si->lin, &so->lin);
-  ksl_product_rvinv(ri, &si->ang, &so->ang);
+  ksl_product_drvinv(ri, &si->lin, &so->lin);
+  ksl_product_drvinv(ri, &si->ang, &so->ang);
 }
 
 void ksl_product_Adrsinvf(const ksl_mat3x3f_t* restrict ri,
                           const ksl_screwf_t* restrict si,
                           ksl_screwf_t* restrict so) {
-  ksl_product_rvinvf(ri, &si->lin, &so->lin);
-  ksl_product_rvinvf(ri, &si->ang, &so->ang);
+  ksl_product_drvinvf(ri, &si->lin, &so->lin);
+  ksl_product_drvinvf(ri, &si->ang, &so->ang);
 }
 
 void ksl_product_Adrinvs(const ksl_mat3x3_t* restrict ri,
                          const ksl_screw_t* restrict si,
                          ksl_screw_t* restrict so) {
-  ksl_product_rinvv(ri, &si->lin, &so->lin);
-  ksl_product_rinvv(ri, &si->ang, &so->ang);
+  ksl_product_drinvv(ri, &si->lin, &so->lin);
+  ksl_product_drinvv(ri, &si->ang, &so->ang);
 }
 
 void ksl_product_Adrinvsf(const ksl_mat3x3f_t* restrict ri,
                           const ksl_screwf_t* restrict si,
                           ksl_screwf_t* restrict so) {
-  ksl_product_rinvvf(ri, &si->lin, &so->lin);
-  ksl_product_rinvvf(ri, &si->ang, &so->ang);
+  ksl_product_drinvvf(ri, &si->lin, &so->lin);
+  ksl_product_drinvvf(ri, &si->ang, &so->ang);
 }
 
 inline void ksl_product_Adts(const ksl_vec3_t* restrict ti,

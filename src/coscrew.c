@@ -432,26 +432,26 @@ void ksl_product_CoAdtcinvf(const ksl_vec3f_t* ti, const ksl_coscrewf_t* ci,
 
 void ksl_product_CoAdrc(const ksl_mat3x3_t* Ri, const ksl_coscrew_t* ci,
                         ksl_coscrew_t* co) {
-  ksl_product_DrV(Ri, &ci->lin, &co->lin);
-  ksl_product_DrV(Ri, &ci->ang, &co->ang);
+  ksl_product_drv(Ri, &ci->lin, &co->lin);
+  ksl_product_drv(Ri, &ci->ang, &co->ang);
 }
 
 void ksl_product_CoAdrcf(const ksl_mat3x3f_t* Ri, const ksl_coscrewf_t* ci,
                          ksl_coscrewf_t* co) {
-  ksl_product_DrVf(Ri, &ci->lin, &co->lin);
-  ksl_product_DrVf(Ri, &ci->ang, &co->ang);
+  ksl_product_drvf(Ri, &ci->lin, &co->lin);
+  ksl_product_drvf(Ri, &ci->ang, &co->ang);
 }
 
 void ksl_product_CoAdrinvc(const ksl_mat3x3_t* Ri, const ksl_coscrew_t* ci,
                            ksl_coscrew_t* co) {
-  ksl_product_DrinvV(Ri, &ci->lin, &co->lin);
-  ksl_product_DrinvV(Ri, &ci->ang, &co->ang);
+  ksl_product_drinvv(Ri, &ci->lin, &co->lin);
+  ksl_product_drinvv(Ri, &ci->ang, &co->ang);
 }
 
 void ksl_product_CoAdrinvcf(const ksl_mat3x3f_t* Ri, const ksl_coscrewf_t* ci,
                             ksl_coscrewf_t* co) {
-  ksl_product_DrinvVf(Ri, &ci->lin, &co->lin);
-  ksl_product_DrinvVf(Ri, &ci->ang, &co->ang);
+  ksl_product_drinvvf(Ri, &ci->lin, &co->lin);
+  ksl_product_drinvvf(Ri, &ci->ang, &co->ang);
 }
 
 void ksl_product_CoAdc(const ksl_SE3_t* Di, const ksl_coscrew_t* ci,
