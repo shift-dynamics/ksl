@@ -75,22 +75,35 @@ ksl_inertia_t* ksl_inertia_alloc(int);
 
 ksl_inertiaf_t* ksl_inertiaf_alloc(int);
 
-void ksl_inertia_rotate(ksl_inertia_t* inertia_i, ksl_mat3x3_t* r,
-                        ksl_inertia_t* inertia_o);
-
-void ksl_inertia_rotate2(ksl_inertia_t* inertia_i, ksl_mat3x3_t* r,
+void ksl_inertia_rotated(const ksl_inertia_t* inertia_i, const ksl_mat3x3_t* r,
                          ksl_inertia_t* inertia_o);
 
-void ksl_inertia_transform(ksl_inertia_t* inertia_i, ksl_SE3_t* d,
-                           ksl_inertia_t* inertia_o);
+void ksl_inertiaf_rotated(const ksl_inertiaf_t* inertia_i,
+                          const ksl_mat3x3f_t* r, ksl_inertiaf_t* inertia_o);
 
-void ksl_inertiaf_rotate(ksl_inertiaf_t* inertia_i, ksl_mat3x3f_t* r,
-                         ksl_inertiaf_t* inertia_o);
+void ksl_inertia_rotate(ksl_inertia_t* inertia_i, const ksl_mat3x3_t* r);
 
-void ksl_inertiaf_rotate2(ksl_inertiaf_t* inertia_i, ksl_mat3x3f_t* r,
-                          ksl_inertiaf_t* inertia_o);
+void ksl_inertiaf_rotate(ksl_inertiaf_t* inertia_i, const ksl_mat3x3f_t* r);
 
-void ksl_inertiaf_transform(ksl_inertiaf_t* inertia_i, ksl_SE3f_t* d,
-                            ksl_inertiaf_t* inertia_o);
+void ksl_inertia_translated(const ksl_inertia_t* inertia_i, const ksl_vec3_t* r,
+                            ksl_inertia_t* inertia_o);
+
+void ksl_inertiaf_translated(const ksl_inertiaf_t* inertia_i,
+                             const ksl_vec3f_t* r, ksl_inertiaf_t* inertia_o);
+
+void ksl_inertia_translate(ksl_inertia_t* inertia_i, const ksl_vec3_t* r);
+
+void ksl_inertiaf_translate(ksl_inertiaf_t* inertia_i, const ksl_vec3f_t* r);
+
+void ksl_inertia_rotate2(const ksl_inertia_t* inertia_i, const ksl_mat3x3_t* r,
+                         ksl_inertia_t* inertia_o);
+
+void ksl_inertia_transformed(const ksl_inertia_t* inertia_i, const ksl_SE3_t* d,
+                             ksl_inertia_t* inertia_o);
+
+void ksl_inertiaf_transformed(const ksl_inertiaf_t* inertia_i,
+                              const ksl_SE3f_t* d, ksl_inertiaf_t* inertia_o);
+void ksl_inertiaf_rotate2(const ksl_inertiaf_t* inertia_i,
+                          const ksl_mat3x3f_t* r, ksl_inertiaf_t* inertia_o);
 
 #endif
