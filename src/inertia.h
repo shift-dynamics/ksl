@@ -109,6 +109,6 @@ void ksl_inertiaf_merge(ksl_inertiaf_t* inertia_i, ksl_vec3f_t* t_ic_i,
                         ksl_inertiaf_t* inertia_j, const ksl_vec3f_t* t_jc_j,
                         const ksl_SE3f_t* D_ij);
 
-void ksl_inertia_factor(ksl_inertia_t*);
+int ksl_inertia_factor(ksl_inertia_t*);
 
 #endif
