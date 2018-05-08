@@ -101,4 +101,14 @@ void ksl_inertia_transformed(const ksl_inertia_t* inertia_i, const ksl_SE3_t* d,
 void ksl_inertiaf_transformed(const ksl_inertiaf_t* inertia_i,
                               const ksl_SE3f_t* d, ksl_inertiaf_t* inertia_o);
 
+void ksl_inertia_merge(ksl_inertia_t* inertia_i, ksl_vec3_t* t_ic_i,
+                       ksl_inertia_t* inertia_j, const ksl_vec3_t* t_jc_j,
+                       const ksl_SE3_t* D_ij);
+
+void ksl_inertiaf_merge(ksl_inertiaf_t* inertia_i, ksl_vec3f_t* t_ic_i,
+                        ksl_inertiaf_t* inertia_j, const ksl_vec3f_t* t_jc_j,
+                        const ksl_SE3f_t* D_ij);
+
+void ksl_inertia_factor(ksl_inertia_t*);
+
 #endif
