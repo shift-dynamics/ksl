@@ -641,7 +641,7 @@ int ksl_inertia_factor(ksl_inertia_t* restrict inertia) {
           maxVal = fabs(M2WRTReference.as_array[i][i]);
         }
       }
-      /* 2. select that column and normalize it
+      /* 2. select a column and normalize it
          3. compute sqrt of trace
          4. multipy sqrt of trace with unit vector */
       double sqrtMassDivideByNorm =
