@@ -1,0 +1,114 @@
+@import url("alabaster.css");
+
+.wy-side-nav-search {
+    z-index: 200;
+    background-color: #002b36;
+    text-align: center;
+    padding: 0.809em;
+    display: block;
+    color: #fcfcfc;
+    margin-bottom: 0.809em;
+}
+
+.wy-nav-side {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding-bottom: 2em;
+    width: 300px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    min-height: 100%;
+    background: #073642;
+    z-index: 200;
+    resize: horizontal;
+}
+
+.wy-side-nav-search input[type=text] {
+    width: 100%;
+    padding: 6px 12px;
+    border-color: #268bd2;
+    border-radius: 0;
+}
+
+div.related {
+    background-color: #f8f8f8;
+    line-height: 50px;
+    color: #5e5e5e;
+    font-size: 100%;
+}
+
+div.related nav-item {
+    color: #5e5e5e;
+}
+
+div.related a {
+    color: #e73b3b;
+}
+
+pre {
+    padding: 4px 6px;
+    background-color: #fbfcfd;
+    color: #93a1a1;
+    line-height: 120%;
+    border: 1px solid #c4cfe5;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+div.code-block-caption {
+    background-color: #337ab7;
+    background-color: #c4cfe5;
+    color: #222;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+div.section h1 {
+    border-bottom: 1px solid #eee;
+}
+
+div.section h2 {
+    border-bottom: 1px solid #eee;
+}
+
+div.section h3 {
+    border-bottom: 0;
+}
+
+div.body {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.nf {
+    color: #c7254e;
+}
+
+.highlight {
+    color: #c7254e;
+}
+
+th {
+    background-color: #f8f8f8;
+}
+
+/*div.sphinxsidebarwrapper {
+    position: fixed;
+    float: left;
+    margin: margin-right: 0;
+    top: 50px;
+    padding: 10px 5px 0 10px;
+    word-wrap: break-word;
+}*/
+
+div.sphinxsidebar a {
+  word-wrap: break-word;
+    color: #e73b3b;
+}
+
+div.document a {
+  word-wrap: break-word;
+    color: #e73b3b;
+}
