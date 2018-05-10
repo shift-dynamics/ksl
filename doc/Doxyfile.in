@@ -44,7 +44,7 @@ PROJECT_NUMBER         = @VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@
 # for a project that appears at the top of each page and should give viewer a
 # quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          = "A Simulation Tool for Automation and Robotics"
+PROJECT_BRIEF          = "Kinematics Subroutine Library"
 
 # With the PROJECT_LOGO tag one can specify a logo or an icon that is included
 # in the documentation. The maximum height of the logo should not exceed 55
@@ -688,7 +688,7 @@ FILE_VERSION_FILTER    =
 # DoxygenLayout.xml, doxygen will parse it automatically even if the LAYOUT_FILE
 # tag is left empty.
 
-# LAYOUT_FILE            = @shift_SOURCE_DIR@/doc/DoxygenLayout.xml
+# LAYOUT_FILE            = @ksl_SOURCE_DIR@/doc/DoxygenLayout.xml
 
 # The CITE_BIB_FILES tag can be used to specify one or more bib files containing
 # the reference definitions. This must be a list of .bib files. The .bib
@@ -771,11 +771,7 @@ WARN_LOGFILE           =
 
 INPUT                  = @doxy_main_page@ \
                          @PROJECT_SOURCE_DIR@/about.rst \
-                         @shift_SOURCE_DIR@/src/core \
-                         @shift_SOURCE_DIR@/src/ode \
-                         @shift_SOURCE_DIR@/src/gui \
-                         @shift_SOURCE_DIR@/src/force_modules \
-                         @shift_SOURCE_DIR@/src/shift.h
+                         @ksl_SOURCE_DIR@/src
 
 
 # This tag can be used to specify the character encoding of the source files
@@ -814,8 +810,8 @@ RECURSIVE              = YES
 # Note that relative paths are relative to the directory from which doxygen is
 # run.
 
-EXCLUDE                = @shift_SOURCE_DIR@/src/deprecated \
-                         @shift_SOURCE_DIR@/src/deprecated
+EXCLUDE                = @ksl_SOURCE_DIR@/src/deprecated \
+                         @ksl_SOURCE_DIR@/src/deprecated
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
@@ -1091,7 +1087,7 @@ HTML_FILE_EXTENSION    = .html
 # of the possible markers and block names see the documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-# HTML_HEADER = @shift_SOURCE_DIR@/doc/doxygen-bootstrapped/header.html
+# HTML_HEADER = @ksl_SOURCE_DIR@/doc/doxygen-bootstrapped/header.html
 
 # The HTML_FOOTER tag can be used to specify a user-defined HTML footer for each
 # generated HTML page. If the tag is left blank doxygen will generate a standard
@@ -1101,7 +1097,7 @@ HTML_FILE_EXTENSION    = .html
 # that doxygen normally uses.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-# HTML_FOOTER = @shift_SOURCE_DIR@/doc/doxygen-bootstrapped/footer.html
+# HTML_FOOTER = @ksl_SOURCE_DIR@/doc/doxygen-bootstrapped/footer.html
 
 # The HTML_STYLESHEET tag can be used to specify a user-defined cascading style
 # sheet that is used by each HTML page. It can be used to fine-tune the look of
@@ -1126,7 +1122,7 @@ HTML_STYLESHEET        =
 # list). For an example see the documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-# HTML_EXTRA_STYLESHEET  = @shift_SOURCE_DIR@/doc/customdoxygen.css
+# HTML_EXTRA_STYLESHEET  = @ksl_SOURCE_DIR@/doc/customdoxygen.css
 
 # The HTML_EXTRA_FILES tag can be used to specify one or more extra images or
 # other source files which should be copied to the HTML output directory. Note
@@ -1136,7 +1132,7 @@ HTML_STYLESHEET        =
 # files will be copied as-is; there are no commands or markers available.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-# HTML_EXTRA_FILES = @shift_SOURCE_DIR@/doc/doxygen-bootstrapped/doxy-boot.js
+# HTML_EXTRA_FILES = @ksl_SOURCE_DIR@/doc/doxygen-bootstrapped/doxy-boot.js
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
 # will adjust the colors in the style sheet and background images according to

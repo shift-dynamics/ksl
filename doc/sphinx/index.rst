@@ -1,8 +1,7 @@
-.. Shift documentation master file
+.. ksl documentation master file
 
-*KSL*
-=============================
 Kinematics Subroutine Library
+=============================
 
 overview
 --------
