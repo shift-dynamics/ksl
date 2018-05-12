@@ -27,3 +27,15 @@ Once you have added a new unit test above, add it to the list of tests in a test
       suite_add_tcase(s, tc_core);
       return s;
     }
+
+
+Running all tests
+=================
+
+.. code::
+
+    mkdir build
+    cd build
+    cmake ..
+    make
+    make test
