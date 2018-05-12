@@ -12,7 +12,7 @@ pipeline {
       steps {
         echo 'Testing..'
         sh 'cd build'
-        sh 'make test || true'
+        sh 'make test'
       }
     }
   }
