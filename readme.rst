@@ -1,6 +1,13 @@
 *Kinematics Subroutine Library*
 ===============================
 
+.. raw:: html
+
+   <embed>
+     <img src="http://104.35.187.125:8090/job/shift-dynamics/job/ksl/job/master/badge/icon" alt="Build Status">
+   </embed>
+
+
 A sparse math library for kinematics and dynamics.
 
 double precision
