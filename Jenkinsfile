@@ -10,8 +10,8 @@ pipeline {
     stage('Test') {
       steps {
         echo 'Testing..'
-        sh 'cd build && make test > test.log'
-        junit 'build/test.log'
+        sh 'make test > test.log'
+        junit 'test.log'
       }
     }
   }
