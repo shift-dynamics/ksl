@@ -10,7 +10,7 @@ pipeline {
     stage('Test') {
       steps {
         echo 'Testing..'
-        sh 'make test'
+        sh 'cd build && make test'
       }
     }
   }
