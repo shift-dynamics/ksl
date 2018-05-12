@@ -27,7 +27,7 @@ if(BUILD_DOCUMENTATION)
   set (ksl_VERSION_REVISION 0)
 
   set (ksl_VERSION_COMPANY "Kristopher Wehage, Roger Wehage")
-  set (ksl_VERSION_YEARS   "2015-2018")
+  set (ksl_VERSION_YEARS   "2018")
 
   set (STATIC_RST_DIR ${CMAKE_CURRENT_LIST_DIR}/sphinx/doxyrest)
   set (XML_DIR  ${CMAKE_CURRENT_BINARY_DIR}/doc/xml)

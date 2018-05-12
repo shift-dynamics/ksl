@@ -380,7 +380,7 @@ inline void ksl_mat3x3_getAxisAngle(const ksl_mat3x3_t* restrict r,
   axis->x = r->m21 - r->m12;
   axis->y = r->m02 - r->m20;
   axis->z = r->m10 - r->m01;
-  ksl_vec3_scale(1 / (2 * sin(*angle)), axis);
+  ksl_vec3_scale(axis, 1 / (2 * sin(*angle)));
 }
 
 /* matrix vector operations */

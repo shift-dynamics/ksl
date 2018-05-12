@@ -40,11 +40,15 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
+    'breathe',
     'numfig',
-    # 'sphinxcontrib.bibtex',
+    #'sphinxcontrib.bibtex',
     'doxyrest',
     'cpplexer'
 ]
+
+breathe_projects = {"ksl": "/home/kristopher/Projects/ksl/build/doc/doc/xml"}
+breathe_default_project = "ksl"
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -137,8 +141,8 @@ html_theme_options = {
     # # 'relbarlinkcolor':
     # 'bgcolor': '#ffffff',
     # 'textcolor': '#333',
-    'linkcolor': '#eb3737',
-    'visitedlinkcolor': '#eb3737',
+    # 'linkcolor': '#eb3737',
+    # 'visitedlinkcolor': '#eb3737',
     # 'headbgcolor': '#ffffff',
     # 'headtextcolor': '#333',
     # # 'headlinkcolor':

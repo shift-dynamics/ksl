@@ -4,7 +4,6 @@
 @brief swap two doubles
 */
 inline void ksl_swap(double* restrict a, double* restrict b) {
-
   double temp = *a;
   *a = *b;
   *b = temp;
@@ -14,7 +13,6 @@ inline void ksl_swap(double* restrict a, double* restrict b) {
 @brief swap two integers
 */
 inline void ksl_swapi(int* restrict a, int* restrict b) {
-
   int temp = *a;
   *a = *b;
   *b = temp;
@@ -24,7 +22,6 @@ inline void ksl_swapi(int* restrict a, int* restrict b) {
 @brief swap two floats
 */
 inline void ksl_swapf(float* restrict a, float* restrict b) {
-
   double temp = *a;
   *a = *b;
   *b = temp;
@@ -36,7 +33,6 @@ inline void ksl_swapf(float* restrict a, float* restrict b) {
 @param normalizes degrees to be between 0 and 360 degrees
 */
 inline double ksl_normalizeDegrees(double angle) {
-
   while(angle < 0) {
     angle += 360;
   }
@@ -52,7 +48,6 @@ inline double ksl_normalizeDegrees(double angle) {
 @param normalizes degrees to be between 0 and 360 degrees
 */
 inline float ksl_normalizeDegreesf(float angle) {
-
   while(angle < 0) {
     angle += 360;
   }
@@ -167,7 +162,6 @@ correct sign for catan2pi to work correctly.
 
 */
 float catan2pif(const float y, const float x, float theta) {
-
   float temp;
   float a;
 

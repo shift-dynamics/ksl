@@ -48,7 +48,7 @@ float ksl_vec3f_l2norm(const ksl_vec3f_t* restrict v) {
 */
 inline void ksl_vec3_normalize(ksl_vec3_t* restrict v) {
   double norm = ksl_vec3_l2norm(v);
-  ksl_vec3_scale(1.0 / norm, v);
+  ksl_vec3_scale(v, 1.0 / norm);
 }
 
 /*!
@@ -58,7 +58,7 @@ inline void ksl_vec3_normalize(ksl_vec3_t* restrict v) {
 */
 inline void ksl_vec3f_normalize(ksl_vec3f_t* restrict v) {
   float norm = ksl_vec3f_l2norm(v);
-  ksl_vec3f_scale(1.0 / norm, v);
+  ksl_vec3f_scale(v, 1.0 / norm);
 }
 
 /*!
@@ -66,7 +66,7 @@ inline void ksl_vec3f_normalize(ksl_vec3f_t* restrict v) {
 
 @param v [in/out] vector to scale
 */
-void ksl_vec3_scale(double k, ksl_vec3_t* v) {
+void ksl_vec3_scale(ksl_vec3_t* restrict v, const double k) {
   v->x *= k;
   v->y *= k;
   v->z *= k;
@@ -77,7 +77,7 @@ void ksl_vec3_scale(double k, ksl_vec3_t* v) {
 
 @param v [in/out] vector to scale
 */
-void ksl_vec3f_scale(float k, ksl_vec3f_t* v) {
+void ksl_vec3f_scale(ksl_vec3f_t* restrict v, const float k) {
   v->x *= k;
   v->y *= k;
   v->z *= k;
