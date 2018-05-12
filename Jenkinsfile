@@ -6,19 +6,14 @@ pipeline {
         echo 'Building..'
         sh 'rm -r build'
         sh 'mkdir -p build'
-        sh 'cd build'
-        sh 'cmake ..'
-        sh 'make'
-        sh 'cd ..'
+        sh 'cd build && cmake .. && make'
       }
     }
     stage('Test') {
       steps {
         echo 'Testing..'
-        sh 'cd build'
-        sh 'make test > test.log'
-        junit 'test.log'
-        sh 'cd ..'
+        sh 'cd build && make test > test.log'
+        junit 'build/test.log'
       }
     }
   }
