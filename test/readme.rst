@@ -1,7 +1,7 @@
 Adding unit tests
 =================
 
-Each unit test is enclosed within a ``START_TEST``- ``END_TEST`` block.
+Each unit test is enclosed within a ``START_TEST``- ``END_TEST`` block and is assigned a name.
 
 .. code::
 
