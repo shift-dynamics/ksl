@@ -5,7 +5,7 @@ pipeline {
     stage('Build') {
       steps {
         echo 'Building..'
-        sh 'rm build && mkdir -p build && cd build && cmake .. && make && cd ..'
+        sh 'rm -r build && mkdir -p build && cd build && cmake .. && make && cd ..'
       }
     }
     stage('Test') {
