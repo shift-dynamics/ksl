@@ -1,18 +1,24 @@
 pipeline {
   agent any
-
   stages {
     stage('Build') {
       steps {
         echo 'Building..'
-        sh 'rm -r build && mkdir -p build && cd build && cmake .. && make && cd ..'
+        sh 'rm -r build'
+        sh 'mkdir -p build'
+        sh 'cd build'
+        sh 'cmake ..'
+        sh 'make'
+        sh 'cd ..'
       }
     }
     stage('Test') {
       steps {
         echo 'Testing..'
         sh 'cd build'
-        sh 'make test'
+        sh 'make test > test.log'
+        junit 'test.log'
+        sh 'cd ..'
       }
     }
   }
