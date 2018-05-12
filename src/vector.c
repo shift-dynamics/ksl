@@ -106,7 +106,7 @@ inline void ksl_vec3_copy(const ksl_vec3_t* restrict vi,
 */
 inline void ksl_vec3f_copy(const ksl_vec3f_t* restrict vi,
                            ksl_vec3f_t* restrict vo) {
-  memcpy(vo, vi, sizeof(ksl_vec3_t));
+  memcpy(vo, vi, sizeof(ksl_vec3f_t));
 }
 
 /*!
