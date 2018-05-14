@@ -1,10 +1,11 @@
 *Kinematics Subroutine Library*
 ===============================
 
+
 .. raw:: html
 
    <embed>
-     <img src="http://104.35.187.125:8090/job/shift-dynamics/job/ksl/job/master/badge/icon" alt="Build Status">
+    <a href='http://104.35.187.125:8090/job/shift-dynamics/job/ksl/job/master/'><img src='http://104.35.187.125:8090/buildStatus/icon?job=shift-dynamics/ksl/master' alt="Build Status"></a>
    </embed>
 
 
