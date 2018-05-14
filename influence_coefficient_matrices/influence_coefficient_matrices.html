@@ -1,0 +1,162 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Influence Coefficient Matrices &#8212; KSL 0.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Inertia" href="../inertia/inertia.html" />
+    <link rel="prev" title="Coscrews" href="../coscrews/coscrews.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">KSL</a></h1>
+
+
+
+<p class="blurb">Kinematics Subroutine Library</p>
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notation/notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vectors/vectors.html">Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SE3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../screws/screws.html">Screws</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coscrews/coscrews.html">Coscrews</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Influence Coefficient Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inertia/inertia.html">Inertia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lu_full/lu_full.html">Full Factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zreferences.html">References</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../doxyrest/global.html">Global Namespace</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../coscrews/coscrews.html" title="previous chapter">Coscrews</a></li>
+      <li>Next: <a href="../inertia/inertia.html" title="next chapter">Inertia</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="influence-coefficient-matrices">
+<span id="id1"></span><h1>Influence Coefficient Matrices<a class="headerlink" href="#influence-coefficient-matrices" title="Permalink to this headline">¶</a></h1>
+<p>An important tool in the analysis of mechanisms and multibody systems is a map of a particular joint’s velocity to the body velocity. From Eqs. <code class="xref eq docutils literal notranslate"><span class="pre">eq:omega_z</span></code> and <code class="xref eq docutils literal notranslate"><span class="pre">eq:screw</span></code>, it is possible to find the velocity screw associated with a revolute joint. The joint is aligned with <span class="math notranslate nohighlight">\(z\)</span> axis of reference frame <span class="math notranslate nohighlight">\(a\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\underline{\mathbf{v}}_a=
+\begin{Bmatrix}
+0\\0\\ 0\\ 0\\ 0\\\dot{q}
+\end{Bmatrix}=
+\begin{Bmatrix}
+0\\0\\ 0 \\0 \\0 \\1
+\end{Bmatrix}\dot{q}=\underline{\mathbf{h}}_a\dot{q}\end{split}\]</div>
+<p>Here <span class="math notranslate nohighlight">\(\underline{h}_a\)</span> is the <em>influence coefficient matrix</em> <a href="#id2"><span class="problematic" id="id3">:cite:`tsai1999robot`</span></a> associated with the joint. Note that the influence coefficient matrix taken at the joint’s origin is simply a unit twist, <span class="math notranslate nohighlight">\(\omega_z\)</span>, about the <span class="math notranslate nohighlight">\(z\)</span> axis.</p>
+<p>Usually it is desirable to express the influence coefficient matrix with respect to other coordinate systems, such as the inertial reference frame. Using the <span class="math notranslate nohighlight">\([Ad]\)</span> operator in Eq. <code class="xref eq docutils literal notranslate"><span class="pre">eq:screw</span></code> yields:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\underline{\mathbf{v}}_0=
+\underline{\mathbf{h}}_0\dot{q}=
+[Ad]_{0a} \underline{\mathbf{h}}_a\dot{q}=
+\begin{bmatrix}
+R_{0a} &amp;\tilde{r}_{0a}R_{0a}\\
+0 &amp; R_{0a}
+\end{bmatrix}
+\begin{Bmatrix}
+0\\0\\ 0 \\0 \\0 \\1
+\end{Bmatrix}\dot{q}\end{split}\]</div>
+<p>These influence coefficient matrices taken with respect to the inertial reference frame form elements of the Jacobian matrix of a mechanism. As a mechanism moves through varying configurations, <span class="math notranslate nohighlight">\(\underline{h}_0\)</span> changes, and may require updating many millions of times in the course of a simulation. Equation <a class="reference internal" href="../coscrews/coscrews.html#equation-eq-influence-coefficient-matrix">(8)</a> reveals important insight that allows one to reduce the number of floating point operations (FLOPs) required to update the influence coefficient matrix of primitive joints.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\underline{\mathbf{h}}_0=
+\begin{Bmatrix}
+r_yR_{33}-r_zR_{23}\\
+r_zR_{13}-r_xR_{33}\\
+r_xR_{23}-r_yR_{13}\\
+R_{13}\\
+R_{23}\\
+R_{33}\\
+\end{Bmatrix}=
+\begin{bmatrix}
+R_{11} &amp; R_{12} &amp; R_{13} &amp; r_yR_{31}-r_zR_{21} &amp; r_yR_{32}-r_zR_{22} &amp; r_yR_{33}-r_zR_{23}\\
+R_{21} &amp; R_{22} &amp; R_{11} &amp; r_zR_{11}-r_xR_{31} &amp; r_zR_{12}-r_xR_{32} &amp; r_zR_{13}-r_xR_{33}\\
+R_{31} &amp; R_{32} &amp; R_{33} &amp; r_xR_{21}-r_yR_{11} &amp; r_xR_{22}-r_yR_{12} &amp; r_xR_{23}-r_yR_{13}\\
+0 &amp; 0 &amp; 0 &amp; R_{11} &amp; R_{12} &amp; R_{13}\\
+0 &amp; 0 &amp; 0 &amp; R_{21} &amp; R_{22} &amp; R_{23}\\
+0 &amp; 0 &amp; 0 &amp; R_{31} &amp; R_{32} &amp; R_{33}\\
+\end{bmatrix}
+\begin{Bmatrix}
+0\\0\\ 0 \\0 \\0 \\1
+\end{Bmatrix}\end{split}\]</div>
+<p>Once the position and orientation of each joint in a mechanism has been computed, the influence coefficient matrix can be computed simply by forming the corresponding column of <span class="math notranslate nohighlight">\([Ad]\)</span>, which requires only 9 additional FLOPs for revolute joints and no additional FLOPs for prismatic joints. Additionally, if SE(3) displacements and the Jacobian matrix are stored in column-major order, updating the influence coefficient matrices and elements Jacobian matrix can be vectorized with a stride of 1, which is optimal in terms of memory access.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018, Kristopher Wehage, Roger Wehage.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../_sources/influence_coefficient_matrices/influence_coefficient_matrices.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,188 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Kinematics Subroutine Library &#8212; KSL 0.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="About" href="about.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">KSL</a></h1>
+
+
+
+<p class="blurb">Kinematics Subroutine Library</p>
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notation/notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors/vectors.html">Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SE3/SE3.html">SE3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screws/screws.html">Screws</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coscrews/coscrews.html">Coscrews</a></li>
+<li class="toctree-l1"><a class="reference internal" href="influence_coefficient_matrices/influence_coefficient_matrices.html">Influence Coefficient Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inertia/inertia.html">Inertia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lu_full/lu_full.html">Full Factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zreferences.html">References</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="doxyrest/global.html">Global Namespace</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="about.html" title="next chapter">About</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="kinematics-subroutine-library">
+<h1>Kinematics Subroutine Library<a class="headerlink" href="#kinematics-subroutine-library" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#acquiring-ksl">Acquiring KSL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#required-tools">Required tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#optional-dependencies">Optional dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#building-ksl">Building KSL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#building-documentation">Building documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notation/notation.html">Notation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notation/notation.html#conventions">Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notation/notation.html#symbols">Symbols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notation/notation.html#transformations">Transformations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vectors/vectors.html">Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SE3/SE3.html">SE3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screws/screws.html">Screws</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="screws/screws.html#adjoint-matrix">Adjoint Matrix <span class="math notranslate nohighlight">\([Ad]\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="screws/screws.html#derivative-operator-matrices">Derivative operator matrices: <span class="math notranslate nohighlight">\([ad]\)</span></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coscrews/coscrews.html">Coscrews</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coscrews/coscrews.html#coadjoint-matrix">Coadjoint Matrix <span class="math notranslate nohighlight">\([Ad]^*\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coscrews/coscrews.html#influence-coefficient-matrices">Influence Coefficient Matrices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="coscrews/coscrews.html#constraint-forces">Constraint Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="coscrews/coscrews.html#inertia">Inertia</a></li>
+<li class="toctree-l2"><a class="reference internal" href="coscrews/coscrews.html#more-derivative-operator-matrices-and">More derivative operator matrices: <span class="math notranslate nohighlight">\([ad]\)</span> and <span class="math notranslate nohighlight">\([ad]^*\)</span></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="influence_coefficient_matrices/influence_coefficient_matrices.html">Influence Coefficient Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inertia/inertia.html">Inertia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lu_full/lu_full.html">Full Factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="license.html#bsd-3-clause-license">BSD 3-CLAUSE LICENSE</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing/contributing.html#roadmap">Roadmap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing/contributing.html#using-clang-format">Using <em>Clang-Format</em></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="zreferences.html">References</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="api-reference">
+<h2>api reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="doxyrest/global.html">Global Namespace</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="doxyrest/global.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doxyrest/global.html#detailed-documentation">Detailed Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="doxyrest/global.html#typedefs">Typedefs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doxyrest/global.html#global-functions">Global Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doxyrest/global.html#macros">Macros</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018, Kristopher Wehage, Roger Wehage.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

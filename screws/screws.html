@@ -1,0 +1,412 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Screws &#8212; KSL 0.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Coscrews" href="../coscrews/coscrews.html" />
+    <link rel="prev" title="SE3" href="../SE3/SE3.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">KSL</a></h1>
+
+
+
+<p class="blurb">Kinematics Subroutine Library</p>
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notation/notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vectors/vectors.html">Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SE3</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Screws</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#adjoint-matrix">Adjoint Matrix <span class="math notranslate nohighlight">\([Ad]\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#derivative-operator-matrices">Derivative operator matrices: <span class="math notranslate nohighlight">\([ad]\)</span></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../coscrews/coscrews.html">Coscrews</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../influence_coefficient_matrices/influence_coefficient_matrices.html">Influence Coefficient Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inertia/inertia.html">Inertia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lu_full/lu_full.html">Full Factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zreferences.html">References</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../doxyrest/global.html">Global Namespace</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../SE3/SE3.html" title="previous chapter">SE3</a></li>
+      <li>Next: <a href="../coscrews/coscrews.html" title="next chapter">Coscrews</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="screws">
+<span id="id1"></span><h1>Screws<a class="headerlink" href="#screws" title="Permalink to this headline">¶</a></h1>
+<p>In the early 1800s, Chasles proved that any change in the configuration of a rigid body can be parameterized in terms of a helical motion along a fixed axis <a href="#id2"><span class="problematic" id="id3">:cite:`chasles1830note`</span></a>. Poinsot is credited with the discovery that a system of forces acting on a rigid body can be resolved as a force acting along a line combined with a torque acting about the same line <a href="#id4"><span class="problematic" id="id5">:cite:`poinsot1806composition`</span></a>. Chasles’ and Poinsot’s work was later developed by Sir Robert Ball into the theory of screws <a href="#id6"><span class="problematic" id="id7">:cite:`ball1998treatise`</span></a>. Screws represent angular and translational quantities in a single 6x1 vector quantity. Not only do screws provide a systematic framework for kinematics and dynamics of mechanisms, their compact representation is well-suited for compact computer storage and facilitates vectorization.</p>
+<p>Linear and angular velocity can be combined into a single 6x1 quantity as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\underline{\mathbf{v}} = \begin{Bmatrix}\underline{v}\\ \underline{\omega}\end{Bmatrix}\end{split}\]</div>
+<p>In 1873, Clifford coined the word <em>motor</em> to refer to this screw quantity (i.e. a combination of <em>motion</em> and <em>vector</em>) <a href="#id8"><span class="problematic" id="id9">:cite:`davidson2004robots`</span></a>. Later, Ball referred to this screw quantity as a <em>twist</em> <a href="#id10"><span class="problematic" id="id11">:cite:`ball1998treatise`</span></a>. The term <em>twist</em> is used more frequently in modern literature, and therefore is used in the present work.</p>
+<div class="section" id="adjoint-matrix">
+<h2>Adjoint Matrix <span class="math notranslate nohighlight">\([Ad]\)</span><a class="headerlink" href="#adjoint-matrix" title="Permalink to this headline">¶</a></h2>
+<p>The <span class="math notranslate nohighlight">\(6 \times 6\)</span> adjoint transformation matrix, <span class="math notranslate nohighlight">\([Ad]\)</span>, for transforming twists from one coordinate system to another can be formed from <span class="math notranslate nohighlight">\(SE(3)\)</span> matrices. The derivation is briefly summarized below:</p>
+<p>Consider a displacement about the <span class="math notranslate nohighlight">\(z\)</span> axis given by the Special Orthogonal <span class="math notranslate nohighlight">\(SO(3)\)</span> matrix:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\underline{a}=R_{ab}\underline{b}=
+\begin{bmatrix}
+cos\theta_z &amp; -sin\theta_z &amp; 0\\
+sin \theta_z &amp; cos\theta_z &amp; 0\\
+0 &amp; 0 &amp; 1
+\end{bmatrix}\underline{b}\end{split}\]</div>
+<p>Then</p>
+<div class="math notranslate nohighlight">
+\[\dot{a}=\dot{R}_{ab}=\left[ \dot{R_{ab}}R^T_{ab} \right] R_{ab}b\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\dot{R}^T=
+\begin{bmatrix}
+-\dot{\theta_z} sin \theta_z &amp; -\dot{\theta_z} cos \theta_z &amp; 0\\
+\dot{\theta_z} cos \theta_z &amp; -\dot{\theta_z} sin \theta_z &amp; 0\\
+0 &amp; 0 &amp; 0
+\end{bmatrix}
+\begin{bmatrix}
+cos \theta_z &amp; sin \theta_z &amp; 0\\
+-sin \theta_z &amp; cos \theta_z &amp; 0\\
+0 &amp; 0 &amp; 1
+\end{bmatrix}=
+\begin{bmatrix}
+0 &amp; -\dot{\theta_z} &amp; 0\\
+\dot{\theta_z} &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0
+\end{bmatrix}=\tilde{\omega}_z\end{split}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(\tilde{\omega}_z\)</span> is a skew symmetric matrix and the spatial velocity is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\underline{\omega}=\begin{Bmatrix}
+0\\
+0\\
+\dot{\theta_z}
+\end{Bmatrix}=
+\begin{Bmatrix}
+0\\0\\ \omega_z
+\end{Bmatrix}\end{split}\]</div>
+<p>The derivation can be extended to <span class="math notranslate nohighlight">\(SE(3)\)</span> matrices for rigid body transformations:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\underline{a}=\Phi_{ab}\underline{b}=
+\begin{bmatrix}
+R_{ab} &amp; \underline{r}_{ab}\\
+0 &amp; 1
+\end{bmatrix}\underline{b}\end{split}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\dot{a}=\left[\dot{\Phi}_{ab}\Phi_{ab}^{-1}\right] q_{ab}\underline{b}=
+\begin{bmatrix}
+\dot{R}_{ab} &amp; \dot{\underline{r}}_{ab}\\
+0 &amp; 0
+\end{bmatrix}
+\begin{bmatrix}
+R^T_{ab} &amp; -R^T_{ab}\underline{r}_{ab}\\
+0 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+R_{ab} &amp; \underline{r}_{ab}\\
+0 &amp; 1
+\end{bmatrix}\underline{b}\end{split}\]</div>
+<p>simplifying yields:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\dot{\Phi}_{ab}\Phi_{ab}^{-1}=
+\begin{bmatrix}
+\dot{R}_{ab}R^T_{ab} &amp; -\dot{R}_{ab}R^T_{ab}
+\underline{r}_{ab}+\dot{\underline{r}}_{ab}\\
+0 &amp; 0
+\end{bmatrix}=
+\begin{bmatrix}
+0 &amp; -\omega_z &amp; \omega_y &amp; v_x\\
+\omega_z &amp; 0 &amp; -\omega_x &amp; v_y\\
+-\omega_y &amp; \omega_x &amp; 0 &amp; v_z\\
+0 &amp; 0 &amp; 0 &amp; 0
+\end{bmatrix}=
+\begin{bmatrix}
+\tilde{\omega} &amp; \underline{v}\\
+0 &amp; 0
+\end{bmatrix}\end{split}\]</div>
+<p>Which yields a <span class="math notranslate nohighlight">\(6\times 1\)</span> velocity screw, also known as a <em>twist</em>, <span class="math notranslate nohighlight">\(\underline{\mathbf{v}}\)</span>, where</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\underline{\mathbf{v}}=\begin{Bmatrix}
+v_x\\
+v_y\\
+v_z\\
+\omega_x\\
+\omega_y\\
+\omega_z
+\end{Bmatrix}=
+\begin{Bmatrix}
+\underline{v}\\
+\underline{\omega}
+\end{Bmatrix}\end{split}\]</div>
+<p>In the language of modern differential geometry, velocity screws are known as the <em>Lie algebra</em> of the SE(3) group; their group is designated as <span class="math notranslate nohighlight">\(se(3)\)</span> <a href="#id12"><span class="problematic" id="id13">:cite:`park1995lie`</span></a>. The quantity in Eq. <code class="xref eq docutils literal notranslate"><span class="pre">eq:spatial_velocity</span></code> can be expressed in other coordinate systems by a similarity transformation.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{bmatrix}
+\Omega' &amp; \underline{v}' \\
+0 &amp; 0
+\end{bmatrix}=
+\begin{bmatrix}
+R &amp; \underline{r} \\
+0 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+\Omega &amp; \underline{v} \\
+0 &amp; 0
+\end{bmatrix}
+\begin{bmatrix}
+R^T &amp; -R^T\underline{r} \\
+0 &amp; 1
+\end{bmatrix}=
+\begin{bmatrix}
+R\Omega R^T &amp; R\underline{v}-R\Omega R^T \underline{r} \\
+0 &amp; 0
+\end{bmatrix}\end{split}\]</div>
+<p>In computer implementation of the spatial velocity transformation, it is not necessary to perform the entire sequence of <span class="math notranslate nohighlight">\(4\times4\)</span> matrix operations. Not only can one exploit the matrix sparsity, but it is also possible to take advantage of the following identity to reduce the number of operations required. As the quantity <span class="math notranslate nohighlight">\(R\Omega R^T\)</span> is skew symmetric, it is only necessary to compute the <span class="math notranslate nohighlight">\(\omega'\)</span> terms as</p>
+<div class="math notranslate nohighlight">
+\[\omega'_x= (R_{22}R_{33}- R_{23}R_{32})\omega_x + (R_{23}R_{31} - R_{21}R_{32})\omega_y + (R_{21}R_{32} - R_{22}R_{31})\omega_z\]</div>
+<div class="math notranslate nohighlight">
+\[\omega'_y= (R_{13}R_{32}- R_{12}R_{33})\omega_x + (R_{11}R_{33} - R_{13}R_{31})\omega_y + (R_{12}R_{31} - R_{11}R_{32})\omega_z\]</div>
+<div class="math notranslate nohighlight">
+\[\omega'_z=(R_{12}R_{23} - R_{13}R_{22})\omega_x + (R_{13}R_{21} - R_{11}R_{23})\omega_y + (R_{12}R_{21} - R_{11}R_{22})\omega_z\]</div>
+<p>R is orthonormal and therefore the second row of R crossed with the third row yields the first row, and the following is true:</p>
+<div class="math notranslate nohighlight">
+\[R_{22}R_{33} - R_{23}R_{32} = R_{11}\]</div>
+<div class="math notranslate nohighlight">
+\[R_{23}R_{31} - R_{21}R_{32} = R_{12}\]</div>
+<div class="math notranslate nohighlight">
+\[R_{21}R_{32} - R_{22}R_{31} = R_{13}\]</div>
+<p>and therefore:</p>
+<div class="math notranslate nohighlight">
+\[\omega'_x= R_{11}\omega_x + R_{12}\omega_y + R_{13}\omega_z\]</div>
+<div class="math notranslate nohighlight">
+\[\omega'_y= R_{21}\omega_x + R_{22}\omega_y + R_{23}\omega_z\]</div>
+<div class="math notranslate nohighlight">
+\[\omega'_z=R_{31}\omega_x + R_{32}\omega_y + R_{33}\omega_z\]</div>
+<div class="math notranslate nohighlight">
+\[\underline{\omega}'=R\underline{\omega}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{bmatrix}
+\Omega' &amp; \underline{v}' \\
+0 &amp; 0
+\end{bmatrix}=
+\begin{bmatrix}
+\widetilde{[R\underline\omega]} &amp; R\underline{v}-\widetilde{[R\underline\omega]} \underline{r}\\
+0 &amp; 0
+\end{bmatrix}=
+\begin{bmatrix}
+\widetilde{[R\underline\omega]} &amp; R\underline{v}+\tilde{r} R\underline\omega\\
+0 &amp; 0
+\end{bmatrix}\end{split}\]</div>
+<p>Using this information, a <span class="math notranslate nohighlight">\(6\times6\)</span> adjoint transformation matrix can be generated to transform twists as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{Bmatrix}
+\underline{v}'\\\underline{\omega}'
+\end{Bmatrix}
+=\begin{bmatrix}
+R &amp; \tilde{r}R\\
+0 &amp; R
+\end{bmatrix}
+\begin{Bmatrix}
+\underline{v}\\ \underline{\omega}
+\end{Bmatrix}=[Ad]\begin{Bmatrix}
+\underline{v}\\ \underline{\omega}
+\end{Bmatrix}\end{split}\]</div>
+<p>The matrix <span class="math notranslate nohighlight">\([Ad]\)</span> forms a <span class="math notranslate nohighlight">\(6\times6\)</span> screw <em>basis</em>. A similar matrix operator for transforming spatial velocities was introduced by Yuan and Freudenstein in 1970 <a href="#id14"><span class="problematic" id="id15">:cite:`yuan1970kinematic`</span></a>. Some authors put <span class="math notranslate nohighlight">\(\underline\omega\)</span> above <span class="math notranslate nohighlight">\(\underline v\)</span> as Yuan did. The form of spatial velocity specified in Eq. <code class="xref eq docutils literal notranslate"><span class="pre">eq:adjoint_matrix</span></code> was chosen in this work as it is the original order specified in Clifford’s Algebra <a href="#id16"><span class="problematic" id="id17">:cite:`clifford1882mathematical`</span></a> and is commonly used in flexible multibody dynamics formulations <a href="#id18"><span class="problematic" id="id19">:cite:`shabana2010computational`</span></a>.</p>
+<p>In the language of differential geometry, <span class="math notranslate nohighlight">\([Ad]\)</span> is known as the <em>adjoint representation</em> and provides a linear mapping of elements of a Lie algebra.</p>
+<p>The <span class="math notranslate nohighlight">\(6\times6\)</span> screw <em>basis</em>, <span class="math notranslate nohighlight">\([Ad]\)</span>, provides a convenient and compact notation for transforming screws, and therefore in computer implementation of the transformation, it is tempting to carry out full <span class="math notranslate nohighlight">\(6\times6\)</span> matrix algebra to transform twists. However, it is strongly emphasized that the full <span class="math notranslate nohighlight">\(6\times6\)</span> matrix algebra should <em>never</em> be carried out in computer code, and additionally that the full <span class="math notranslate nohighlight">\(6\times6 [Ad]\)</span> adjoint transformation matrix need not be stored or created in computer memory. In the present work, rigid body displacements are stored as a 12x1 array with the entries of a SO(3) rotation matrix stored in column-major order in the first 9 entries of the array, followed by a translation vector in the last 3 entries of the array. When computing <span class="math notranslate nohighlight">\(v'\)</span> and <span class="math notranslate nohighlight">\(\omega'\)</span> in Eq. <code class="xref eq docutils literal notranslate"><span class="pre">eq:adjoint_matrix</span></code>, it is only necessary to multiply the non-zero terms of the various quantities as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{Bmatrix}\underline{v}'\\ \underline{\omega}'\end{Bmatrix} =
+\begin{Bmatrix}R\underline{v} +\tilde{r}R\underline{\omega}\\ R\underline{\omega}\end{Bmatrix}\end{split}\]</div>
+<p>The number of floating point operations required to compute the Eq. <code class="xref eq docutils literal notranslate"><span class="pre">eq:twist_end_result</span></code> are shown below:</p>
+<table border="1" class="docutils" id="table1">
+<colgroup>
+<col width="49%" />
+<col width="9%" />
+<col width="5%" />
+<col width="37%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operation</th>
+<th class="head">Multiplies</th>
+<th class="head">Adds</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(R\underline{\omega}\)</span></td>
+<td>9</td>
+<td>6</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\tilde{r}R\underline{\omega}\)</span></td>
+<td>6</td>
+<td>3</td>
+<td><span class="math notranslate nohighlight">\(R\underline{\omega}\)</span> computed above</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(R\underline{v}\)</span></td>
+<td>9</td>
+<td>6</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\tilde{r}R{\underline{\omega}} + R\underline{v}\)</span></td>
+<td>0</td>
+<td>3</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>total</strong></td>
+<td><strong>24</strong></td>
+<td><strong>18</strong></td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<p>On the other hand, carrying out full, dense matrix algebra requires the following operations:</p>
+<table border="1" class="docutils" id="table2">
+<colgroup>
+<col width="40%" />
+<col width="12%" />
+<col width="6%" />
+<col width="41%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operation</th>
+<th class="head">Multiplies</th>
+<th class="head">Adds</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\tilde{r}R\)</span></td>
+<td>27</td>
+<td>18</td>
+<td>Counts refers to the full, dense version.</td>
+</tr>
+<tr class="row-odd"><td>Full, dense Eq. <code class="xref eq docutils literal notranslate"><span class="pre">eq:adjoint_matrix</span></code></td>
+<td>36</td>
+<td>30</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>total</strong></td>
+<td><strong>63</strong></td>
+<td><strong>48</strong></td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<p>Carrying out the minimal required operations to transform screw quantities requires 62% fewer operations, 66% less memory and many of the matrix-matrix and matrix-vector operations benefit from vectorization. The above example illustrates that although the notational convention of Lie algebra provides a convenient and compact representation of kinematic and dynamic quantities, care should be taken in the computer implementation of the operations described here. KSL consists of a custom, sparse, vectorized kinematics library consisting of over 200 functions for processing screw quantities and SE(3) displacements that uses the minimal set of operations as described above.</p>
+</div>
+<div class="section" id="derivative-operator-matrices">
+<h2>Derivative operator matrices: <span class="math notranslate nohighlight">\([ad]\)</span><a class="headerlink" href="#derivative-operator-matrices" title="Permalink to this headline">¶</a></h2>
+<p>In Eq. <code class="xref eq docutils literal notranslate"><span class="pre">eq:spatial_velocity2</span></code>, the derivative operator of the SE(3) group was found. Similarly, the derivative operator matrices for the <span class="math notranslate nohighlight">\(6 \times 6\)</span> transformation matrices, <span class="math notranslate nohighlight">\([Ad]\)</span> and <span class="math notranslate nohighlight">\([Ad]^*\)</span> can be found as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}[ad] = \dot{[Ad]}[Ad]^{-1} =
+\begin{bmatrix}
+0 &amp; -\omega_z &amp; \omega_{y} &amp; 0 &amp; -v_z &amp; v_y\\
+\omega_z &amp; 0 &amp; -\omega_x &amp; v_z &amp; 0 &amp; -v_x\\
+-\omega_y &amp; \omega_x &amp; 0 &amp; -v_y &amp; v_x &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; -\omega_z &amp; \omega_{y} \\
+0 &amp; 0 &amp; 0 &amp;   \omega_z &amp; 0 &amp; -\omega_x\\
+0 &amp; 0 &amp; 0 &amp; -\omega_y &amp; \omega_x &amp; 0
+\end{bmatrix}=
+\begin{bmatrix}
+\tilde{\omega} &amp; \tilde{v}\\
+0 &amp; \tilde{\omega}
+\end{bmatrix}\end{split}\]</div>
+<p>Similarly, the left derivative operator for <span class="math notranslate nohighlight">\([Ad]^*\)</span> matrices is:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}[ad]^* = \dot{[Ad]^*}[Ad]^{*-1} =
+\begin{bmatrix}
+0 &amp; -\omega_z &amp; \omega_{y} &amp; 0 &amp; 0 &amp; 0\\
+\omega_z &amp; 0 &amp; -\omega_x &amp; 0 &amp; 0 &amp; 0\\
+-\omega_y &amp; \omega_x &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; -v_z &amp; v_y &amp; 0 &amp; -\omega_z &amp; \omega_{y} \\
+v_z &amp; 0 &amp; -v_x &amp;   \omega_z &amp; 0 &amp; -\omega_x\\
+-v_y &amp; v_x &amp; 0 &amp; -\omega_y &amp; \omega_x &amp; 0
+\end{bmatrix}=
+\begin{bmatrix}
+\tilde{\omega} &amp; 0\\
+\tilde{v} &amp; \tilde{\omega}
+\end{bmatrix}\end{split}\]</div>
+<p>Previously, it was discussed how the derivative operators form the Lie algebra of the SE(3) group. Similarly, the <span class="math notranslate nohighlight">\(6\times6\)</span> <span class="math notranslate nohighlight">\([Ad]\)</span> matrices themselves fulfill the necessary requirements of a Lie group <a href="#id20"><span class="problematic" id="id21">:cite:`selig2005geometric`</span></a>. The <span class="math notranslate nohighlight">\([ad]\)</span> and <span class="math notranslate nohighlight">\([ad]^*\)</span> matrices comprise their respective Lie algebras.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018, Kristopher Wehage, Roger Wehage.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../_sources/screws/screws.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

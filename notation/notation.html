@@ -1,0 +1,320 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Notation &#8212; KSL 0.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Vectors" href="../vectors/vectors.html" />
+    <link rel="prev" title="Installation" href="../installation.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">KSL</a></h1>
+
+
+
+<p class="blurb">Kinematics Subroutine Library</p>
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Notation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#conventions">Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#symbols">Symbols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#transformations">Transformations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vectors/vectors.html">Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SE3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../screws/screws.html">Screws</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coscrews/coscrews.html">Coscrews</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../influence_coefficient_matrices/influence_coefficient_matrices.html">Influence Coefficient Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inertia/inertia.html">Inertia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lu_full/lu_full.html">Full Factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zreferences.html">References</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../doxyrest/global.html">Global Namespace</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../installation.html" title="previous chapter">Installation</a></li>
+      <li>Next: <a href="../vectors/vectors.html" title="next chapter">Vectors</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="notation">
+<span id="id1"></span><h1>Notation<a class="headerlink" href="#notation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="conventions">
+<h2>Conventions<a class="headerlink" href="#conventions" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="20%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">example</th>
+<th class="head">description</th>
+<th class="head">reserved for</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(A\)</span></td>
+<td>capital symbols</td>
+<td>Matrices</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(a\)</span></td>
+<td>lowercase symbols</td>
+<td>Scalar quantities</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\underline{a}\)</span></td>
+<td>underlined symbols</td>
+<td>Vector quantities, or a column matrix of stacked vector quantities</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\dot{v}\)</span></td>
+<td>overhead dot</td>
+<td>First time derivative</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\ddot{v}\)</span></td>
+<td>overhead double dot</td>
+<td>Second time derivative</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\begin{bmatrix} \end{bmatrix}\)</span></td>
+<td>square brackets</td>
+<td><span class="math notranslate nohighlight">\(m \times n\)</span> matrices where <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span> are typically greater than 1</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\begin{Bmatrix} \end{Bmatrix}\)</span></td>
+<td><em>curly</em> brackets or braces</td>
+<td><span class="math notranslate nohighlight">\(m \times 1\)</span> column matrix</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\mathbf{\underline{v}}\)</span></td>
+<td>bold face/underlined</td>
+<td><span class="math notranslate nohighlight">\(6 \times 1\)</span> <em>screw</em> quantities, such as velocities and accelerations</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\mathbf{\underline{f}}^*\)</span></td>
+<td>bold face, underlined, asterisk</td>
+<td><span class="math notranslate nohighlight">\(6 \times 1\)</span> <em>coscrew</em> quantities, such as forces.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="symbols">
+<h2>Symbols<a class="headerlink" href="#symbols" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="9%" />
+<col width="72%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">symbol</th>
+<th class="head">name in program</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\ddot{q}\)</span></td>
+<td><em>ddq</em></td>
+<td>second time derivative of generalized coordinates</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\dot{q}\)</span></td>
+<td><em>dq</em></td>
+<td>first time derivative of generalized coordinates</td>
+</tr>
+<tr class="row-even"><td>PC</td>
+<td><em>PC</em></td>
+<td>parent child list</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\lambda_p\)</span></td>
+<td><em>lambda_p</em></td>
+<td>lagrange multipliers</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(Q\)</span></td>
+<td><em>Q</em></td>
+<td>working forces applied in the joints</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\gamma^p\)</span></td>
+<td><em>gamma_p</em></td>
+<td>quadratic velocity terms</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(M^{\ell}\)</span></td>
+<td><em>M_l</em></td>
+<td>generalized mass matrix</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\lambda^d\)</span></td>
+<td><em>lambda_d</em></td>
+<td><em>preconditioned</em> lagrange multipliers</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\gamma^d\)</span></td>
+<td><em>gamma_d</em></td>
+<td><em>preconditioned</em> quadratic velocity terms</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(f^{\ell}\)</span></td>
+<td><em>f_l</em></td>
+<td>generalized forces</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(J\)</span></td>
+<td><em>J</em></td>
+<td>Jacobian matrix, <span class="math notranslate nohighlight">\(J(q)\)</span>, a mapping of body velocities to generalized velocities</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\underline{\mathbf{p}}^*\)</span></td>
+<td>&#160;</td>
+<td>momentum</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\underline{\mathbf{h}}\)</span></td>
+<td>h</td>
+<td>influence coefficient matrix</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\underline{\mathbf{v}}\)</span></td>
+<td>v</td>
+<td>velocity screw <span class="math notranslate nohighlight">\(\left(\underline{\mathbf{v}} = \begin{Bmatrix}\underline{v}\\\underline{\omega}\end{Bmatrix}\right)\)</span></td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\underline{\mathbf{g}}^*\)</span></td>
+<td>g</td>
+<td>externally applied forces, such as from gravity</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="transformations">
+<h2>Transformations<a class="headerlink" href="#transformations" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="34%" />
+<col width="55%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">symbol</th>
+<th class="head">operation</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(R\)</span></td>
+<td>&#160;</td>
+<td><span class="math notranslate nohighlight">\(R \in \mathbb{R}^{3x3}\)</span>, an SO(3) rotation matrix</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(R^{-1}\)</span></td>
+<td><span class="math notranslate nohighlight">\(R^T\)</span></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\underline{r}\)</span></td>
+<td>&#160;</td>
+<td><span class="math notranslate nohighlight">\(r \in \mathbb{R}^{3}\)</span>, a translation vector</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\underline{r}^{-1}\)</span></td>
+<td><span class="math notranslate nohighlight">\(- \underline{r}\)</span></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\tilde{r}\)</span></td>
+<td><span class="math notranslate nohighlight">\(\begin{bmatrix}0&amp;-r_z&amp;r_y&amp;\\r_z&amp;0&amp;-r_x\\-r_y&amp;r_x&amp;0\end{bmatrix}\)</span></td>
+<td><span class="math notranslate nohighlight">\(\tilde{r} \in \mathbb{R}^{3x3}\)</span>, a skew-symmetric matrix</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\Phi\)</span></td>
+<td><span class="math notranslate nohighlight">\(\begin{bmatrix}R&amp;\underline{r}\\0 &amp; 1\end{bmatrix}\)</span></td>
+<td><span class="math notranslate nohighlight">\(\Phi(R,r) \in SE(3)\)</span>, a general rigid body displacement consisting of rotation (<span class="math notranslate nohighlight">\(R\)</span>) and translation (<span class="math notranslate nohighlight">\(r\)</span>).</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\Phi^{-1}\)</span></td>
+<td><span class="math notranslate nohighlight">\(\begin{bmatrix}R^T&amp;-R^T\underline{r}\\0&amp;1\end{bmatrix}\)</span></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\([Ad]\)</span></td>
+<td><span class="math notranslate nohighlight">\(\begin{bmatrix}R &amp; \tilde{r}R\\0&amp;R\end{bmatrix}\)</span></td>
+<td>adjoint operator for transforming screws</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\([Ad]^{-1}\)</span></td>
+<td><span class="math notranslate nohighlight">\(\begin{bmatrix}R^T&amp;-\tilde{r}R^T\\0&amp;R^T\end{bmatrix}\)</span></td>
+<td>inverse of adjoint operator for transforming screws</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\([Ad]^*\)</span></td>
+<td><span class="math notranslate nohighlight">\(\begin{bmatrix}R &amp; 0\\\tilde{r}R&amp;R\end{bmatrix}\)</span></td>
+<td>coadjoint operator for transforming coscrews</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\([ad]\)</span></td>
+<td><span class="math notranslate nohighlight">\(\begin{bmatrix}\tilde{\omega}&amp;\tilde{v}\\0&amp;\tilde{\omega}\end{bmatrix}\)</span></td>
+<td>time derivative of <span class="math notranslate nohighlight">\([Ad]\)</span></td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\([ad]^*\)</span></td>
+<td><span class="math notranslate nohighlight">\(\begin{bmatrix}\tilde{\omega}&amp;0\\\tilde{v}&amp;\tilde{\omega}\end{bmatrix}\)</span></td>
+<td>time derivative of <span class="math notranslate nohighlight">\([Ad]^*\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018, Kristopher Wehage, Roger Wehage.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../_sources/notation/notation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

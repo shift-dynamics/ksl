@@ -1,0 +1,180 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Inertia &#8212; KSL 0.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Full Factor" href="../lu_full/lu_full.html" />
+    <link rel="prev" title="Influence Coefficient Matrices" href="../influence_coefficient_matrices/influence_coefficient_matrices.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">KSL</a></h1>
+
+
+
+<p class="blurb">Kinematics Subroutine Library</p>
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notation/notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vectors/vectors.html">Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SE3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../screws/screws.html">Screws</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coscrews/coscrews.html">Coscrews</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../influence_coefficient_matrices/influence_coefficient_matrices.html">Influence Coefficient Matrices</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Inertia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lu_full/lu_full.html">Full Factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zreferences.html">References</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../doxyrest/global.html">Global Namespace</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../influence_coefficient_matrices/influence_coefficient_matrices.html" title="previous chapter">Influence Coefficient Matrices</a></li>
+      <li>Next: <a href="../lu_full/lu_full.html" title="next chapter">Full Factor</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="inertia">
+<span id="id1"></span><h1>Inertia<a class="headerlink" href="#inertia" title="Permalink to this headline">¶</a></h1>
+<p>In the body center of mass frame, the <span class="math notranslate nohighlight">\(6 \times 6\)</span> Inertia matrix, <span class="math notranslate nohighlight">\(M\)</span>, can be expressed as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}M_{11} = \begin{bmatrix}
+mI &amp; 0\\
+0 &amp; \bar{I}
+\end{bmatrix}\end{split}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(m\)</span> is the body mass, <span class="math notranslate nohighlight">\(I\)</span> is a <span class="math notranslate nohighlight">\(3 \times 3\)</span> identity matrix and <span class="math notranslate nohighlight">\(\bar{I}\)</span> is the <span class="math notranslate nohighlight">\(3 \times 3\)</span> rotational inertia matrix. The body center of mass frame is denoted with a subscript <span class="math notranslate nohighlight">\(c\)</span>. When solving the equations of motion in a fixed inertial reference frame, it is necessary to transform these local inertia matrices to the origin of the fixed inertial reference frame, which is denoted with a subscript <span class="math notranslate nohighlight">\(f\)</span>. To understand how the inertia matrix is transformed to other coordinate systems, consider the equation for momentum, <span class="math notranslate nohighlight">\(\underline{\mathbf{p}}^*\)</span>. Note that the asterisk indicates the <span class="math notranslate nohighlight">\(\underline{\mathbf{p}}^*\)</span> is a <em>coscrew</em> quantity.</p>
+<div class="math notranslate nohighlight">
+\[\underline{\mathbf{p}}^*_f = M_{cc} \underline{\mathbf{v}}_c\]</div>
+<p>As noted above, coscrew quantities are transformed by left multiplication with the coadjoint operator, <span class="math notranslate nohighlight">\([Ad]^*\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[[Ad]^*_{cf}\underline{\mathbf{p}}_f = M_{cc}[Ad]_{fc}^{-1}[Ad]_{fc}\underline{\mathbf{v}}_c\]</div>
+<div class="math notranslate nohighlight">
+\[\underline{\mathbf{p}}_f = [Ad]^{*-1}_{10}M_{11}[Ad]^{-1}_{fc}{\underline{\mathbf{v}}}_f=
+[Ad]^*_{fc}M_{cc}[Ad]_{cf}\underline{\mathbf{v}}_f\]</div>
+<p>yielding:</p>
+<div class="math notranslate nohighlight">
+\[M_{ff} = [Ad]^*_{fc}M_{cc}[Ad]_{cf}\]</div>
+<p>Again the <span class="math notranslate nohighlight">\(6 \times 6\)</span> Adjoint and Coadjoint matrices provides a convenient and compact notation to describe transformations, but full dense matrix algebra need not be applied to carry out transformation of the inertia matrix, noting that:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}M_{ff} = [Ad]^*_{fc}M_{cc}[Ad]_{cf} =
+\begin{bmatrix}
+R_{fc}m_cIR_{cf} &amp; R_{fc}m_cI\tilde{r}_{cf}R_{cf}\\
+\tilde{r}_{cf}R_{cf}m_1IR_{cf}&amp;
+\tilde{r}_{cf}R_{cf}m_cI\tilde{r}_{cf}R_{cf} + R_{fc}\bar{I}_{cc}R_{cf}
+\end{bmatrix}\end{split}\]</div>
+<p>which can be further simplified as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}M_{ff} = \begin{bmatrix}
+m_cI &amp;  m_cR_{fc}\tilde{r}_{cf}R_{cf}\\
+-m_cR_{fc}\tilde{r}_{cf}R_{cf}     &amp; \bar{I}_{cc} -m_c\tilde{r}_{cf}^2
+\end{bmatrix}\end{split}\]</div>
+<p>and:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}M_{ff} = \begin{bmatrix}
+m_cI &amp;  m_c\tilde{r}_{cf}\\
+-m_c\tilde{r}_{cf}     &amp; \bar{I}_{cc} -m_c\tilde{r}_{cf}^2
+\end{bmatrix}\end{split}\]</div>
+<p>Based on Eq. <a class="reference internal" href="../coscrews/coscrews.html#equation-eq-further-simplified2">(22)</a>, it is only necessary to store ten terms to reconstruct the inertia matrix: <span class="math notranslate nohighlight">\(m_c, m_c\underline{r}\)</span>, and the terms on and below the diagonal of <span class="math notranslate nohighlight">\(\bar{I}\)</span> (i.e. <span class="math notranslate nohighlight">\(I_{xx}\)</span>, <span class="math notranslate nohighlight">\(I_{yy}\)</span>, <span class="math notranslate nohighlight">\(I_{zz}\)</span>, <span class="math notranslate nohighlight">\(I_{xy}\)</span>, <span class="math notranslate nohighlight">\(I_{yz}\)</span> and <span class="math notranslate nohighlight">\(I_{zx}\)</span>). Storing only these 10 terms requires approximately 70% less storage than the full <span class="math notranslate nohighlight">\(6\times6\)</span> inertia matrix. In order to take advantage of SIMD for various algorithms which access the quantities in the inertia matrix, additional memory is used to store the quantity <span class="math notranslate nohighlight">\(-m_c\underline{r}\)</span>, which still results in a 64% reduction in storage compared to the full <span class="math notranslate nohighlight">\(6 \times 6\)</span> representation.</p>
+<p>If the reference frame for the body is not taken as the center of mass, then in addition to the inertia matrix stored in the center of mass coordinate system, a vector from the body’s reference frame to the center of mass frame, <span class="math notranslate nohighlight">\(\underline{r}^{bc}_b\)</span>, is stored. Here, the subscript <span class="math notranslate nohighlight">\(b\)</span> denotes the body reference frame and the <span class="math notranslate nohighlight">\(c\)</span> denotes the center of mass frame.</p>
+<div class="math notranslate nohighlight">
+\[M_{ff} = [Ad]^{*}_{fb}[Ad]^{*}_{bc} M_{cc} [Ad]_{cb}[Ad]_{bf}\]</div>
+<div class="math notranslate nohighlight">
+\[M_{ff} = R_{fb} \bar{I}_{bb}^{cc} R_{bf}\]</div>
+<div class="math notranslate nohighlight">
+\[\underline{r}_{f}^{fc} = \underline{r}_{f}^{fb} + R_{fb} \underline{r}_{b}^{bc}\]</div>
+<div class="math notranslate nohighlight">
+\[\underline{t}_{temp} = m_c \underline{r}_{f}^{fc}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}M_{ff} = \begin{bmatrix} mI &amp;  -\tilde{t}_{temp}\\
+\tilde{t}_{temp} &amp; \bar{I}^{ff}_{cc} - \tilde{t}_{temp} \tilde{t}^{f}_{fc}\end{bmatrix}\end{split}\]</div>
+<p>Then use the following identity to simplify the matrix product <span class="math notranslate nohighlight">\(\tilde{t}_{temp} \tilde{t}^{f}_{fc}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\tilde{a} \tilde{b} = b a^T - (a^T b) I\]</div>
+<p>Therefore, <span class="math notranslate nohighlight">\(\tilde{a} \tilde{b}\)</span> is found as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array} \text{result} \leftarrow \begin{Bmatrix}b_0 \\ b_1 \\ b_2\end{Bmatrix} \begin{Bmatrix}a_0&amp;a_1&amp;a_2\end{Bmatrix}\\
+result -= trace(result) * I
+\end{array}\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\bar{I}^{ff}_{ff} = \bar{I}^{ff}_{cc} - \tilde{t}_{temp} \tilde{r}^{f}_{fc}\]</div>
+<div class="math notranslate nohighlight">
+\[\bar{I}^{ff}_{ff} = \bar{I}^{ff}_{cc} - result\]</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018, Kristopher Wehage, Roger Wehage.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../_sources/inertia/inertia.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
