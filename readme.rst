@@ -1,7 +1,6 @@
 *Kinematics Subroutine Library*
 ===============================
 
-
 .. raw:: html
 
    <embed>
