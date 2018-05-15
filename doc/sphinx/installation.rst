@@ -16,7 +16,7 @@ KSL can be obtained by cloning the repository from the GitHub site:
 Required tools
 ---------------------
 
-*   `Cblas <http://www.netlib.org/blas/>`_
+*   `cmake <https://cmake.org>`_
 
 Optional dependencies
 ---------------------
@@ -89,6 +89,16 @@ To build in release mode (disables asserts and debug output)
 .. code::
 
    cmake .. -DCMAKE_BUILD_TYPE=Release
+
+
+Running Tests
+-------------
+
+After building as described above, then issue the command:
+
+.. code::
+
+    make test
 
 
 Building documentation

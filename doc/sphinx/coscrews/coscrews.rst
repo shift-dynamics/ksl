@@ -202,63 +202,24 @@ as each of the columns of :math:`\bar{H}^*` are orthogonal to :math:`\underline{
 In the present example, :math:`[\bar{H}^* \cup \underline{\mathbf{h}}^*]=[\bar{H}^* \underline{\mathbf{h}}^*]`, as :math:`\underline{\mathbf{h}}^*` occurs in the last column of :math:`[Ad]^*`, however in the general case, :math:`\underline{\mathbf{h}}^*` may occur in a different column of :math:`[Ad]^*`, corresponding to the type of primitive joint. In the following discussion, the :math:`\cup` symbol is dropped with the understanding that the matrix :math:`\underline{\mathbf{h}}^*` occurs in its respective column, interspersed within the columns of :math:`\bar{H}^*`.
 
 
-More derivative operator matrices: :math:`[ad]` and :math:`[ad]^*`
+Derivative operator matrices: :math:`[ad]^*`
 ------------------------------------------------------------------
 
-In Eq. :eq:`eq:spatial_velocity2`, the derivative operator of the SE(3) group was found. Similarly, the derivative operator matrices for the :math:`6 \times 6` transformation matrices, :math:`[Ad]` and :math:`[Ad]^*` can be found as follows:
-
-..
-  The :math:`6\times 6` :math:`[Ad]` matrices themselves fulfill all the necessary requirements of a Lie group :cite:`selig2005geometric`. The requirements of a general mathematical group are as follows:
-
-..
-  * The group is closed under a binary operation
-  * Operations are associative
-  * The group must have a unique identity element
-  * Every element of the group must have a unique inverseSimilarly, the (left) derivative operator for :math:`[Ad]` matrices is found as:
-
-..
-  Lie groups must satisfy the additional axioms:
-
-..
-  * The set of group elements, :math:`G`, form a differential manifold
-  * A group operation must be a differentiable map.
-
+The left derivative operator for :math:`[Ad]^*` matrices is:
 
 .. math::
-  :label: eq:adjoint_representation
+    :label: eq:adjoint_dual_rep
 
-  [ad] = \dot{[Ad]}[Ad]^{-1} =
-  \begin{bmatrix}
-  0 & -\omega_z & \omega_{y} & 0 & -v_z & v_y\\
-  \omega_z & 0 & -\omega_x & v_z & 0 & -v_x\\
-  -\omega_y & \omega_x & 0 & -v_y & v_x & 0\\
-  0 & 0 & 0 & 0 & -\omega_z & \omega_{y} \\
-  0 & 0 & 0 &   \omega_z & 0 & -\omega_x\\
-  0 & 0 & 0 & -\omega_y & \omega_x & 0
-  \end{bmatrix}=
-  \begin{bmatrix}
-  \tilde{\omega} & \tilde{v}\\
-  0 & \tilde{\omega}
-  \end{bmatrix}
-
-Similarly, the left derivative operator for :math:`[Ad]^*` matrices is:
-
-.. math::
-  :label: eq:adjoint_dual_rep
-
-  [ad]^* = \dot{[Ad]^*}[Ad]^{*-1} =
-  \begin{bmatrix}
-  0 & -\omega_z & \omega_{y} & 0 & 0 & 0\\
-  \omega_z & 0 & -\omega_x & 0 & 0 & 0\\
-  -\omega_y & \omega_x & 0 & 0 & 0 & 0\\
-  0 & -v_z & v_y & 0 & -\omega_z & \omega_{y} \\
-  v_z & 0 & -v_x &   \omega_z & 0 & -\omega_x\\
-  -v_y & v_x & 0 & -\omega_y & \omega_x & 0
-  \end{bmatrix}=
-  \begin{bmatrix}
-  \tilde{\omega} & 0\\
-  \tilde{v} & \tilde{\omega}
-  \end{bmatrix}
-
-
-Previously, it was discussed how the derivative operators form the Lie algebra of the SE(3) group. Similarly, the :math:`6\times6` :math:`[Ad]` matrices themselves fulfill the necessary requirements of a Lie group :cite:`selig2005geometric`. The :math:`[ad]` and :math:`[ad]^*` matrices comprise their respective Lie algebras.
+    [ad]^* = \dot{[Ad]^*}[Ad]^{*-1} =
+    \begin{bmatrix}
+    0 & -\omega_z & \omega_{y} & 0 & 0 & 0\\
+    \omega_z & 0 & -\omega_x & 0 & 0 & 0\\
+    -\omega_y & \omega_x & 0 & 0 & 0 & 0\\
+    0 & -v_z & v_y & 0 & -\omega_z & \omega_{y} \\
+    v_z & 0 & -v_x &   \omega_z & 0 & -\omega_x\\
+    -v_y & v_x & 0 & -\omega_y & \omega_x & 0
+    \end{bmatrix}=
+    \begin{bmatrix}
+    \tilde{\omega} & 0\\
+    \tilde{v} & \tilde{\omega}
+    \end{bmatrix}

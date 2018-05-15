@@ -100,4 +100,6 @@ else()
     message(STATUS "WARNING. Check library not found. Test suite will not be built.")
 endif()
 
-add_subdirectory(doc)
+if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
+  add_subdirectory(doc)
+endif()
