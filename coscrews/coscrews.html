@@ -52,7 +52,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Coscrews</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#coadjoint-matrix">Coadjoint Matrix <span class="math notranslate nohighlight">\([Ad]^*\)</span></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#constraint-forces">Constraint Forces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#more-derivative-operator-matrices-and">More derivative operator matrices: <span class="math notranslate nohighlight">\([ad]\)</span> and <span class="math notranslate nohighlight">\([ad]^*\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#derivative-operator-matrices">Derivative operator matrices: <span class="math notranslate nohighlight">\([ad]^*\)</span></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../influence_coefficient_matrices/influence_coefficient_matrices.html">Influence Coefficient Matrices</a></li>
@@ -233,26 +233,11 @@ R_{0a} &amp; 0\\
 <p>as each of the columns of <span class="math notranslate nohighlight">\(\bar{H}^*\)</span> are orthogonal to <span class="math notranslate nohighlight">\(\underline{\mathbf{h}}^*\)</span>.</p>
 <p>In the present example, <span class="math notranslate nohighlight">\([\bar{H}^* \cup \underline{\mathbf{h}}^*]=[\bar{H}^* \underline{\mathbf{h}}^*]\)</span>, as <span class="math notranslate nohighlight">\(\underline{\mathbf{h}}^*\)</span> occurs in the last column of <span class="math notranslate nohighlight">\([Ad]^*\)</span>, however in the general case, <span class="math notranslate nohighlight">\(\underline{\mathbf{h}}^*\)</span> may occur in a different column of <span class="math notranslate nohighlight">\([Ad]^*\)</span>, corresponding to the type of primitive joint. In the following discussion, the <span class="math notranslate nohighlight">\(\cup\)</span> symbol is dropped with the understanding that the matrix <span class="math notranslate nohighlight">\(\underline{\mathbf{h}}^*\)</span> occurs in its respective column, interspersed within the columns of <span class="math notranslate nohighlight">\(\bar{H}^*\)</span>.</p>
 </div>
-<div class="section" id="more-derivative-operator-matrices-and">
-<h2>More derivative operator matrices: <span class="math notranslate nohighlight">\([ad]\)</span> and <span class="math notranslate nohighlight">\([ad]^*\)</span><a class="headerlink" href="#more-derivative-operator-matrices-and" title="Permalink to this headline">¶</a></h2>
-<p>In Eq. <code class="xref eq docutils literal notranslate"><span class="pre">eq:spatial_velocity2</span></code>, the derivative operator of the SE(3) group was found. Similarly, the derivative operator matrices for the <span class="math notranslate nohighlight">\(6 \times 6\)</span> transformation matrices, <span class="math notranslate nohighlight">\([Ad]\)</span> and <span class="math notranslate nohighlight">\([Ad]^*\)</span> can be found as follows:</p>
-<div class="math notranslate nohighlight" id="equation-eq-adjoint-representation">
-<span class="eqno">(12)<a class="headerlink" href="#equation-eq-adjoint-representation" title="Permalink to this equation">¶</a></span>\[\begin{split}[ad] = \dot{[Ad]}[Ad]^{-1} =
-\begin{bmatrix}
-0 &amp; -\omega_z &amp; \omega_{y} &amp; 0 &amp; -v_z &amp; v_y\\
-\omega_z &amp; 0 &amp; -\omega_x &amp; v_z &amp; 0 &amp; -v_x\\
--\omega_y &amp; \omega_x &amp; 0 &amp; -v_y &amp; v_x &amp; 0\\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; -\omega_z &amp; \omega_{y} \\
-0 &amp; 0 &amp; 0 &amp;   \omega_z &amp; 0 &amp; -\omega_x\\
-0 &amp; 0 &amp; 0 &amp; -\omega_y &amp; \omega_x &amp; 0
-\end{bmatrix}=
-\begin{bmatrix}
-\tilde{\omega} &amp; \tilde{v}\\
-0 &amp; \tilde{\omega}
-\end{bmatrix}\end{split}\]</div>
-<p>Similarly, the left derivative operator for <span class="math notranslate nohighlight">\([Ad]^*\)</span> matrices is:</p>
+<div class="section" id="derivative-operator-matrices">
+<h2>Derivative operator matrices: <span class="math notranslate nohighlight">\([ad]^*\)</span><a class="headerlink" href="#derivative-operator-matrices" title="Permalink to this headline">¶</a></h2>
+<p>The left derivative operator for <span class="math notranslate nohighlight">\([Ad]^*\)</span> matrices is:</p>
 <div class="math notranslate nohighlight" id="equation-eq-adjoint-dual-rep">
-<span class="eqno">(13)<a class="headerlink" href="#equation-eq-adjoint-dual-rep" title="Permalink to this equation">¶</a></span>\[\begin{split}[ad]^* = \dot{[Ad]^*}[Ad]^{*-1} =
+<span class="eqno">(12)<a class="headerlink" href="#equation-eq-adjoint-dual-rep" title="Permalink to this equation">¶</a></span>\[\begin{split}[ad]^* = \dot{[Ad]^*}[Ad]^{*-1} =
 \begin{bmatrix}
 0 &amp; -\omega_z &amp; \omega_{y} &amp; 0 &amp; 0 &amp; 0\\
 \omega_z &amp; 0 &amp; -\omega_x &amp; 0 &amp; 0 &amp; 0\\
@@ -265,7 +250,6 @@ v_z &amp; 0 &amp; -v_x &amp;   \omega_z &amp; 0 &amp; -\omega_x\\
 \tilde{\omega} &amp; 0\\
 \tilde{v} &amp; \tilde{\omega}
 \end{bmatrix}\end{split}\]</div>
-<p>Previously, it was discussed how the derivative operators form the Lie algebra of the SE(3) group. Similarly, the <span class="math notranslate nohighlight">\(6\times6\)</span> <span class="math notranslate nohighlight">\([Ad]\)</span> matrices themselves fulfill the necessary requirements of a Lie group <a href="#id6"><span class="problematic" id="id7">:cite:`selig2005geometric`</span></a>. The <span class="math notranslate nohighlight">\([ad]\)</span> and <span class="math notranslate nohighlight">\([ad]^*\)</span> matrices comprise their respective Lie algebras.</p>
 </div>
 </div>
 
