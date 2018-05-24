@@ -300,6 +300,9 @@ float catan1pif(const float y, const float x, float theta) {
   return temp;
 }
 
+/*!
+@brief a non-blas implementation of daxpy for unit stride only
+*/
 inline void ksl_axpy(const int n, const double a, const double* restrict x,
                      double* restrict y) {
   for(int i = 0; i < n; i++) {
@@ -307,6 +310,9 @@ inline void ksl_axpy(const int n, const double a, const double* restrict x,
   }
 }
 
+/*!
+@brief a non-blas implementation of saxpy for unit stride only
+*/
 inline void ksl_axpyf(const int n, const float a, const float* restrict x,
                       float* restrict y) {
   for(int i = 0; i < n; i++) {

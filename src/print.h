@@ -31,6 +31,11 @@ SUCH DAMAGE.
 #include "screw.h"
 #include "vector.h"
 
+typedef enum ksl_print_breakBetweenLines_enum_t {
+  KSL_BREAK_BETWEEN_LINES,
+  KSL_NO_BREAK_BETWEEN_LINES
+} ksl_print_breakBetweenLines_enum_t;
+
 void ksl_vec3_print(FILE* f, const ksl_vec3_t* vi);
 
 void ksl_vec3f_print(FILE* f, const ksl_vec3f_t* vi);
