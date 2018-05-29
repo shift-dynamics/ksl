@@ -34,67 +34,89 @@ void ksl_swapArray(const int n, double* a, const int a_stride, double* b,
 
 int ksl_maxIndex(const int n, const double* a);
 
-void ksl_linalg_lu(const int rank, const int colDim, double* A);
+int ksl_linalg_lu_full_rmo(const int rowDim, const int colDim, double* A,
+                           const double eps, int* pr, int* pc);
 
-void ksl_linalg_lu_backwardSubstitution(const double* L, const double* y,
-                                        double* x, const int n);
+int ksl_linalg_lu_full_specified_rmo(const int rowDim, const int colDim,
+                                     double* A, double eps, int* pr, int* pc,
+                                     const int specifiedIndex);
 
-void ksl_linalg_lu_forwardSubstitution(const double* U, const double* y,
-                                       double* x, const int n);
+inline void ksl_linalg_lu_rmo(const int rank, const int colDim, double* A);
 
-void ksl_linalg_lu_solve(const int rowDim, const int colDim, const double* A,
-                         int* pr, int* pc, const double* x, double* y,
-                         const int n);
+inline void ksl_linalg_lu_setBMatrix_rmo(const int rowDim, const int colDim,
+                                         const int rank, double* A);
 
-int ksl_linalg_lu_full(const int rowDim, const int colDim, double* A,
-                       const double eps, int* pr, int* pc);
+void ksl_linalg_lu_setCMatrix_rmo(int rowDim, int colDim, int rank, double* A);
 
-int ksl_linalg_lu_full_specified(const int rowDim, const int colDim, double* A,
-                                 const double eps, int* pr, int* pc,
-                                 const int specifiedIndex);
+int ksl_linalg_ldlt_rmo(double* A, const int n);
 
-void ksl_linalg_lu_backwardSubstitution(const double* L, const double* y,
-                                        double* x, const int n);
+int ksl_linalg_cholesky_rmo(double* A, const int n);
 
-void ksl_linalg_lu_forwardSubstitution(const double* U, const double* y,
-                                       double* x, const int n);
+inline void ksl_linalg_ldlt_forwardElimination_rmo(const double* L,
+                                                   const double* b, double* y,
+                                                   const int n);
 
-void ksl_linalg_lu_full_backwardSubstitution(const double* L, const double* y,
-                                             double* x, const int n);
+inline void ksl_linalg_ldlt_backwardSubstitution_rmo(const double* L,
+                                                     const double* b, double* x,
+                                                     const int n);
 
-void ksl_linalg_lu_full_forwardSubstitution(const double* U, const double* y,
-                                            double* x, const int n);
+inline void ksl_linalg_cholesky_forwardElimination_rmo(const double* L,
+                                                       const double* b,
+                                                       double* y, const int n);
 
-void ksl_linalg_lu_full_solve(const int rowDim, const int colDim, double* A,
-                              int* pr, int* pc, double* x, double* y);
+inline void ksl_linalg_cholesky_backwardSubstitution(const double* L,
+                                                     const double* y, double* x,
+                                                     const int n);
 
-void ksl_linalg_lu_setBMatrix(const int rank, const int colDim, double* A);
+inline void ksl_linalg_ldlt_solve_rmo(const double* A, const double* b,
+                                      double* x, const int n);
 
-void ksl_linalg_lu_setCMatrix(const int rowDim, const int colDim, int rank,
-                              double* A);
-
-int ksl_linalg_ldlt(double* D, const int n);
-
-void ksl_linalg_ldlt_backwardSubstitution(const double* L, const double* y,
+inline void ksl_linalg_cholesky_solve_rmo(const double* A, const double* b,
                                           double* x, const int n);
 
-void ksl_linalg_ldlt_forwardSubstitution(const double* L, const double* b,
-                                         double* y, const int n);
+inline int ksl_linalg_symmetricMatrixInverse_rmo(double* A, const int n);
 
-void ksl_linalg_ldlt_solve(const double* A, const double* x, double* y,
-                           const int n);
+int ksl_linalg_lu_full_cmo(const int rowDim, const int colDim, double* A,
+                           const double eps, int* pr, int* pc);
 
-int ksl_linalg_cholesky(double* D, const int n);
+int ksl_linalg_lu_full_specified_cmo(const int rowDim, const int colDim,
+                                     double* A, double eps, int* pr, int* pc,
+                                     const int specifiedIndex);
 
-void ksl_linalg_cholesky_forwardSubstitution(const double* L, const double* b,
-                                             double* y, const int n);
+inline void ksl_linalg_lu_cmo(const int rank, const int colDim, double* A);
 
-void ksl_linalg_cholesky_backwardSubstitution(const double* L, const double* y,
-                                              double* x, const int n);
+inline void ksl_linalg_lu_setBMatrix_cmo(const int rowDim, const int colDim,
+                                         const int rank, double* A);
 
-void ksl_linalg_cholesky_solve(const double* A, const double* x, double* y,
-                               const int n);
+void ksl_linalg_lu_setCMatrix_cmo(int rowDim, int colDim, int rank, double* A);
 
-int ksl_linalg_symmetricMatrixInverse(double* A, const int n);
+int ksl_linalg_ldlt_cmo(double* A, const int n);
+
+int ksl_linalg_cholesky_cmo(double* A, const int n);
+
+inline void ksl_linalg_ldlt_forwardElimination_cmo(const double* L,
+                                                   const double* b, double* y,
+                                                   const int n);
+
+inline void ksl_linalg_ldlt_backwardSubstitution_cmo(const double* L,
+                                                     const double* b, double* x,
+                                                     const int n);
+
+inline void ksl_linalg_cholesky_forwardElimination_cmo(const double* L,
+                                                       const double* b,
+                                                       double* y, const int n);
+
+inline void ksl_linalg_cholesky_backwardSubstitution_cmo(const double* L,
+                                                         const double* y,
+                                                         double* x,
+                                                         const int n);
+
+inline void ksl_linalg_ldlt_solve_cmo(const double* A, double* const b,
+                                      double* x, const int n);
+
+inline void ksl_linalg_cholesky_solve_cmo(const double* A, const double* b,
+                                          double* x, const int n);
+
+inline int ksl_linalg_symmetricMatrixInverse_cmo(double* A, const int n);
 
 #endif

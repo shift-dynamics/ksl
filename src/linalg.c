@@ -37,6 +37,14 @@ SUCH DAMAGE.
 #include "linalg.h"
 #include "util.h"
 
+/*
+n: Number of entries in two arrays to swap.
+a: First array to swap.
+a_stride: Stride in array a for swap.
+b: Second array to swap.
+b_stride: Stride in array b for swap.
+*/
+
 inline void ksl_swapArray(const int n, double* restrict a, const int a_stride,
                           double* restrict b, const int b_stride) {
   for(int i = 0; i < n; i++) {
@@ -44,6 +52,11 @@ inline void ksl_swapArray(const int n, double* restrict a, const int a_stride,
   }
 }
 
+/*
+n: Number of entries in array a.
+a: Array in which to locate index of absolutely largest entry.
+Return index of absolutely largest entry in a.
+*/
 inline int ksl_maxIndex(const int n, const double* restrict a) {
   register double max = fabs(a[0]);
   int max_index = 0;
@@ -58,25 +71,31 @@ inline int ksl_maxIndex(const int n, const double* restrict a) {
 }
 
 /*!
-@brief LU Decomposition with complete row and column pivoting
+@brief Row Major Order LU Decomposition with complete row and column pivoting
 
-mbdl)factor_LU_full factors a double precision matrix, A[rowDim * colDim],
-stored in row major order using full row and column pivoting. Matrix A need
+ksl_linalg_lu_full_rmo factors a double precision matrix, A[rowDim * colDim],
+stored in Row Major Order using full row and column pivoting. Matrix A need
 not have full row or column rank. The integer variable 'rank' represents the
 matrix rank and internally is always one less than the true rank to be
 consistent with C's indexing from zero. Upon return from the function,
 rank will be set to the correct value.
 
-The lower triangular (rank+1) by (rank+1) Lr matrix, except the unity
+The lower triangular (rank+1) by (rank+1) Lr matrix, except its unity
 diagonal, is stored below the diagonal in A[0:rank][0:rank]. The upper
 triangular (rank+1) by (rank+1) Ur matrix is stored on and above the
 diagonal in A[0:rank][0:rank].
 
 Following the first major matrix decomposition step, A[0:rank][rank+1:colDim]
 stores the residual matrix UR and A[rank+1:rowDim][0:rank] stores the residual
-matrix LR. The product C=LR*inverse(Lr) is then computed and stored back in
-A[rank+1:rowDim][0:rank] and the product B=-inverse(Ur)*UR is
-computed and stored back in A[0:rank][rank+1:colDim].
+matrix LR.
+
+The following operations on this matrix are optionally performed after
+ksl_linalg_lu_full_rmo() has factored A.
+
+ksl_linalg_lu_setBMatrix_rmo() computes and stores B = inverse(Ur)*UR and stores
+it back in A[0:rank][rank+1:colDim].
+ksl_linalg_lu_setCMatrix_rmo() computes and stores C = LR*inverse(Lr) and stores
+it back in A[rank+1:rowDim][0:rank].
 
 The remaining A[rank+1:rowDim][rank+1:colDim] submatrix contains numbers whose
 absolute values are all smaller than eps times the absolutely largest
@@ -91,8 +110,9 @@ A[0:rowDim-1][0:colDim-1], LU factors are overwritten in original matrix
 @param pc [out] output column permutation array with dimensions pc[0:colDim-1]
 @return rank of matrix A
 */
-int ksl_linalg_lu_full(const int rowDim, const int colDim, double* restrict A,
-                       const double eps, int* restrict pr, int* restrict pc) {
+int ksl_linalg_lu_full_rmo(const int rowDim, const int colDim,
+                           double* restrict A, const double eps,
+                           int* restrict pr, int* restrict pc) {
 
   // printf("Jacobian matrix in fullFactor_LU\n");
   // for(int i = 0; i < rowDim; i++) {
@@ -136,9 +156,11 @@ int ksl_linalg_lu_full(const int rowDim, const int colDim, double* restrict A,
 #else
   int index = ksl_maxIndex(size, A);
 #endif
-  div_t result = div(index, colDim);
-  pivotRow = result.quot;
-  pivotCol = result.rem;
+  // div_t result = div(index, colDim);
+  // pivotRow = result.quot;
+  // pivotCol = result.rem;
+  pivotRow = index / colDim;
+  pivotCol = index - pivotRow * colDim;
   pivot = A[index];
   // printf("pivotRow: %d, pivotCol: %d\n", pivotRow, pivotCol);
 
@@ -150,7 +172,9 @@ int ksl_linalg_lu_full(const int rowDim, const int colDim, double* restrict A,
     pr[row] = row;
   }
 
-  /* Set tolerance to check all zero-elements against. */
+  /* Set tolerance to check all zero-elements against.
+  pivot = infinity norm of A.
+  */
   tol = fabs(eps * pivot);
 
   /*
@@ -162,9 +186,9 @@ int ksl_linalg_lu_full(const int rowDim, const int colDim, double* restrict A,
     /*
       If the current pivotal element is <= tol, the
       remaining submatrix is zero and factorization
-      is complete. Need to add an else statement to
-      break out of this loop so not to waste time
-      going through remaining columns?
+      is complete. The else statement for the following if test
+      breaks out of this loop so not to waste time
+      going through the remaining columns.
     */
     if(fabs(pivot) > tol) {
       /* Increase rank for the current column. */
@@ -177,23 +201,24 @@ int ksl_linalg_lu_full(const int rowDim, const int colDim, double* restrict A,
       */
       if(pivotRow > rank) {
         /*
-          Need to swap entire row A[rank][:] and A[pivotRow][:].
-          This also swaps rows in the Lr matrix to this point.
+          Swap entire rows A[rank][:] and A[pivotRow][:].
+          This also swaps rows in the LR matrix to this point.
 
-          swapping row:
+          swap rows:
             N = colDim
-            inc = 1
-
-          number of entries for column swap: colDim
-          stride =
+            stride = 1
+          Start of replaced row is A + colDim * rank & stride is 1
+          Start of pivot row is A + colDim * pivotRow & stride is 1
         */
 #ifdef KSL_WITH_BLAS_
         cblas_dswap(colDim, A + colDim * rank, 1, A + colDim * pivotRow, 1);
 #else
         ksl_swapArray(colDim, A + colDim * rank, 1, A + colDim * pivotRow, 1);
 #endif
-        /* Swap row permutation entries pr[rank] and
-        pr[pivotRow] to reflect row swaps in A. */
+        /*
+          Swap row permutation entries pr[rank] and
+          pr[pivotRow] to reflect row swaps in A.
+        */
         ksl_swapi(pr + rank, pr + pivotRow);
       }
 
@@ -203,17 +228,24 @@ int ksl_linalg_lu_full(const int rowDim, const int colDim, double* restrict A,
       if(pivotCol > rank) {
         // printf("rank: %d, pivotCol: %d\n", rank, pivotCol);
         // printf("colDim %d\n", colDim);
-        /* entire columns A[:][rank] and A[:][pivotCol].
-          swapping column:
-            N = rowDim
-            stride = colDim */
+        /*
+        Swap entire columns A[:][rank] and A[:][pivotCol].
+        This also swaps columns in the UR matrix to this point.
+        swap columns:
+          N = rowDim
+          stride = colDim
+          Start of replaced column is A + rank & stride is colDim
+          Start of pivot column is A + pivotCol & stride is colDim
+            */
 #ifdef KSL_WITH_BLAS_
         cblas_dswap(rowDim, A + rank, colDim, A + pivotCol, colDim);
 #else
         ksl_swapArray(rowDim, A + rank, colDim, A + pivotCol, colDim);
 #endif
-        /* Swap column permutation entries pc[rank] and
-        pr[pivotCol] to reflect column swaps. */
+        /*
+          Swap column permutation entries pc[rank] and
+          pr[pivotCol] to reflect column swaps.
+        */
         ksl_swapi(pc + rank, pc + pivotCol);
       }
 
@@ -277,30 +309,37 @@ int ksl_linalg_lu_full(const int rowDim, const int colDim, double* restrict A,
 }
 
 /*!
-@brief LU Decomposition with complete row and column pivoting with one
-specified coordinate
+@brief Row Major Order LU Decomposition with complete row and column pivoting
+with one specified coordinate
 
-ksl_linalg_LU_full_specified factors a double precision matrix, A[rowDim *
-colDim], stored in row major order using full row and column pivoting. Matrix A
+ksl_linalg_lu_full_specified_rmo factors a double precision matrix, A[rowDim *
+colDim], stored in Row Major Order using full row and column pivoting. Matrix A
 need not have full row or column rank. The integer variable 'rank' represents
 the matrix rank and internally is always one less than the true rank to be
 consistent with C's indexing from zero. Upon return from the function,
 rank will be set to the correct value.
 
-The lower triangular (rank+1) by (rank+1) Lr matrix, except the unity
+The lower triangular (rank+1) by (rank+1) Lr matrix, except its unity
 diagonal, is stored below the diagonal in A[0:rank][0:rank]. The upper
 triangular (rank+1) by (rank+1) Ur matrix is stored on and above the
 diagonal in A[0:rank][0:rank].
 
 Following the first major matrix decomposition step, A[0:rank][rank+1:colDim]
 stores the residual matrix UR and A[rank+1:rowDim][0:rank] stores the residual
-matrix LR. The product C=LR*inverse(Lr) is then computed and stored back in
-A[rank+1:rowDim][0:rank] and the product B=-inverse(Ur)*UR is
-computed and stored back in A[0:rank][rank+1:colDim].
+matrix LR.
 
-The remaining A[rank+1:rowDim][rank+1:colDim] submatrix contains numbers whose
+ksl_linalg_lu_setBMatrix_rmo() computes and stores B = inverse(Ur)*UR and stores
+it back in A[0:rank][rank+1:colDim].
+ksl_linalg_lu_setCMatrix_rmo() computes and stores C = LR*inverse(Lr) and stores
+it back in A[rank+1:rowDim][0:rank].
+
+The remaining A[rank+1:rowDim][rank+1:colDim-1] submatrix contains numbers whose
 absolute values are all smaller than eps times the absolutely largest
 entry in the original matrix. This part of the matrix is not used.
+The remainig A[rank+1:rowDim][colDim] submatrix could contain numbers whose
+absolute values are greater than eps times the absolutely largest
+entry in the original matrix. Adding a check here would be one way to
+assert that the specified variable has sufficient mobility.
 
 @param rowDim input row dimension of matrix A.
 @param colDim input column dimension of matrix A.
@@ -311,10 +350,10 @@ A[0:rowDim-1][0:colDim-1]:
 @param pc output column permutation array with dimensions pc[0:colDim-1]
 @return rank of matrix A
 */
-int ksl_linalg_lu_full_specified(const int rowDim, const int colDim,
-                                 double* restrict A, double eps,
-                                 int* restrict pr, int* restrict pc,
-                                 const int specifiedIndex) {
+int ksl_linalg_lu_full_specified_rmo(const int rowDim, const int colDim,
+                                     double* restrict A, double eps,
+                                     int* restrict pr, int* restrict pc,
+                                     const int specifiedIndex) {
 
   // printf("Jacobian matrix in fullFactor_LU\n");
   // for(int i = 0; i < rowDim; i++) {
@@ -324,17 +363,14 @@ int ksl_linalg_lu_full_specified(const int rowDim, const int colDim,
   // }
 
   int rank;     /* (rank+1) is the matrix rank */
-  int col;      /* working column number */
   int pivotRow; /* row with current pivotal element */
   int pivotCol; /* column with current pivotal element */
-  int i;        /* local row index */
-  int j;        /* local column index */
-  // int k;        /* local row/column index */
   double pivot = 0.0;
   /* current pivotal element, holds the current pivotal element */
-  double tol;  /* tolerance for checking residual matrix
-                             infinity norm against */
-  double save; /* variable for holding intermediate results*/
+  double tol;                    /* tolerance for checking residual matrix
+                                               infinity norm against */
+  double save;                   /* variable for holding intermediate results*/
+  double size = rowDim * colDim; /*overall size of matrix */
 
   /*
     Return failure if a bad row or column dimension was found.
@@ -362,6 +398,13 @@ int ksl_linalg_lu_full_specified(const int rowDim, const int colDim,
   /*
     Swap the specified column to the last position in the input
     matrix
+    Swap entire columns A[:][specifiedIndex] and A[:][colDim - 1].
+    swap columns:
+      N = rowDim
+      stride = colDim
+      Start of specefied column is A + specifiedIndex & stride is colDim
+      Start of last column is A + colDim - 1 & stride is colDim
+
   */
   if(specifiedIndex != colDim - 1) {
 #ifdef KSL_WITH_BLAS
@@ -377,10 +420,12 @@ int ksl_linalg_lu_full_specified(const int rowDim, const int colDim,
   }
 
   /*
-    Search through the remaining A matrix to find the
+    Search through matrix A except the last column to find the
     absolutely largest element for assigning to pivot.
     Save that row and column number in pivotRow and
-    pivotCol. Also intialize the row permutation array pr.
+    pivotCol. This could cause numerical problems if the last
+    column contains one or more entries substantially absolutely
+    larger than all other entries in A.
   */
   pivot = A[0];
   pivotRow = 0;
@@ -396,7 +441,9 @@ int ksl_linalg_lu_full_specified(const int rowDim, const int colDim,
   }
   // printf("pivotRow: %d, pivotCol: %d\n", pivotRow, pivotCol);
 
-  /* Set tolerance to check all zero-elements against. */
+  /* Set tolerance to check all zero-elements against.
+  pivot = infinity norm of A.
+ */
   tol = fabs(eps * pivot);
 
   /*
@@ -404,13 +451,13 @@ int ksl_linalg_lu_full_specified(const int rowDim, const int colDim,
     Generate factors column by column, so outer loop
     sweeps over columns.
   */
-  for(col = 0; col < colDim; col++) {
+  for(int col = 0; col < colDim; col++) {
     /*
-      If the current pivotal element is <= tol, the
-      remaining submatrix is zero and factorization
-      is complete. Need to add an else statement to
-      break out of this loop so not to waste time
-      going through remaining columns?
+    If the current pivotal element is <= tol, the
+    remaining submatrix is zero and factorization
+    is complete. The else statement for the following if test
+    breaks out of this loop so not to waste time
+    going through the remaining columns.
     */
     if(fabs(pivot) > tol) {
       /* Increase rank for the current column. */
@@ -425,13 +472,11 @@ int ksl_linalg_lu_full_specified(const int rowDim, const int colDim,
         /*
           Need to swap entire row A[rank][:] and A[pivotRow][:].
           This also swaps rows in the Lr matrix to this point.
-
-          swapping row:
+          swap rows:
             N = colDim
-            inc = 1
-
-          number of entries for column swap: colDim
-          stride = rowDim
+            stride = 1
+          Start of replaced row is A + colDim * rank & stride is 1
+          Start of pivot row is A + colDim * pivotRow & stride is 1
         */
 #ifdef KSL_WITH_BLAS_
         cblas_dswap(colDim, A + colDim * rank, 1, A + colDim * pivotRow, 1);
@@ -454,11 +499,13 @@ int ksl_linalg_lu_full_specified(const int rowDim, const int colDim,
         // printf("rank: %d, pivotCol: %d\n", rank, pivotCol);
         // printf("colDim %d\n", colDim);
         /*
-          entire columns A[:][rank] and A[:][pivotCol].
-
-          swapping column:
-            N = rowDim
-            stride = colDim
+        Swap entire columns A[:][rank] and A[:][pivotCol].
+        This also swaps columns in the UR matrix to this point.
+        swap columns:
+          N = rowDim
+          stride = colDim
+          Start of replaced column is A + rank & stride is colDim
+          Start of pivot column is A + pivotCol & stride is colDim
         */
 #ifdef KSL_WITH_BLAS_
         cblas_dswap(rowDim, A + rank, colDim, A + pivotCol, colDim);
@@ -490,7 +537,7 @@ int ksl_linalg_lu_full_specified(const int rowDim, const int colDim,
         pivot = 0;
 
         /* Need only process the rows from rank+1 to rowDim. */
-        for(i = rank + 1; i < rowDim; i++) {
+        for(int i = rank + 1; i < rowDim; i++) {
 
           /* Evaluate the current entry in the L matrix.*/
           A[i * colDim + rank] /= save;
@@ -508,19 +555,19 @@ int ksl_linalg_lu_full_specified(const int rowDim, const int colDim,
               searches for the largest pivotal element, and
               remembers the new pivotal element row and colum.
             */
-            for(j = rank + 1; j < colDim; j++) {
+            for(int j = rank + 1; j < colDim; j++) {
               A[i * colDim + j] -= A[i * colDim + rank] * A[rank * colDim + j];
             }
-            for(j = rank + 1; j < colDim - 1; j++) {
+            for(int j = rank + 1; j < colDim - 1; j++) {
               if(fabs(A[i * colDim + j]) > fabs(pivot)) {
                 pivot = A[i * colDim + j];
                 pivotRow = i;
                 pivotCol = j;
-              }
-            }
-          } /*End if rank*/
-        }   /*Endfor i = rank+1*/
-      }     /*Endif (rank<rowDim-1)*/
+              } /*End if*/
+            }   /*End for j*/
+          }     /*End if rank*/
+        }       /*Endfor i = rank+1*/
+      }         /*Endif (rank<rowDim-1)*/
       else {
         break; /*No more rows to process.*/
       }
@@ -533,29 +580,34 @@ int ksl_linalg_lu_full_specified(const int rowDim, const int colDim,
 }
 
 /*!
-@brief *Fast* LU Decomposition with no row or column pivoting for a rectangular
-matrix
+@brief *Fast* Row Major Order LU Decomposition with no row or column pivoting
+for a rectangular matrix
 
-This function LU factors a double precision matrix, A[rowDim][colDim],
-using no row or column pivoting. This function should only be used if the row x
-row submatrix is known to be nonsingular.
+This function LU factors a double precision matrix, A[rank][colDim],
+using no row or column pivoting. This function should be used only if the
+left rank by rank submatrix is known to be nonsingular.
 
-The lower triangular (rank+1) by (rank+1) Lr matrix, except the unity
-diagonal, is stored below the diagonal in A[0:rank][0:rank]. The upper
-triangular (rank+1) by (rank+1) Ur matrix is stored on and above the
-diagonal in A[0:rank][0:rank].
+rank <= colDim or error.
+
+The lower triangular rank by rank Lr matrix, except the unity
+diagonal, is stored below the diagonal in A[0:rank-1][0:rank-1]. The upper
+triangular rank by rank Ur matrix is stored on and above the
+diagonal in A[0:rank-1][0:rank-1].
 
 Note that this minimal algorithm variation does not compute the product
-C=LR*inverse(Lr)
+B = inverse(Ur)*UR
 
-@param rowDim [in] row dimension of matrix A.
+@param rank [in] row dimension of matrix A.
 @param colDim [in] column dimension of matrix A.
-@param rank [in] only the square rank x colDim submatrix of A will be processed
 @param *A [in/out] matrix to be factored with dimensions
-A[0:rowDim-1][0:colDim-1]:
+A[0:rank-1][0:colDim-1]:
 */
-inline void ksl_linalg_lu(const int rank, const int colDim,
-                          double* restrict A) {
+inline void ksl_linalg_lu_rmo(const int rank, const int colDim,
+                              double* restrict A) {
+
+  if(rank > colDim) {
+    // Error message & exit
+  }
 
   /*
     Major loop to factor the matrix.
@@ -563,8 +615,7 @@ inline void ksl_linalg_lu(const int rank, const int colDim,
   */
   for(int row = 0; row < rank; row++) {
 
-    /* i iterates over rows of A, up to rank,
-    previously rank was rowDim */
+    /* i iterates over rows of A, up to rank-1 */
     for(int i = row + 1; i < rank; i++) {
 
       /* Evaluate the current entry in the L matrix.*/
@@ -579,19 +630,25 @@ inline void ksl_linalg_lu(const int rank, const int colDim,
 }
 
 /*!
-@brief compute B matrix (inverse(Ur) * UR)
+@brief compute Row Major Order B matrix (inverse(Ur) * UR)
 
 This block overwrites UR with inverse(Ur) * UR
-If rank == 0, nothing to process. This loop computes
-A[0:rank][rank+1:colDim-1] = inverse(Ur)*UR
-where UR is stored in A[0:rank][rank+1:colDim-1]
-and Ur is stored in upper part of A[0:rank][0:rank].
+If rank == 0 or rank == colDim nothing to process, so exit with message.
+This loop computes A[0:rank-1][rank:colDim-1] = inverse(Ur)*UR
+where UR is stored in A[0:rank-1][rank:colDim-1]
+and Ur is stored in upper part of A[0:rank-1][0:rank-1].
 i is the row number in Ur.
 j is the column number in Ur & row number in UR.
 k is the column number in UR.
+
+@param rowDim [in] row dimension of matrix A.
+@param colDim [in] column dimension of matrix A.
+@param rank [in] rank of matrix A.
+@param *A [in/out] matrix with dimensions A[0:rowDim-1][0:colDim-1]:
+
 */
-inline void ksl_linalg_lu_setBMatrix(const int rank, const int colDim,
-                                     double* restrict A) {
+inline void ksl_linalg_lu_setBMatrix_rmo(const int rowDim, const int colDim,
+                                         const int rank, double* restrict A) {
 
   if(rank > 0 && rank < colDim) {
     for(int i = rank - 1; i > -1; i--) {   /* rows of B */
@@ -603,25 +660,32 @@ inline void ksl_linalg_lu_setBMatrix(const int rank, const int colDim,
         A[i * colDim + k] = (A[i * colDim + k] - save) / A[i * colDim + i];
       }
     }
+  } else {
+    // Error & do something.
   }
 }
 
 /*!
-@brief compute C matrix
+@brief compute Row Major Order C matrix
 
 This block overwrites LR with LR*inverse(Lr)
-Here rank>0 means true rank is greater than 1.
-If rank==0, the Lr matrix is a 1 by 1 identity
+If rank==1, the Lr matrix is a 1 by 1 identity
 matrix, so there is nothing to do here. This loop
-computes A[rank+1:rowDim-1][0:rank]=LR*inverse(Lr)
-where LR is stored in A[rank+1:rowDim-1][0:rank]
-and Lr is stored in A[0:rank][0:rank].
+computes A[rank:rowDim-1][0:rank-1]=LR*inverse(Lr)
+where LR is stored in A[rank:rowDim-1][0:rank-1]
+and Lr is stored in A[0:rank-1][0:rank-1].
 j is the column number in LR. It ends at 1
 because the diagonal entry in row 0 of Lr is 1.
 i is the row number in LR.
 k is the column number in Lr
+
+@param rowDim [in] row dimension of matrix A.
+@param colDim [in] column dimension of matrix A.
+@param rank [in] rank of matrix A.
+@param *A [in/out] matrix with dimensions A[0:rowDim-1][0:colDim-1]:
+
 */
-void ksl_linalg_lu_setCMatrix(int rowDim, int colDim, int rank, double* A) {
+void ksl_linalg_lu_setCMatrix_rmo(int rowDim, int colDim, int rank, double* A) {
 
   if(rank > 1) {
     for(int j = rank - 1; j > 0; j--) {
@@ -630,25 +694,36 @@ void ksl_linalg_lu_setCMatrix(int rowDim, int colDim, int rank, double* A) {
           A[i * colDim + k] -= A[i * colDim + j] * A[j * colDim + k];
       }
     }
+  } else {
+    // Error & do something.
   }
 }
 
 /*!
-@brief computes the L D L^T decomposition of a symmetric matrix without
-pivoting
+@brief computes the Row Major Order L D L^T decomposition of a symmetric
+positive definite matrix without pivoting
 
 returns the matrix L D L^T in the original matrix A
+
+@param *A [in/out] matrix with dimensions A[0:n-1][0:n-1]:
+@param n row and column dimension of matrix A.
+
 */
-int ksl_linalg_ldlt(double* restrict D, const int n) {
+int ksl_linalg_ldlt_rmo(double* restrict A, const int n) {
   for(int k = 0; k < n; k++) {
-    double pivot_inv = 1.0 / D[k * n + k];
+    double pivot_inv = A[k * n + k];
+    if(pivot_inv > 0.0) {
+      pivot_inv = 1.0 / A[k * n + k];
+    } else {
+      return k + 1;
+    }
     for(int j = k + 1; j < n; j++) {
-      D[k * n + j] = D[j * n + k];
-      D[j * n + k] *= pivot_inv;
+      A[k * n + j] = A[j * n + k];
+      A[j * n + k] *= pivot_inv;
     }
     for(int j = k + 1; j < n; j++) {
       for(int i = k + 1; i < j + 1; i++) {
-        D[j * n + i] -= D[j * n + k] * D[k * n + i];
+        A[j * n + i] -= A[j * n + k] * A[k * n + i];
       }
     }
   }
@@ -656,24 +731,29 @@ int ksl_linalg_ldlt(double* restrict D, const int n) {
 }
 
 /*!
-@brief perform Cholesky (L * L^T) decomposition of a symmetric matrix without
-pivoting
+@brief perform Row Major Order Cholesky (L * L^T) decomposition of a symmetric
+matrix without pivoting
 
-returns the matrix factor L in the lower triangular portion of matrix D
+returns the matrix factor L in the lower triangular portion of matrix A
+
+@param *A [in/out] matrix with dimensions A[0:n-1][0:n-1]:
+@param n row and column dimension of matrix A.
+
 */
-int ksl_linalg_cholesky(double* restrict D, const int n) {
+int ksl_linalg_cholesky_rmo(double* restrict A, const int n) {
   for(int k = 0; k < n; k++) {
-    D[k * 4 + k] = sqrt(D[k * 4 + k]);
-    if(fabs(D[k * 4 + k]) < 1e-9) {
-      return -1;
+    if(A[k * n + k] > 0.0) {
+      A[k * n + k] = sqrt(A[k * n + k]);
+    } else {
+      return k + 1;
     }
-    double pivot_inv = 1.0 / D[k * 4 + k];
+    double pivot_inv = 1.0 / A[k * n + k];
     for(int j = k + 1; j < n; j++) {
-      D[j * n + k] *= pivot_inv;
+      A[j * n + k] *= pivot_inv;
     }
     for(int j = k + 1; j < n; j++) {
       for(int i = k + 1; i < j + 1; i++) {
-        D[j * n + i] -= D[j * n + k] * D[i * n + k];
+        A[j * n + i] -= A[j * n + k] * A[i * n + k];
       }
     }
   }
@@ -683,19 +763,52 @@ int ksl_linalg_cholesky(double* restrict D, const int n) {
 /*!
 @brief used to solve a system of equations
 
-L^T * x = y
+L * y = b
 
-using backward substitution where L IS unit lower triangular
+for y using forward elimination where L IS Row Major Order unit lower triangular
 
-x = L^-T * y
+y = L^-1 * b
+
+@param *L [in] n by n matrix L[0:n-1][0:n-1]:
+@param *b [in] n by 1 column of right-hand side y[0:n-1].
+@param *y [out] n by 1 column of unknowns.
+@param n [in] dimension of L[][], b[], y[]:
+
 */
-inline void ksl_linalg_ldlt_backwardSubstitution(const double* restrict L,
-                                                 const double* restrict y,
-                                                 double* restrict x,
-                                                 const int n) {
-  x[n - 1] = y[n - 1];
+inline void ksl_linalg_ldlt_forwardElimination_rmo(const double* restrict L,
+                                                   const double* restrict b,
+                                                   double* restrict y,
+                                                   const int n) {
+  for(int i = 0; i < n; i++) {
+    y[i] = b[i];
+    for(int j = 0; j < i; j++) {
+      y[i] -= L[i * n + j] * y[j];
+    }
+  }
+}
+
+/*!
+@brief used to solve a system of equations
+
+L^T * x = b
+
+using backward substitution where L IS Row Major Order unit lower triangular
+
+x = L^-T * b
+
+@param *L [in] n by n matrix L[0:n-1][0:n-1]:
+@param *b [in] n by 1 column of right-hand side b[0:n-1].
+@param *x [out] n by 1 column of unknowns.
+@param n [in] dimension of L[][], y[], x[]:
+
+*/
+inline void ksl_linalg_ldlt_backwardSubstitution_rmo(const double* restrict L,
+                                                     const double* restrict b,
+                                                     double* restrict x,
+                                                     const int n) {
+  x[n - 1] = b[n - 1];
   for(int i = n - 2; i > -1; i--) {
-    x[i] = y[i];
+    x[i] = b[i];
     for(int j = i + 1; j < n; j++) {
       x[i] -= L[j * n + i] * x[j];
     }
@@ -705,11 +818,47 @@ inline void ksl_linalg_ldlt_backwardSubstitution(const double* restrict L,
 /*!
 @brief used to solve a system of equations
 
+L * y = b
+
+for y using forward elimination where L is Row Major Order and IS NOT unit lower
+triangular
+
+y = L^-1 * b
+
+@param *L [in] n by n matrix L[0:n-1][0:n-1]:
+@param *b [in] n by 1 column of right-hand side y[0:n-1].
+@param *y [out] n by 1 column of unknowns.
+@param n [in] dimension of L[][], b[], y[]:
+
+*/
+inline void ksl_linalg_cholesky_forwardElimination_rmo(const double* restrict L,
+                                                       const double* restrict b,
+                                                       double* restrict y,
+                                                       const int n) {
+  for(int i = 0; i < n; i++) {
+    double t = b[i];
+    for(int j = 0; j < i; j++) {
+      t -= L[i * n + j] * y[j];
+    }
+    y[i] = t / L[i * n + i];
+  }
+}
+
+/*!
+@brief used to solve a system of equations
+
 L^T * x = y
 
-using backward substitution where L IS NOT unit lower triangular
+using backward substitution where L is Row Major Order and IS NOT unit lower
+triangular
 
 x = L^-T * y
+
+@param *L [in] n by n matrix L[0:n-1][0:n-1]:
+@param *y [in] n by 1 column of right-hand side y[0:n-1].
+@param *x [out] n by 1 column of unknowns.
+@param n [in] dimension of L[][], y[], x[]:
+
 */
 inline void ksl_linalg_cholesky_backwardSubstitution(const double* restrict L,
                                                      const double* restrict y,
@@ -726,22 +875,861 @@ inline void ksl_linalg_cholesky_backwardSubstitution(const double* restrict L,
 }
 
 /*!
+@brief solve the system of equations A * x = b where A is Row Major Order and
+a symmetric positive definite matrix A
+
+ksl_linalg_ldlt must be called on A prior to calling this function
+
+@param *A [in] n by n matrix A[0:n-1][0:n-1] containing Choleski-factored
+matrix:
+@param *b [in] n by 1 column of right-hand side y[0:n-1].
+@param *x [out] n by 1 column of unknowns.
+@param n [in] dimension of L[][], b[], y[]:
+
+*/
+inline void ksl_linalg_ldlt_solve_rmo(const double* restrict A,
+                                      const double* restrict b,
+                                      double* restrict x, const int n) {
+  double y[n];
+  ksl_linalg_ldlt_forwardElimination_rmo(A, b, y, n);
+  for(int i = 0; i < n; i++) {
+    y[i] /= A[i * n + i];
+  }
+  ksl_linalg_ldlt_backwardSubstitution_rmo(A, y, x, n);
+}
+
+/*!
+@brief solve the system of equations A * x = b where A is Row Major Order and
+a symmetric positive definite matrix A
+
+ksl_linalg_cholesky must be called on A prior to calling this function
+
+@param *L [in] n by n matrix L[0:n-1][0:n-1]:
+@param *b [in] n by 1 column of right-hand side y[0:n-1].
+@param *y [out] n by 1 column of unknowns.
+@param n [in] dimension of L[][], b[], y[]:
+
+*/
+inline void ksl_linalg_cholesky_solve_rmo(const double* restrict A,
+                                          const double* restrict b,
+                                          double* restrict x, const int n) {
+  double y[n];
+  ksl_linalg_ldlt_forwardElimination_rmo(A, b, y, n);
+  ksl_linalg_ldlt_backwardSubstitution_rmo(A, y, x, n);
+}
+
+/*!
+@brief compute inverse of a symmetric positive definite matrix A
+where A and A_inverse are in Row Major Order.
+*/
+
+inline int ksl_linalg_symmetricMatrixInverse_rmo(double* restrict A,
+                                                 const int n) {
+  int status = ksl_linalg_ldlt_rmo(A, n);
+  if(status > 0) {
+    return status;
+  }
+  for(int i = 0; i < n - 1; i++) {
+    for(int j = i + 1; j < n; j++) {
+      A[i * n + j] = 0.0;
+    }
+  }
+  for(int i = 0; i < n; i++) {
+    A[i * n + i] = 1.0 / A[i * n + i];
+  }
+  for(int i = n - 2; i >= 0; i--) {  // i = n-1:-1:1
+    for(int j = n - 1; j > i; j--) { // j = n:-1:i+1
+      for(int k = j; k > i; k--) {   // k = j:-1:i+1
+        A[i * n + j] -=
+          A[k * n + i] * A[k * n + j]; // A(i,j) = A(i,j) - A(k,i)*A(k,j);
+      }
+    }
+  }
+  for(int i = n - 2; i >= 0; i--) {    // i = n-1:-1:1
+    for(int j = 0; j <= i; j++) {      // j = 1:1:i
+      for(int k = i + 1; k < n; k++) { // k = i+1:1:n
+        A[j * n + i] -=
+          A[j * n + k] * A[k * n + i]; // A(j,i) = A(j,i) - A(j,k)*A(k,i);
+      }
+    }
+  }
+  for(int i = 0; i < n - 1; i++) {
+    for(int j = i + 1; j < n; j++) {
+      A[j * n + i] = A[i * n + j];
+    }
+  }
+  return 0;
+}
+
+// inline int ksl_linalg_symmetricMatrixInverse_rmo(double* restrict A, const
+// int n) {
+//   double A_inverse[n * n];
+//   double a[n];
+//
+//   int status = ksl_linalg_ldlt_rmo(A, n);
+//   if(status > 0) {
+//     return status;
+//   }
+//   for(int i = 0; i < n; i++) {
+//     memset(a, 0, n * sizeof(double));
+//     a[i] = 1.0;
+//     ksl_linalg_ldlt_solve_rmo(A, a, &A_inverse[i * n + 0], n);
+//   }
+//   memcpy(A, A_inverse, n * n * sizeof(double));
+//   return 0;
+// }
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+/*!
+@brief Column Major Order LU Decomposition with complete row and column pivoting
+
+ksl_linalg_lu_full_cmo factors a double precision matrix, A[rowDim * colDim],
+stored in Column Major Order using full row and column pivoting. Matrix A need
+not have full row or column rank. The integer variable 'rank' represents the
+matrix rank and internally is always one less than the true rank to be
+consistent with C's indexing from zero. Upon return from the function,
+rank will be set to the correct value.
+
+The lower triangular (rank+1) by (rank+1) Lr matrix, except its unity
+diagonal, is stored below the diagonal in A[0:rank][0:rank]. The upper
+triangular (rank+1) by (rank+1) Ur matrix is stored on and above the
+diagonal in A[0:rank][0:rank].
+
+Following the first major matrix decomposition step, A[0:rank][rank+1:colDim]
+stores the residual matrix UR and A[rank+1:rowDim][0:rank] stores the residual
+matrix LR.
+
+The following operations on this matrix are optionally performed after
+ksl_linalg_lu_full_cmo() has factored A.
+
+ksl_linalg_lu_setBMatrix_cmo() computes and stores B = inverse(Ur)*UR and stores
+it back in A[0:rank][rank+1:colDim].
+ksl_linalg_lu_setCMatrix_cmo() computes and stores C = LR*inverse(Lr) and stores
+it back in A[rank+1:rowDim][0:rank].
+
+The remaining A[rank+1:rowDim][rank+1:colDim] submatrix contains numbers whose
+absolute values are all smaller than eps times the absolutely largest
+entry in the original matrix. This part of the matrix is not used.
+
+@param rowDim [in] row dimension of matrix A.
+@param colDim [in] column dimension of matrix A.
+@param *A [in/out] matrix to be factored with dimensions
+A[0:rowDim-1][0:colDim-1], LU factors are overwritten in original matrix
+@param eps [in] input tolerance on the order of machine roundoff.
+@param pr [out] output row permutation array with dimensions pr[0:rowDim-1]
+@param pc [out] output column permutation array with dimensions pc[0:colDim-1]
+@return rank of matrix A
+*/
+int ksl_linalg_lu_full_cmo(const int rowDim, const int colDim,
+                           double* restrict A, const double eps,
+                           int* restrict pr, int* restrict pc) {
+
+  // printf("Jacobian matrix in fullFactor_LU\n");
+  // for(int i = 0; i < rowDim; i++) {
+  //   for(int j = 0; j < colDim; j++)
+  //     printf("% 2.4f ", A[j * rowDim + i]);
+  //   printf("\n");
+  // }
+
+  int rank;     /* (rank+1) is the matrix rank */
+  int pivotRow; /*  row with current pivotal element */
+  int pivotCol; /* column with current pivotal element */
+  double pivot = 0.0;
+  /* current pivotal element, holds the current pivotal element
+     value */
+  double tol;                    /* tolerance for checking residual matrix
+                                               infinity norm against */
+  double save;                   /* variable for holding intermediate results*/
+  double size = rowDim * colDim; /*overall size of matrix */
+
+  /*
+    Return failure if a bad row or column dimension was found.
+  */
+  if((rowDim <= 0) || (colDim <= 0)) {
+    return (-1);
+  }
+
+  /*
+    Consistent with C-indexing, rank always has a value of
+    one less than the true value. rank+1 is returned.
+  */
+  rank = -1; /* initialize for indexing */
+
+  /*
+    Search through the entire A matrix to find the
+    absolutely largest element for assigning to pivot.
+    Save that row and column number in pivotRow and
+    pivotCol. Also intialize the row permutation array pr.
+  */
+#ifdef KSL_WITH_BLAS_
+  int index = cblas_idamax(size, A, 1);
+#else
+  int index = ksl_maxIndex(size, A);
+#endif
+  // div_t result = div(index, colDim);
+  // pivotRow = result.quot;
+  // pivotCol = result.rem;
+  pivotRow = index / colDim;
+  pivotCol = index - pivotRow * colDim;
+  pivot = A[index];
+  // printf("pivotRow: %d, pivotCol: %d\n", pivotRow, pivotCol);
+
+  /* Initialize the column permutation array. */
+  for(int col = 0; col < colDim; col++) {
+    pc[col] = col;
+  }
+  for(int row = 0; row < rowDim; row++) {
+    pr[row] = row;
+  }
+
+  /* Set tolerance to check all zero-elements against.
+  pivot = infinity norm of A.
+  */
+  tol = fabs(eps * pivot);
+
+  /*
+    Major loop to permute and factor the matrix.
+    Generate factors column by column, so outer loop
+    sweeps over columns.
+  */
+  for(int col = 0; col < colDim; col++) {
+    /*
+      If the current pivotal element is <= tol, the
+      remaining submatrix is zero and factorization
+      is complete. The else statement for the following if test
+      breaks out of this loop so not to waste time
+      going through the remaining columns.
+    */
+    if(fabs(pivot) > tol) {
+      /* Increase rank for the current column. */
+      ++rank;
+
+      /*
+        pivotRow can never be less than rank.
+        If pivotRow==rank, then no permutation is needed.
+        If pivotRow>rank, then need to swap rows.
+      */
+      if(pivotRow > rank) {
+        /*
+          Swap entire rows A[rank][:] and A[pivotRow][:].
+          This also swaps rows in the LR matrix to this point.
+
+          swap rows:
+            N = colDim
+            stride = rowDim
+          Start of replaced row is A + rank & stride is rowDim
+          Start of pivot row is A + pivotRow & stride is rowDim
+        */
+#ifdef KSL_WITH_BLAS_
+        cblas_dswap(colDim, A + rank, rowDim, A + pivotRow, rowDim);
+#else
+        ksl_swapArray(colDim, A + rank, rowDim, A + pivotRow, rowDim);
+#endif
+        /*
+          Swap row permutation entries pr[rank] and
+          pr[pivotRow] to reflect row swaps in A.
+        */
+        ksl_swapi(pr + rank, pr + pivotRow);
+      }
+
+      /* pivotCol can never be less than rank.
+      If pivotCol==rank, then no permutation is needed.
+      If pivotCol>rank, then need to swap columns. */
+      if(pivotCol > rank) {
+        // printf("rank: %d, pivotCol: %d\n", rank, pivotCol);
+        // printf("colDim %d\n", colDim);
+        /*
+        Swap entire columns A[:][rank] and A[:][pivotCol].
+        This also swaps columns in the UR matrix to this point.
+        swap columns:
+          N = rowDim
+          stride = 1
+          Start of replaced column is A + rowDim * rank & stride is 1
+          Start of pivot column is A + rowDim * pivotCol & stride is 1
+            */
+#ifdef KSL_WITH_BLAS_
+        cblas_dswap(rowDim, A + rowDim * rank, 1, A + rowDim * pivotCol, 1);
+#else
+        ksl_swapArray(rowDim, A + rowDim * rank, 1, A + rowDim * pivotCol, 1);
+#endif
+        /*
+          Swap column permutation entries pc[rank] and
+          pr[pivotCol] to reflect column swaps.
+        */
+        ksl_swapi(pc + rank, pc + pivotCol);
+      }
+
+      /*
+        rank cannot be > rowDim-1. If rank < rowDim-1
+        there is still some processing left to do. If
+        rank == rowDim-1, there is only a 1 on the
+        diagonal of this column of Lr. This loop factors
+        the matrix and searches for a new pivotal element
+        for the next factorization step.
+      */
+      if(rank < rowDim - 1) {
+
+        /*
+          Copy the current pivotal element into save so new
+          pivotal element can be stored back in pivot.
+        */
+        save = pivot;
+        pivot = 0;
+
+        /* Need only process the rows from rank+1 to rowDim. */
+        for(int i = rank + 1; i < rowDim; i++) {
+
+          /*
+            Evaluate the current entry in the L matrix.
+            (rank is always one less than the true rank.)
+            The first rank columns of the A matrix are complete.
+            Now working in column rank of the A matrix, so the offset
+            to the start of the working column is rank * rowDim.
+          */
+          A[rank * rowDim + i] /= save;
+
+          /*
+            rank cannot be >= colDim. If rank < colDim
+            there is still some processing left to do. If
+            rank == colDim-1, only a pivot remains on the
+            diagonal.
+          */
+          if(rank < colDim) {
+
+            /*
+              This next loop computes the remaining U matrix,
+              searches for the largest pivotal element, and
+              remembers the new pivotal element row and colum.
+            */
+            for(int j = rank + 1; j < colDim; j++) {
+              A[j * rowDim + i] -= A[rank * rowDim + i] * A[j * rowDim + rank];
+              if(fabs(A[j * rowDim + i]) > fabs(pivot)) {
+                pivot = A[j * rowDim + i];
+                pivotRow = i;
+                pivotCol = j;
+              } /*End if*/
+            }   /*End for j*/
+          }     /*End if rank*/
+        }       /*Endfor i = rank+1*/
+      }         /*Endif (rank<rowDim-1)*/
+      else {
+        break; /*No more rows to process.*/
+      }
+    } /*End if*/
+    else {
+      break; /*Done if remainder of matrix is at noise level.*/
+    }
+  } /*End for col*/
+
+  return (rank + 1);
+}
+
+/*!
+@brief Column Major Order LU Decomposition with complete row and column pivoting
+with one specified coordinate
+
+ksl_linalg_lu_full_specified_cmo factors a double precision matrix, A[rowDim *
+colDim], stored in Column Major Order using full row and column pivoting. Matrix
+A need not have full row or column rank. The integer variable 'rank' represents
+the matrix rank and internally is always one less than the true rank to be
+consistent with C's indexing from zero. Upon return from the function,
+rank will be set to the correct value.
+
+The lower triangular (rank+1) by (rank+1) Lr matrix, except its unity
+diagonal, is stored below the diagonal in A[0:rank][0:rank]. The upper
+triangular (rank+1) by (rank+1) Ur matrix is stored on and above the
+diagonal in A[0:rank][0:rank].
+
+Following the first major matrix decomposition step, A[0:rank][rank+1:colDim]
+stores the residual matrix UR and A[rank+1:rowDim][0:rank] stores the residual
+matrix LR.
+
+ksl_linalg_lu_setBMatrix_cmo() computes and stores B = inverse(Ur)*UR and stores
+it back in A[0:rank][rank+1:colDim].
+ksl_linalg_lu_setCMatrix_cmo() computes and stores C = LR*inverse(Lr) and stores
+it back in A[rank+1:rowDim][0:rank].
+
+The remaining A[rank+1:rowDim][rank+1:colDim-1] submatrix contains numbers whose
+absolute values are all smaller than eps times the absolutely largest
+entry in the original matrix. This part of the matrix is not used.
+The remainig A[rank+1:rowDim][colDim] submatrix could contain numbers whose
+absolute values are greater than eps times the absolutely largest
+entry in the original matrix. Adding a check here would be one way to
+assert that the specified variable has sufficient mobility.
+
+@param rowDim input row dimension of matrix A.
+@param colDim input column dimension of matrix A.
+@param **A input/output matrix to be factored with dimensions
+A[0:rowDim-1][0:colDim-1]:
+@param eps input tolerance on the order of machine roundoff.
+@param pr output row permutation array with dimensions pr[0:rowDim-1]
+@param pc output column permutation array with dimensions pc[0:colDim-1]
+@return rank of matrix A
+*/
+int ksl_linalg_lu_full_specified_cmo(const int rowDim, const int colDim,
+                                     double* restrict A, double eps,
+                                     int* restrict pr, int* restrict pc,
+                                     const int specifiedIndex) {
+
+  // printf("Jacobian matrix in fullFactor_LU\n");
+  // for(int i = 0; i < rowDim; i++) {
+  //   for(int j = 0; j < colDim; j++)
+  //     printf("% 2.4f ", A[j * rowDim + i]);
+  //   printf("\n");
+  // }
+
+  int rank;     /* (rank+1) is the matrix rank */
+  int pivotRow; /* row with current pivotal element */
+  int pivotCol; /* column with current pivotal element */
+  double pivot = 0.0;
+  /* current pivotal element, holds the current pivotal element */
+  double tol;                    /* tolerance for checking residual matrix
+                                               infinity norm against */
+  double save;                   /* variable for holding intermediate results*/
+  double size = rowDim * colDim; /*overall size of matrix */
+
+  /*
+    Return failure if a bad row or column dimension was found.
+  */
+  if((rowDim <= 0) || (colDim <= 1)) {
+    return (-1);
+  }
+
+  /*
+    Consistent with C-indexing, rank always has a value of
+    one less than the true value. rank+1 is returned.
+  */
+  rank = -1; /* initialize for indexing */
+
+  /*
+    Initialize permutation arrays
+  */
+  for(int row = 0; row < rowDim; row++) {
+    pr[row] = row;
+  }
+  for(int col = 0; col < colDim; col++) {
+    pc[col] = col;
+  }
+
+  /*
+    Swap the specified column to the last position in the input
+    matrix
+    Swap entire columns A[:][specifiedIndex] and A[:][colDim - 1].
+    swap columns:
+      N = rowDim
+      stride = 1
+      Start of specefied column is A + rowDim * specifiedIndex & stride 1
+      Start of last column is A + rowDim * (colDim - 1) & stride is 1
+  */
+  if(specifiedIndex != colDim - 1) {
+#ifdef KSL_WITH_BLAS
+    cblas_dswap(rowDim, A + rowDim * specifiedIndex, 1,
+                A + rowDim * (colDim - 1), 1);
+#else
+    ksl_swapArray(rowDim, A + rowDim * specifiedIndex, 1,
+                  A + rowDim * (colDim - 1), 1);
+#endif
+    /*
+      Swap column permutation entries pc[] and
+      pc[pivotRow] to reflect row swaps in A.
+    */
+    ksl_swapi(pc + specifiedIndex, pc + colDim - 1);
+  }
+
+  /*
+    Search through matrix A except the last column to find the
+    absolutely largest element for assigning to pivot.
+    Save that row and column number in pivotRow and
+    pivotCol. This could cause numerical problems if the last
+    column contains one or more entries substantially absolutely
+    larger than all other entries in A.
+  */
+  pivot = A[0];
+  pivotRow = 0;
+  pivotCol = 0;
+  for(int row = 0; row < rowDim; row++) {
+    for(int col = 0; col < colDim - 1; col++) {
+      if(fabs(A[col * rowDim + row]) > fabs(pivot)) {
+        pivot = A[col * rowDim + row];
+        pivotRow = row;
+        pivotCol = col;
+      }
+    }
+  }
+  // printf("pivotRow: %d, pivotCol: %d\n", pivotRow, pivotCol);
+
+  /* Set tolerance to check all zero-elements against.
+  pivot = infinity norm of A.
+ */
+  tol = fabs(eps * pivot);
+
+  /*
+    Major loop to permute and factor the matrix.
+    Generate factors column by column, so outer loop
+    sweeps over columns.
+  */
+  for(int col = 0; col < colDim; col++) {
+    /*
+    If the current pivotal element is <= tol, the
+    remaining submatrix is zero and factorization
+    is complete. The else statement for the following if test
+    breaks out of this loop so not to waste time
+    going through the remaining columns.
+    */
+    if(fabs(pivot) > tol) {
+      /* Increase rank for the current column. */
+      ++rank;
+
+      /*
+        pivotRow can never be less than rank.
+        If pivotRow==rank, then no permutation is needed.
+        If pivotRow>rank, then need to swap rows.
+      */
+      if(pivotRow > rank) {
+        /*
+          Need to swap entire row A[rank][:] and A[pivotRow][:].
+          This also swaps rows in the Lr matrix to this point.
+          swap rows:
+            N = colDim
+            stride = rowDim
+          Start of replaced row is A + rank & stride is rowDim
+          Start of pivot row is A + pivotRow & stride is rowDim
+        */
+#ifdef KSL_WITH_BLAS_
+        cblas_dswap(colDim, A + rank, rowDim, A + pivotRow, rowDim);
+#else
+        ksl_swapArray(colDim, A + rank, rowDim, A + pivotRow, rowDim);
+#endif
+        /*
+          Swap row permutation entries pr[rank] and
+          pr[pivotRow] to reflect row swaps in A.
+        */
+        ksl_swapi(pr + rank, pr + pivotRow);
+      }
+
+      /*
+        pivotCol can never be less than rank.
+        If pivotCol==rank, then no permutation is needed.
+        If pivotCol>rank, then need to swap columns.
+      */
+      if(pivotCol > rank) {
+        // printf("rank: %d, pivotCol: %d\n", rank, pivotCol);
+        // printf("colDim %d\n", colDim);
+        /*
+        Swap entire columns A[:][rank] and A[:][pivotCol].
+        This also swaps columns in the UR matrix to this point.
+        swap columns:
+          N = rowDim
+          stride = 1
+          Start of replaced column is A + rowDim * rank & stride is 1
+          Start of pivot column is A + rowDim * pivotCol & stride is 1
+        */
+#ifdef KSL_WITH_BLAS_
+        cblas_dswap(rowDim, A + rowDim * rank, 1, A + rowDim * pivotCol, 1);
+#else
+        ksl_swapArray(rowDim, A + rowDim * rank, 1, A + rowDim * pivotCol, 1);
+#endif
+        /*
+          Swap column permutation entries pc[rank] and
+          pr[pivotCol] to reflect column swaps.
+        */
+        ksl_swapi(pc + rank, pc + pivotCol);
+      }
+
+      /*
+        rank cannot be > rowDim-1. If rank < rowDim-1
+        there is still some processing left to do. If
+        rank == rowDim-1, there is only a 1 on the
+        diagonal of this column of Lr. This loop factors
+        the matrix and searches for a new pivotal element
+        for the next factorization step.
+      */
+      if(rank < rowDim - 1) {
+
+        /*
+          Copy the current pivotal element into save so new
+          pivotal element can be stored back in pivot.
+        */
+        save = pivot;
+        pivot = 0;
+
+        /* Need only process the rows from rank+1 to rowDim. */
+        for(int i = rank + 1; i < rowDim; i++) {
+
+          /* Evaluate the current entry in the L matrix.*/
+          A[rank * rowDim + i] /= save;
+
+          /*
+            rank cannot be >= colDim. If rank < colDim
+            there is still some processing left to do. If
+            rank == colDim-1, only a pivot remains on the
+            diagonal.
+          */
+          if(rank < colDim) {
+
+            /*
+              This next loop computes the remaining U matrix,
+              searches for the largest pivotal element, and
+              remembers the new pivotal element row and colum.
+            */
+            for(int j = rank + 1; j < colDim; j++) {
+              A[j * rowDim + i] -= A[rank * rowDim + i] * A[j * rowDim + rank];
+            }
+            for(int j = rank + 1; j < colDim - 1; j++) {
+              if(fabs(A[j * rowDim + i]) > fabs(pivot)) {
+                pivot = A[j * rowDim + i];
+                pivotRow = i;
+                pivotCol = j;
+              } /*End if*/
+            }   /*End for j*/
+          }     /*End if rank*/
+        }       /*Endfor i = rank+1*/
+      }         /*Endif (rank<rowDim-1)*/
+      else {
+        break; /*No more rows to process.*/
+      }
+    } /*End if*/
+    else {
+      break; /*Done if remainder of matrix is at noise level.*/
+    }
+  } /*End for col*/
+  return (rank + 1);
+}
+
+/*!
+@brief *Fast* Column Major Order LU Decomposition with no row or column pivoting
+for a rectangular matrix
+
+This function LU factors a double precision matrix, A[rank][colDim],
+using no row or column pivoting. This function should be used only if the
+left rank by rank submatrix is known to be nonsingular.
+
+rank <= colDim or error.
+
+The lower triangular rank by rank Lr matrix, except the unity
+diagonal, is stored below the diagonal in A[0:rank-1][0:rank-1]. The upper
+triangular rank by rank Ur matrix is stored on and above the
+diagonal in A[0:rank-1][0:rank-1].
+
+Note that this minimal algorithm variation does not compute the product
+B = inverse(Ur)*UR
+
+@param rank [in] row dimension of matrix A.
+@param colDim [in] column dimension of matrix A.
+@param *A [in/out] matrix to be factored with dimensions
+A[0:rank-1][0:colDim-1]:
+*/
+inline void ksl_linalg_lu_cmo(const int rank, const int colDim,
+                              double* restrict A) {
+
+  if(rank > colDim) {
+    // Error message & exit
+  }
+
+  /*
+    Major loop to factor the matrix.
+    Generate factors column by column
+  */
+  for(int row = 0; row < rank; row++) {
+
+    /* i iterates over rows of A, up to rank-1 */
+    for(int i = row + 1; i < rank; i++) {
+
+      /* Evaluate the current entry in the L matrix.*/
+      A[row * rank + i] /= A[row * rank + row];
+
+      /* Compute U matrix */
+      for(int j = row + 1; j < colDim; j++) {
+        A[j * rank + i] -= A[row * rank + i] * A[j * rank + row];
+      }
+    }
+  }
+}
+
+/*!
+@brief compute Column Major Order B matrix (inverse(Ur) * UR)
+
+
+This block overwrites UR with inverse(Ur) * UR
+If rank == 0 or rank == colDim nothing to process, so exit with message.
+This loop computes A[0:rank-1][rank:colDim-1] = inverse(Ur)*UR
+where UR is stored in A[0:rank-1][rank:colDim-1]
+and Ur is stored in upper part of A[0:rank-1][0:rank-1].
+i is the row number in Ur.
+j is the column number in Ur & row number in UR.
+k is the column number in UR.
+
+@param rowDim [in] row dimension of matrix A.
+@param colDim [in] column dimension of matrix A.
+@param rank [in] rank of matrix A.
+@param *A [in/out] matrix with dimensions A[0:rowDim-1][0:colDim-1]:
+
+*/
+inline void ksl_linalg_lu_setBMatrix_cmo(const int rowDim, const int colDim,
+                                         const int rank, double* restrict A) {
+
+  if(rank > 0 && rank < colDim) {
+    for(int i = rank - 1; i > -1; i--) {   /* rows of B */
+      for(int k = rank; k < colDim; k++) { /* columns of B */
+        double save = 0;
+        for(int j = rank - 1; j > i; j--) { /* columns of Ur */
+          save += A[j * rowDim + i] * A[k * rowDim + j];
+        }
+        A[k * rowDim + i] = (A[k * rowDim + i] - save) / A[i * rowDim + i];
+      }
+    }
+  } else {
+    // Error & do something.
+  }
+}
+
+/*!
+@brief compute Column Major Order C matrix
+
+This block overwrites LR with LR*inverse(Lr)
+If rank==1, the Lr matrix is a 1 by 1 identity
+matrix, so there is nothing to do here. This loop
+computes A[rank:rowDim-1][0:rank-1]=LR*inverse(Lr)
+where LR is stored in A[rank:rowDim-1][0:rank-1]
+and Lr is stored in A[0:rank-1][0:rank-1].
+j is the column number in LR. It ends at 1
+because the diagonal entry in row 0 of Lr is 1.
+i is the row number in LR.
+k is the column number in Lr
+
+@param rowDim [in] row dimension of matrix A.
+@param colDim [in] column dimension of matrix A.
+@param rank [in] rank of matrix A.
+@param *A [in/out] matrix with dimensions A[0:rowDim-1][0:colDim-1]:
+*/
+void ksl_linalg_lu_setCMatrix_cmo(int rowDim, int colDim, int rank, double* A) {
+
+  if(rank > 1) {
+    for(int j = rank - 1; j > 0; j--) {
+      for(int i = rowDim - 1; i > rank - 1; i--) {
+        for(int k = 0; k < j; k++)
+          A[k * rowDim + i] -= A[j * rowDim + i] * A[k * rowDim + j];
+      }
+    }
+  } else {
+    // Error & do something.
+  }
+}
+
+/*!
+@brief computes the Column Major Order L D L^T decomposition of a symmetric
+matrix without pivoting
+
+returns the matrix L D L^T in the original matrix A
+
+@param *A [in/out] matrix with dimensions A[0:n-1][0:n-1]:
+@param n row and column dimension of matrix A.
+
+*/
+int ksl_linalg_ldlt_cmo(double* restrict A, const int n) {
+  for(int k = 0; k < n; k++) {
+    double pivot_inv = A[k * n + k];
+    if(pivot_inv > 0.0) {
+      pivot_inv = 1.0 / A[k * n + k];
+    } else {
+      return k + 1;
+    }
+    for(int j = k + 1; j < n; j++) {
+      A[j * n + k] = A[k * n + j];
+      A[k * n + j] *= pivot_inv;
+    }
+    for(int j = k + 1; j < n; j++) {
+      for(int i = k + 1; i < j + 1; i++) {
+        A[i * n + j] -= A[k * n + j] * A[i * n + k];
+      }
+    }
+  }
+  return 0;
+}
+
+/*!
+@brief perform Column Major Order Cholesky (L * L^T) decomposition of a
+symmetric matrix without pivoting
+
+returns the matrix factor L in the lower triangular portion of matrix A
+
+@param *A [in/out] matrix with dimensions A[0:n-1][0:n-1]:
+@param n row and column dimension of matrix A.
+
+*/
+int ksl_linalg_cholesky_cmo(double* restrict A, const int n) {
+  for(int k = 0; k < n; k++) {
+    if(A[k * n + k] > 0.0) {
+      A[k * n + k] = sqrt(A[k * n + k]);
+    } else {
+      return k + 1;
+    }
+    double pivot_inv = 1.0 / A[k * n + k];
+    for(int j = k + 1; j < n; j++) {
+      A[k * n + j] *= pivot_inv;
+    }
+    for(int j = k + 1; j < n; j++) {
+      for(int i = k + 1; i < j + 1; i++) {
+        A[i * n + j] -= A[k * n + j] * A[k * n + i];
+      }
+    }
+  }
+  return 0;
+}
+
+/*!
 @brief used to solve a system of equations
 
 L * y = b
 
-for y using forward substitution where L IS unit lower triangular
+for y using forward elimination where L IS Column Major Order unit lower
+triangular
 
 y = L^-1 * b
+
+@param *L [in] n by n matrix L[0:n-1][0:n-1]:
+@param *b [in] n by 1 column of right-hand side y[0:n-1].
+@param *y [out] n by 1 column of unknowns.
+@param n [in] dimension of L[][], b[], y[]:
+
 */
-inline void ksl_linalg_ldlt_forwardSubstitution(const double* restrict L,
-                                                const double* restrict b,
-                                                double* restrict y,
-                                                const int n) {
+inline void ksl_linalg_ldlt_forwardElimination_cmo(const double* restrict L,
+                                                   const double* restrict b,
+                                                   double* restrict y,
+                                                   const int n) {
   for(int i = 0; i < n; i++) {
     y[i] = b[i];
     for(int j = 0; j < i; j++) {
-      y[i] -= L[i * n + j] * y[j];
+      y[j] -= L[j * n + i] * y[i];
+    }
+  }
+}
+
+/*!
+@brief used to solve a system of equations
+
+L^T * x = b
+
+using backward substitution where L IS Column Major Order unit lower triangular
+
+x = L^-T * b
+
+@param *L [in] n by n matrix L[0:n-1][0:n-1]:
+@param *b [in] n by 1 column of right-hand side b[0:n-1].
+@param *x [out] n by 1 column of unknowns.
+@param n [in] dimension of L[][], y[], x[]:
+
+*/
+inline void ksl_linalg_ldlt_backwardSubstitution_cmo(const double* restrict L,
+                                                     const double* restrict b,
+                                                     double* restrict x,
+                                                     const int n) {
+  x[n - 1] = b[n - 1];
+  for(int i = n - 2; i > -1; i--) {
+    x[i] = b[i];
+    for(int j = i + 1; j < n; j++) {
+      x[j] -= L[i * n + j] * x[i];
     }
   }
 }
@@ -751,70 +1739,161 @@ inline void ksl_linalg_ldlt_forwardSubstitution(const double* restrict L,
 
 L * y = b
 
-for y using forward substitution where L IS NOT unit lower triangular
+for y using forward elimination where L is Column Major Order and IS NOT unit
+lower triangular
 
 y = L^-1 * b
+
+@param *L [in] n by n matrix L[0:n-1][0:n-1]:
+@param *b [in] n by 1 column of right-hand side y[0:n-1].
+@param *y [out] n by 1 column of unknowns.
+@param n [in] dimension of L[][], b[], y[]:
+
 */
-inline void ksl_linalg_cholesky_forwardSubstitution(const double* restrict L,
-                                                    const double* restrict b,
-                                                    double* restrict y,
-                                                    const int n) {
+inline void ksl_linalg_cholesky_forwardElimination_cmo(const double* restrict L,
+                                                       const double* restrict b,
+                                                       double* restrict y,
+                                                       const int n) {
   for(int i = 0; i < n; i++) {
     double t = b[i];
     for(int j = 0; j < i; j++) {
-      t -= L[i * n + j] * y[j];
+      t -= L[j * n + i] * y[i];
     }
     y[i] = t / L[i * n + i];
   }
 }
 
 /*!
-@brief solve the system of equations A * x = y where A is a symmetric positive
-definite matrix A
+@brief used to solve a system of equations
 
-ksl_linalg_ldlt must be called on A prior to calling this function
+L^T * x = y
+
+using backward substitution where L is Column Major Order and IS NOT unit lower
+triangular
+
+x = L^-T * y
+
+@param *L [in] n by n matrix L[0:n-1][0:n-1]:
+@param *y [in] n by 1 column of right-hand side y[0:n-1].
+@param *x [out] n by 1 column of unknowns.
+@param n [in] dimension of L[][], y[], x[]:
+
 */
-inline void ksl_linalg_ldlt_solve(const double* restrict A,
-                                  const double* restrict x, double* restrict y,
-                                  const int n) {
-  double b[n];
-  ksl_linalg_ldlt_forwardSubstitution(A, x, b, n);
-  for(int i = 0; i < n; i++) {
-    b[i] /= A[i * n + i];
+inline void
+ksl_linalg_cholesky_backwardSubstitution_cmo(const double* restrict L,
+                                             const double* restrict y,
+                                             double* restrict x, const int n) {
+  x[n - 1] = y[n - 1] / L[(n - 1) * n + (n - 1)];
+  for(int i = n - 2; i > -1; i--) {
+    double t = y[i];
+    for(int j = i + 1; j < n; j++) {
+      t -= L[i * n + j] * x[i];
+    }
+    x[i] = t / L[i * n + i];
   }
-  ksl_linalg_ldlt_backwardSubstitution(A, b, y, n);
 }
 
 /*!
-@brief solve the system of equations A * x = y where A is a symmetric positive
-definite matrix A
+@brief solve the system of equations A * x = b where A is Column Major Order and
+a symmetric positive definite matrix A
+
+ksl_linalg_ldlt_cmo must be called on A prior to calling this function
+
+@param *A [in] n by n matrix A[0:n-1][0:n-1] containing Choleski-factored
+matrix:
+@param *b [in] n by 1 column of right-hand side y[0:n-1].
+@param *x [out] n by 1 column of unknowns.
+@param n [in] dimension of L[][], b[], y[]:
+
+*/
+inline void ksl_linalg_ldlt_solve_cmo(const double* restrict A,
+                                      double* const restrict b,
+                                      double* restrict x, const int n) {
+  double y[n];
+  ksl_linalg_ldlt_forwardElimination_cmo(A, b, y, n);
+  for(int i = 0; i < n; i++) {
+    y[i] /= A[i * n + i];
+  }
+  ksl_linalg_ldlt_backwardSubstitution_cmo(A, y, x, n);
+}
+
+/*!
+@brief solve the system of equations A * x = b where A is Column Major Order and
+a symmetric positive definite matrix A
+
+@param *A [in] n by n matrix A[0:n-1][0:n-1] containing Choleski-factored
+matrix:
+@param *b [in] n by 1 column of right-hand side y[0:n-1].
+@param *x [out] n by 1 column of unknowns.
+@param n [in] dimension of L[][], b[], y[]:
 
 ksl_linalg_cholesky must be called on A prior to calling this function
 */
-inline void ksl_linalg_cholesky_solve(const double* restrict A,
-                                      const double* restrict x,
-                                      double* restrict y, const int n) {
-  double b[n];
-  ksl_linalg_ldlt_forwardSubstitution(A, x, b, n);
-  ksl_linalg_ldlt_backwardSubstitution(A, b, y, n);
+inline void ksl_linalg_cholesky_solve_cmo(const double* restrict A,
+                                          const double* restrict b,
+                                          double* restrict x, const int n) {
+  double y[n];
+  ksl_linalg_ldlt_forwardElimination_cmo(A, b, y, n);
+  ksl_linalg_ldlt_backwardSubstitution_cmo(A, y, x, n);
 }
 
 /*!
-@brief compute matrix inverse of a symmetric positive definite matrix A
+@brief compute inverse of a symmetric positive definite matrix A
+where A and A_inverse are in Column Major Order.
 */
-inline int ksl_linalg_symmetricMatrixInverse(double* restrict A, const int n) {
-  double A_inverse[n * n];
-  double a[n];
 
-  int status = ksl_linalg_ldlt(A, n);
-  if(status) {
-    return -1;
+inline int ksl_linalg_symmetricMatrixInverse_cmo(double* restrict A,
+                                                 const int n) {
+  int status = ksl_linalg_ldlt_cmo(A, n);
+  if(status > 0) {
+    return status;
+  }
+  for(int i = 0; i < n - 1; i++) {
+    for(int j = i + 1; j < n; j++) {
+      A[j * n + i] = 0.0;
+    }
   }
   for(int i = 0; i < n; i++) {
-    memset(a, 0, n * sizeof(double));
-    a[i] = 1.0;
-    ksl_linalg_ldlt_solve(A, a, &A_inverse[i * n + 0], n);
+    A[i * n + i] = 1.0 / A[i * n + i];
   }
-  memcpy(A, A_inverse, n * n * sizeof(double));
+  for(int i = n - 2; i >= 0; i--) {  // i = n-1:-1:1
+    for(int j = n - 1; j > i; j--) { // j = n:-1:i+1
+      for(int k = j; k > i; k--) {   // k = j:-1:i+1
+        A[j * n + i] -=
+          A[i * n + k] * A[j * n + k]; // A(j,i) = A(j,i) - A(i,k)*A(j,k);
+      }
+    }
+  }
+  for(int i = n - 2; i >= 0; i--) {    // i = n-1:-1:1
+    for(int j = 0; j <= i; j++) {      // j = 1:1:i
+      for(int k = i + 1; k < n; k++) { // k = i+1:1:n
+        A[i * n + j] -=
+          A[k * n + j] * A[i * n + k]; // A(i,j) = A(i,j) - A(k,j)*A(k,i);
+      }
+    }
+  }
+  for(int i = 0; i < n - 1; i++) {
+    for(int j = i + 1; j < n; j++) {
+      A[i * n + j] = A[j * n + i];
+    }
+  }
   return 0;
 }
+
+// inline int ksl_linalg_symmetricMatrixInverse_cmo(double* restrict A, const
+// int n) {
+//   double A_inverse[n * n];
+//   double a[n];
+//
+//   int status = ksl_linalg_ldlt_cmo(A, n);
+//   if(status > 0) {
+//     return status;
+//   }
+//   for(int i = 0; i < n; i++) {
+//     memset(a, 0, n * sizeof(double));
+//     a[i] = 1.0;
+//     ksl_linalg_ldlt_solve_cmo(A, a, &A_inverse[i * n + 0], n);
+//   }
+//   memcpy(A, A_inverse, n * n * sizeof(double));
+//   return 0;
+// }
