@@ -1027,32 +1027,65 @@ void ksl_array2D_printWithOptions(FILE* f, const int rowDim, const int colDim,
     // printf("  using global print options\n");
     options = &__ksl_print_options;
   }
+  int label_length = 0;
   if(label) {
     fprintf(f, "%s", label);
+    label_length = strlen(label);
   }
+  int lead_in_length = label_length + strlen(options->outer_left_bracket);
   switch(options->print_row_column_major) {
     case KSL_ROW_MAJOR: {
+      fprintf(f, "%s", options->outer_left_bracket);
       for(int i = 0; i < rowDim; i++) {
-        fprintf(f, "  [");
+        fprintf(f, "%s", options->inner_left_bracket);
         for(int j = 0; j < colDim; j++) {
-          fprintf(f, "% 0.10f", A[i * colDim + j]);
+          fprintf(f, options->real_fmt, A[i * colDim + j]);
           if(j != colDim - 1) {
-            fprintf(f, ", ");
+            fprintf(f, "%s", options->delimiter);
           }
         }
-        fprintf(f, "]\n");
-      }
-    } break;
+        fprintf(f, "%s", options->inner_right_bracket);
+        if(i != rowDim - 1) {
+          fprintf(f, "%s", options->delimiter);
 
-    case KSL_COLUMN_MAJOR: {
-      for(int i = 0; i < rowDim; i++) {
-        fprintf(f, "  ");
-        for(int j = 0; j < colDim; j++) {
-          fprintf(f, "% 0.10f ", A[i + j * rowDim]);
+          if(options->line_breaks_in_matrices) {
+            fprintf(f, "\n");
+            for(int j = 0; j < lead_in_length; j++) {
+              fprintf(f, " ");
+            }
+          }
         }
-        fprintf(f, "\n");
       }
-    } break;
+      fprintf(f, "%s", options->outer_right_bracket);
+      fprintf(f, "\n");
+      break;
+    }
+    case KSL_COLUMN_MAJOR: {
+      fprintf(f, "%s", options->outer_left_bracket);
+      for(int i = 0; i < rowDim; i++) {
+        fprintf(f, "%s", options->inner_left_bracket);
+        for(int j = 0; j < colDim; j++) {
+          fprintf(f, options->real_fmt, A[i + j * rowDim]);
+          if(j != colDim - 1) {
+            fprintf(f, "%s", options->delimiter);
+          }
+        }
+        fprintf(f, "%s", options->inner_right_bracket);
+        if(i != rowDim - 1) {
+          fprintf(f, "%s", options->delimiter);
+
+          if(options->line_breaks_in_matrices) {
+            fprintf(f, "\n");
+            for(int j = 0; j < lead_in_length; j++) {
+              fprintf(f, " ");
+            }
+          }
+        }
+      }
+      fprintf(f, "%s", options->outer_right_bracket);
+      fprintf(f, "\n");
+      break;
+    }
   }
 }
 
