@@ -24,3 +24,6 @@ target_link_libraries(check_util ksl ${LIBS} ${CHECK_LIBRARIES})
 
 add_executable(check_vector ${CMAKE_CURRENT_LIST_DIR}/check_vector.c)
 target_link_libraries(check_vector ksl ${LIBS} ${CHECK_LIBRARIES})
+
+add_executable(check_print ${CMAKE_CURRENT_LIST_DIR}/check_print.c)
+target_link_libraries(check_print ksl ${LIBS} ${CHECK_LIBRARIES})

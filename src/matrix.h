@@ -27,6 +27,11 @@ SUCH DAMAGE.
 typedef union ksl_screw_t ksl_screw_t;
 typedef union ksl_screwf_t ksl_screwf_t;
 
+typedef enum ksl_matrix_enum_t {
+  KSL_ROW_MAJOR,
+  KSL_COLUMN_MAJOR
+} ksl_matrix_enum_t;
+
 /*!
 @brief general 3x3 double precision matrix
 

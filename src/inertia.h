@@ -45,6 +45,23 @@ typedef union ksl_inertia_t {
     double Izx;    /*!< Izx centroidal inertia term, expressed in reference
                         frame coordinates */
   };
+  struct {
+    double mass;   /*!< mass */
+    ksl_vec3_t mr; /*!< mass times a vector, r, from reference
+                        frame to body centroid */
+    double _Ixx;   /*!< Ixx centroidal inertia term, expressed in reference
+                       frame coordinates */
+    double _Iyy;   /*!< Ixy centroidal inertia term, expressed in reference
+                       frame coordinates */
+    double _Izz;   /*!< Izz centroidal inertia term, expressed in reference
+                       frame coordinates */
+    double Iyx;    /*!< Ixy centroidal inertia term, expressed in reference
+                        frame coordinates */
+    double Izy;    /*!< Iyz centroidal inertia term, expressed in reference
+                        frame coordinates */
+    double Ixz;    /*!< Izx centroidal inertia term, expressed in reference
+                        frame coordinates */
+  };
 } ksl_inertia_t;
 
 /*!
@@ -68,6 +85,23 @@ typedef union ksl_inertiaf_t {
                          frame coordinates */
     float Izx;      /*!< Izx centroidal inertia term, expressed in reference
                          frame coordinates */
+  };
+  struct {
+    float mass;     /*!< mass */
+    ksl_vec3f_t mr; /*!< mass times a vector, r, from reference
+                        frame to body centroid */
+    float _Ixx;     /*!< Ixx centroidal inertia term, expressed in reference
+                         frame coordinates */
+    float _Iyy;     /*!< Ixy centroidal inertia term, expressed in reference
+                         frame coordinates */
+    float _Izz;     /*!< Izz centroidal inertia term, expressed in reference
+                         frame coordinates */
+    float Iyx;      /*!< Ixy centroidal inertia term, expressed in reference
+                          frame coordinates */
+    float Izy;      /*!< Iyz centroidal inertia term, expressed in reference
+                          frame coordinates */
+    float Ixz;      /*!< Izx centroidal inertia term, expressed in reference
+                          frame coordinates */
   };
 } ksl_inertiaf_t;
 

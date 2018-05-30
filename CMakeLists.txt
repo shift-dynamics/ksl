@@ -98,6 +98,7 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
     add_test(NAME check_screw COMMAND check_screw)
     add_test(NAME check_util COMMAND check_util)
     add_test(NAME check_vector COMMAND check_vector)
+    add_test(NAME check_print COMMAND check_print)
 
   else()
 
