@@ -60,6 +60,8 @@ typedef struct ksl_print_options_t {
   ksl_matrix_enum_t print_row_column_major; /*!< default: KSL_ROW_MAJOR */
 } ksl_print_options_t;
 
+void ksl_print_setDefaultOptions();
+
 /*!
 @brief used to set delimiter used in display of matrices, vectors, screws, etc.
 @param delimiter [in]
