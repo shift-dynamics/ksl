@@ -32,10 +32,6 @@ SUCH DAMAGE.
 #include "screw.h"
 #include "vector.h"
 
-/* macros for obtaining the length of arguments in a variadic function */
-
-#define VA_APPEND(...) __VA_ARGS__, NULL, NULL
-
 typedef enum ksl_print_breakBetweenLines_enum_t {
   KSL_NO_BREAK_BETWEEN_LINES = 0,
   KSL_BREAK_BETWEEN_LINES
@@ -125,6 +121,18 @@ will be set in the global print settings.
 
 void ksl_print_setBreakBetweenLinesInMatrixOption(
   ksl_print_breakBetweenLines_enum_t val, ...);
+
+/*!
+@brief used to set "BreakBetweenLinesInMatrix" option for dispay of matrices
+@param val [in] valid inputs are KSL_BREAK_BETWEEN_LINES or
+KSL_NO_BREAK_BETWEEN_LINES
+@param options [in] a pointer to a user-defined ksl_print_options_t struct
+containing print options. If this value is NULL or is not present, the option
+will be set in the global print settings.
+*/
+#define ksl_print_setBoolean(True, False, ...)                                 \
+  { ksl_print_setBooleanOption(True, False, ##__VA_ARGS__, NULL); }
+void ksl_print_setBooleanOption(const char* True, const char* False, ...);
 
 /*!
 @brief used to set "RowColumnMajorPrinting" option for dispay of matrices

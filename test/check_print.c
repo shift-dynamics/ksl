@@ -351,6 +351,73 @@ START_TEST(test_print_inertia) {
 }
 END_TEST
 
+START_TEST(test_print_triang) {
+  fprintf(f, "\n");
+  fprintf(f, "triang:\n");
+  fprintf(f, "-------\n");
+  ksl_print_options_t* options = ksl_print_options();
+  double a[10] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0};
+  ksl_triang_print(f, 4, a);
+
+  ksl_print_setDelimiter(" ", options);
+  ksl_print_setInnerBrackets("{", "}", options);
+  ksl_print_setOuterBrackets("{", "}", options);
+  ksl_print_setRealFormat("% 0.3f");
+
+  ksl_triang_print(f, 4, a, "with \" \" delimiter: ", options);
+
+  ksl_triang_print(f, 4, a, "with default delimiter: ");
+  free(options);
+  ksl_print_setDefaultOptions();
+  ck_assert(1);
+}
+END_TEST
+
+START_TEST(test_print_triangi) {
+  fprintf(f, "\n");
+  fprintf(f, "triang:\n");
+  fprintf(f, "-------\n");
+  ksl_print_options_t* options = ksl_print_options();
+  int a[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+  ksl_triangi_print(f, 4, a);
+
+  ksl_print_setDelimiter(" ", options);
+  ksl_print_setInnerBrackets("{", "}", options);
+  ksl_print_setOuterBrackets("{", "}", options);
+
+  ksl_triangi_print(f, 4, a, "with \" \" delimiter: ", options);
+
+  ksl_triangi_print(f, 4, a, "with label: ");
+  free(options);
+  ksl_print_setDefaultOptions();
+  ck_assert(1);
+}
+END_TEST
+
+START_TEST(test_print_triangb) {
+  fprintf(f, "\n");
+  fprintf(f, "triangb:\n");
+  fprintf(f, "--------\n");
+  ksl_print_options_t* options = ksl_print_options();
+  bool a[10] = {true,  false, true,  false, true,
+                false, true,  false, true,  false};
+  ksl_triangb_print(f, 4, a);
+
+  ksl_print_setDelimiter(" ", options);
+  ksl_print_setInnerBrackets("{", "}", options);
+  ksl_print_setOuterBrackets("{", "}", options);
+  ksl_print_setBoolean("true ", "false", options);
+  ksl_triangb_print(f, 4, a, "with \" \" delimiter: ", options);
+
+  ksl_print_setBoolean("1", "0");
+  ksl_print_setOuterBrackets("{", "}");
+  ksl_triangb_print(f, 4, a, "with label: ");
+  free(options);
+  ksl_print_setDefaultOptions();
+  ck_assert(1);
+}
+END_TEST
+
 Suite* print_suite(void) {
   Suite* s = suite_create("print");
   TCase* tc_core = tcase_create("core");
@@ -370,6 +437,9 @@ Suite* print_suite(void) {
   tcase_add_test(tc_core, test_print_array);
   tcase_add_test(tc_core, test_print_array2D);
   tcase_add_test(tc_core, test_print_inertia);
+  tcase_add_test(tc_core, test_print_triang);
+  tcase_add_test(tc_core, test_print_triangi);
+  tcase_add_test(tc_core, test_print_triangb);
   suite_add_tcase(s, tc_core);
   return s;
 }
