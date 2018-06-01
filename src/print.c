@@ -97,6 +97,26 @@ void ksl_print_setOuterBracketsOption(const char* left, const char* right,
 }
 
 /*!
+@brief used to set display of boolean values
+@param left [in] string to display true values
+@param right [in] string to display false values
+@param options [in] a pointer to a ksl_print_options_t struct containing print
+options. If the pointer is NULL, the options are set in the global print
+options. This second argument is required in this function.
+*/
+void ksl_print_setBooleanOption(const char* True, const char* False, ...) {
+  va_list arguments;
+  va_start(arguments, False);
+  ksl_print_options_t* options = va_arg(arguments, ksl_print_options_t*);
+  va_end(arguments);
+  if(!options) {
+    options = &__ksl_print_options;
+  }
+  sprintf(options->true_fmt, "%s", True);
+  sprintf(options->false_fmt, "%s", False);
+}
+
+/*!
 @brief used to set "BreakBetweenLinesInMatrix" option for dispay of matrices
 @param val [in] valid inputs are KSL_BREAK_BETWEEN_LINES or
 KSL_NO_BREAK_BETWEEN_LINES
@@ -1195,20 +1215,43 @@ void ksl_triang_printWithOptions(FILE* f, const int n, const double* restrict a,
     // printf("  using global print options\n");
     options = &__ksl_print_options;
   }
+  int label_length = 0;
   if(label) {
-    fprintf(f, "%s\n", label);
+    fprintf(f, "%s", label);
+    label_length = strlen(label);
   }
-
+  int lead_in_length = label_length + strlen(options->outer_left_bracket);
+  fprintf(f, "%s", options->outer_left_bracket);
   for(int i = 0; i < n; i++) {
+    fprintf(f, "%s", options->inner_left_bracket);
     int i_s = (i * (i + 1) / 2);
     for(int j = 0; j < i + 1; j++) {
       fprintf(f, options->real_fmt, a[i_s + j]);
-      if(j != i) {
+      if(j != n - 1) {
         fprintf(f, "%s", options->delimiter);
       }
     }
-    fprintf(f, "\n");
+    for(int j = i + 1; j < n; j++) {
+      int j_s = (j * (j + 1) / 2);
+      fprintf(f, options->real_fmt, a[j_s + i]);
+      if(j != n - 1) {
+        fprintf(f, "%s", options->delimiter);
+      }
+    }
+    fprintf(f, "%s", options->inner_right_bracket);
+    if(i != n - 1) {
+      fprintf(f, "%s", options->delimiter);
+      if(options->line_breaks_in_matrices) {
+        fprintf(f, "\n");
+        for(int j = 0; j < lead_in_length; j++) {
+          fprintf(f, " ");
+        }
+      }
+    }
   }
+
+  fprintf(f, "%s", options->outer_right_bracket);
+  fprintf(f, "\n");
 }
 
 /*!
@@ -1227,20 +1270,43 @@ void ksl_triangi_printWithOptions(FILE* f, const int n, const int* restrict a,
     // printf("  using global print options\n");
     options = &__ksl_print_options;
   }
+  int label_length = 0;
   if(label) {
-    fprintf(f, "%s\n", label);
+    fprintf(f, "%s", label);
+    label_length = strlen(label);
   }
-
+  int lead_in_length = label_length + strlen(options->outer_left_bracket);
+  fprintf(f, "%s", options->outer_left_bracket);
   for(int i = 0; i < n; i++) {
+    fprintf(f, "%s", options->inner_left_bracket);
     int i_s = (i * (i + 1) / 2);
     for(int j = 0; j < i + 1; j++) {
       fprintf(f, options->int_fmt, a[i_s + j]);
-      if(i != j) {
+      if(j != n - 1) {
         fprintf(f, "%s", options->delimiter);
       }
     }
-    fprintf(f, "\n");
+    for(int j = i + 1; j < n; j++) {
+      int j_s = (j * (j + 1) / 2);
+      fprintf(f, options->int_fmt, a[j_s + i]);
+      if(j != n - 1) {
+        fprintf(f, "%s", options->delimiter);
+      }
+    }
+    fprintf(f, "%s", options->inner_right_bracket);
+    if(i != n - 1) {
+      fprintf(f, "%s", options->delimiter);
+      if(options->line_breaks_in_matrices) {
+        fprintf(f, "\n");
+        for(int j = 0; j < lead_in_length; j++) {
+          fprintf(f, " ");
+        }
+      }
+    }
   }
+
+  fprintf(f, "%s", options->outer_right_bracket);
+  fprintf(f, "\n");
 }
 
 /*!
@@ -1259,17 +1325,43 @@ void ksl_triangb_printWithOptions(FILE* f, const int n, const bool* restrict a,
     // printf("  using global print options\n");
     options = &__ksl_print_options;
   }
+  int label_length = 0;
   if(label) {
-    fprintf(f, "%s\n", label);
+    fprintf(f, "%s", label);
+    label_length = strlen(label);
   }
-
+  int lead_in_length = label_length + strlen(options->outer_left_bracket);
+  fprintf(f, "%s", options->outer_left_bracket);
   for(int i = 0; i < n; i++) {
+    fprintf(f, "%s", options->inner_left_bracket);
     int i_s = (i * (i + 1) / 2);
     for(int j = 0; j < i + 1; j++) {
       fprintf(f, "%s", a[i_s + j] ? options->true_fmt : options->false_fmt);
+      if(j != n - 1) {
+        fprintf(f, "%s", options->delimiter);
+      }
     }
-    fprintf(f, "\n");
+    for(int j = i + 1; j < n; j++) {
+      int j_s = (j * (j + 1) / 2);
+      fprintf(f, "%s", a[j_s + i] ? options->true_fmt : options->false_fmt);
+      if(j != n - 1) {
+        fprintf(f, "%s", options->delimiter);
+      }
+    }
+    fprintf(f, "%s", options->inner_right_bracket);
+    if(i != n - 1) {
+      fprintf(f, "%s", options->delimiter);
+      if(options->line_breaks_in_matrices) {
+        fprintf(f, "\n");
+        for(int j = 0; j < lead_in_length; j++) {
+          fprintf(f, " ");
+        }
+      }
+    }
   }
+
+  fprintf(f, "%s", options->outer_right_bracket);
+  fprintf(f, "\n");
 }
 
 /*!
