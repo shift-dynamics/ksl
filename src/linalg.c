@@ -727,6 +727,11 @@ int ksl_linalg_ldlt_rmo(double* restrict A, const int n) {
       }
     }
   }
+  for(int i = 0; i < n; i++) {
+    for(int j = i + 1; j < n; j++) {
+      A[i * n + j] = A[j * n + i];
+    }
+  }
   return 0;
 }
 
@@ -755,6 +760,11 @@ int ksl_linalg_cholesky_rmo(double* restrict A, const int n) {
       for(int i = k + 1; i < j + 1; i++) {
         A[j * n + i] -= A[j * n + k] * A[i * n + k];
       }
+    }
+  }
+  for(int i = 0; i < n; i++) {
+    for(int j = i + 1; j < n; j++) {
+      A[i * n + j] = A[j * n + i];
     }
   }
   return 0;
@@ -790,25 +800,25 @@ inline void ksl_linalg_ldlt_forwardElimination_rmo(const double* restrict L,
 /*!
 @brief used to solve a system of equations
 
-L^T * x = b
+L^T * x = y
 
 using backward substitution where L IS Row Major Order unit lower triangular
 
-x = L^-T * b
+x = L^-T * y
 
 @param *L [in] n by n matrix L[0:n-1][0:n-1]:
-@param *b [in] n by 1 column of right-hand side b[0:n-1].
+@param *y [in] n by 1 column of right-hand side b[0:n-1].
 @param *x [out] n by 1 column of unknowns.
 @param n [in] dimension of L[][], y[], x[]:
 
 */
 inline void ksl_linalg_ldlt_backwardSubstitution_rmo(const double* restrict L,
-                                                     const double* restrict b,
+                                                     const double* restrict y,
                                                      double* restrict x,
                                                      const int n) {
-  x[n - 1] = b[n - 1];
+  x[n - 1] = y[n - 1];
   for(int i = n - 2; i > -1; i--) {
-    x[i] = b[i];
+    x[i] = y[i];
     for(int j = i + 1; j < n; j++) {
       x[i] -= L[j * n + i] * x[j];
     }
@@ -860,10 +870,10 @@ x = L^-T * y
 @param n [in] dimension of L[][], y[], x[]:
 
 */
-inline void ksl_linalg_cholesky_backwardSubstitution(const double* restrict L,
-                                                     const double* restrict y,
-                                                     double* restrict x,
-                                                     const int n) {
+inline void
+ksl_linalg_cholesky_backwardSubstitution_rmo(const double* restrict L,
+                                             const double* restrict y,
+                                             double* restrict x, const int n) {
   x[n - 1] = y[n - 1] / L[(n - 1) * n + (n - 1)];
   for(int i = n - 2; i > -1; i--) {
     double t = y[i];
@@ -914,8 +924,8 @@ inline void ksl_linalg_cholesky_solve_rmo(const double* restrict A,
                                           const double* restrict b,
                                           double* restrict x, const int n) {
   double y[n];
-  ksl_linalg_ldlt_forwardElimination_rmo(A, b, y, n);
-  ksl_linalg_ldlt_backwardSubstitution_rmo(A, y, x, n);
+  ksl_linalg_cholesky_forwardElimination_rmo(A, b, y, n);
+  ksl_linalg_cholesky_backwardSubstitution_rmo(A, y, x, n);
 }
 
 /*!
@@ -1070,8 +1080,8 @@ int ksl_linalg_lu_full_cmo(const int rowDim, const int colDim,
   // div_t result = div(index, colDim);
   // pivotRow = result.quot;
   // pivotCol = result.rem;
-  pivotRow = index / colDim;
-  pivotCol = index - pivotRow * colDim;
+  pivotCol = index / rowDim;
+  pivotRow = index - pivotCol * rowDim;
   pivot = A[index];
   // printf("pivotRow: %d, pivotCol: %d\n", pivotRow, pivotCol);
 
@@ -1348,8 +1358,8 @@ int ksl_linalg_lu_full_specified_cmo(const int rowDim, const int colDim,
   pivot = A[0];
   pivotRow = 0;
   pivotCol = 0;
-  for(int row = 0; row < rowDim; row++) {
-    for(int col = 0; col < colDim - 1; col++) {
+  for(int col = 0; col < colDim - 1; col++) {
+    for(int row = 0; row < rowDim; row++) {
       if(fabs(A[col * rowDim + row]) > fabs(pivot)) {
         pivot = A[col * rowDim + row];
         pivotRow = row;
@@ -1645,6 +1655,11 @@ int ksl_linalg_ldlt_cmo(double* restrict A, const int n) {
       }
     }
   }
+  for(int i = 0; i < n; i++) {
+    for(int j = i + 1; j < n; j++) {
+      A[j * n + i] = A[i * n + j];
+    }
+  }
   return 0;
 }
 
@@ -1675,6 +1690,11 @@ int ksl_linalg_cholesky_cmo(double* restrict A, const int n) {
       }
     }
   }
+  for(int i = 0; i < n; i++) {
+    for(int j = i + 1; j < n; j++) {
+      A[j * n + i] = A[i * n + j];
+    }
+  }
   return 0;
 }
 
@@ -1700,8 +1720,10 @@ inline void ksl_linalg_ldlt_forwardElimination_cmo(const double* restrict L,
                                                    const int n) {
   for(int i = 0; i < n; i++) {
     y[i] = b[i];
-    for(int j = 0; j < i; j++) {
-      y[j] -= L[j * n + i] * y[i];
+  }
+  for(int i = 0; i < n; i++) {
+    for(int j = i + 1; j < n; j++) {
+      y[j] -= L[i * n + j] * y[i];
     }
   }
 }
@@ -1709,27 +1731,28 @@ inline void ksl_linalg_ldlt_forwardElimination_cmo(const double* restrict L,
 /*!
 @brief used to solve a system of equations
 
-L^T * x = b
+L^T * x = y
 
 using backward substitution where L IS Column Major Order unit lower triangular
 
-x = L^-T * b
+x = L^-T * y
 
 @param *L [in] n by n matrix L[0:n-1][0:n-1]:
-@param *b [in] n by 1 column of right-hand side b[0:n-1].
+@param *y [in] n by 1 column of right-hand side y[0:n-1].
 @param *x [out] n by 1 column of unknowns.
 @param n [in] dimension of L[][], y[], x[]:
 
 */
 inline void ksl_linalg_ldlt_backwardSubstitution_cmo(const double* restrict L,
-                                                     const double* restrict b,
+                                                     const double* restrict y,
                                                      double* restrict x,
                                                      const int n) {
-  x[n - 1] = b[n - 1];
+  for(int i = n - 1; i > -1; i--) {
+    x[i] = y[i];
+  }
   for(int i = n - 2; i > -1; i--) {
-    x[i] = b[i];
-    for(int j = i + 1; j < n; j++) {
-      x[j] -= L[i * n + j] * x[i];
+    for(int j = n - 1; j > i; j--) {
+      x[i] -= L[i * n + j] * x[j];
     }
   }
 }
@@ -1755,11 +1778,13 @@ inline void ksl_linalg_cholesky_forwardElimination_cmo(const double* restrict L,
                                                        double* restrict y,
                                                        const int n) {
   for(int i = 0; i < n; i++) {
-    double t = b[i];
-    for(int j = 0; j < i; j++) {
-      t -= L[j * n + i] * y[i];
+    y[i] = b[i];
+  }
+  for(int i = 0; i < n; i++) {
+    y[i] /= L[i * n + i];
+    for(int j = i + 1; j < n; j++) {
+      y[j] -= L[j * n + i] * y[i];
     }
-    y[i] = t / L[i * n + i];
   }
 }
 
@@ -1783,13 +1808,15 @@ inline void
 ksl_linalg_cholesky_backwardSubstitution_cmo(const double* restrict L,
                                              const double* restrict y,
                                              double* restrict x, const int n) {
-  x[n - 1] = y[n - 1] / L[(n - 1) * n + (n - 1)];
+  for(int i = 0; i < n; i++) {
+    x[i] = y[i];
+  }
+  x[n - 1] /= L[(n - 1) * n + (n - 1)];
   for(int i = n - 2; i > -1; i--) {
-    double t = y[i];
     for(int j = i + 1; j < n; j++) {
-      t -= L[i * n + j] * x[i];
+      x[i] -= L[i * n + j] * x[j];
     }
-    x[i] = t / L[i * n + i];
+    x[i] /= L[i * n + i];
   }
 }
 
@@ -1833,8 +1860,8 @@ inline void ksl_linalg_cholesky_solve_cmo(const double* restrict A,
                                           const double* restrict b,
                                           double* restrict x, const int n) {
   double y[n];
-  ksl_linalg_ldlt_forwardElimination_cmo(A, b, y, n);
-  ksl_linalg_ldlt_backwardSubstitution_cmo(A, y, x, n);
+  ksl_linalg_cholesky_forwardElimination_cmo(A, b, y, n);
+  ksl_linalg_cholesky_backwardSubstitution_cmo(A, y, x, n);
 }
 
 /*!

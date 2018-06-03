@@ -343,6 +343,26 @@ bool ksl_allclosef(const int count, const float* restrict a1,
 }
 
 /*!
+@brief used to determine if two int arrays are equal to each other
+
+@param count [in] number of entries in array
+@param a1 [in] first int array
+@param a2 [in] second int array
+@returns true if all pairs are close, false at the first pair not close
+*/
+bool ksl_allclosei(const int count, const int* restrict a1,
+                   const int* restrict a2) {
+
+  for(int i = 0; i < count; i++) {
+    if(a1[i] != a2[i]) {
+      fprintf(stdout, "match failed at index: %d\n", i);
+      return false;
+    }
+  }
+  return true;
+}
+
+/*!
 @brief linear interpolation
 
 @param count [in] number of entries to interpolate
