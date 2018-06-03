@@ -367,10 +367,10 @@ int ksl_linalg_lu_full_specified_rmo(const int rowDim, const int colDim,
   int pivotCol; /* column with current pivotal element */
   double pivot = 0.0;
   /* current pivotal element, holds the current pivotal element */
-  double tol;                    /* tolerance for checking residual matrix
-                                               infinity norm against */
-  double save;                   /* variable for holding intermediate results*/
-  double size = rowDim * colDim; /*overall size of matrix */
+  double tol;  /* tolerance for checking residual matrix
+                             infinity norm against */
+  double save; /* variable for holding intermediate results*/
+  // double size = rowDim * colDim; /*overall size of matrix */
 
   /*
     Return failure if a bad row or column dimension was found.

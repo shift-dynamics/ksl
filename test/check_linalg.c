@@ -11,6 +11,8 @@ static FILE* dbg;
 
 START_TEST(test_swap_unit_stride) {
 
+  /* Swap rows 0 and 2 of a[] to match b[] */
+
   /*
    1,  2,  3,  4,  5,
    6,  7,  8,  9, 10,
@@ -36,6 +38,8 @@ START_TEST(test_swap_unit_stride) {
 END_TEST
 
 START_TEST(test_swap_nonunit_stride) {
+
+  /*swap columns 0 and 3 of a[] to match b[] */
 
   /*
    1,  2,  3,  4,  5,
@@ -63,6 +67,8 @@ END_TEST
 
 START_TEST(test_maxIndex) {
 
+  /* Return index of absolutely largest entry in a[] */
+
   double a[10] = {-21, 45, -622, 431, 622, 0, -1, -633, 1, -99};
 
   ck_assert(ksl_maxIndex(10, a) == 7);
@@ -70,6 +76,21 @@ START_TEST(test_maxIndex) {
 END_TEST
 
 START_TEST(test_linalg_lu_full_rmo) {
+
+  /*
+  Entries in array A[] were selected to allow exact values for all computed
+  quantities.The matrix has five rows and six columns and requires row and
+  column pivoting for optimal numerical accuracy and stability. The row and
+  column permutations are recorded in the pr[] and pc[] arrays. Entries in array
+  LU[] are exactly what must be returned from ksl_linalg_lu_full_rmo().
+  Developers of the original IBM version of DMFGR recommended setting eps on the
+  order of double precision unit roundoff, which is roughly 2e-16. A
+  conservative 1e-12 was used here.
+
+  The matrix represented by array LU[] contains exactly what is returned in
+  array A[] from function ksl_linalg_lu_rmo(). The symbol L_r||U_r is equivalent
+  to L_r union U_r. Single vertical bars indicate matrix partitioning.
+  */
 
   /*
   5 by 6 matrix has rank 4
@@ -87,9 +108,9 @@ START_TEST(test_linalg_lu_full_rmo) {
      12,        4,    8,  0, |  4, -4,
    -0.5,        9,    6,  3, |  3,  0,
       0,  1.0/3.0,   -6, -4, |  0,  0,
-   0.25, -1.0/3.0,   -1, -6, | -2,  2,  L_rU_r | U_R
+   0.25, -1.0/3.0,   -1, -6, | -2,  2,  L_r||U_r | U_R
   ———————————————————————————————————   ————————————
-  -0.25,  1.0/3.0, -0.5,  0, |  0,  0    L_R   |  0
+  -0.25,  1.0/3.0, -0.5,  0, |  0,  0      L_R   |  0
   */
   double LU[30] = {12,    4,         8,    0,          4,  -4,        -0.5, 9,
                    6,     3,         3,    0,          0,  1.0 / 3.0, -6,   -4,
@@ -114,6 +135,31 @@ END_TEST
 START_TEST(test_linalg_lu_full_specified_rmo) {
 
   /*
+  Function ksl_linalg_lu_full_specified_rmo() allows the user to specify one
+  variable as independent, identified by the column index of the supplied
+  matrix. The function does not verify that the specified column index is less
+  than colDim and greater than -1, nor does it verify that the specified
+  variable has sufficient mobility to qualify as an independent variable. If the
+  specified column is not the last column in the original array A[] the function
+  will swap columns to move the specified column to the last column in A[].
+  Column 4 was specified as independent, so columns 4 and 5 are swapped in this
+  test.
+
+  Entries in array A[] were selected to allow exact values for all computed
+  quantities.The matrix has five rows and six columns and requires row and
+  column pivoting for optimal numerical accuracy and stability. The row and
+  column permutations are recorded in the pr[] and pc[] arrays. Entries in array
+  LU[] are exactly what must be returned from
+  ksl_linalg_lu_full_specified_rmo(). Developers of the original IBM version of
+  DMFGR recommended setting eps on the order of double precision unit roundoff,
+  which is roughly 2e-16. A conservative 1e-12 was used here.
+
+  The matrix represented by array LU[] contains exactly what is returned in
+  array A[] from function ksl_linalg_lu_rmo(). The symbol L_r||U_r is equivalent
+  to L_r union U_r. Single vertical bars indicate matrix partitioning.
+*/
+
+  /*
   5 by 6 matrix has rank 4
    3,  1, -3,  3,  0,  2,
    2,  2, -6,  3,  1,  7,
@@ -129,9 +175,9 @@ START_TEST(test_linalg_lu_full_specified_rmo) {
      12,        4,    8,  0, | -4,  4,
    -0.5,        9,    6,  3, |  0,  3,
       0,  1.0/3.0,   -6, -4, |  0,  0,
-   0.25, -1.0/3.0,   -1, -6, |  2, -2,  L_rU_r | U_R
+   0.25, -1.0/3.0,   -1, -6, |  2, -2,  L_r||U_r | U_R
   ———————————————————————————————————   ————————————
-  -0.25,  1.0/3.0, -0.5,  0, |  0,  0    L_R   |  0
+  -0.25,  1.0/3.0, -0.5,  0, |  0,  0      L_R   |  0
   */
   double LU[30] = {12,    4,         8,    0,          -4, 4,         -0.5, 9,
                    6,     3,         0,    3,          0,  1.0 / 3.0, -6,   -4,
@@ -156,6 +202,18 @@ END_TEST
 START_TEST(test_linalg_lu_rmo) {
 
   /*
+  Entries in array A[] were selected to allow exact values for all computed
+  quantities.The full row-rank matrix has four rows and six columns and requires
+  no row or column pivoting. The matrix represented by array LU[] represents
+  exactly what is returned in array A[] from function ksl_linalg_lu_rmo().
+
+  The matrix represented by array LU[] contains exactly what is returned in
+  array A[] from function ksl_linalg_lu_rmo(). The symbol L_r||U_r is
+  equivalent to L_r union U_r. Single vertical bars indicate matrix
+  partitioning.
+  */
+
+  /*
   4 by 6 matrix has rank 4
   12,  4,  8,  0,  4, -4,
   -6,  7,  2,  3,  1,  2,
@@ -166,10 +224,10 @@ START_TEST(test_linalg_lu_rmo) {
                   0,  3, -4, -3, 1, 0,  3,  -2, 6, -3, -2, 1};
 
   /*
-  4 by 6 matrix contains 4 by 4 L_r union U_r, 4 by 2 U_R matrices
+  4 by 6 matrix contains 4 by 4 L_r union U_r, and 4 by 2 U_R matrices
     12,        4,  8,  0, |  4, -4,
   -0.5,        9,  6,  3, |  3,  0,
-     0,  1.0/3.0, -6, -4, |  0,  0,   L_rU_r | U_R
+     0,  1.0/3.0, -6, -4, |  0,  0,   L_r||U_r | U_R
   0.25, -1.0/3.0, -1, -6, | -2,  2
   */
   double LU[24] = {12, 4, 8,    0,          4,  -4,        -0.5, 9,
@@ -189,7 +247,7 @@ START_TEST(test_linalg_lu_setBMatrix_rmo) {
      12,        4,    8,  0, |  4, -4,
    -0.5,        9,    6,  3, |  3,  0,
       0,  1.0/3.0,   -6, -4, |  0,  0,
-   0.25, -1.0/3.0,   -1, -6, | -2,  2,  L_rU_r | U_R
+   0.25, -1.0/3.0,   -1, -6, | -2,  2,  L_r||U_r | U_R
   ———————————————————————————————————   ————————————
   -0.25,  1.0/3.0, -0.5,  0, |  0,  0    L_R   |  0
   */
@@ -203,7 +261,7 @@ START_TEST(test_linalg_lu_setBMatrix_rmo) {
      12,        4,    8,  0, | 29.0/81.0, -38.0/81.0,
    -0.5,        9,    6,  3, | 10.0/27.0,  -1.0/27.0,
       0,  1.0/3.0,   -6, -4, |  -2.0/9.0,    2.0/9.0,
-   0.25, -1.0/3.0,   -1, -6, |   1.0/3.0,   -1.0/ .0,    L_rU_r |  B
+   0.25, -1.0/3.0,   -1, -6, |   1.0/3.0,   -1.0/ .0,    L_r||U_r |  B
   ———————————————————————————————————————————————————    ————————————
   -0.25,  1.0/3.0, -0.5,  0, |         0,          0      L_R   |  0
   */
@@ -226,7 +284,7 @@ START_TEST(test_linalg_lu_setCMatrix_rmo) {
      12,        4,    8,  0, |  4, -4,
    -0.5,        9,    6,  3, |  3,  0,
       0,  1.0/3.0,   -6, -4, |  0,  0,
-   0.25, -1.0/3.0,   -1, -6, | -2,  2,  L_rU_r | U_R
+   0.25, -1.0/3.0,   -1, -6, | -2,  2,  L_r||U_r | U_R
   ———————————————————————————————————   ————————————
   -0.25,  1.0/3.0, -0.5,  0, |  0,  0    L_R   |  0
   */
@@ -240,7 +298,7 @@ START_TEST(test_linalg_lu_setCMatrix_rmo) {
      12,        4,    8,  0, |  4, -4,
    -0.5,        9,    6,  3, |  3,  0,
       0,  1.0/3.0,   -6, -4, |  0,  0,
-   0.25, -1.0/3.0,   -1, -6, | -2,  2,  L_rU_r | U_R
+   0.25, -1.0/3.0,   -1, -6, | -2,  2,  L_r||U_r | U_R
   ———————————————————————————————————   ————————————
       0,      0.5, -0.5,  0, |  0,  0     C    |  0
   */
@@ -542,7 +600,7 @@ START_TEST(test_linalg_lu_full_cmo) {
      12,        4,    8,  0, |  4, -4,
    -0.5,        9,    6,  3, |  3,  0,
       0,  1.0/3.0,   -6, -4, |  0,  0,
-   0.25, -1.0/3.0,   -1, -6, | -2,  2,  L_rU_r | U_R
+   0.25, -1.0/3.0,   -1, -6, | -2,  2,  L_r||U_r | U_R
   ———————————————————————————————————   ————————————
   -0.25,  1.0/3.0, -0.5,  0, |  0,  0    L_R   |  0
   */
@@ -584,7 +642,7 @@ START_TEST(test_linalg_lu_full_specified_cmo) {
      12,        4,    8,  0, | -4,  4,
    -0.5,        9,    6,  3, |  0,  3,
       0,  1.0/3.0,   -6, -4, |  0,  0,
-   0.25, -1.0/3.0,   -1, -6, |  2, -2,  L_rU_r | U_R
+   0.25, -1.0/3.0,   -1, -6, |  2, -2,  L_r||U_r | U_R
   ———————————————————————————————————   ————————————
   -0.25,  1.0/3.0, -0.5,  0, |  0,  0    L_R   |  0
   */
@@ -625,7 +683,7 @@ START_TEST(test_linalg_lu_cmo) {
   4 by 6 matrix contains 4 by 4 L_r union U_r, 4 by 2 U_R matrices
     12,        4,  8,  0, |  4, -4,
   -0.5,        9,  6,  3, |  3,  0,
-     0,  1.0/3.0, -6, -4, |  0,  0,   L_rU_r | U_R
+     0,  1.0/3.0, -6, -4, |  0,  0,   L_r||U_r | U_R
   0.25, -1.0/3.0, -1, -6, | -2,  2
   */
   double LU[24] = {12, -0.5, 0,  0.25, 4,  9, 1.0 / 3.0, -1.0 / 3.0,
@@ -645,7 +703,7 @@ START_TEST(test_linalg_lu_setBMatrix_cmo) {
      12,        4,    8,  0, |  4, -4,
    -0.5,        9,    6,  3, |  3,  0,
       0,  1.0/3.0,   -6, -4, |  0,  0,
-   0.25, -1.0/3.0,   -1, -6, | -2,  2,  L_rU_r | U_R
+   0.25, -1.0/3.0,   -1, -6, | -2,  2,  L_r||U_r | U_R
   ———————————————————————————————————   ————————————
   -0.25,  1.0/3.0, -0.5,  0, |  0,  0    L_R   |  0
   */
@@ -659,7 +717,7 @@ START_TEST(test_linalg_lu_setBMatrix_cmo) {
      12,        4,    8,  0, | 29.0/81.0, -38.0/81.0,
    -0.5,        9,    6,  3, | 10.0/27.0,  -1.0/27.0,
       0,  1.0/3.0,   -6, -4, |  -2.0/9.0,    2.0/9.0,
-   0.25, -1.0/3.0,   -1, -6, |   1.0/3.0,   -1.0/ .0,    L_rU_r | B
+   0.25, -1.0/3.0,   -1, -6, |   1.0/3.0,   -1.0/ .0,    L_r||U_r | B
   ———————————————————————————————————————————————————    ——————————
   -0.25,  1.0/3.0, -0.5,  0, |         0,          0       L_R  | 0
   */
@@ -692,7 +750,7 @@ START_TEST(test_linalg_lu_setCMatrix_cmo) {
      12,        4,    8,  0, |  4, -4,
    -0.5,        9,    6,  3, |  3,  0,
       0,  1.0/3.0,   -6, -4, |  0,  0,
-   0.25, -1.0/3.0,   -1, -6, | -2,  2,  L_rU_r | U_R
+   0.25, -1.0/3.0,   -1, -6, | -2,  2,  L_r||U_r | U_R
   ———————————————————————————————————   ————————————
   -0.25,  1.0/3.0, -0.5,  0, |  0,  0    L_R   |  0
   */
@@ -706,7 +764,7 @@ START_TEST(test_linalg_lu_setCMatrix_cmo) {
      12,        4,    8,  0, |  4, -4,
    -0.5,        9,    6,  3, |  3,  0,
       0,  1.0/3.0,   -6, -4, |  0,  0,
-   0.25, -1.0/3.0,   -1, -6, | -2,  2,  L_rU_r | U_R
+   0.25, -1.0/3.0,   -1, -6, | -2,  2,  L_r||U_r | U_R
   ———————————————————————————————————   ————————————
       0,      0.5, -0.5,  0, |  0,  0     C    |  0
   */
@@ -1030,7 +1088,7 @@ int main(void) {
   int number_failed;
   Suite* s = linalg_suite();
   SRunner* sr = srunner_create(s);
-  srunner_set_log(sr, "test.log");
+  srunner_set_log(sr, "check_linalg.log");
   srunner_run_all(sr, CK_NORMAL);
   number_failed = srunner_ntests_failed(sr);
   srunner_free(sr);
