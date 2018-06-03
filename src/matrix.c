@@ -366,19 +366,240 @@ inline void ksl_mat3x3f_copy(const ksl_mat3x3f_t* restrict ri,
   memcpy(ro, ri, sizeof(ksl_mat3x3f_t));
 }
 
-/*!@todo */
-inline void ksl_mat3x3_invert(ksl_mat3x3_t* restrict R);
+/*!@brief Performs the general matrix inverse for a ksl_mat3x3_t matrix in-place
+with no pivoting. If the matrix is an orthonormal rotation matrix with a
+determinant of one, (i.e. it is \in SO3), then the less expensive matrix
+transpose function can be used for performing the inverse */
+inline int ksl_mat3x3_invert(ksl_mat3x3_t* restrict R) {
+  ksl_mat3x3_t a;
+  ksl_mat3x3_copy(R, &a);
 
-/*!@todo */
-inline void ksl_mat3x3f_invert(ksl_mat3x3_t* restrict R);
+  /* Major loop to factor the matrix.
+    Generate factors column by column */
+  for(int row = 0; row < 3; row++) {
+    /* i iterates over rows of a */
+    for(int i = row + 1; i < 3; i++) {
+      /* Evaluate the current entry in the L matrix.*/
+      a.as_array[row][i] /= a.as_array[row][row];
+      /* Compute U matrix */
+      for(int j = row + 1; j < 3; j++) {
+        a.as_array[j][i] -= a.as_array[row][i] * a.as_array[j][row];
+      }
+    }
+  }
 
-/*!@todo */
-inline void ksl_mat3x3_inverted(const ksl_mat3x3_t* restrict ri,
-                                ksl_mat3x3_t* restrict ro);
+  ksl_vec3_t b;
 
-/*!@todo */
-inline void ksl_mat3x3f_inverted(const ksl_mat3x3_t* restrict ri,
-                                 ksl_mat3x3_t* restrict ro);
+  /* Major loop operates on columns of an identity matrix */
+  for(int k = 0; k < 3; k++) {
+    ksl_vec3_t y;
+    memset(&y, 0, sizeof(ksl_vec3_t));
+    y.at[k] = 1.0;
+    /* perform forward substitution L^-1 y -> b
+    where L is unit lower triangular */
+    for(int i = 0; i < 3; i++) {
+      b.at[i] = y.at[i];
+      for(int j = 0; j < i; j++) {
+        b.at[i] -= a.as_array[j][i] * b.at[j];
+      }
+    }
+
+    /* perform backward substitution U^-1 b -> x
+    where U is non-unit upper triangular */
+    if(fabs(a.as_array[2][2]) < 1e-12) {
+      return -3;
+    }
+    R->as_array[k][2] = b.at[2] / a.as_array[2][2];
+    for(int i = 1; i > -1; i--) {
+      double t = b.at[i];
+      for(int j = i + 1; j < 3; j++) {
+        t -= a.as_array[j][i] * R->as_array[k][j];
+      }
+      if(fabs(a.as_array[i][i]) < 1e-12) {
+        return -(i + 1);
+      }
+      R->as_array[k][i] = t / a.as_array[i][i];
+    }
+  }
+
+  return 0;
+}
+
+/*!@brief Performs the general matrix inverse for a ksl_mat3x3f_t matrix
+in-place with no pivoting. If the matrix is an orthonormal rotation matrix with
+a determinant of one, (i.e. it is \in SO3), then the less expensive matrix
+transpose function can be used for performing the inverse */
+inline int ksl_mat3x3f_invert(ksl_mat3x3f_t* restrict R) {
+  ksl_mat3x3f_t a;
+  ksl_mat3x3f_copy(R, &a);
+
+  /* Major loop to factor the matrix.
+    Generate factors column by column */
+  for(int row = 0; row < 3; row++) {
+    /* i iterates over rows of a */
+    for(int i = row + 1; i < 3; i++) {
+      /* Evaluate the current entry in the L matrix.*/
+      a.as_array[row][i] /= a.as_array[row][row];
+      /* Compute U matrix */
+      for(int j = row + 1; j < 3; j++) {
+        a.as_array[j][i] -= a.as_array[row][i] * a.as_array[j][row];
+      }
+    }
+  }
+
+  ksl_vec3_t b;
+
+  /* Major loop operates on columns of an identity matrix */
+  for(int k = 0; k < 3; k++) {
+    ksl_vec3f_t y;
+    memset(&y, 0, sizeof(ksl_vec3f_t));
+    y.at[k] = 1.0;
+    /* perform forward substitution L^-1 y -> b
+    where L is unit lower triangular */
+    for(int i = 0; i < 3; i++) {
+      b.at[i] = y.at[i];
+      for(int j = 0; j < i; j++) {
+        b.at[i] -= a.as_array[j][i] * b.at[j];
+      }
+    }
+
+    /* perform backward substitution U^-1 b -> x
+    where U is non-unit upper triangular */
+    if(fabs(a.as_array[2][2]) < 1e-12) {
+      return -3;
+    }
+    R->as_array[k][2] = b.at[2] / a.as_array[2][2];
+    for(int i = 1; i > -1; i--) {
+      double t = b.at[i];
+      for(int j = i + 1; j < 3; j++) {
+        t -= a.as_array[j][i] * R->as_array[k][j];
+      }
+      if(fabs(a.as_array[i][i]) < 1e-12) {
+        return -(i + 1);
+      }
+      R->as_array[k][i] = t / a.as_array[i][i];
+    }
+  }
+  return 0;
+}
+
+/*!@brief Performs the general matrix inverse for a ksl_mat3x3_t matrix
+with no pivoting. If the matrix is an orthonormal rotation matrix with a
+determinant of one, (i.e. it is \in SO3), then the less expensive matrix
+transpose function can be used for performing the inverse */
+inline int ksl_mat3x3_inverted(const ksl_mat3x3_t* restrict ri,
+                               ksl_mat3x3_t* restrict ro) {
+  ksl_mat3x3_t a;
+  ksl_mat3x3_copy(ri, &a);
+
+  /* Major loop to factor the matrix.
+    Generate factors column by column */
+  for(int row = 0; row < 3; row++) {
+    /* i iterates over rows of a */
+    for(int i = row + 1; i < 3; i++) {
+      /* Evaluate the current entry in the L matrix.*/
+      a.as_array[row][i] /= a.as_array[row][row];
+      /* Compute U matrix */
+      for(int j = row + 1; j < 3; j++) {
+        a.as_array[j][i] -= a.as_array[row][i] * a.as_array[j][row];
+      }
+    }
+  }
+
+  ksl_vec3_t b;
+
+  /* Major loop operates on columns of an identity matrix */
+  for(int k = 0; k < 3; k++) {
+    ksl_vec3_t y;
+    memset(&y, 0, sizeof(ksl_vec3_t));
+    y.at[k] = 1.0;
+    /* perform forward substitution L^-1 y -> b
+    where L is unit lower triangular */
+    for(int i = 0; i < 3; i++) {
+      b.at[i] = y.at[i];
+      for(int j = 0; j < i; j++) {
+        b.at[i] -= a.as_array[j][i] * b.at[j];
+      }
+    }
+
+    /* perform backward substitution U^-1 b -> x
+    where U is non-unit upper triangular */
+    if(fabs(a.as_array[2][2]) < 1e-12) {
+      return -3;
+    }
+    ro->as_array[k][2] = b.at[2] / a.as_array[2][2];
+    for(int i = 1; i > -1; i--) {
+      double t = b.at[i];
+      for(int j = i + 1; j < 3; j++) {
+        t -= a.as_array[j][i] * ro->as_array[k][j];
+      }
+      if(fabs(a.as_array[i][i]) < 1e-12) {
+        return -(i + 1);
+      }
+      ro->as_array[k][i] = t / a.as_array[i][i];
+    }
+  }
+  return 0;
+}
+
+/*!@brief Performs the general matrix inverse for a ksl_mat3x3f_t matrix
+with no pivoting. If the matrix is an orthonormal rotation matrix with a
+determinant of one, (i.e. it is \in SO3), then the less expensive matrix
+transpose function can be used for performing the inverse */
+inline int ksl_mat3x3f_inverted(const ksl_mat3x3f_t* restrict ri,
+                                ksl_mat3x3f_t* restrict ro) {
+  ksl_mat3x3f_t a;
+  ksl_mat3x3f_copy(ri, &a);
+
+  /* Major loop to factor the matrix.
+    Generate factors column by column */
+  for(int row = 0; row < 3; row++) {
+    /* i iterates over rows of a */
+    for(int i = row + 1; i < 3; i++) {
+      /* Evaluate the current entry in the L matrix.*/
+      a.as_array[row][i] /= a.as_array[row][row];
+      /* Compute U matrix */
+      for(int j = row + 1; j < 3; j++) {
+        a.as_array[j][i] -= a.as_array[row][i] * a.as_array[j][row];
+      }
+    }
+  }
+
+  ksl_vec3f_t b;
+
+  /* Major loop operates on columns of an identity matrix */
+  for(int k = 0; k < 3; k++) {
+    ksl_vec3f_t y;
+    memset(&y, 0, sizeof(ksl_vec3f_t));
+    y.at[k] = 1.0;
+    /* perform forward substitution L^-1 y -> b
+    where L is unit lower triangular */
+    for(int i = 0; i < 3; i++) {
+      b.at[i] = y.at[i];
+      for(int j = 0; j < i; j++) {
+        b.at[i] -= a.as_array[j][i] * b.at[j];
+      }
+    }
+
+    /* perform backward substitution U^-1 b -> x
+    where U is non-unit upper triangular */
+    if(fabs(a.as_array[2][2]) < 1e-12) {
+      return -3;
+    }
+    ro->as_array[k][2] = b.at[2] / a.as_array[2][2];
+    for(int i = 1; i > -1; i--) {
+      double t = b.at[i];
+      for(int j = i + 1; j < 3; j++) {
+        t -= a.as_array[j][i] * ro->as_array[k][j];
+      }
+      if(fabs(a.as_array[i][i]) < 1e-12) {
+        return -(i + 1);
+      }
+      ro->as_array[k][i] = t / a.as_array[i][i];
+    }
+  }
+  return 0;
+}
 
 inline void ksl_mat3x3_transpose(ksl_mat3x3_t* restrict R) {
   ksl_swap(&R->as_array[0][1], &R->as_array[1][0]);

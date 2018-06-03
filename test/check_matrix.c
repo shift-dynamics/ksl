@@ -14,11 +14,10 @@ START_TEST(test_matrix_SE3) {
   D[1] = ksl_SE3(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0);
 
   double k = 1;
-  for(int i = 0; i < 3; i++, k++) {
-    for(int j = 0; j < 4; j++, k++) {
-      ck_assert_double_eq(D[1].as_array[j][i], k);
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < 4; j++) {
+      ck_assert_double_eq(D[1].as_array[j][i], k++);
     }
-    k--;
   }
   free(D);
 }
@@ -32,11 +31,10 @@ START_TEST(test_matrix_SE3f) {
     ksl_SE3f(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0);
 
   float k = 1;
-  for(int i = 0; i < 3; i++, k++) {
-    for(int j = 0; j < 4; j++, k++) {
-      ck_assert_float_eq(D[1].as_array[j][i], k);
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < 4; j++) {
+      ck_assert_float_eq(D[1].as_array[j][i], k++);
     }
-    k--;
   }
   free(D);
 }
@@ -49,11 +47,10 @@ START_TEST(test_matrix_mat3x3) {
   D[1] = ksl_mat3x3(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
 
   double k = 1;
-  for(int i = 0; i < 3; i++, k++) {
-    for(int j = 0; j < 3; j++, k++) {
-      ck_assert_double_eq(D[1].as_array[j][i], k);
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < 3; j++) {
+      ck_assert_double_eq(D[1].as_array[j][i], k++);
     }
-    k--;
   }
   free(D);
 }
@@ -66,11 +63,10 @@ START_TEST(test_matrix_mat3x3f) {
   D[1] = ksl_mat3x3f(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
 
   float k = 1;
-  for(int i = 0; i < 3; i++, k++) {
-    for(int j = 0; j < 3; j++, k++) {
-      ck_assert_float_eq(D[1].as_array[j][i], k);
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < 3; j++) {
+      ck_assert_float_eq(D[1].as_array[j][i], k++);
     }
-    k--;
   }
   free(D);
 }
@@ -84,11 +80,10 @@ START_TEST(test_matrix_mat4x4) {
                     12.0, 13.0, 14.0, 15.0, 16.0);
 
   double k = 1;
-  for(int i = 0; i < 4; i++, k++) {
-    for(int j = 0; j < 4; j++, k++) {
-      ck_assert_double_eq(D[1].as_array[j][i], k);
+  for(int i = 0; i < 4; i++) {
+    for(int j = 0; j < 4; j++) {
+      ck_assert_double_eq(D[1].as_array[j][i], k++);
     }
-    k--;
   }
   free(D);
 }
@@ -102,11 +97,10 @@ START_TEST(test_matrix_mat4x4f) {
                      12.0, 13.0, 14.0, 15.0, 16.0);
 
   float k = 1;
-  for(int i = 0; i < 4; i++, k++) {
-    for(int j = 0; j < 4; j++, k++) {
-      ck_assert_float_eq(D[1].as_array[j][i], k);
+  for(int i = 0; i < 4; i++) {
+    for(int j = 0; j < 4; j++) {
+      ck_assert_float_eq(D[1].as_array[j][i], k++);
     }
-    k--;
   }
   free(D);
 }
@@ -486,25 +480,63 @@ START_TEST(test_matrix_mat3x3f_setFromVectors) {
 }
 END_TEST
 
-// inline void ksl_SE3_getTranslation(const ksl_SE3_t* restrict D,
-//                                    ksl_vec3_t* restrict t) {
-//   memcpy(t, &D->t, sizeof(ksl_vec3_t));
-// }
-//
-// inline void ksl_SE3f_getTranslation(const ksl_SE3f_t* restrict D,
-//                                     ksl_vec3f_t* restrict t) {
-//   memcpy(t, &D->t, sizeof(ksl_vec3f_t));
-// }
-//
-// inline void ksl_mat3x3_copy(const ksl_mat3x3_t* restrict ri,
-//                             ksl_mat3x3_t* restrict ro) {
-//   memcpy(ro, ri, sizeof(ksl_mat3x3_t));
-// }
-//
-// inline void ksl_mat3x3f_copy(const ksl_mat3x3f_t* restrict ri,
-//                              ksl_mat3x3f_t* restrict ro) {
-//   memcpy(ro, ri, sizeof(ksl_mat3x3f_t));
-// }
+START_TEST(test_matrix_SE3_getTranslation) {
+  ksl_SE3_t d = {
+    {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0}};
+  ksl_vec3_t v;
+  ksl_SE3_getTranslation(&d, &v);
+
+  for(int i = 0; i < 3; i++) {
+    ck_assert_double_eq(d.t.at[i], v.at[i]);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_SE3f_getTranslation) {
+  ksl_SE3f_t d = {
+    {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0}};
+  ksl_vec3f_t v;
+  ksl_SE3f_getTranslation(&d, &v);
+
+  for(int i = 0; i < 3; i++) {
+    ck_assert_float_eq(d.t.at[i], v.at[i]);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_mat3x3_copy) {
+  ksl_mat3x3_t r1 = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0}};
+  ksl_mat3x3_t r2;
+  ksl_mat3x3_copy(&r1, &r2);
+
+  for(int i = 0; i < 9; i++) {
+    ck_assert_double_eq(r1.at[i], r2.at[i]);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_mat3x3f_copy) {
+  ksl_mat3x3f_t r1 = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0}};
+  ksl_mat3x3f_t r2;
+  ksl_mat3x3f_copy(&r1, &r2);
+
+  for(int i = 0; i < 9; i++) {
+    ck_assert_float_eq(r1.at[i], r2.at[i]);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_mat3x3_invert) {
+  ksl_mat3x3_t r1 = ksl_mat3x3(13.0, 8.0, 9.0, 3.0, 5.0, 1.0, 1.0, 0.5, 3.0);
+
+  FILE* f = fopen("matrix_inv.txt", "w");
+  ksl_mat3x3_invert(&r1);
+
+  ksl_mat3x3_print(f, &r1);
+  fclose(f);
+}
+END_TEST
+
 //
 // /*!@todo */
 // inline void ksl_mat3x3_invert(ksl_mat3x3_t* restrict R);
@@ -1313,6 +1345,11 @@ Suite* matrix_suite(void) {
   tcase_add_test(tc_core, test_matrix_mat4x4f_setAndGet);
   tcase_add_test(tc_core, test_matrix_mat3x3_setFromVectors);
   tcase_add_test(tc_core, test_matrix_mat3x3f_setFromVectors);
+  tcase_add_test(tc_core, test_matrix_SE3_getTranslation);
+  tcase_add_test(tc_core, test_matrix_SE3f_getTranslation);
+  tcase_add_test(tc_core, test_matrix_mat3x3_copy);
+  tcase_add_test(tc_core, test_matrix_mat3x3f_copy);
+  tcase_add_test(tc_core, test_matrix_mat3x3_invert);
   suite_add_tcase(s, tc_core);
   return s;
 }
@@ -1321,6 +1358,7 @@ int main(void) {
   int number_failed;
   Suite* s = matrix_suite();
   SRunner* sr = srunner_create(s);
+  srunner_set_log(sr, "matrix_test.log");
   srunner_run_all(sr, CK_NORMAL);
   number_failed = srunner_ntests_failed(sr);
   srunner_free(sr);

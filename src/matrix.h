@@ -50,6 +50,7 @@ typedef union ksl_mat3x3_t {
   struct {
     ksl_vec3_t v0, v1, v2;
   };
+  ksl_vec3_t v[3];
 } ksl_mat3x3_t;
 
 /*!
@@ -70,6 +71,7 @@ typedef union ksl_mat3x3f_t {
   struct {
     ksl_vec3f_t v0, v1, v2;
   };
+  ksl_vec3f_t v[3];
 } ksl_mat3x3f_t;
 
 /*!
@@ -245,13 +247,19 @@ float ksl_SE3f_get(const ksl_SE3f_t* D, const int row, const int column);
 
 void ksl_SE3_getTranslation(const ksl_SE3_t* D, ksl_vec3_t* t);
 
+void ksl_SE3f_getTranslation(const ksl_SE3f_t* D, ksl_vec3f_t* t);
+
 void ksl_mat3x3_copy(const ksl_mat3x3_t* ri, ksl_mat3x3_t* ro);
 
 void ksl_mat3x3f_copy(const ksl_mat3x3f_t* ri, ksl_mat3x3f_t* ro);
 
-void ksl_mat3x3_invert(ksl_mat3x3_t* R);
+int ksl_mat3x3_invert(ksl_mat3x3_t* R);
 
-void ksl_mat3x3_inverted(const ksl_mat3x3_t* ri, ksl_mat3x3_t* ro);
+int ksl_mat3x3f_invert(ksl_mat3x3f_t* R);
+
+int ksl_mat3x3_inverted(const ksl_mat3x3_t* ri, ksl_mat3x3_t* ro);
+
+int ksl_mat3x3f_inverted(const ksl_mat3x3f_t* ri, ksl_mat3x3f_t* ro);
 
 void ksl_mat3x3_transpose(ksl_mat3x3_t* R);
 
