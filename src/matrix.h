@@ -50,6 +50,7 @@ typedef union ksl_mat3x3_t {
   struct {
     ksl_vec3_t v0, v1, v2;
   };
+  ksl_vec3_t v[3];
 } ksl_mat3x3_t;
 
 /*!
@@ -70,6 +71,7 @@ typedef union ksl_mat3x3f_t {
   struct {
     ksl_vec3f_t v0, v1, v2;
   };
+  ksl_vec3f_t v[3];
 } ksl_mat3x3f_t;
 
 /*!
@@ -149,6 +151,38 @@ typedef union ksl_SE3f_t {
   };
 } ksl_SE3f_t;
 
+ksl_SE3_t ksl_SE3(const double m00, const double m01, const double m02,
+                  const double m03, const double m10, const double m11,
+                  const double m12, const double m13, const double m20,
+                  const double m21, const double m22, const double m23);
+
+ksl_SE3f_t ksl_SE3f(const float m00, const float m01, const float m02,
+                    const float m03, const float m10, const float m11,
+                    const float m12, const float m13, const float m20,
+                    const float m21, const float m22, const float m23);
+
+ksl_mat3x3_t ksl_mat3x3(const double m00, const double m01, const double m02,
+                        const double m10, const double m11, const double m12,
+                        const double m20, const double m21, const double m22);
+
+ksl_mat3x3f_t ksl_mat3x3f(const float m00, const float m01, const float m02,
+                          const float m10, const float m11, const float m12,
+                          const float m20, const float m21, const float m22);
+
+ksl_mat4x4_t ksl_mat4x4(const double m00, const double m01, const double m02,
+                        const double m03, const double m10, const double m11,
+                        const double m12, const double m13, const double m20,
+                        const double m21, const double m22, const double m23,
+                        const double m30, const double m31, const double m32,
+                        const double m33);
+
+ksl_mat4x4f_t ksl_mat4x4f(const float m00, const float m01, const float m02,
+                          const float m03, const float m10, const float m11,
+                          const float m12, const float m13, const float m20,
+                          const float m21, const float m22, const float m23,
+                          const float m30, const float m31, const float m32,
+                          const float m33);
+
 ksl_SE3_t* ksl_SE3_alloc(int);
 
 ksl_SE3f_t* ksl_SE3f_alloc(int);
@@ -192,6 +226,9 @@ void ksl_SE3f_set(ksl_SE3f_t* D, const int row, const int column,
 void ksl_mat3x3_setFromVectors(ksl_mat3x3_t* R, const ksl_vec3_t* x,
                                const ksl_vec3_t* y, const ksl_vec3_t* z);
 
+void ksl_mat3x3f_setFromVectors(ksl_mat3x3f_t* R, const ksl_vec3f_t* x,
+                                const ksl_vec3f_t* y, const ksl_vec3f_t* z);
+
 void ksl_mat3x3f_set(ksl_mat3x3f_t* R, int row, int column, float value);
 
 void ksl_mat4x4f_set(ksl_mat4x4f_t* D, int row, int column, float value);
@@ -210,13 +247,19 @@ float ksl_SE3f_get(const ksl_SE3f_t* D, const int row, const int column);
 
 void ksl_SE3_getTranslation(const ksl_SE3_t* D, ksl_vec3_t* t);
 
+void ksl_SE3f_getTranslation(const ksl_SE3f_t* D, ksl_vec3f_t* t);
+
 void ksl_mat3x3_copy(const ksl_mat3x3_t* ri, ksl_mat3x3_t* ro);
 
 void ksl_mat3x3f_copy(const ksl_mat3x3f_t* ri, ksl_mat3x3f_t* ro);
 
-void ksl_mat3x3_invert(ksl_mat3x3_t* R);
+int ksl_mat3x3_invert(ksl_mat3x3_t* R);
 
-void ksl_mat3x3_inverted(const ksl_mat3x3_t* ri, ksl_mat3x3_t* ro);
+int ksl_mat3x3f_invert(ksl_mat3x3f_t* R);
+
+int ksl_mat3x3_inverted(const ksl_mat3x3_t* ri, ksl_mat3x3_t* ro);
+
+int ksl_mat3x3f_inverted(const ksl_mat3x3f_t* ri, ksl_mat3x3f_t* ro);
 
 void ksl_mat3x3_transpose(ksl_mat3x3_t* R);
 
