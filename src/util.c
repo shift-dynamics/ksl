@@ -33,13 +33,7 @@ inline void ksl_swapf(float* restrict a, float* restrict b) {
 @param normalizes degrees to be between 0 and 360 degrees
 */
 inline double ksl_normalizeDegrees(double angle) {
-  while(angle < 0) {
-    angle += 360;
-  }
-  while(angle > 360) {
-    angle -= 360;
-  }
-  return angle;
+  return (angle - floor(angle / 360.0) * 360.0);
 }
 
 /*!
@@ -48,13 +42,7 @@ inline double ksl_normalizeDegrees(double angle) {
 @param normalizes degrees to be between 0 and 360 degrees
 */
 inline float ksl_normalizeDegreesf(float angle) {
-  while(angle < 0) {
-    angle += 360;
-  }
-  while(angle > 360) {
-    angle -= 360;
-  }
-  return angle;
+  return (angle - floor(angle / 360.0) * 360.0);
 }
 
 /*!
@@ -64,13 +52,7 @@ inline float ksl_normalizeDegreesf(float angle) {
 */
 double ksl_normalizeRadians(double angle) {
   const double twopi = 2.0 * M_PI;
-  while(angle < 0) {
-    angle += twopi;
-  }
-  while(angle > twopi) {
-    angle -= twopi;
-  }
-  return angle;
+  return (angle - floor(angle / twopi) * twopi);
 }
 
 /*!
@@ -80,13 +62,7 @@ double ksl_normalizeRadians(double angle) {
 */
 float ksl_normalizeRadiansf(float angle) {
   const float twopi = 2.0 * M_PI;
-  while(angle < 0) {
-    angle += twopi;
-  }
-  while(angle > twopi) {
-    angle -= twopi;
-  }
-  return angle;
+  return (angle - floor(angle / twopi) * twopi);
 }
 
 /*!
@@ -116,7 +92,8 @@ double catan2pi(const double y, const double x, double theta) {
   /* temp holds the exact current angle, but it may be off by multiples of 2*pi.
   so it is brought closer to theta by adding multiples of 2*pi obtained from
   theta. */
-  temp = atan2(y, x) + 2 * M_PI * floor(theta / 2 / M_PI);
+  const double twopi = 2.0 * M_PI;
+  temp = atan2(y, x) + twopi * floor(theta / twopi);
 
   /* temp might still be a 2*pi increment above the desired angle.
   a is the upper limit for the current angle. Add QUARTER_PI to bracket the
@@ -125,7 +102,7 @@ double catan2pi(const double y, const double x, double theta) {
 
   /* Decrement the angle until it is below this upper limit if necessary. */
   while(temp > a) {
-    temp -= (2 * M_PI);
+    temp -= twopi;
   }
 
   /* Or temp may be a 2*pi increment below the desired angle.
@@ -135,7 +112,7 @@ double catan2pi(const double y, const double x, double theta) {
 
   /* Increment the angle until it is above this lower limit if necessary. */
   while(temp < a) {
-    temp += (2 * M_PI);
+    temp += twopi;
   }
 
   /* Now the true angle is bracketed by theta - pi/4 and theta + pi/4. */
@@ -168,7 +145,8 @@ float catan2pif(const float y, const float x, float theta) {
   /* temp holds the exact current angle, but it may be off by multiples of 2*pi.
   so it is brought closer to theta by adding multiples of 2*pi obtained from
   theta. */
-  temp = atan2(y, x) + 2 * M_PI * floor(theta / 2 / M_PI);
+  const float twopi = 2.0 * M_PI;
+  temp = atan2(y, x) + twopi * floor(theta / twopi);
 
   /* temp might still be a 2*pi increment above the desired angle.
   a is the upper limit for the current angle. Add QUARTER_PI to bracket the
@@ -177,7 +155,7 @@ float catan2pif(const float y, const float x, float theta) {
 
   /* Decrement the angle until it is below this upper limit if necessary. */
   while(temp > a) {
-    temp -= (2 * M_PI);
+    temp -= twopi;
   }
 
   /* Or temp may be a 2*pi increment below the desired angle.
@@ -187,7 +165,7 @@ float catan2pif(const float y, const float x, float theta) {
 
   /* Increment the angle until it is above this lower limit if necessary. */
   while(temp < a) {
-    temp += (2 * M_PI);
+    temp += twopi;
   }
 
   /* Now the true angle is bracketed by theta - pi/4 and theta + pi/4. */
@@ -357,6 +335,26 @@ bool ksl_allclosef(const int count, const float* restrict a1,
   for(int i = 0; i < count; i++) {
     double scaleFactor = fmax(fabs(a1[i]), 1.0);
     if(fabs(a1[i] - a2[i]) / scaleFactor > 1e-6) {
+      fprintf(stdout, "match failed at index: %d\n", i);
+      return false;
+    }
+  }
+  return true;
+}
+
+/*!
+@brief used to determine if two int arrays are equal to each other
+
+@param count [in] number of entries in array
+@param a1 [in] first int array
+@param a2 [in] second int array
+@returns true if all pairs are close, false at the first pair not close
+*/
+bool ksl_allclosei(const int count, const int* restrict a1,
+                   const int* restrict a2) {
+
+  for(int i = 0; i < count; i++) {
+    if(a1[i] != a2[i]) {
       fprintf(stdout, "match failed at index: %d\n", i);
       return false;
     }

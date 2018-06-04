@@ -100,31 +100,72 @@ typedef union ksl_vec4f_t {
   };
 } ksl_vec4f_t;
 
+typedef union ksl_vec4i_t {
+  int at[4];
+  struct {
+    union {
+      ksl_vec3i_t r;
+      struct {
+        int x;
+        int y;
+        int z;
+      };
+    };
+    int w;
+  };
+} ksl_vec4i_t;
+
 ksl_vec3_t* ksl_vec3_alloc(int);
 
 ksl_vec3f_t* ksl_vec3f_alloc(int);
 
 ksl_vec3i_t* ksl_vec3i_alloc(int);
 
+ksl_vec4_t* ksl_vec4_alloc(int);
+
+ksl_vec4f_t* ksl_vec4f_alloc(int);
+
+ksl_vec4i_t* ksl_vec4i_alloc(int);
+
 double ksl_vec3_l2norm(const ksl_vec3_t* v);
 
 float ksl_vec3f_l2norm(const ksl_vec3f_t* v);
+
+double ksl_vec4_l2norm(const ksl_vec4_t* v);
+
+float ksl_vec4f_l2norm(const ksl_vec4f_t* v);
 
 void ksl_vec3_normalize(ksl_vec3_t* v);
 
 void ksl_vec3f_normalize(ksl_vec3f_t* v);
 
+void ksl_vec4_normalize(ksl_vec4_t* v);
+
+void ksl_vec4f_normalize(ksl_vec4f_t* v);
+
 void ksl_vec3_scale(ksl_vec3_t* v, const double);
 
 void ksl_vec3f_scale(ksl_vec3f_t* v, const float);
+
+void ksl_vec4_scale(ksl_vec4_t* v, const double);
+
+void ksl_vec4f_scale(ksl_vec4f_t* v, const float);
 
 void ksl_vec3_copy(const ksl_vec3_t* vi, ksl_vec3_t* vo);
 
 void ksl_vec3f_copy(const ksl_vec3f_t* vi, ksl_vec3f_t* vo);
 
-void ksl_vec3_swap(ksl_vec3_t* vi, ksl_vec3_t* vo);
+void ksl_vec4_copy(const ksl_vec4_t* vi, ksl_vec4_t* vo);
 
-void ksl_vec3f_swap(ksl_vec3f_t* vi, ksl_vec3f_t* vo);
+void ksl_vec4f_copy(const ksl_vec4f_t* vi, ksl_vec4f_t* vo);
+
+void ksl_vec3_swap(ksl_vec3_t* v1, ksl_vec3_t* v2);
+
+void ksl_vec3f_swap(ksl_vec3f_t* v1, ksl_vec3f_t* v2);
+
+void ksl_vec4_swap(ksl_vec4_t* v1, ksl_vec4_t* v2);
+
+void ksl_vec4f_swap(ksl_vec4f_t* v1, ksl_vec4f_t* v2);
 
 void ksl_vec3_inverted(const ksl_vec3_t* vi, ksl_vec3_t* vo);
 
@@ -133,6 +174,14 @@ void ksl_vec3_invert(ksl_vec3_t* vi);
 void ksl_vec3f_inverted(const ksl_vec3f_t* vi, ksl_vec3f_t* vo);
 
 void ksl_vec3f_invert(ksl_vec3f_t* vi);
+
+void ksl_vec4_inverted(const ksl_vec4_t* vi, ksl_vec4_t* vo);
+
+void ksl_vec4_invert(ksl_vec4_t* vi);
+
+void ksl_vec4f_inverted(const ksl_vec4f_t* vi, ksl_vec4f_t* vo);
+
+void ksl_vec4f_invert(ksl_vec4f_t* vi);
 
 double ksl_dot_vv(const ksl_vec3_t* vi0, const ksl_vec3_t* vi1);
 
@@ -143,6 +192,8 @@ void ksl_product_av(const double ki, const ksl_vec3_t* vi, ksl_vec3_t* vo);
 void ksl_product_avinv(const double ki, const ksl_vec3_t* vi, ksl_vec3_t* vo);
 
 void ksl_product_ainvv(const double ki, const ksl_vec3_t* vi, ksl_vec3_t* vo);
+
+void ksl_product_avinvf(const float ki, const ksl_vec3f_t* vi, ksl_vec3f_t* vo);
 
 void ksl_product_avf(const float ki, const ksl_vec3f_t* vi, ksl_vec3f_t* vo);
 

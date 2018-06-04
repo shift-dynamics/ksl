@@ -57,6 +57,8 @@ bool ksl_allclose(const int count, const double* a1, const double* a2);
 
 bool ksl_allclosef(const int count, const float* a1, const float* a2);
 
+bool ksl_allclosei(const int count, const int* a1, const int* a2);
+
 void ksl_arraylerp(const int count, const double p, const double* y1i,
                    const double* y2i, double* yo);
 
