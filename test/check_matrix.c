@@ -590,68 +590,172 @@ START_TEST(test_matrix_mat3x3f_inverted) {
 }
 END_TEST
 
-//
-// inline void ksl_mat3x3_transpose(ksl_mat3x3_t* restrict R) {
-//   ksl_swap(&R->as_array[0][1], &R->as_array[1][0]);
-//   ksl_swap(&R->as_array[0][2], &R->as_array[2][0]);
-//   ksl_swap(&R->as_array[1][2], &R->as_array[2][1]);
-// }
-//
-// inline void ksl_mat3x3f_transpose(ksl_mat3x3f_t* restrict R) {
-//   ksl_swapf(&R->as_array[0][1], &R->as_array[1][0]);
-//   ksl_swapf(&R->as_array[0][2], &R->as_array[2][0]);
-//   ksl_swapf(&R->as_array[1][2], &R->as_array[2][1]);
-// }
-//
-// inline void ksl_mat3x3_transposed(const ksl_mat3x3_t* restrict ri,
-//                                   ksl_mat3x3_t* restrict ro) {
-//   for(int i = 0; i < 3; i++) {
-//     for(int j = 0; j < 3; j++) {
-//       ro->as_array[i][j] = ri->as_array[j][i];
-//     }
-//   }
-// }
-//
-// inline void ksl_mat3x3f_transposed(const ksl_mat3x3f_t* restrict ri,
-//                                    ksl_mat3x3f_t* restrict ro) {
-//   for(int i = 0; i < 3; i++) {
-//     for(int j = 0; j < 3; j++) {
-//       ro->as_array[i][j] = ri->as_array[j][i];
-//     }
-//   }
-// }
-//
-// inline void ksl_SE3_copy(const ksl_SE3_t* Di, ksl_SE3_t* Do) {
-//   memcpy(Do, Di, sizeof(ksl_SE3_t));
-// }
-//
-// inline void ksl_SE3f_copy(const ksl_SE3f_t* Di, ksl_SE3f_t* Do) {
-//   memcpy(Do, Di, sizeof(ksl_SE3f_t));
-// }
-//
-// inline void ksl_SE3_inverted(const ksl_SE3_t* Di, ksl_SE3_t* Do) {
-//   ksl_mat3x3_transposed(&Di->R, &Do->R);
-//   ksl_product_drinvvinv(&Di->R, &Di->t, &Do->t);
-// }
-//
-// inline void ksl_SE3f_inverted(const ksl_SE3f_t* Di, ksl_SE3f_t* Do) {
-//   ksl_mat3x3f_transposed(&Di->R, &Do->R);
-//   ksl_product_drinvvinvf(&Di->R, &Di->t, &Do->t);
-// }
-//
-// inline void ksl_SE3_invert(ksl_SE3_t* D) {
-//   ksl_vec3_t temp;
-//   ksl_product_drinvvinv(&D->R, &D->t, &temp);
-//   ksl_mat3x3_transpose(&D->R);
-//   ksl_vec3_copy(&temp, &D->t);
-// }
-//
-// inline void ksl_SE3f_invert(ksl_SE3f_t* D) {
-//   ksl_vec3f_t temp;
-//   ksl_product_drinvvinvf(&D->R, &D->t, &temp);
-//   ksl_mat3x3f_transpose(&D->R);
-//   ksl_vec3f_copy(&temp, &D->t);
-// }
+START_TEST(test_matrix_mat3x3_transpose) {
+  ksl_mat3x3_t r1 = ksl_mat3x3(13.0, 8.0, 9.0, 3.0, 5.0, 1.0, 1.0, 0.5, 3.0);
+  ksl_mat3x3_t r2;
+  ksl_mat3x3_copy(&r1, &r2);
+  ksl_mat3x3_transpose(&r1);
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < 3; j++) {
+      ck_assert_double_eq(r1.as_array[i][j], r2.as_array[j][i]);
+    }
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_mat3x3f_transpose) {
+  ksl_mat3x3f_t r1 = ksl_mat3x3f(13.0, 8.0, 9.0, 3.0, 5.0, 1.0, 1.0, 0.5, 3.0);
+  ksl_mat3x3f_t r2;
+  ksl_mat3x3f_copy(&r1, &r2);
+  ksl_mat3x3f_transpose(&r1);
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < 3; j++) {
+      ck_assert_float_eq(r1.as_array[i][j], r2.as_array[j][i]);
+    }
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_mat3x3_transposed) {
+  ksl_mat3x3_t r1 = ksl_mat3x3(13.0, 8.0, 9.0, 3.0, 5.0, 1.0, 1.0, 0.5, 3.0);
+  ksl_mat3x3_t r2;
+  ksl_mat3x3_transposed(&r1, &r2);
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < 3; j++) {
+      ck_assert_double_eq(r1.as_array[i][j], r2.as_array[j][i]);
+    }
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_mat3x3f_transposed) {
+  ksl_mat3x3f_t r1 = ksl_mat3x3f(13.0, 8.0, 9.0, 3.0, 5.0, 1.0, 1.0, 0.5, 3.0);
+  ksl_mat3x3f_t r2;
+  ksl_mat3x3f_transposed(&r1, &r2);
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < 3; j++) {
+      ck_assert_float_eq(r1.as_array[i][j], r2.as_array[j][i]);
+    }
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_SE3_copy) {
+  ksl_SE3_t d1 =
+    ksl_SE3(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0);
+  ksl_SE3_t d2;
+  ksl_SE3_copy(&d1, &d2);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_double_eq(d1.at[i], d2.at[i]);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_SE3f_copy) {
+  ksl_SE3f_t d1 =
+    ksl_SE3f(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0);
+  ksl_SE3f_t d2;
+  ksl_SE3f_copy(&d1, &d2);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq(d1.at[i], d2.at[i]);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_SE3_inverted) {
+  ksl_SE3_t d1 =
+    ksl_SE3(0.28953232855036204, 0.13809317325638165, 0.9471543201739556, 1.0,
+            -0.9568081313741513, 0.014614837677269121, 0.29035255510494773, 2.0,
+            0.026253199052874154, -0.99031140658868, 0.13636013904305067, 3.0);
+  ksl_SE3_t d2;
+  ksl_SE3_inverted(&d1, &d2);
+  ksl_SE3_t d3;
+  ksl_product_dd(&d1, &d2, &d3);
+
+  /* verify that the result is identity */
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < 4; j++) {
+      if(i == j) {
+        ck_assert(fabs(1.0 - d3.as_array[j][i]) < 1e-15);
+      } else {
+        ck_assert(fabs(d3.as_array[j][i]) < 1e-15);
+      }
+    }
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_SE3f_inverted) {
+  ksl_SE3f_t d1 = ksl_SE3f(
+    0.28953232855036204, 0.13809317325638165, 0.9471543201739556, 1.0,
+    -0.9568081313741513, 0.014614837677269121, 0.29035255510494773, 2.0,
+    0.026253199052874154, -0.99031140658868, 0.13636013904305067, 3.0);
+  ksl_SE3f_t d2;
+  ksl_SE3f_inverted(&d1, &d2);
+  ksl_SE3f_t d3;
+  ksl_product_ddf(&d1, &d2, &d3);
+
+  /* verify that the result is identity */
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < 4; j++) {
+      if(i == j) {
+        ck_assert(fabs(1.0 - d3.as_array[j][i]) < 1e-6);
+      } else {
+        ck_assert(fabs(d3.as_array[j][i]) < 1e-6);
+      }
+    }
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_SE3_invert) {
+  ksl_SE3_t d1 =
+    ksl_SE3(0.28953232855036204, 0.13809317325638165, 0.9471543201739556, 1.0,
+            -0.9568081313741513, 0.014614837677269121, 0.29035255510494773, 2.0,
+            0.026253199052874154, -0.99031140658868, 0.13636013904305067, 3.0);
+  ksl_SE3_t d2;
+  ksl_SE3_copy(&d1, &d2);
+  ksl_SE3_invert(&d1);
+  ksl_SE3_t d3;
+  ksl_product_dd(&d1, &d2, &d3);
+
+  /* verify that the result is identity */
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < 4; j++) {
+      if(i == j) {
+        ck_assert(fabs(1.0 - d3.as_array[j][i]) < 1e-15);
+      } else {
+        ck_assert(fabs(d3.as_array[j][i]) < 1e-15);
+      }
+    }
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_SE3f_invert) {
+  ksl_SE3f_t d1 = ksl_SE3f(
+    0.28953232855036204, 0.13809317325638165, 0.9471543201739556, 1.0,
+    -0.9568081313741513, 0.014614837677269121, 0.29035255510494773, 2.0,
+    0.026253199052874154, -0.99031140658868, 0.13636013904305067, 3.0);
+  ksl_SE3f_t d2;
+  ksl_SE3f_copy(&d1, &d2);
+  ksl_SE3f_invert(&d1);
+  ksl_SE3f_t d3;
+  ksl_product_ddf(&d1, &d2, &d3);
+
+  /* verify that the result is identity */
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < 4; j++) {
+      if(i == j) {
+        ck_assert(fabs(1.0 - d3.as_array[j][i]) < 1e-6);
+      } else {
+        ck_assert(fabs(d3.as_array[j][i]) < 1e-6);
+      }
+    }
+  }
+}
+END_TEST
+
 //
 // /*! @todo */
 // inline void ksl_mat3x3_getEulerAngles(const ksl_mat3x3_t* rin,
@@ -662,12 +766,7 @@ END_TEST
 // inline void ksl_mat3x3_setFromEulerAngles(ksl_mat3x3_t*, const ksl_vec3_t*,
 //                                           const ksl_axis_enum_t axisType);
 //
-// /*! @todo */
-// double ksl_mat3x3_getScalar(const ksl_mat3x3_t* restrict ri);
-//
-// /*! @todo */
-// float ksl_mat3x3f_getScalar(const ksl_mat3x3f_t* restrict ri);
-//
+
 // inline void ksl_mat4x4_getTranslation(const ksl_mat4x4_t* restrict Mi,
 //                                       ksl_vec3_t* restrict to) {
 //   memcpy(to, &Mi->v3, sizeof(ksl_vec3_t));
@@ -1392,6 +1491,16 @@ Suite* matrix_suite(void) {
   tcase_add_test(tc_core, test_matrix_mat3x3f_invert);
   tcase_add_test(tc_core, test_matrix_mat3x3_inverted);
   tcase_add_test(tc_core, test_matrix_mat3x3f_inverted);
+  tcase_add_test(tc_core, test_matrix_mat3x3_transpose);
+  tcase_add_test(tc_core, test_matrix_mat3x3f_transpose);
+  tcase_add_test(tc_core, test_matrix_mat3x3_transposed);
+  tcase_add_test(tc_core, test_matrix_mat3x3f_transposed);
+  tcase_add_test(tc_core, test_matrix_SE3_copy);
+  tcase_add_test(tc_core, test_matrix_SE3f_copy);
+  tcase_add_test(tc_core, test_matrix_SE3_inverted);
+  tcase_add_test(tc_core, test_matrix_SE3f_inverted);
+  tcase_add_test(tc_core, test_matrix_SE3_invert);
+  tcase_add_test(tc_core, test_matrix_SE3f_invert);
   suite_add_tcase(s, tc_core);
   return s;
 }

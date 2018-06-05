@@ -61,6 +61,12 @@ typedef union ksl_screwf_t {
   };
 } ksl_screwf_t;
 
+ksl_screw_t ksl_screw(const double m0, const double m1, const double m2,
+                      const double m3, const double m4, const double m5);
+
+ksl_screwf_t ksl_screwf(const float m0, const float m1, const float m2,
+                        const float m3, const float m4, const float m5);
+
 ksl_screw_t* ksl_screw_alloc(int);
 
 ksl_screwf_t* ksl_screwf_alloc(int);
@@ -89,8 +95,7 @@ void ksl_screwf_inverted(const ksl_screwf_t* si, ksl_screwf_t* so);
 
 void ksl_axpy_ss(const double, const ksl_screw_t*, ksl_screw_t*);
 
-void ksl_axpy_ssf(const float, const ksl_screwf_t*,
-                  ksl_screwf_t*);
+void ksl_axpy_ssf(const float, const ksl_screwf_t*, ksl_screwf_t*);
 
 void ksl_xpy_ss(const ksl_screw_t*, ksl_screw_t*);
 

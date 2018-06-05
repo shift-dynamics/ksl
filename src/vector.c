@@ -5,6 +5,65 @@
 #include "vector.h"
 
 /*!
+@brief vec3 constructor
+*/
+ksl_vec3_t ksl_vec3(const double x, const double y, const double z) {
+  ksl_vec3_t v;
+  v.x = x;
+  v.y = y;
+  v.z = z;
+  return v;
+}
+
+/*!
+@brief vec3f constructor
+*/
+ksl_vec3f_t ksl_vec3f(const float x, const float y, const float z) {
+  ksl_vec3f_t v;
+  v.x = x;
+  v.y = y;
+  v.z = z;
+  return v;
+}
+
+/*!
+@brief vec3i constructor
+*/
+ksl_vec3i_t ksl_vec3i(const int x, const int y, const int z) {
+  ksl_vec3i_t v;
+  v.x = x;
+  v.y = y;
+  v.z = z;
+  return v;
+}
+
+/*!
+@brief vec4 constructor
+*/
+ksl_vec4_t ksl_vec4(const double x, const double y, const double z,
+                    const double w) {
+  ksl_vec4_t v;
+  v.x = x;
+  v.y = y;
+  v.z = z;
+  v.w = w;
+  return v;
+}
+
+/*!
+@brief vec4f constructor
+*/
+ksl_vec4f_t ksl_vec4f(const float x, const float y, const float z,
+                      const float w) {
+  ksl_vec4f_t v;
+  v.x = x;
+  v.y = y;
+  v.z = z;
+  v.w = w;
+  return v;
+}
+
+/*!
 @brief initialize n ksl_vec3_t double precision vectors datastructures on the
 heap
 */

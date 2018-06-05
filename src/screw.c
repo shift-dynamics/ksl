@@ -6,6 +6,36 @@
 #include "screw.h"
 
 /*!
+@brief screw constructor
+*/
+ksl_screw_t ksl_screw(const double m0, const double m1, const double m2,
+                      const double m3, const double m4, const double m5) {
+  ksl_screw_t s;
+  s.m0 = m0;
+  s.m1 = m1;
+  s.m2 = m2;
+  s.m3 = m3;
+  s.m4 = m4;
+  s.m5 = m5;
+  return s;
+}
+
+/*!
+@brief screwf constructor
+*/
+ksl_screwf_t ksl_screwf(const float m0, const float m1, const float m2,
+                        const float m3, const float m4, const float m5) {
+  ksl_screwf_t s;
+  s.m0 = m0;
+  s.m1 = m1;
+  s.m2 = m2;
+  s.m3 = m3;
+  s.m4 = m4;
+  s.m5 = m5;
+  return s;
+}
+
+/*!
 @brief allocate n double precision screw quantities
 */
 ksl_screw_t* ksl_screw_alloc(const int n) {

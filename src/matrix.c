@@ -663,20 +663,107 @@ inline void ksl_SE3f_invert(ksl_SE3f_t* D) {
   ksl_vec3f_copy(&temp, &D->t);
 }
 
-/*! @todo */
-inline void ksl_mat3x3_getEulerAngles(const ksl_mat3x3_t* rin,
-                                      ksl_vec3_t* angles,
-                                      const ksl_axis_enum_t axisType);
+/*!
+@brief obtain sequence of Euler angles using specified axis sequence convention
+*/
+inline void ksl_mat3x3_getEulerAngles(const ksl_mat3x3_t* r, ksl_vec3_t* angles,
+                                      const ksl_axis_enum_t axisType) {
+  const int f[3] = {1, 2, 0};
 
-/*! @todo */
-inline void ksl_mat3x3_setFromEulerAngles(ksl_mat3x3_t*, const ksl_vec3_t*,
-                                          const ksl_axis_enum_t axisType);
+  ksl_vec3i_t axes = ksl_axis_getVector(axisType);
 
-/*! @todo */
-double ksl_mat3x3_getScalar(const ksl_mat3x3_t* restrict ri);
+  /* Short notation for the axis identifiers. */
+  int i = axes.x;
+  int j = axes.y;
+  int k = axes.z;
 
-/*! @todo */
-float ksl_mat3x3f_getScalar(const ksl_mat3x3f_t* restrict ri);
+  /* The value of k will be changed in Cases 3 and 4.
+  Temp variables to hold true sin and cos values of third angle. */
+  double c;
+  double s;
+
+  if(j == f[i]) { // Identifies Cases 1 and 3: forward cycle i --> j
+    if(k != i) {  // forward cycle j --> k
+      // Case 1: 0 --> 1 --> 2; 1 --> 2 --> 0; 2 --> 0 --> 1
+      angles->y = catan1pi(-r->as_array[j][i], r->as_array[i][i], angles->y);
+      c = cos(angles->y);
+      s = sin(angles->y);
+      angles->x =
+        catan2pi(r->as_array[j][k] * c + r->as_array[i][k] * s,
+                 r->as_array[j][j] * c + r->as_array[i][j] * s, angles->x);
+      angles->y =
+        catan2pi(r->as_array[k][i],
+                 r->as_array[i][i] * c - r->as_array[j][i] * s, angles->y);
+    } else { // k == i; reverse cycle j --> i
+      // Case 3: 0 --> 1 --> 0; 1 --> 2 --> 1; 2 --> 0 --> 2
+      // Reset k for correct index into direction cosine matrix.
+      k = f[j];
+      angles->z = catan1pi(r->as_array[j][i], r->as_array[k][i], angles->z);
+      c = cos(angles->z);
+      s = sin(angles->z);
+      angles->x =
+        catan2pi(r->as_array[j][k] * c - r->as_array[k][k] * s,
+                 r->as_array[j][j] * c - r->as_array[k][j] * s, angles->x);
+      angles->y = catan2pi(r->as_array[k][i] * c + r->as_array[j][i] * s,
+                           r->as_array[i][i], angles->y);
+    }
+  } else {       // Cases 2 and 4: reverse cycle i --> j
+    if(k != i) { // reverse cycle j --> k
+      // Case 2: 0 --> 2 --> 1; 1 --> 0 --> 2; 2 --> 1 --> 0
+      angles->z = catan1pi(r->as_array[j][i], r->as_array[i][i], angles->z);
+      c = cos(angles->z);
+      s = sin(angles->z);
+      angles->x =
+        catan2pi(-(r->as_array[j][k] * c - r->as_array[i][k] * s),
+                 r->as_array[j][j] * c - r->as_array[i][j] * s, angles->x);
+      angles->y =
+        catan2pi(-r->as_array[k][i],
+                 r->as_array[i][i] * c + r->as_array[j][i] * s, angles->y);
+    } else { // k == i; forward cycle j --> i
+      // Case 4: 0 --> 2 --> 0; 1 --> 0 --> 1; 2 --> 1 --> 2
+      // Reset k for correct index into direction cosine matrix.
+      k = f[i];
+      angles->z = catan1pi(-r->as_array[j][i], r->as_array[k][i], angles->z);
+      c = cos(angles->z);
+      s = sin(angles->z);
+      angles->x =
+        catan2pi(-(r->as_array[j][k] * c + r->as_array[k][k] * s),
+                 r->as_array[j][j] * c + r->as_array[k][j] * s, angles->x);
+      angles->y = catan2pi(-(r->as_array[k][i] * c - r->as_array[j][i] * s),
+                           r->as_array[i][i], angles->y);
+    }
+  }
+}
+
+/*!
+@brief set mat3x3 matrix from a sequence of Euler angles
+*/
+inline void ksl_mat3x3_setFromEulerAngles(ksl_mat3x3_t* r,
+                                          const ksl_vec3_t* angles,
+                                          const ksl_axis_enum_t axisType) {
+  ksl_vec3i_t axes = ksl_axis_getVector(axisType);
+  ksl_mat3x3_setIdentity(r);
+  ksl_mat3x3_t temp;
+  double dc[2];
+  for(int i = 0; i < 3; i++) {
+    ksl_dc(angles->at[i], dc);
+    switch(axes.at[i]) {
+      case 0: {
+        ksl_product_drdrx(r, dc, &temp);
+        break;
+      }
+      case 1: {
+        ksl_product_drdry(r, dc, &temp);
+        break;
+      }
+      case 2: {
+        ksl_product_drdrz(r, dc, &temp);
+        break;
+      }
+    }
+    ksl_mat3x3_copy(&temp, r);
+  }
+}
 
 inline void ksl_mat4x4_getTranslation(const ksl_mat4x4_t* restrict Mi,
                                       ksl_vec3_t* restrict to) {

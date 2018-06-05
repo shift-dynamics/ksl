@@ -105,6 +105,14 @@ typedef union ksl_inertiaf_t {
   };
 } ksl_inertiaf_t;
 
+ksl_inertia_t ksl_inertia(const double m, const ksl_vec3_t t, const double Ixx,
+                          const double Iyy, const double Izz, const double Ixy,
+                          const double Iyz, const double Izx);
+
+ksl_inertiaf_t ksl_inertiaf(const float m, const ksl_vec3f_t t, const float Ixx,
+                            const float Iyy, const float Izz, const float Ixy,
+                            const float Iyz, const float Izx);
+
 ksl_inertia_t* ksl_inertia_alloc(int);
 
 ksl_inertiaf_t* ksl_inertiaf_alloc(int);
