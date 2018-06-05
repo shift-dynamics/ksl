@@ -756,19 +756,6 @@ START_TEST(test_matrix_SE3f_invert) {
 }
 END_TEST
 
-// inline void ksl_SE3_invert(ksl_SE3_t* D) {
-//   ksl_vec3_t temp;
-//   ksl_product_drinvvinv(&D->R, &D->t, &temp);
-//   ksl_mat3x3_transpose(&D->R);
-//   ksl_vec3_copy(&temp, &D->t);
-// }
-//
-// inline void ksl_SE3f_invert(ksl_SE3f_t* D) {
-//   ksl_vec3f_t temp;
-//   ksl_product_drinvvinvf(&D->R, &D->t, &temp);
-//   ksl_mat3x3f_transpose(&D->R);
-//   ksl_vec3f_copy(&temp, &D->t);
-// }
 //
 // /*! @todo */
 // inline void ksl_mat3x3_getEulerAngles(const ksl_mat3x3_t* rin,
@@ -779,12 +766,7 @@ END_TEST
 // inline void ksl_mat3x3_setFromEulerAngles(ksl_mat3x3_t*, const ksl_vec3_t*,
 //                                           const ksl_axis_enum_t axisType);
 //
-// /*! @todo */
-// double ksl_mat3x3_getScalar(const ksl_mat3x3_t* restrict ri);
-//
-// /*! @todo */
-// float ksl_mat3x3f_getScalar(const ksl_mat3x3f_t* restrict ri);
-//
+
 // inline void ksl_mat4x4_getTranslation(const ksl_mat4x4_t* restrict Mi,
 //                                       ksl_vec3_t* restrict to) {
 //   memcpy(to, &Mi->v3, sizeof(ksl_vec3_t));
