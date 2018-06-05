@@ -115,6 +115,18 @@ typedef union ksl_vec4i_t {
   };
 } ksl_vec4i_t;
 
+ksl_vec3_t ksl_vec3(const double x, const double y, const double z);
+
+ksl_vec3f_t ksl_vec3f(const float x, const float y, const float z);
+
+ksl_vec3i_t ksl_vec3i(const int x, const int y, const int z);
+
+ksl_vec4_t ksl_vec4(const double x, const double y, const double z,
+                    const double w);
+
+ksl_vec4f_t ksl_vec4f(const float x, const float y, const float z,
+                      const float w);
+
 ksl_vec3_t* ksl_vec3_alloc(int);
 
 ksl_vec3f_t* ksl_vec3f_alloc(int);
