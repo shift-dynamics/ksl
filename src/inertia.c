@@ -6,6 +6,74 @@
 #include "inertia.h"
 #include "util.h"
 
+/*!
+@brief double precision spatial inertia matrix constructor
+@param m [in] mass
+@param t [in] vector from reference frame to body centroid
+@param Ixx [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Iyy [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Izz [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Ixy [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Iyz [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Izx [in] centroidal inertia term, expressed in reference frame
+coordinates
+*/
+ksl_inertia_t ksl_inertia(const double m, const ksl_vec3_t t, const double Ixx,
+                          const double Iyy, const double Izz, const double Ixy,
+                          const double Iyz, const double Izx) {
+  ksl_inertia_t i;
+  i.m = m;
+  i.mt.x = m * t.x;
+  i.mt.y = m * t.y;
+  i.mt.z = m * t.z;
+  i.Ixx = Ixx;
+  i.Iyy = Iyy;
+  i.Izz = Izz;
+  i.Ixy = Ixy;
+  i.Iyz = Iyz;
+  i.Izx = Izx;
+  return i;
+}
+
+/*!
+@brief single precision spatial inertia matrix constructor
+@param m [in] mass
+@param t [in] vector from reference frame to body centroid
+@param Ixx [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Iyy [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Izz [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Ixy [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Iyz [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Izx [in] centroidal inertia term, expressed in reference frame
+coordinates
+*/
+ksl_inertiaf_t ksl_inertiaf(const float m, const ksl_vec3f_t t, const float Ixx,
+                            const float Iyy, const float Izz, const float Ixy,
+                            const float Iyz, const float Izx) {
+  ksl_inertiaf_t i;
+  i.m = m;
+  i.mt.x = m * t.x;
+  i.mt.y = m * t.y;
+  i.mt.z = m * t.z;
+  i.Ixx = Ixx;
+  i.Iyy = Iyy;
+  i.Izz = Izz;
+  i.Ixy = Ixy;
+  i.Iyz = Iyz;
+  i.Izx = Izx;
+  return i;
+}
+
 inline ksl_inertia_t* ksl_inertia_alloc(int n) {
   return calloc(n, sizeof(ksl_inertia_t));
 }
