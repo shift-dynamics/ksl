@@ -287,10 +287,6 @@ void ksl_mat3x3_getEulerAngles(const ksl_mat3x3_t* rin, ksl_vec3_t* angles,
 void ksl_mat3x3_setFromEulerAngles(ksl_mat3x3_t*, const ksl_vec3_t*,
                                    const ksl_axis_enum_t axisType);
 
-double ksl_mat3x3_getScalar(const ksl_mat3x3_t* ri);
-
-float ksl_mat3x3f_getScalar(const ksl_mat3x3f_t* ri);
-
 void ksl_mat3x3_getAxisAngle(const ksl_mat3x3_t*, ksl_vec3_t*, double*);
 
 void ksl_mat4x4_getTranslation(const ksl_mat4x4_t* Mi, ksl_vec3_t* to);

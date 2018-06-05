@@ -668,15 +668,35 @@ inline void ksl_mat3x3_getEulerAngles(const ksl_mat3x3_t* rin,
                                       ksl_vec3_t* angles,
                                       const ksl_axis_enum_t axisType);
 
-/*! @todo */
-inline void ksl_mat3x3_setFromEulerAngles(ksl_mat3x3_t*, const ksl_vec3_t*,
-                                          const ksl_axis_enum_t axisType);
-
-/*! @todo */
-double ksl_mat3x3_getScalar(const ksl_mat3x3_t* restrict ri);
-
-/*! @todo */
-float ksl_mat3x3f_getScalar(const ksl_mat3x3f_t* restrict ri);
+/*!
+@brief set mat3x3 matrix from a sequence of Euler angles
+*/
+inline void ksl_mat3x3_setFromEulerAngles(ksl_mat3x3_t* r,
+                                          const ksl_vec3_t* angles,
+                                          const ksl_axis_enum_t axisType) {
+  ksl_vec3i_t axes = ksl_axis_getVector(axisType);
+  ksl_mat3x3_setIdentity(r);
+  ksl_mat3x3_t temp;
+  double dc[2];
+  for(int i = 0; i < 3; i++) {
+    ksl_dc(angles->at[i], dc);
+    switch(axes.at[i]) {
+      case 0: {
+        ksl_product_drdrx(r, dc, &temp);
+        break;
+      }
+      case 1: {
+        ksl_product_drdry(r, dc, &temp);
+        break;
+      }
+      case 2: {
+        ksl_product_drdrz(r, dc, &temp);
+        break;
+      }
+    }
+    ksl_mat3x3_copy(&temp, r);
+  }
+}
 
 inline void ksl_mat4x4_getTranslation(const ksl_mat4x4_t* restrict Mi,
                                       ksl_vec3_t* restrict to) {
