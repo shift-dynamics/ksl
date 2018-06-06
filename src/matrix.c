@@ -25,6 +25,35 @@ inline ksl_SE3_t ksl_SE3(const double m00, const double m01, const double m02,
   return d;
 }
 
+inline ksl_SE3_t ksl_SE3_cmo(const double m00, const double m10,
+                             const double m20, const double m01,
+                             const double m11, const double m21,
+                             const double m02, const double m12,
+                             const double m22, const double m03,
+                             const double m13, const double m23) {
+  ksl_SE3_t d;
+  d.R.m00 = m00;
+  d.R.m01 = m01;
+  d.R.m02 = m02;
+  d.R.m10 = m10;
+  d.R.m11 = m11;
+  d.R.m12 = m12;
+  d.R.m20 = m20;
+  d.R.m21 = m21;
+  d.R.m22 = m22;
+  d.t.x = m03;
+  d.t.y = m13;
+  d.t.z = m23;
+  return d;
+}
+
+inline ksl_SE3_t ksl_SE3_fromRt(const ksl_mat3x3_t R, const ksl_vec3_t t) {
+  ksl_SE3_t d;
+  d.R = R;
+  d.t = t;
+  return d;
+}
+
 inline ksl_SE3f_t ksl_SE3f(const float m00, const float m01, const float m02,
                            const float m03, const float m10, const float m11,
                            const float m12, const float m13, const float m20,
@@ -42,6 +71,35 @@ inline ksl_SE3f_t ksl_SE3f(const float m00, const float m01, const float m02,
   d.t.x = m03;
   d.t.y = m13;
   d.t.z = m23;
+  return d;
+}
+
+inline ksl_SE3f_t ksl_SE3f_cmo(const float m00, const float m10,
+                               const float m20, const float m01,
+                               const float m11, const float m21,
+                               const float m02, const float m12,
+                               const float m22, const float m03,
+                               const float m13, const float m23) {
+  ksl_SE3f_t d;
+  d.R.m00 = m00;
+  d.R.m01 = m01;
+  d.R.m02 = m02;
+  d.R.m10 = m10;
+  d.R.m11 = m11;
+  d.R.m12 = m12;
+  d.R.m20 = m20;
+  d.R.m21 = m21;
+  d.R.m22 = m22;
+  d.t.x = m03;
+  d.t.y = m13;
+  d.t.z = m23;
+  return d;
+}
+
+inline ksl_SE3f_t ksl_SE3f_fromRt(const ksl_mat3x3f_t R, const ksl_vec3f_t t) {
+  ksl_SE3f_t d;
+  d.R = R;
+  d.t = t;
   return d;
 }
 
@@ -63,11 +121,47 @@ inline ksl_mat3x3_t ksl_mat3x3(const double m00, const double m01,
   return r;
 }
 
+inline ksl_mat3x3_t ksl_mat3x3_cmo(const double m00, const double m10,
+                                   const double m20, const double m01,
+                                   const double m11, const double m21,
+                                   const double m02, const double m12,
+                                   const double m22) {
+  ksl_mat3x3_t r;
+  r.m00 = m00;
+  r.m01 = m01;
+  r.m02 = m02;
+  r.m10 = m10;
+  r.m11 = m11;
+  r.m12 = m12;
+  r.m20 = m20;
+  r.m21 = m21;
+  r.m22 = m22;
+  return r;
+}
+
 inline ksl_mat3x3f_t ksl_mat3x3f(const float m00, const float m01,
                                  const float m02, const float m10,
                                  const float m11, const float m12,
                                  const float m20, const float m21,
                                  const float m22) {
+  ksl_mat3x3f_t r;
+  r.m00 = m00;
+  r.m01 = m01;
+  r.m02 = m02;
+  r.m10 = m10;
+  r.m11 = m11;
+  r.m12 = m12;
+  r.m20 = m20;
+  r.m21 = m21;
+  r.m22 = m22;
+  return r;
+}
+
+inline ksl_mat3x3f_t ksl_mat3x3f_cmo(const float m00, const float m10,
+                                     const float m20, const float m01,
+                                     const float m11, const float m21,
+                                     const float m02, const float m12,
+                                     const float m22) {
   ksl_mat3x3f_t r;
   r.m00 = m00;
   r.m01 = m01;
@@ -106,6 +200,74 @@ inline ksl_mat4x4_t ksl_mat4x4(
   return m;
 }
 
+inline ksl_mat4x4_t ksl_mat4x4_cmo(
+  const double m00, const double m10, const double m20, const double m30,
+  const double m01, const double m11, const double m21, const double m31,
+  const double m02, const double m12, const double m22, const double m32,
+  const double m03, const double m13, const double m23, const double m33) {
+  ksl_mat4x4_t m;
+  m.m00 = m00;
+  m.m01 = m01;
+  m.m02 = m02;
+  m.m03 = m03;
+  m.m10 = m10;
+  m.m11 = m11;
+  m.m12 = m12;
+  m.m13 = m13;
+  m.m20 = m20;
+  m.m21 = m21;
+  m.m22 = m22;
+  m.m23 = m23;
+  m.m30 = m30;
+  m.m31 = m31;
+  m.m32 = m32;
+  m.m33 = m33;
+  return m;
+}
+
+inline ksl_mat4x4_t ksl_mat4x4_fromSE3(const ksl_SE3_t D) {
+  ksl_mat4x4_t m;
+  m.m00 = D.m00;
+  m.m01 = D.m01;
+  m.m02 = D.m02;
+  m.m03 = D.m03;
+  m.m10 = D.m10;
+  m.m11 = D.m11;
+  m.m12 = D.m12;
+  m.m13 = D.m13;
+  m.m20 = D.m20;
+  m.m21 = D.m21;
+  m.m22 = D.m22;
+  m.m23 = D.m23;
+  m.m30 = 0.0;
+  m.m31 = 0.0;
+  m.m32 = 0.0;
+  m.m33 = 1.0;
+  return m;
+}
+
+inline ksl_mat4x4_t ksl_mat4x4_fromRt(const ksl_mat3x3_t R,
+                                      const ksl_vec3_t t) {
+  ksl_mat4x4_t m;
+  m.m00 = R.m00;
+  m.m01 = R.m01;
+  m.m02 = R.m02;
+  m.m03 = t.x;
+  m.m10 = R.m10;
+  m.m11 = R.m11;
+  m.m12 = R.m12;
+  m.m13 = t.y;
+  m.m20 = R.m20;
+  m.m21 = R.m21;
+  m.m22 = R.m22;
+  m.m23 = t.z;
+  m.m30 = 0.0;
+  m.m31 = 0.0;
+  m.m32 = 0.0;
+  m.m33 = 1.0;
+  return m;
+}
+
 inline ksl_mat4x4f_t
 ksl_mat4x4f(const float m00, const float m01, const float m02, const float m03,
             const float m10, const float m11, const float m12, const float m13,
@@ -129,6 +291,74 @@ ksl_mat4x4f(const float m00, const float m01, const float m02, const float m03,
   m.m31 = m31;
   m.m32 = m32;
   m.m33 = m33;
+  return m;
+}
+
+inline ksl_mat4x4f_t ksl_mat4x4f_cmo(
+  const float m00, const float m10, const float m20, const float m30,
+  const float m01, const float m11, const float m21, const float m31,
+  const float m02, const float m12, const float m22, const float m32,
+  const float m03, const float m13, const float m23, const float m33) {
+  ksl_mat4x4f_t m;
+  m.m00 = m00;
+  m.m01 = m01;
+  m.m02 = m02;
+  m.m03 = m03;
+  m.m10 = m10;
+  m.m11 = m11;
+  m.m12 = m12;
+  m.m13 = m13;
+  m.m20 = m20;
+  m.m21 = m21;
+  m.m22 = m22;
+  m.m23 = m23;
+  m.m30 = m30;
+  m.m31 = m31;
+  m.m32 = m32;
+  m.m33 = m33;
+  return m;
+}
+
+inline ksl_mat4x4f_t ksl_mat4x4f_fromSE3f(const ksl_SE3f_t D) {
+  ksl_mat4x4f_t m;
+  m.m00 = D.m00;
+  m.m01 = D.m01;
+  m.m02 = D.m02;
+  m.m03 = D.m03;
+  m.m10 = D.m10;
+  m.m11 = D.m11;
+  m.m12 = D.m12;
+  m.m13 = D.m13;
+  m.m20 = D.m20;
+  m.m21 = D.m21;
+  m.m22 = D.m22;
+  m.m23 = D.m23;
+  m.m30 = 0.0;
+  m.m31 = 0.0;
+  m.m32 = 0.0;
+  m.m33 = 1.0;
+  return m;
+}
+
+inline ksl_mat4x4f_t ksl_mat4x4f_fromRt(const ksl_mat3x3f_t R,
+                                        const ksl_vec3f_t t) {
+  ksl_mat4x4f_t m;
+  m.m00 = R.m00;
+  m.m01 = R.m01;
+  m.m02 = R.m02;
+  m.m03 = t.x;
+  m.m10 = R.m10;
+  m.m11 = R.m11;
+  m.m12 = R.m12;
+  m.m13 = t.y;
+  m.m20 = R.m20;
+  m.m21 = R.m21;
+  m.m22 = R.m22;
+  m.m23 = t.z;
+  m.m30 = 0.0;
+  m.m31 = 0.0;
+  m.m32 = 0.0;
+  m.m33 = 1.0;
   return m;
 }
 
