@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -258,6 +259,9 @@ void ksl_nxpy_ssf(const ksl_screwf_t* restrict s1i, ksl_screwf_t* restrict so) {
 
 void ksl_add_sst(const ksl_screw_t* restrict si1,
                  const ksl_screw_t* restrict si2, ksl_screw_t* restrict so) {
+  assert(si2 != so &&
+         "arguments si2 and so cannot point to the same memory location");
+
   ksl_screw_copy(si1, so);
   so->at[0] += si2->at[0];
   so->at[1] += si2->at[1];
@@ -266,6 +270,9 @@ void ksl_add_sst(const ksl_screw_t* restrict si1,
 
 void ksl_add_sstf(const ksl_screwf_t* restrict si1,
                   const ksl_screwf_t* restrict si2, ksl_screwf_t* restrict so) {
+  assert(si2 != so &&
+         "arguments si2 and so cannot point to the same memory location");
+
   ksl_screwf_copy(si1, so);
   so->at[0] += si2->at[0];
   so->at[1] += si2->at[1];
@@ -386,9 +393,19 @@ inline void ksl_hrzinvf(const ksl_SE3f_t* restrict Di,
   ksl_cross_vvf(&Di->t, &ho->ang, &ho->lin);
 }
 
+/*!
+@brief screw cross product
+
+All three
+
+*/
 inline void ksl_cross_ss(const ksl_screw_t* restrict s1i,
                          const ksl_screw_t* restrict s2i,
                          ksl_screw_t* restrict so) {
+  assert(s1i != so &&
+         "arguments s1i and so cannot point to the same memory location");
+  assert(s2i != so &&
+         "arguments s2i and so cannot point to the same memory location");
 
   /* so.v <- s1i.w x s2i.v */
   ksl_cross_vv(&s1i->ang, &s2i->lin, &so->lin);
@@ -405,6 +422,12 @@ inline void ksl_cross_ss(const ksl_screw_t* restrict s1i,
 inline void ksl_cross_ssf(const ksl_screwf_t* restrict s1i,
                           const ksl_screwf_t* restrict s2i,
                           ksl_screwf_t* restrict so) {
+
+  assert(s1i != so &&
+         "arguments s1i and so cannot point to the same memory location");
+  assert(s2i != so &&
+         "arguments s2i and so cannot point to the same memory location");
+
   /* so.v <- s1i.w x s2i.v */
   ksl_cross_vvf(&s1i->ang, &s2i->lin, &so->lin);
 
@@ -420,15 +443,27 @@ inline void ksl_cross_ssf(const ksl_screwf_t* restrict s1i,
 inline void ksl_cross_sst(const ksl_screw_t* restrict s1i,
                           const ksl_screw_t* restrict s2i,
                           ksl_screw_t* restrict so) {
+
+  assert(s1i != so &&
+         "arguments s1i and so cannot point to the same memory location");
+  assert(s2i != so &&
+         "arguments s2i and so cannot point to the same memory location");
+
   ksl_cross_vv(&s1i->ang, &s2i->lin, &so->lin);
-  memset(&so->ang, 0, sizeof(ksl_screw_t));
+  memset(&so->ang, 0, sizeof(ksl_vec3_t));
 }
 
 inline void ksl_cross_sstf(const ksl_screwf_t* restrict s1i,
                            const ksl_screwf_t* restrict s2i,
                            ksl_screwf_t* restrict so) {
+
+  assert(s1i != so &&
+         "arguments s1i and so cannot point to the same memory location");
+  assert(s2i != so &&
+         "arguments s2i and so cannot point to the same memory location");
+
   ksl_cross_vvf(&s1i->ang, &s2i->lin, &so->lin);
-  memset(&so->ang, 0, sizeof(ksl_screwf_t));
+  memset(&so->ang, 0, sizeof(ksl_vec3f_t));
 }
 
 /*!
@@ -447,6 +482,9 @@ Store product of direction cosine matrix ri with spatial vector si in so.
 inline void ksl_product_Adrs(const ksl_mat3x3_t* restrict ri,
                              const ksl_screw_t* restrict si,
                              ksl_screw_t* restrict so) {
+
+  assert(si != so &&
+         "arguments si and so cannot point to the same memory location");
 
   ksl_product_drv(ri, &si->lin, &so->lin);
   ksl_product_drv(ri, &si->ang, &so->ang);
@@ -469,6 +507,9 @@ inline void ksl_product_Adrsf(const ksl_mat3x3f_t* restrict ri,
                               const ksl_screwf_t* restrict si,
                               ksl_screwf_t* restrict so) {
 
+  assert(si != so &&
+         "arguments si and so cannot point to the same memory location");
+
   ksl_product_drvf(ri, &si->lin, &so->lin);
   ksl_product_drvf(ri, &si->ang, &so->ang);
 }
@@ -489,6 +530,9 @@ Store product of direction cosine matrix ri with spatial vector si in so.
 inline void ksl_product_Ads(const ksl_SE3_t* restrict Di,
                             const ksl_screw_t* restrict si,
                             ksl_screw_t* restrict so) {
+
+  assert(si != so &&
+         "arguments si and so cannot point to the same memory location");
 
   ksl_product_Adrs(&Di->R, si, so);
 
@@ -514,6 +558,9 @@ inline void ksl_product_Adsf(const ksl_SE3f_t* restrict Di,
                              const ksl_screwf_t* restrict si,
                              ksl_screwf_t* restrict so) {
 
+  assert(si != so &&
+         "arguments si and so cannot point to the same memory location");
+
   ksl_product_Adrsf(&Di->R, si, so);
 
   so->m3 += Di->t.y * so->m2 - Di->t.z * so->m1;
@@ -525,6 +572,9 @@ void ksl_product_Adrsinv(const ksl_mat3x3_t* restrict ri,
                          const ksl_screw_t* restrict si,
                          ksl_screw_t* restrict so) {
 
+  assert(si != so &&
+         "arguments si and so cannot point to the same memory location");
+
   ksl_product_drvinv(ri, &si->lin, &so->lin);
   ksl_product_drvinv(ri, &si->ang, &so->ang);
 }
@@ -532,6 +582,10 @@ void ksl_product_Adrsinv(const ksl_mat3x3_t* restrict ri,
 void ksl_product_Adrsinvf(const ksl_mat3x3f_t* restrict ri,
                           const ksl_screwf_t* restrict si,
                           ksl_screwf_t* restrict so) {
+
+  assert(si != so &&
+         "arguments si and so cannot point to the same memory location");
+
   ksl_product_drvinvf(ri, &si->lin, &so->lin);
   ksl_product_drvinvf(ri, &si->ang, &so->ang);
 }
@@ -539,6 +593,10 @@ void ksl_product_Adrsinvf(const ksl_mat3x3f_t* restrict ri,
 void ksl_product_Adrinvs(const ksl_mat3x3_t* restrict ri,
                          const ksl_screw_t* restrict si,
                          ksl_screw_t* restrict so) {
+
+  assert(si != so &&
+         "arguments si and so cannot point to the same memory location");
+
   ksl_product_drinvv(ri, &si->lin, &so->lin);
   ksl_product_drinvv(ri, &si->ang, &so->ang);
 }
@@ -546,6 +604,10 @@ void ksl_product_Adrinvs(const ksl_mat3x3_t* restrict ri,
 void ksl_product_Adrinvsf(const ksl_mat3x3f_t* restrict ri,
                           const ksl_screwf_t* restrict si,
                           ksl_screwf_t* restrict so) {
+
+  assert(si != so &&
+         "arguments si and so cannot point to the same memory location");
+
   ksl_product_drinvvf(ri, &si->lin, &so->lin);
   ksl_product_drinvvf(ri, &si->ang, &so->ang);
 }
@@ -553,6 +615,7 @@ void ksl_product_Adrinvsf(const ksl_mat3x3f_t* restrict ri,
 inline void ksl_product_Adts(const ksl_vec3_t* restrict ti,
                              const ksl_screw_t* restrict si,
                              ksl_screw_t* restrict so) {
+
   ksl_screw_copy(si, so);
 
   /* vo += ti x w2i */
@@ -597,6 +660,9 @@ inline void ksl_product_Adtinvsf(const ksl_vec3f_t* restrict ti,
 inline void ksl_product_Adtsinv(const ksl_vec3_t* restrict ti,
                                 const ksl_screw_t* restrict si,
                                 ksl_screw_t* restrict so) {
+  assert(si != so &&
+         "arguments si and so cannot point to the same memory location");
+
   ksl_screw_inverted(si, so);
 
   /* vo -= ti x w2i */
@@ -608,6 +674,9 @@ inline void ksl_product_Adtsinv(const ksl_vec3_t* restrict ti,
 inline void ksl_product_Adtsinvf(const ksl_vec3f_t* restrict ti,
                                  const ksl_screwf_t* restrict si,
                                  ksl_screwf_t* restrict so) {
+  assert(si != so &&
+         "arguments si and so cannot point to the same memory location");
+
   ksl_screwf_inverted(si, so);
 
   /* vo -= ti x w2i */
@@ -619,6 +688,9 @@ inline void ksl_product_Adtsinvf(const ksl_vec3f_t* restrict ti,
 inline void ksl_product_Adsinv(const ksl_SE3_t* restrict Di,
                                const ksl_screw_t* restrict si,
                                ksl_screw_t* restrict so) {
+  assert(si != so &&
+         "arguments si and so cannot point to the same memory location");
+
   ksl_product_Adrsinv(&(Di->R), si, so);
   so->m0 += Di->t.y * so->m5 - Di->t.z * so->m4;
   so->m1 += Di->t.z * so->m3 - Di->t.x * so->m5;
@@ -628,6 +700,9 @@ inline void ksl_product_Adsinv(const ksl_SE3_t* restrict Di,
 inline void ksl_product_Adinvs(const ksl_SE3_t* restrict Di,
                                const ksl_screw_t* restrict si,
                                ksl_screw_t* restrict so) {
+  assert(si != so &&
+         "arguments si and so cannot point to the same memory location");
+
   ksl_screw_t temp;
   ksl_screw_copy(si, &temp);
 
@@ -641,6 +716,10 @@ inline void ksl_product_Adinvs(const ksl_SE3_t* restrict Di,
 inline void ksl_product_Adinvsf(const ksl_SE3f_t* restrict Di,
                                 const ksl_screwf_t* restrict si,
                                 ksl_screwf_t* restrict so) {
+
+  assert(si != so &&
+         "arguments si and so cannot point to the same memory location");
+
   ksl_screwf_t temp;
   ksl_screwf_copy(si, &temp);
 
