@@ -7,8 +7,6 @@
 #include "print.h"
 #include "screw.h"
 
-FILE* dbg;
-
 START_TEST(test_screw_create) {
   ksl_screw_t s = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0}};
   ck_assert(s.lin.x == s.at[0]);
@@ -72,7 +70,6 @@ int main(void) {
   Suite* s = screw_suite();
   SRunner* sr = srunner_create(s);
   srunner_run_all(sr, CK_NORMAL);
-  fclose(dbg);
   number_failed = srunner_ntests_failed(sr);
   srunner_free(sr);
   return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
