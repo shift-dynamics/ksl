@@ -37,7 +37,7 @@ typedef union ksl_coscrew_t {
                          or angular momentum*/
   };
   struct {
-    double m0, m1, m2, m3, m4, m5, m6;
+    double m0, m1, m2, m3, m4, m5;
   };
 } ksl_coscrew_t;
 
@@ -54,7 +54,7 @@ typedef union ksl_coscrewf_t {
                          or angular momentum*/
   };
   struct {
-    float m0, m1, m2, m3, m4, m5, m6;
+    float m0, m1, m2, m3, m4, m5;
   };
 } ksl_coscrewf_t;
 
