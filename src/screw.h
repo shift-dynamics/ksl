@@ -34,9 +34,9 @@ configuration space
 typedef union ksl_screw_t {
   double at[6];
   struct {
-    ksl_vec3_t lin; /*!< bound linear vector, e.g. linear velocity or
+    ksl_vec3_t lin; /*!< free linear vector, e.g. linear velocity or
                             acceleration */
-    ksl_vec3_t ang; /*!< free angular vector, e.g. angular velocity or
+    ksl_vec3_t ang; /*!< bound angular vector, e.g. angular velocity or
                              angular acceleration (\omega, or \dot{\omega}) */
   };
   struct {
@@ -51,9 +51,9 @@ pair in configuration space
 typedef union ksl_screwf_t {
   float at[6];
   struct {
-    ksl_vec3f_t lin; /*!< bound linear vector, e.g. linear velocity or
+    ksl_vec3f_t lin; /*!< free linear vector, e.g. linear velocity or
                             acceleration */
-    ksl_vec3f_t ang; /*!< free angular vector, e.g. angular velocity or
+    ksl_vec3f_t ang; /*!< bound angular vector, e.g. angular velocity or
                              angular acceleration (\omega, or \dot{\omega}) */
   };
   struct {

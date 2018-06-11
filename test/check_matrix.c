@@ -541,7 +541,7 @@ START_TEST(test_matrix_mat3x3_invert) {
                -0.037634408602150546, 0.016129032258064523, 0.4408602150537635);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_float_eq(r1.at[i], r2.at[i]);
+    ck_assert_double_eq_tol(r1.at[i], r2.at[i], 1e-9);
   }
 }
 END_TEST
@@ -561,7 +561,7 @@ START_TEST(test_matrix_mat3x3f_invert) {
     -0.037634408602150546, 0.016129032258064523, 0.4408602150537635);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert(fabs(r1.at[i] - r2.at[i]) < 1e-8);
+    ck_assert_float_eq_tol(r1.at[i], r2.at[i], 1e-6);
   }
 }
 END_TEST
@@ -676,9 +676,9 @@ START_TEST(test_matrix_SE3_inverted) {
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 4; j++) {
       if(i == j) {
-        ck_assert(fabs(1.0 - d3.as_array[j][i]) < 1e-15);
+        ck_assert_double_eq_tol(1.0, d3.as_array[j][i], 1e-9);
       } else {
-        ck_assert(fabs(d3.as_array[j][i]) < 1e-15);
+        ck_assert_double_eq_tol(0.0, d3.as_array[j][i], 1e-9);
       }
     }
   }
@@ -699,9 +699,9 @@ START_TEST(test_matrix_SE3f_inverted) {
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 4; j++) {
       if(i == j) {
-        ck_assert(fabs(1.0 - d3.as_array[j][i]) < 1e-6);
+        ck_assert_float_eq_tol(1.0, d3.as_array[j][i], 1e-6);
       } else {
-        ck_assert(fabs(d3.as_array[j][i]) < 1e-6);
+        ck_assert_float_eq_tol(0.0, d3.as_array[j][i], 1e-6);
       }
     }
   }
@@ -723,9 +723,9 @@ START_TEST(test_matrix_SE3_invert) {
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 4; j++) {
       if(i == j) {
-        ck_assert(fabs(1.0 - d3.as_array[j][i]) < 1e-15);
+        ck_assert_double_eq_tol(1.0, d3.as_array[j][i], 1e-9);
       } else {
-        ck_assert(fabs(d3.as_array[j][i]) < 1e-15);
+        ck_assert_double_eq_tol(0.0, d3.as_array[j][i], 1e-9);
       }
     }
   }

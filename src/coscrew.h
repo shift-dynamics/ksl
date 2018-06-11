@@ -31,9 +31,9 @@ of a linear and angular vector pair in function space.
 typedef union ksl_coscrew_t {
   double at[6];
   struct {
-    ksl_vec3_t lin; /*!< free linear vector, e.g. force or linear
+    ksl_vec3_t lin; /*!< bound linear vector, e.g. force or linear
                          momentum */
-    ksl_vec3_t ang; /*!< bound angular vector, e.g. moment/torque
+    ksl_vec3_t ang; /*!< free angular vector, e.g. moment/torque
                          or angular momentum*/
   };
   struct {
@@ -48,9 +48,9 @@ of a linear and angular vector pair in function space.
 typedef union ksl_coscrewf_t {
   float at[6];
   struct {
-    ksl_vec3f_t lin; /*!< free linear vector, e.g. force or linear
+    ksl_vec3f_t lin; /*!< bound linear vector, e.g. force or linear
                          momentum */
-    ksl_vec3f_t ang; /*!< bound angular vector, e.g. moment/torque
+    ksl_vec3f_t ang; /*!< free angular vector, e.g. moment/torque
                          or angular momentum*/
   };
   struct {
