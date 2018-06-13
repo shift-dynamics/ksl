@@ -394,9 +394,7 @@ inline void ksl_hrzinvf(const ksl_SE3f_t* restrict Di,
 }
 
 /*!
-@brief screw cross product
-
-All three
+@brief double precision screw cross product
 
 */
 inline void ksl_cross_ss(const ksl_screw_t* restrict s1i,
