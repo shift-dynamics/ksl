@@ -25,18 +25,18 @@ SUCH DAMAGE.
 #include "vector.h"
 
 typedef enum {
-  KSL_AXIS_XYZ,
-  KSL_AXIS_YZX,
-  KSL_AXIS_ZXY,
-  KSL_AXIS_XZY,
-  KSL_AXIS_YXZ,
-  KSL_AXIS_ZYX,
-  KSL_AXIS_XYX,
-  KSL_AXIS_XZX,
-  KSL_AXIS_YXY,
-  KSL_AXIS_YZY,
-  KSL_AXIS_ZXZ,
-  KSL_AXIS_ZYZ,
+  KSL_AXIS_XYZ = 0, // 012
+  KSL_AXIS_YZX,     // 120
+  KSL_AXIS_ZXY,     // 201
+  KSL_AXIS_XZY,     // 021
+  KSL_AXIS_YXZ,     // 102
+  KSL_AXIS_ZYX,     // 210
+  KSL_AXIS_XYX,     // 010
+  KSL_AXIS_XZX,     // 020
+  KSL_AXIS_YXY,     // 101
+  KSL_AXIS_YZY,     // 121
+  KSL_AXIS_ZXZ,     // 202
+  KSL_AXIS_ZYZ,     // 212
   KSL_AXIS_INVALID
 } ksl_axis_enum_t;
 

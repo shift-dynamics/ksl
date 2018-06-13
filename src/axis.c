@@ -16,7 +16,7 @@ ksl_vec3i_t ksl_axis_getVector(ksl_axis_enum_t axisType) {
       return axis;
     }
     case KSL_AXIS_ZXY: {
-      ksl_vec3i_t axis = {{2, 1, 2}};
+      ksl_vec3i_t axis = {{2, 0, 1}};
       return axis;
     }
     case KSL_AXIS_XZY: {
