@@ -788,8 +788,8 @@ START_TEST(test_matrix_mat3x3_getEulerAngles) {
     ksl_vec3_t angles_prev = {{0.21, 0.31, 0.41}};
     ksl_mat3x3_getEulerAngles(&r1, &angles_prev, axis);
 
-    for(int j = 0; j < 3; j++) {
-      ck_assert_double_eq_tol(angles_prev.at[j], angles.at[j], 1e-9);
+    for(int i = 0; i < 3; i++) {
+      ck_assert_double_eq_tol(angles_prev.at[i], angles.at[i], 1e-9);
     }
   }
 }
