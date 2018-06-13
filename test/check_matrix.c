@@ -756,11 +756,45 @@ START_TEST(test_matrix_SE3f_invert) {
 }
 END_TEST
 
-//
-// /*! @todo */
-// inline void ksl_mat3x3_getEulerAngles(const ksl_mat3x3_t* rin,
-//                                       ksl_vec3_t* angles,
-//                                       const ksl_axis_enum_t axisType);
+START_TEST(test_matrix_mat3x3_getEulerAngles) {
+  ksl_mat3x3_t r1;
+  ksl_mat3x3_t r2;
+
+  for(int j = 0; j < 12; j++) {
+    ksl_mat3x3_setIdentity(&r1);
+    ksl_axis_enum_t axis = j;
+    ksl_vec3i_t sequence = ksl_axis_getVector(axis);
+    ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+    double dc[2];
+    for(int i = 0; i < 3; i++) {
+      ksl_dc(angles.at[i], dc);
+      switch(sequence.at[i]) {
+        case 0: {
+          ksl_product_drdrx(&r1, dc, &r2);
+          break;
+        }
+        case 1: {
+          ksl_product_drdry(&r1, dc, &r2);
+          break;
+        }
+        case 2: {
+          ksl_product_drdrz(&r1, dc, &r2);
+          break;
+        }
+      }
+      r1 = r2;
+    }
+
+    ksl_vec3_t angles_prev = {{0.21, 0.31, 0.41}};
+    ksl_mat3x3_getEulerAngles(&r1, &angles_prev, axis);
+
+    for(int j = 0; j < 3; j++) {
+      ck_assert_double_eq_tol(angles_prev.at[j], angles.at[j], 1e-9);
+    }
+  }
+}
+END_TEST
+
 //
 // /*! @todo */
 // inline void ksl_mat3x3_setFromEulerAngles(ksl_mat3x3_t*, const ksl_vec3_t*,
@@ -1501,6 +1535,7 @@ Suite* matrix_suite(void) {
   tcase_add_test(tc_core, test_matrix_SE3f_inverted);
   tcase_add_test(tc_core, test_matrix_SE3_invert);
   tcase_add_test(tc_core, test_matrix_SE3f_invert);
+  tcase_add_test(tc_core, test_matrix_mat3x3_getEulerAngles);
   suite_add_tcase(s, tc_core);
   return s;
 }
