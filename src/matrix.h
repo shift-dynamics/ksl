@@ -22,6 +22,8 @@ SUCH DAMAGE.
 #ifndef _KSL_MATRIX_H_
 #define _KSL_MATRIX_H_
 
+#include <stdarg.h>
+
 #include "axis.h"
 
 typedef union ksl_screw_t ksl_screw_t;
@@ -339,11 +341,30 @@ void ksl_SE3_copy(const ksl_SE3_t* Di, ksl_SE3_t* Do);
 
 void ksl_SE3f_copy(const ksl_SE3f_t* Di, ksl_SE3f_t* Do);
 
-void ksl_mat3x3_getEulerAngles(const ksl_mat3x3_t* rin, ksl_vec3_t* angles,
-                               const ksl_axis_enum_t axisType);
+/*!
+@brief macro used obtain Euler angles, allows optionally passing in reference
+angles from a previous nearby pose to ensure continuity in angles between
+adjacent poses
 
-void ksl_mat3x3_setFromEulerAngles(ksl_mat3x3_t*, const ksl_vec3_t*,
-                                   const ksl_axis_enum_t axisType);
+@param r [in] rotation matrix
+@param axisType [in] a ksl_axis_enum_t type specifying Euler angle axis
+sequence.
+@param angles [out] euler angles returned in angles
+@param reference_angles [optional] euler angles from a previous nearby pose
+*/
+#define ksl_mat3x3_getEulerAngles(r, angles, axisType, ...)                    \
+  {                                                                            \
+    ksl_mat3x3_getEulerAnglesWithReference(r, angles, axisType, ##__VA_ARGS__, \
+                                           NULL);                              \
+  }
+
+void ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
+                                            const ksl_axis_enum_t axisType,
+                                            ksl_vec3_t* angles, ...);
+
+void ksl_mat3x3_setFromEulerAngles(ksl_mat3x3_t*,
+                                   const ksl_axis_enum_t axisType,
+                                   const ksl_vec3_t*);
 
 void ksl_mat3x3_getAxisAngle(const ksl_mat3x3_t*, ksl_vec3_t*, double*);
 

@@ -764,6 +764,51 @@ START_TEST(test_matrix_mat3x3_getEulerAngles) {
     ksl_mat3x3_setIdentity(&r1);
     ksl_axis_enum_t axis = j;
     ksl_vec3i_t sequence = ksl_axis_getVector(axis);
+    ksl_vec3_t angles_test = {{0.2, 0.3, 0.4}};
+    double dc[2];
+    for(int i = 0; i < 3; i++) {
+      ksl_dc(angles_test.at[i], dc);
+      switch(sequence.at[i]) {
+        case 0: {
+          ksl_product_drdrx(&r1, dc, &r2);
+          break;
+        }
+        case 1: {
+          ksl_product_drdry(&r1, dc, &r2);
+          break;
+        }
+        case 2: {
+          ksl_product_drdrz(&r1, dc, &r2);
+          break;
+        }
+      }
+      r1 = r2;
+    }
+
+    ksl_vec3_t angles;
+    ksl_vec3_t angles_prev = {{0.21, 0.31, 0.41}};
+    ksl_mat3x3_getEulerAngles(&r1, axis, &angles, &angles_prev);
+
+    for(int i = 0; i < 3; i++) {
+      ck_assert_double_eq_tol(angles_test.at[i], angles.at[i], 1e-9);
+    }
+
+    ksl_mat3x3_getEulerAngles(&r1, axis, &angles);
+    for(int i = 0; i < 3; i++) {
+      ck_assert_double_eq_tol(angles_test.at[i], angles.at[i], 1e-9);
+    }
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_mat3x3_setFromEulerAngles) {
+  ksl_mat3x3_t r1;
+  ksl_mat3x3_t r2;
+
+  for(int j = 0; j < 12; j++) {
+    ksl_mat3x3_setIdentity(&r1);
+    ksl_axis_enum_t axis = j;
+    ksl_vec3i_t sequence = ksl_axis_getVector(axis);
     ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
     double dc[2];
     for(int i = 0; i < 3; i++) {
@@ -784,22 +829,15 @@ START_TEST(test_matrix_mat3x3_getEulerAngles) {
       }
       r1 = r2;
     }
-
-    ksl_vec3_t angles_prev = {{0.21, 0.31, 0.41}};
-    ksl_mat3x3_getEulerAngles(&r1, &angles_prev, axis);
-
-    for(int i = 0; i < 3; i++) {
-      ck_assert_double_eq_tol(angles_prev.at[i], angles.at[i], 1e-9);
+    ksl_mat3x3_setFromEulerAngles(&r2, axis, &angles);
+    for(int i = 0; i < 9; i++) {
+      ck_assert_msg(fabs(r1.at[i] - r2.at[i]) < 1e-6,
+                    "setFromEulerAngles failed for angle sequence: %d%d%d",
+                    sequence.at[0], sequence.at[1], sequence.at[2]);
     }
   }
 }
 END_TEST
-
-//
-// /*! @todo */
-// inline void ksl_mat3x3_setFromEulerAngles(ksl_mat3x3_t*, const ksl_vec3_t*,
-//                                           const ksl_axis_enum_t axisType);
-//
 
 // inline void ksl_mat4x4_getTranslation(const ksl_mat4x4_t* restrict Mi,
 //                                       ksl_vec3_t* restrict to) {
@@ -1536,6 +1574,7 @@ Suite* matrix_suite(void) {
   tcase_add_test(tc_core, test_matrix_SE3_invert);
   tcase_add_test(tc_core, test_matrix_SE3f_invert);
   tcase_add_test(tc_core, test_matrix_mat3x3_getEulerAngles);
+  tcase_add_test(tc_core, test_matrix_mat3x3_setFromEulerAngles);
   suite_add_tcase(s, tc_core);
   return s;
 }
