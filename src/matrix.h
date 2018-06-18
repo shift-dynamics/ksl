@@ -368,6 +368,9 @@ void ksl_mat3x3_setFromEulerAngles(ksl_mat3x3_t*,
 
 void ksl_mat3x3_getAxisAngle(const ksl_mat3x3_t*, ksl_vec3_t*, double*);
 
+void ksl_mat3x3_setFromAxisAngle(ksl_mat3x3_t*, const ksl_vec3_t*,
+                                 const double);
+
 void ksl_mat4x4_getTranslation(const ksl_mat4x4_t* Mi, ksl_vec3_t* to);
 
 void ksl_mat4x4f_getTranslation(const ksl_mat4x4f_t* Mi, ksl_vec3f_t* to);
@@ -377,6 +380,8 @@ double ksl_mat4x4_get(const ksl_mat4x4_t* Mi, const int row, const int column);
 float ksl_mat4x4f_get(const ksl_mat4x4f_t* Mi, const int row, const int column);
 
 double ksl_mat3x3_determinant(const ksl_mat3x3_t*);
+
+float ksl_mat3x3f_determinant(const ksl_mat3x3f_t*);
 
 /* matrix vector operations */
 void ksl_product_drv(const ksl_mat3x3_t* ri, const ksl_vec3_t* vi,

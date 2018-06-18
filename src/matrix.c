@@ -1312,6 +1312,40 @@ inline void ksl_mat3x3_getAxisAngle(const ksl_mat3x3_t* restrict r,
   ksl_vec3_scale(axis, 1 / (2 * sin(*angle)));
 }
 
+/*!
+@brief set rotation matrix from axis and angle representation
+
+@param r [out] rotation matrix will be set here
+@param axis [in] axis of rotation
+@param angle [in] angle of rotation in radians
+*/
+inline void ksl_mat3x3_setFromAxisAngle(ksl_mat3x3_t* restrict r,
+                                        const ksl_vec3_t* restrict axis,
+                                        const double angle) {
+  ksl_vec3_t axis_n; /* normalized rotation axis */
+  ksl_vec3_normalized(axis, &axis_n);
+  double sc[2];
+  ksl_dc(angle, sc);
+  double t = 1.0 - sc[1];
+
+  r->m00 = sc[1] + axis_n.x * axis_n.x * t;
+  r->m11 = sc[1] + axis_n.y * axis_n.y * t;
+  r->m22 = sc[1] + axis_n.z * axis_n.z * t;
+
+  double tmp1 = axis_n.x * axis_n.y * t;
+  double tmp2 = axis_n.z * sc[0];
+  r->m10 = tmp1 + tmp2;
+  r->m01 = tmp1 - tmp2;
+  tmp1 = axis_n.x * axis_n.z * t;
+  tmp2 = axis_n.y * sc[0];
+  r->m20 = tmp1 - tmp2;
+  r->m02 = tmp1 + tmp2;
+  tmp1 = axis_n.y * axis_n.z * t;
+  tmp2 = axis_n.x * sc[0];
+  r->m21 = tmp1 + tmp2;
+  r->m12 = tmp1 - tmp2;
+}
+
 /* matrix vector operations */
 inline void ksl_product_drv(const ksl_mat3x3_t* restrict ri,
                             const ksl_vec3_t* restrict vi,
