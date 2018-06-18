@@ -371,6 +371,11 @@ void ksl_mat3x3_getAxisAngle(const ksl_mat3x3_t*, ksl_vec3_t*, double*);
 void ksl_mat3x3_setFromAxisAngle(ksl_mat3x3_t*, const ksl_vec3_t*,
                                  const double);
 
+void ksl_mat3x3f_getAxisAngle(const ksl_mat3x3f_t*, ksl_vec3f_t*, float*);
+
+void ksl_mat3x3f_setFromAxisAngle(ksl_mat3x3f_t*, const ksl_vec3f_t*,
+                                  const float);
+
 void ksl_mat4x4_getTranslation(const ksl_mat4x4_t* Mi, ksl_vec3_t* to);
 
 void ksl_mat4x4f_getTranslation(const ksl_mat4x4f_t* Mi, ksl_vec3f_t* to);
