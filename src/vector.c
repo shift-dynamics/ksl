@@ -158,7 +158,7 @@ inline void ksl_vec3f_normalize(ksl_vec3f_t* restrict v) {
 }
 
 /*!
-@brief Normalize a double precision vector
+@brief Normalize a double precision vector.
 
 @param v [in/out] vector to normalize
 */
@@ -175,6 +175,54 @@ inline void ksl_vec4_normalize(ksl_vec4_t* restrict v) {
 inline void ksl_vec4f_normalize(ksl_vec4f_t* restrict v) {
   float norm = ksl_vec4f_l2norm(v);
   ksl_vec4f_scale(v, 1.0 / norm);
+}
+
+/*!
+@brief Normalize a double precision vector leaving original datastructure
+unmodified; results are returned in second datastructure.
+
+@param v [in/out] vector to normalize
+*/
+inline void ksl_vec3_normalized(const ksl_vec3_t* restrict v,
+                                ksl_vec3_t* restrict vo) {
+  ksl_vec3_copy(v, vo);
+  ksl_vec3_normalize(vo);
+}
+
+/*!
+@brief Normalize a single precision vector leaving original datastructure
+unmodified; results are returned in second datastructure.
+
+@param v [in/out] vector to normalize
+*/
+inline void ksl_vec3f_normalized(const ksl_vec3f_t* restrict v,
+                                 ksl_vec3f_t* restrict vo) {
+  ksl_vec3f_copy(v, vo);
+  ksl_vec3f_normalize(vo);
+}
+
+/*!
+@brief Normalize a double precision vector leaving original datastructure
+unmodified; results are returned in second datastructure.
+
+@param v [in/out] vector to normalize
+*/
+inline void ksl_vec4_normalized(const ksl_vec4_t* restrict v,
+                                ksl_vec4_t* restrict vo) {
+  ksl_vec4_copy(v, vo);
+  ksl_vec4_normalize(vo);
+}
+
+/*!
+@brief Normalize a single precision vector leaving original datastructure
+unmodified; results are returned in second datastructure.
+
+@param v [in/out] vector to normalize
+*/
+inline void ksl_vec4f_normalized(const ksl_vec4f_t* restrict v,
+                                 ksl_vec4f_t* restrict vo) {
+  ksl_vec4f_copy(v, vo);
+  ksl_vec4f_normalize(vo);
 }
 
 /*!
@@ -221,6 +269,52 @@ void ksl_vec4f_scale(ksl_vec4f_t* restrict v, const float k) {
   v->y *= k;
   v->z *= k;
   v->w *= k;
+}
+
+/*!
+@brief Scale a double precision vector, returning results in second vector.
+
+@param v [in/out] vector to scale
+*/
+void ksl_vec3_scaled(const ksl_vec3_t* restrict v, const double k,
+                     ksl_vec3_t* restrict vo) {
+  ksl_product_av(k, v, vo);
+}
+
+/*!
+@brief Scale a single precision vector, returning results in second vector.
+
+@param v [in/out] vector to scale
+*/
+void ksl_vec3f_scaled(const ksl_vec3f_t* restrict v, const float k,
+                      ksl_vec3f_t* restrict vo) {
+  ksl_product_avf(k, v, vo);
+}
+
+/*!
+@brief Scale a double precision vector, returning results in second vector.
+
+@param v [in/out] vector to scale
+*/
+void ksl_vec4_scaled(const ksl_vec4_t* restrict v, const double k,
+                     ksl_vec4_t* restrict vo) {
+  vo->x = v->x * k;
+  vo->y = v->y * k;
+  vo->z = v->z * k;
+  vo->w = v->w * k;
+}
+
+/*!
+@brief Scale a single precision vector, returning results in second vector.
+
+@param v [in/out] vector to scale
+*/
+void ksl_vec4f_scaled(const ksl_vec4f_t* restrict v, const float k,
+                      ksl_vec4f_t* restrict vo) {
+  vo->x = v->x * k;
+  vo->y = v->y * k;
+  vo->z = v->z * k;
+  vo->w = v->w * k;
 }
 
 /*!

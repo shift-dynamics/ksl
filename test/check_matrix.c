@@ -839,59 +839,78 @@ START_TEST(test_matrix_mat3x3_setFromEulerAngles) {
 }
 END_TEST
 
-// inline void ksl_mat4x4_getTranslation(const ksl_mat4x4_t* restrict Mi,
-//                                       ksl_vec3_t* restrict to) {
-//   memcpy(to, &Mi->v3, sizeof(ksl_vec3_t));
-// }
-//
-// inline void ksl_mat4x4f_getTranslation(const ksl_mat4x4f_t* restrict Mi,
-//                                        ksl_vec3f_t* to) {
-//   memcpy(to, &Mi->v3, sizeof(ksl_vec3f_t));
-// }
-//
-// inline double ksl_mat3x3_determinant(const ksl_mat3x3_t* restrict R) {
-//   return (R->m00 * (R->m11 * R->m22 - R->m21 * R->m12) -
-//           R->m10 * (R->m01 * R->m22 - R->m21 * R->m02) +
-//           R->m20 * (R->m01 * R->m12 - R->m11 * R->m02));
-// }
-//
-// inline float ksl_mat3x3f_determinant(const ksl_mat3x3f_t* restrict R) {
-//   return (R->m00 * (R->m11 * R->m22 - R->m21 * R->m12) -
-//           R->m10 * (R->m01 * R->m22 - R->m21 * R->m02) +
-//           R->m20 * (R->m01 * R->m12 - R->m11 * R->m02));
-// }
-//
-// /*!
-// @brief get axis and angle from a rotation matrix
-//
-// if sin is close to 0, the axis of rotation is not well defined.
-// */
-// inline void ksl_mat3x3_getAxisAngle(const ksl_mat3x3_t* restrict r,
-//                                     ksl_vec3_t* restrict axis,
-//                                     double* restrict angle) {
-//
-//   *angle = acos(0.5 * (r->m00 + r->m11 + r->m22 - 1.0));
-//   if(fabs(sin(*angle)) < 1e-9) {
-//     /* if m22 == -1, return {1, 0, 0} */
-//     if(fabs(r->m22 + 1) < 1e-9) {
-//       axis->x = 1.0;
-//       axis->y = 0.0;
-//       axis->z = 0.0;
-//       return;
-//     } else {
-//       axis->x = 0.0;
-//       axis->y = 0.0;
-//       axis->z = 1.0;
-//       return;
-//     }
-//   }
-//   /* u_tilde = (1 / 2 sin \theta) * (r - r^T) */
-//   axis->x = r->m21 - r->m12;
-//   axis->y = r->m02 - r->m20;
-//   axis->z = r->m10 - r->m01;
-//   ksl_vec3_scale(axis, 1 / (2 * sin(*angle)));
-// }
-//
+START_TEST(test_matrix_mat4x4_getTranslation) {
+  ksl_mat4x4_t m = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0,
+                     12.0, 13.0, 14.0, 15.0, 16.0}};
+  ksl_vec3_t v;
+  ksl_mat4x4_getTranslation(&m, &v);
+  ck_assert_double_eq(v.x, m.m03);
+  ck_assert_double_eq(v.y, m.m13);
+  ck_assert_double_eq(v.z, m.m23);
+}
+END_TEST
+
+START_TEST(test_matrix_mat4x4f_getTranslation) {
+  ksl_mat4x4f_t m = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0,
+                      12.0, 13.0, 14.0, 15.0, 16.0}};
+  ksl_vec3f_t v;
+  ksl_mat4x4f_getTranslation(&m, &v);
+  ck_assert_float_eq(v.x, m.m03);
+  ck_assert_float_eq(v.y, m.m13);
+  ck_assert_float_eq(v.z, m.m23);
+}
+END_TEST
+
+START_TEST(test_matrix_mat3x3_determinant) {
+  ksl_mat3x3_t m = {{3.0, 2.0, 1.0, 4.0, 5.0, 6.0, 7.0, 9.0, 8.0}};
+  double det = ksl_mat3x3_determinant(&m);
+  ck_assert_double_eq_tol(det, -21, 1e-9);
+}
+END_TEST
+
+START_TEST(test_matrix_mat3x3f_determinant) {
+  ksl_mat3x3f_t m = {{3.0, 2.0, 1.0, 4.0, 5.0, 6.0, 7.0, 9.0, 8.0}};
+  float det = ksl_mat3x3f_determinant(&m);
+  ck_assert_float_eq_tol(det, -21, 1e-6);
+}
+END_TEST
+
+START_TEST(test_matrix_mat3x3_getAxisAngle) {
+  ksl_vec3_t axis = {{1.0, 2.0, 3.0}};
+  double angle = 0.5;
+  ksl_mat3x3_t m;
+  ksl_mat3x3_setFromAxisAngle(&m, &axis, angle);
+
+  ksl_vec3_t axis_test;
+  double angle_test;
+  ksl_mat3x3_getAxisAngle(&m, &axis_test, &angle_test);
+  ksl_vec3_normalize(&axis);
+
+  ck_assert_double_eq_tol(axis.x, axis_test.x, 1e-9);
+  ck_assert_double_eq_tol(axis.y, axis_test.y, 1e-9);
+  ck_assert_double_eq_tol(axis.z, axis_test.z, 1e-9);
+  ck_assert_double_eq_tol(angle, angle_test, 1e-9);
+}
+END_TEST
+
+START_TEST(test_matrix_mat3x3f_getAxisAngle) {
+  ksl_vec3f_t axis = {{1.0, 2.0, 3.0}};
+  float angle = 0.5;
+  ksl_mat3x3f_t m;
+  ksl_mat3x3f_setFromAxisAngle(&m, &axis, angle);
+
+  ksl_vec3f_t axis_test;
+  float angle_test;
+  ksl_mat3x3f_getAxisAngle(&m, &axis_test, &angle_test);
+  ksl_vec3f_normalize(&axis);
+
+  ck_assert_float_eq_tol(axis.x, axis_test.x, 1e-6);
+  ck_assert_float_eq_tol(axis.y, axis_test.y, 1e-6);
+  ck_assert_float_eq_tol(axis.z, axis_test.z, 1e-6);
+  ck_assert_float_eq_tol(angle, angle_test, 1e-6);
+}
+END_TEST
+
 // /* matrix vector operations */
 // inline void ksl_product_drv(const ksl_mat3x3_t* restrict ri,
 //                             const ksl_vec3_t* restrict vi,
@@ -1575,6 +1594,12 @@ Suite* matrix_suite(void) {
   tcase_add_test(tc_core, test_matrix_SE3f_invert);
   tcase_add_test(tc_core, test_matrix_mat3x3_getEulerAngles);
   tcase_add_test(tc_core, test_matrix_mat3x3_setFromEulerAngles);
+  tcase_add_test(tc_core, test_matrix_mat4x4_getTranslation);
+  tcase_add_test(tc_core, test_matrix_mat4x4f_getTranslation);
+  tcase_add_test(tc_core, test_matrix_mat3x3_determinant);
+  tcase_add_test(tc_core, test_matrix_mat3x3f_determinant);
+  tcase_add_test(tc_core, test_matrix_mat3x3_getAxisAngle);
+  tcase_add_test(tc_core, test_matrix_mat3x3f_getAxisAngle);
   suite_add_tcase(s, tc_core);
   return s;
 }
