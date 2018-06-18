@@ -272,6 +272,52 @@ void ksl_vec4f_scale(ksl_vec4f_t* restrict v, const float k) {
 }
 
 /*!
+@brief Scale a double precision vector, returning results in second vector.
+
+@param v [in/out] vector to scale
+*/
+void ksl_vec3_scaled(const ksl_vec3_t* restrict v, const double k,
+                     ksl_vec3_t* restrict vo) {
+  ksl_product_av(k, v, vo);
+}
+
+/*!
+@brief Scale a single precision vector, returning results in second vector.
+
+@param v [in/out] vector to scale
+*/
+void ksl_vec3f_scaled(const ksl_vec3f_t* restrict v, const float k,
+                      ksl_vec3f_t* restrict vo) {
+  ksl_product_avf(k, v, vo);
+}
+
+/*!
+@brief Scale a double precision vector, returning results in second vector.
+
+@param v [in/out] vector to scale
+*/
+void ksl_vec4_scaled(const ksl_vec4_t* restrict v, const double k,
+                     ksl_vec4_t* restrict vo) {
+  vo->x = v->x * k;
+  vo->y = v->y * k;
+  vo->z = v->z * k;
+  vo->w = v->w * k;
+}
+
+/*!
+@brief Scale a single precision vector, returning results in second vector.
+
+@param v [in/out] vector to scale
+*/
+void ksl_vec4f_scaled(const ksl_vec4f_t* restrict v, const float k,
+                      ksl_vec4f_t* restrict vo) {
+  vo->x = v->x * k;
+  vo->y = v->y * k;
+  vo->z = v->z * k;
+  vo->w = v->w * k;
+}
+
+/*!
 @brief Copy a double precision ksl_vec3_t vi into ksl_vec3_t vo.
 
 \f$V_i \rightarrow V_o\f$

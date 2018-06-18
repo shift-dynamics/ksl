@@ -171,6 +171,14 @@ void ksl_vec4_scale(ksl_vec4_t* v, const double);
 
 void ksl_vec4f_scale(ksl_vec4f_t* v, const float);
 
+void ksl_vec3_scaled(const ksl_vec3_t* v, const double, ksl_vec3_t* vo);
+
+void ksl_vec3f_scaled(const ksl_vec3f_t* v, const float, ksl_vec3f_t* vo);
+
+void ksl_vec4_scaled(const ksl_vec4_t* v, const double, ksl_vec4_t* vo);
+
+void ksl_vec4f_scaled(const ksl_vec4f_t* v, const float, ksl_vec4f_t* vo);
+
 void ksl_vec3_copy(const ksl_vec3_t* vi, ksl_vec3_t* vo);
 
 void ksl_vec3f_copy(const ksl_vec3f_t* vi, ksl_vec3f_t* vo);
