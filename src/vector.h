@@ -155,6 +155,14 @@ void ksl_vec4_normalize(ksl_vec4_t* v);
 
 void ksl_vec4f_normalize(ksl_vec4f_t* v);
 
+void ksl_vec3_normalized(const ksl_vec3_t* v, ksl_vec3_t* vo);
+
+void ksl_vec3f_normalized(const ksl_vec3f_t* v, ksl_vec3f_t* vo);
+
+void ksl_vec4_normalized(const ksl_vec4_t* v, ksl_vec4_t* vo);
+
+void ksl_vec4f_normalized(const ksl_vec4f_t* v, ksl_vec4f_t* vo);
+
 void ksl_vec3_scale(ksl_vec3_t* v, const double);
 
 void ksl_vec3f_scale(ksl_vec3f_t* v, const float);

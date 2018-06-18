@@ -158,7 +158,7 @@ inline void ksl_vec3f_normalize(ksl_vec3f_t* restrict v) {
 }
 
 /*!
-@brief Normalize a double precision vector
+@brief Normalize a double precision vector.
 
 @param v [in/out] vector to normalize
 */
@@ -175,6 +175,54 @@ inline void ksl_vec4_normalize(ksl_vec4_t* restrict v) {
 inline void ksl_vec4f_normalize(ksl_vec4f_t* restrict v) {
   float norm = ksl_vec4f_l2norm(v);
   ksl_vec4f_scale(v, 1.0 / norm);
+}
+
+/*!
+@brief Normalize a double precision vector leaving original datastructure
+unmodified; results are returned in second datastructure.
+
+@param v [in/out] vector to normalize
+*/
+inline void ksl_vec3_normalized(const ksl_vec3_t* restrict v,
+                                ksl_vec3_t* restrict vo) {
+  ksl_vec3_copy(v, vo);
+  ksl_vec3_normalize(vo);
+}
+
+/*!
+@brief Normalize a single precision vector leaving original datastructure
+unmodified; results are returned in second datastructure.
+
+@param v [in/out] vector to normalize
+*/
+inline void ksl_vec3f_normalized(const ksl_vec3f_t* restrict v,
+                                 ksl_vec3f_t* restrict vo) {
+  ksl_vec3f_copy(v, vo);
+  ksl_vec3f_normalize(vo);
+}
+
+/*!
+@brief Normalize a double precision vector leaving original datastructure
+unmodified; results are returned in second datastructure.
+
+@param v [in/out] vector to normalize
+*/
+inline void ksl_vec4_normalized(const ksl_vec4_t* restrict v,
+                                ksl_vec4_t* restrict vo) {
+  ksl_vec4_copy(v, vo);
+  ksl_vec4_normalize(vo);
+}
+
+/*!
+@brief Normalize a single precision vector leaving original datastructure
+unmodified; results are returned in second datastructure.
+
+@param v [in/out] vector to normalize
+*/
+inline void ksl_vec4f_normalized(const ksl_vec4f_t* restrict v,
+                                 ksl_vec4f_t* restrict vo) {
+  ksl_vec4f_copy(v, vo);
+  ksl_vec4f_normalize(vo);
 }
 
 /*!
