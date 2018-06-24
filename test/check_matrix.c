@@ -911,137 +911,287 @@ START_TEST(test_matrix_mat3x3f_getAxisAngle) {
 }
 END_TEST
 
-// /* matrix vector operations */
-// inline void ksl_product_drv(const ksl_mat3x3_t* restrict ri,
-//                             const ksl_vec3_t* restrict vi,
-//                             ksl_vec3_t* restrict vo) {
-//   ksl_product_av(vi->x, &ri->v0, vo);
-//   ksl_axpy_vv(vi->y, &ri->v1, vo);
-//   ksl_axpy_vv(vi->z, &ri->v2, vo);
-// }
-//
-// inline void ksl_product_drvf(const ksl_mat3x3f_t* restrict ri,
-//                              const ksl_vec3f_t* restrict vi,
-//                              ksl_vec3f_t* restrict vo) {
-//   ksl_product_avf(vi->x, &ri->v0, vo);
-//   ksl_axpy_vvf(vi->y, &ri->v1, vo);
-//   ksl_axpy_vvf(vi->z, &ri->v2, vo);
-// }
-//
-// inline void ksl_product_drvinv(const ksl_mat3x3_t* restrict ri,
-//                                const ksl_vec3_t* restrict vi,
-//                                ksl_vec3_t* restrict vo) {
-//   ksl_product_av(-vi->x, &ri->v0, vo);
-//   ksl_axpy_vv(-vi->y, &ri->v1, vo);
-//   ksl_axpy_vv(-vi->z, &ri->v2, vo);
-// }
-//
-// inline void ksl_product_drvinvf(const ksl_mat3x3f_t* restrict ri,
-//                                 const ksl_vec3f_t* restrict vi,
-//                                 ksl_vec3f_t* restrict vo) {
-//   ksl_product_avf(-vi->x, &ri->v0, vo);
-//   ksl_axpy_vvf(-vi->y, &ri->v1, vo);
-//   ksl_axpy_vvf(-vi->z, &ri->v2, vo);
-// }
-//
-// inline void ksl_product_drinvv(const ksl_mat3x3_t* restrict ri,
-//                                const ksl_vec3_t* restrict vi,
-//                                ksl_vec3_t* restrict vo) {
-//   vo->x = ksl_dot_vv(&ri->v0, vi);
-//   vo->y = ksl_dot_vv(&ri->v1, vi);
-//   vo->z = ksl_dot_vv(&ri->v2, vi);
-// }
-//
-// inline void ksl_product_drinvvf(const ksl_mat3x3f_t* restrict ri,
-//                                 const ksl_vec3f_t* restrict vi,
-//                                 ksl_vec3f_t* restrict vo) {
-//   vo->x = ksl_dot_vvf(&ri->v0, vi);
-//   vo->y = ksl_dot_vvf(&ri->v1, vi);
-//   vo->z = ksl_dot_vvf(&ri->v2, vi);
-// }
-//
-// inline void ksl_product_drinvvinv(const ksl_mat3x3_t* restrict ri,
-//                                   const ksl_vec3_t* restrict vi,
-//                                   ksl_vec3_t* restrict vo) {
-//   vo->x = -ksl_dot_vv(&ri->v0, vi);
-//   vo->y = -ksl_dot_vv(&ri->v1, vi);
-//   vo->z = -ksl_dot_vv(&ri->v2, vi);
-// }
-//
-// inline void ksl_product_drinvvinvf(const ksl_mat3x3f_t* restrict ri,
-//                                    const ksl_vec3f_t* restrict vi,
-//                                    ksl_vec3f_t* restrict vo) {
-//   vo->x = -ksl_dot_vvf(&ri->v0, vi);
-//   vo->y = -ksl_dot_vvf(&ri->v1, vi);
-//   vo->z = -ksl_dot_vvf(&ri->v2, vi);
-// }
-//
-// inline void ksl_product_drvtx(const ksl_mat3x3_t* restrict ri, const double
-// tx,
-//                               ksl_vec3_t* restrict vo) {
-//   ksl_product_av(tx, &ri->v0, vo);
-// }
-//
-// inline void ksl_product_drvtxf(const ksl_mat3x3f_t* restrict ri, const float
-// tx,
-//                                ksl_vec3f_t* restrict vo) {
-//   ksl_product_avf(tx, &ri->v0, vo);
-// }
-//
-// inline void ksl_product_drvtxinv(const ksl_mat3x3_t* restrict ri,
-//                                  const double tx, ksl_vec3_t* restrict vo) {
-//   ksl_product_av(-tx, &ri->v0, vo);
-// }
-//
-// inline void ksl_product_drvtxinvf(const ksl_mat3x3f_t* restrict ri,
-//                                   const float tx, ksl_vec3f_t* restrict vo) {
-//   ksl_product_avf(-tx, &ri->v0, vo);
-// }
-//
-// inline void ksl_product_drvty(const ksl_mat3x3_t* restrict ri, const double
-// ty,
-//                               ksl_vec3_t* restrict vo) {
-//   ksl_product_av(ty, &ri->v1, vo);
-// }
-//
-// inline void ksl_product_drvtyf(const ksl_mat3x3f_t* restrict ri, const float
-// ty,
-//                                ksl_vec3f_t* restrict vo) {
-//   ksl_product_avf(ty, &ri->v1, vo);
-// }
-//
-// inline void ksl_product_drvtyinv(const ksl_mat3x3_t* restrict ri,
-//                                  const double ty, ksl_vec3_t* restrict vo) {
-//   ksl_product_av(-ty, &ri->v1, vo);
-// }
-//
-// inline void ksl_product_drvtyinvf(const ksl_mat3x3f_t* restrict ri,
-//                                   const float ty, ksl_vec3f_t* restrict vo) {
-//   ksl_product_avf(-ty, &ri->v1, vo);
-// }
-//
-// inline void ksl_product_drvtz(const ksl_mat3x3_t* restrict ri, const double
-// tz,
-//                               ksl_vec3_t* restrict vo) {
-//   ksl_product_av(tz, &ri->v2, vo);
-// }
-//
-// inline void ksl_product_drvtzf(const ksl_mat3x3f_t* restrict ri, const float
-// tz,
-//                                ksl_vec3f_t* restrict vo) {
-//   ksl_product_avf(tz, &ri->v2, vo);
-// }
-//
-// inline void ksl_product_drvtzinv(const ksl_mat3x3_t* restrict ri,
-//                                  const double tz, ksl_vec3_t* restrict vo) {
-//   ksl_product_av(-tz, &ri->v2, vo);
-// }
-//
-// inline void ksl_product_drvtzinvf(const ksl_mat3x3f_t* restrict ri,
-//                                   const float tz, ksl_vec3f_t* restrict vo) {
-//   ksl_product_avf(-tz, &ri->v2, vo);
-// }
-//
+/* matrix vector operations */
+START_TEST(test_matrix_product_drv) {
+
+  ksl_mat3x3_t r;
+  ksl_mat3x3_setIdentity(&r);
+  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3_t v1 = {{1.0, 2.0, 3.0}};
+  ksl_vec3_t v2;
+  ksl_product_drv(&r, &v1, &v2);
+  ck_assert_double_eq_tol(v2.x, 1.0224326923807563, 1e-9);
+  ck_assert_double_eq_tol(v2.y, 1.6260200151342845, 1e-9);
+  ck_assert_double_eq_tol(v2.z, 3.2110263623853568, 1e-9);
+}
+END_TEST
+
+START_TEST(test_matrix_product_drvf) {
+
+  ksl_mat3x3f_t r;
+  ksl_mat3x3f_setIdentity(&r);
+  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3f_t v1 = {{1.0, 2.0, 3.0}};
+
+  ksl_vec3f_t v2;
+  ksl_product_drvf(&r, &v1, &v2);
+  ck_assert_float_eq_tol(v2.x, 1.0224326923807563, 1e-6);
+  ck_assert_float_eq_tol(v2.y, 1.6260200151342845, 1e-6);
+  ck_assert_float_eq_tol(v2.z, 3.2110263623853568, 1e-6);
+}
+END_TEST
+
+START_TEST(test_matrix_product_drvinv) {
+
+  ksl_mat3x3_t r;
+  ksl_mat3x3_setIdentity(&r);
+  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3_t v1 = {{1.0, 2.0, 3.0}};
+  ksl_vec3_t v2;
+  ksl_product_drvinv(&r, &v1, &v2);
+  ck_assert_double_eq_tol(v2.x, -1.0224326923807563, 1e-9);
+  ck_assert_double_eq_tol(v2.y, -1.6260200151342845, 1e-9);
+  ck_assert_double_eq_tol(v2.z, -3.2110263623853568, 1e-9);
+}
+END_TEST
+
+START_TEST(test_matrix_product_drvinvf) {
+
+  ksl_mat3x3f_t r;
+  ksl_mat3x3f_setIdentity(&r);
+  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3f_t v1 = {{1.0, 2.0, 3.0}};
+
+  ksl_vec3f_t v2;
+  ksl_product_drvinvf(&r, &v1, &v2);
+  ck_assert_float_eq_tol(v2.x, -1.0224326923807563, 1e-6);
+  ck_assert_float_eq_tol(v2.y, -1.6260200151342845, 1e-6);
+  ck_assert_float_eq_tol(v2.z, -3.2110263623853568, 1e-6);
+}
+END_TEST
+
+START_TEST(test_matrix_product_drinvv) {
+
+  ksl_mat3x3_t r;
+  ksl_mat3x3_setIdentity(&r);
+  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3_t v1 = {{1.0, 2.0, 3.0}};
+  ksl_vec3_t v2;
+  ksl_product_drinvv(&r, &v1, &v2);
+  ck_assert_double_eq_tol(v2.x, 1.1831846399394617, 1e-9);
+  ck_assert_double_eq_tol(v2.y, 2.274971321748124, 1e-9);
+  ck_assert_double_eq_tol(v2.z, 2.7248081754565625, 1e-9);
+}
+END_TEST
+
+START_TEST(test_matrix_product_drinvvf) {
+
+  ksl_mat3x3f_t r;
+  ksl_mat3x3f_setIdentity(&r);
+  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3f_t v1 = {{1.0, 2.0, 3.0}};
+
+  ksl_vec3f_t v2;
+  ksl_product_drinvvf(&r, &v1, &v2);
+  ck_assert_float_eq_tol(v2.x, 1.1831846399394617, 1e-6);
+  ck_assert_float_eq_tol(v2.y, 2.274971321748124, 1e-6);
+  ck_assert_float_eq_tol(v2.z, 2.7248081754565625, 1e-6);
+}
+END_TEST
+
+START_TEST(test_matrix_product_drinvvinv) {
+
+  ksl_mat3x3_t r;
+  ksl_mat3x3_setIdentity(&r);
+  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3_t v1 = {{1.0, 2.0, 3.0}};
+  ksl_vec3_t v2;
+  ksl_product_drinvvinv(&r, &v1, &v2);
+  ck_assert_double_eq_tol(v2.x, -1.1831846399394617, 1e-9);
+  ck_assert_double_eq_tol(v2.y, -2.274971321748124, 1e-9);
+  ck_assert_double_eq_tol(v2.z, -2.7248081754565625, 1e-9);
+}
+END_TEST
+
+START_TEST(test_matrix_product_drinvvinvf) {
+
+  ksl_mat3x3f_t r;
+  ksl_mat3x3f_setIdentity(&r);
+  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3f_t v1 = {{1.0, 2.0, 3.0}};
+
+  ksl_vec3f_t v2;
+  ksl_product_drinvvinvf(&r, &v1, &v2);
+  ck_assert_float_eq_tol(v2.x, -1.1831846399394617, 1e-6);
+  ck_assert_float_eq_tol(v2.y, -2.274971321748124, 1e-6);
+  ck_assert_float_eq_tol(v2.z, -2.7248081754565625, 1e-6);
+}
+END_TEST
+
+START_TEST(test_matrix_product_drvtx) {
+  ksl_mat3x3_t r;
+  ksl_mat3x3_setIdentity(&r);
+  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3_t v2;
+  ksl_product_drvtx(&r, 2.0, &v2);
+  ck_assert_double_eq_tol(v2.x, 1.759846352562514, 1e-9);
+  ck_assert_double_eq_tol(v2.y, 0.8714642629237408, 1e-9);
+  ck_assert_double_eq_tol(v2.z, -0.3788018661770242, 1e-9);
+}
+END_TEST
+
+START_TEST(test_matrix_product_drvtxf) {
+  ksl_mat3x3f_t r;
+  ksl_mat3x3f_setIdentity(&r);
+  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3f_t v2;
+  ksl_product_drvtxf(&r, 2.0, &v2);
+  ck_assert_float_eq_tol(v2.x, 1.759846352562514, 1e-6);
+  ck_assert_float_eq_tol(v2.y, 0.8714642629237408, 1e-6);
+  ck_assert_float_eq_tol(v2.z, -0.3788018661770242, 1e-6);
+}
+END_TEST
+
+START_TEST(test_matrix_product_drvtxinv) {
+  ksl_mat3x3_t r;
+  ksl_mat3x3_setIdentity(&r);
+  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3_t v2;
+  ksl_product_drvtxinv(&r, 2.0, &v2);
+  ck_assert_double_eq_tol(v2.x, -1.759846352562514, 1e-9);
+  ck_assert_double_eq_tol(v2.y, -0.8714642629237408, 1e-9);
+  ck_assert_double_eq_tol(v2.z, 0.3788018661770242, 1e-9);
+}
+END_TEST
+
+START_TEST(test_matrix_product_drvtxinvf) {
+  ksl_mat3x3f_t r;
+  ksl_mat3x3f_setIdentity(&r);
+  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3f_t v2;
+  ksl_product_drvtxinvf(&r, 2.0, &v2);
+  ck_assert_float_eq_tol(v2.x, -1.759846352562514, 1e-6);
+  ck_assert_float_eq_tol(v2.y, -0.8714642629237408, 1e-6);
+  ck_assert_float_eq_tol(v2.z, 0.3788018661770242, 1e-6);
+}
+END_TEST
+
+START_TEST(test_matrix_product_drvty) {
+  ksl_mat3x3_t r;
+  ksl_mat3x3_setIdentity(&r);
+  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3_t v2;
+  ksl_product_drvty(&r, 2.0, &v2);
+  ck_assert_double_eq_tol(v2.x, -0.7440511038845192, 1e-9);
+  ck_assert_double_eq_tol(v2.y, 1.7596760666084763, 1e-9);
+  ck_assert_double_eq_tol(v2.z, 0.5915472047212714, 1e-9);
+}
+END_TEST
+
+START_TEST(test_matrix_product_drvtyf) {
+  ksl_mat3x3f_t r;
+  ksl_mat3x3f_setIdentity(&r);
+  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3f_t v2;
+  ksl_product_drvtyf(&r, 2.0, &v2);
+  ck_assert_float_eq_tol(v2.x, -0.7440511038845192, 1e-6);
+  ck_assert_float_eq_tol(v2.y, 1.7596760666084763, 1e-6);
+  ck_assert_float_eq_tol(v2.z, 0.5915472047212714, 1e-6);
+}
+END_TEST
+
+START_TEST(test_matrix_product_drvtyinv) {
+  ksl_mat3x3_t r;
+  ksl_mat3x3_setIdentity(&r);
+  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3_t v2;
+  ksl_product_drvtyinv(&r, 2.0, &v2);
+  ck_assert_double_eq_tol(v2.x, 0.7440511038845192, 1e-9);
+  ck_assert_double_eq_tol(v2.y, -1.7596760666084763, 1e-9);
+  ck_assert_double_eq_tol(v2.z, -0.5915472047212714, 1e-9);
+}
+END_TEST
+
+START_TEST(test_matrix_product_drvtyinvf) {
+  ksl_mat3x3f_t r;
+  ksl_mat3x3f_setIdentity(&r);
+  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3f_t v2;
+  ksl_product_drvtyinvf(&r, 2.0, &v2);
+  ck_assert_float_eq_tol(v2.x, 0.7440511038845192, 1e-6);
+  ck_assert_float_eq_tol(v2.y, -1.7596760666084763, 1e-6);
+  ck_assert_float_eq_tol(v2.z, -0.5915472047212714, 1e-6);
+}
+END_TEST
+
+START_TEST(test_matrix_product_drvtz) {
+  ksl_mat3x3_t r;
+  ksl_mat3x3_setIdentity(&r);
+  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3_t v2;
+  ksl_product_drvtz(&r, 2.0, &v2);
+  ck_assert_double_eq_tol(v2.x, 0.591040413322679, 1e-9);
+  ck_assert_double_eq_tol(v2.y, -0.3795921219573748, 1e-9);
+  ck_assert_double_eq_tol(v2.z, 1.8725867271683985, 1e-9);
+}
+END_TEST
+
+START_TEST(test_matrix_product_drvtzf) {
+  ksl_mat3x3f_t r;
+  ksl_mat3x3f_setIdentity(&r);
+  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3f_t v2;
+  ksl_product_drvtzf(&r, 2.0, &v2);
+  ck_assert_float_eq_tol(v2.x, 0.591040413322679, 1e-6);
+  ck_assert_float_eq_tol(v2.y, -0.3795921219573748, 1e-6);
+  ck_assert_float_eq_tol(v2.z, 1.8725867271683985, 1e-6);
+}
+END_TEST
+
+START_TEST(test_matrix_product_drvtzinv) {
+  ksl_mat3x3_t r;
+  ksl_mat3x3_setIdentity(&r);
+  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3_t v2;
+  ksl_product_drvtzinv(&r, 2.0, &v2);
+  ck_assert_double_eq_tol(v2.x, -0.591040413322679, 1e-9);
+  ck_assert_double_eq_tol(v2.y, 0.3795921219573748, 1e-9);
+  ck_assert_double_eq_tol(v2.z, -1.8725867271683985, 1e-9);
+}
+END_TEST
+
+START_TEST(test_matrix_product_drvtzinvf) {
+  ksl_mat3x3f_t r;
+  ksl_mat3x3f_setIdentity(&r);
+  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
+  ksl_vec3f_t v2;
+  ksl_product_drvtzinvf(&r, 2.0, &v2);
+  ck_assert_float_eq_tol(v2.x, -0.591040413322679, 1e-6);
+  ck_assert_float_eq_tol(v2.y, 0.3795921219573748, 1e-6);
+  ck_assert_float_eq_tol(v2.z, -1.8725867271683985, 1e-6);
+}
+END_TEST
+
 // /* matrix-matrix operations */
 // inline void ksl_product_drdrx(const ksl_mat3x3_t* restrict ri,
 //                               const double dc[2], ksl_mat3x3_t* restrict ro)
@@ -1600,6 +1750,26 @@ Suite* matrix_suite(void) {
   tcase_add_test(tc_core, test_matrix_mat3x3f_determinant);
   tcase_add_test(tc_core, test_matrix_mat3x3_getAxisAngle);
   tcase_add_test(tc_core, test_matrix_mat3x3f_getAxisAngle);
+  tcase_add_test(tc_core, test_matrix_product_drv);
+  tcase_add_test(tc_core, test_matrix_product_drvf);
+  tcase_add_test(tc_core, test_matrix_product_drvinv);
+  tcase_add_test(tc_core, test_matrix_product_drvinvf);
+  tcase_add_test(tc_core, test_matrix_product_drinvv);
+  tcase_add_test(tc_core, test_matrix_product_drinvvf);
+  tcase_add_test(tc_core, test_matrix_product_drinvvinv);
+  tcase_add_test(tc_core, test_matrix_product_drinvvinvf);
+  tcase_add_test(tc_core, test_matrix_product_drvtx);
+  tcase_add_test(tc_core, test_matrix_product_drvtxf);
+  tcase_add_test(tc_core, test_matrix_product_drvtxinv);
+  tcase_add_test(tc_core, test_matrix_product_drvtxinvf);
+  tcase_add_test(tc_core, test_matrix_product_drvty);
+  tcase_add_test(tc_core, test_matrix_product_drvtyf);
+  tcase_add_test(tc_core, test_matrix_product_drvtyinv);
+  tcase_add_test(tc_core, test_matrix_product_drvtyinvf);
+  tcase_add_test(tc_core, test_matrix_product_drvtz);
+  tcase_add_test(tc_core, test_matrix_product_drvtzf);
+  tcase_add_test(tc_core, test_matrix_product_drvtzinv);
+  tcase_add_test(tc_core, test_matrix_product_drvtzinvf);
   suite_add_tcase(s, tc_core);
   return s;
 }
