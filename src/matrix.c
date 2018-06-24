@@ -1929,8 +1929,10 @@ inline void ksl_product_drdrxinv(const ksl_mat3x3_t* restrict ri,
                                  const double dc[2],
                                  ksl_mat3x3_t* restrict ro) {
   ksl_vec3_copy(&ri->v0, &ro->v0);
+
   ksl_product_av(dc[1], &ri->v1, &ro->v1);
   ksl_axpy_vv(-dc[0], &ri->v2, &ro->v1);
+
   ksl_product_av(dc[0], &ri->v1, &ro->v2);
   ksl_axpy_vv(dc[1], &ri->v2, &ro->v2);
 }
@@ -1939,28 +1941,35 @@ inline void ksl_product_drdrxinvf(const ksl_mat3x3f_t* restrict ri,
                                   const float dc[2],
                                   ksl_mat3x3f_t* restrict ro) {
   ksl_vec3f_copy(&ri->v0, &ro->v0);
+
   ksl_product_avf(dc[1], &ri->v1, &ro->v1);
   ksl_axpy_vvf(-dc[0], &ri->v2, &ro->v1);
+
   ksl_product_avf(dc[0], &ri->v1, &ro->v2);
   ksl_axpy_vvf(dc[1], &ri->v2, &ro->v2);
 }
 
 inline void ksl_product_drdry(const ksl_mat3x3_t* restrict ri,
                               const double dc[2], ksl_mat3x3_t* restrict ro) {
+
   ksl_product_av(dc[1], &ri->v0, &ro->v0);
   ksl_axpy_vv(-dc[0], &ri->v2, &ro->v0);
-  ksl_product_av(dc[1], &ri->v2, &ro->v2);
-  ksl_axpy_vv(dc[0], &ri->v0, &ro->v2);
+
   ksl_vec3_copy(&ri->v1, &ro->v1);
+
+  ksl_product_av(dc[0], &ri->v0, &ro->v2);
+  ksl_axpy_vv(dc[1], &ri->v2, &ro->v2);
 }
 
 inline void ksl_product_drdryf(const ksl_mat3x3f_t* restrict ri,
                                const float dc[2], ksl_mat3x3f_t* restrict ro) {
   ksl_product_avf(dc[1], &ri->v0, &ro->v0);
   ksl_axpy_vvf(-dc[0], &ri->v2, &ro->v0);
-  ksl_product_avf(dc[1], &ri->v2, &ro->v2);
-  ksl_axpy_vvf(dc[0], &ri->v0, &ro->v2);
+
   ksl_vec3f_copy(&ri->v1, &ro->v1);
+
+  ksl_product_avf(dc[0], &ri->v0, &ro->v2);
+  ksl_axpy_vvf(dc[1], &ri->v2, &ro->v2);
 }
 
 inline void ksl_product_drdryinv(const ksl_mat3x3_t* restrict ri,
@@ -1968,9 +1977,11 @@ inline void ksl_product_drdryinv(const ksl_mat3x3_t* restrict ri,
                                  ksl_mat3x3_t* restrict ro) {
   ksl_product_av(dc[1], &ri->v0, &ro->v0);
   ksl_axpy_vv(dc[0], &ri->v2, &ro->v0);
-  ksl_product_av(dc[1], &ri->v2, &ro->v2);
-  ksl_axpy_vv(-dc[0], &ri->v0, &ro->v2);
+
   ksl_vec3_copy(&ri->v1, &ro->v1);
+
+  ksl_product_av(-dc[0], &ri->v0, &ro->v2);
+  ksl_axpy_vv(dc[1], &ri->v2, &ro->v2);
 }
 
 inline void ksl_product_drdryinvf(const ksl_mat3x3f_t* restrict ri,
@@ -1978,17 +1989,21 @@ inline void ksl_product_drdryinvf(const ksl_mat3x3f_t* restrict ri,
                                   ksl_mat3x3f_t* restrict ro) {
   ksl_product_avf(dc[1], &ri->v0, &ro->v0);
   ksl_axpy_vvf(dc[0], &ri->v2, &ro->v0);
-  ksl_product_avf(dc[1], &ri->v2, &ro->v2);
-  ksl_axpy_vvf(-dc[0], &ri->v0, &ro->v2);
+
   ksl_vec3f_copy(&ri->v1, &ro->v1);
+
+  ksl_product_avf(-dc[0], &ri->v0, &ro->v2);
+  ksl_axpy_vvf(dc[1], &ri->v2, &ro->v2);
 }
 
 inline void ksl_product_drdrz(const ksl_mat3x3_t* restrict ri,
                               const double dc[2], ksl_mat3x3_t* restrict ro) {
   ksl_product_av(dc[1], &ri->v0, &ro->v0);
   ksl_axpy_vv(dc[0], &ri->v1, &ro->v0);
+
   ksl_product_av(-dc[0], &ri->v0, &ro->v1);
   ksl_axpy_vv(dc[1], &ri->v1, &ro->v1);
+
   ksl_vec3_copy(&ri->v2, &ro->v2);
 }
 
