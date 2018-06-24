@@ -529,11 +529,7 @@ END_TEST
 START_TEST(test_matrix_mat3x3_invert) {
   ksl_mat3x3_t r1 = ksl_mat3x3(13.0, 8.0, 9.0, 3.0, 5.0, 1.0, 1.0, 0.5, 3.0);
 
-  // FILE* f = fopen("matrix_inv.txt", "w");
   ksl_mat3x3_invert(&r1);
-
-  // ksl_mat3x3_print(f, &r1);
-  // fclose(f);
 
   ksl_mat3x3_t r2 =
     ksl_mat3x3(0.15591397849462368, -0.20967741935483872, -0.39784946236559143,
@@ -549,11 +545,7 @@ END_TEST
 START_TEST(test_matrix_mat3x3f_invert) {
   ksl_mat3x3f_t r1 = ksl_mat3x3f(13.0, 8.0, 9.0, 3.0, 5.0, 1.0, 1.0, 0.5, 3.0);
 
-  // FILE* f = fopen("matrix_inv.txt", "w");
   ksl_mat3x3f_invert(&r1);
-
-  // ksl_mat3x3_print(f, &r1);
-  // fclose(f);
 
   ksl_mat3x3f_t r2 = ksl_mat3x3f(
     0.15591397849462368, -0.20967741935483872, -0.39784946236559143,
@@ -923,9 +915,6 @@ START_TEST(test_matrix_product_drv) {
   ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
   ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
 
-  FILE* f = fopen("product_drv_test.txt", "w");
-  ksl_mat3x3_print(f, &r);
-  fclose(f);
   ksl_vec3_t v1 = {{1.0, 2.0, 3.0}};
   ksl_vec3_t v2;
   ksl_product_drv(&r, &v1, &v2);
@@ -1300,12 +1289,6 @@ START_TEST(test_matrix_product_drdry) {
     ksl_mat3x3(0.6305253010605816, -0.3720255519422596, 0.6812010227711935,
                0.4733839989859243, 0.8798380333042382, 0.0423393983828867,
                -0.6150979062121391, 0.2957736023606357, 0.7308710843370773);
-
-  FILE* f = fopen("drdry.txt", "w");
-
-  ksl_mat3x3_print(f, &r1, "r1: ");
-  ksl_mat3x3_print(f, &r2, "r2: ");
-  fclose(f);
 
   for(int i = 0; i < 9; i++) {
     ck_assert_double_eq_tol(r2.at[i], r3.at[i], 1e-9);
