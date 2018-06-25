@@ -573,6 +573,9 @@ void ksl_product_ddt(const ksl_SE3_t* Di, const ksl_vec3_t* t, ksl_SE3_t* Do);
 void ksl_product_ddtinv(const ksl_SE3_t* Di, const ksl_vec3_t* vi,
                         ksl_SE3_t* Do);
 
+void ksl_product_ddtinvf(const ksl_SE3f_t* Di, const ksl_vec3f_t* vi,
+                         ksl_SE3f_t* Do);
+
 void ksl_product_ddtf(const ksl_SE3f_t* Di, const ksl_vec3f_t* vi,
                       ksl_SE3f_t* Do);
 
@@ -583,6 +586,8 @@ void ksl_product_dinvdtf(const ksl_SE3f_t* Di, const ksl_vec3f_t* vi,
                          ksl_SE3f_t* Do);
 
 void ksl_product_ddtx(const ksl_SE3_t* Di, const double ti, ksl_SE3_t* Do);
+
+void ksl_product_ddtxf(const ksl_SE3f_t* Di, const float ti, ksl_SE3f_t* Do);
 
 void ksl_product_ddtxinv(const ksl_SE3_t* Di, const double ti, ksl_SE3_t* Do);
 
@@ -601,6 +606,8 @@ void ksl_product_ddtz(const ksl_SE3_t* Di, const double ti, ksl_SE3_t* Do);
 void ksl_product_ddtzf(const ksl_SE3f_t* Di, const float ti, ksl_SE3f_t* Do);
 
 void ksl_product_ddtzinv(const ksl_SE3_t* Di, const double ti, ksl_SE3_t* Do);
+
+void ksl_product_ddtzinvf(const ksl_SE3f_t* Di, const float ti, ksl_SE3f_t* Do);
 
 void ksl_product_ddr(const ksl_SE3_t* Di, const ksl_mat3x3_t* Ri,
                      ksl_SE3_t* Do);

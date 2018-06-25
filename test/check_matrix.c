@@ -1621,253 +1621,593 @@ START_TEST(test_matrix_product_dinvvf) {
 }
 END_TEST
 
-// inline void ksl_product_ddrx(const ksl_SE3_t* restrict Di, const double
-// dc[2],
-//                              ksl_SE3_t* restrict Do) {
-//   ksl_product_drdrx(&Di->R, dc, &Do->R);
-//   ksl_vec3_copy(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddrxf(const ksl_SE3f_t* restrict Di, const float
-// dc[2],
-//                               ksl_SE3f_t* restrict Do) {
-//   ksl_product_drdrxf(&Di->R, dc, &Do->R);
-//   ksl_vec3f_copy(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddrxinv(const ksl_SE3_t* restrict Di,
-//                                 const double dc[2], ksl_SE3_t* restrict Do) {
-//   ksl_product_drdrxinv(&Di->R, dc, &Do->R);
-//   ksl_vec3_copy(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddrxinvf(const ksl_SE3f_t* restrict Di,
-//                                  const float dc[2], ksl_SE3f_t* restrict Do)
-//                                  {
-//   ksl_product_drdrxinvf(&Di->R, dc, &Do->R);
-//   ksl_vec3f_copy(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddry(const ksl_SE3_t* restrict Di, const double
-// dc[2],
-//                              ksl_SE3_t* restrict Do) {
-//   ksl_product_drdry(&Di->R, dc, &Do->R);
-//   ksl_vec3_copy(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddryf(const ksl_SE3f_t* restrict Di, const float
-// dc[2],
-//                               ksl_SE3f_t* restrict Do) {
-//   ksl_product_drdryf(&Di->R, dc, &Do->R);
-//   ksl_vec3f_copy(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddryinv(const ksl_SE3_t* restrict Di,
-//                                 const double dc[2], ksl_SE3_t* restrict Do) {
-//   ksl_product_drdryinv(&Di->R, dc, &Do->R);
-//   ksl_vec3_copy(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddryinvf(const ksl_SE3f_t* restrict Di,
-//                                  const float dc[2], ksl_SE3f_t* restrict Do)
-//                                  {
-//   ksl_product_drdryinvf(&Di->R, dc, &Do->R);
-//   ksl_vec3f_copy(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddrz(const ksl_SE3_t* restrict Di, const double
-// dc[2],
-//                              ksl_SE3_t* restrict Do) {
-//   ksl_product_drdrz(&Di->R, dc, &Do->R);
-//   ksl_vec3_copy(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddrzf(const ksl_SE3f_t* restrict Di, const float
-// dc[2],
-//                               ksl_SE3f_t* restrict Do) {
-//   ksl_product_drdrzf(&Di->R, dc, &Do->R);
-//   ksl_vec3f_copy(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddrzinv(const ksl_SE3_t* restrict Di,
-//                                 const double dc[2], ksl_SE3_t* restrict Do) {
-//   ksl_product_drdrzinv(&Di->R, dc, &Do->R);
-//   ksl_vec3_copy(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddrzinvf(const ksl_SE3f_t* restrict Di,
-//                                  const float dc[2], ksl_SE3f_t* restrict Do)
-//                                  {
-//   ksl_product_drdrzinvf(&Di->R, dc, &Do->R);
-//   ksl_vec3f_copy(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddt(const ksl_SE3_t* restrict Di,
-//                             const ksl_vec3_t* restrict t,
-//                             ksl_SE3_t* restrict Do) {
-//   ksl_mat3x3_copy(&Di->R, &Do->R);
-//   ksl_product_drv(&Di->R, t, &Do->t);
-//   ksl_xpy_vv(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddtf(const ksl_SE3f_t* restrict Di,
-//                              const ksl_vec3f_t* restrict t,
-//                              ksl_SE3f_t* restrict Do) {
-//   ksl_mat3x3f_copy(&Di->R, &Do->R);
-//   ksl_product_drvf(&Di->R, t, &Do->t);
-//   ksl_xpy_vvf(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddtinv(const ksl_SE3_t* restrict Di,
-//                                const ksl_vec3_t* restrict t,
-//                                ksl_SE3_t* restrict Do) {
-//   ksl_mat3x3_copy(&Di->R, &Do->R);
-//   ksl_product_drvinv(&Di->R, t, &Do->t);
-//   ksl_xpy_vv(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddtinvf(const ksl_SE3f_t* restrict Di,
-//                                 const ksl_vec3f_t* restrict t,
-//                                 ksl_SE3f_t* restrict Do) {
-//   ksl_mat3x3f_copy(&Di->R, &Do->R);
-//   ksl_product_drvinvf(&Di->R, t, &Do->t);
-//   ksl_xpy_vvf(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_dinvdt(const ksl_SE3_t* restrict Di,
-//                                const ksl_vec3_t* restrict t,
-//                                ksl_SE3_t* restrict Do) {
-//   ksl_subtract_vv(t, &Di->t, &Do->t);
-//   ksl_mat3x3_transposed(&Di->R, &Do->R);
-//   ksl_product_drinvv(&Di->R, &Do->t, &Do->t);
-// }
-//
-// inline void ksl_product_dinvdtf(const ksl_SE3f_t* restrict Di,
-//                                 const ksl_vec3f_t* restrict t,
-//                                 ksl_SE3f_t* restrict Do) {
-//   ksl_subtract_vvf(t, &Di->t, &Do->t);
-//   ksl_mat3x3f_transposed(&Di->R, &Do->R);
-//   ksl_product_drinvvf(&Di->R, &Do->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddtx(const ksl_SE3_t* restrict Di, const double ti,
-//                              ksl_SE3_t* restrict Do) {
-//   ksl_mat3x3_copy(&Di->R, &Do->R);
-//   ksl_product_drvtx(&Di->R, ti, &Do->t);
-//   ksl_xpy_vv(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddtxf(const ksl_SE3f_t* restrict Di, const float ti,
-//                               ksl_SE3f_t* restrict Do) {
-//   ksl_mat3x3f_copy(&Di->R, &Do->R);
-//   ksl_product_drvtxf(&Di->R, ti, &Do->t);
-//   ksl_xpy_vvf(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddtxinv(const ksl_SE3_t* restrict Di, const double
-// ti,
-//                                 ksl_SE3_t* restrict Do) {
-//   ksl_mat3x3_copy(&Di->R, &Do->R);
-//   ksl_product_drvtxinv(&Di->R, ti, &Do->t);
-//   ksl_xpy_vv(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddtxinvf(const ksl_SE3f_t* restrict Di, const float
-// ti,
-//                                  ksl_SE3f_t* restrict Do) {
-//   ksl_mat3x3f_copy(&Di->R, &Do->R);
-//   ksl_product_drvtxinvf(&Di->R, ti, &Do->t);
-//   ksl_xpy_vvf(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddty(const ksl_SE3_t* restrict Di, const double ti,
-//                              ksl_SE3_t* restrict Do) {
-//   ksl_mat3x3_copy(&Di->R, &Do->R);
-//   ksl_product_drvty(&Di->R, ti, &Do->t);
-//   ksl_xpy_vv(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddtyf(const ksl_SE3f_t* restrict Di, const float ti,
-//                               ksl_SE3f_t* restrict Do) {
-//   ksl_mat3x3f_copy(&Di->R, &Do->R);
-//   ksl_product_drvtyf(&Di->R, ti, &Do->t);
-//   ksl_xpy_vvf(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddtyinv(const ksl_SE3_t* restrict Di, const double
-// ti,
-//                                 ksl_SE3_t* restrict Do) {
-//   ksl_mat3x3_copy(&Di->R, &Do->R);
-//   ksl_product_drvtyinv(&Di->R, ti, &Do->t);
-//   ksl_xpy_vv(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddtyinvf(const ksl_SE3f_t* restrict Di, const float
-// ti,
-//                                  ksl_SE3f_t* restrict Do) {
-//   ksl_mat3x3f_copy(&Di->R, &Do->R);
-//   ksl_product_drvtyinvf(&Di->R, ti, &Do->t);
-//   ksl_xpy_vvf(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddtz(const ksl_SE3_t* restrict Di, const double ti,
-//                              ksl_SE3_t* restrict Do) {
-//   ksl_mat3x3_copy(&Di->R, &Do->R);
-//   ksl_product_drvtz(&Di->R, ti, &Do->t);
-//   ksl_xpy_vv(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddtzf(const ksl_SE3f_t* restrict Di, const float ti,
-//                               ksl_SE3f_t* restrict Do) {
-//   ksl_mat3x3f_copy(&Di->R, &Do->R);
-//   ksl_product_drvtzf(&Di->R, ti, &Do->t);
-//   ksl_xpy_vvf(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddtzinv(const ksl_SE3_t* restrict Di, const double
-// ti,
-//                                 ksl_SE3_t* restrict Do) {
-//   ksl_mat3x3_copy(&Di->R, &Do->R);
-//   ksl_product_drvtzinv(&Di->R, ti, &Do->t);
-//   ksl_xpy_vv(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddtzinvf(const ksl_SE3f_t* restrict Di, const float
-// ti,
-//                                  ksl_SE3f_t* restrict Do) {
-//   ksl_mat3x3f_copy(&Di->R, &Do->R);
-//   ksl_product_drvtzinvf(&Di->R, ti, &Do->t);
-//   ksl_xpy_vvf(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddr(const ksl_SE3_t* restrict Di,
-//                             const ksl_mat3x3_t* restrict Ri,
-//                             ksl_SE3_t* restrict Do) {
-//   ksl_product_drdr(&Di->R, Ri, &Do->R);
-//   ksl_vec3_copy(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddrf(const ksl_SE3f_t* restrict Di,
-//                              const ksl_mat3x3f_t* restrict Ri,
-//                              ksl_SE3f_t* restrict Do) {
-//   ksl_product_drdrf(&Di->R, Ri, &Do->R);
-//   ksl_vec3f_copy(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddrinv(const ksl_SE3_t* restrict Di,
-//                                const ksl_mat3x3_t* restrict Ri,
-//                                ksl_SE3_t* restrict Do) {
-//   ksl_product_drdrinv(&Di->R, Ri, &Do->R);
-//   ksl_xpy_vv(&Di->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddrinvf(const ksl_SE3f_t* restrict Di,
-//                                 const ksl_mat3x3f_t* restrict Ri,
-//                                 ksl_SE3f_t* restrict Do) {
-//   ksl_product_drdrinvf(&Di->R, Ri, &Do->R);
-//   ksl_xpy_vvf(&Di->t, &Do->t);
-// }
-//
+START_TEST(test_matrix_product_ddrx) {
+  ksl_SE3_t d =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  double dc[2];
+  ksl_dc(0.5, dc);
+  ksl_SE3_t d2;
+  ksl_product_ddrx(&d, dc, &d2);
+  ksl_SE3_t d3 =
+    ksl_SE3(0.879923176281257, -0.1848032027151301, 0.4377019306666745, 1.,
+            0.4357321314618704, 0.6811374365560571, -0.588378536431725, 2.,
+            -0.1894009330885121, 0.7084487058270867, 0.6798733100785226, 3.);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddrxf) {
+  ksl_SE3f_t d =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  float dc[2];
+  ksl_dcf(0.5, dc);
+  ksl_SE3f_t d2;
+  ksl_product_ddrxf(&d, dc, &d2);
+  ksl_SE3f_t d3 =
+    ksl_SE3f(0.879923176281257, -0.1848032027151301, 0.4377019306666745, 1.,
+             0.4357321314618704, 0.6811374365560571, -0.588378536431725, 2.,
+             -0.1894009330885121, 0.7084487058270867, 0.6798733100785226, 3.);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddrxinv) {
+  ksl_SE3_t d =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  double dc[2];
+  ksl_dc(0.5, dc);
+  ksl_SE3_t d2;
+  ksl_product_ddrxinv(&d, dc, &d2);
+  ksl_SE3_t d3 =
+    ksl_SE3(0.879923176281257, -0.4681630712092061, 0.080984829437787, 1.,
+            0.4357321314618704, 0.8631235940753836, 0.2552551095709691, 2.,
+            -0.1894009330885121, -0.1893171944287045, 0.963476147311829, 3.);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddrxinvf) {
+  ksl_SE3f_t d =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  float dc[2];
+  ksl_dcf(0.5, dc);
+  ksl_SE3f_t d2;
+  ksl_product_ddrxinvf(&d, dc, &d2);
+  ksl_SE3f_t d3 =
+    ksl_SE3f(0.879923176281257, -0.4681630712092061, 0.080984829437787, 1.,
+             0.4357321314618704, 0.8631235940753836, 0.2552551095709691, 2.,
+             -0.1894009330885121, -0.1893171944287045, 0.963476147311829, 3.);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddry) {
+  ksl_SE3_t d =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  double dc[2];
+  ksl_dc(0.5, dc);
+  ksl_SE3_t d2;
+  ksl_product_ddry(&d, dc, &d2);
+  ksl_SE3_t d3 =
+    ksl_SE3(0.6305253010605816, -0.3720255519422596, 0.6812010227711934, 1.,
+            0.4733839989859243, 0.8798380333042382, 0.0423393983828867, 2.,
+            -0.6150979062121391, 0.2957736023606357, 0.7308710843370773, 3);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddryf) {
+  ksl_SE3f_t d =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  float dc[2];
+  ksl_dcf(0.5, dc);
+  ksl_SE3f_t d2;
+  ksl_product_ddryf(&d, dc, &d2);
+  ksl_SE3f_t d3 =
+    ksl_SE3f(0.6305253010605816, -0.3720255519422596, 0.6812010227711934, 1.,
+             0.4733839989859243, 0.8798380333042382, 0.0423393983828867, 2.,
+             -0.6150979062121391, 0.2957736023606357, 0.7308710843370773, 3);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddryinv) {
+  ksl_SE3_t d =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  double dc[2];
+  ksl_dc(0.5, dc);
+  ksl_SE3_t d2;
+  ksl_product_ddryinv(&d, dc, &d2);
+  ksl_SE3_t d3 =
+    ksl_SE3(0.9138851695546576, -0.3720255519422596, -0.162514262666732, 1.,
+            0.2913978414665975, 0.8798380333042382, -0.3754628252436425, 2.,
+            0.2826679940436521, 0.2957736023606357, 0.9124783730532743, 3.);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddryinvf) {
+  ksl_SE3f_t d =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  float dc[2];
+  ksl_dcf(0.5, dc);
+  ksl_SE3f_t d2;
+  ksl_product_ddryinvf(&d, dc, &d2);
+  ksl_SE3f_t d3 =
+    ksl_SE3f(0.9138851695546576, -0.3720255519422596, -0.162514262666732, 1.,
+             0.2913978414665975, 0.8798380333042382, -0.3754628252436425, 2.,
+             0.2826679940436521, 0.2957736023606357, 0.9124783730532743, 3.);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddrz) {
+  ksl_SE3_t d =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  double dc[2];
+  ksl_dc(0.5, dc);
+  ksl_SE3_t d2;
+  ksl_product_ddrz(&d, dc, &d2);
+  ksl_SE3_t d3 =
+    ksl_SE3(0.5938466846931759, -0.7483407796811308, 0.2955202066613395, 1.,
+            0.804207743227608, 0.5632294035024559, -0.1897960609786874, 2.,
+            -0.0244135374675904, 0.3503694000572896, 0.9362933635841992, 3.);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddrzf) {
+  ksl_SE3f_t d =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  float dc[2];
+  ksl_dcf(0.5, dc);
+  ksl_SE3f_t d2;
+  ksl_product_ddrzf(&d, dc, &d2);
+  ksl_SE3f_t d3 =
+    ksl_SE3f(0.5938466846931759, -0.7483407796811308, 0.2955202066613395, 1.,
+             0.804207743227608, 0.5632294035024559, -0.1897960609786874, 2.,
+             -0.0244135374675904, 0.3503694000572896, 0.9362933635841992, 3.);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddrzinv) {
+  ksl_SE3_t d =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  double dc[2];
+  ksl_dc(0.5, dc);
+  ksl_SE3_t d2;
+  ksl_product_ddrzinv(&d, dc, &d2);
+  ksl_SE3_t d3 =
+    ksl_SE3(0.9505637859220633, 0.0953745057567946, 0.2955202066613395, 1.,
+            -0.0394259027750862, 0.981031627128985, -0.1897960609786874, 2.,
+            -0.3080163747008967, 0.1687621113410926, 0.9362933635841992, 3.);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddrzinvf) {
+  ksl_SE3f_t d =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  float dc[2];
+  ksl_dcf(0.5, dc);
+  ksl_SE3f_t d2;
+  ksl_product_ddrzinvf(&d, dc, &d2);
+  ksl_SE3f_t d3 =
+    ksl_SE3f(0.9505637859220633, 0.0953745057567946, 0.2955202066613395, 1.,
+             -0.0394259027750862, 0.981031627128985, -0.1897960609786874, 2.,
+             -0.3080163747008967, 0.1687621113410926, 0.9362933635841992, 3.);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddt) {
+  ksl_SE3_t d =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_vec3_t t = ksl_vec3(1.0, 2.0, 3.0);
+  ksl_SE3_t d2;
+  ksl_product_ddt(&d, &t, &d2);
+  ksl_SE3_t d3 =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395,
+            2.0224326923807565, 0.4357321314618704, 0.8798380333042382,
+            -0.1897960609786874, 3.6260200151342845, -0.1894009330885121,
+            0.2957736023606357, 0.9362933635841992, 6.211026362385357);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddtf) {
+  ksl_SE3f_t d =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_vec3f_t t = ksl_vec3f(1.0, 2.0, 3.0);
+  ksl_SE3f_t d2;
+  ksl_product_ddtf(&d, &t, &d2);
+  ksl_SE3f_t d3 =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395,
+             2.0224326923807565, 0.4357321314618704, 0.8798380333042382,
+             -0.1897960609786874, 3.6260200151342845, -0.1894009330885121,
+             0.2957736023606357, 0.9362933635841992, 6.211026362385357);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddtinv) {
+  ksl_SE3_t d =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_vec3_t t = ksl_vec3(1.0, 2.0, 3.0);
+  ksl_SE3_t d2;
+  ksl_product_ddtinv(&d, &t, &d2);
+  ksl_SE3_t d3 =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395,
+            -0.0224326923807563, 0.4357321314618704, 0.8798380333042382,
+            -0.1897960609786874, 0.3739799848657155, -0.1894009330885121,
+            0.2957736023606357, 0.9362933635841992, -0.2110263623853568);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddtinvf) {
+  ksl_SE3f_t d =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_vec3f_t t = ksl_vec3f(1.0, 2.0, 3.0);
+  ksl_SE3f_t d2;
+  ksl_product_ddtinvf(&d, &t, &d2);
+  ksl_SE3f_t d3 =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395,
+             -0.0224326923807563, 0.4357321314618704, 0.8798380333042382,
+             -0.1897960609786874, 0.3739799848657155, -0.1894009330885121,
+             0.2957736023606357, 0.9362933635841992, -0.2110263623853568);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddtx) {
+  ksl_SE3_t d =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_SE3_t d2;
+  ksl_product_ddtx(&d, 2.0, &d2);
+  ksl_SE3_t d3 =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395,
+            2.759846352562514, 0.4357321314618704, 0.8798380333042382,
+            -0.1897960609786874, 2.871464262923741, -0.1894009330885121,
+            0.2957736023606357, 0.9362933635841992, 2.621198133822976);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddtxf) {
+  ksl_SE3f_t d =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_SE3f_t d2;
+  ksl_product_ddtxf(&d, 2.0, &d2);
+  ksl_SE3f_t d3 =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395,
+             2.759846352562514, 0.4357321314618704, 0.8798380333042382,
+             -0.1897960609786874, 2.871464262923741, -0.1894009330885121,
+             0.2957736023606357, 0.9362933635841992, 2.621198133822976);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddtxinv) {
+  ksl_SE3_t d =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_SE3_t d2;
+  ksl_product_ddtxinv(&d, 2.0, &d2);
+  ksl_SE3_t d3 =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395,
+            -0.7598463525625141, 0.4357321314618704, 0.8798380333042382,
+            -0.1897960609786874, 1.1285357370762592, -0.1894009330885121,
+            0.2957736023606357, 0.9362933635841992, 3.378801866177024);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddtxinvf) {
+  ksl_SE3f_t d =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_SE3f_t d2;
+  ksl_product_ddtxinvf(&d, 2.0, &d2);
+  ksl_SE3f_t d3 =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395,
+             -0.7598463525625141, 0.4357321314618704, 0.8798380333042382,
+             -0.1897960609786874, 1.1285357370762592, -0.1894009330885121,
+             0.2957736023606357, 0.9362933635841992, 3.378801866177024);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddty) {
+  ksl_SE3_t d =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_SE3_t d2;
+  ksl_product_ddty(&d, 2.0, &d2);
+  ksl_SE3_t d3 =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395,
+            0.2559488961154808, 0.4357321314618704, 0.8798380333042382,
+            -0.1897960609786874, 3.7596760666084763, -0.1894009330885121,
+            0.2957736023606357, 0.9362933635841992, 3.5915472047212713);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddtyf) {
+  ksl_SE3f_t d =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_SE3f_t d2;
+  ksl_product_ddtyf(&d, 2.0, &d2);
+  ksl_SE3f_t d3 =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395,
+             0.2559488961154808, 0.4357321314618704, 0.8798380333042382,
+             -0.1897960609786874, 3.7596760666084763, -0.1894009330885121,
+             0.2957736023606357, 0.9362933635841992, 3.5915472047212713);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddtyinv) {
+  ksl_SE3_t d =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_SE3_t d2;
+  ksl_product_ddtyinv(&d, 2.0, &d2);
+  ksl_SE3_t d3 =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395,
+            1.7440511038845192, 0.4357321314618704, 0.8798380333042382,
+            -0.1897960609786874, 0.2403239333915237, -0.1894009330885121,
+            0.2957736023606357, 0.9362933635841992, 2.4084527952787287);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddtyinvf) {
+  ksl_SE3f_t d =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_SE3f_t d2;
+  ksl_product_ddtyinvf(&d, 2.0, &d2);
+  ksl_SE3f_t d3 =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395,
+             1.7440511038845192, 0.4357321314618704, 0.8798380333042382,
+             -0.1897960609786874, 0.2403239333915237, -0.1894009330885121,
+             0.2957736023606357, 0.9362933635841992, 2.4084527952787287);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddtz) {
+  ksl_SE3_t d =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_SE3_t d2;
+  ksl_product_ddtz(&d, 2.0, &d2);
+  ksl_SE3_t d3 =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395,
+            1.591040413322679, 0.4357321314618704, 0.8798380333042382,
+            -0.1897960609786874, 1.6204078780426252, -0.1894009330885121,
+            0.2957736023606357, 0.9362933635841992, 4.8725867271683985);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddtzf) {
+  ksl_SE3f_t d =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_SE3f_t d2;
+  ksl_product_ddtzf(&d, 2.0, &d2);
+  ksl_SE3f_t d3 =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395,
+             1.591040413322679, 0.4357321314618704, 0.8798380333042382,
+             -0.1897960609786874, 1.6204078780426252, -0.1894009330885121,
+             0.2957736023606357, 0.9362933635841992, 4.8725867271683985);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddtzinv) {
+  ksl_SE3_t d =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_SE3_t d2;
+  ksl_product_ddtzinv(&d, 2.0, &d2);
+  ksl_SE3_t d3 =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395,
+            0.408959586677321, 0.4357321314618704, 0.8798380333042382,
+            -0.1897960609786874, 2.3795921219573746, -0.1894009330885121,
+            0.2957736023606357, 0.9362933635841992, 1.1274132728316015);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddtzinvf) {
+  ksl_SE3f_t d =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_SE3f_t d2;
+  ksl_product_ddtzinvf(&d, 2.0, &d2);
+  ksl_SE3f_t d3 =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395,
+             0.408959586677321, 0.4357321314618704, 0.8798380333042382,
+             -0.1897960609786874, 2.3795921219573746, -0.1894009330885121,
+             0.2957736023606357, 0.9362933635841992, 1.1274132728316015);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddr) {
+  ksl_SE3_t d =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_mat3x3_t r = d.R;
+  ksl_SE3_t d2;
+  ksl_product_ddr(&d, &r, &d2);
+  ksl_SE3_t d3 =
+    ksl_SE3(0.556189506562649, -0.5672690591880384, 0.6073376715448455, 1.,
+            0.8027320537624947, 0.5558748134730649, -0.2159269358105487, 2.,
+            -0.2151150451545508, 0.6076257122885793, 0.7645367951341207, 3.);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddrf) {
+  ksl_SE3f_t d =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_mat3x3f_t r = d.R;
+  ksl_SE3f_t d2;
+  ksl_product_ddrf(&d, &r, &d2);
+  ksl_SE3f_t d3 =
+    ksl_SE3f(0.556189506562649, -0.5672690591880384, 0.6073376715448455, 1.,
+             0.8027320537624947, 0.5558748134730649, -0.2159269358105487, 2.,
+             -0.2151150451545508, 0.6076257122885793, 0.7645367951341207, 3.);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddrinv) {
+  ksl_SE3_t d =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_mat3x3_t r = d.R;
+  ksl_SE3_t d2;
+  ksl_product_ddrinv(&d, &r, &d2);
+  ksl_SE3_t d3 =
+    ksl_SE3(1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 2.0, 0.0, 0.0, 1.0, 3.0);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddrinvf) {
+  ksl_SE3f_t d =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_mat3x3f_t r = d.R;
+  ksl_SE3f_t d2;
+  ksl_product_ddrinvf(&d, &r, &d2);
+  ksl_SE3f_t d3 =
+    ksl_SE3f(1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 2.0, 0.0, 0.0, 1.0, 3.0);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+  }
+}
+END_TEST
 
 START_TEST(test_matrix_product_dd) {
   ksl_SE3_t d1 =
@@ -2044,10 +2384,51 @@ Suite* matrix_suite(void) {
   tcase_add_test(tc_core, test_matrix_product_dinvv);
   tcase_add_test(tc_core, test_matrix_product_dinvvf);
 
+  tcase_add_test(tc_core, test_matrix_product_ddrx);
+  tcase_add_test(tc_core, test_matrix_product_ddrxf);
+  tcase_add_test(tc_core, test_matrix_product_ddrxinv);
+  tcase_add_test(tc_core, test_matrix_product_ddrxinvf);
+
+  tcase_add_test(tc_core, test_matrix_product_ddry);
+  tcase_add_test(tc_core, test_matrix_product_ddryf);
+  tcase_add_test(tc_core, test_matrix_product_ddryinv);
+  tcase_add_test(tc_core, test_matrix_product_ddryinvf);
+
+  tcase_add_test(tc_core, test_matrix_product_ddrz);
+  tcase_add_test(tc_core, test_matrix_product_ddrzf);
+  tcase_add_test(tc_core, test_matrix_product_ddrzinv);
+  tcase_add_test(tc_core, test_matrix_product_ddrzinvf);
+
   tcase_add_test(tc_core, test_matrix_product_dd);
   tcase_add_test(tc_core, test_matrix_product_ddf);
   tcase_add_test(tc_core, test_matrix_product_ddinv);
   tcase_add_test(tc_core, test_matrix_product_ddinvf);
+
+  tcase_add_test(tc_core, test_matrix_product_ddt);
+  tcase_add_test(tc_core, test_matrix_product_ddtf);
+  tcase_add_test(tc_core, test_matrix_product_ddtinv);
+  tcase_add_test(tc_core, test_matrix_product_ddtinvf);
+
+  tcase_add_test(tc_core, test_matrix_product_ddtx);
+  tcase_add_test(tc_core, test_matrix_product_ddtxf);
+  tcase_add_test(tc_core, test_matrix_product_ddtxinv);
+  tcase_add_test(tc_core, test_matrix_product_ddtxinvf);
+
+  tcase_add_test(tc_core, test_matrix_product_ddty);
+  tcase_add_test(tc_core, test_matrix_product_ddtyf);
+  tcase_add_test(tc_core, test_matrix_product_ddtyinv);
+  tcase_add_test(tc_core, test_matrix_product_ddtyinvf);
+
+  tcase_add_test(tc_core, test_matrix_product_ddtz);
+  tcase_add_test(tc_core, test_matrix_product_ddtzf);
+  tcase_add_test(tc_core, test_matrix_product_ddtzinv);
+  tcase_add_test(tc_core, test_matrix_product_ddtzinvf);
+
+  tcase_add_test(tc_core, test_matrix_product_ddr);
+  tcase_add_test(tc_core, test_matrix_product_ddrf);
+  tcase_add_test(tc_core, test_matrix_product_ddrinv);
+  tcase_add_test(tc_core, test_matrix_product_ddrinvf);
+
   suite_add_tcase(s, tc_core);
   return s;
 }
