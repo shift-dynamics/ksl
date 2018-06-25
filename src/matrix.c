@@ -2127,6 +2127,13 @@ inline void ksl_product_dv(const ksl_SE3_t* restrict Di,
   ksl_xpy_vv(&Di->t, vo);
 }
 
+inline void ksl_product_dvf(const ksl_SE3f_t* restrict Di,
+                            const ksl_vec3f_t* restrict vi,
+                            ksl_vec3f_t* restrict vo) {
+  ksl_product_drvf(&(Di->R), vi, vo);
+  ksl_xpy_vvf(&Di->t, vo);
+}
+
 inline void ksl_product_dinvv(const ksl_SE3_t* restrict Di,
                               const ksl_vec3_t* restrict vi,
                               ksl_vec3_t* restrict vo) {
@@ -2134,6 +2141,15 @@ inline void ksl_product_dinvv(const ksl_SE3_t* restrict Di,
   ksl_product_drinvv(&Di->R, &Di->t, &temp); /* R^-1 * t -> temp*/
   ksl_product_drinvv(&Di->R, vi, vo);        /* R^-1 * vi -> vo */
   ksl_nxpy_vv(&temp, vo);                    /* vo -= temp */
+}
+
+inline void ksl_product_dinvvf(const ksl_SE3f_t* restrict Di,
+                               const ksl_vec3f_t* restrict vi,
+                               ksl_vec3f_t* restrict vo) {
+  ksl_vec3f_t temp;
+  ksl_product_drinvvf(&Di->R, &Di->t, &temp); /* R^-1 * t -> temp*/
+  ksl_product_drinvvf(&Di->R, vi, vo);        /* R^-1 * vi -> vo */
+  ksl_nxpy_vvf(&temp, vo);                    /* vo -= temp */
 }
 
 inline void ksl_product_ddrx(const ksl_SE3_t* restrict Di, const double dc[2],

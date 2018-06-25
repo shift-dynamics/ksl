@@ -1443,107 +1443,184 @@ START_TEST(test_matrix_product_drdrzinvf) {
 }
 END_TEST
 
-//
-// inline void ksl_product_drdr(const ksl_mat3x3_t* restrict r1i,
-//                              const ksl_mat3x3_t* restrict r2i,
-//                              ksl_mat3x3_t* restrict ro) {
-//   ro->m00 = r1i->m00 * r2i->m00 + r1i->m01 * r2i->m10 + r1i->m02 * r2i->m20;
-//   ro->m01 = r1i->m00 * r2i->m01 + r1i->m01 * r2i->m11 + r1i->m02 * r2i->m21;
-//   ro->m02 = r1i->m00 * r2i->m02 + r1i->m01 * r2i->m12 + r1i->m02 * r2i->m22;
-//   ro->m10 = r1i->m10 * r2i->m00 + r1i->m11 * r2i->m10 + r1i->m12 * r2i->m20;
-//   ro->m11 = r1i->m10 * r2i->m01 + r1i->m11 * r2i->m11 + r1i->m12 * r2i->m21;
-//   ro->m12 = r1i->m10 * r2i->m02 + r1i->m11 * r2i->m12 + r1i->m12 * r2i->m22;
-//   ro->m20 = r1i->m20 * r2i->m00 + r1i->m21 * r2i->m10 + r1i->m22 * r2i->m20;
-//   ro->m21 = r1i->m20 * r2i->m01 + r1i->m21 * r2i->m11 + r1i->m22 * r2i->m21;
-//   ro->m22 = r1i->m20 * r2i->m02 + r1i->m21 * r2i->m12 + r1i->m22 * r2i->m22;
-// }
-//
-// inline void ksl_product_drdrf(const ksl_mat3x3f_t* restrict r1i,
-//                               const ksl_mat3x3f_t* restrict r2i,
-//                               ksl_mat3x3f_t* restrict ro) {
-//   ro->m00 = r1i->m00 * r2i->m00 + r1i->m01 * r2i->m10 + r1i->m02 * r2i->m20;
-//   ro->m01 = r1i->m00 * r2i->m01 + r1i->m01 * r2i->m11 + r1i->m02 * r2i->m21;
-//   ro->m02 = r1i->m00 * r2i->m02 + r1i->m01 * r2i->m12 + r1i->m02 * r2i->m22;
-//   ro->m10 = r1i->m10 * r2i->m00 + r1i->m11 * r2i->m10 + r1i->m12 * r2i->m20;
-//   ro->m11 = r1i->m10 * r2i->m01 + r1i->m11 * r2i->m11 + r1i->m12 * r2i->m21;
-//   ro->m12 = r1i->m10 * r2i->m02 + r1i->m11 * r2i->m12 + r1i->m12 * r2i->m22;
-//   ro->m20 = r1i->m20 * r2i->m00 + r1i->m21 * r2i->m10 + r1i->m22 * r2i->m20;
-//   ro->m21 = r1i->m20 * r2i->m01 + r1i->m21 * r2i->m11 + r1i->m22 * r2i->m21;
-//   ro->m22 = r1i->m20 * r2i->m02 + r1i->m21 * r2i->m12 + r1i->m22 * r2i->m22;
-// }
-//
-// inline void ksl_product_drdrinv(const ksl_mat3x3_t* restrict r1i,
-//                                 const ksl_mat3x3_t* restrict r2i,
-//                                 ksl_mat3x3_t* restrict ro) {
-//   ro->m00 = ksl_dot_vv(&r1i->v0, &r2i->v0);
-//   ro->m01 = ksl_dot_vv(&r1i->v0, &r2i->v1);
-//   ro->m02 = ksl_dot_vv(&r1i->v0, &r2i->v2);
-//   ro->m10 = ksl_dot_vv(&r1i->v1, &r2i->v0);
-//   ro->m11 = ksl_dot_vv(&r1i->v1, &r2i->v1);
-//   ro->m12 = ksl_dot_vv(&r1i->v1, &r2i->v2);
-//   ro->m20 = ksl_dot_vv(&r1i->v2, &r2i->v0);
-//   ro->m21 = ksl_dot_vv(&r1i->v2, &r2i->v1);
-//   ro->m22 = ksl_dot_vv(&r1i->v2, &r2i->v2);
-// }
-//
-// inline void ksl_product_drdrinvf(const ksl_mat3x3f_t* restrict r1i,
-//                                  const ksl_mat3x3f_t* restrict r2i,
-//                                  ksl_mat3x3f_t* restrict ro) {
-//   ro->m00 = ksl_dot_vvf(&r1i->v0, &r2i->v0);
-//   ro->m01 = ksl_dot_vvf(&r1i->v0, &r2i->v1);
-//   ro->m02 = ksl_dot_vvf(&r1i->v0, &r2i->v2);
-//   ro->m10 = ksl_dot_vvf(&r1i->v1, &r2i->v0);
-//   ro->m11 = ksl_dot_vvf(&r1i->v1, &r2i->v1);
-//   ro->m12 = ksl_dot_vvf(&r1i->v1, &r2i->v2);
-//   ro->m20 = ksl_dot_vvf(&r1i->v2, &r2i->v0);
-//   ro->m21 = ksl_dot_vvf(&r1i->v2, &r2i->v1);
-//   ro->m22 = ksl_dot_vvf(&r1i->v2, &r2i->v2);
-// }
-//
-// inline void ksl_product_drinvdr(const ksl_mat3x3_t* restrict r1i,
-//                                 const ksl_mat3x3_t* restrict r2i,
-//                                 ksl_mat3x3_t* restrict ro) {
-//   ro->m00 = r1i->m00 * r2i->m00 + r1i->m10 * r2i->m10 + r1i->m20 * r2i->m20;
-//   ro->m01 = r1i->m00 * r2i->m01 + r1i->m10 * r2i->m11 + r1i->m20 * r2i->m21;
-//   ro->m02 = r1i->m00 * r2i->m02 + r1i->m10 * r2i->m12 + r1i->m20 * r2i->m22;
-//   ro->m10 = r1i->m01 * r2i->m00 + r1i->m11 * r2i->m10 + r1i->m21 * r2i->m20;
-//   ro->m11 = r1i->m01 * r2i->m01 + r1i->m11 * r2i->m11 + r1i->m21 * r2i->m21;
-//   ro->m12 = r1i->m01 * r2i->m02 + r1i->m11 * r2i->m12 + r1i->m21 * r2i->m22;
-//   ro->m20 = r1i->m02 * r2i->m00 + r1i->m12 * r2i->m10 + r1i->m22 * r2i->m20;
-//   ro->m21 = r1i->m02 * r2i->m01 + r1i->m12 * r2i->m11 + r1i->m22 * r2i->m21;
-//   ro->m22 = r1i->m02 * r2i->m02 + r1i->m12 * r2i->m12 + r1i->m22 * r2i->m22;
-// }
-//
-// inline void ksl_product_drinvdrf(const ksl_mat3x3f_t* restrict r1i,
-//                                  const ksl_mat3x3f_t* restrict r2i,
-//                                  ksl_mat3x3f_t* restrict ro) {
-//   ro->m00 = r1i->m00 * r2i->m00 + r1i->m10 * r2i->m10 + r1i->m20 * r2i->m20;
-//   ro->m01 = r1i->m00 * r2i->m01 + r1i->m10 * r2i->m11 + r1i->m20 * r2i->m21;
-//   ro->m02 = r1i->m00 * r2i->m02 + r1i->m10 * r2i->m12 + r1i->m20 * r2i->m22;
-//   ro->m10 = r1i->m01 * r2i->m00 + r1i->m11 * r2i->m10 + r1i->m21 * r2i->m20;
-//   ro->m11 = r1i->m01 * r2i->m01 + r1i->m11 * r2i->m11 + r1i->m21 * r2i->m21;
-//   ro->m12 = r1i->m01 * r2i->m02 + r1i->m11 * r2i->m12 + r1i->m21 * r2i->m22;
-//   ro->m20 = r1i->m02 * r2i->m00 + r1i->m12 * r2i->m10 + r1i->m22 * r2i->m20;
-//   ro->m21 = r1i->m02 * r2i->m01 + r1i->m12 * r2i->m11 + r1i->m22 * r2i->m21;
-//   ro->m22 = r1i->m02 * r2i->m02 + r1i->m12 * r2i->m12 + r1i->m22 * r2i->m22;
-// }
-//
-// inline void ksl_product_dv(const ksl_SE3_t* restrict Di,
-//                            const ksl_vec3_t* restrict vi,
-//                            ksl_vec3_t* restrict vo) {
-//   ksl_product_drv(&(Di->R), vi, vo);
-//   ksl_xpy_vv(&Di->t, vo);
-// }
-//
-// inline void ksl_product_dinvv(const ksl_SE3_t* restrict Di,
-//                               const ksl_vec3_t* restrict vi,
-//                               ksl_vec3_t* restrict vo) {
-//   ksl_vec3_t temp;
-//   ksl_product_drinvv(&Di->R, &Di->t, &temp); /* R^-1 * t -> temp*/
-//   ksl_product_drinvv(&Di->R, vi, vo);        /* R^-1 * vi -> vo */
-//   ksl_nxpy_vv(&temp, vo);                    /* vo -= temp */
-// }
-//
+START_TEST(test_matrix_product_drdr) {
+  ksl_mat3x3_t r1;
+  ksl_mat3x3_setIdentity(&r1);
+  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
+  ksl_mat3x3_t r2;
+  ksl_mat3x3_setFromEulerAngles(&r2, KSL_AXIS_XYZ, &angles);
+  ksl_mat3x3_t r3;
+  ksl_product_drdr(&r1, &r2, &r3);
+
+  ksl_mat3x3_t r4 =
+    ksl_mat3x3(0.556189506562649, -0.5672690591880383, 0.6073376715448456,
+               0.8027320537624947, 0.5558748134730649, -0.2159269358105488,
+               -0.2151150451545507, 0.6076257122885793, 0.7645367951341207);
+
+  for(int i = 0; i < 9; i++) {
+    ck_assert_double_eq_tol(r3.at[i], r4.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_drdrf) {
+  ksl_mat3x3f_t r1;
+  ksl_mat3x3f_setIdentity(&r1);
+  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3f_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
+  ksl_mat3x3f_t r2;
+  ksl_mat3x3f_setFromEulerAngles(&r2, KSL_AXIS_XYZ, &angles);
+  ksl_mat3x3f_t r3;
+  ksl_product_drdrf(&r1, &r2, &r3);
+
+  ksl_mat3x3f_t r4 =
+    ksl_mat3x3f(0.556189506562649, -0.5672690591880383, 0.6073376715448456,
+                0.8027320537624947, 0.5558748134730649, -0.2159269358105488,
+                -0.2151150451545507, 0.6076257122885793, 0.7645367951341207);
+
+  for(int i = 0; i < 9; i++) {
+    ck_assert_float_eq_tol(r3.at[i], r4.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_drdrinv) {
+  ksl_mat3x3_t r1;
+  ksl_mat3x3_setIdentity(&r1);
+  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
+  ksl_mat3x3_t r2;
+  ksl_mat3x3_setFromEulerAngles(&r2, KSL_AXIS_XYZ, &angles);
+  ksl_mat3x3_t r3;
+  ksl_product_drdrinv(&r1, &r2, &r3);
+
+  ksl_mat3x3_t r4 = ksl_mat3x3(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
+
+  for(int i = 0; i < 9; i++) {
+    ck_assert_double_eq_tol(r3.at[i], r4.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_drdrinvf) {
+  ksl_mat3x3f_t r1;
+  ksl_mat3x3f_setIdentity(&r1);
+  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3f_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
+  ksl_mat3x3f_t r2;
+  ksl_mat3x3f_setFromEulerAngles(&r2, KSL_AXIS_XYZ, &angles);
+  ksl_mat3x3f_t r3;
+  ksl_product_drdrinvf(&r1, &r2, &r3);
+
+  ksl_mat3x3f_t r4 = ksl_mat3x3f(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
+
+  for(int i = 0; i < 9; i++) {
+    ck_assert_float_eq_tol(r3.at[i], r4.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_drinvdr) {
+  ksl_mat3x3_t r1;
+  ksl_mat3x3_setIdentity(&r1);
+  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
+  ksl_mat3x3_t r2;
+  ksl_mat3x3_setFromEulerAngles(&r2, KSL_AXIS_XYZ, &angles);
+  ksl_mat3x3_t r3;
+  ksl_product_drinvdr(&r1, &r2, &r3);
+
+  ksl_mat3x3_t r4 = ksl_mat3x3(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
+
+  for(int i = 0; i < 9; i++) {
+    ck_assert_double_eq_tol(r3.at[i], r4.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_drinvdrf) {
+  ksl_mat3x3f_t r1;
+  ksl_mat3x3f_setIdentity(&r1);
+  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_mat3x3f_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
+  ksl_mat3x3f_t r2;
+  ksl_mat3x3f_setFromEulerAngles(&r2, KSL_AXIS_XYZ, &angles);
+  ksl_mat3x3f_t r3;
+  ksl_product_drinvdrf(&r1, &r2, &r3);
+
+  ksl_mat3x3f_t r4 = ksl_mat3x3f(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
+
+  for(int i = 0; i < 9; i++) {
+    ck_assert_float_eq_tol(r3.at[i], r4.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_dv) {
+  ksl_SE3_t d =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_vec3_t v1 = ksl_vec3(1.0, 2.0, 3.0);
+  ksl_vec3_t v2;
+  ksl_vec3_t v3 =
+    ksl_vec3(2.0224326923807565, 3.6260200151342845, 6.211026362385358);
+  ksl_product_dv(&d, &v1, &v2);
+  for(int i = 0; i < 3; i++) {
+    ck_assert_double_eq_tol(v2.at[i], v3.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_dvf) {
+  ksl_SE3f_t d =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_vec3f_t v1 = ksl_vec3f(1.0, 2.0, 3.0);
+  ksl_vec3f_t v2;
+  ksl_vec3f_t v3 =
+    ksl_vec3f(2.0224326923807565, 3.6260200151342845, 6.211026362385358);
+  ksl_product_dvf(&d, &v1, &v2);
+  for(int i = 0; i < 3; i++) {
+    ck_assert_float_eq_tol(v2.at[i], v3.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_dinvv) {
+  ksl_SE3_t d =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_vec3_t v1 = ksl_vec3(2.0, 3.0, 4.0);
+  ksl_vec3_t v2;
+  ksl_vec3_t v3 =
+    ksl_vec3(1.1262543746546154, 0.8035860837226143, 1.0420175092668518);
+  ksl_product_dinvv(&d, &v1, &v2);
+  for(int i = 0; i < 3; i++) {
+    ck_assert_double_eq_tol(v2.at[i], v3.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_dinvvf) {
+  ksl_SE3f_t d =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_vec3f_t v1 = ksl_vec3f(2.0, 3.0, 4.0);
+  ksl_vec3f_t v2;
+  ksl_vec3f_t v3 =
+    ksl_vec3f(1.1262543746546154, 0.8035860837226143, 1.0420175092668518);
+  ksl_product_dinvvf(&d, &v1, &v2);
+  for(int i = 0; i < 3; i++) {
+    ck_assert_float_eq_tol(v2.at[i], v3.at[i], 1e-6);
+  }
+}
+END_TEST
+
 // inline void ksl_product_ddrx(const ksl_SE3_t* restrict Di, const double
 // dc[2],
 //                              ksl_SE3_t* restrict Do) {
@@ -1791,36 +1868,79 @@ END_TEST
 //   ksl_xpy_vvf(&Di->t, &Do->t);
 // }
 //
-// inline void ksl_product_dd(const ksl_SE3_t* restrict D1i,
-//                            const ksl_SE3_t* restrict D2i,
-//                            ksl_SE3_t* restrict Do) {
-//   ksl_product_drdr(&D1i->R, &D2i->R, &Do->R);
-//   ksl_product_drv(&D1i->R, &D2i->t, &Do->t);
-//   ksl_xpy_vv(&D1i->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddf(const ksl_SE3f_t* restrict D1i,
-//                             const ksl_SE3f_t* restrict D2i,
-//                             ksl_SE3f_t* restrict Do) {
-//   ksl_product_drdrf(&D1i->R, &D2i->R, &Do->R);
-//   ksl_product_drvf(&D1i->R, &D2i->t, &Do->t);
-//   ksl_xpy_vvf(&D1i->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddinv(const ksl_SE3_t* restrict D1i,
-//                               const ksl_SE3_t* restrict D2i,
-//                               ksl_SE3_t* restrict Do) {
-//   ksl_product_drdrinv(&D1i->R, &D2i->R, &Do->R);
-//   ksl_product_drvinv(&Do->R, &D2i->t, &Do->t);
-//   ksl_xpy_vv(&D1i->t, &Do->t);
-// }
-//
-// inline void ksl_product_ddinvf(const ksl_SE3f_t* D1i, const ksl_SE3f_t* D2i,
-//                                ksl_SE3f_t* Do) {
-//   ksl_product_drdrinvf(&D1i->R, &D2i->R, &Do->R);
-//   ksl_product_drvinvf(&Do->R, &D2i->t, &Do->t);
-//   ksl_xpy_vvf(&D1i->t, &Do->t);
-// }
+
+START_TEST(test_matrix_product_dd) {
+  ksl_SE3_t d1 =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_SE3_t d2 = d1;
+  ksl_SE3_t d3;
+  ksl_product_dd(&d1, &d2, &d3);
+  ksl_SE3_t d4 =
+    ksl_SE3(0.556189506562649, -0.5672690591880383, 0.6073376715448456,
+            2.0224326923807565, 0.8027320537624947, 0.5558748134730649,
+            -0.2159269358105488, 3.6260200151342845, -0.2151150451545507,
+            0.6076257122885793, 0.7645367951341207, 6.211026362385358);
+
+  for(int i = 0; i < 9; i++) {
+    ck_assert_double_eq_tol(d3.at[i], d4.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddf) {
+  ksl_SE3f_t d1 =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_SE3f_t d2 = d1;
+  ksl_SE3f_t d3;
+  ksl_product_ddf(&d1, &d2, &d3);
+  ksl_SE3f_t d4 =
+    ksl_SE3f(0.556189506562649, -0.5672690591880383, 0.6073376715448456,
+             2.0224326923807565, 0.8027320537624947, 0.5558748134730649,
+             -0.2159269358105488, 3.6260200151342845, -0.2151150451545507,
+             0.6076257122885793, 0.7645367951341207, 6.211026362385358);
+
+  for(int i = 0; i < 9; i++) {
+    ck_assert_float_eq_tol(d3.at[i], d4.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddinv) {
+  ksl_SE3_t d1 =
+    ksl_SE3(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+            0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+            -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_SE3_t d2 = d1;
+  ksl_SE3_t d3;
+  ksl_product_ddinv(&d1, &d2, &d3);
+  ksl_SE3_t d4;
+  ksl_SE3_setIdentity(&d4);
+
+  for(int i = 0; i < 9; i++) {
+    ck_assert_double_eq_tol(d3.at[i], d4.at[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddinvf) {
+  ksl_SE3f_t d1 =
+    ksl_SE3f(0.879923176281257, -0.3720255519422596, 0.2955202066613395, 1.,
+             0.4357321314618704, 0.8798380333042382, -0.1897960609786874, 2.,
+             -0.1894009330885121, 0.2957736023606357, 0.9362933635841992, 3.);
+  ksl_SE3f_t d2 = d1;
+  ksl_SE3f_t d3;
+  ksl_product_ddinvf(&d1, &d2, &d3);
+  ksl_SE3f_t d4;
+  ksl_SE3f_setIdentity(&d4);
+  for(int i = 0; i < 9; i++) {
+    ck_assert_float_eq_tol(d3.at[i], d4.at[i], 1e-6);
+  }
+}
+END_TEST
 
 Suite* matrix_suite(void) {
   Suite* s = suite_create("matrix");
@@ -1913,6 +2033,21 @@ Suite* matrix_suite(void) {
   tcase_add_test(tc_core, test_matrix_product_drdrzf);
   tcase_add_test(tc_core, test_matrix_product_drdrzinv);
   tcase_add_test(tc_core, test_matrix_product_drdrzinvf);
+  tcase_add_test(tc_core, test_matrix_product_drdr);
+  tcase_add_test(tc_core, test_matrix_product_drdrf);
+  tcase_add_test(tc_core, test_matrix_product_drdrinv);
+  tcase_add_test(tc_core, test_matrix_product_drdrinvf);
+  tcase_add_test(tc_core, test_matrix_product_drinvdr);
+  tcase_add_test(tc_core, test_matrix_product_drinvdrf);
+  tcase_add_test(tc_core, test_matrix_product_dv);
+  tcase_add_test(tc_core, test_matrix_product_dvf);
+  tcase_add_test(tc_core, test_matrix_product_dinvv);
+  tcase_add_test(tc_core, test_matrix_product_dinvvf);
+
+  tcase_add_test(tc_core, test_matrix_product_dd);
+  tcase_add_test(tc_core, test_matrix_product_ddf);
+  tcase_add_test(tc_core, test_matrix_product_ddinv);
+  tcase_add_test(tc_core, test_matrix_product_ddinvf);
   suite_add_tcase(s, tc_core);
   return s;
 }
