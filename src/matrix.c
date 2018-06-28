@@ -2374,14 +2374,14 @@ inline void ksl_product_ddrinv(const ksl_SE3_t* restrict Di,
                                const ksl_mat3x3_t* restrict Ri,
                                ksl_SE3_t* restrict Do) {
   ksl_product_drdrinv(&Di->R, Ri, &Do->R);
-  ksl_xpy_vv(&Di->t, &Do->t);
+  ksl_vec3_copy(&Di->t, &Do->t);
 }
 
 inline void ksl_product_ddrinvf(const ksl_SE3f_t* restrict Di,
                                 const ksl_mat3x3f_t* restrict Ri,
                                 ksl_SE3f_t* restrict Do) {
   ksl_product_drdrinvf(&Di->R, Ri, &Do->R);
-  ksl_xpy_vvf(&Di->t, &Do->t);
+  ksl_vec3f_copy(&Di->t, &Do->t);
 }
 
 inline void ksl_product_dd(const ksl_SE3_t* restrict D1i,
