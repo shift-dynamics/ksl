@@ -75,6 +75,14 @@ double ksl_screw_norm(const ksl_screw_t* v);
 
 float ksl_screwf_norm(const ksl_screwf_t* v);
 
+void ksl_screw_normalize(ksl_screw_t* v);
+
+void ksl_screwf_normalize(ksl_screwf_t* v);
+
+void ksl_screw_normalized(const ksl_screw_t* si, ksl_screw_t* so);
+
+void ksl_screwf_normalized(const ksl_screwf_t* si, ksl_screwf_t* so);
+
 double ksl_dot_cs(const ksl_coscrew_t*, const ksl_screw_t*);
 
 float ksl_dot_csf(const ksl_coscrewf_t*, const ksl_screwf_t*);
@@ -92,6 +100,10 @@ void ksl_screwf_invert(ksl_screwf_t* si);
 void ksl_screw_inverted(const ksl_screw_t* si, ksl_screw_t* so);
 
 void ksl_screwf_inverted(const ksl_screwf_t* si, ksl_screwf_t* so);
+
+void ksl_product_as(const double k, const ksl_screw_t* si, ksl_screw_t* so);
+
+void ksl_product_asf(const float k, const ksl_screwf_t* si, ksl_screwf_t* so);
 
 void ksl_axpy_ss(const double, const ksl_screw_t*, ksl_screw_t*);
 

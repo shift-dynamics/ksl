@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <math.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -53,12 +54,80 @@ ksl_screwf_t* ksl_screwf_alloc(const int n) {
 /*!
 @todo
 */
-inline double ksl_screw_norm(const ksl_screw_t* restrict v);
+inline double ksl_screw_norm(const ksl_screw_t* restrict v) {
+  const double eps = 1e-9;
+  if((fabs(v->ang.x) < eps) && (fabs(v->ang.y) < eps) &&
+     (fabs(v->ang.z) < eps)) {
+    return (ksl_vec3_l2norm(&v->lin));
+  } else {
+    return (ksl_vec3_l2norm(&v->ang));
+  }
+}
 
 /*!
 @todo
 */
-inline float ksl_screwf_norm(const ksl_screwf_t* restrict v);
+inline float ksl_screwf_norm(const ksl_screwf_t* restrict v) {
+  const float eps = 1e-6;
+  if((fabs(v->ang.x) < eps) && (fabs(v->ang.y) < eps) &&
+     (fabs(v->ang.z) < eps)) {
+    return (ksl_vec3f_l2norm(&v->lin));
+  } else {
+    return (ksl_vec3f_l2norm(&v->ang));
+  }
+}
+
+inline void ksl_screw_normalize(ksl_screw_t* v) {
+  const double eps = 1e-9;
+  if((fabs(v->ang.x) < eps) && (fabs(v->ang.y) < eps) &&
+     (fabs(v->ang.z) < eps)) {
+    ksl_vec3_normalize(&v->lin);
+  } else {
+    double ang_inv_norm = 1.0 / ksl_vec3_l2norm(&v->ang);
+    ksl_product_av(ang_inv_norm, &v->lin, &v->lin);
+    ksl_product_av(ang_inv_norm, &v->ang, &v->ang);
+  }
+}
+
+inline void ksl_screwf_normalize(ksl_screwf_t* v) {
+  const float eps = 1e-6;
+  if((fabs(v->ang.x) < eps) && (fabs(v->ang.y) < eps) &&
+     (fabs(v->ang.z) < eps)) {
+    ksl_vec3f_normalize(&v->lin);
+  } else {
+    float ang_inv_norm = 1.0 / ksl_vec3f_l2norm(&v->ang);
+    ksl_product_avf(ang_inv_norm, &v->lin, &v->lin);
+    ksl_product_avf(ang_inv_norm, &v->ang, &v->ang);
+  }
+}
+
+inline void ksl_screw_normalized(const ksl_screw_t* restrict si,
+                                 ksl_screw_t* restrict so) {
+  const double eps = 1e-9;
+  memset(so, 0, sizeof(ksl_screw_t));
+  if((fabs(si->ang.x) < eps) && (fabs(si->ang.y) < eps) &&
+     (fabs(si->ang.z) < eps)) {
+    ksl_vec3_normalized(&si->lin, &so->lin);
+  } else {
+    double ang_inv_norm = 1.0 / ksl_vec3_l2norm(&si->ang);
+    ksl_product_av(ang_inv_norm, &si->lin, &so->lin);
+    ksl_product_av(ang_inv_norm, &si->ang, &so->ang);
+  }
+}
+
+inline void ksl_screwf_normalized(const ksl_screwf_t* restrict si,
+                                  ksl_screwf_t* restrict so) {
+  const float eps = 1e-6;
+  memset(so, 0, sizeof(ksl_screwf_t));
+  if((fabs(si->ang.x) < eps) && (fabs(si->ang.y) < eps) &&
+     (fabs(si->ang.z) < eps)) {
+    ksl_vec3f_normalized(&si->lin, &so->lin);
+  } else {
+    double ang_inv_norm = 1.0 / ksl_vec3f_l2norm(&si->ang);
+    ksl_product_avf(ang_inv_norm, &si->lin, &so->lin);
+    ksl_product_avf(ang_inv_norm, &si->ang, &so->ang);
+  }
+}
 
 /*!
 @brief compute double precision dot product between a coscrew and screw
