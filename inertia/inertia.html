@@ -9,16 +9,16 @@
     <title>Inertia &#8212; KSL 0.0.0 documentation</title>
     <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Full Factor" href="../lu_full/lu_full.html" />
-    <link rel="prev" title="Influence Coefficient Matrices" href="../influence_coefficient_matrices/influence_coefficient_matrices.html" />
+    <link rel="next" title="Linear Algebra" href="../linalg/linalg.html" />
+    <link rel="prev" title="Coscrews" href="../coscrews/coscrews.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -47,26 +47,28 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notation/notation.html">Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../vectors/vectors.html">Vectors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SE3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SO(3) and SE(3) Groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quaternions/quaternions.html">Quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trig/trig.html">Trigonometric Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../screws/screws.html">Screws</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../coscrews/coscrews.html">Coscrews</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../influence_coefficient_matrices/influence_coefficient_matrices.html">Influence Coefficient Matrices</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Inertia</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../lu_full/lu_full.html">Full Factor</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Inertia</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ksl-double-precision-inertia-matrices">KSL double precision inertia matrices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ksl-single-precision-inertia-matrices">KSL single precision inertia matrices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../linalg/linalg.html">Linear Algebra</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing/contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../zreferences.html">References</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../doxyrest/global.html">Global Namespace</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="../influence_coefficient_matrices/influence_coefficient_matrices.html" title="previous chapter">Influence Coefficient Matrices</a></li>
-      <li>Next: <a href="../lu_full/lu_full.html" title="next chapter">Full Factor</a></li>
+      <li>Previous: <a href="../coscrews/coscrews.html" title="previous chapter">Coscrews</a></li>
+      <li>Next: <a href="../linalg/linalg.html" title="next chapter">Linear Algebra</a></li>
   </ul></li>
 </ul>
 </div>
@@ -86,77 +88,530 @@
       </div>
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="inertia">
 <span id="id1"></span><h1>Inertia<a class="headerlink" href="#inertia" title="Permalink to this headline">¶</a></h1>
 <p>In the body center of mass frame, the <span class="math notranslate nohighlight">\(6 \times 6\)</span> Inertia matrix, <span class="math notranslate nohighlight">\(M\)</span>, can be expressed as:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}M_{11} = \begin{bmatrix}
+<div class="math notranslate nohighlight" id="equation-eq-inertia-matrix">
+<span class="eqno">(1)<a class="headerlink" href="#equation-eq-inertia-matrix" title="Permalink to this equation">¶</a></span>\[\begin{split}M_{11} = \begin{bmatrix}
 mI &amp; 0\\
 0 &amp; \bar{I}
 \end{bmatrix}\end{split}\]</div>
 <p>Where <span class="math notranslate nohighlight">\(m\)</span> is the body mass, <span class="math notranslate nohighlight">\(I\)</span> is a <span class="math notranslate nohighlight">\(3 \times 3\)</span> identity matrix and <span class="math notranslate nohighlight">\(\bar{I}\)</span> is the <span class="math notranslate nohighlight">\(3 \times 3\)</span> rotational inertia matrix. The body center of mass frame is denoted with a subscript <span class="math notranslate nohighlight">\(c\)</span>. When solving the equations of motion in a fixed inertial reference frame, it is necessary to transform these local inertia matrices to the origin of the fixed inertial reference frame, which is denoted with a subscript <span class="math notranslate nohighlight">\(f\)</span>. To understand how the inertia matrix is transformed to other coordinate systems, consider the equation for momentum, <span class="math notranslate nohighlight">\(\underline{\mathbf{p}}^*\)</span>. Note that the asterisk indicates the <span class="math notranslate nohighlight">\(\underline{\mathbf{p}}^*\)</span> is a <em>coscrew</em> quantity.</p>
-<div class="math notranslate nohighlight">
-\[\underline{\mathbf{p}}^*_f = M_{cc} \underline{\mathbf{v}}_c\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-transform-1">
+<span class="eqno">(2)<a class="headerlink" href="#equation-eq-transform-1" title="Permalink to this equation">¶</a></span>\[\underline{\mathbf{p}}^*_f = M_{cc} \underline{\mathbf{v}}_c\]</div>
 <p>As noted above, coscrew quantities are transformed by left multiplication with the coadjoint operator, <span class="math notranslate nohighlight">\([Ad]^*\)</span>.</p>
-<div class="math notranslate nohighlight">
-\[[Ad]^*_{cf}\underline{\mathbf{p}}_f = M_{cc}[Ad]_{fc}^{-1}[Ad]_{fc}\underline{\mathbf{v}}_c\]</div>
-<div class="math notranslate nohighlight">
-\[\underline{\mathbf{p}}_f = [Ad]^{*-1}_{10}M_{11}[Ad]^{-1}_{fc}{\underline{\mathbf{v}}}_f=
+<div class="math notranslate nohighlight" id="equation-eq-transform-2">
+<span class="eqno">(3)<a class="headerlink" href="#equation-eq-transform-2" title="Permalink to this equation">¶</a></span>\[[Ad]^*_{cf}\underline{\mathbf{p}}_f = M_{cc}[Ad]_{fc}^{-1}[Ad]_{fc}\underline{\mathbf{v}}_c\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-transform-3">
+<span class="eqno">(4)<a class="headerlink" href="#equation-eq-transform-3" title="Permalink to this equation">¶</a></span>\[\underline{\mathbf{p}}_f = [Ad]^{*-1}_{10}M_{11}[Ad]^{-1}_{fc}{\underline{\mathbf{v}}}_f=
 [Ad]^*_{fc}M_{cc}[Ad]_{cf}\underline{\mathbf{v}}_f\]</div>
 <p>yielding:</p>
-<div class="math notranslate nohighlight">
-\[M_{ff} = [Ad]^*_{fc}M_{cc}[Ad]_{cf}\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-transform-4">
+<span class="eqno">(5)<a class="headerlink" href="#equation-eq-transform-4" title="Permalink to this equation">¶</a></span>\[M_{ff} = [Ad]^*_{fc}M_{cc}[Ad]_{cf}\]</div>
 <p>Again the <span class="math notranslate nohighlight">\(6 \times 6\)</span> Adjoint and Coadjoint matrices provides a convenient and compact notation to describe transformations, but full dense matrix algebra need not be applied to carry out transformation of the inertia matrix, noting that:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}M_{ff} = [Ad]^*_{fc}M_{cc}[Ad]_{cf} =
+<div class="math notranslate nohighlight" id="equation-eq-minimum-operations">
+<span class="eqno">(6)<a class="headerlink" href="#equation-eq-minimum-operations" title="Permalink to this equation">¶</a></span>\[\begin{split}M_{ff} = [Ad]^*_{fc}M_{cc}[Ad]_{cf} =
 \begin{bmatrix}
 R_{fc}m_cIR_{cf} &amp; R_{fc}m_cI\tilde{r}_{cf}R_{cf}\\
 \tilde{r}_{cf}R_{cf}m_1IR_{cf}&amp;
 \tilde{r}_{cf}R_{cf}m_cI\tilde{r}_{cf}R_{cf} + R_{fc}\bar{I}_{cc}R_{cf}
 \end{bmatrix}\end{split}\]</div>
 <p>which can be further simplified as:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}M_{ff} = \begin{bmatrix}
+<div class="math notranslate nohighlight" id="equation-eq-further-simplified">
+<span class="eqno">(7)<a class="headerlink" href="#equation-eq-further-simplified" title="Permalink to this equation">¶</a></span>\[\begin{split}M_{ff} = \begin{bmatrix}
 m_cI &amp;  m_cR_{fc}\tilde{r}_{cf}R_{cf}\\
 -m_cR_{fc}\tilde{r}_{cf}R_{cf}     &amp; \bar{I}_{cc} -m_c\tilde{r}_{cf}^2
 \end{bmatrix}\end{split}\]</div>
 <p>and:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}M_{ff} = \begin{bmatrix}
+<div class="math notranslate nohighlight" id="equation-eq-further-simplified2">
+<span class="eqno">(8)<a class="headerlink" href="#equation-eq-further-simplified2" title="Permalink to this equation">¶</a></span>\[\begin{split}M_{ff} = \begin{bmatrix}
 m_cI &amp;  m_c\tilde{r}_{cf}\\
 -m_c\tilde{r}_{cf}     &amp; \bar{I}_{cc} -m_c\tilde{r}_{cf}^2
 \end{bmatrix}\end{split}\]</div>
-<p>Based on Eq. <a class="reference internal" href="../coscrews/coscrews.html#equation-eq-further-simplified2">(22)</a>, it is only necessary to store ten terms to reconstruct the inertia matrix: <span class="math notranslate nohighlight">\(m_c, m_c\underline{r}\)</span>, and the terms on and below the diagonal of <span class="math notranslate nohighlight">\(\bar{I}\)</span> (i.e. <span class="math notranslate nohighlight">\(I_{xx}\)</span>, <span class="math notranslate nohighlight">\(I_{yy}\)</span>, <span class="math notranslate nohighlight">\(I_{zz}\)</span>, <span class="math notranslate nohighlight">\(I_{xy}\)</span>, <span class="math notranslate nohighlight">\(I_{yz}\)</span> and <span class="math notranslate nohighlight">\(I_{zx}\)</span>). Storing only these 10 terms requires approximately 70% less storage than the full <span class="math notranslate nohighlight">\(6\times6\)</span> inertia matrix. In order to take advantage of SIMD for various algorithms which access the quantities in the inertia matrix, additional memory is used to store the quantity <span class="math notranslate nohighlight">\(-m_c\underline{r}\)</span>, which still results in a 64% reduction in storage compared to the full <span class="math notranslate nohighlight">\(6 \times 6\)</span> representation.</p>
+<p>Based on Eq. <a class="reference internal" href="#equation-eq-further-simplified2">(8)</a>, it is only necessary to store ten terms to reconstruct the inertia matrix: <span class="math notranslate nohighlight">\(m_c, m_c\underline{r}\)</span>, and the terms on and below the diagonal of <span class="math notranslate nohighlight">\(\bar{I}\)</span> (i.e. <span class="math notranslate nohighlight">\(I_{xx}\)</span>, <span class="math notranslate nohighlight">\(I_{yy}\)</span>, <span class="math notranslate nohighlight">\(I_{zz}\)</span>, <span class="math notranslate nohighlight">\(I_{xy}\)</span>, <span class="math notranslate nohighlight">\(I_{yz}\)</span> and <span class="math notranslate nohighlight">\(I_{zx}\)</span>). Storing only these 10 terms requires approximately 70% less storage than the full <span class="math notranslate nohighlight">\(6\times6\)</span> inertia matrix. In order to take advantage of SIMD for various algorithms which access the quantities in the inertia matrix, additional memory is used to store the quantity <span class="math notranslate nohighlight">\(-m_c\underline{r}\)</span>, which still results in a 64% reduction in storage compared to the full <span class="math notranslate nohighlight">\(6 \times 6\)</span> representation.</p>
 <p>If the reference frame for the body is not taken as the center of mass, then in addition to the inertia matrix stored in the center of mass coordinate system, a vector from the body’s reference frame to the center of mass frame, <span class="math notranslate nohighlight">\(\underline{r}^{bc}_b\)</span>, is stored. Here, the subscript <span class="math notranslate nohighlight">\(b\)</span> denotes the body reference frame and the <span class="math notranslate nohighlight">\(c\)</span> denotes the center of mass frame.</p>
-<div class="math notranslate nohighlight">
-\[M_{ff} = [Ad]^{*}_{fb}[Ad]^{*}_{bc} M_{cc} [Ad]_{cb}[Ad]_{bf}\]</div>
-<div class="math notranslate nohighlight">
-\[M_{ff} = R_{fb} \bar{I}_{bb}^{cc} R_{bf}\]</div>
-<div class="math notranslate nohighlight">
-\[\underline{r}_{f}^{fc} = \underline{r}_{f}^{fb} + R_{fb} \underline{r}_{b}^{bc}\]</div>
-<div class="math notranslate nohighlight">
-\[\underline{t}_{temp} = m_c \underline{r}_{f}^{fc}\]</div>
-<div class="math notranslate nohighlight">
-\[\begin{split}M_{ff} = \begin{bmatrix} mI &amp;  -\tilde{t}_{temp}\\
+<div class="math notranslate nohighlight" id="equation-eq-not-com-frame">
+<span class="eqno">(9)<a class="headerlink" href="#equation-eq-not-com-frame" title="Permalink to this equation">¶</a></span>\[M_{ff} = [Ad]^{*}_{fb}[Ad]^{*}_{bc} M_{cc} [Ad]_{cb}[Ad]_{bf}\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-not-com-frame2">
+<span class="eqno">(10)<a class="headerlink" href="#equation-eq-not-com-frame2" title="Permalink to this equation">¶</a></span>\[M_{ff} = R_{fb} \bar{I}_{bb}^{cc} R_{bf}\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-not-com-frame3">
+<span class="eqno">(11)<a class="headerlink" href="#equation-eq-not-com-frame3" title="Permalink to this equation">¶</a></span>\[\underline{r}_{f}^{fc} = \underline{r}_{f}^{fb} + R_{fb} \underline{r}_{b}^{bc}\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-not-com-frame4">
+<span class="eqno">(12)<a class="headerlink" href="#equation-eq-not-com-frame4" title="Permalink to this equation">¶</a></span>\[\underline{t}_{temp} = m_c \underline{r}_{f}^{fc}\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-not-com-frame5">
+<span class="eqno">(13)<a class="headerlink" href="#equation-eq-not-com-frame5" title="Permalink to this equation">¶</a></span>\[\begin{split}M_{ff} = \begin{bmatrix} mI &amp;  -\tilde{t}_{temp}\\
 \tilde{t}_{temp} &amp; \bar{I}^{ff}_{cc} - \tilde{t}_{temp} \tilde{t}^{f}_{fc}\end{bmatrix}\end{split}\]</div>
 <p>Then use the following identity to simplify the matrix product <span class="math notranslate nohighlight">\(\tilde{t}_{temp} \tilde{t}^{f}_{fc}\)</span>:</p>
-<div class="math notranslate nohighlight">
-\[\tilde{a} \tilde{b} = b a^T - (a^T b) I\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-identity-simplify">
+<span class="eqno">(14)<a class="headerlink" href="#equation-eq-identity-simplify" title="Permalink to this equation">¶</a></span>\[\tilde{a} \tilde{b} = b a^T - (a^T b) I\]</div>
 <p>Therefore, <span class="math notranslate nohighlight">\(\tilde{a} \tilde{b}\)</span> is found as:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{array} \text{result} \leftarrow \begin{Bmatrix}b_0 \\ b_1 \\ b_2\end{Bmatrix} \begin{Bmatrix}a_0&amp;a_1&amp;a_2\end{Bmatrix}\\
+<div class="math notranslate nohighlight" id="equation-eq-identity-simplify2">
+<span class="eqno">(15)<a class="headerlink" href="#equation-eq-identity-simplify2" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{array} \text{result} \leftarrow \begin{Bmatrix}b_0 \\ b_1 \\ b_2\end{Bmatrix} \begin{Bmatrix}a_0&amp;a_1&amp;a_2\end{Bmatrix}\\
 result -= trace(result) * I
 \end{array}\end{split}\]</div>
-<div class="math notranslate nohighlight">
-\[\bar{I}^{ff}_{ff} = \bar{I}^{ff}_{cc} - \tilde{t}_{temp} \tilde{r}^{f}_{fc}\]</div>
-<div class="math notranslate nohighlight">
-\[\bar{I}^{ff}_{ff} = \bar{I}^{ff}_{cc} - result\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-result">
+<span class="eqno">(16)<a class="headerlink" href="#equation-eq-result" title="Permalink to this equation">¶</a></span>\[\bar{I}^{ff}_{ff} = \bar{I}^{ff}_{cc} - \tilde{t}_{temp} \tilde{r}^{f}_{fc}\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-result2">
+<span class="eqno">(17)<a class="headerlink" href="#equation-eq-result2" title="Permalink to this equation">¶</a></span>\[\bar{I}^{ff}_{ff} = \bar{I}^{ff}_{cc} - result\]</div>
+<div class="section" id="ksl-double-precision-inertia-matrices">
+<h2>KSL double precision inertia matrices<a class="headerlink" href="#ksl-double-precision-inertia-matrices" title="Permalink to this headline">¶</a></h2>
+<dl class="type">
+<dt id="_CPPv313ksl_inertia_t">
+<span id="_CPPv213ksl_inertia_t"></span><span id="ksl_inertia_t"></span><span class="target" id="unionksl__inertia__t"></span><em class="property">union </em><code class="descname">ksl_inertia_t</code><a class="headerlink" href="#_CPPv313ksl_inertia_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;inertia.h&gt;</em><p>double precision mass and inertia properties </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv3N13ksl_inertia_t2atE">
+<span id="_CPPv2N13ksl_inertia_t2atE"></span><span id="ksl_inertia_t::at__doubleA"></span><span class="target" id="unionksl__inertia__t_1a7e473f4d334f16258e711b99162b77b3"></span>double <code class="descname">at</code>[10]<a class="headerlink" href="#_CPPv3N13ksl_inertia_t2atE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_inertia_t1mE">
+<span id="_CPPv2N13ksl_inertia_t1mE"></span><span id="ksl_inertia_t::m__double"></span><span class="target" id="unionksl__inertia__t_1a3b0b12ce02a3b9008173b74e26acee1e"></span>double <code class="descname">m</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t1mE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>mass </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_inertia_t2mtE">
+<span id="_CPPv2N13ksl_inertia_t2mtE"></span><span id="ksl_inertia_t::mt__ksl_vec3_t"></span><span class="target" id="unionksl__inertia__t_1a01f08a63b6f7fec66f999a1e310dfee2"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">mt</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t2mtE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>mass times a vector, t, from reference frame to body centroid </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_inertia_t3IxxE">
+<span id="_CPPv2N13ksl_inertia_t3IxxE"></span><span id="ksl_inertia_t::Ixx__double"></span><span class="target" id="unionksl__inertia__t_1a2eb8d915d9bc40c5e2c17774155ba1d2"></span>double <code class="descname">Ixx</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t3IxxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ixx centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_inertia_t3IyyE">
+<span id="_CPPv2N13ksl_inertia_t3IyyE"></span><span id="ksl_inertia_t::Iyy__double"></span><span class="target" id="unionksl__inertia__t_1a6c0a1c56da613ca19cd99e80de6ea134"></span>double <code class="descname">Iyy</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t3IyyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ixy centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_inertia_t3IzzE">
+<span id="_CPPv2N13ksl_inertia_t3IzzE"></span><span id="ksl_inertia_t::Izz__double"></span><span class="target" id="unionksl__inertia__t_1aeaec6e980056613046172dcc63286874"></span>double <code class="descname">Izz</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t3IzzE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Izz centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_inertia_t3IxyE">
+<span id="_CPPv2N13ksl_inertia_t3IxyE"></span><span id="ksl_inertia_t::Ixy__double"></span><span class="target" id="unionksl__inertia__t_1a1e6573bc60662216e73675bf2076a11b"></span>double <code class="descname">Ixy</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t3IxyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ixy centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_inertia_t3IyzE">
+<span id="_CPPv2N13ksl_inertia_t3IyzE"></span><span id="ksl_inertia_t::Iyz__double"></span><span class="target" id="unionksl__inertia__t_1a0944254e6ea2d48340c112a5e59dd6ea"></span>double <code class="descname">Iyz</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t3IyzE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Iyz centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_inertia_t3IzxE">
+<span id="_CPPv2N13ksl_inertia_t3IzxE"></span><span id="ksl_inertia_t::Izx__double"></span><span class="target" id="unionksl__inertia__t_1aafcb32737673b966298d44998d4649a0"></span>double <code class="descname">Izx</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t3IzxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Izx centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_inertia_tUt1_9E">
+<span class="target" id="unionksl__inertia__t_1afd5c4854ed9a438c33126299e6c2e752"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N13ksl_inertia_tUt1_9E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing by index or field names </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_inertia_t4massE">
+<span id="_CPPv2N13ksl_inertia_t4massE"></span><span id="ksl_inertia_t::mass__double"></span><span class="target" id="unionksl__inertia__t_1a3f8156d0486574f6b810d393d553a501"></span>double <code class="descname">mass</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t4massE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>mass </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_inertia_t2mrE">
+<span id="_CPPv2N13ksl_inertia_t2mrE"></span><span id="ksl_inertia_t::mr__ksl_vec3_t"></span><span class="target" id="unionksl__inertia__t_1afab97679e93c0c3f7283fa760655a71d"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">mr</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t2mrE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>mass times a vector, r, from reference frame to body centroid </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_inertia_t4_IxxE">
+<span id="_CPPv2N13ksl_inertia_t4_IxxE"></span><span id="ksl_inertia_t::_Ixx__double"></span><span class="target" id="unionksl__inertia__t_1a84125375ee133ad0d92c1ba31cfa1c74"></span>double <code class="descname">_Ixx</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t4_IxxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ixx centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_inertia_t4_IyyE">
+<span id="_CPPv2N13ksl_inertia_t4_IyyE"></span><span id="ksl_inertia_t::_Iyy__double"></span><span class="target" id="unionksl__inertia__t_1a26e90ef5a5d27004ef98812388e82d34"></span>double <code class="descname">_Iyy</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t4_IyyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ixy centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_inertia_t4_IzzE">
+<span id="_CPPv2N13ksl_inertia_t4_IzzE"></span><span id="ksl_inertia_t::_Izz__double"></span><span class="target" id="unionksl__inertia__t_1a3077f4f2ba55b4cd95667e5d1fac9b07"></span>double <code class="descname">_Izz</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t4_IzzE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Izz centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_inertia_t3IyxE">
+<span id="_CPPv2N13ksl_inertia_t3IyxE"></span><span id="ksl_inertia_t::Iyx__double"></span><span class="target" id="unionksl__inertia__t_1ad902ca677203432d4a25b6d7928af981"></span>double <code class="descname">Iyx</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t3IyxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ixy centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_inertia_t3IzyE">
+<span id="_CPPv2N13ksl_inertia_t3IzyE"></span><span id="ksl_inertia_t::Izy__double"></span><span class="target" id="unionksl__inertia__t_1af3382f7297d21c91524ab1e5a7f211a7"></span>double <code class="descname">Izy</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t3IzyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Iyz centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_inertia_t3IxzE">
+<span id="_CPPv2N13ksl_inertia_t3IxzE"></span><span id="ksl_inertia_t::Ixz__double"></span><span class="target" id="unionksl__inertia__t_1a33f55406e42b2af43c5e903dd3f9bc0a"></span>double <code class="descname">Ixz</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t3IxzE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Izx centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_inertia_tUt2_11E">
+<span class="target" id="unionksl__inertia__t_1a00dfad488b365849a32c41356defe061"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N13ksl_inertia_tUt2_11E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing by index or alternative field names </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv311ksl_inertiaKdK10ksl_vec3_tKdKdKdKdKdKd">
+<span id="_CPPv211ksl_inertiaKdK10ksl_vec3_tKdKdKdKdKdKd"></span><span id="ksl_inertia__doubleC.ksl_vec3_tC.doubleC.doubleC.doubleC.doubleC.doubleC.doubleC"></span><span class="target" id="inertia_8h_1ae205178752af78031aa294a2afb2abeb"></span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> <code class="descname">ksl_inertia</code><span class="sig-paren">(</span><em class="property">const</em> double <em>m</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <em>t</em>, <em class="property">const</em> double <em>Ixx</em>, <em class="property">const</em> double <em>Iyy</em>, <em class="property">const</em> double <em>Izz</em>, <em class="property">const</em> double <em>Ixy</em>, <em class="property">const</em> double <em>Iyz</em>, <em class="property">const</em> double <em>Izx</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv311ksl_inertiaKdK10ksl_vec3_tKdKdKdKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>double precision spatial inertia matrix constructor </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">m</span></code>: [in] mass </li>
+<li><code class="docutils literal notranslate"><span class="pre">t</span></code>: [in] vector from reference frame to body centroid </li>
+<li><code class="docutils literal notranslate"><span class="pre">Ixx</span></code>: [in] centroidal inertia term, expressed in reference frame coordinates </li>
+<li><code class="docutils literal notranslate"><span class="pre">Iyy</span></code>: [in] centroidal inertia term, expressed in reference frame coordinates </li>
+<li><code class="docutils literal notranslate"><span class="pre">Izz</span></code>: [in] centroidal inertia term, expressed in reference frame coordinates </li>
+<li><code class="docutils literal notranslate"><span class="pre">Ixy</span></code>: [in] centroidal inertia term, expressed in reference frame coordinates </li>
+<li><code class="docutils literal notranslate"><span class="pre">Iyz</span></code>: [in] centroidal inertia term, expressed in reference frame coordinates </li>
+<li><code class="docutils literal notranslate"><span class="pre">Izx</span></code>: [in] centroidal inertia term, expressed in reference frame coordinates </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv317ksl_inertia_alloci">
+<span id="_CPPv217ksl_inertia_alloci"></span><span id="ksl_inertia_alloc__i"></span><span class="target" id="inertia_8h_1a3bb757d9e15c170aeb46a78f8fea71e7"></span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<code class="descname">ksl_inertia_alloc</code><span class="sig-paren">(</span>int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv317ksl_inertia_alloci" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>allocate n <a class="reference internal" href="#unionksl__inertia__t"><span class="std std-ref">ksl_inertia_t</span></a> datastructures on the heap </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv319ksl_inertia_rotatedPK13ksl_inertia_tPK12ksl_mat3x3_tP13ksl_inertia_t">
+<span id="_CPPv219ksl_inertia_rotatedPK13ksl_inertia_tPK12ksl_mat3x3_tP13ksl_inertia_t"></span><span id="ksl_inertia_rotated__ksl_inertia_tCP.ksl_mat3x3_tCP.ksl_inertia_tP"></span><span class="target" id="inertia_8h_1a4a387d0c872abcabf269273ba58db901"></span>void <code class="descname">ksl_inertia_rotated</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>r</em>, <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_inertia_rotatedPK13ksl_inertia_tPK12ksl_mat3x3_tP13ksl_inertia_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>rotate a double precision centroidal inertia matrix </p>
+<p>I_ff = CoAd(D(R_{fc})) * Icc * Ad(D(R_{fc}^{-1})) </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv318ksl_inertia_rotateP13ksl_inertia_tPK12ksl_mat3x3_t">
+<span id="_CPPv218ksl_inertia_rotateP13ksl_inertia_tPK12ksl_mat3x3_t"></span><span id="ksl_inertia_rotate__ksl_inertia_tP.ksl_mat3x3_tCP"></span><span class="target" id="inertia_8h_1a5143ef0a4aa1f7a701d28388aa8cf1e1"></span>void <code class="descname">ksl_inertia_rotate</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_inertia_rotateP13ksl_inertia_tPK12ksl_mat3x3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>rotate a double precision centroidal inertia matrix in place </p>
+<p><span class="math notranslate nohighlight">\( I_{ff} = CoAd(D(R_{fc})) * I_{cc} * Ad(D(R_{fc}^{-1})) \)</span> </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv322ksl_inertia_translatedPK13ksl_inertia_tPK10ksl_vec3_tP13ksl_inertia_t">
+<span id="_CPPv222ksl_inertia_translatedPK13ksl_inertia_tPK10ksl_vec3_tP13ksl_inertia_t"></span><span id="ksl_inertia_translated__ksl_inertia_tCP.ksl_vec3_tCP.ksl_inertia_tP"></span><span class="target" id="inertia_8h_1a0ffd6ef04f8f7abb2901d45fd22daf63"></span>void <code class="descname">ksl_inertia_translated</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>r</em>, <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_inertia_translatedPK13ksl_inertia_tPK10ksl_vec3_tP13ksl_inertia_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>translate a double precision centroidal inertia matrix </p>
+<p><span class="math notranslate nohighlight">\( I_ff = CoAd(D(t_{fc})) * Icc * Ad(D(t_{fc}^{-1})) \)</span> </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv321ksl_inertia_translateP13ksl_inertia_tPK10ksl_vec3_t">
+<span id="_CPPv221ksl_inertia_translateP13ksl_inertia_tPK10ksl_vec3_t"></span><span id="ksl_inertia_translate__ksl_inertia_tP.ksl_vec3_tCP"></span><span class="target" id="inertia_8h_1a05c6d53f909791b8796bbb4fe909a789"></span>void <code class="descname">ksl_inertia_translate</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv321ksl_inertia_translateP13ksl_inertia_tPK10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>translate a double precision centroidal inertia matrix in place </p>
+<p><span class="math notranslate nohighlight">\( I_ff = CoAd(D(t_{fc})) * Icc * Ad(D(t_{fc}^{-1})) \)</span> </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv323ksl_inertia_transformedPK13ksl_inertia_tPK9ksl_SE3_tP13ksl_inertia_t">
+<span id="_CPPv223ksl_inertia_transformedPK13ksl_inertia_tPK9ksl_SE3_tP13ksl_inertia_t"></span><span id="ksl_inertia_transformed__ksl_inertia_tCP.ksl_SE3_tCP.ksl_inertia_tP"></span><span class="target" id="inertia_8h_1a2e0ddd09114d6e78d0395419dac7d51d"></span>void <code class="descname">ksl_inertia_transformed</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>d</em>, <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv323ksl_inertia_transformedPK13ksl_inertia_tPK9ksl_SE3_tP13ksl_inertia_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>spatial transform a double precision centroidal inertia matrix </p>
+<p><span class="math notranslate nohighlight">\( I_ff = CoAd(D_{fc}) * Icc * Ad(D_{fc}^{-1}) \)</span> </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv321ksl_inertia_transformP13ksl_inertia_tPK9ksl_SE3_t">
+<span id="_CPPv221ksl_inertia_transformP13ksl_inertia_tPK9ksl_SE3_t"></span><span id="ksl_inertia_transform__ksl_inertia_tP.ksl_SE3_tCP"></span><span class="target" id="inertia_8h_1ad0490956ce03ec5eb1de20e11af52505"></span>void <code class="descname">ksl_inertia_transform</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>d</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv321ksl_inertia_transformP13ksl_inertia_tPK9ksl_SE3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>spatial transform a double precision centroidal inertia matrix in place </p>
+<p><span class="math notranslate nohighlight">\( I_ff = CoAd(D_{fc}) * Icc * Ad(D_{fc}^{-1}) \)</span> </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv317ksl_inertia_mergeP13ksl_inertia_tP10ksl_vec3_tP13ksl_inertia_tPK10ksl_vec3_tPK9ksl_SE3_t">
+<span id="_CPPv217ksl_inertia_mergeP13ksl_inertia_tP10ksl_vec3_tP13ksl_inertia_tPK10ksl_vec3_tPK9ksl_SE3_t"></span><span id="ksl_inertia_merge__ksl_inertia_tP.ksl_vec3_tP.ksl_inertia_tP.ksl_vec3_tCP.ksl_SE3_tCP"></span><span class="target" id="inertia_8h_1aaa8803a3a2c64f1c85035bb525c1db63"></span>void <code class="descname">ksl_inertia_merge</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>t_ic_i</em>, <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_j</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>t_jc_j</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>D_ij</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv317ksl_inertia_mergeP13ksl_inertia_tP10ksl_vec3_tP13ksl_inertia_tPK10ksl_vec3_tPK9ksl_SE3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>merge double precision child inertia (j) with parent inertia (i) </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">parent</span></code>: inertia [in/out] parent inertia to be merged </li>
+<li><code class="docutils literal notranslate"><span class="pre">t_ic_i</span></code>: [in/out] vector from parent body reference frame i to body center of mass frame c, expressed in body frame i </li>
+<li><code class="docutils literal notranslate"><span class="pre">child</span></code>: inertia [in] </li>
+<li><code class="docutils literal notranslate"><span class="pre">t_jc_j</span></code>: [in] vector from child body reference frame j to body center of mass frame c, expressed in body frame j </li>
+<li><code class="docutils literal notranslate"><span class="pre">D_ij</span></code>: [in] transformation from parent reference frame i to child reference frame j </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv318ksl_inertia_factorP13ksl_inertia_t">
+<span id="_CPPv218ksl_inertia_factorP13ksl_inertia_t"></span><span id="ksl_inertia_factor__ksl_inertia_tP"></span><span class="target" id="inertia_8h_1a4d826f10adde0189c80e4018a4114ab2"></span>int <code class="descname">ksl_inertia_factor</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_inertia_factorP13ksl_inertia_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>factor double precision inertia matrix </p>
+<p></p>
+<p>inertia matrix is overwritten with its factors</p>
+<p>4 cases: rank 2+, full rank, positive definite, or rank 2, positive semidefinite rank 1, positive semidefinite rank 0, do nothing</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>rank of inertia matrix </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="ksl-single-precision-inertia-matrices">
+<h2>KSL single precision inertia matrices<a class="headerlink" href="#ksl-single-precision-inertia-matrices" title="Permalink to this headline">¶</a></h2>
+<dl class="type">
+<dt id="_CPPv314ksl_inertiaf_t">
+<span id="_CPPv214ksl_inertiaf_t"></span><span id="ksl_inertiaf_t"></span><span class="target" id="unionksl__inertiaf__t"></span><em class="property">union </em><code class="descname">ksl_inertiaf_t</code><a class="headerlink" href="#_CPPv314ksl_inertiaf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;inertia.h&gt;</em><p>single precision mass and inertia properties </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv3N14ksl_inertiaf_t2atE">
+<span id="_CPPv2N14ksl_inertiaf_t2atE"></span><span id="ksl_inertiaf_t::at__floatA"></span><span class="target" id="unionksl__inertiaf__t_1ac8b1f3d007c055681edab90f3296de9f"></span>float <code class="descname">at</code>[10]<a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t2atE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N14ksl_inertiaf_t1mE">
+<span id="_CPPv2N14ksl_inertiaf_t1mE"></span><span id="ksl_inertiaf_t::m__float"></span><span class="target" id="unionksl__inertiaf__t_1a531450fe0f798aabeb0bf2f462d2f1d6"></span>float <code class="descname">m</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t1mE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>mass </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N14ksl_inertiaf_t2mtE">
+<span id="_CPPv2N14ksl_inertiaf_t2mtE"></span><span id="ksl_inertiaf_t::mt__ksl_vec3f_t"></span><span class="target" id="unionksl__inertiaf__t_1a655bab49abb224308a73f020c6f1d430"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <code class="descname">mt</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t2mtE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>mass times a vector, t, from reference frame to body centroid </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N14ksl_inertiaf_t3IxxE">
+<span id="_CPPv2N14ksl_inertiaf_t3IxxE"></span><span id="ksl_inertiaf_t::Ixx__float"></span><span class="target" id="unionksl__inertiaf__t_1a38355270d1633949a289664d1133e896"></span>float <code class="descname">Ixx</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t3IxxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ixx centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N14ksl_inertiaf_t3IyyE">
+<span id="_CPPv2N14ksl_inertiaf_t3IyyE"></span><span id="ksl_inertiaf_t::Iyy__float"></span><span class="target" id="unionksl__inertiaf__t_1ada7effe4365292c26afbac4daaed6bf0"></span>float <code class="descname">Iyy</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t3IyyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ixy centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N14ksl_inertiaf_t3IzzE">
+<span id="_CPPv2N14ksl_inertiaf_t3IzzE"></span><span id="ksl_inertiaf_t::Izz__float"></span><span class="target" id="unionksl__inertiaf__t_1a32b7ff4d285a103d34f1e07319b0a604"></span>float <code class="descname">Izz</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t3IzzE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Izz centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N14ksl_inertiaf_t3IxyE">
+<span id="_CPPv2N14ksl_inertiaf_t3IxyE"></span><span id="ksl_inertiaf_t::Ixy__float"></span><span class="target" id="unionksl__inertiaf__t_1a754af6d2c8a9d7072fde26dfe2aa7470"></span>float <code class="descname">Ixy</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t3IxyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ixy centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N14ksl_inertiaf_t3IyzE">
+<span id="_CPPv2N14ksl_inertiaf_t3IyzE"></span><span id="ksl_inertiaf_t::Iyz__float"></span><span class="target" id="unionksl__inertiaf__t_1a90c45886158ce8485ddbc4820fae76a0"></span>float <code class="descname">Iyz</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t3IyzE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Iyz centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N14ksl_inertiaf_t3IzxE">
+<span id="_CPPv2N14ksl_inertiaf_t3IzxE"></span><span id="ksl_inertiaf_t::Izx__float"></span><span class="target" id="unionksl__inertiaf__t_1a7f3550d75ec16feaa2db6ede933a0ef1"></span>float <code class="descname">Izx</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t3IzxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Izx centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N14ksl_inertiaf_tUt2_13E">
+<span class="target" id="unionksl__inertiaf__t_1aef285fa0c41169251836b24decbd4fba"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_tUt2_13E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N14ksl_inertiaf_t4massE">
+<span id="_CPPv2N14ksl_inertiaf_t4massE"></span><span id="ksl_inertiaf_t::mass__float"></span><span class="target" id="unionksl__inertiaf__t_1a36e545dd2a9af43a6bcffca734520b32"></span>float <code class="descname">mass</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t4massE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>mass </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N14ksl_inertiaf_t2mrE">
+<span id="_CPPv2N14ksl_inertiaf_t2mrE"></span><span id="ksl_inertiaf_t::mr__ksl_vec3f_t"></span><span class="target" id="unionksl__inertiaf__t_1a3eb1717b9a76a042572aa8993ca8a7a2"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <code class="descname">mr</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t2mrE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>mass times a vector, r, from reference frame to body centroid </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N14ksl_inertiaf_t4_IxxE">
+<span id="_CPPv2N14ksl_inertiaf_t4_IxxE"></span><span id="ksl_inertiaf_t::_Ixx__float"></span><span class="target" id="unionksl__inertiaf__t_1a8ec38bf35185b2e9ffd54b9faa784508"></span>float <code class="descname">_Ixx</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t4_IxxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ixx centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N14ksl_inertiaf_t4_IyyE">
+<span id="_CPPv2N14ksl_inertiaf_t4_IyyE"></span><span id="ksl_inertiaf_t::_Iyy__float"></span><span class="target" id="unionksl__inertiaf__t_1a0339ae3d0a590d908df5a1600af128f6"></span>float <code class="descname">_Iyy</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t4_IyyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ixy centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N14ksl_inertiaf_t4_IzzE">
+<span id="_CPPv2N14ksl_inertiaf_t4_IzzE"></span><span id="ksl_inertiaf_t::_Izz__float"></span><span class="target" id="unionksl__inertiaf__t_1a18757d828861eff8034d434420600100"></span>float <code class="descname">_Izz</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t4_IzzE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Izz centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N14ksl_inertiaf_t3IyxE">
+<span id="_CPPv2N14ksl_inertiaf_t3IyxE"></span><span id="ksl_inertiaf_t::Iyx__float"></span><span class="target" id="unionksl__inertiaf__t_1a1634e3fb5121d96261840989c4749436"></span>float <code class="descname">Iyx</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t3IyxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ixy centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N14ksl_inertiaf_t3IzyE">
+<span id="_CPPv2N14ksl_inertiaf_t3IzyE"></span><span id="ksl_inertiaf_t::Izy__float"></span><span class="target" id="unionksl__inertiaf__t_1ad61916959ee046970238b8f047c63605"></span>float <code class="descname">Izy</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t3IzyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Iyz centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N14ksl_inertiaf_t3IxzE">
+<span id="_CPPv2N14ksl_inertiaf_t3IxzE"></span><span id="ksl_inertiaf_t::Ixz__float"></span><span class="target" id="unionksl__inertiaf__t_1a66c2f9d7883716ba76ccf647438184a2"></span>float <code class="descname">Ixz</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t3IxzE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Izx centroidal inertia term, expressed in reference frame coordinates </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N14ksl_inertiaf_tUt2_15E">
+<span class="target" id="unionksl__inertiaf__t_1a5b1f0e6799019ac215f91b03f7390c8b"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_tUt2_15E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv312ksl_inertiafKfK11ksl_vec3f_tKfKfKfKfKfKf">
+<span id="_CPPv212ksl_inertiafKfK11ksl_vec3f_tKfKfKfKfKfKf"></span><span id="ksl_inertiaf__floatC.ksl_vec3f_tC.floatC.floatC.floatC.floatC.floatC.floatC"></span><span class="target" id="inertia_8h_1ac5464502b987b6b23ac37d3b354e6534"></span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> <code class="descname">ksl_inertiaf</code><span class="sig-paren">(</span><em class="property">const</em> float <em>m</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <em>t</em>, <em class="property">const</em> float <em>Ixx</em>, <em class="property">const</em> float <em>Iyy</em>, <em class="property">const</em> float <em>Izz</em>, <em class="property">const</em> float <em>Ixy</em>, <em class="property">const</em> float <em>Iyz</em>, <em class="property">const</em> float <em>Izx</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv312ksl_inertiafKfK11ksl_vec3f_tKfKfKfKfKfKf" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>single precision spatial inertia matrix constructor </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">m</span></code>: [in] mass </li>
+<li><code class="docutils literal notranslate"><span class="pre">t</span></code>: [in] vector from reference frame to body centroid </li>
+<li><code class="docutils literal notranslate"><span class="pre">Ixx</span></code>: [in] centroidal inertia term, expressed in reference frame coordinates </li>
+<li><code class="docutils literal notranslate"><span class="pre">Iyy</span></code>: [in] centroidal inertia term, expressed in reference frame coordinates </li>
+<li><code class="docutils literal notranslate"><span class="pre">Izz</span></code>: [in] centroidal inertia term, expressed in reference frame coordinates </li>
+<li><code class="docutils literal notranslate"><span class="pre">Ixy</span></code>: [in] centroidal inertia term, expressed in reference frame coordinates </li>
+<li><code class="docutils literal notranslate"><span class="pre">Iyz</span></code>: [in] centroidal inertia term, expressed in reference frame coordinates </li>
+<li><code class="docutils literal notranslate"><span class="pre">Izx</span></code>: [in] centroidal inertia term, expressed in reference frame coordinates </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv318ksl_inertiaf_alloci">
+<span id="_CPPv218ksl_inertiaf_alloci"></span><span id="ksl_inertiaf_alloc__i"></span><span class="target" id="inertia_8h_1a4636dcf376b3d6cc02ccd5c9fa97a599"></span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<code class="descname">ksl_inertiaf_alloc</code><span class="sig-paren">(</span>int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_inertiaf_alloci" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>allocate n <a class="reference internal" href="#unionksl__inertiaf__t"><span class="std std-ref">ksl_inertiaf_t</span></a> datastructures on the heap </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_inertiaf_rotatedPK14ksl_inertiaf_tPK13ksl_mat3x3f_tP14ksl_inertiaf_t">
+<span id="_CPPv220ksl_inertiaf_rotatedPK14ksl_inertiaf_tPK13ksl_mat3x3f_tP14ksl_inertiaf_t"></span><span id="ksl_inertiaf_rotated__ksl_inertiaf_tCP.ksl_mat3x3f_tCP.ksl_inertiaf_tP"></span><span class="target" id="inertia_8h_1a1a1e3f03ccf343e0bbae6cf5b5057bf9"></span>void <code class="descname">ksl_inertiaf_rotated</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>r</em>, <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_inertiaf_rotatedPK14ksl_inertiaf_tPK13ksl_mat3x3f_tP14ksl_inertiaf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>rotate a single precision centroidal inertia matrix </p>
+<p><span class="math notranslate nohighlight">\( I_{ff} = CoAd(D(R_{fc})) * I_{cc} * Ad(D(R_{fc}^{-1})) \)</span> </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv319ksl_inertiaf_rotateP14ksl_inertiaf_tPK13ksl_mat3x3f_t">
+<span id="_CPPv219ksl_inertiaf_rotateP14ksl_inertiaf_tPK13ksl_mat3x3f_t"></span><span id="ksl_inertiaf_rotate__ksl_inertiaf_tP.ksl_mat3x3f_tCP"></span><span class="target" id="inertia_8h_1a095683dadc83becbf6160d84888bdbd8"></span>void <code class="descname">ksl_inertiaf_rotate</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_inertiaf_rotateP14ksl_inertiaf_tPK13ksl_mat3x3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>rotate a single precision centroidal inertia matrix in place </p>
+<p><span class="math notranslate nohighlight">\( I_{ff} = CoAd(D(R_{fc})) * I_{cc} * Ad(D(R_{fc}^{-1})) \)</span> </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv323ksl_inertiaf_translatedPK14ksl_inertiaf_tPK11ksl_vec3f_tP14ksl_inertiaf_t">
+<span id="_CPPv223ksl_inertiaf_translatedPK14ksl_inertiaf_tPK11ksl_vec3f_tP14ksl_inertiaf_t"></span><span id="ksl_inertiaf_translated__ksl_inertiaf_tCP.ksl_vec3f_tCP.ksl_inertiaf_tP"></span><span class="target" id="inertia_8h_1a073ce8555bd68566833b2b7ef95e181e"></span>void <code class="descname">ksl_inertiaf_translated</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>r</em>, <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv323ksl_inertiaf_translatedPK14ksl_inertiaf_tPK11ksl_vec3f_tP14ksl_inertiaf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>translate a single precision centroidal inertia matrix </p>
+<p><span class="math notranslate nohighlight">\( I_{ff} = CoAd(D(t_{fc})) * I_{cc} * Ad(D(t_{fc}^{-1})) \)</span> </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv322ksl_inertiaf_translateP14ksl_inertiaf_tPK11ksl_vec3f_t">
+<span id="_CPPv222ksl_inertiaf_translateP14ksl_inertiaf_tPK11ksl_vec3f_t"></span><span id="ksl_inertiaf_translate__ksl_inertiaf_tP.ksl_vec3f_tCP"></span><span class="target" id="inertia_8h_1a896b52736acad0b43b06d61fac55b99f"></span>void <code class="descname">ksl_inertiaf_translate</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_inertiaf_translateP14ksl_inertiaf_tPK11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>translate a single precision centroidal inertia matrix in place </p>
+<p><span class="math notranslate nohighlight">\( I_{ff} = CoAd(D(t_{fc})) * I_{cc} * Ad(D(t_{fc}^{-1})) \)</span> </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv324ksl_inertiaf_transformedPK14ksl_inertiaf_tPK10ksl_SE3f_tP14ksl_inertiaf_t">
+<span id="_CPPv224ksl_inertiaf_transformedPK14ksl_inertiaf_tPK10ksl_SE3f_tP14ksl_inertiaf_t"></span><span id="ksl_inertiaf_transformed__ksl_inertiaf_tCP.ksl_SE3f_tCP.ksl_inertiaf_tP"></span><span class="target" id="inertia_8h_1adcaf2a48154f2ab93b1c88fb0a655992"></span>void <code class="descname">ksl_inertiaf_transformed</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>d</em>, <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv324ksl_inertiaf_transformedPK14ksl_inertiaf_tPK10ksl_SE3f_tP14ksl_inertiaf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>spatial transform a single precision centroidal inertia matrix </p>
+<p><span class="math notranslate nohighlight">\( I_{ff} = CoAd(D_{fc}) * Icc * Ad(D_{fc}^{-1}) \)</span> </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv322ksl_inertiaf_transformP14ksl_inertiaf_tPK10ksl_SE3f_t">
+<span id="_CPPv222ksl_inertiaf_transformP14ksl_inertiaf_tPK10ksl_SE3f_t"></span><span id="ksl_inertiaf_transform__ksl_inertiaf_tP.ksl_SE3f_tCP"></span><span class="target" id="inertia_8h_1a9e1b20d519877020a4fd52a447ba0d9c"></span>void <code class="descname">ksl_inertiaf_transform</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>d</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_inertiaf_transformP14ksl_inertiaf_tPK10ksl_SE3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>spatial transform a single precision centroidal inertia matrix in place </p>
+<p><span class="math notranslate nohighlight">\( I_{ff} = CoAd(D_{fc}) * Icc * Ad(D_{fc}^{-1}) \)</span> </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv318ksl_inertiaf_mergeP14ksl_inertiaf_tP11ksl_vec3f_tP14ksl_inertiaf_tPK11ksl_vec3f_tPK10ksl_SE3f_t">
+<span id="_CPPv218ksl_inertiaf_mergeP14ksl_inertiaf_tP11ksl_vec3f_tP14ksl_inertiaf_tPK11ksl_vec3f_tPK10ksl_SE3f_t"></span><span id="ksl_inertiaf_merge__ksl_inertiaf_tP.ksl_vec3f_tP.ksl_inertiaf_tP.ksl_vec3f_tCP.ksl_SE3f_tCP"></span><span class="target" id="inertia_8h_1ad2a5726ed9a42f28903084ae99eac1ca"></span>void <code class="descname">ksl_inertiaf_merge</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>t_ic_i</em>, <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_j</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>t_jc_j</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>D_ij</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_inertiaf_mergeP14ksl_inertiaf_tP11ksl_vec3f_tP14ksl_inertiaf_tPK11ksl_vec3f_tPK10ksl_SE3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>merge single precision child inertia (j) with parent inertia (i) </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">parent</span></code>: inertia [in/out] parent inertia to be merged </li>
+<li><code class="docutils literal notranslate"><span class="pre">t_ic_i</span></code>: [in/out] vector from parent body reference frame i to body center of mass frame c, expressed in body frame i </li>
+<li><code class="docutils literal notranslate"><span class="pre">child</span></code>: inertia [in] </li>
+<li><code class="docutils literal notranslate"><span class="pre">t_jc_j</span></code>: [in] vector from child body reference frame j to body center of mass frame c, expressed in body frame j </li>
+<li><code class="docutils literal notranslate"><span class="pre">D_ij</span></code>: [in] transformation from parent reference frame i to child reference frame j </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv319ksl_inertiaf_factorP14ksl_inertiaf_t">
+<span id="_CPPv219ksl_inertiaf_factorP14ksl_inertiaf_t"></span><span id="ksl_inertiaf_factor__ksl_inertiaf_tP"></span><span class="target" id="inertia_8h_1a9a7a767bc2e0caf961f4fb1689fbfc11"></span>int <code class="descname">ksl_inertiaf_factor</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_inertiaf_factorP14ksl_inertiaf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>factor single precision inertia matrix </p>
+<p></p>
+<p>inertia matrix is overwritten with its factors</p>
+<p>4 cases: rank 2+, full rank, positive definite, or rank 2, positive semidefinite rank 1, positive semidefinite rank 0, do nothing</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>rank of inertia matrix </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
 </div>
 
 
           </div>
+          
         </div>
       </div>
     <div class="clearer"></div>
@@ -165,8 +620,8 @@ result -= trace(result) * I
       &copy;2018, Kristopher Wehage, Roger Wehage.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.0+</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
       |
       <a href="../_sources/inertia/inertia.rst.txt"

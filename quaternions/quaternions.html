@@ -1,0 +1,648 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Quaternions &#8212; KSL 0.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Trigonometric Functions" href="../trig/trig.html" />
+    <link rel="prev" title="SO(3) and SE(3) Groups" href="../SE3/SE3.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">KSL</a></h1>
+
+
+
+<p class="blurb">Kinematics Subroutine Library</p>
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notation/notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vectors/vectors.html">Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SO(3) and SE(3) Groups</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quaternions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#double-precision">double precision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#single-precision">single precision</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../trig/trig.html">Trigonometric Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../screws/screws.html">Screws</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coscrews/coscrews.html">Coscrews</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inertia/inertia.html">Inertia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../linalg/linalg.html">Linear Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zreferences.html">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../SE3/SE3.html" title="previous chapter">SO(3) and SE(3) Groups</a></li>
+      <li>Next: <a href="../trig/trig.html" title="next chapter">Trigonometric Functions</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="quaternions">
+<h1>Quaternions<a class="headerlink" href="#quaternions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="double-precision">
+<h2>double precision<a class="headerlink" href="#double-precision" title="Permalink to this headline">¶</a></h2>
+<dl class="type">
+<dt id="_CPPv316ksl_quaternion_t">
+<span id="_CPPv216ksl_quaternion_t"></span><span id="ksl_quaternion_t"></span><span class="target" id="unionksl__quaternion__t"></span><em class="property">union </em><code class="descname">ksl_quaternion_t</code><a class="headerlink" href="#_CPPv316ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;quaternion.h&gt;</em><p>double precision quaternion data structure </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv3N16ksl_quaternion_t2atE">
+<span id="_CPPv2N16ksl_quaternion_t2atE"></span><span id="ksl_quaternion_t::at__doubleA"></span><span class="target" id="unionksl__quaternion__t_1acde64aaebacfa3a7d8cead37818e3b78"></span>double <code class="descname">at</code>[4]<a class="headerlink" href="#_CPPv3N16ksl_quaternion_t2atE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N16ksl_quaternion_t1rE">
+<span id="_CPPv2N16ksl_quaternion_t1rE"></span><span id="ksl_quaternion_t::r__ksl_vec3_t"></span><span class="target" id="unionksl__quaternion__t_1a5df95bafe4dbe0ac53fc509ae02b74ce"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">r</code><a class="headerlink" href="#_CPPv3N16ksl_quaternion_t1rE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N16ksl_quaternion_t1xE">
+<span id="_CPPv2N16ksl_quaternion_t1xE"></span><span id="ksl_quaternion_t::x__double"></span><span class="target" id="unionksl__quaternion__t_1a42af0e3d7b1c895b489de4c664cd11c9"></span>double <code class="descname">x</code><a class="headerlink" href="#_CPPv3N16ksl_quaternion_t1xE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N16ksl_quaternion_t1yE">
+<span id="_CPPv2N16ksl_quaternion_t1yE"></span><span id="ksl_quaternion_t::y__double"></span><span class="target" id="unionksl__quaternion__t_1a6561162dd3135fcda2781557fea022dd"></span>double <code class="descname">y</code><a class="headerlink" href="#_CPPv3N16ksl_quaternion_t1yE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N16ksl_quaternion_t1zE">
+<span id="_CPPv2N16ksl_quaternion_t1zE"></span><span id="ksl_quaternion_t::z__double"></span><span class="target" id="unionksl__quaternion__t_1a1e61d09e0bcaf2b8d3240093ca207b9e"></span>double <code class="descname">z</code><a class="headerlink" href="#_CPPv3N16ksl_quaternion_t1zE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N16ksl_quaternion_t1wE">
+<span id="_CPPv2N16ksl_quaternion_t1wE"></span><span id="ksl_quaternion_t::w__double"></span><span class="target" id="unionksl__quaternion__t_1ab8dc5e5f054465d93234609f9661735b"></span>double <code class="descname">w</code><a class="headerlink" href="#_CPPv3N16ksl_quaternion_t1wE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N16ksl_quaternion_tUt2_45E">
+<span class="target" id="unionksl__quaternion__t_1a0dd906144fd3ee05970763b167a7ad98"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N16ksl_quaternion_tUt2_45E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_quaternion_alloci">
+<span id="_CPPv220ksl_quaternion_alloci"></span><span id="ksl_quaternion_alloc__i"></span><span class="target" id="quaternion_8h_1ab935a7bb4ec6abcaebbce78c42c363d1"></span><a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<code class="descname">ksl_quaternion_alloc</code><span class="sig-paren">(</span>int<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_quaternion_alloci" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>allocate memory for n quaternions and set to identity </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv321ksl_quaternion_dot_qqPK16ksl_quaternion_tPK16ksl_quaternion_t">
+<span id="_CPPv221ksl_quaternion_dot_qqPK16ksl_quaternion_tPK16ksl_quaternion_t"></span><span id="ksl_quaternion_dot_qq__ksl_quaternion_tCP.ksl_quaternion_tCP"></span><span class="target" id="quaternion_8h_1ae75cd05add834eba87be79a742012dd5"></span>double <code class="descname">ksl_quaternion_dot_qq</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *, <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv321ksl_quaternion_dot_qqPK16ksl_quaternion_tPK16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv324ksl_quaternion_normalizeP16ksl_quaternion_t">
+<span id="_CPPv224ksl_quaternion_normalizeP16ksl_quaternion_t"></span><span id="ksl_quaternion_normalize__ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a4bbc6173c3c16a92f0523d819f977a2b"></span>void <code class="descname">ksl_quaternion_normalize</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv324ksl_quaternion_normalizeP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv311ksl_axpy_qqdPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv211ksl_axpy_qqdPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_axpy_qq__double.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a8889ecf28d046592ee43aba899111dff"></span>void <code class="descname">ksl_axpy_qq</code><span class="sig-paren">(</span>double, <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv311ksl_axpy_qqdPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv323ksl_mat3x3_toQuaternionPK12ksl_mat3x3_tP16ksl_quaternion_t">
+<span id="_CPPv223ksl_mat3x3_toQuaternionPK12ksl_mat3x3_tP16ksl_quaternion_t"></span><span id="ksl_mat3x3_toQuaternion__ksl_mat3x3_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a4b7837422501e29fda0aaf5243071b08"></span>void <code class="descname">ksl_mat3x3_toQuaternion</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv323ksl_mat3x3_toQuaternionPK12ksl_mat3x3_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv323ksl_quaternion_toMat3x3P16ksl_quaternion_tP12ksl_mat3x3_t">
+<span id="_CPPv223ksl_quaternion_toMat3x3P16ksl_quaternion_tP12ksl_mat3x3_t"></span><span id="ksl_quaternion_toMat3x3__ksl_quaternion_tP.ksl_mat3x3_tP"></span><span class="target" id="quaternion_8h_1a51a0f6ba1626ccbaa6265511b08a610b"></span>void <code class="descname">ksl_quaternion_toMat3x3</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <a class="reference internal" href="../SE3/SE3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ro</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv323ksl_quaternion_toMat3x3P16ksl_quaternion_tP12ksl_mat3x3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_quaternion_slerpPK16ksl_quaternion_tPK16ksl_quaternion_tPdP16ksl_quaternion_t">
+<span id="_CPPv220ksl_quaternion_slerpPK16ksl_quaternion_tPK16ksl_quaternion_tPdP16ksl_quaternion_t"></span><span id="ksl_quaternion_slerp__ksl_quaternion_tCP.ksl_quaternion_tCP.doubleP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a2c6b411fbf4d63125b75e1f8765600c6"></span>void <code class="descname">ksl_quaternion_slerp</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>q1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>q2i</em>, double *<em>t</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_quaternion_slerpPK16ksl_quaternion_tPK16ksl_quaternion_tPdP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_quaternion_squadAL4E_K16ksl_quaternion_tPdP16ksl_quaternion_t">
+<span id="_CPPv220ksl_quaternion_squadA4_K16ksl_quaternion_tPdP16ksl_quaternion_t"></span><span id="ksl_quaternion_squad__ksl_quaternion_tCA.doubleP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1aad8c5163fd6dfa6a50c64c41640e2b97"></span>void <code class="descname">ksl_quaternion_squad</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> <em>qi</em>[4], double *<em>t</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_quaternion_squadAL4E_K16ksl_quaternion_tPdP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_quaternion_nlerpPK16ksl_quaternion_tPK16ksl_quaternion_tPKdP16ksl_quaternion_t">
+<span id="_CPPv220ksl_quaternion_nlerpPK16ksl_quaternion_tPK16ksl_quaternion_tPKdP16ksl_quaternion_t"></span><span id="ksl_quaternion_nlerp__ksl_quaternion_tCP.ksl_quaternion_tCP.doubleCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1aa40fc32e961e0ad916147221619e9138"></span>void <code class="descname">ksl_quaternion_nlerp</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>q1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>q2i</em>, <em class="property">const</em> double *<em>t</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_quaternion_nlerpPK16ksl_quaternion_tPK16ksl_quaternion_tPKdP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv314ksl_add_dpiToqPK10ksl_vec3_tP16ksl_quaternion_t">
+<span id="_CPPv214ksl_add_dpiToqPK10ksl_vec3_tP16ksl_quaternion_t"></span><span id="ksl_add_dpiToq__ksl_vec3_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1aaf557c10cb9f46b17cad760a48b54e6e"></span>void <code class="descname">ksl_add_dpiToq</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>dpi</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv314ksl_add_dpiToqPK10ksl_vec3_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv321ksl_subtract_dpiFromqPK10ksl_vec3_tP16ksl_quaternion_t">
+<span id="_CPPv221ksl_subtract_dpiFromqPK10ksl_vec3_tP16ksl_quaternion_t"></span><span id="ksl_subtract_dpiFromq__ksl_vec3_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a7b657dcaae73668c4ff2db2c41f77e82"></span>void <code class="descname">ksl_subtract_dpiFromq</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>dpi</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv321ksl_subtract_dpiFromqPK10ksl_vec3_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv324ksl_omega_to_dquaternionPK10ksl_vec3_tPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv224ksl_omega_to_dquaternionPK10ksl_vec3_tPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_omega_to_dquaternion__ksl_vec3_tCP.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a8a0f4919ffea92dfff629d5fb6be1868"></span>void <code class="descname">ksl_omega_to_dquaternion</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>w</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>dqo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv324ksl_omega_to_dquaternionPK10ksl_vec3_tPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv325ksl_quaternion_product_qqPK16ksl_quaternion_tPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv225ksl_quaternion_product_qqPK16ksl_quaternion_tPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qq__ksl_quaternion_tCP.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1abc26349b8d60db57d7c730a20139b640"></span>void <code class="descname">ksl_quaternion_product_qq</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>q1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>q2i</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv325ksl_quaternion_product_qqPK16ksl_quaternion_tPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv329ksl_quaternion_product_qconjqPK16ksl_quaternion_tPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv229ksl_quaternion_product_qconjqPK16ksl_quaternion_tPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qconjq__ksl_quaternion_tCP.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1ae683751d417423f14e6e2dc972cdf14f"></span>void <code class="descname">ksl_quaternion_product_qconjq</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>q1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>q2i</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv329ksl_quaternion_product_qconjqPK16ksl_quaternion_tPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv329ksl_quaternion_product_qqconjPK16ksl_quaternion_tPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv229ksl_quaternion_product_qqconjPK16ksl_quaternion_tPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qqconj__ksl_quaternion_tCP.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a1af116cdbf7e169b9d9fc5d6b063274e"></span>void <code class="descname">ksl_quaternion_product_qqconj</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>q1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>q2i</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv329ksl_quaternion_product_qqconjPK16ksl_quaternion_tPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv333ksl_quaternion_product_qconjqconjPK16ksl_quaternion_tPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv233ksl_quaternion_product_qconjqconjPK16ksl_quaternion_tPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qconjqconj__ksl_quaternion_tCP.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1aaa90d090c870bba71f84ba8164d9e91b"></span>void <code class="descname">ksl_quaternion_product_qconjqconj</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>q1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>q2i</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv333ksl_quaternion_product_qconjqconjPK16ksl_quaternion_tPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv326ksl_quaternion_product_qxqAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv226ksl_quaternion_product_qxqA2_KdPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qxq__doubleCA.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1afbb297e07ab17e4d91ac72f949aa1811"></span>void <code class="descname">ksl_quaternion_product_qxq</code><span class="sig-paren">(</span><em class="property">const</em> double <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv326ksl_quaternion_product_qxqAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv326ksl_quaternion_product_qqxPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t">
+<span id="_CPPv226ksl_quaternion_product_qqxPK16ksl_quaternion_tA2_KdP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qqx__ksl_quaternion_tCP.doubleCA.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1aaff6b2c39d8b6ad18292841597303401"></span>void <code class="descname">ksl_quaternion_product_qqx</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <em class="property">const</em> double <em>dci</em>[2], <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv326ksl_quaternion_product_qqxPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv330ksl_quaternion_product_qxconjqAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv230ksl_quaternion_product_qxconjqA2_KdPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qxconjq__doubleCA.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1acbf7ec3f2622f876932d4c9bf4569572"></span>void <code class="descname">ksl_quaternion_product_qxconjq</code><span class="sig-paren">(</span><em class="property">const</em> double <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv330ksl_quaternion_product_qxconjqAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv330ksl_quaternion_product_qconjqxPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t">
+<span id="_CPPv230ksl_quaternion_product_qconjqxPK16ksl_quaternion_tA2_KdP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qconjqx__ksl_quaternion_tCP.doubleCA.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a21ed20c4c20713bb4c6448c3cd2156f1"></span>void <code class="descname">ksl_quaternion_product_qconjqx</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <em class="property">const</em> double <em>dci</em>[2], <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv330ksl_quaternion_product_qconjqxPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv330ksl_quaternion_product_qxqconjAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv230ksl_quaternion_product_qxqconjA2_KdPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qxqconj__doubleCA.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1aad0e55be21c68bfdc09ec2a420d7b869"></span>void <code class="descname">ksl_quaternion_product_qxqconj</code><span class="sig-paren">(</span><em class="property">const</em> double <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv330ksl_quaternion_product_qxqconjAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv330ksl_quaternion_product_qqxconjPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t">
+<span id="_CPPv230ksl_quaternion_product_qqxconjPK16ksl_quaternion_tA2_KdP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qqxconj__ksl_quaternion_tCP.doubleCA.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1ac30d15c38e41cf9ded9ce91926b2ba97"></span>void <code class="descname">ksl_quaternion_product_qqxconj</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <em class="property">const</em> double <em>dci</em>[2], <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv330ksl_quaternion_product_qqxconjPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv334ksl_quaternion_product_qxconjqconjAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv234ksl_quaternion_product_qxconjqconjA2_KdPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qxconjqconj__doubleCA.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a5606a41ed5280c9174b4f57661028a25"></span>void <code class="descname">ksl_quaternion_product_qxconjqconj</code><span class="sig-paren">(</span><em class="property">const</em> double <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv334ksl_quaternion_product_qxconjqconjAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv334ksl_quaternion_product_qconjqxconjPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t">
+<span id="_CPPv234ksl_quaternion_product_qconjqxconjPK16ksl_quaternion_tA2_KdP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qconjqxconj__ksl_quaternion_tCP.doubleCA.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a2d5e050d270edd9f40f07f8654a550e2"></span>void <code class="descname">ksl_quaternion_product_qconjqxconj</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <em class="property">const</em> double <em>dci</em>[2], <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv334ksl_quaternion_product_qconjqxconjPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv326ksl_quaternion_product_qyqAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv226ksl_quaternion_product_qyqA2_KdPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qyq__doubleCA.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1ae03e895cee11516cc2ae35d6b054ac1b"></span>void <code class="descname">ksl_quaternion_product_qyq</code><span class="sig-paren">(</span><em class="property">const</em> double <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv326ksl_quaternion_product_qyqAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv326ksl_quaternion_product_qqyPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t">
+<span id="_CPPv226ksl_quaternion_product_qqyPK16ksl_quaternion_tA2_KdP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qqy__ksl_quaternion_tCP.doubleCA.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a428a7ff0a4d289edc8742f84f4523d05"></span>void <code class="descname">ksl_quaternion_product_qqy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <em class="property">const</em> double <em>dci</em>[2], <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv326ksl_quaternion_product_qqyPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv330ksl_quaternion_product_qyconjqAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv230ksl_quaternion_product_qyconjqA2_KdPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qyconjq__doubleCA.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1aa1a853ab2ffc10904b601dc95f626639"></span>void <code class="descname">ksl_quaternion_product_qyconjq</code><span class="sig-paren">(</span><em class="property">const</em> double <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv330ksl_quaternion_product_qyconjqAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv330ksl_quaternion_product_qconjqyPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t">
+<span id="_CPPv230ksl_quaternion_product_qconjqyPK16ksl_quaternion_tA2_KdP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qconjqy__ksl_quaternion_tCP.doubleCA.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1add4fe8f41a26de55f96d582483899e2e"></span>void <code class="descname">ksl_quaternion_product_qconjqy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <em class="property">const</em> double <em>dci</em>[2], <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv330ksl_quaternion_product_qconjqyPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv330ksl_quaternion_product_qyqconjAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv230ksl_quaternion_product_qyqconjA2_KdPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qyqconj__doubleCA.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a98298917de1b2a964cf79801524c0ab7"></span>void <code class="descname">ksl_quaternion_product_qyqconj</code><span class="sig-paren">(</span><em class="property">const</em> double <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv330ksl_quaternion_product_qyqconjAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv330ksl_quaternion_product_qqyconjPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t">
+<span id="_CPPv230ksl_quaternion_product_qqyconjPK16ksl_quaternion_tA2_KdP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qqyconj__ksl_quaternion_tCP.doubleCA.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a43d0de9befe25e9595fd7dcfb5a7aa0e"></span>void <code class="descname">ksl_quaternion_product_qqyconj</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <em class="property">const</em> double <em>dci</em>[2], <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv330ksl_quaternion_product_qqyconjPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv334ksl_quaternion_product_qyconjqconjAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv234ksl_quaternion_product_qyconjqconjA2_KdPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qyconjqconj__doubleCA.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a1f167b9e8a2fee613008d574844f7640"></span>void <code class="descname">ksl_quaternion_product_qyconjqconj</code><span class="sig-paren">(</span><em class="property">const</em> double <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv334ksl_quaternion_product_qyconjqconjAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv334ksl_quaternion_product_qconjqyconjPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t">
+<span id="_CPPv234ksl_quaternion_product_qconjqyconjPK16ksl_quaternion_tA2_KdP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qconjqyconj__ksl_quaternion_tCP.doubleCA.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a5c6afaf16cd1a3e97c690ff3bbb6d8f9"></span>void <code class="descname">ksl_quaternion_product_qconjqyconj</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <em class="property">const</em> double <em>dci</em>[2], <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv334ksl_quaternion_product_qconjqyconjPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv326ksl_quaternion_product_qzqAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv226ksl_quaternion_product_qzqA2_KdPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qzq__doubleCA.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a23f492191678f6fa774585bc4f9739f7"></span>void <code class="descname">ksl_quaternion_product_qzq</code><span class="sig-paren">(</span><em class="property">const</em> double <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv326ksl_quaternion_product_qzqAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv326ksl_quaternion_product_qqzPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t">
+<span id="_CPPv226ksl_quaternion_product_qqzPK16ksl_quaternion_tA2_KdP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qqz__ksl_quaternion_tCP.doubleCA.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a2d302d106801a2aa0a32125a26c8d098"></span>void <code class="descname">ksl_quaternion_product_qqz</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <em class="property">const</em> double <em>dci</em>[2], <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv326ksl_quaternion_product_qqzPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv330ksl_quaternion_product_qzconjqAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv230ksl_quaternion_product_qzconjqA2_KdPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qzconjq__doubleCA.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a9d7a0febeb71a16d2b73ed58a6fdd930"></span>void <code class="descname">ksl_quaternion_product_qzconjq</code><span class="sig-paren">(</span><em class="property">const</em> double <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv330ksl_quaternion_product_qzconjqAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv330ksl_quaternion_product_qconjqzPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t">
+<span id="_CPPv230ksl_quaternion_product_qconjqzPK16ksl_quaternion_tA2_KdP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qconjqz__ksl_quaternion_tCP.doubleCA.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1adfd20be00cd7a645bc185e70cabba684"></span>void <code class="descname">ksl_quaternion_product_qconjqz</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <em class="property">const</em> double <em>dci</em>[2], <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv330ksl_quaternion_product_qconjqzPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv330ksl_quaternion_product_qzqconjAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv230ksl_quaternion_product_qzqconjA2_KdPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qzqconj__doubleCA.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a0d07b5f0e1b8e570d94d1a80f8f72d6c"></span>void <code class="descname">ksl_quaternion_product_qzqconj</code><span class="sig-paren">(</span><em class="property">const</em> double <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv330ksl_quaternion_product_qzqconjAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv330ksl_quaternion_product_qqzconjPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t">
+<span id="_CPPv230ksl_quaternion_product_qqzconjPK16ksl_quaternion_tA2_KdP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qqzconj__ksl_quaternion_tCP.doubleCA.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a4e9d5bc0dd52d56e01455c8181e8a8df"></span>void <code class="descname">ksl_quaternion_product_qqzconj</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <em class="property">const</em> double <em>dci</em>[2], <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv330ksl_quaternion_product_qqzconjPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv334ksl_quaternion_product_qzconjqconjAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv234ksl_quaternion_product_qzconjqconjA2_KdPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qzconjqconj__doubleCA.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a027c9cdd3528233b760e96c9f99e0aa1"></span>void <code class="descname">ksl_quaternion_product_qzconjqconj</code><span class="sig-paren">(</span><em class="property">const</em> double <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv334ksl_quaternion_product_qzconjqconjAL2E_KdPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv334ksl_quaternion_product_qconjqzconjPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t">
+<span id="_CPPv234ksl_quaternion_product_qconjqzconjPK16ksl_quaternion_tA2_KdP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qconjqzconj__ksl_quaternion_tCP.doubleCA.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a89c939f6401f49ffb00ecfd7e682de9d"></span>void <code class="descname">ksl_quaternion_product_qconjqzconj</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <em class="property">const</em> double <em>dci</em>[2], <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv334ksl_quaternion_product_qconjqzconjPK16ksl_quaternion_tAL2E_KdP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv325ksl_quaternion_product_qvPK16ksl_quaternion_tPK10ksl_vec3_tP16ksl_quaternion_t">
+<span id="_CPPv225ksl_quaternion_product_qvPK16ksl_quaternion_tPK10ksl_vec3_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qv__ksl_quaternion_tCP.ksl_vec3_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1aae498f7c356b80178b965fc0a8e26545"></span>void <code class="descname">ksl_quaternion_product_qv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vi</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv325ksl_quaternion_product_qvPK16ksl_quaternion_tPK10ksl_vec3_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv329ksl_quaternion_product_qconjvPK16ksl_quaternion_tPK10ksl_vec3_tP16ksl_quaternion_t">
+<span id="_CPPv229ksl_quaternion_product_qconjvPK16ksl_quaternion_tPK10ksl_vec3_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_qconjv__ksl_quaternion_tCP.ksl_vec3_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1ad528bd7febbbb3359c1bbb12e8672a7e"></span>void <code class="descname">ksl_quaternion_product_qconjv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vi</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv329ksl_quaternion_product_qconjvPK16ksl_quaternion_tPK10ksl_vec3_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv325ksl_quaternion_product_vqPK10ksl_vec3_tPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv225ksl_quaternion_product_vqPK10ksl_vec3_tPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_vq__ksl_vec3_tCP.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1a4d2b87c1dfa7776e9dbc646f1bd0ffd9"></span>void <code class="descname">ksl_quaternion_product_vq</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vi</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv325ksl_quaternion_product_vqPK10ksl_vec3_tPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv329ksl_quaternion_product_vqconjPK10ksl_vec3_tPK16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv229ksl_quaternion_product_vqconjPK10ksl_vec3_tPK16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_vqconj__ksl_vec3_tCP.ksl_quaternion_tCP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1adbfbb4f9f2fc8533c29088294f749818"></span>void <code class="descname">ksl_quaternion_product_vqconj</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vi</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv329ksl_quaternion_product_vqconjPK10ksl_vec3_tPK16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv333ksl_quaternion_product_uqinverseqP16ksl_quaternion_tP16ksl_quaternion_tP16ksl_quaternion_t">
+<span id="_CPPv233ksl_quaternion_product_uqinverseqP16ksl_quaternion_tP16ksl_quaternion_tP16ksl_quaternion_t"></span><span id="ksl_quaternion_product_uqinverseq__ksl_quaternion_tP.ksl_quaternion_tP.ksl_quaternion_tP"></span><span class="target" id="quaternion_8h_1aed3e1e363794e553d87d924afb01016a"></span>void <code class="descname">ksl_quaternion_product_uqinverseq</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>q1i</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>q2i</em>, <a class="reference internal" href="#_CPPv316ksl_quaternion_t" title="ksl_quaternion_t">ksl_quaternion_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv333ksl_quaternion_product_uqinverseqP16ksl_quaternion_tP16ksl_quaternion_tP16ksl_quaternion_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="single-precision">
+<h2>single precision<a class="headerlink" href="#single-precision" title="Permalink to this headline">¶</a></h2>
+<dl class="type">
+<dt id="_CPPv317ksl_quaternionf_t">
+<span id="_CPPv217ksl_quaternionf_t"></span><span id="ksl_quaternionf_t"></span><span class="target" id="unionksl__quaternionf__t"></span><em class="property">union </em><code class="descname">ksl_quaternionf_t</code><a class="headerlink" href="#_CPPv317ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;quaternion.h&gt;</em><p>single precision quaternion data structure </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv3N17ksl_quaternionf_t2atE">
+<span id="_CPPv2N17ksl_quaternionf_t2atE"></span><span id="ksl_quaternionf_t::at__floatA"></span><span class="target" id="unionksl__quaternionf__t_1aae07efa19c81459708d1a42333e2122b"></span>float <code class="descname">at</code>[4]<a class="headerlink" href="#_CPPv3N17ksl_quaternionf_t2atE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N17ksl_quaternionf_t1rE">
+<span id="_CPPv2N17ksl_quaternionf_t1rE"></span><span id="ksl_quaternionf_t::r__ksl_vec3f_t"></span><span class="target" id="unionksl__quaternionf__t_1a61bed20a106e98fe5c780458a111118f"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <code class="descname">r</code><a class="headerlink" href="#_CPPv3N17ksl_quaternionf_t1rE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N17ksl_quaternionf_t1xE">
+<span id="_CPPv2N17ksl_quaternionf_t1xE"></span><span id="ksl_quaternionf_t::x__float"></span><span class="target" id="unionksl__quaternionf__t_1a82c2665bd9884b4d26571fb9bc8dab7c"></span>float <code class="descname">x</code><a class="headerlink" href="#_CPPv3N17ksl_quaternionf_t1xE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N17ksl_quaternionf_t1yE">
+<span id="_CPPv2N17ksl_quaternionf_t1yE"></span><span id="ksl_quaternionf_t::y__float"></span><span class="target" id="unionksl__quaternionf__t_1a8992986cb17397d78cef2f0a04070cc7"></span>float <code class="descname">y</code><a class="headerlink" href="#_CPPv3N17ksl_quaternionf_t1yE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N17ksl_quaternionf_t1zE">
+<span id="_CPPv2N17ksl_quaternionf_t1zE"></span><span id="ksl_quaternionf_t::z__float"></span><span class="target" id="unionksl__quaternionf__t_1ad5e4b348f69375fcd8c7adcb164176a6"></span>float <code class="descname">z</code><a class="headerlink" href="#_CPPv3N17ksl_quaternionf_t1zE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N17ksl_quaternionf_t1wE">
+<span id="_CPPv2N17ksl_quaternionf_t1wE"></span><span id="ksl_quaternionf_t::w__float"></span><span class="target" id="unionksl__quaternionf__t_1a04cdb14bd68e15121f341299121d7940"></span>float <code class="descname">w</code><a class="headerlink" href="#_CPPv3N17ksl_quaternionf_t1wE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N17ksl_quaternionf_tUt2_51E">
+<span class="target" id="unionksl__quaternionf__t_1abf49c2c700701d7a7f03b67a910f3775"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N17ksl_quaternionf_tUt2_51E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv321ksl_quaternionf_alloci">
+<span id="_CPPv221ksl_quaternionf_alloci"></span><span id="ksl_quaternionf_alloc__i"></span><span class="target" id="quaternion_8h_1a3c55240b57e480b0052f755e37b17e9e"></span><a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<code class="descname">ksl_quaternionf_alloc</code><span class="sig-paren">(</span>int<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv321ksl_quaternionf_alloci" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>allocate memory for n quaternions and set to identity </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv325ksl_quaternionf_normalizeP17ksl_quaternionf_t">
+<span id="_CPPv225ksl_quaternionf_normalizeP17ksl_quaternionf_t"></span><span id="ksl_quaternionf_normalize__ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1aa783cae3b763b7ad7c1729597796f5ec"></span>void <code class="descname">ksl_quaternionf_normalize</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv325ksl_quaternionf_normalizeP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv324ksl_mat3x3f_toQuaternionPK13ksl_mat3x3f_tP17ksl_quaternionf_t">
+<span id="_CPPv224ksl_mat3x3f_toQuaternionPK13ksl_mat3x3f_tP17ksl_quaternionf_t"></span><span id="ksl_mat3x3f_toQuaternion__ksl_mat3x3f_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1af6cea8a3c4baa179c6e0e804a965ebeb"></span>void <code class="descname">ksl_mat3x3f_toQuaternion</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv324ksl_mat3x3f_toQuaternionPK13ksl_mat3x3f_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv311ksl_dot_qqfPK17ksl_quaternionf_tPK17ksl_quaternionf_t">
+<span id="_CPPv211ksl_dot_qqfPK17ksl_quaternionf_tPK17ksl_quaternionf_t"></span><span id="ksl_dot_qqf__ksl_quaternionf_tCP.ksl_quaternionf_tCP"></span><span class="target" id="quaternion_8h_1a00abc36c85fc1bc05511087434c6dffc"></span>float <code class="descname">ksl_dot_qqf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *, <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv311ksl_dot_qqfPK17ksl_quaternionf_tPK17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv312ksl_axpy_qqffPK17ksl_quaternionf_tP17ksl_quaternionf_t">
+<span id="_CPPv212ksl_axpy_qqffPK17ksl_quaternionf_tP17ksl_quaternionf_t"></span><span id="ksl_axpy_qqf__float.ksl_quaternionf_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1a260211df497b9280c537711aafb7fa11"></span>void <code class="descname">ksl_axpy_qqf</code><span class="sig-paren">(</span>float, <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv312ksl_axpy_qqffPK17ksl_quaternionf_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv325ksl_quaternionf_toMat3x3fP17ksl_quaternionf_tP13ksl_mat3x3f_t">
+<span id="_CPPv225ksl_quaternionf_toMat3x3fP17ksl_quaternionf_tP13ksl_mat3x3f_t"></span><span id="ksl_quaternionf_toMat3x3f__ksl_quaternionf_tP.ksl_mat3x3f_tP"></span><span class="target" id="quaternion_8h_1aa1077ff08a015743fb8bebf7d5c285dd"></span>void <code class="descname">ksl_quaternionf_toMat3x3f</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <a class="reference internal" href="../SE3/SE3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ro</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv325ksl_quaternionf_toMat3x3fP17ksl_quaternionf_tP13ksl_mat3x3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv310ksl_slerpfPK17ksl_quaternionf_tPK17ksl_quaternionf_tPfP17ksl_quaternionf_t">
+<span id="_CPPv210ksl_slerpfPK17ksl_quaternionf_tPK17ksl_quaternionf_tPfP17ksl_quaternionf_t"></span><span id="ksl_slerpf__ksl_quaternionf_tCP.ksl_quaternionf_tCP.floatP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1a567a7b9d042f3384ede44ba4a55be11e"></span>void <code class="descname">ksl_slerpf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>q1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>q2i</em>, float *<em>t</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv310ksl_slerpfPK17ksl_quaternionf_tPK17ksl_quaternionf_tPfP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv310ksl_squadfAL4E_K17ksl_quaternionf_tPfP17ksl_quaternionf_t">
+<span id="_CPPv210ksl_squadfA4_K17ksl_quaternionf_tPfP17ksl_quaternionf_t"></span><span id="ksl_squadf__ksl_quaternionf_tCA.floatP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1acb4eadfbd498c7f810d46992f8e30b8e"></span>void <code class="descname">ksl_squadf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> <em>qi</em>[4], float *<em>t</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv310ksl_squadfAL4E_K17ksl_quaternionf_tPfP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv310ksl_nlerpfPK17ksl_quaternionf_tPK17ksl_quaternionf_tPKfP17ksl_quaternionf_t">
+<span id="_CPPv210ksl_nlerpfPK17ksl_quaternionf_tPK17ksl_quaternionf_tPKfP17ksl_quaternionf_t"></span><span id="ksl_nlerpf__ksl_quaternionf_tCP.ksl_quaternionf_tCP.floatCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1af730b86ef9792fe0f5f5b53365ee14b4"></span>void <code class="descname">ksl_nlerpf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>q1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>q2i</em>, <em class="property">const</em> float *<em>t</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv310ksl_nlerpfPK17ksl_quaternionf_tPK17ksl_quaternionf_tPKfP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv315ksl_product_qqfPK17ksl_quaternionf_tPK17ksl_quaternionf_tP17ksl_quaternionf_t">
+<span id="_CPPv215ksl_product_qqfPK17ksl_quaternionf_tPK17ksl_quaternionf_tP17ksl_quaternionf_t"></span><span id="ksl_product_qqf__ksl_quaternionf_tCP.ksl_quaternionf_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1a4a31b644d84597160d0477e897ad3379"></span>void <code class="descname">ksl_product_qqf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>q1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>q2i</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_product_qqfPK17ksl_quaternionf_tPK17ksl_quaternionf_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv319ksl_product_qconjqfPK17ksl_quaternionf_tPK17ksl_quaternionf_tP17ksl_quaternionf_t">
+<span id="_CPPv219ksl_product_qconjqfPK17ksl_quaternionf_tPK17ksl_quaternionf_tP17ksl_quaternionf_t"></span><span id="ksl_product_qconjqf__ksl_quaternionf_tCP.ksl_quaternionf_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1a5403e09193edb3fdd6523fb3b0b6d98e"></span>void <code class="descname">ksl_product_qconjqf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>q1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>q2i</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_qconjqfPK17ksl_quaternionf_tPK17ksl_quaternionf_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv319ksl_product_qqconjfPK17ksl_quaternionf_tPK17ksl_quaternionf_tP17ksl_quaternionf_t">
+<span id="_CPPv219ksl_product_qqconjfPK17ksl_quaternionf_tPK17ksl_quaternionf_tP17ksl_quaternionf_t"></span><span id="ksl_product_qqconjf__ksl_quaternionf_tCP.ksl_quaternionf_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1a45025779e2ae39968c12f45438e576b5"></span>void <code class="descname">ksl_product_qqconjf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>q1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>q2i</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_qqconjfPK17ksl_quaternionf_tPK17ksl_quaternionf_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv323ksl_product_qconjqconjfPK17ksl_quaternionf_tPK17ksl_quaternionf_tP17ksl_quaternionf_t">
+<span id="_CPPv223ksl_product_qconjqconjfPK17ksl_quaternionf_tPK17ksl_quaternionf_tP17ksl_quaternionf_t"></span><span id="ksl_product_qconjqconjf__ksl_quaternionf_tCP.ksl_quaternionf_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1abfa97ee7824eccb3386e20e6c8fafc15"></span>void <code class="descname">ksl_product_qconjqconjf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>q1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>q2i</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv323ksl_product_qconjqconjfPK17ksl_quaternionf_tPK17ksl_quaternionf_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv316ksl_product_qxqfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t">
+<span id="_CPPv216ksl_product_qxqfA2_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t"></span><span id="ksl_product_qxqf__floatCA.ksl_quaternionf_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1abfa36912c5534b816a3b1d9ff2283ff4"></span>void <code class="descname">ksl_product_qxqf</code><span class="sig-paren">(</span><em class="property">const</em> float <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_product_qxqfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv316ksl_product_qqxfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t">
+<span id="_CPPv216ksl_product_qqxfPK17ksl_quaternionf_tA2_KfP17ksl_quaternionf_t"></span><span id="ksl_product_qqxf__ksl_quaternionf_tCP.floatCA.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1ae49d64ebcb2578576be06dcb83095da3"></span>void <code class="descname">ksl_product_qqxf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <em class="property">const</em> float <em>dci</em>[2], <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_product_qqxfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_product_qxconjqfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t">
+<span id="_CPPv220ksl_product_qxconjqfA2_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t"></span><span id="ksl_product_qxconjqf__floatCA.ksl_quaternionf_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1ad220ee3e8ab99605cdd4daaf4f5ad234"></span>void <code class="descname">ksl_product_qxconjqf</code><span class="sig-paren">(</span><em class="property">const</em> float <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_qxconjqfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_product_qconjqxfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t">
+<span id="_CPPv220ksl_product_qconjqxfPK17ksl_quaternionf_tA2_KfP17ksl_quaternionf_t"></span><span id="ksl_product_qconjqxf__ksl_quaternionf_tCP.floatCA.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1a256112caff02b3314b4d1847a796f78c"></span>void <code class="descname">ksl_product_qconjqxf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <em class="property">const</em> float <em>dci</em>[2], <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_qconjqxfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_product_qxqconjfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t">
+<span id="_CPPv220ksl_product_qxqconjfA2_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t"></span><span id="ksl_product_qxqconjf__floatCA.ksl_quaternionf_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1aa6ce3de04c6ce9680f56378ca0559e89"></span>void <code class="descname">ksl_product_qxqconjf</code><span class="sig-paren">(</span><em class="property">const</em> float <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_qxqconjfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_product_qqxconjfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t">
+<span id="_CPPv220ksl_product_qqxconjfPK17ksl_quaternionf_tA2_KfP17ksl_quaternionf_t"></span><span id="ksl_product_qqxconjf__ksl_quaternionf_tCP.floatCA.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1a95d2c245a7197ad923440f9823cc727f"></span>void <code class="descname">ksl_product_qqxconjf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <em class="property">const</em> float <em>dci</em>[2], <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_qqxconjfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv324ksl_product_qxconjqconjfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t">
+<span id="_CPPv224ksl_product_qxconjqconjfA2_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t"></span><span id="ksl_product_qxconjqconjf__floatCA.ksl_quaternionf_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1af123d8fc30bba0fe8149d42492581b6c"></span>void <code class="descname">ksl_product_qxconjqconjf</code><span class="sig-paren">(</span><em class="property">const</em> float <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv324ksl_product_qxconjqconjfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv324ksl_product_qconjqxconjfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t">
+<span id="_CPPv224ksl_product_qconjqxconjfPK17ksl_quaternionf_tA2_KfP17ksl_quaternionf_t"></span><span id="ksl_product_qconjqxconjf__ksl_quaternionf_tCP.floatCA.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1ab087ea4f0692a134d877c85f0e046c70"></span>void <code class="descname">ksl_product_qconjqxconjf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <em class="property">const</em> float <em>dci</em>[2], <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv324ksl_product_qconjqxconjfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv316ksl_product_qyqfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t">
+<span id="_CPPv216ksl_product_qyqfA2_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t"></span><span id="ksl_product_qyqf__floatCA.ksl_quaternionf_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1a41cd03f11c445cbea1c9a6dd88216a23"></span>void <code class="descname">ksl_product_qyqf</code><span class="sig-paren">(</span><em class="property">const</em> float <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_product_qyqfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv316ksl_product_qqyfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t">
+<span id="_CPPv216ksl_product_qqyfPK17ksl_quaternionf_tA2_KfP17ksl_quaternionf_t"></span><span id="ksl_product_qqyf__ksl_quaternionf_tCP.floatCA.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1a79fb98bb9a24d0d8c6d41549ee7013ff"></span>void <code class="descname">ksl_product_qqyf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <em class="property">const</em> float <em>dci</em>[2], <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_product_qqyfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_product_qyconjqfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t">
+<span id="_CPPv220ksl_product_qyconjqfA2_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t"></span><span id="ksl_product_qyconjqf__floatCA.ksl_quaternionf_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1acd9f145e0d78093132271d2598c080ff"></span>void <code class="descname">ksl_product_qyconjqf</code><span class="sig-paren">(</span><em class="property">const</em> float <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_qyconjqfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_product_qconjqyfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t">
+<span id="_CPPv220ksl_product_qconjqyfPK17ksl_quaternionf_tA2_KfP17ksl_quaternionf_t"></span><span id="ksl_product_qconjqyf__ksl_quaternionf_tCP.floatCA.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1ac964a285496869a1794b108b89693d1a"></span>void <code class="descname">ksl_product_qconjqyf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <em class="property">const</em> float <em>dci</em>[2], <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_qconjqyfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_product_qyqconjfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t">
+<span id="_CPPv220ksl_product_qyqconjfA2_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t"></span><span id="ksl_product_qyqconjf__floatCA.ksl_quaternionf_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1adae2c17ccf714c25a97d2b95bab1c62e"></span>void <code class="descname">ksl_product_qyqconjf</code><span class="sig-paren">(</span><em class="property">const</em> float <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_qyqconjfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_product_qqyconjfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t">
+<span id="_CPPv220ksl_product_qqyconjfPK17ksl_quaternionf_tA2_KfP17ksl_quaternionf_t"></span><span id="ksl_product_qqyconjf__ksl_quaternionf_tCP.floatCA.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1aca2454eeaae4915834900c10b2979d9d"></span>void <code class="descname">ksl_product_qqyconjf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <em class="property">const</em> float <em>dci</em>[2], <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_qqyconjfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv324ksl_product_qyconjqconjfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t">
+<span id="_CPPv224ksl_product_qyconjqconjfA2_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t"></span><span id="ksl_product_qyconjqconjf__floatCA.ksl_quaternionf_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1aba415d59b87767ca8ec14935e2e22eda"></span>void <code class="descname">ksl_product_qyconjqconjf</code><span class="sig-paren">(</span><em class="property">const</em> float <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv324ksl_product_qyconjqconjfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv324ksl_product_qconjqyconjfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t">
+<span id="_CPPv224ksl_product_qconjqyconjfPK17ksl_quaternionf_tA2_KfP17ksl_quaternionf_t"></span><span id="ksl_product_qconjqyconjf__ksl_quaternionf_tCP.floatCA.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1a707dbdf400f2bd7767f3be7a8753fad0"></span>void <code class="descname">ksl_product_qconjqyconjf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <em class="property">const</em> float <em>dci</em>[2], <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv324ksl_product_qconjqyconjfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv316ksl_product_qzqfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t">
+<span id="_CPPv216ksl_product_qzqfA2_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t"></span><span id="ksl_product_qzqf__floatCA.ksl_quaternionf_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1a1fcabdc2a8877ce55184be2edbf7a3a2"></span>void <code class="descname">ksl_product_qzqf</code><span class="sig-paren">(</span><em class="property">const</em> float <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_product_qzqfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv316ksl_product_qqzfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t">
+<span id="_CPPv216ksl_product_qqzfPK17ksl_quaternionf_tA2_KfP17ksl_quaternionf_t"></span><span id="ksl_product_qqzf__ksl_quaternionf_tCP.floatCA.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1a5042754735d29732f848be2b81117b0e"></span>void <code class="descname">ksl_product_qqzf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <em class="property">const</em> float <em>dci</em>[2], <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_product_qqzfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_product_qzconjqfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t">
+<span id="_CPPv220ksl_product_qzconjqfA2_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t"></span><span id="ksl_product_qzconjqf__floatCA.ksl_quaternionf_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1a301a801185cd045140bf94e80fdfbc87"></span>void <code class="descname">ksl_product_qzconjqf</code><span class="sig-paren">(</span><em class="property">const</em> float <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_qzconjqfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_product_qconjqzfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t">
+<span id="_CPPv220ksl_product_qconjqzfPK17ksl_quaternionf_tA2_KfP17ksl_quaternionf_t"></span><span id="ksl_product_qconjqzf__ksl_quaternionf_tCP.floatCA.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1ae3edad2dcaf592675a59ce24a8fc906c"></span>void <code class="descname">ksl_product_qconjqzf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <em class="property">const</em> float <em>dci</em>[2], <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_qconjqzfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_product_qzqconjfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t">
+<span id="_CPPv220ksl_product_qzqconjfA2_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t"></span><span id="ksl_product_qzqconjf__floatCA.ksl_quaternionf_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1a03904bd63790cfb664b05bf1aec20973"></span>void <code class="descname">ksl_product_qzqconjf</code><span class="sig-paren">(</span><em class="property">const</em> float <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_qzqconjfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_product_qqzconjfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t">
+<span id="_CPPv220ksl_product_qqzconjfPK17ksl_quaternionf_tA2_KfP17ksl_quaternionf_t"></span><span id="ksl_product_qqzconjf__ksl_quaternionf_tCP.floatCA.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1a597d83bbce370e77ed0e9eee479e86cd"></span>void <code class="descname">ksl_product_qqzconjf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <em class="property">const</em> float <em>dci</em>[2], <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_qqzconjfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv324ksl_product_qzconjqconjfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t">
+<span id="_CPPv224ksl_product_qzconjqconjfA2_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t"></span><span id="ksl_product_qzconjqconjf__floatCA.ksl_quaternionf_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1ab7a9ecf681904b26ec0acf7f8f91c1db"></span>void <code class="descname">ksl_product_qzconjqconjf</code><span class="sig-paren">(</span><em class="property">const</em> float <em>dci</em>[2], <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv324ksl_product_qzconjqconjfAL2E_KfPK17ksl_quaternionf_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv324ksl_product_qconjqzconjfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t">
+<span id="_CPPv224ksl_product_qconjqzconjfPK17ksl_quaternionf_tA2_KfP17ksl_quaternionf_t"></span><span id="ksl_product_qconjqzconjf__ksl_quaternionf_tCP.floatCA.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1a933c86b3810bd63a3e71bfe3a893b8ef"></span>void <code class="descname">ksl_product_qconjqzconjf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <em class="property">const</em> float <em>dci</em>[2], <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv324ksl_product_qconjqzconjfPK17ksl_quaternionf_tAL2E_KfP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv315ksl_product_qvfPK17ksl_quaternionf_tPK11ksl_vec3f_tP17ksl_quaternionf_t">
+<span id="_CPPv215ksl_product_qvfPK17ksl_quaternionf_tPK11ksl_vec3f_tP17ksl_quaternionf_t"></span><span id="ksl_product_qvf__ksl_quaternionf_tCP.ksl_vec3f_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1a7f5977e1cd226e1d5eb918abebee51da"></span>void <code class="descname">ksl_product_qvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vi</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_product_qvfPK17ksl_quaternionf_tPK11ksl_vec3f_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv319ksl_product_qconjvfPK17ksl_quaternionf_tPK11ksl_vec3f_tP17ksl_quaternionf_t">
+<span id="_CPPv219ksl_product_qconjvfPK17ksl_quaternionf_tPK11ksl_vec3f_tP17ksl_quaternionf_t"></span><span id="ksl_product_qconjvf__ksl_quaternionf_tCP.ksl_vec3f_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1a60fa075831c5e7cf210ae780ad17509d"></span>void <code class="descname">ksl_product_qconjvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vi</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_qconjvfPK17ksl_quaternionf_tPK11ksl_vec3f_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv315ksl_product_vqfPK11ksl_vec3f_tPK17ksl_quaternionf_tP17ksl_quaternionf_t">
+<span id="_CPPv215ksl_product_vqfPK11ksl_vec3f_tPK17ksl_quaternionf_tP17ksl_quaternionf_t"></span><span id="ksl_product_vqf__ksl_vec3f_tCP.ksl_quaternionf_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1ab3c149b03615e37966fca83414667a91"></span>void <code class="descname">ksl_product_vqf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vi</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_product_vqfPK11ksl_vec3f_tPK17ksl_quaternionf_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv319ksl_product_vqconjfPK11ksl_vec3f_tPK17ksl_quaternionf_tP17ksl_quaternionf_t">
+<span id="_CPPv219ksl_product_vqconjfPK11ksl_vec3f_tPK17ksl_quaternionf_tP17ksl_quaternionf_t"></span><span id="ksl_product_vqconjf__ksl_vec3f_tCP.ksl_quaternionf_tCP.ksl_quaternionf_tP"></span><span class="target" id="quaternion_8h_1aeead61262650d87e9d13bd98c49de293"></span>void <code class="descname">ksl_product_vqconjf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vi</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qi</em>, <a class="reference internal" href="#_CPPv317ksl_quaternionf_t" title="ksl_quaternionf_t">ksl_quaternionf_t</a> *<em>qo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_vqconjfPK11ksl_vec3f_tPK17ksl_quaternionf_tP17ksl_quaternionf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018, Kristopher Wehage, Roger Wehage.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.0+</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="../_sources/quaternions/quaternions.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

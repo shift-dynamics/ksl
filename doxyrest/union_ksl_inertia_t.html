@@ -9,16 +9,14 @@
     <title>union ksl_inertia_t &#8212; KSL 0.0.0 documentation</title>
     <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="union ksl_inertiaf_t" href="union_ksl_inertiaf_t.html" />
-    <link rel="prev" title="union ksl_coscrewf_t" href="union_ksl_coscrewf_t.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -47,59 +45,22 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notation/notation.html">Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../vectors/vectors.html">Vectors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SE3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SO(3) and SE(3) Groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quaternions/quaternions.html">Quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trig/trig.html">Trigonometric Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../screws/screws.html">Screws</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../coscrews/coscrews.html">Coscrews</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../influence_coefficient_matrices/influence_coefficient_matrices.html">Influence Coefficient Matrices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../inertia/inertia.html">Inertia</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../lu_full/lu_full.html">Full Factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../linalg/linalg.html">Linear Algebra</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing/contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../zreferences.html">References</a></li>
-</ul>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="global.html">Global Namespace</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="enum_ksl_axis_enum_t.html">enum ksl_axis_enum_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_SE3_t.html">union ksl_SE3_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_SE3f_t.html">union ksl_SE3f_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_coscrew_t.html">union ksl_coscrew_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_coscrewf_t.html">union ksl_coscrewf_t</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">union ksl_inertia_t</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#detailed-documentation">Detailed Documentation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#fields">Fields</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_inertiaf_t.html">union ksl_inertiaf_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_mat3x3_t.html">union ksl_mat3x3_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_mat3x3f_t.html">union ksl_mat3x3f_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_mat4x4_t.html">union ksl_mat4x4_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_mat4x4f_t.html">union ksl_mat4x4f_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_quaternion_t.html">union ksl_quaternion_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_quaternionf_t.html">union ksl_quaternionf_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_screw_t.html">union ksl_screw_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_screwf_t.html">union ksl_screwf_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_vec3_t.html">union ksl_vec3_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_vec3f_t.html">union ksl_vec3f_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_vec3i_t.html">union ksl_vec3i_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_vec4_t.html">union ksl_vec4_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_vec4f_t.html">union ksl_vec4f_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="global.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="global.html#detailed-documentation">Detailed Documentation</a></li>
-</ul>
-</li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="global.html">Global Namespace</a><ul>
-      <li>Previous: <a href="union_ksl_coscrewf_t.html" title="previous chapter">union ksl_coscrewf_t</a></li>
-      <li>Next: <a href="union_ksl_inertiaf_t.html" title="next chapter">union ksl_inertiaf_t</a></li>
-  </ul></li>
   </ul></li>
 </ul>
 </div>
@@ -119,6 +80,8 @@
       </div>
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="union-ksl-inertia-t">
@@ -131,8 +94,8 @@
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>double precision mass and inertia properties <a class="reference internal" href="#details-doxid-unionksl-inertia-t"><span class="std std-ref">More…</span></a></p>
-<pre class="highlight overview-code-block literal-block" id="cid-ksl-inertia-t-9">
-<span id="doxid-unionksl-inertia-t-1afd5c4854ed9a438c33126299e6c2e752"></span><span id="cid-ksl-inertia-t-at"></span><span id="doxid-unionksl-inertia-t-1a7e473f4d334f16258e711b99162b77b3"></span><span></span><span class="c1">// fields</span>
+<pre class="highlight overview-code-block literal-block" id="cid-ksl-inertia-t-at">
+<span id="doxid-unionksl-inertia-t-1a7e473f4d334f16258e711b99162b77b3"></span><span></span><span class="c1">// fields</span>
 
 <span class="kt">double</span> <span class="n">at</span> <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
 <span class="kt">double</span> <a class="reference internal" href="#doxid-unionksl-inertia-t-1a3b0b12ce02a3b9008173b74e26acee1e"><span class="std std-ref">m</span></a><span></span>
@@ -142,7 +105,15 @@
 <span class="kt">double</span> <a class="reference internal" href="#doxid-unionksl-inertia-t-1aeaec6e980056613046172dcc63286874"><span class="std std-ref">Izz</span></a><span></span>
 <span class="kt">double</span> <a class="reference internal" href="#doxid-unionksl-inertia-t-1a1e6573bc60662216e73675bf2076a11b"><span class="std std-ref">Ixy</span></a><span></span>
 <span class="kt">double</span> <a class="reference internal" href="#doxid-unionksl-inertia-t-1a0944254e6ea2d48340c112a5e59dd6ea"><span class="std std-ref">Iyz</span></a><span></span>
-<span class="kt">double</span> <a class="reference internal" href="#doxid-unionksl-inertia-t-1aafcb32737673b966298d44998d4649a0"><span class="std std-ref">Izx</span></a>
+<span class="kt">double</span> <a class="reference internal" href="#doxid-unionksl-inertia-t-1aafcb32737673b966298d44998d4649a0"><span class="std std-ref">Izx</span></a><span></span>
+<span class="kt">double</span> <a class="reference internal" href="#doxid-unionksl-inertia-t-1a3f8156d0486574f6b810d393d553a501"><span class="std std-ref">mass</span></a><span></span>
+<a class="reference internal" href="union_ksl_vec3_t.html#doxid-unionksl-vec3-t"><span class="std std-ref">ksl_vec3_t</span></a><span></span> <a class="reference internal" href="#doxid-unionksl-inertia-t-1afab97679e93c0c3f7283fa760655a71d"><span class="std std-ref">mr</span></a><span></span>
+<span class="kt">double</span> <a class="reference internal" href="#doxid-unionksl-inertia-t-1a84125375ee133ad0d92c1ba31cfa1c74"><span class="std std-ref">_Ixx</span></a><span></span>
+<span class="kt">double</span> <a class="reference internal" href="#doxid-unionksl-inertia-t-1a26e90ef5a5d27004ef98812388e82d34"><span class="std std-ref">_Iyy</span></a><span></span>
+<span class="kt">double</span> <a class="reference internal" href="#doxid-unionksl-inertia-t-1a3077f4f2ba55b4cd95667e5d1fac9b07"><span class="std std-ref">_Izz</span></a><span></span>
+<span class="kt">double</span> <a class="reference internal" href="#doxid-unionksl-inertia-t-1ad902ca677203432d4a25b6d7928af981"><span class="std std-ref">Iyx</span></a><span></span>
+<span class="kt">double</span> <a class="reference internal" href="#doxid-unionksl-inertia-t-1af3382f7297d21c91524ab1e5a7f211a7"><span class="std std-ref">Izy</span></a><span></span>
+<span class="kt">double</span> <a class="reference internal" href="#doxid-unionksl-inertia-t-1a33f55406e42b2af43c5e903dd3f9bc0a"><span class="std std-ref">Ixz</span></a>
 </pre>
 </div>
 <div class="section" id="detailed-documentation">
@@ -182,12 +153,45 @@
 <span id="doxid-unionksl-inertia-t-1aafcb32737673b966298d44998d4649a0"></span><span></span><span class="kt">double</span> <span class="n">Izx</span>
 </pre>
 <p>Izx centroidal inertia term, expressed in reference frame coordinates</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-inertia-t-mass">
+<span id="doxid-unionksl-inertia-t-1a3f8156d0486574f6b810d393d553a501"></span><span></span><span class="kt">double</span> <span class="n">mass</span>
+</pre>
+<p>mass</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-inertia-t-mr">
+<span id="doxid-unionksl-inertia-t-1afab97679e93c0c3f7283fa760655a71d"></span><a class="reference internal" href="union_ksl_vec3_t.html#doxid-unionksl-vec3-t"><span class="std std-ref">ksl_vec3_t</span></a><span></span> <span class="n">mr</span>
+</pre>
+<p>mass times a vector, r, from reference frame to body centroid</p>
+<pre class="highlight title-code-block literal-block" id="id1">
+<span id="doxid-unionksl-inertia-t-1a84125375ee133ad0d92c1ba31cfa1c74"></span><span></span><span class="kt">double</span> <span class="n">_Ixx</span>
+</pre>
+<p>Ixx centroidal inertia term, expressed in reference frame coordinates</p>
+<pre class="highlight title-code-block literal-block" id="id2">
+<span id="doxid-unionksl-inertia-t-1a26e90ef5a5d27004ef98812388e82d34"></span><span></span><span class="kt">double</span> <span class="n">_Iyy</span>
+</pre>
+<p>Ixy centroidal inertia term, expressed in reference frame coordinates</p>
+<pre class="highlight title-code-block literal-block" id="id3">
+<span id="doxid-unionksl-inertia-t-1a3077f4f2ba55b4cd95667e5d1fac9b07"></span><span></span><span class="kt">double</span> <span class="n">_Izz</span>
+</pre>
+<p>Izz centroidal inertia term, expressed in reference frame coordinates</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-inertia-t-iyx">
+<span id="doxid-unionksl-inertia-t-1ad902ca677203432d4a25b6d7928af981"></span><span></span><span class="kt">double</span> <span class="n">Iyx</span>
+</pre>
+<p>Ixy centroidal inertia term, expressed in reference frame coordinates</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-inertia-t-izy">
+<span id="doxid-unionksl-inertia-t-1af3382f7297d21c91524ab1e5a7f211a7"></span><span></span><span class="kt">double</span> <span class="n">Izy</span>
+</pre>
+<p>Iyz centroidal inertia term, expressed in reference frame coordinates</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-inertia-t-ixz">
+<span id="doxid-unionksl-inertia-t-1a33f55406e42b2af43c5e903dd3f9bc0a"></span><span></span><span class="kt">double</span> <span class="n">Ixz</span>
+</pre>
+<p>Izx centroidal inertia term, expressed in reference frame coordinates</p>
 </div>
 </div>
 </div>
 
 
           </div>
+          
         </div>
       </div>
     <div class="clearer"></div>
@@ -196,8 +200,8 @@
       &copy;2018, Kristopher Wehage, Roger Wehage.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.0+</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
       |
       <a href="../_sources/doxyrest/union_ksl_inertia_t.rst.txt"

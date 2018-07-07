@@ -1,0 +1,19 @@
+.. _SE3:
+.. title:: SE3
+
+SE3
+===
+
+The Special Orthogonal group, SO(3), consists of the set of 3x3 orthonormal matrices for rigid body rotations.
+
+SE3 matrices have the property that:
+
+.. math::
+
+    R^{-1} = R^T
+
+
+.. doxygenunion:: ksl_mat3x3_t
+
+
+.. doxygenunion:: ksl_mat3x3f_t

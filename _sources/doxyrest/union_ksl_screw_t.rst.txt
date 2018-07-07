@@ -19,10 +19,6 @@ Overview
 
 double precision screw consisting of a linear and angular vector pair in configuration space :ref:`More...<details-doxid-unionksl__screw__t>`
 
-.. _doxid-unionksl__screw__t_1ada5c023f9bd09a888176eebfac47dcba:
-.. _cid-ksl_screw_t::at:
-.. _doxid-unionksl__screw__t_1ac1f15c9c2e9410539274cae4be47fe23:
-.. _cid-ksl_screw_t::@45:
 .. _doxid-unionksl__screw__t_1a9e6c40f46851fd02a65e2a9839871ba4:
 .. _cid-ksl_screw_t::m0:
 .. _doxid-unionksl__screw__t_1a1966593d0013d38fa281b2976b095d70:
@@ -35,24 +31,20 @@ double precision screw consisting of a linear and angular vector pair in configu
 .. _cid-ksl_screw_t::m4:
 .. _doxid-unionksl__screw__t_1a5bb2b8380475be5eb8acc7b3e582fe40:
 .. _cid-ksl_screw_t::m5:
-.. _doxid-unionksl__screw__t_1af5d3603ee5d87c0cd1b29289c37d95ad:
-.. _cid-ksl_screw_t::m6:
-.. _doxid-unionksl__screw__t_1a54f7a2632f1b87ae8d5d84a2e1951416:
-.. _cid-ksl_screw_t::@47:
 .. ref-code-block:: cpp
 	:class: overview-code-block
 
 	// fields
 
-	double at [6]
+	double :ref:`at<doxid-unionksl__screw__t_1ada5c023f9bd09a888176eebfac47dcba>` [6]
 	:ref:`ksl_vec3_t<doxid-unionksl__vec3__t>` :ref:`lin<doxid-unionksl__screw__t_1ae874feb8d45111b747ab609800bccba0>`
+	:ref:`ksl_vec3_t<doxid-unionksl__vec3__t>` :ref:`ang<doxid-unionksl__screw__t_1a1f38cba5a2fc17b3850b51fded2a7094>`
 	double m0
 	double m1
 	double m2
 	double m3
 	double m4
 	double m5
-	double m6
 
 .. _details-doxid-unionksl__screw__t:
 
@@ -64,6 +56,15 @@ double precision screw consisting of a linear and angular vector pair in configu
 Fields
 ------
 
+.. _doxid-unionksl__screw__t_1ada5c023f9bd09a888176eebfac47dcba:
+.. _cid-ksl_screw_t::at:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	double at [6]
+
+allows accessing screw quantities at specified index
+
 .. _doxid-unionksl__screw__t_1ae874feb8d45111b747ab609800bccba0:
 .. _cid-ksl_screw_t::lin:
 .. ref-code-block:: cpp
@@ -71,5 +72,14 @@ Fields
 
 	:ref:`ksl_vec3_t<doxid-unionksl__vec3__t>` lin
 
-bound linear vector, e.g. linear velocity or acceleration
+free linear vector, e.g. linear velocity or acceleration
+
+.. _doxid-unionksl__screw__t_1a1f38cba5a2fc17b3850b51fded2a7094:
+.. _cid-ksl_screw_t::ang:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	:ref:`ksl_vec3_t<doxid-unionksl__vec3__t>` ang
+
+bound angular vector, e.g. angular velocity or angular acceleration
 

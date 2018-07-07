@@ -1,0 +1,189 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>struct ksl_print_options_t &#8212; KSL 0.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">KSL</a></h1>
+
+
+
+<p class="blurb">Kinematics Subroutine Library</p>
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notation/notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vectors/vectors.html">Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SO(3) and SE(3) Groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quaternions/quaternions.html">Quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trig/trig.html">Trigonometric Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../screws/screws.html">Screws</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coscrews/coscrews.html">Coscrews</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inertia/inertia.html">Inertia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../linalg/linalg.html">Linear Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zreferences.html">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="struct-ksl-print-options-t">
+<span id="cid-ksl-print-options-t"></span><span id="doxid-structksl-print-options-t"></span><span id="index-0"></span><h1>struct ksl_print_options_t<a class="headerlink" href="#struct-ksl-print-options-t" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<pre class="highlight overview-code-block literal-block">
+<span></span><span class="cp">#include</span> <span class="cpf">&lt;print.h&gt;</span>
+</pre>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>print formatting options <a class="reference internal" href="#details-doxid-structksl-print-options-t"><span class="std std-ref">More…</span></a></p>
+<pre class="highlight overview-code-block literal-block">
+<span></span><span class="c1">// fields</span>
+
+<span class="kt">char</span> <a class="reference internal" href="#doxid-structksl-print-options-t-1aadc27441ec71353d6538b4c0d84c00e1"><span class="std std-ref">delimiter</span></a><span></span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+<span class="kt">char</span> <a class="reference internal" href="#doxid-structksl-print-options-t-1af2141436a6ae5ce78ac5780e20470373"><span class="std std-ref">real_fmt</span></a><span></span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+<span class="kt">char</span> <a class="reference internal" href="#doxid-structksl-print-options-t-1a9b93af3d2506a3a3b8b18007021ae287"><span class="std std-ref">int_fmt</span></a><span></span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+<span class="kt">char</span> <a class="reference internal" href="#doxid-structksl-print-options-t-1afc87f82d22da9dbdaeda15602ff65f87"><span class="std std-ref">true_fmt</span></a><span></span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+<span class="kt">char</span> <a class="reference internal" href="#doxid-structksl-print-options-t-1a673fbf147cda30efe2dbdc7e1a4cedbe"><span class="std std-ref">false_fmt</span></a><span></span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+<span class="kt">char</span> <a class="reference internal" href="#doxid-structksl-print-options-t-1a4dfeb1f7a3fca786a773e52506d1bd81"><span class="std std-ref">inner_left_bracket</span></a><span></span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+<span class="kt">char</span> <a class="reference internal" href="#doxid-structksl-print-options-t-1a6e243ceb91568d86e9f8a349aae99db0"><span class="std std-ref">inner_right_bracket</span></a><span></span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+<span class="kt">char</span> <a class="reference internal" href="#doxid-structksl-print-options-t-1aea5fe6c8258734b8635959b53d1d2144"><span class="std std-ref">outer_left_bracket</span></a><span></span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+<span class="kt">char</span> <a class="reference internal" href="#doxid-structksl-print-options-t-1a8098c3eb77b9d270a40af0b0802ade49"><span class="std std-ref">outer_right_bracket</span></a><span></span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+<span class="n">ksl_print_breakBetweenLines_enum_t</span> <a class="reference internal" href="#doxid-structksl-print-options-t-1ab59b3a3c7b73272e36906c61db9e3fb2"><span class="std std-ref">line_breaks_in_matrices</span></a><span></span>
+<span class="n">ksl_matrix_enum_t</span> <a class="reference internal" href="#doxid-structksl-print-options-t-1aa1f961242b243097c2a1466cf8d00060"><span class="std std-ref">print_row_column_major</span></a>
+</pre>
+</div>
+<div class="section" id="detailed-documentation">
+<span id="details-doxid-structksl-print-options-t"></span><h2>Detailed Documentation<a class="headerlink" href="#detailed-documentation" title="Permalink to this headline">¶</a></h2>
+<p>print formatting options</p>
+<div class="section" id="fields">
+<h3>Fields<a class="headerlink" href="#fields" title="Permalink to this headline">¶</a></h3>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-print-options-t-delimiter">
+<span id="doxid-structksl-print-options-t-1aadc27441ec71353d6538b4c0d84c00e1"></span><span></span><span class="kt">char</span> <span class="n">delimiter</span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+</pre>
+<p>default delimiter, default: “, “</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-print-options-t-real-fmt">
+<span id="doxid-structksl-print-options-t-1af2141436a6ae5ce78ac5780e20470373"></span><span></span><span class="kt">char</span> <span class="n">real_fmt</span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+</pre>
+<p>formatting for doubles and floats, default: “%0.6g”</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-print-options-t-int-fmt">
+<span id="doxid-structksl-print-options-t-1a9b93af3d2506a3a3b8b18007021ae287"></span><span></span><span class="kt">char</span> <span class="n">int_fmt</span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+</pre>
+<p>formatting for ints: default: “%d”</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-print-options-t-true-fmt">
+<span id="doxid-structksl-print-options-t-1afc87f82d22da9dbdaeda15602ff65f87"></span><span></span><span class="kt">char</span> <span class="n">true_fmt</span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+</pre>
+<p>formatting for display of true boolean, default: “true”</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-print-options-t-false-fmt">
+<span id="doxid-structksl-print-options-t-1a673fbf147cda30efe2dbdc7e1a4cedbe"></span><span></span><span class="kt">char</span> <span class="n">false_fmt</span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+</pre>
+<p>formatting for display of false boolean, default: “false”</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-print-options-t-inner-left-bracket">
+<span id="doxid-structksl-print-options-t-1a4dfeb1f7a3fca786a773e52506d1bd81"></span><span></span><span class="kt">char</span> <span class="n">inner_left_bracket</span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+</pre>
+<p>default: “[“</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-print-options-t-inner-right-bracket">
+<span id="doxid-structksl-print-options-t-1a6e243ceb91568d86e9f8a349aae99db0"></span><span></span><span class="kt">char</span> <span class="n">inner_right_bracket</span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+</pre>
+<p>default: “]”</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-print-options-t-outer-left-bracket">
+<span id="doxid-structksl-print-options-t-1aea5fe6c8258734b8635959b53d1d2144"></span><span></span><span class="kt">char</span> <span class="n">outer_left_bracket</span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+</pre>
+<p>default: “[“</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-print-options-t-outer-right-bracket">
+<span id="doxid-structksl-print-options-t-1a8098c3eb77b9d270a40af0b0802ade49"></span><span></span><span class="kt">char</span> <span class="n">outer_right_bracket</span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+</pre>
+<p>default: “]”</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-print-options-t-line-breaks-in-matrices">
+<span id="doxid-structksl-print-options-t-1ab59b3a3c7b73272e36906c61db9e3fb2"></span><span></span><span class="n">ksl_print_breakBetweenLines_enum_t</span> <span class="n">line_breaks_in_matrices</span>
+</pre>
+<p>default: KSL_BREAK_BETWEEN_LINES</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-print-options-t-print-row-column-major">
+<span id="doxid-structksl-print-options-t-1aa1f961242b243097c2a1466cf8d00060"></span><span></span><span class="n">ksl_matrix_enum_t</span> <span class="n">print_row_column_major</span>
+</pre>
+<p>default: KSL_ROW_MAJOR</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018, Kristopher Wehage, Roger Wehage.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.0+</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="../_sources/doxyrest/struct_ksl_print_options_t.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -40,7 +40,7 @@ enum ksl_axis_enum_t
 
 	// enum values
 
-	KSL_AXIS_XYZ 
+	KSL_AXIS_XYZ = 0
 	KSL_AXIS_YZX 
 	KSL_AXIS_ZXY 
 	KSL_AXIS_XZY 

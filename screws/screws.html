@@ -9,16 +9,16 @@
     <title>Screws &#8212; KSL 0.0.0 documentation</title>
     <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Coscrews" href="../coscrews/coscrews.html" />
-    <link rel="prev" title="SE3" href="../SE3/SE3.html" />
+    <link rel="prev" title="Trigonometric Functions" href="../trig/trig.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -47,29 +47,30 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notation/notation.html">Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../vectors/vectors.html">Vectors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SE3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SO(3) and SE(3) Groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quaternions/quaternions.html">Quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trig/trig.html">Trigonometric Functions</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Screws</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#adjoint-matrix">Adjoint Matrix <span class="math notranslate nohighlight">\([Ad]\)</span></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#derivative-operator-matrices">Derivative operator matrices: <span class="math notranslate nohighlight">\([ad]\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adjoint-matrix-ad">Adjoint Matrix <span class="math notranslate nohighlight">\([Ad]\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#derivative-operator-matrices-ad">Derivative operator matrices: <span class="math notranslate nohighlight">\([ad]\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#influence-coefficient-matrices">Influence coefficient matrices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ksl-double-precision-screw-functions">KSL double precision screw functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ksl-single-precision-screw-functions">KSL single precision screw functions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../coscrews/coscrews.html">Coscrews</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../influence_coefficient_matrices/influence_coefficient_matrices.html">Influence Coefficient Matrices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../inertia/inertia.html">Inertia</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../lu_full/lu_full.html">Full Factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../linalg/linalg.html">Linear Algebra</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing/contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../zreferences.html">References</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../doxyrest/global.html">Global Namespace</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="../SE3/SE3.html" title="previous chapter">SE3</a></li>
+      <li>Previous: <a href="../trig/trig.html" title="previous chapter">Trigonometric Functions</a></li>
       <li>Next: <a href="../coscrews/coscrews.html" title="next chapter">Coscrews</a></li>
   </ul></li>
 </ul>
@@ -90,31 +91,33 @@
       </div>
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="screws">
 <span id="id1"></span><h1>Screws<a class="headerlink" href="#screws" title="Permalink to this headline">¶</a></h1>
 <p>In the early 1800s, Chasles proved that any change in the configuration of a rigid body can be parameterized in terms of a helical motion along a fixed axis <a href="#id2"><span class="problematic" id="id3">:cite:`chasles1830note`</span></a>. Poinsot is credited with the discovery that a system of forces acting on a rigid body can be resolved as a force acting along a line combined with a torque acting about the same line <a href="#id4"><span class="problematic" id="id5">:cite:`poinsot1806composition`</span></a>. Chasles’ and Poinsot’s work was later developed by Sir Robert Ball into the theory of screws <a href="#id6"><span class="problematic" id="id7">:cite:`ball1998treatise`</span></a>. Screws represent angular and translational quantities in a single 6x1 vector quantity. Not only do screws provide a systematic framework for kinematics and dynamics of mechanisms, their compact representation is well-suited for compact computer storage and facilitates vectorization.</p>
 <p>Linear and angular velocity can be combined into a single 6x1 quantity as:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\underline{\mathbf{v}} = \begin{Bmatrix}\underline{v}\\ \underline{\omega}\end{Bmatrix}\end{split}\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-screw-1">
+<span class="eqno">(1)<a class="headerlink" href="#equation-eq-screw-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\underline{\mathbf{v}} = \begin{Bmatrix}\underline{v}\\ \underline{\omega}\end{Bmatrix}\end{split}\]</div>
 <p>In 1873, Clifford coined the word <em>motor</em> to refer to this screw quantity (i.e. a combination of <em>motion</em> and <em>vector</em>) <a href="#id8"><span class="problematic" id="id9">:cite:`davidson2004robots`</span></a>. Later, Ball referred to this screw quantity as a <em>twist</em> <a href="#id10"><span class="problematic" id="id11">:cite:`ball1998treatise`</span></a>. The term <em>twist</em> is used more frequently in modern literature, and therefore is used in the present work.</p>
-<div class="section" id="adjoint-matrix">
-<h2>Adjoint Matrix <span class="math notranslate nohighlight">\([Ad]\)</span><a class="headerlink" href="#adjoint-matrix" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="adjoint-matrix-ad">
+<h2>Adjoint Matrix <span class="math notranslate nohighlight">\([Ad]\)</span><a class="headerlink" href="#adjoint-matrix-ad" title="Permalink to this headline">¶</a></h2>
 <p>The <span class="math notranslate nohighlight">\(6 \times 6\)</span> adjoint transformation matrix, <span class="math notranslate nohighlight">\([Ad]\)</span>, for transforming twists from one coordinate system to another can be formed from <span class="math notranslate nohighlight">\(SE(3)\)</span> matrices. The derivation is briefly summarized below:</p>
 <p>Consider a displacement about the <span class="math notranslate nohighlight">\(z\)</span> axis given by the Special Orthogonal <span class="math notranslate nohighlight">\(SO(3)\)</span> matrix:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\underline{a}=R_{ab}\underline{b}=
+<div class="math notranslate nohighlight" id="equation-eq-so3-matrix">
+<span class="eqno">(2)<a class="headerlink" href="#equation-eq-so3-matrix" title="Permalink to this equation">¶</a></span>\[\begin{split}\underline{a}=R_{ab}\underline{b}=
 \begin{bmatrix}
 cos\theta_z &amp; -sin\theta_z &amp; 0\\
 sin \theta_z &amp; cos\theta_z &amp; 0\\
 0 &amp; 0 &amp; 1
 \end{bmatrix}\underline{b}\end{split}\]</div>
 <p>Then</p>
-<div class="math notranslate nohighlight">
-\[\dot{a}=\dot{R}_{ab}=\left[ \dot{R_{ab}}R^T_{ab} \right] R_{ab}b\]</div>
-<div class="math notranslate nohighlight">
-\[\begin{split}\dot{R}^T=
+<div class="math notranslate nohighlight" id="equation-eq-velocity-transformation">
+<span class="eqno">(3)<a class="headerlink" href="#equation-eq-velocity-transformation" title="Permalink to this equation">¶</a></span>\[\dot{a}=\dot{R}_{ab}=\left[ \dot{R_{ab}}R^T_{ab} \right] R_{ab}b\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-omega-z">
+<span class="eqno">(4)<a class="headerlink" href="#equation-eq-omega-z" title="Permalink to this equation">¶</a></span>\[\begin{split}\dot{R}^T=
 \begin{bmatrix}
 -\dot{\theta_z} sin \theta_z &amp; -\dot{\theta_z} cos \theta_z &amp; 0\\
 \dot{\theta_z} cos \theta_z &amp; -\dot{\theta_z} sin \theta_z &amp; 0\\
@@ -131,8 +134,8 @@ cos \theta_z &amp; sin \theta_z &amp; 0\\
 0 &amp; 0 &amp; 0
 \end{bmatrix}=\tilde{\omega}_z\end{split}\]</div>
 <p>Where <span class="math notranslate nohighlight">\(\tilde{\omega}_z\)</span> is a skew symmetric matrix and the spatial velocity is given by</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\underline{\omega}=\begin{Bmatrix}
+<div class="math notranslate nohighlight" id="equation-eq-spatial-velocity">
+<span class="eqno">(5)<a class="headerlink" href="#equation-eq-spatial-velocity" title="Permalink to this equation">¶</a></span>\[\begin{split}\underline{\omega}=\begin{Bmatrix}
 0\\
 0\\
 \dot{\theta_z}
@@ -141,15 +144,15 @@ cos \theta_z &amp; sin \theta_z &amp; 0\\
 0\\0\\ \omega_z
 \end{Bmatrix}\end{split}\]</div>
 <p>The derivation can be extended to <span class="math notranslate nohighlight">\(SE(3)\)</span> matrices for rigid body transformations:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\underline{a}=\Phi_{ab}\underline{b}=
+<div class="math notranslate nohighlight" id="equation-eq-se3-matrix">
+<span class="eqno">(6)<a class="headerlink" href="#equation-eq-se3-matrix" title="Permalink to this equation">¶</a></span>\[\begin{split}\underline{a}=\Phi_{ab}\underline{b}=
 \begin{bmatrix}
 R_{ab} &amp; \underline{r}_{ab}\\
 0 &amp; 1
 \end{bmatrix}\underline{b}\end{split}\]</div>
 <p>and</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\dot{a}=\left[\dot{\Phi}_{ab}\Phi_{ab}^{-1}\right] q_{ab}\underline{b}=
+<div class="math notranslate nohighlight" id="equation-eq-se3-velocity-transformation">
+<span class="eqno">(7)<a class="headerlink" href="#equation-eq-se3-velocity-transformation" title="Permalink to this equation">¶</a></span>\[\begin{split}\dot{a}=\left[\dot{\Phi}_{ab}\Phi_{ab}^{-1}\right] q_{ab}\underline{b}=
 \begin{bmatrix}
 \dot{R}_{ab} &amp; \dot{\underline{r}}_{ab}\\
 0 &amp; 0
@@ -163,8 +166,8 @@ R_{ab} &amp; \underline{r}_{ab}\\
 0 &amp; 1
 \end{bmatrix}\underline{b}\end{split}\]</div>
 <p>simplifying yields:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\dot{\Phi}_{ab}\Phi_{ab}^{-1}=
+<div class="math notranslate nohighlight" id="equation-eq-spatial-velocity2">
+<span class="eqno">(8)<a class="headerlink" href="#equation-eq-spatial-velocity2" title="Permalink to this equation">¶</a></span>\[\begin{split}\dot{\Phi}_{ab}\Phi_{ab}^{-1}=
 \begin{bmatrix}
 \dot{R}_{ab}R^T_{ab} &amp; -\dot{R}_{ab}R^T_{ab}
 \underline{r}_{ab}+\dot{\underline{r}}_{ab}\\
@@ -181,8 +184,8 @@ R_{ab} &amp; \underline{r}_{ab}\\
 0 &amp; 0
 \end{bmatrix}\end{split}\]</div>
 <p>Which yields a <span class="math notranslate nohighlight">\(6\times 1\)</span> velocity screw, also known as a <em>twist</em>, <span class="math notranslate nohighlight">\(\underline{\mathbf{v}}\)</span>, where</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\underline{\mathbf{v}}=\begin{Bmatrix}
+<div class="math notranslate nohighlight" id="equation-eq-screw">
+<span class="eqno">(9)<a class="headerlink" href="#equation-eq-screw" title="Permalink to this equation">¶</a></span>\[\begin{split}\underline{\mathbf{v}}=\begin{Bmatrix}
 v_x\\
 v_y\\
 v_z\\
@@ -194,9 +197,9 @@ v_z\\
 \underline{v}\\
 \underline{\omega}
 \end{Bmatrix}\end{split}\]</div>
-<p>In the language of modern differential geometry, velocity screws are known as the <em>Lie algebra</em> of the SE(3) group; their group is designated as <span class="math notranslate nohighlight">\(se(3)\)</span> <a href="#id12"><span class="problematic" id="id13">:cite:`park1995lie`</span></a>. The quantity in Eq. <code class="xref eq docutils literal notranslate"><span class="pre">eq:spatial_velocity</span></code> can be expressed in other coordinate systems by a similarity transformation.</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{bmatrix}
+<p>In the language of modern differential geometry, velocity screws are known as the <em>Lie algebra</em> of the SE(3) group; their group is designated as <span class="math notranslate nohighlight">\(se(3)\)</span> <a href="#id12"><span class="problematic" id="id13">:cite:`park1995lie`</span></a>. The quantity in Eq. <a class="reference internal" href="#equation-eq-spatial-velocity">(5)</a> can be expressed in other coordinate systems by a similarity transformation.</p>
+<div class="math notranslate nohighlight" id="equation-eq-similarity-transformation">
+<span class="eqno">(10)<a class="headerlink" href="#equation-eq-similarity-transformation" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{bmatrix}
 \Omega' &amp; \underline{v}' \\
 0 &amp; 0
 \end{bmatrix}=
@@ -217,31 +220,31 @@ R\Omega R^T &amp; R\underline{v}-R\Omega R^T \underline{r} \\
 0 &amp; 0
 \end{bmatrix}\end{split}\]</div>
 <p>In computer implementation of the spatial velocity transformation, it is not necessary to perform the entire sequence of <span class="math notranslate nohighlight">\(4\times4\)</span> matrix operations. Not only can one exploit the matrix sparsity, but it is also possible to take advantage of the following identity to reduce the number of operations required. As the quantity <span class="math notranslate nohighlight">\(R\Omega R^T\)</span> is skew symmetric, it is only necessary to compute the <span class="math notranslate nohighlight">\(\omega'\)</span> terms as</p>
-<div class="math notranslate nohighlight">
-\[\omega'_x= (R_{22}R_{33}- R_{23}R_{32})\omega_x + (R_{23}R_{31} - R_{21}R_{32})\omega_y + (R_{21}R_{32} - R_{22}R_{31})\omega_z\]</div>
-<div class="math notranslate nohighlight">
-\[\omega'_y= (R_{13}R_{32}- R_{12}R_{33})\omega_x + (R_{11}R_{33} - R_{13}R_{31})\omega_y + (R_{12}R_{31} - R_{11}R_{32})\omega_z\]</div>
-<div class="math notranslate nohighlight">
-\[\omega'_z=(R_{12}R_{23} - R_{13}R_{22})\omega_x + (R_{13}R_{21} - R_{11}R_{23})\omega_y + (R_{12}R_{21} - R_{11}R_{22})\omega_z\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-identity1">
+<span class="eqno">(11)<a class="headerlink" href="#equation-eq-identity1" title="Permalink to this equation">¶</a></span>\[\omega'_x= (R_{22}R_{33}- R_{23}R_{32})\omega_x + (R_{23}R_{31} - R_{21}R_{32})\omega_y + (R_{21}R_{32} - R_{22}R_{31})\omega_z\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-identity2">
+<span class="eqno">(12)<a class="headerlink" href="#equation-eq-identity2" title="Permalink to this equation">¶</a></span>\[\omega'_y= (R_{13}R_{32}- R_{12}R_{33})\omega_x + (R_{11}R_{33} - R_{13}R_{31})\omega_y + (R_{12}R_{31} - R_{11}R_{32})\omega_z\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-identity3">
+<span class="eqno">(13)<a class="headerlink" href="#equation-eq-identity3" title="Permalink to this equation">¶</a></span>\[\omega'_z=(R_{12}R_{23} - R_{13}R_{22})\omega_x + (R_{13}R_{21} - R_{11}R_{23})\omega_y + (R_{12}R_{21} - R_{11}R_{22})\omega_z\]</div>
 <p>R is orthonormal and therefore the second row of R crossed with the third row yields the first row, and the following is true:</p>
-<div class="math notranslate nohighlight">
-\[R_{22}R_{33} - R_{23}R_{32} = R_{11}\]</div>
-<div class="math notranslate nohighlight">
-\[R_{23}R_{31} - R_{21}R_{32} = R_{12}\]</div>
-<div class="math notranslate nohighlight">
-\[R_{21}R_{32} - R_{22}R_{31} = R_{13}\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-identity4">
+<span class="eqno">(14)<a class="headerlink" href="#equation-eq-identity4" title="Permalink to this equation">¶</a></span>\[R_{22}R_{33} - R_{23}R_{32} = R_{11}\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-identity5">
+<span class="eqno">(15)<a class="headerlink" href="#equation-eq-identity5" title="Permalink to this equation">¶</a></span>\[R_{23}R_{31} - R_{21}R_{32} = R_{12}\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-identity6">
+<span class="eqno">(16)<a class="headerlink" href="#equation-eq-identity6" title="Permalink to this equation">¶</a></span>\[R_{21}R_{32} - R_{22}R_{31} = R_{13}\]</div>
 <p>and therefore:</p>
-<div class="math notranslate nohighlight">
-\[\omega'_x= R_{11}\omega_x + R_{12}\omega_y + R_{13}\omega_z\]</div>
-<div class="math notranslate nohighlight">
-\[\omega'_y= R_{21}\omega_x + R_{22}\omega_y + R_{23}\omega_z\]</div>
-<div class="math notranslate nohighlight">
-\[\omega'_z=R_{31}\omega_x + R_{32}\omega_y + R_{33}\omega_z\]</div>
-<div class="math notranslate nohighlight">
-\[\underline{\omega}'=R\underline{\omega}\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-identity7">
+<span class="eqno">(17)<a class="headerlink" href="#equation-eq-identity7" title="Permalink to this equation">¶</a></span>\[\omega'_x= R_{11}\omega_x + R_{12}\omega_y + R_{13}\omega_z\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-identity8">
+<span class="eqno">(18)<a class="headerlink" href="#equation-eq-identity8" title="Permalink to this equation">¶</a></span>\[\omega'_y= R_{21}\omega_x + R_{22}\omega_y + R_{23}\omega_z\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-identity9">
+<span class="eqno">(19)<a class="headerlink" href="#equation-eq-identity9" title="Permalink to this equation">¶</a></span>\[\omega'_z=R_{31}\omega_x + R_{32}\omega_y + R_{33}\omega_z\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-identity10">
+<span class="eqno">(20)<a class="headerlink" href="#equation-eq-identity10" title="Permalink to this equation">¶</a></span>\[\underline{\omega}'=R\underline{\omega}\]</div>
 <p>and</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{bmatrix}
+<div class="math notranslate nohighlight" id="equation-eq-identity11">
+<span class="eqno">(21)<a class="headerlink" href="#equation-eq-identity11" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{bmatrix}
 \Omega' &amp; \underline{v}' \\
 0 &amp; 0
 \end{bmatrix}=
@@ -254,8 +257,8 @@ R\Omega R^T &amp; R\underline{v}-R\Omega R^T \underline{r} \\
 0 &amp; 0
 \end{bmatrix}\end{split}\]</div>
 <p>Using this information, a <span class="math notranslate nohighlight">\(6\times6\)</span> adjoint transformation matrix can be generated to transform twists as</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{Bmatrix}
+<div class="math notranslate nohighlight" id="equation-eq-adjoint-matrix">
+<span class="eqno">(22)<a class="headerlink" href="#equation-eq-adjoint-matrix" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{Bmatrix}
 \underline{v}'\\\underline{\omega}'
 \end{Bmatrix}
 =\begin{bmatrix}
@@ -267,13 +270,13 @@ R &amp; \tilde{r}R\\
 \end{Bmatrix}=[Ad]\begin{Bmatrix}
 \underline{v}\\ \underline{\omega}
 \end{Bmatrix}\end{split}\]</div>
-<p>The matrix <span class="math notranslate nohighlight">\([Ad]\)</span> forms a <span class="math notranslate nohighlight">\(6\times6\)</span> screw <em>basis</em>. A similar matrix operator for transforming spatial velocities was introduced by Yuan and Freudenstein in 1970 <a href="#id14"><span class="problematic" id="id15">:cite:`yuan1970kinematic`</span></a>. Some authors put <span class="math notranslate nohighlight">\(\underline\omega\)</span> above <span class="math notranslate nohighlight">\(\underline v\)</span> as Yuan did. The form of spatial velocity specified in Eq. <code class="xref eq docutils literal notranslate"><span class="pre">eq:adjoint_matrix</span></code> was chosen in this work as it is the original order specified in Clifford’s Algebra <a href="#id16"><span class="problematic" id="id17">:cite:`clifford1882mathematical`</span></a> and is commonly used in flexible multibody dynamics formulations <a href="#id18"><span class="problematic" id="id19">:cite:`shabana2010computational`</span></a>.</p>
+<p>The matrix <span class="math notranslate nohighlight">\([Ad]\)</span> forms a <span class="math notranslate nohighlight">\(6\times6\)</span> screw <em>basis</em>. A similar matrix operator for transforming spatial velocities was introduced by Yuan and Freudenstein in 1970 <a href="#id14"><span class="problematic" id="id15">:cite:`yuan1970kinematic`</span></a>. Some authors put <span class="math notranslate nohighlight">\(\underline\omega\)</span> above <span class="math notranslate nohighlight">\(\underline v\)</span> as Yuan did. The form of spatial velocity specified in Eq. <a class="reference internal" href="#equation-eq-adjoint-matrix">(22)</a> was chosen in this work as it is the original order specified in Clifford’s Algebra <a href="#id16"><span class="problematic" id="id17">:cite:`clifford1882mathematical`</span></a> and is commonly used in flexible multibody dynamics formulations <a href="#id18"><span class="problematic" id="id19">:cite:`shabana2010computational`</span></a>.</p>
 <p>In the language of differential geometry, <span class="math notranslate nohighlight">\([Ad]\)</span> is known as the <em>adjoint representation</em> and provides a linear mapping of elements of a Lie algebra.</p>
-<p>The <span class="math notranslate nohighlight">\(6\times6\)</span> screw <em>basis</em>, <span class="math notranslate nohighlight">\([Ad]\)</span>, provides a convenient and compact notation for transforming screws, and therefore in computer implementation of the transformation, it is tempting to carry out full <span class="math notranslate nohighlight">\(6\times6\)</span> matrix algebra to transform twists. However, it is strongly emphasized that the full <span class="math notranslate nohighlight">\(6\times6\)</span> matrix algebra should <em>never</em> be carried out in computer code, and additionally that the full <span class="math notranslate nohighlight">\(6\times6 [Ad]\)</span> adjoint transformation matrix need not be stored or created in computer memory. In the present work, rigid body displacements are stored as a 12x1 array with the entries of a SO(3) rotation matrix stored in column-major order in the first 9 entries of the array, followed by a translation vector in the last 3 entries of the array. When computing <span class="math notranslate nohighlight">\(v'\)</span> and <span class="math notranslate nohighlight">\(\omega'\)</span> in Eq. <code class="xref eq docutils literal notranslate"><span class="pre">eq:adjoint_matrix</span></code>, it is only necessary to multiply the non-zero terms of the various quantities as:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{Bmatrix}\underline{v}'\\ \underline{\omega}'\end{Bmatrix} =
+<p>The <span class="math notranslate nohighlight">\(6\times6\)</span> screw <em>basis</em>, <span class="math notranslate nohighlight">\([Ad]\)</span>, provides a convenient and compact notation for transforming screws, and therefore in computer implementation of the transformation, it is tempting to carry out full <span class="math notranslate nohighlight">\(6\times6\)</span> matrix algebra to transform twists. However, it is strongly emphasized that the full <span class="math notranslate nohighlight">\(6\times6\)</span> matrix algebra should <em>never</em> be carried out in computer code, and additionally that the full <span class="math notranslate nohighlight">\(6\times6 [Ad]\)</span> adjoint transformation matrix need not be stored or created in computer memory. In the present work, rigid body displacements are stored as a 12x1 array with the entries of a SO(3) rotation matrix stored in column-major order in the first 9 entries of the array, followed by a translation vector in the last 3 entries of the array. When computing <span class="math notranslate nohighlight">\(v'\)</span> and <span class="math notranslate nohighlight">\(\omega'\)</span> in Eq. <a class="reference internal" href="#equation-eq-adjoint-matrix">(22)</a>, it is only necessary to multiply the non-zero terms of the various quantities as:</p>
+<div class="math notranslate nohighlight" id="equation-eq-twist-end-result">
+<span class="eqno">(23)<a class="headerlink" href="#equation-eq-twist-end-result" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{Bmatrix}\underline{v}'\\ \underline{\omega}'\end{Bmatrix} =
 \begin{Bmatrix}R\underline{v} +\tilde{r}R\underline{\omega}\\ R\underline{\omega}\end{Bmatrix}\end{split}\]</div>
-<p>The number of floating point operations required to compute the Eq. <code class="xref eq docutils literal notranslate"><span class="pre">eq:twist_end_result</span></code> are shown below:</p>
+<p>The number of floating point operations required to compute the Eq. <a class="reference internal" href="#equation-eq-twist-end-result">(23)</a> are shown below:</p>
 <table border="1" class="docutils" id="table1">
 <colgroup>
 <col width="49%" />
@@ -337,7 +340,7 @@ R &amp; \tilde{r}R\\
 <td>18</td>
 <td>Counts refers to the full, dense version.</td>
 </tr>
-<tr class="row-odd"><td>Full, dense Eq. <code class="xref eq docutils literal notranslate"><span class="pre">eq:adjoint_matrix</span></code></td>
+<tr class="row-odd"><td>Full, dense Eq. <a class="reference internal" href="#equation-eq-adjoint-matrix">(22)</a></td>
 <td>36</td>
 <td>30</td>
 <td>&#160;</td>
@@ -351,11 +354,11 @@ R &amp; \tilde{r}R\\
 </table>
 <p>Carrying out the minimal required operations to transform screw quantities requires 62% fewer operations, 66% less memory and many of the matrix-matrix and matrix-vector operations benefit from vectorization. The above example illustrates that although the notational convention of Lie algebra provides a convenient and compact representation of kinematic and dynamic quantities, care should be taken in the computer implementation of the operations described here. KSL consists of a custom, sparse, vectorized kinematics library consisting of over 200 functions for processing screw quantities and SE(3) displacements that uses the minimal set of operations as described above.</p>
 </div>
-<div class="section" id="derivative-operator-matrices">
-<h2>Derivative operator matrices: <span class="math notranslate nohighlight">\([ad]\)</span><a class="headerlink" href="#derivative-operator-matrices" title="Permalink to this headline">¶</a></h2>
-<p>In Eq. <code class="xref eq docutils literal notranslate"><span class="pre">eq:spatial_velocity2</span></code>, the derivative operator of the SE(3) group was found. Similarly, the derivative operator matrices for the <span class="math notranslate nohighlight">\(6 \times 6\)</span> transformation matrices, <span class="math notranslate nohighlight">\([Ad]\)</span> and <span class="math notranslate nohighlight">\([Ad]^*\)</span> can be found as follows:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}[ad] = \dot{[Ad]}[Ad]^{-1} =
+<div class="section" id="derivative-operator-matrices-ad">
+<h2>Derivative operator matrices: <span class="math notranslate nohighlight">\([ad]\)</span><a class="headerlink" href="#derivative-operator-matrices-ad" title="Permalink to this headline">¶</a></h2>
+<p>In Eq. <a class="reference internal" href="#equation-eq-spatial-velocity2">(8)</a>, the derivative operator of the SE(3) group was found. Similarly, the derivative operator matrices for the <span class="math notranslate nohighlight">\(6 \times 6\)</span> transformation matrices, <span class="math notranslate nohighlight">\([Ad]\)</span> and <span class="math notranslate nohighlight">\([Ad]^*\)</span> can be found as follows:</p>
+<div class="math notranslate nohighlight" id="equation-eq-adjoint-representation">
+<span class="eqno">(24)<a class="headerlink" href="#equation-eq-adjoint-representation" title="Permalink to this equation">¶</a></span>\[\begin{split}[ad] = \dot{[Ad]}[Ad]^{-1} =
 \begin{bmatrix}
 0 &amp; -\omega_z &amp; \omega_{y} &amp; 0 &amp; -v_z &amp; v_y\\
 \omega_z &amp; 0 &amp; -\omega_x &amp; v_z &amp; 0 &amp; -v_x\\
@@ -385,10 +388,807 @@ v_z &amp; 0 &amp; -v_x &amp;   \omega_z &amp; 0 &amp; -\omega_x\\
 \end{bmatrix}\end{split}\]</div>
 <p>Previously, it was discussed how the derivative operators form the Lie algebra of the SE(3) group. Similarly, the <span class="math notranslate nohighlight">\(6\times6\)</span> <span class="math notranslate nohighlight">\([Ad]\)</span> matrices themselves fulfill the necessary requirements of a Lie group <a href="#id20"><span class="problematic" id="id21">:cite:`selig2005geometric`</span></a>. The <span class="math notranslate nohighlight">\([ad]\)</span> and <span class="math notranslate nohighlight">\([ad]^*\)</span> matrices comprise their respective Lie algebras.</p>
 </div>
+<div class="section" id="influence-coefficient-matrices">
+<h2>Influence coefficient matrices<a class="headerlink" href="#influence-coefficient-matrices" title="Permalink to this headline">¶</a></h2>
+<p>An important tool in the analysis of mechanisms and multibody systems is a map of a particular joint’s velocity to the body velocity. From Eqs. <a class="reference internal" href="#equation-eq-omega-z">(4)</a> and <a class="reference internal" href="#equation-eq-screw">(9)</a>, it is possible to find the velocity screw associated with a revolute joint. The joint is aligned with <span class="math notranslate nohighlight">\(z\)</span> axis of reference frame <span class="math notranslate nohighlight">\(a\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\underline{\mathbf{v}}_a=
+\begin{Bmatrix}
+0\\0\\ 0\\ 0\\ 0\\\dot{q}
+\end{Bmatrix}=
+\begin{Bmatrix}
+0\\0\\ 0 \\0 \\0 \\1
+\end{Bmatrix}\dot{q}=\underline{\mathbf{h}}_a\dot{q}\end{split}\]</div>
+<p>Here <span class="math notranslate nohighlight">\(\underline{h}_a\)</span> is the <em>influence coefficient matrix</em> <a href="#id22"><span class="problematic" id="id23">:cite:`tsai1999robot`</span></a> associated with the joint. Note that the influence coefficient matrix taken at the joint’s origin is simply a unit twist, <span class="math notranslate nohighlight">\(\omega_z\)</span>, about the <span class="math notranslate nohighlight">\(z\)</span> axis.</p>
+<p>Usually it is desirable to express the influence coefficient matrix with respect to other coordinate systems, such as the inertial reference frame. Using the <span class="math notranslate nohighlight">\([Ad]\)</span> operator in Eq. <a class="reference internal" href="#equation-eq-screw">(9)</a> yields:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\underline{\mathbf{v}}_0=
+\underline{\mathbf{h}}_0\dot{q}=
+[Ad]_{0a} \underline{\mathbf{h}}_a\dot{q}=
+\begin{bmatrix}
+R_{0a} &amp;\tilde{r}_{0a}R_{0a}\\
+0 &amp; R_{0a}
+\end{bmatrix}
+\begin{Bmatrix}
+0\\0\\ 0 \\0 \\0 \\1
+\end{Bmatrix}\dot{q}\end{split}\]</div>
+<p>These influence coefficient matrices taken with respect to the inertial reference frame form elements of the Jacobian matrix of a mechanism. As a mechanism moves through varying configurations, <span class="math notranslate nohighlight">\(\underline{h}_0\)</span> changes, and may require updating many millions of times in the course of a simulation. Equation <a class="reference internal" href="../influence_coefficient_matrices/influence_coefficient_matrices.html#equation-eq-influence-coefficient-matrix">(2)</a> reveals important insight that allows one to reduce the number of floating point operations (FLOPs) required to update the influence coefficient matrix of primitive joints.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\underline{\mathbf{h}}_0=
+\begin{Bmatrix}
+r_yR_{33}-r_zR_{23}\\
+r_zR_{13}-r_xR_{33}\\
+r_xR_{23}-r_yR_{13}\\
+R_{13}\\
+R_{23}\\
+R_{33}\\
+\end{Bmatrix}=
+\begin{bmatrix}
+R_{11} &amp; R_{12} &amp; R_{13} &amp; r_yR_{31}-r_zR_{21} &amp; r_yR_{32}-r_zR_{22} &amp; r_yR_{33}-r_zR_{23}\\
+R_{21} &amp; R_{22} &amp; R_{11} &amp; r_zR_{11}-r_xR_{31} &amp; r_zR_{12}-r_xR_{32} &amp; r_zR_{13}-r_xR_{33}\\
+R_{31} &amp; R_{32} &amp; R_{33} &amp; r_xR_{21}-r_yR_{11} &amp; r_xR_{22}-r_yR_{12} &amp; r_xR_{23}-r_yR_{13}\\
+0 &amp; 0 &amp; 0 &amp; R_{11} &amp; R_{12} &amp; R_{13}\\
+0 &amp; 0 &amp; 0 &amp; R_{21} &amp; R_{22} &amp; R_{23}\\
+0 &amp; 0 &amp; 0 &amp; R_{31} &amp; R_{32} &amp; R_{33}\\
+\end{bmatrix}
+\begin{Bmatrix}
+0\\0\\ 0 \\0 \\0 \\1
+\end{Bmatrix}\end{split}\]</div>
+<p>Once the position and orientation of each joint in a mechanism has been computed, the influence coefficient matrix can be computed simply by forming the corresponding column of <span class="math notranslate nohighlight">\([Ad]\)</span>, which requires only 9 additional FLOPs for revolute joints and no additional FLOPs for prismatic joints. Additionally, if SE(3) displacements and the Jacobian matrix are stored in column-major order, updating the influence coefficient matrices and elements Jacobian matrix can be vectorized with a stride of 1, which is optimal in terms of memory access.</p>
+</div>
+<div class="section" id="ksl-double-precision-screw-functions">
+<h2>KSL double precision screw functions<a class="headerlink" href="#ksl-double-precision-screw-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="type">
+<dt id="_CPPv311ksl_screw_t">
+<span id="_CPPv211ksl_screw_t"></span><span id="ksl_screw_t"></span><span class="target" id="unionksl__screw__t"></span><em class="property">union </em><code class="descname">ksl_screw_t</code><a class="headerlink" href="#_CPPv311ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;screw.h&gt;</em><p>double precision screw consisting of a linear and angular vector pair in configuration space </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv3N11ksl_screw_t2atE">
+<span id="_CPPv2N11ksl_screw_t2atE"></span><span id="ksl_screw_t::at__doubleA"></span><span class="target" id="unionksl__screw__t_1ada5c023f9bd09a888176eebfac47dcba"></span>double <code class="descname">at</code>[6]<a class="headerlink" href="#_CPPv3N11ksl_screw_t2atE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>allows accessing screw quantities at specified index </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_screw_t3linE">
+<span id="_CPPv2N11ksl_screw_t3linE"></span><span id="ksl_screw_t::lin__ksl_vec3_t"></span><span class="target" id="unionksl__screw__t_1ae874feb8d45111b747ab609800bccba0"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">lin</code><a class="headerlink" href="#_CPPv3N11ksl_screw_t3linE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>free linear vector, e.g. linear velocity or acceleration </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_screw_t3angE">
+<span id="_CPPv2N11ksl_screw_t3angE"></span><span id="ksl_screw_t::ang__ksl_vec3_t"></span><span class="target" id="unionksl__screw__t_1a1f38cba5a2fc17b3850b51fded2a7094"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">ang</code><a class="headerlink" href="#_CPPv3N11ksl_screw_t3angE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>bound angular vector, e.g. angular velocity or angular acceleration </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_screw_tUt2_57E">
+<span class="target" id="unionksl__screw__t_1af60f2da2e40d8ad1c9af100216f71846"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N11ksl_screw_tUt2_57E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing screw quantities by field name or index </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_screw_t2m0E">
+<span id="_CPPv2N11ksl_screw_t2m0E"></span><span id="ksl_screw_t::m0__double"></span><span class="target" id="unionksl__screw__t_1a9e6c40f46851fd02a65e2a9839871ba4"></span>double <code class="descname">m0</code><a class="headerlink" href="#_CPPv3N11ksl_screw_t2m0E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_screw_t2m1E">
+<span id="_CPPv2N11ksl_screw_t2m1E"></span><span id="ksl_screw_t::m1__double"></span><span class="target" id="unionksl__screw__t_1a1966593d0013d38fa281b2976b095d70"></span>double <code class="descname">m1</code><a class="headerlink" href="#_CPPv3N11ksl_screw_t2m1E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_screw_t2m2E">
+<span id="_CPPv2N11ksl_screw_t2m2E"></span><span id="ksl_screw_t::m2__double"></span><span class="target" id="unionksl__screw__t_1a97aa3e2b96af7a7097f2a767a6da2dc2"></span>double <code class="descname">m2</code><a class="headerlink" href="#_CPPv3N11ksl_screw_t2m2E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_screw_t2m3E">
+<span id="_CPPv2N11ksl_screw_t2m3E"></span><span id="ksl_screw_t::m3__double"></span><span class="target" id="unionksl__screw__t_1ae589d0193e0deb1ba18df5f320e562f7"></span>double <code class="descname">m3</code><a class="headerlink" href="#_CPPv3N11ksl_screw_t2m3E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_screw_t2m4E">
+<span id="_CPPv2N11ksl_screw_t2m4E"></span><span id="ksl_screw_t::m4__double"></span><span class="target" id="unionksl__screw__t_1a36264ce6e0f7f69fcd30e59b709d2fd6"></span>double <code class="descname">m4</code><a class="headerlink" href="#_CPPv3N11ksl_screw_t2m4E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_screw_t2m5E">
+<span id="_CPPv2N11ksl_screw_t2m5E"></span><span id="ksl_screw_t::m5__double"></span><span class="target" id="unionksl__screw__t_1a5bb2b8380475be5eb8acc7b3e582fe40"></span>double <code class="descname">m5</code><a class="headerlink" href="#_CPPv3N11ksl_screw_t2m5E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_screw_tUt2_59E">
+<span class="target" id="unionksl__screw__t_1a141b833ea28cd7daab847941180271d5"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N11ksl_screw_tUt2_59E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing screw quantities by field name or index </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv39ksl_screwKdKdKdKdKdKd">
+<span id="_CPPv29ksl_screwKdKdKdKdKdKd"></span><span id="ksl_screw__doubleC.doubleC.doubleC.doubleC.doubleC.doubleC"></span><span class="target" id="screw_8h_1a074aa263bdba2e806f41b8c0fd70b049"></span><a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> <code class="descname">ksl_screw</code><span class="sig-paren">(</span><em class="property">const</em> double <em>m0</em>, <em class="property">const</em> double <em>m1</em>, <em class="property">const</em> double <em>m2</em>, <em class="property">const</em> double <em>m3</em>, <em class="property">const</em> double <em>m4</em>, <em class="property">const</em> double <em>m5</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv39ksl_screwKdKdKdKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>double precision screw constructor </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv315ksl_screw_alloci">
+<span id="_CPPv215ksl_screw_alloci"></span><span id="ksl_screw_alloc__i"></span><span class="target" id="screw_8h_1a4ee1e17a87eb36a6d46ea6b11207f1f1"></span><a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<code class="descname">ksl_screw_alloc</code><span class="sig-paren">(</span>int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_screw_alloci" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>allocate n double precision screw quantities on the heap, must be freed by the user. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv314ksl_screw_normPK11ksl_screw_t">
+<span id="_CPPv214ksl_screw_normPK11ksl_screw_t"></span><span id="ksl_screw_norm__ksl_screw_tCP"></span><span class="target" id="screw_8h_1aff240f06e66c05e2c67bef3296110d01"></span>double <code class="descname">ksl_screw_norm</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv314ksl_screw_normPK11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute the screw norm of a double precision spatial screw. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>screw norm </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">s</span></code>: [in] input screw </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv319ksl_screw_normalizeP11ksl_screw_t">
+<span id="_CPPv219ksl_screw_normalizeP11ksl_screw_t"></span><span id="ksl_screw_normalize__ksl_screw_tP"></span><span class="target" id="screw_8h_1af7e64780709d753afc65964a29b2d202"></span>void <code class="descname">ksl_screw_normalize</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_screw_normalizeP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_screw_normalizedPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv220ksl_screw_normalizedPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_screw_normalized__ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1aba24696734f91f274a313fcded239a9f"></span>void <code class="descname">ksl_screw_normalized</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_screw_normalizedPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv310ksl_dot_csPK13ksl_coscrew_tPK11ksl_screw_t">
+<span id="_CPPv210ksl_dot_csPK13ksl_coscrew_tPK11ksl_screw_t"></span><span id="ksl_dot_cs__ksl_coscrew_tCP.ksl_screw_tCP"></span><span class="target" id="screw_8h_1a1e16e01205618ecbb97ce9354a064eb5"></span>double <code class="descname">ksl_dot_cs</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../coscrews/coscrews.html#_CPPv313ksl_coscrew_t" title="ksl_coscrew_t">ksl_coscrew_t</a> *<em>ci</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv310ksl_dot_csPK13ksl_coscrew_tPK11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>compute double precision dot product between a coscrew and screw </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv314ks_screw_scale11ksl_screw_tKd">
+<span id="_CPPv214ks_screw_scale11ksl_screw_tKd"></span><span id="ks_screw_scale__ksl_screw_t.doubleC"></span><span class="target" id="screw_8h_1ace8288864ae74b66f23d5c80d8e32e36"></span>void <code class="descname">ks_screw_scale</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a>, <em class="property">const</em> double<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv314ks_screw_scale11ksl_screw_tKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv314ksl_screw_copyPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv214ksl_screw_copyPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_screw_copy__ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1a5c6f25b9ffae60a91a462cda40136fa7"></span>void <code class="descname">ksl_screw_copy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv314ksl_screw_copyPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Copy double precision <a class="reference internal" href="#unionksl__screw__t"><span class="std std-ref">ksl_screw_t</span></a> si to so. </p>
+<p><span class="math notranslate nohighlight">\(S_i \rightarrow S_o\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">si</span></code>: [in] screw to copy </li>
+<li><code class="docutils literal notranslate"><span class="pre">so</span></code>: [out] si is copied to so </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv316ksl_screw_invertP11ksl_screw_t">
+<span id="_CPPv216ksl_screw_invertP11ksl_screw_t"></span><span id="ksl_screw_invert__ksl_screw_tP"></span><span class="target" id="screw_8h_1a3b1aea456f3d39464b038afc44fb97f1"></span>void <code class="descname">ksl_screw_invert</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_screw_invertP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Invert (i.e. negate) a <a class="reference internal" href="#unionksl__screw__t"><span class="std std-ref">ksl_screw_t</span></a> in place. </p>
+<p><span class="math notranslate nohighlight">\(\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}\)</span> <span class="math notranslate nohighlight">\(-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">si</span></code>: [in/out] screw to invert </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv318ksl_screw_invertedPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv218ksl_screw_invertedPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_screw_inverted__ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1aa2765f5d941bc8d85286a06ba74f3669"></span>void <code class="descname">ksl_screw_inverted</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_screw_invertedPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns the inverse of a <a class="reference internal" href="#unionksl__screw__t"><span class="std std-ref">ksl_screw_t</span></a>. </p>
+<p><span class="math notranslate nohighlight">\(\mathbf{\underline{s}}_i^{-1} \rightarrow \mathbf{\underline{s}}_o\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">si</span></code>: [in] screw to invert </li>
+<li><code class="docutils literal notranslate"><span class="pre">so</span></code>: [out] inverse of si </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv311ksl_axpy_ssKdPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv211ksl_axpy_ssKdPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_axpy_ss__doubleC.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1abcab2c37336344271936eca5eebd07b7"></span>void <code class="descname">ksl_axpy_ss</code><span class="sig-paren">(</span><em class="property">const</em> double, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv311ksl_axpy_ssKdPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>compute axpy (a * x + y  y) operation for double precision screws </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv310ksl_xpy_ssPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv210ksl_xpy_ssPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_xpy_ss__ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1a030fb18f21d0e205b91e9a43fa72952e"></span>void <code class="descname">ksl_xpy_ss</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv310ksl_xpy_ssPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv311ksl_nxpy_ssPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv211ksl_nxpy_ssPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_nxpy_ss__ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1aed7ec16489a53e348a93db9e61e4302e"></span>void <code class="descname">ksl_nxpy_ss</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv311ksl_nxpy_ssPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv314ksl_product_asKdPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv214ksl_product_asKdPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_product_as__doubleC.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1a9b90bf999e5c58cfcb8c238a68a99771"></span>void <code class="descname">ksl_product_as</code><span class="sig-paren">(</span><em class="property">const</em> double <em>k</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv314ksl_product_asKdPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv310ksl_add_ssPK11ksl_screw_tPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv210ksl_add_ssPK11ksl_screw_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_add_ss__ksl_screw_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1a8eb9d4d35c89e369b2f2fd2a4af5edfb"></span>void <code class="descname">ksl_add_ss</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>s1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>s2i</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv310ksl_add_ssPK11ksl_screw_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv315ksl_subtract_ssPK11ksl_screw_tPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv215ksl_subtract_ssPK11ksl_screw_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_subtract_ss__ksl_screw_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1aa9fa9d761704fa1153f623507352348d"></span>void <code class="descname">ksl_subtract_ss</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>s1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>s2i</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_subtract_ssPK11ksl_screw_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv311ksl_add_sstPK11ksl_screw_tPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv211ksl_add_sstPK11ksl_screw_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_add_sst__ksl_screw_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1a694609a9973a623afeefda1bc064dae2"></span>void <code class="descname">ksl_add_sst</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si1</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si2</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv311ksl_add_sstPK11ksl_screw_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv38ksl_htxfPK10ksl_SE3f_tP12ksl_screwf_t">
+<span id="_CPPv28ksl_htxfPK10ksl_SE3f_tP12ksl_screwf_t"></span><span id="ksl_htxf__ksl_SE3f_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a1f13aea633ae9ca05fd505ee42438a9c"></span>void <code class="descname">ksl_htxf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv38ksl_htxfPK10ksl_SE3f_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv38ksl_htyfPK10ksl_SE3f_tP12ksl_screwf_t">
+<span id="_CPPv28ksl_htyfPK10ksl_SE3f_tP12ksl_screwf_t"></span><span id="ksl_htyf__ksl_SE3f_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1ab5097bed364627bfafd5d2ffc1a65c21"></span>void <code class="descname">ksl_htyf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv38ksl_htyfPK10ksl_SE3f_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv37ksl_htzPK9ksl_SE3_tP11ksl_screw_t">
+<span id="_CPPv27ksl_htzPK9ksl_SE3_tP11ksl_screw_t"></span><span id="ksl_htz__ksl_SE3_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1a6c9fd5d6bda14c8776a9039da9c68edb"></span>void <code class="descname">ksl_htz</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>ri</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv37ksl_htzPK9ksl_SE3_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv37ksl_hrxPK9ksl_SE3_tP11ksl_screw_t">
+<span id="_CPPv27ksl_hrxPK9ksl_SE3_tP11ksl_screw_t"></span><span id="ksl_hrx__ksl_SE3_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1ab5fbd0fad8e93a98f1739d487548baab"></span>void <code class="descname">ksl_hrx</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv37ksl_hrxPK9ksl_SE3_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv37ksl_hryPK9ksl_SE3_tP11ksl_screw_t">
+<span id="_CPPv27ksl_hryPK9ksl_SE3_tP11ksl_screw_t"></span><span id="ksl_hry__ksl_SE3_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1a34682efe1a0b82d7922aa422b30fb337"></span>void <code class="descname">ksl_hry</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv37ksl_hryPK9ksl_SE3_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv37ksl_hrzPK9ksl_SE3_tP11ksl_screw_t">
+<span id="_CPPv27ksl_hrzPK9ksl_SE3_tP11ksl_screw_t"></span><span id="ksl_hrz__ksl_SE3_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1a12134a4aa42f6da6b546e1310075236b"></span>void <code class="descname">ksl_hrz</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv37ksl_hrzPK9ksl_SE3_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv310ksl_htxinvPK9ksl_SE3_tP11ksl_screw_t">
+<span id="_CPPv210ksl_htxinvPK9ksl_SE3_tP11ksl_screw_t"></span><span id="ksl_htxinv__ksl_SE3_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1a64e6347999ca22e50bcc471cd0c0e35e"></span>void <code class="descname">ksl_htxinv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv310ksl_htxinvPK9ksl_SE3_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv310ksl_htyinvPK9ksl_SE3_tP11ksl_screw_t">
+<span id="_CPPv210ksl_htyinvPK9ksl_SE3_tP11ksl_screw_t"></span><span id="ksl_htyinv__ksl_SE3_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1a518f1c41de8bb4b75fcfeb4835f262c2"></span>void <code class="descname">ksl_htyinv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv310ksl_htyinvPK9ksl_SE3_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv310ksl_htzinvPK9ksl_SE3_tP11ksl_screw_t">
+<span id="_CPPv210ksl_htzinvPK9ksl_SE3_tP11ksl_screw_t"></span><span id="ksl_htzinv__ksl_SE3_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1a913fceabb404e4a65e7a8f397207a760"></span>void <code class="descname">ksl_htzinv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv310ksl_htzinvPK9ksl_SE3_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv310ksl_hrxinvPK9ksl_SE3_tP11ksl_screw_t">
+<span id="_CPPv210ksl_hrxinvPK9ksl_SE3_tP11ksl_screw_t"></span><span id="ksl_hrxinv__ksl_SE3_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1ae03a4efc62eb052700680af0a562b1ec"></span>void <code class="descname">ksl_hrxinv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv310ksl_hrxinvPK9ksl_SE3_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv310ksl_hryinvPK9ksl_SE3_tP11ksl_screw_t">
+<span id="_CPPv210ksl_hryinvPK9ksl_SE3_tP11ksl_screw_t"></span><span id="ksl_hryinv__ksl_SE3_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1a644b5464130512659a1231f13916e7ed"></span>void <code class="descname">ksl_hryinv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv310ksl_hryinvPK9ksl_SE3_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv310ksl_hrzinvPK9ksl_SE3_tP11ksl_screw_t">
+<span id="_CPPv210ksl_hrzinvPK9ksl_SE3_tP11ksl_screw_t"></span><span id="ksl_hrzinv__ksl_SE3_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1ad8858eccb5fa00cbba06989f3d362ead"></span>void <code class="descname">ksl_hrzinv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv310ksl_hrzinvPK9ksl_SE3_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv312ksl_cross_ssPK11ksl_screw_tPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv212ksl_cross_ssPK11ksl_screw_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_cross_ss__ksl_screw_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1a3f90c6d736fcf3adcc7cede0de5ac98d"></span>void <code class="descname">ksl_cross_ss</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>s1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>s2i</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv312ksl_cross_ssPK11ksl_screw_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>double precision screw cross product </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv313ksl_cross_sstPK11ksl_screw_tPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv213ksl_cross_sstPK11ksl_screw_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_cross_sst__ksl_screw_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1a92a2407b4024712b0fbee78f896ed203"></span>void <code class="descname">ksl_cross_sst</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>s1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>s2i</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv313ksl_cross_sstPK11ksl_screw_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv316ksl_product_AdrsPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv216ksl_product_AdrsPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_product_Adrs__ksl_mat3x3_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1a22606f0ceb8788b12eb25a20d38be7a1"></span>void <code class="descname">ksl_product_Adrs</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_product_AdrsPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>rotates a double precision screw </p>
+<p>Store product of direction cosine matrix ri with spatial vector si in so.</p>
+<p><span class="math notranslate nohighlight">\( R_i * S_i[0:2] \rightarrow S_o[0:2]\)</span></p>
+<p><span class="math notranslate nohighlight">\( R_i * S_i[3:5] \rightarrow S_o[3:5]\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">ri</span></code>: a SO3 rotation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">si</span></code>: a 1x6 screw </li>
+<li><code class="docutils literal notranslate"><span class="pre">so</span></code>: the output of ri * si is returned in so </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv319ksl_product_AdrsinvPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv219ksl_product_AdrsinvPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_product_Adrsinv__ksl_mat3x3_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1ae2aa2e7020f68dd9b4716b9400cc754e"></span>void <code class="descname">ksl_product_Adrsinv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_AdrsinvPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv319ksl_product_AdrinvsPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv219ksl_product_AdrinvsPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_product_Adrinvs__ksl_mat3x3_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1aadc61d866d74258ccc9bdfe151213ff8"></span>void <code class="descname">ksl_product_Adrinvs</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_AdrinvsPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv316ksl_product_AdtsPK10ksl_vec3_tPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv216ksl_product_AdtsPK10ksl_vec3_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_product_Adts__ksl_vec3_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1ad608d5b26172dbcc52dbd454b664e693"></span>void <code class="descname">ksl_product_Adts</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>ti</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_product_AdtsPK10ksl_vec3_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv319ksl_product_AdtinvsPK10ksl_vec3_tPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv219ksl_product_AdtinvsPK10ksl_vec3_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_product_Adtinvs__ksl_vec3_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1aff6e27f1af1f740ab4ff3319a74b3a69"></span>void <code class="descname">ksl_product_Adtinvs</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>ti</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_AdtinvsPK10ksl_vec3_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv319ksl_product_AdtsinvPK10ksl_vec3_tPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv219ksl_product_AdtsinvPK10ksl_vec3_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_product_Adtsinv__ksl_vec3_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1ac01634179e19f20f6bd8c7cbc597437d"></span>void <code class="descname">ksl_product_Adtsinv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>ti</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_AdtsinvPK10ksl_vec3_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv315ksl_product_AdsPK9ksl_SE3_tPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv215ksl_product_AdsPK9ksl_SE3_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_product_Ads__ksl_SE3_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1a1d19786f414359ed21a6649d8be99e57"></span>void <code class="descname">ksl_product_Ads</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>Di</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_product_AdsPK9ksl_SE3_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>General spatial transformation a double precision screw. </p>
+<p>Store product of direction cosine matrix ri with spatial vector si in so.</p>
+<p><span class="math notranslate nohighlight">\( R_i * S_i[0:2] \rightarrow S_o[0:2]\)</span></p>
+<p><span class="math notranslate nohighlight">\( R_i * S_i[3:5] \rightarrow S_o[3:5]\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">ri</span></code>: a SO3 rotation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">si</span></code>: a 1x6 screw </li>
+<li><code class="docutils literal notranslate"><span class="pre">so</span></code>: the output of ri * si is returned in so </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv318ksl_product_AdsinvPK9ksl_SE3_tPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv218ksl_product_AdsinvPK9ksl_SE3_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_product_Adsinv__ksl_SE3_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1ac9de2b0dfe4e74cf65f3238c0745a675"></span>void <code class="descname">ksl_product_Adsinv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>Di</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_product_AdsinvPK9ksl_SE3_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv318ksl_product_AdinvsPK9ksl_SE3_tPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv218ksl_product_AdinvsPK9ksl_SE3_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_product_Adinvs__ksl_SE3_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1a66239941994450b928f4ce8fd2016f2c"></span>void <code class="descname">ksl_product_Adinvs</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>Di</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_product_AdinvsPK9ksl_SE3_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+</div>
+<div class="section" id="ksl-single-precision-screw-functions">
+<h2>KSL single precision screw functions<a class="headerlink" href="#ksl-single-precision-screw-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="type">
+<dt id="_CPPv312ksl_screwf_t">
+<span id="_CPPv212ksl_screwf_t"></span><span id="ksl_screwf_t"></span><span class="target" id="unionksl__screwf__t"></span><em class="property">union </em><code class="descname">ksl_screwf_t</code><a class="headerlink" href="#_CPPv312ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;screw.h&gt;</em><p>single precision screw consisting of a linear and angular vector pair in configuration space </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv3N12ksl_screwf_t2atE">
+<span id="_CPPv2N12ksl_screwf_t2atE"></span><span id="ksl_screwf_t::at__floatA"></span><span class="target" id="unionksl__screwf__t_1a9de51f2c5f979d88482339fe26ea9c58"></span>float <code class="descname">at</code>[6]<a class="headerlink" href="#_CPPv3N12ksl_screwf_t2atE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>allows accessing screw quantities at specified index </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_screwf_t3linE">
+<span id="_CPPv2N12ksl_screwf_t3linE"></span><span id="ksl_screwf_t::lin__ksl_vec3f_t"></span><span class="target" id="unionksl__screwf__t_1a021a5251d03bc384509ed69c6a78d8ed"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <code class="descname">lin</code><a class="headerlink" href="#_CPPv3N12ksl_screwf_t3linE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>free linear vector, e.g. linear velocity or acceleration </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_screwf_tUt2_61E">
+<span class="target" id="unionksl__screwf__t_1a9161515d0e47b5bd445bd0ffabf7a0e1"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N12ksl_screwf_tUt2_61E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing screw quantities by field name or index </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_screwf_t2m0E">
+<span id="_CPPv2N12ksl_screwf_t2m0E"></span><span id="ksl_screwf_t::m0__float"></span><span class="target" id="unionksl__screwf__t_1ac5570c4616705a58573950813e84b82f"></span>float <code class="descname">m0</code><a class="headerlink" href="#_CPPv3N12ksl_screwf_t2m0E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_screwf_t2m1E">
+<span id="_CPPv2N12ksl_screwf_t2m1E"></span><span id="ksl_screwf_t::m1__float"></span><span class="target" id="unionksl__screwf__t_1aa91e8cfe0e4aab0dcccbe5e7e7f2a3cb"></span>float <code class="descname">m1</code><a class="headerlink" href="#_CPPv3N12ksl_screwf_t2m1E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_screwf_t2m2E">
+<span id="_CPPv2N12ksl_screwf_t2m2E"></span><span id="ksl_screwf_t::m2__float"></span><span class="target" id="unionksl__screwf__t_1a1369fa68e2b9d328b01427b2778d94fa"></span>float <code class="descname">m2</code><a class="headerlink" href="#_CPPv3N12ksl_screwf_t2m2E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_screwf_t2m3E">
+<span id="_CPPv2N12ksl_screwf_t2m3E"></span><span id="ksl_screwf_t::m3__float"></span><span class="target" id="unionksl__screwf__t_1aaf4a94057162a07d927e74cf00026bdd"></span>float <code class="descname">m3</code><a class="headerlink" href="#_CPPv3N12ksl_screwf_t2m3E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_screwf_t2m4E">
+<span id="_CPPv2N12ksl_screwf_t2m4E"></span><span id="ksl_screwf_t::m4__float"></span><span class="target" id="unionksl__screwf__t_1a8917fae33553d3abe455848ac1c4deb2"></span>float <code class="descname">m4</code><a class="headerlink" href="#_CPPv3N12ksl_screwf_t2m4E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_screwf_t2m5E">
+<span id="_CPPv2N12ksl_screwf_t2m5E"></span><span id="ksl_screwf_t::m5__float"></span><span class="target" id="unionksl__screwf__t_1a8f4c3e9594ce783cf4773e214aa255da"></span>float <code class="descname">m5</code><a class="headerlink" href="#_CPPv3N12ksl_screwf_t2m5E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_screwf_tUt2_63E">
+<span class="target" id="unionksl__screwf__t_1a78f45e9e931db5312f5162269187e921"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N12ksl_screwf_tUt2_63E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing screw quantities by field name or index </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv310ksl_screwfKfKfKfKfKfKf">
+<span id="_CPPv210ksl_screwfKfKfKfKfKfKf"></span><span id="ksl_screwf__floatC.floatC.floatC.floatC.floatC.floatC"></span><span class="target" id="screw_8h_1a47ed7eeed2d9f65a783981f5f7af27e3"></span><a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> <code class="descname">ksl_screwf</code><span class="sig-paren">(</span><em class="property">const</em> float <em>m0</em>, <em class="property">const</em> float <em>m1</em>, <em class="property">const</em> float <em>m2</em>, <em class="property">const</em> float <em>m3</em>, <em class="property">const</em> float <em>m4</em>, <em class="property">const</em> float <em>m5</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv310ksl_screwfKfKfKfKfKfKf" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>single precision screw constructor </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv316ksl_screwf_alloci">
+<span id="_CPPv216ksl_screwf_alloci"></span><span id="ksl_screwf_alloc__i"></span><span class="target" id="screw_8h_1a8b961eb4dc4f53561129118e64978b32"></span><a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<code class="descname">ksl_screwf_alloc</code><span class="sig-paren">(</span>int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_screwf_alloci" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>allocate n single precision screw quantities on the heap, must be freed by the user. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv315ksl_screwf_normPK12ksl_screwf_t">
+<span id="_CPPv215ksl_screwf_normPK12ksl_screwf_t"></span><span id="ksl_screwf_norm__ksl_screwf_tCP"></span><span class="target" id="screw_8h_1a183da8324398b1c29254ad6038a04ea6"></span>float <code class="descname">ksl_screwf_norm</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_screwf_normPK12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute the screw norm of a single precision spatial screw. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>screw norm </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">s</span></code>: [in] input screw </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_screwf_normalizeP12ksl_screwf_t">
+<span id="_CPPv220ksl_screwf_normalizeP12ksl_screwf_t"></span><span id="ksl_screwf_normalize__ksl_screwf_tP"></span><span class="target" id="screw_8h_1a34cae9d994d45ddeb3350f721a653939"></span>void <code class="descname">ksl_screwf_normalize</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_screwf_normalizeP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_screw_normalizedPK11ksl_screw_tP11ksl_screw_t">
+<span id="_CPPv220ksl_screw_normalizedPK11ksl_screw_tP11ksl_screw_t"></span><span class="target" id="screw_8h_1aba24696734f91f274a313fcded239a9f"></span>void <code class="descname">ksl_screw_normalized</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv311ksl_dot_csfPK14ksl_coscrewf_tPK12ksl_screwf_t">
+<span id="_CPPv211ksl_dot_csfPK14ksl_coscrewf_tPK12ksl_screwf_t"></span><span id="ksl_dot_csf__ksl_coscrewf_tCP.ksl_screwf_tCP"></span><span class="target" id="screw_8h_1a6573ab37452003260c07690964c1d5aa"></span>float <code class="descname">ksl_dot_csf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../coscrews/coscrews.html#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>ci</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv311ksl_dot_csfPK14ksl_coscrewf_tPK12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>compute single precision dot product between a coscrew and screw </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv315ks_screwf_scale12ksl_screwf_tKf">
+<span id="_CPPv215ks_screwf_scale12ksl_screwf_tKf"></span><span id="ks_screwf_scale__ksl_screwf_t.floatC"></span><span class="target" id="screw_8h_1acb56e1c2c428883359aa0bd2186d6ff3"></span>void <code class="descname">ks_screwf_scale</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a>, <em class="property">const</em> float<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ks_screwf_scale12ksl_screwf_tKf" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv315ksl_screwf_copyPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv215ksl_screwf_copyPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_screwf_copy__ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a9b38f6219c0b2ad9504d5d1a9c7c652f"></span>void <code class="descname">ksl_screwf_copy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_screwf_copyPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Copy single precision <a class="reference internal" href="#unionksl__screwf__t"><span class="std std-ref">ksl_screwf_t</span></a> si to so. </p>
+<p><span class="math notranslate nohighlight">\(S_i \rightarrow S_o\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">si</span></code>: [in] screw to copy </li>
+<li><code class="docutils literal notranslate"><span class="pre">so</span></code>: [out] si is copied to so </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv317ksl_screwf_invertP12ksl_screwf_t">
+<span id="_CPPv217ksl_screwf_invertP12ksl_screwf_t"></span><span id="ksl_screwf_invert__ksl_screwf_tP"></span><span class="target" id="screw_8h_1a6405e06d36986bdcd43fce3084c24461"></span>void <code class="descname">ksl_screwf_invert</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv317ksl_screwf_invertP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Invert (i.e. negate) a <a class="reference internal" href="#unionksl__screwf__t"><span class="std std-ref">ksl_screwf_t</span></a> in place. </p>
+<p><span class="math notranslate nohighlight">\(\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}\)</span> <span class="math notranslate nohighlight">\(-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">si</span></code>: [in/out] screw to invert </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv319ksl_screwf_invertedPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv219ksl_screwf_invertedPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_screwf_inverted__ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a0009bdfe7542a64fc2383d193c8c202d"></span>void <code class="descname">ksl_screwf_inverted</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_screwf_invertedPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns the inverse of a <a class="reference internal" href="#unionksl__screwf__t"><span class="std std-ref">ksl_screwf_t</span></a>. </p>
+<p><span class="math notranslate nohighlight">\(\mathbf{\underline{s}}_i^{-1} \rightarrow \mathbf{\underline{s}}_o\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">si</span></code>: [in] screw to invert </li>
+<li><code class="docutils literal notranslate"><span class="pre">so</span></code>: [out] inverse of si </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv312ksl_axpy_ssfKfPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv212ksl_axpy_ssfKfPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_axpy_ssf__floatC.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1ade69b9088fef0ec2689b3c9ce60472f7"></span>void <code class="descname">ksl_axpy_ssf</code><span class="sig-paren">(</span><em class="property">const</em> float, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv312ksl_axpy_ssfKfPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>compute axpy (a * x + y  y) operation for single precision screws </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv311ksl_xpy_ssfPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv211ksl_xpy_ssfPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_xpy_ssf__ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a3c7c48bc899eec2ba4d654316e860f8b"></span>void <code class="descname">ksl_xpy_ssf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv311ksl_xpy_ssfPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv312ksl_nxpy_ssfPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv212ksl_nxpy_ssfPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_nxpy_ssf__ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a06f69525c025aff9c5ad730dfd4d1441"></span>void <code class="descname">ksl_nxpy_ssf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv312ksl_nxpy_ssfPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv315ksl_product_asfKfPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv215ksl_product_asfKfPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_product_asf__floatC.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a820e13bbb612f278942f5a71ef24f9ab"></span>void <code class="descname">ksl_product_asf</code><span class="sig-paren">(</span><em class="property">const</em> float <em>k</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_product_asfKfPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv311ksl_add_ssfPK12ksl_screwf_tPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv211ksl_add_ssfPK12ksl_screwf_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_add_ssf__ksl_screwf_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a3c9494d3792e49454c7fbb3ac2d89352"></span>void <code class="descname">ksl_add_ssf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>s1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>s2i</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv311ksl_add_ssfPK12ksl_screwf_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv316ksl_subtract_ssfPK12ksl_screwf_tPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv216ksl_subtract_ssfPK12ksl_screwf_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_subtract_ssf__ksl_screwf_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1ad86f76d66b897618d6e0bce5a9edde02"></span>void <code class="descname">ksl_subtract_ssf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>s1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>s2i</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_subtract_ssfPK12ksl_screwf_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv312ksl_add_sstfPK12ksl_screwf_tPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv212ksl_add_sstfPK12ksl_screwf_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_add_sstf__ksl_screwf_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1ae4371aea3644d376a82ecf329ce934fb"></span>void <code class="descname">ksl_add_sstf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si1</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si2</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv312ksl_add_sstfPK12ksl_screwf_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv38ksl_htxfPK10ksl_SE3f_tP12ksl_screwf_t">
+<span id="_CPPv28ksl_htxfPK10ksl_SE3f_tP12ksl_screwf_t"></span><span class="target" id="screw_8h_1a1f13aea633ae9ca05fd505ee42438a9c"></span>void <code class="descname">ksl_htxf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>ho</em><span class="sig-paren">)</span><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv38ksl_htyfPK10ksl_SE3f_tP12ksl_screwf_t">
+<span id="_CPPv28ksl_htyfPK10ksl_SE3f_tP12ksl_screwf_t"></span><span class="target" id="screw_8h_1ab5097bed364627bfafd5d2ffc1a65c21"></span>void <code class="descname">ksl_htyf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>ho</em><span class="sig-paren">)</span><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv38ksl_htzfPK10ksl_SE3f_tP12ksl_screwf_t">
+<span id="_CPPv28ksl_htzfPK10ksl_SE3f_tP12ksl_screwf_t"></span><span id="ksl_htzf__ksl_SE3f_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1afb53bc09a2fd5ccacb58a3d3a59e2cda"></span>void <code class="descname">ksl_htzf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>ri</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv38ksl_htzfPK10ksl_SE3f_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv38ksl_hrxfPK10ksl_SE3f_tP12ksl_screwf_t">
+<span id="_CPPv28ksl_hrxfPK10ksl_SE3f_tP12ksl_screwf_t"></span><span id="ksl_hrxf__ksl_SE3f_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a52cb7ed0ef48209762827917f7628ca2"></span>void <code class="descname">ksl_hrxf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv38ksl_hrxfPK10ksl_SE3f_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv38ksl_hryfPK10ksl_SE3f_tP12ksl_screwf_t">
+<span id="_CPPv28ksl_hryfPK10ksl_SE3f_tP12ksl_screwf_t"></span><span id="ksl_hryf__ksl_SE3f_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a6e29c843495c725418296b2c644b67e1"></span>void <code class="descname">ksl_hryf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv38ksl_hryfPK10ksl_SE3f_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv38ksl_hrzfPK10ksl_SE3f_tP12ksl_screwf_t">
+<span id="_CPPv28ksl_hrzfPK10ksl_SE3f_tP12ksl_screwf_t"></span><span id="ksl_hrzf__ksl_SE3f_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a26a98b68c63a0fae907df9a1e8bd8fb8"></span>void <code class="descname">ksl_hrzf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv38ksl_hrzfPK10ksl_SE3f_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv311ksl_htxinvfPK10ksl_SE3f_tP12ksl_screwf_t">
+<span id="_CPPv211ksl_htxinvfPK10ksl_SE3f_tP12ksl_screwf_t"></span><span id="ksl_htxinvf__ksl_SE3f_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1ab0f67034f70fb3b1d32b6bebd0935b7f"></span>void <code class="descname">ksl_htxinvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv311ksl_htxinvfPK10ksl_SE3f_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv311ksl_htyinvfPK10ksl_SE3f_tP12ksl_screwf_t">
+<span id="_CPPv211ksl_htyinvfPK10ksl_SE3f_tP12ksl_screwf_t"></span><span id="ksl_htyinvf__ksl_SE3f_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a89fe85bfca60c9b6b08952749fb44d31"></span>void <code class="descname">ksl_htyinvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv311ksl_htyinvfPK10ksl_SE3f_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv311ksl_htzinvfPK10ksl_SE3f_tP12ksl_screwf_t">
+<span id="_CPPv211ksl_htzinvfPK10ksl_SE3f_tP12ksl_screwf_t"></span><span id="ksl_htzinvf__ksl_SE3f_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a870420bb6b1ccd4c7ff6e343d78c5b28"></span>void <code class="descname">ksl_htzinvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv311ksl_htzinvfPK10ksl_SE3f_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv311ksl_hrxinvfPK10ksl_SE3f_tP12ksl_screwf_t">
+<span id="_CPPv211ksl_hrxinvfPK10ksl_SE3f_tP12ksl_screwf_t"></span><span id="ksl_hrxinvf__ksl_SE3f_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1aef7516989eb0ce1827d94389afb34d79"></span>void <code class="descname">ksl_hrxinvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv311ksl_hrxinvfPK10ksl_SE3f_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv311ksl_hryinvfPK10ksl_SE3f_tP12ksl_screwf_t">
+<span id="_CPPv211ksl_hryinvfPK10ksl_SE3f_tP12ksl_screwf_t"></span><span id="ksl_hryinvf__ksl_SE3f_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1aa704f202430c33b994ad397702e73b54"></span>void <code class="descname">ksl_hryinvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv311ksl_hryinvfPK10ksl_SE3f_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv311ksl_hrzinvfPK10ksl_SE3f_tP12ksl_screwf_t">
+<span id="_CPPv211ksl_hrzinvfPK10ksl_SE3f_tP12ksl_screwf_t"></span><span id="ksl_hrzinvf__ksl_SE3f_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a41cf5ba358ed78f8a40201b7074dc309"></span>void <code class="descname">ksl_hrzinvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>Di</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>ho</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv311ksl_hrzinvfPK10ksl_SE3f_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv313ksl_cross_ssfPK12ksl_screwf_tPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv213ksl_cross_ssfPK12ksl_screwf_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_cross_ssf__ksl_screwf_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1ac66af38b3761c8d4bf0f56fa4c248385"></span>void <code class="descname">ksl_cross_ssf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>s1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>s2i</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv313ksl_cross_ssfPK12ksl_screwf_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>single precision screw cross product </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv314ksl_cross_sstfPK12ksl_screwf_tPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv214ksl_cross_sstfPK12ksl_screwf_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_cross_sstf__ksl_screwf_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1ab77558baa443db0a9ac3003b2e5fe8c0"></span>void <code class="descname">ksl_cross_sstf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>s1i</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>s2i</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv314ksl_cross_sstfPK12ksl_screwf_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv317ksl_product_AdrsfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv217ksl_product_AdrsfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_product_Adrsf__ksl_mat3x3f_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a3c6d2dedcb47ca15e4dfa198f84a6a44"></span>void <code class="descname">ksl_product_Adrsf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv317ksl_product_AdrsfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>rotates a single precision screw </p>
+<p>Store product of direction cosine matrix ri with spatial vector si in so.</p>
+<p><span class="math notranslate nohighlight">\( R_i * S_i[0:2] \rightarrow S_o[0:2]\)</span></p>
+<p><span class="math notranslate nohighlight">\( R_i * S_i[3:5] \rightarrow S_o[3:5]\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">ri</span></code>: a SO3 rotation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">si</span></code>: a 1x6 screw </li>
+<li><code class="docutils literal notranslate"><span class="pre">so</span></code>: the output of ri * si is returned in so </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_product_AdrsinvfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv220ksl_product_AdrsinvfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_product_Adrsinvf__ksl_mat3x3f_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1ac1c548130b277dc68ed9c72bff498030"></span>void <code class="descname">ksl_product_Adrsinvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_AdrsinvfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_product_AdrinvsfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv220ksl_product_AdrinvsfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_product_Adrinvsf__ksl_mat3x3f_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a5f1226ded1159f5695a22f944302f418"></span>void <code class="descname">ksl_product_Adrinvsf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_AdrinvsfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv317ksl_product_AdtsfPK11ksl_vec3f_tPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv217ksl_product_AdtsfPK11ksl_vec3f_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_product_Adtsf__ksl_vec3f_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a3d09944886b213613b15da820f5f74ef"></span>void <code class="descname">ksl_product_Adtsf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>ti</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv317ksl_product_AdtsfPK11ksl_vec3f_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_product_AdtinvsfPK11ksl_vec3f_tPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv220ksl_product_AdtinvsfPK11ksl_vec3f_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_product_Adtinvsf__ksl_vec3f_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1aa9f5f696af95682f42ffdef47ba0dbc6"></span>void <code class="descname">ksl_product_Adtinvsf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>ti</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_AdtinvsfPK11ksl_vec3f_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_product_AdtsinvfPK11ksl_vec3f_tPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv220ksl_product_AdtsinvfPK11ksl_vec3f_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_product_Adtsinvf__ksl_vec3f_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a3dabab03e28df14d9bd91f67e6d9061f"></span>void <code class="descname">ksl_product_Adtsinvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>ti</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_AdtsinvfPK11ksl_vec3f_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv316ksl_product_AdsfPK10ksl_SE3f_tPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv216ksl_product_AdsfPK10ksl_SE3f_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_product_Adsf__ksl_SE3f_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a14769fe5e3c6d68015c47bfebecd6b24"></span>void <code class="descname">ksl_product_Adsf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>Di</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_product_AdsfPK10ksl_SE3f_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>General spatial transformation a single precision screw. </p>
+<p>Store product of direction cosine matrix ri with spatial vector si in so.</p>
+<p><span class="math notranslate nohighlight">\( R_i * S_i[0:2] \rightarrow S_o[0:2]\)</span></p>
+<p><span class="math notranslate nohighlight">\( R_i * S_i[3:5] \rightarrow S_o[3:5]\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">ri</span></code>: a SO3 rotation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">si</span></code>: a 1x6 screw </li>
+<li><code class="docutils literal notranslate"><span class="pre">so</span></code>: the output of ri * si is returned in so </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv319ksl_product_AdsinvfPK10ksl_SE3f_tPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv219ksl_product_AdsinvfPK10ksl_SE3f_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_product_Adsinvf__ksl_SE3f_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1acf2c57239c0478f7b9f435aa76c04589"></span>void <code class="descname">ksl_product_Adsinvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>Di</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_AdsinvfPK10ksl_SE3f_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv319ksl_product_AdinvsfPK10ksl_SE3f_tPK12ksl_screwf_tP12ksl_screwf_t">
+<span id="_CPPv219ksl_product_AdinvsfPK10ksl_SE3f_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_product_Adinvsf__ksl_SE3f_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a15fa0415230d31423d5d363ccaa73d62"></span>void <code class="descname">ksl_product_Adinvsf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>Di</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_AdinvsfPK10ksl_SE3f_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+</div>
 </div>
 
 
           </div>
+          
         </div>
       </div>
     <div class="clearer"></div>
@@ -397,8 +1197,8 @@ v_z &amp; 0 &amp; -v_x &amp;   \omega_z &amp; 0 &amp; -\omega_x\\
       &copy;2018, Kristopher Wehage, Roger Wehage.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.0+</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
       |
       <a href="../_sources/screws/screws.rst.txt"

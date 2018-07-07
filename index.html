@@ -9,11 +9,11 @@
     <title>Kinematics Subroutine Library &#8212; KSL 0.0.0 documentation</title>
     <link rel="stylesheet" href="_static/custom.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -46,18 +46,16 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notation/notation.html">Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vectors/vectors.html">Vectors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SE3/SE3.html">SE3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SE3/SE3.html">SO(3) and SE(3) Groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quaternions/quaternions.html">Quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trig/trig.html">Trigonometric Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screws/screws.html">Screws</a></li>
 <li class="toctree-l1"><a class="reference internal" href="coscrews/coscrews.html">Coscrews</a></li>
-<li class="toctree-l1"><a class="reference internal" href="influence_coefficient_matrices/influence_coefficient_matrices.html">Influence Coefficient Matrices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inertia/inertia.html">Inertia</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lu_full/lu_full.html">Full Factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg/linalg.html">Linear Algebra</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing/contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="zreferences.html">References</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="doxyrest/global.html">Global Namespace</a></li>
 </ul>
 
 <div class="relations">
@@ -84,6 +82,8 @@
       </div>
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="kinematics-subroutine-library">
@@ -108,22 +108,59 @@
 <li class="toctree-l2"><a class="reference internal" href="notation/notation.html#transformations">Transformations</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="vectors/vectors.html">Vectors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SE3/SE3.html">SE3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors/vectors.html">Vectors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vectors/vectors.html#double-precision">double precision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vectors/vectors.html#single-precision">single precision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vectors/vectors.html#integer">integer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SE3/SE3.html">SO(3) and SE(3) Groups</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SE3/SE3.html#so-3">SO(3)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SE3/SE3.html#se-3">SE(3)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SE3/SE3.html#rigid-body-rotations">Rigid body rotations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SE3/SE3.html#rigid-body-transformations">Rigid body transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SE3/SE3.html#x4-matrices">4x4 matrices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SE3/SE3.html#matrix-vector-operations">Matrix-vector operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SE3/SE3.html#matrix-matrix-operations">Matrix-matrix operations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quaternions/quaternions.html">Quaternions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quaternions/quaternions.html#double-precision">double precision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quaternions/quaternions.html#single-precision">single precision</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="trig/trig.html">Trigonometric Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screws/screws.html">Screws</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="screws/screws.html#adjoint-matrix">Adjoint Matrix <span class="math notranslate nohighlight">\([Ad]\)</span></a></li>
-<li class="toctree-l2"><a class="reference internal" href="screws/screws.html#derivative-operator-matrices">Derivative operator matrices: <span class="math notranslate nohighlight">\([ad]\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="screws/screws.html#adjoint-matrix-ad">Adjoint Matrix <span class="math notranslate nohighlight">\([Ad]\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="screws/screws.html#derivative-operator-matrices-ad">Derivative operator matrices: <span class="math notranslate nohighlight">\([ad]\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="screws/screws.html#influence-coefficient-matrices">Influence coefficient matrices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="screws/screws.html#ksl-double-precision-screw-functions">KSL double precision screw functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="screws/screws.html#ksl-single-precision-screw-functions">KSL single precision screw functions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="coscrews/coscrews.html">Coscrews</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="coscrews/coscrews.html#coadjoint-matrix">Coadjoint Matrix <span class="math notranslate nohighlight">\([Ad]^*\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coscrews/coscrews.html#coadjoint-matrix-ad">Coadjoint Matrix <span class="math notranslate nohighlight">\([Ad]^*\)</span></a></li>
 <li class="toctree-l2"><a class="reference internal" href="coscrews/coscrews.html#constraint-forces">Constraint Forces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="coscrews/coscrews.html#derivative-operator-matrices">Derivative operator matrices: <span class="math notranslate nohighlight">\([ad]^*\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coscrews/coscrews.html#derivative-operator-matrices-ad">Derivative operator matrices: <span class="math notranslate nohighlight">\([ad]^*\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coscrews/coscrews.html#ksl-double-precision-coscrew-functions">KSL double precision coscrew functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="coscrews/coscrews.html#ksl-single-precision-coscrew-functions">KSL single precision coscrew functions</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="influence_coefficient_matrices/influence_coefficient_matrices.html">Influence Coefficient Matrices</a></li>
-<li class="toctree-l1"><a class="reference internal" href="inertia/inertia.html">Inertia</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lu_full/lu_full.html">Full Factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inertia/inertia.html">Inertia</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="inertia/inertia.html#ksl-double-precision-inertia-matrices">KSL double precision inertia matrices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inertia/inertia.html#ksl-single-precision-inertia-matrices">KSL single precision inertia matrices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="linalg/linalg.html">Linear Algebra</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="linalg/linalg.html#utilities">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg/linalg.html#gram-schmidt-decomposition">Gram Schmidt Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg/linalg.html#principal-component-analysis">Principal Component Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg/linalg.html#lu-decomposition">LU Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg/linalg.html#cholesky-decomposition">Cholesky Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg/linalg.html#ldlt-decomposition">LDLT Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linalg/linalg.html#symmetric-matrix-inverse">Symmetric Matrix Inverse</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="license.html#bsd-3-clause-license">BSD 3-CLAUSE LICENSE</a></li>
 </ul>
@@ -137,23 +174,6 @@
 </ul>
 </div>
 </div>
-<div class="section" id="api-reference">
-<h2>api reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="doxyrest/global.html">Global Namespace</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="doxyrest/global.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="doxyrest/global.html#detailed-documentation">Detailed Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doxyrest/global.html#typedefs">Typedefs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doxyrest/global.html#global-functions">Global Functions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doxyrest/global.html#macros">Macros</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
 <div class="section" id="indices-and-tables">
 <h2>indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
@@ -164,6 +184,7 @@
 
 
           </div>
+          
         </div>
       </div>
     <div class="clearer"></div>
@@ -172,8 +193,8 @@
       &copy;2018, Kristopher Wehage, Roger Wehage.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.0+</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
       |
       <a href="_sources/index.rst.txt"

@@ -390,3 +390,322 @@ Similarly, the left derivative operator for :math:`[Ad]^*` matrices is:
 
 
 Previously, it was discussed how the derivative operators form the Lie algebra of the SE(3) group. Similarly, the :math:`6\times6` :math:`[Ad]` matrices themselves fulfill the necessary requirements of a Lie group :cite:`selig2005geometric`. The :math:`[ad]` and :math:`[ad]^*` matrices comprise their respective Lie algebras.
+
+Influence coefficient matrices
+------------------------------
+
+An important tool in the analysis of mechanisms and multibody systems is a map of a particular joint's velocity to the body velocity. From Eqs. :eq:`eq:omega_z` and :eq:`eq:screw`, it is possible to find the velocity screw associated with a revolute joint. The joint is aligned with :math:`z` axis of reference frame :math:`a`.
+
+.. math::
+    :label: eq:unit_velocity
+
+    \underline{\mathbf{v}}_a=
+    \begin{Bmatrix}
+    0\\0\\ 0\\ 0\\ 0\\\dot{q}
+    \end{Bmatrix}=
+    \begin{Bmatrix}
+    0\\0\\ 0 \\0 \\0 \\1
+    \end{Bmatrix}\dot{q}=\underline{\mathbf{h}}_a\dot{q}
+
+
+Here :math:`\underline{h}_a` is the *influence coefficient matrix* :cite:`tsai1999robot` associated with the joint. Note that the influence coefficient matrix taken at the joint's origin is simply a unit twist, :math:`\omega_z`, about the :math:`z` axis.
+
+Usually it is desirable to express the influence coefficient matrix with respect to other coordinate systems, such as the inertial reference frame. Using the :math:`[Ad]` operator in Eq. :eq:`eq:screw` yields:
+
+.. math::
+    :label: eq:influence_coefficient_matrix
+
+    \underline{\mathbf{v}}_0=
+    \underline{\mathbf{h}}_0\dot{q}=
+    [Ad]_{0a} \underline{\mathbf{h}}_a\dot{q}=
+    \begin{bmatrix}
+    R_{0a} &\tilde{r}_{0a}R_{0a}\\
+    0 & R_{0a}
+    \end{bmatrix}
+    \begin{Bmatrix}
+    0\\0\\ 0 \\0 \\0 \\1
+    \end{Bmatrix}\dot{q}
+
+
+These influence coefficient matrices taken with respect to the inertial reference frame form elements of the Jacobian matrix of a mechanism. As a mechanism moves through varying configurations, :math:`\underline{h}_0` changes, and may require updating many millions of times in the course of a simulation. Equation :eq:`eq:influence_coefficient_matrix` reveals important insight that allows one to reduce the number of floating point operations (FLOPs) required to update the influence coefficient matrix of primitive joints.
+
+.. math::
+    :label: eq:screw_basis
+
+    \underline{\mathbf{h}}_0=
+    \begin{Bmatrix}
+    r_yR_{33}-r_zR_{23}\\
+    r_zR_{13}-r_xR_{33}\\
+    r_xR_{23}-r_yR_{13}\\
+    R_{13}\\
+    R_{23}\\
+    R_{33}\\
+    \end{Bmatrix}=
+    \begin{bmatrix}
+    R_{11} & R_{12} & R_{13} & r_yR_{31}-r_zR_{21} & r_yR_{32}-r_zR_{22} & r_yR_{33}-r_zR_{23}\\
+    R_{21} & R_{22} & R_{11} & r_zR_{11}-r_xR_{31} & r_zR_{12}-r_xR_{32} & r_zR_{13}-r_xR_{33}\\
+    R_{31} & R_{32} & R_{33} & r_xR_{21}-r_yR_{11} & r_xR_{22}-r_yR_{12} & r_xR_{23}-r_yR_{13}\\
+    0 & 0 & 0 & R_{11} & R_{12} & R_{13}\\
+    0 & 0 & 0 & R_{21} & R_{22} & R_{23}\\
+    0 & 0 & 0 & R_{31} & R_{32} & R_{33}\\
+    \end{bmatrix}
+    \begin{Bmatrix}
+    0\\0\\ 0 \\0 \\0 \\1
+    \end{Bmatrix}
+
+
+Once the position and orientation of each joint in a mechanism has been computed, the influence coefficient matrix can be computed simply by forming the corresponding column of :math:`[Ad]`, which requires only 9 additional FLOPs for revolute joints and no additional FLOPs for prismatic joints. Additionally, if SE(3) displacements and the Jacobian matrix are stored in column-major order, updating the influence coefficient matrices and elements Jacobian matrix can be vectorized with a stride of 1, which is optimal in terms of memory access.
+
+
+
+KSL double precision screw functions
+------------------------------------
+
+.. doxygenunion:: ksl_screw_t
+
+
+.. doxygenfunction:: ksl_screw
+
+
+.. doxygenfunction:: ksl_screw_alloc
+
+
+.. doxygenfunction:: ksl_screw_norm
+
+
+.. doxygenfunction:: ksl_screw_normalize
+
+
+.. doxygenfunction:: ksl_screw_normalized
+
+
+.. doxygenfunction:: ksl_dot_cs
+
+
+.. doxygenfunction:: ks_screw_scale
+
+
+.. doxygenfunction:: ksl_screw_copy
+
+
+.. doxygenfunction:: ksl_screw_invert
+
+
+.. doxygenfunction:: ksl_screw_inverted
+
+
+.. doxygenfunction:: ksl_axpy_ss
+
+
+.. doxygenfunction:: ksl_xpy_ss
+
+
+.. doxygenfunction:: ksl_nxpy_ss
+
+
+.. doxygenfunction:: ksl_product_as
+
+
+.. doxygenfunction:: ksl_add_ss
+
+
+.. doxygenfunction:: ksl_subtract_ss
+
+
+.. doxygenfunction:: ksl_add_sst
+
+
+.. doxygenfunction:: ksl_htxf
+
+
+.. doxygenfunction:: ksl_htyf
+
+
+.. doxygenfunction:: ksl_htz
+
+
+.. doxygenfunction:: ksl_hrx
+
+
+.. doxygenfunction:: ksl_hry
+
+
+.. doxygenfunction:: ksl_hrz
+
+
+.. doxygenfunction:: ksl_htxinv
+
+
+.. doxygenfunction:: ksl_htyinv
+
+
+.. doxygenfunction:: ksl_htzinv
+
+
+.. doxygenfunction:: ksl_hrxinv
+
+
+.. doxygenfunction:: ksl_hryinv
+
+
+.. doxygenfunction:: ksl_hrzinv
+
+
+.. doxygenfunction:: ksl_cross_ss
+
+
+.. doxygenfunction:: ksl_cross_sst
+
+
+.. doxygenfunction:: ksl_product_Adrs
+
+
+.. doxygenfunction:: ksl_product_Adrsinv
+
+
+.. doxygenfunction:: ksl_product_Adrinvs
+
+
+.. doxygenfunction:: ksl_product_Adts
+
+
+.. doxygenfunction:: ksl_product_Adtinvs
+
+
+.. doxygenfunction:: ksl_product_Adtsinv
+
+
+.. doxygenfunction:: ksl_product_Ads
+
+
+.. doxygenfunction:: ksl_product_Adsinv
+
+
+.. doxygenfunction:: ksl_product_Adinvs
+
+
+
+KSL single precision screw functions
+------------------------------------
+
+.. doxygenunion:: ksl_screwf_t
+
+
+.. doxygenfunction:: ksl_screwf
+
+
+.. doxygenfunction:: ksl_screwf_alloc
+
+
+.. doxygenfunction:: ksl_screwf_norm
+
+
+.. doxygenfunction:: ksl_screwf_normalize
+
+
+.. doxygenfunction:: ksl_screw_normalized
+
+
+.. doxygenfunction:: ksl_dot_csf
+
+
+.. doxygenfunction:: ks_screwf_scale
+
+
+.. doxygenfunction:: ksl_screwf_copy
+
+
+.. doxygenfunction:: ksl_screwf_invert
+
+
+.. doxygenfunction:: ksl_screwf_inverted
+
+
+.. doxygenfunction:: ksl_axpy_ssf
+
+
+.. doxygenfunction:: ksl_xpy_ssf
+
+
+.. doxygenfunction:: ksl_nxpy_ssf
+
+
+.. doxygenfunction:: ksl_product_asf
+
+
+.. doxygenfunction:: ksl_add_ssf
+
+
+.. doxygenfunction:: ksl_subtract_ssf
+
+
+.. doxygenfunction:: ksl_add_sstf
+
+
+.. doxygenfunction:: ksl_htxf
+
+
+.. doxygenfunction:: ksl_htyf
+
+
+.. doxygenfunction:: ksl_htzf
+
+
+.. doxygenfunction:: ksl_hrxf
+
+
+.. doxygenfunction:: ksl_hryf
+
+
+.. doxygenfunction:: ksl_hrzf
+
+
+.. doxygenfunction:: ksl_htxinvf
+
+
+.. doxygenfunction:: ksl_htyinvf
+
+
+.. doxygenfunction:: ksl_htzinvf
+
+
+.. doxygenfunction:: ksl_hrxinvf
+
+
+.. doxygenfunction:: ksl_hryinvf
+
+
+.. doxygenfunction:: ksl_hrzinvf
+
+
+.. doxygenfunction:: ksl_cross_ssf
+
+
+.. doxygenfunction:: ksl_cross_sstf
+
+
+.. doxygenfunction:: ksl_product_Adrsf
+
+
+.. doxygenfunction:: ksl_product_Adrsinvf
+
+
+.. doxygenfunction:: ksl_product_Adrinvsf
+
+
+.. doxygenfunction:: ksl_product_Adtsf
+
+
+.. doxygenfunction:: ksl_product_Adtinvsf
+
+
+.. doxygenfunction:: ksl_product_Adtsinvf
+
+
+.. doxygenfunction:: ksl_product_Adsf
+
+
+.. doxygenfunction:: ksl_product_Adsinvf
+
+
+.. doxygenfunction:: ksl_product_Adinvsf

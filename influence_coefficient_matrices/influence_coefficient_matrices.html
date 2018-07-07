@@ -9,11 +9,11 @@
     <title>Influence Coefficient Matrices &#8212; KSL 0.0.0 documentation</title>
     <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -86,13 +86,15 @@
       </div>
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="influence-coefficient-matrices">
 <span id="id1"></span><h1>Influence Coefficient Matrices<a class="headerlink" href="#influence-coefficient-matrices" title="Permalink to this headline">¶</a></h1>
-<p>An important tool in the analysis of mechanisms and multibody systems is a map of a particular joint’s velocity to the body velocity. From Eqs. <code class="xref eq docutils literal notranslate"><span class="pre">eq:omega_z</span></code> and <code class="xref eq docutils literal notranslate"><span class="pre">eq:screw</span></code>, it is possible to find the velocity screw associated with a revolute joint. The joint is aligned with <span class="math notranslate nohighlight">\(z\)</span> axis of reference frame <span class="math notranslate nohighlight">\(a\)</span>.</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\underline{\mathbf{v}}_a=
+<p>An important tool in the analysis of mechanisms and multibody systems is a map of a particular joint’s velocity to the body velocity. From Eqs. <a class="reference internal" href="../screws/screws.html#equation-eq-omega-z">(4)</a> and <a class="reference internal" href="../screws/screws.html#equation-eq-screw">(9)</a>, it is possible to find the velocity screw associated with a revolute joint. The joint is aligned with <span class="math notranslate nohighlight">\(z\)</span> axis of reference frame <span class="math notranslate nohighlight">\(a\)</span>.</p>
+<div class="math notranslate nohighlight" id="equation-eq-unit-velocity">
+<span class="eqno">(1)<a class="headerlink" href="#equation-eq-unit-velocity" title="Permalink to this equation">¶</a></span>\[\begin{split}\underline{\mathbf{v}}_a=
 \begin{Bmatrix}
 0\\0\\ 0\\ 0\\ 0\\\dot{q}
 \end{Bmatrix}=
@@ -100,9 +102,9 @@
 0\\0\\ 0 \\0 \\0 \\1
 \end{Bmatrix}\dot{q}=\underline{\mathbf{h}}_a\dot{q}\end{split}\]</div>
 <p>Here <span class="math notranslate nohighlight">\(\underline{h}_a\)</span> is the <em>influence coefficient matrix</em> <a href="#id2"><span class="problematic" id="id3">:cite:`tsai1999robot`</span></a> associated with the joint. Note that the influence coefficient matrix taken at the joint’s origin is simply a unit twist, <span class="math notranslate nohighlight">\(\omega_z\)</span>, about the <span class="math notranslate nohighlight">\(z\)</span> axis.</p>
-<p>Usually it is desirable to express the influence coefficient matrix with respect to other coordinate systems, such as the inertial reference frame. Using the <span class="math notranslate nohighlight">\([Ad]\)</span> operator in Eq. <code class="xref eq docutils literal notranslate"><span class="pre">eq:screw</span></code> yields:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\underline{\mathbf{v}}_0=
+<p>Usually it is desirable to express the influence coefficient matrix with respect to other coordinate systems, such as the inertial reference frame. Using the <span class="math notranslate nohighlight">\([Ad]\)</span> operator in Eq. <a class="reference internal" href="../screws/screws.html#equation-eq-screw">(9)</a> yields:</p>
+<div class="math notranslate nohighlight" id="equation-eq-influence-coefficient-matrix">
+<span class="eqno">(2)<a class="headerlink" href="#equation-eq-influence-coefficient-matrix" title="Permalink to this equation">¶</a></span>\[\begin{split}\underline{\mathbf{v}}_0=
 \underline{\mathbf{h}}_0\dot{q}=
 [Ad]_{0a} \underline{\mathbf{h}}_a\dot{q}=
 \begin{bmatrix}
@@ -112,9 +114,9 @@ R_{0a} &amp;\tilde{r}_{0a}R_{0a}\\
 \begin{Bmatrix}
 0\\0\\ 0 \\0 \\0 \\1
 \end{Bmatrix}\dot{q}\end{split}\]</div>
-<p>These influence coefficient matrices taken with respect to the inertial reference frame form elements of the Jacobian matrix of a mechanism. As a mechanism moves through varying configurations, <span class="math notranslate nohighlight">\(\underline{h}_0\)</span> changes, and may require updating many millions of times in the course of a simulation. Equation <a class="reference internal" href="../coscrews/coscrews.html#equation-eq-influence-coefficient-matrix">(8)</a> reveals important insight that allows one to reduce the number of floating point operations (FLOPs) required to update the influence coefficient matrix of primitive joints.</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\underline{\mathbf{h}}_0=
+<p>These influence coefficient matrices taken with respect to the inertial reference frame form elements of the Jacobian matrix of a mechanism. As a mechanism moves through varying configurations, <span class="math notranslate nohighlight">\(\underline{h}_0\)</span> changes, and may require updating many millions of times in the course of a simulation. Equation <a class="reference internal" href="#equation-eq-influence-coefficient-matrix">(2)</a> reveals important insight that allows one to reduce the number of floating point operations (FLOPs) required to update the influence coefficient matrix of primitive joints.</p>
+<div class="math notranslate nohighlight" id="equation-eq-screw-basis">
+<span class="eqno">(3)<a class="headerlink" href="#equation-eq-screw-basis" title="Permalink to this equation">¶</a></span>\[\begin{split}\underline{\mathbf{h}}_0=
 \begin{Bmatrix}
 r_yR_{33}-r_zR_{23}\\
 r_zR_{13}-r_xR_{33}\\
@@ -139,6 +141,7 @@ R_{31} &amp; R_{32} &amp; R_{33} &amp; r_xR_{21}-r_yR_{11} &amp; r_xR_{22}-r_yR_
 
 
           </div>
+          
         </div>
       </div>
     <div class="clearer"></div>
@@ -147,8 +150,8 @@ R_{31} &amp; R_{32} &amp; R_{33} &amp; r_xR_{21}-r_yR_{11} &amp; r_xR_{22}-r_yR_
       &copy;2018, Kristopher Wehage, Roger Wehage.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.0+</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
       |
       <a href="../_sources/influence_coefficient_matrices/influence_coefficient_matrices.rst.txt"

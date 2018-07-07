@@ -31,8 +31,8 @@ single precision 4x1 vector representing a 3x1 vector with a homogeneous coordin
 .. _cid-ksl_vec4f_t::z:
 .. _doxid-unionksl__vec4f__t_1a813deba41fc54746642c4d6091a0c12f:
 .. _cid-ksl_vec4f_t::w:
-.. _doxid-unionksl__vec4f__t_1acd32d02537e41f9749bcf0fd51d7fa14:
-.. _cid-ksl_vec4f_t::@65:
+.. _doxid-unionksl__vec4f__t_1a3e00cfa278331c4bc5d345fc86a3bac7:
+.. _cid-ksl_vec4f_t::@77:
 .. ref-code-block:: cpp
 	:class: overview-code-block
 

@@ -1,0 +1,363 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>linalg &#8212; KSL 0.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="License" href="../license.html" />
+    <link rel="prev" title="Inertia" href="../inertia/inertia.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">KSL</a></h1>
+
+
+
+<p class="blurb">Kinematics Subroutine Library</p>
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notation/notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vectors/vectors.html">Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SO(3) and SE(3) Groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quaternions/quaternions.html">Quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trig/trig.html">Trigonometric Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../screws/screws.html">Screws</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coscrews/coscrews.html">Coscrews</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inertia/inertia.html">Inertia</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Linear Algebra</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#utilities">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gram-schmidt-decomposition">Gram Schmidt Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#principal-component-analysis">Principal Component Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lu-decomposition">LU Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cholesky-decomposition">Cholesky Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ldlt-decomposition">LDLT Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#symmetric-matrix-inverse">Symmetric Matrix Inverse</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zreferences.html">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../inertia/inertia.html" title="previous chapter">Inertia</a></li>
+      <li>Next: <a href="../license.html" title="next chapter">License</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="linear-algebra">
+<span id="notation"></span><h1>Linear Algebra<a class="headerlink" href="#linear-algebra" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="utilities">
+<h2>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="_CPPv313ksl_swapArrayKiPdKiPdKi">
+<span id="_CPPv213ksl_swapArrayKiPdKiPdKi"></span><span id="ksl_swapArray__iC.doubleP.iC.doubleP.iC"></span><span class="target" id="linalg_8h_1a489b07a456ecff304b9248378bdb2246"></span>void <code class="descname">ksl_swapArray</code><span class="sig-paren">(</span><em class="property">const</em> int <em>n</em>, double *<em>a</em>, <em class="property">const</em> int <em>a_stride</em>, double *<em>b</em>, <em class="property">const</em> int <em>b_stride</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv313ksl_swapArrayKiPdKiPdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv312ksl_maxIndexKiPKd">
+<span id="_CPPv212ksl_maxIndexKiPKd"></span><span id="ksl_maxIndex__iC.doubleCP"></span><span class="target" id="linalg_8h_1ada2b2790c0d9e02ecfa08a1761ef34bc"></span>int <code class="descname">ksl_maxIndex</code><span class="sig-paren">(</span><em class="property">const</em> int <em>n</em>, <em class="property">const</em> double *<em>a</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv312ksl_maxIndexKiPKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="gram-schmidt-decomposition">
+<h2>Gram Schmidt Decomposition<a class="headerlink" href="#gram-schmidt-decomposition" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="_CPPv322ksl_linalg_gramSchmidtPdii">
+<span id="_CPPv222ksl_linalg_gramSchmidtPdii"></span><span id="ksl_linalg_gramSchmidt__doubleP.i.i"></span><span class="target" id="linalg_8h_1a39fe7ed1c9c5d79e9b853a5c896b5f81"></span>void <code class="descname">ksl_linalg_gramSchmidt</code><span class="sig-paren">(</span>double *<em>A</em>, int <em>m</em>, int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_linalg_gramSchmidtPdii" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="principal-component-analysis">
+<h2>Principal Component Analysis<a class="headerlink" href="#principal-component-analysis" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="_CPPv314ksl_linalg_pcaP12ksl_mat3x3_tP12ksl_mat3x3_t">
+<span id="_CPPv214ksl_linalg_pcaP12ksl_mat3x3_tP12ksl_mat3x3_t"></span><span id="ksl_linalg_pca__ksl_mat3x3_tP.ksl_mat3x3_tP"></span><span class="target" id="linalg_8h_1a847ae66e3fdbb96c2dfd1907d7e9321b"></span>void <code class="descname">ksl_linalg_pca</code><span class="sig-paren">(</span><a class="reference internal" href="../SE3/SE3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>A</em>, <a class="reference internal" href="../SE3/SE3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv314ksl_linalg_pcaP12ksl_mat3x3_tP12ksl_mat3x3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="lu-decomposition">
+<h2>LU Decomposition<a class="headerlink" href="#lu-decomposition" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="row-major-order">
+<h3>row major order<a class="headerlink" href="#row-major-order" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv322ksl_linalg_lu_full_rmoKiKiPdKdPiPi">
+<span id="_CPPv222ksl_linalg_lu_full_rmoKiKiPdKdPiPi"></span><span id="ksl_linalg_lu_full_rmo__iC.iC.doubleP.doubleC.iP.iP"></span><span class="target" id="linalg_8h_1a782c865f66f96a227edb563474411150"></span>int <code class="descname">ksl_linalg_lu_full_rmo</code><span class="sig-paren">(</span><em class="property">const</em> int <em>rowDim</em>, <em class="property">const</em> int <em>colDim</em>, double *<em>A</em>, <em class="property">const</em> double <em>eps</em>, int *<em>pr</em>, int *<em>pc</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_linalg_lu_full_rmoKiKiPdKdPiPi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv332ksl_linalg_lu_full_specified_rmoKiKiPddPiPiKi">
+<span id="_CPPv232ksl_linalg_lu_full_specified_rmoKiKiPddPiPiKi"></span><span id="ksl_linalg_lu_full_specified_rmo__iC.iC.doubleP.double.iP.iP.iC"></span><span class="target" id="linalg_8h_1a9573c1375ddfafde1c66cf75a537c12f"></span>int <code class="descname">ksl_linalg_lu_full_specified_rmo</code><span class="sig-paren">(</span><em class="property">const</em> int <em>rowDim</em>, <em class="property">const</em> int <em>colDim</em>, double *<em>A</em>, double <em>eps</em>, int *<em>pr</em>, int *<em>pc</em>, <em class="property">const</em> int <em>specifiedIndex</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv332ksl_linalg_lu_full_specified_rmoKiKiPddPiPiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv317ksl_linalg_lu_rmoKiKiPd">
+<span id="_CPPv217ksl_linalg_lu_rmoKiKiPd"></span><span id="ksl_linalg_lu_rmo__iC.iC.doubleP"></span><span class="target" id="linalg_8h_1a72c009e4c082dcbc482b8bf467890617"></span>void <code class="descname">ksl_linalg_lu_rmo</code><span class="sig-paren">(</span><em class="property">const</em> int <em>rank</em>, <em class="property">const</em> int <em>colDim</em>, double *<em>A</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv317ksl_linalg_lu_rmoKiKiPd" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv328ksl_linalg_lu_setBMatrix_rmoKiKiKiPd">
+<span id="_CPPv228ksl_linalg_lu_setBMatrix_rmoKiKiKiPd"></span><span id="ksl_linalg_lu_setBMatrix_rmo__iC.iC.iC.doubleP"></span><span class="target" id="linalg_8h_1a96a8ac1c53c36d94d0e7c34dc3159d03"></span>void <code class="descname">ksl_linalg_lu_setBMatrix_rmo</code><span class="sig-paren">(</span><em class="property">const</em> int <em>rowDim</em>, <em class="property">const</em> int <em>colDim</em>, <em class="property">const</em> int <em>rank</em>, double *<em>A</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv328ksl_linalg_lu_setBMatrix_rmoKiKiKiPd" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv328ksl_linalg_lu_setCMatrix_rmoiiiPd">
+<span id="_CPPv228ksl_linalg_lu_setCMatrix_rmoiiiPd"></span><span id="ksl_linalg_lu_setCMatrix_rmo__i.i.i.doubleP"></span><span class="target" id="linalg_8h_1a50a42897bbde4b0b692f73c9340c846e"></span>void <code class="descname">ksl_linalg_lu_setCMatrix_rmo</code><span class="sig-paren">(</span>int <em>rowDim</em>, int <em>colDim</em>, int <em>rank</em>, double *<em>A</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv328ksl_linalg_lu_setCMatrix_rmoiiiPd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>compute Row Major Order C matrix </p>
+<p>This block overwrites LR with LR*inverse(Lr) If rank==1, the Lr matrix is a 1 by 1 identity matrix, so there is nothing to do here. This loop computes A[rank:rowDim-1][0:rank-1]=LR*inverse(Lr) where LR is stored in A[rank:rowDim-1][0:rank-1] and Lr is stored in A[0:rank-1][0:rank-1]. j is the column number in LR. It ends at 1 because the diagonal entry in row 0 of Lr is 1. i is the row number in LR. k is the column number in Lr</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">rowDim</span></code>: [in] row dimension of matrix A. </li>
+<li><code class="docutils literal notranslate"><span class="pre">colDim</span></code>: [in] column dimension of matrix A. </li>
+<li><code class="docutils literal notranslate"><span class="pre">rank</span></code>: [in] rank of matrix A. </li>
+<li><code class="docutils literal notranslate"><span class="pre">*A</span></code>: [in/out] matrix with dimensions A[0:rowDim-1][0:colDim-1]: </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="column-major-order">
+<h3>column major order<a class="headerlink" href="#column-major-order" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv322ksl_linalg_lu_full_cmoKiKiPdKdPiPi">
+<span id="_CPPv222ksl_linalg_lu_full_cmoKiKiPdKdPiPi"></span><span id="ksl_linalg_lu_full_cmo__iC.iC.doubleP.doubleC.iP.iP"></span><span class="target" id="linalg_8h_1aef5c76dd1f149e9bef5186df5c3f000c"></span>int <code class="descname">ksl_linalg_lu_full_cmo</code><span class="sig-paren">(</span><em class="property">const</em> int <em>rowDim</em>, <em class="property">const</em> int <em>colDim</em>, double *<em>A</em>, <em class="property">const</em> double <em>eps</em>, int *<em>pr</em>, int *<em>pc</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_linalg_lu_full_cmoKiKiPdKdPiPi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv332ksl_linalg_lu_full_specified_cmoKiKiPddPiPiKi">
+<span id="_CPPv232ksl_linalg_lu_full_specified_cmoKiKiPddPiPiKi"></span><span id="ksl_linalg_lu_full_specified_cmo__iC.iC.doubleP.double.iP.iP.iC"></span><span class="target" id="linalg_8h_1a97c74881b56a37959530054c9b3f7410"></span>int <code class="descname">ksl_linalg_lu_full_specified_cmo</code><span class="sig-paren">(</span><em class="property">const</em> int <em>rowDim</em>, <em class="property">const</em> int <em>colDim</em>, double *<em>A</em>, double <em>eps</em>, int *<em>pr</em>, int *<em>pc</em>, <em class="property">const</em> int <em>specifiedIndex</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv332ksl_linalg_lu_full_specified_cmoKiKiPddPiPiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv317ksl_linalg_lu_cmoKiKiPd">
+<span id="_CPPv217ksl_linalg_lu_cmoKiKiPd"></span><span id="ksl_linalg_lu_cmo__iC.iC.doubleP"></span><span class="target" id="linalg_8h_1a1c57a37df53ff98cb6ad214485bfe2c3"></span>void <code class="descname">ksl_linalg_lu_cmo</code><span class="sig-paren">(</span><em class="property">const</em> int <em>rank</em>, <em class="property">const</em> int <em>colDim</em>, double *<em>A</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv317ksl_linalg_lu_cmoKiKiPd" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv328ksl_linalg_lu_setBMatrix_cmoKiKiKiPd">
+<span id="_CPPv228ksl_linalg_lu_setBMatrix_cmoKiKiKiPd"></span><span id="ksl_linalg_lu_setBMatrix_cmo__iC.iC.iC.doubleP"></span><span class="target" id="linalg_8h_1a4ee7a1ffb15e8ca94c9a2170857b6829"></span>void <code class="descname">ksl_linalg_lu_setBMatrix_cmo</code><span class="sig-paren">(</span><em class="property">const</em> int <em>rowDim</em>, <em class="property">const</em> int <em>colDim</em>, <em class="property">const</em> int <em>rank</em>, double *<em>A</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv328ksl_linalg_lu_setBMatrix_cmoKiKiKiPd" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv328ksl_linalg_lu_setCMatrix_cmoiiiPd">
+<span id="_CPPv228ksl_linalg_lu_setCMatrix_cmoiiiPd"></span><span id="ksl_linalg_lu_setCMatrix_cmo__i.i.i.doubleP"></span><span class="target" id="linalg_8h_1a0f4d5fe5074266d025a4c900ba95ab34"></span>void <code class="descname">ksl_linalg_lu_setCMatrix_cmo</code><span class="sig-paren">(</span>int <em>rowDim</em>, int <em>colDim</em>, int <em>rank</em>, double *<em>A</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv328ksl_linalg_lu_setCMatrix_cmoiiiPd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>compute Column Major Order C matrix </p>
+<p>This block overwrites LR with LR*inverse(Lr) If rank==1, the Lr matrix is a 1 by 1 identity matrix, so there is nothing to do here. This loop computes A[rank:rowDim-1][0:rank-1]=LR*inverse(Lr) where LR is stored in A[rank:rowDim-1][0:rank-1] and Lr is stored in A[0:rank-1][0:rank-1]. j is the column number in LR. It ends at 1 because the diagonal entry in row 0 of Lr is 1. i is the row number in LR. k is the column number in Lr</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">rowDim</span></code>: [in] row dimension of matrix A. </li>
+<li><code class="docutils literal notranslate"><span class="pre">colDim</span></code>: [in] column dimension of matrix A. </li>
+<li><code class="docutils literal notranslate"><span class="pre">rank</span></code>: [in] rank of matrix A. </li>
+<li><code class="docutils literal notranslate"><span class="pre">*A</span></code>: [in/out] matrix with dimensions A[0:rowDim-1][0:colDim-1]: </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="cholesky-decomposition">
+<h2>Cholesky Decomposition<a class="headerlink" href="#cholesky-decomposition" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>row major order<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv323ksl_linalg_cholesky_rmoPdKi">
+<span id="_CPPv223ksl_linalg_cholesky_rmoPdKi"></span><span id="ksl_linalg_cholesky_rmo__doubleP.iC"></span><span class="target" id="linalg_8h_1af58d6198da0ec52ec6208c6e0f430869"></span>int <code class="descname">ksl_linalg_cholesky_rmo</code><span class="sig-paren">(</span>double *<em>A</em>, <em class="property">const</em> int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv323ksl_linalg_cholesky_rmoPdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv342ksl_linalg_cholesky_forwardElimination_rmoPKdPKdPdKi">
+<span id="_CPPv242ksl_linalg_cholesky_forwardElimination_rmoPKdPKdPdKi"></span><span id="ksl_linalg_cholesky_forwardElimination_rmo__doubleCP.doubleCP.doubleP.iC"></span><span class="target" id="linalg_8h_1a2ec7ddcd8441f83f08b8a1e203228975"></span>void <code class="descname">ksl_linalg_cholesky_forwardElimination_rmo</code><span class="sig-paren">(</span><em class="property">const</em> double *<em>L</em>, <em class="property">const</em> double *<em>b</em>, double *<em>y</em>, <em class="property">const</em> int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv342ksl_linalg_cholesky_forwardElimination_rmoPKdPKdPdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv344ksl_linalg_cholesky_backwardSubstitution_rmoPKdPKdPdKi">
+<span id="_CPPv244ksl_linalg_cholesky_backwardSubstitution_rmoPKdPKdPdKi"></span><span id="ksl_linalg_cholesky_backwardSubstitution_rmo__doubleCP.doubleCP.doubleP.iC"></span><span class="target" id="linalg_8h_1a4c702b8b83bb1e4e5b28b4cf902288f1"></span>void <code class="descname">ksl_linalg_cholesky_backwardSubstitution_rmo</code><span class="sig-paren">(</span><em class="property">const</em> double *<em>L</em>, <em class="property">const</em> double *<em>y</em>, double *<em>x</em>, <em class="property">const</em> int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv344ksl_linalg_cholesky_backwardSubstitution_rmoPKdPKdPdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv329ksl_linalg_cholesky_solve_rmoPKdPKdPdKi">
+<span id="_CPPv229ksl_linalg_cholesky_solve_rmoPKdPKdPdKi"></span><span id="ksl_linalg_cholesky_solve_rmo__doubleCP.doubleCP.doubleP.iC"></span><span class="target" id="linalg_8h_1a2b69ce5c497f9eed151f91a0838c825c"></span>void <code class="descname">ksl_linalg_cholesky_solve_rmo</code><span class="sig-paren">(</span><em class="property">const</em> double *<em>A</em>, <em class="property">const</em> double *<em>b</em>, double *<em>x</em>, <em class="property">const</em> int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv329ksl_linalg_cholesky_solve_rmoPKdPKdPdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="id2">
+<h3>column major order<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv319ksl_linalg_ldlt_cmoPdKi">
+<span id="_CPPv219ksl_linalg_ldlt_cmoPdKi"></span><span id="ksl_linalg_ldlt_cmo__doubleP.iC"></span><span class="target" id="linalg_8h_1a041930fafabd630e9fe3d9ad4d5d9cd8"></span>int <code class="descname">ksl_linalg_ldlt_cmo</code><span class="sig-paren">(</span>double *<em>A</em>, <em class="property">const</em> int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_linalg_ldlt_cmoPdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv323ksl_linalg_cholesky_cmoPdKi">
+<span id="_CPPv223ksl_linalg_cholesky_cmoPdKi"></span><span id="ksl_linalg_cholesky_cmo__doubleP.iC"></span><span class="target" id="linalg_8h_1a753ac68d8f2711d8313a890066d5912c"></span>int <code class="descname">ksl_linalg_cholesky_cmo</code><span class="sig-paren">(</span>double *<em>A</em>, <em class="property">const</em> int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv323ksl_linalg_cholesky_cmoPdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv342ksl_linalg_cholesky_forwardElimination_cmoPKdPKdPdKi">
+<span id="_CPPv242ksl_linalg_cholesky_forwardElimination_cmoPKdPKdPdKi"></span><span id="ksl_linalg_cholesky_forwardElimination_cmo__doubleCP.doubleCP.doubleP.iC"></span><span class="target" id="linalg_8h_1aa7ce0e99e28cb5ecbb017feb679955e1"></span>void <code class="descname">ksl_linalg_cholesky_forwardElimination_cmo</code><span class="sig-paren">(</span><em class="property">const</em> double *<em>L</em>, <em class="property">const</em> double *<em>b</em>, double *<em>y</em>, <em class="property">const</em> int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv342ksl_linalg_cholesky_forwardElimination_cmoPKdPKdPdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv344ksl_linalg_cholesky_backwardSubstitution_cmoPKdPKdPdKi">
+<span id="_CPPv244ksl_linalg_cholesky_backwardSubstitution_cmoPKdPKdPdKi"></span><span id="ksl_linalg_cholesky_backwardSubstitution_cmo__doubleCP.doubleCP.doubleP.iC"></span><span class="target" id="linalg_8h_1a5d7875f6d81c9bdca7be5bb1585fee9f"></span>void <code class="descname">ksl_linalg_cholesky_backwardSubstitution_cmo</code><span class="sig-paren">(</span><em class="property">const</em> double *<em>L</em>, <em class="property">const</em> double *<em>y</em>, double *<em>x</em>, <em class="property">const</em> int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv344ksl_linalg_cholesky_backwardSubstitution_cmoPKdPKdPdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv329ksl_linalg_cholesky_solve_cmoPKdPKdPdKi">
+<span id="_CPPv229ksl_linalg_cholesky_solve_cmoPKdPKdPdKi"></span><span id="ksl_linalg_cholesky_solve_cmo__doubleCP.doubleCP.doubleP.iC"></span><span class="target" id="linalg_8h_1ad0a664fb5b6fbd16335b9e67c3dec320"></span>void <code class="descname">ksl_linalg_cholesky_solve_cmo</code><span class="sig-paren">(</span><em class="property">const</em> double *<em>A</em>, <em class="property">const</em> double *<em>b</em>, double *<em>x</em>, <em class="property">const</em> int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv329ksl_linalg_cholesky_solve_cmoPKdPKdPdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+<div class="section" id="ldlt-decomposition">
+<h2>LDLT Decomposition<a class="headerlink" href="#ldlt-decomposition" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>row major order<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv319ksl_linalg_ldlt_rmoPdKi">
+<span id="_CPPv219ksl_linalg_ldlt_rmoPdKi"></span><span id="ksl_linalg_ldlt_rmo__doubleP.iC"></span><span class="target" id="linalg_8h_1a733e638b94ae5d40cf5073bc18213c37"></span>int <code class="descname">ksl_linalg_ldlt_rmo</code><span class="sig-paren">(</span>double *<em>A</em>, <em class="property">const</em> int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_linalg_ldlt_rmoPdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv338ksl_linalg_ldlt_forwardElimination_rmoPKdPKdPdKi">
+<span id="_CPPv238ksl_linalg_ldlt_forwardElimination_rmoPKdPKdPdKi"></span><span id="ksl_linalg_ldlt_forwardElimination_rmo__doubleCP.doubleCP.doubleP.iC"></span><span class="target" id="linalg_8h_1a8b46af65a5770abdb4adcabecb9d297e"></span>void <code class="descname">ksl_linalg_ldlt_forwardElimination_rmo</code><span class="sig-paren">(</span><em class="property">const</em> double *<em>L</em>, <em class="property">const</em> double *<em>b</em>, double *<em>y</em>, <em class="property">const</em> int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv338ksl_linalg_ldlt_forwardElimination_rmoPKdPKdPdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv340ksl_linalg_ldlt_backwardSubstitution_rmoPKdPKdPdKi">
+<span id="_CPPv240ksl_linalg_ldlt_backwardSubstitution_rmoPKdPKdPdKi"></span><span id="ksl_linalg_ldlt_backwardSubstitution_rmo__doubleCP.doubleCP.doubleP.iC"></span><span class="target" id="linalg_8h_1a1fb51ec8ae3a69704d64d67086ccf5a5"></span>void <code class="descname">ksl_linalg_ldlt_backwardSubstitution_rmo</code><span class="sig-paren">(</span><em class="property">const</em> double *<em>L</em>, <em class="property">const</em> double *<em>b</em>, double *<em>x</em>, <em class="property">const</em> int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv340ksl_linalg_ldlt_backwardSubstitution_rmoPKdPKdPdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv325ksl_linalg_ldlt_solve_rmoPKdPKdPdKi">
+<span id="_CPPv225ksl_linalg_ldlt_solve_rmoPKdPKdPdKi"></span><span id="ksl_linalg_ldlt_solve_rmo__doubleCP.doubleCP.doubleP.iC"></span><span class="target" id="linalg_8h_1a4dd4bc8a76d30ea900141c4b76255c0e"></span>void <code class="descname">ksl_linalg_ldlt_solve_rmo</code><span class="sig-paren">(</span><em class="property">const</em> double *<em>A</em>, <em class="property">const</em> double *<em>b</em>, double *<em>x</em>, <em class="property">const</em> int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv325ksl_linalg_ldlt_solve_rmoPKdPKdPdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="id4">
+<h3>column major order<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv319ksl_linalg_ldlt_cmoPdKi">
+<span id="_CPPv219ksl_linalg_ldlt_cmoPdKi"></span><span class="target" id="linalg_8h_1a041930fafabd630e9fe3d9ad4d5d9cd8"></span>int <code class="descname">ksl_linalg_ldlt_cmo</code><span class="sig-paren">(</span>double *<em>A</em>, <em class="property">const</em> int <em>n</em><span class="sig-paren">)</span><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv338ksl_linalg_ldlt_forwardElimination_cmoPKdPKdPdKi">
+<span id="_CPPv238ksl_linalg_ldlt_forwardElimination_cmoPKdPKdPdKi"></span><span id="ksl_linalg_ldlt_forwardElimination_cmo__doubleCP.doubleCP.doubleP.iC"></span><span class="target" id="linalg_8h_1afe3cc744454389b72f711bfdbf97d880"></span>void <code class="descname">ksl_linalg_ldlt_forwardElimination_cmo</code><span class="sig-paren">(</span><em class="property">const</em> double *<em>L</em>, <em class="property">const</em> double *<em>b</em>, double *<em>y</em>, <em class="property">const</em> int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv338ksl_linalg_ldlt_forwardElimination_cmoPKdPKdPdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv340ksl_linalg_ldlt_backwardSubstitution_cmoPKdPKdPdKi">
+<span id="_CPPv240ksl_linalg_ldlt_backwardSubstitution_cmoPKdPKdPdKi"></span><span id="ksl_linalg_ldlt_backwardSubstitution_cmo__doubleCP.doubleCP.doubleP.iC"></span><span class="target" id="linalg_8h_1a8a3a58247bf30ddb0af1ccc467c85f43"></span>void <code class="descname">ksl_linalg_ldlt_backwardSubstitution_cmo</code><span class="sig-paren">(</span><em class="property">const</em> double *<em>L</em>, <em class="property">const</em> double *<em>b</em>, double *<em>x</em>, <em class="property">const</em> int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv340ksl_linalg_ldlt_backwardSubstitution_cmoPKdPKdPdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv325ksl_linalg_ldlt_solve_cmoPKdPCdPdKi">
+<span id="_CPPv225ksl_linalg_ldlt_solve_cmoPKdPCdPdKi"></span><span id="ksl_linalg_ldlt_solve_cmo__doubleCP.doublePC.doubleP.iC"></span><span class="target" id="linalg_8h_1aa58ede4e08006fb47b9f493c05d4b63c"></span>void <code class="descname">ksl_linalg_ldlt_solve_cmo</code><span class="sig-paren">(</span><em class="property">const</em> double *<em>A</em>, double *<em class="property">const</em> <em>b</em>, double *<em>x</em>, <em class="property">const</em> int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv325ksl_linalg_ldlt_solve_cmoPKdPCdPdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+<div class="section" id="symmetric-matrix-inverse">
+<h2>Symmetric Matrix Inverse<a class="headerlink" href="#symmetric-matrix-inverse" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h3>row major order<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv337ksl_linalg_symmetricMatrixInverse_rmoPdKi">
+<span id="_CPPv237ksl_linalg_symmetricMatrixInverse_rmoPdKi"></span><span id="ksl_linalg_symmetricMatrixInverse_rmo__doubleP.iC"></span><span class="target" id="linalg_8h_1ae0e6303411df831afa3b08803537942a"></span>int <code class="descname">ksl_linalg_symmetricMatrixInverse_rmo</code><span class="sig-paren">(</span>double *<em>A</em>, <em class="property">const</em> int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv337ksl_linalg_symmetricMatrixInverse_rmoPdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="id6">
+<h3>column major order<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv337ksl_linalg_symmetricMatrixInverse_cmoPdKi">
+<span id="_CPPv237ksl_linalg_symmetricMatrixInverse_cmoPdKi"></span><span id="ksl_linalg_symmetricMatrixInverse_cmo__doubleP.iC"></span><span class="target" id="linalg_8h_1af981d8f60914ea55286f18ffb9944d1b"></span>int <code class="descname">ksl_linalg_symmetricMatrixInverse_cmo</code><span class="sig-paren">(</span>double *<em>A</em>, <em class="property">const</em> int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv337ksl_linalg_symmetricMatrixInverse_cmoPdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018, Kristopher Wehage, Roger Wehage.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.0+</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="../_sources/linalg/linalg.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

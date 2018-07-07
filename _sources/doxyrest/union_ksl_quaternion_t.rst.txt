@@ -28,8 +28,8 @@ double precision quaternion data structure
 .. _cid-ksl_quaternion_t::z:
 .. _doxid-unionksl__quaternion__t_1ab8dc5e5f054465d93234609f9661735b:
 .. _cid-ksl_quaternion_t::w:
-.. _doxid-unionksl__quaternion__t_1ac4b868fb43c84e73588804997d610180:
-.. _cid-ksl_quaternion_t::@33:
+.. _doxid-unionksl__quaternion__t_1a0dd906144fd3ee05970763b167a7ad98:
+.. _cid-ksl_quaternion_t::@45:
 .. ref-code-block:: cpp
 	:class: overview-code-block
 

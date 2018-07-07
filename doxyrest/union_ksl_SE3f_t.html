@@ -9,16 +9,14 @@
     <title>union ksl_SE3f_t &#8212; KSL 0.0.0 documentation</title>
     <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="union ksl_coscrew_t" href="union_ksl_coscrew_t.html" />
-    <link rel="prev" title="union ksl_SE3_t" href="union_ksl_SE3_t.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -47,56 +45,22 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notation/notation.html">Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../vectors/vectors.html">Vectors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SE3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SO(3) and SE(3) Groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quaternions/quaternions.html">Quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trig/trig.html">Trigonometric Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../screws/screws.html">Screws</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../coscrews/coscrews.html">Coscrews</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../influence_coefficient_matrices/influence_coefficient_matrices.html">Influence Coefficient Matrices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../inertia/inertia.html">Inertia</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../lu_full/lu_full.html">Full Factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../linalg/linalg.html">Linear Algebra</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing/contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../zreferences.html">References</a></li>
-</ul>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="global.html">Global Namespace</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="enum_ksl_axis_enum_t.html">enum ksl_axis_enum_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_SE3_t.html">union ksl_SE3_t</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">union ksl_SE3f_t</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#detailed-documentation">Detailed Documentation</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_coscrew_t.html">union ksl_coscrew_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_coscrewf_t.html">union ksl_coscrewf_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_inertia_t.html">union ksl_inertia_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_inertiaf_t.html">union ksl_inertiaf_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_mat3x3_t.html">union ksl_mat3x3_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_mat3x3f_t.html">union ksl_mat3x3f_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_mat4x4_t.html">union ksl_mat4x4_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_mat4x4f_t.html">union ksl_mat4x4f_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_quaternion_t.html">union ksl_quaternion_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_quaternionf_t.html">union ksl_quaternionf_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_screw_t.html">union ksl_screw_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_screwf_t.html">union ksl_screwf_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_vec3_t.html">union ksl_vec3_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_vec3f_t.html">union ksl_vec3f_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_vec3i_t.html">union ksl_vec3i_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_vec4_t.html">union ksl_vec4_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_vec4f_t.html">union ksl_vec4f_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="global.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="global.html#detailed-documentation">Detailed Documentation</a></li>
-</ul>
-</li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="global.html">Global Namespace</a><ul>
-      <li>Previous: <a href="union_ksl_SE3_t.html" title="previous chapter">union ksl_SE3_t</a></li>
-      <li>Next: <a href="union_ksl_coscrew_t.html" title="next chapter">union ksl_coscrew_t</a></li>
-  </ul></li>
   </ul></li>
 </ul>
 </div>
@@ -116,6 +80,8 @@
       </div>
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="union-ksl-se3f-t">
@@ -128,24 +94,65 @@
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>Single precision member of 3 Dimensional Special Euclidian group (SE3) consisting of a single precision SO3 (othonormalized 3x3 rotation matrix) and single precision translation vector pair. <a class="reference internal" href="#details-doxid-unionksl-s-e3f-t"><span class="std std-ref">More…</span></a></p>
-<pre class="highlight overview-code-block literal-block" id="cid-ksl-se3f-t-31">
-<span id="doxid-unionksl-s-e3f-t-1ad8b275e7d57f74518c4890f099043add"></span><span id="cid-ksl-se3f-t-t"></span><span id="doxid-unionksl-s-e3f-t-1a3197ad64b57690cbf7b99d35f69fb1ed"></span><span id="cid-ksl-se3f-t-r"></span><span id="doxid-unionksl-s-e3f-t-1a134189e68331e79e46493933aafb1c3a"></span><span id="cid-ksl-se3f-t-as-array"></span><span id="doxid-unionksl-s-e3f-t-1aaee32e0d5158cf399822c4c2c7398b87"></span><span id="cid-ksl-se3f-t-at"></span><span id="doxid-unionksl-s-e3f-t-1a4d583b6cbf1401749e727ec2c4d66c2c"></span><span></span><span class="c1">// fields</span>
+<pre class="highlight overview-code-block literal-block" id="cid-ksl-se3f-t-v3">
+<span id="doxid-unionksl-s-e3f-t-1afedda2df9ac230f740909666298b983b"></span><span id="cid-ksl-se3f-t-v2"></span><span id="doxid-unionksl-s-e3f-t-1abd62bb364ac50ad0448c831d000b77c4"></span><span id="cid-ksl-se3f-t-v1"></span><span id="doxid-unionksl-s-e3f-t-1a05c81847e8378fa0617bfb185986481d"></span><span id="cid-ksl-se3f-t-v0"></span><span id="doxid-unionksl-s-e3f-t-1a80d52e8348bcbe9940254a472fe6c76d"></span><span id="cid-ksl-se3f-t-m23"></span><span id="doxid-unionksl-s-e3f-t-1a8e3e4b73cb01e558d7cc25009c5d74fa"></span><span id="cid-ksl-se3f-t-m13"></span><span id="doxid-unionksl-s-e3f-t-1abf9dfb0ebeb89c0808a7c17b8b10c06f"></span><span id="cid-ksl-se3f-t-m03"></span><span id="doxid-unionksl-s-e3f-t-1a62c5ee660eea0db7522dc3cd8f3549c9"></span><span id="cid-ksl-se3f-t-m22"></span><span id="doxid-unionksl-s-e3f-t-1aa736c8acd7606253c5fdd8d3a4de844d"></span><span id="cid-ksl-se3f-t-m12"></span><span id="doxid-unionksl-s-e3f-t-1aded4e6c199ee0c7b53a555df2405e7a4"></span><span id="cid-ksl-se3f-t-m02"></span><span id="doxid-unionksl-s-e3f-t-1a0794bb7c23b9af6dd2b2aa1a56737567"></span><span id="cid-ksl-se3f-t-m21"></span><span id="doxid-unionksl-s-e3f-t-1ac47a0a98d977705f866d2d9f00cd7fa6"></span><span id="cid-ksl-se3f-t-m11"></span><span id="doxid-unionksl-s-e3f-t-1ad79160839eb3660ee0d9e002153a7556"></span><span id="cid-ksl-se3f-t-m01"></span><span id="doxid-unionksl-s-e3f-t-1a981cdfa6df08af5cb083e0cc5ba47897"></span><span id="cid-ksl-se3f-t-m20"></span><span id="doxid-unionksl-s-e3f-t-1a587bd8889335742e51070960d0ad9a93"></span><span id="cid-ksl-se3f-t-m10"></span><span id="doxid-unionksl-s-e3f-t-1a7ebf36f6f4c2f73edcf5c35149a211c9"></span><span id="cid-ksl-se3f-t-m00"></span><span id="doxid-unionksl-s-e3f-t-1a8787de28772319c3962c8ad2407aa834"></span><span></span><span class="c1">// fields</span>
 
-<span class="kt">float</span> <span class="n">at</span> <span class="p">[</span><span class="mi">12</span><span class="p">]</span>
-<span class="kt">float</span> <span class="n">as_array</span> <span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
-<a class="reference internal" href="union_ksl_mat3x3f_t.html#doxid-unionksl-mat3x3f-t"><span class="std std-ref">ksl_mat3x3f_t</span></a><span></span> <span class="n">R</span>
-<a class="reference internal" href="union_ksl_vec3f_t.html#doxid-unionksl-vec3f-t"><span class="std std-ref">ksl_vec3f_t</span></a><span></span> <span class="n">t</span>
+<span class="kt">float</span> <a class="reference internal" href="#doxid-unionksl-s-e3f-t-1aafad3204f63ca0be4168422f6718db02"><span class="std std-ref">as_array</span></a><span></span> <span class="p">[</span><span class="mi">12</span><span class="p">]</span>
+<span class="kt">float</span> <a class="reference internal" href="#doxid-unionksl-s-e3f-t-1a48feafdac5471ea54ccd03ee5e4d7833"><span class="std std-ref">at</span></a><span></span> <span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+<a class="reference internal" href="union_ksl_mat3x3f_t.html#doxid-unionksl-mat3x3f-t"><span class="std std-ref">ksl_mat3x3f_t</span></a><span></span> <a class="reference internal" href="#doxid-unionksl-s-e3f-t-1a134189e68331e79e46493933aafb1c3a"><span class="std std-ref">R</span></a><span></span>
+<a class="reference internal" href="union_ksl_vec3f_t.html#doxid-unionksl-vec3f-t"><span class="std std-ref">ksl_vec3f_t</span></a><span></span> <a class="reference internal" href="#doxid-unionksl-s-e3f-t-1a3197ad64b57690cbf7b99d35f69fb1ed"><span class="std std-ref">t</span></a><span></span>
+<span class="kt">float</span> <span class="n">m00</span>
+<span class="kt">float</span> <span class="n">m10</span>
+<span class="kt">float</span> <span class="n">m20</span>
+<span class="kt">float</span> <span class="n">m01</span>
+<span class="kt">float</span> <span class="n">m11</span>
+<span class="kt">float</span> <span class="n">m21</span>
+<span class="kt">float</span> <span class="n">m02</span>
+<span class="kt">float</span> <span class="n">m12</span>
+<span class="kt">float</span> <span class="n">m22</span>
+<span class="kt">float</span> <span class="n">m03</span>
+<span class="kt">float</span> <span class="n">m13</span>
+<span class="kt">float</span> <span class="n">m23</span>
+<a class="reference internal" href="union_ksl_vec3f_t.html#doxid-unionksl-vec3f-t"><span class="std std-ref">ksl_vec3f_t</span></a><span></span> <span class="n">v0</span>
+<a class="reference internal" href="union_ksl_vec3f_t.html#doxid-unionksl-vec3f-t"><span class="std std-ref">ksl_vec3f_t</span></a><span></span> <span class="n">v1</span>
+<a class="reference internal" href="union_ksl_vec3f_t.html#doxid-unionksl-vec3f-t"><span class="std std-ref">ksl_vec3f_t</span></a><span></span> <span class="n">v2</span>
+<a class="reference internal" href="union_ksl_vec3f_t.html#doxid-unionksl-vec3f-t"><span class="std std-ref">ksl_vec3f_t</span></a><span></span> <span class="n">v3</span>
+<a class="reference internal" href="union_ksl_vec3f_t.html#doxid-unionksl-vec3f-t"><span class="std std-ref">ksl_vec3f_t</span></a><span></span> <a class="reference internal" href="#doxid-unionksl-s-e3f-t-1a25b357f06c92064dac04792d3e088568"><span class="std std-ref">v</span></a><span></span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span>
 </pre>
 </div>
 <div class="section" id="detailed-documentation">
 <span id="details-doxid-unionksl-s-e3f-t"></span><h2>Detailed Documentation<a class="headerlink" href="#detailed-documentation" title="Permalink to this headline">¶</a></h2>
 <p>Single precision member of 3 Dimensional Special Euclidian group (SE3) consisting of a single precision SO3 (othonormalized 3x3 rotation matrix) and single precision translation vector pair.</p>
 <p>if using the at/as_array operators, quantities are accessed in column major order with Rotation matrix quantities coming first, followed by translation vector</p>
+<div class="section" id="fields">
+<h3>Fields<a class="headerlink" href="#fields" title="Permalink to this headline">¶</a></h3>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-se3f-t-as-array">
+<span id="doxid-unionksl-s-e3f-t-1aafad3204f63ca0be4168422f6718db02"></span><span></span><span class="kt">float</span> <span class="n">as_array</span> <span class="p">[</span><span class="mi">12</span><span class="p">]</span>
+</pre>
+<p>allows accessing quantities at specified index in linear array, with entities specified in column major order</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-se3f-t-at">
+<span id="doxid-unionksl-s-e3f-t-1a48feafdac5471ea54ccd03ee5e4d7833"></span><span></span><span class="kt">float</span> <span class="n">at</span> <span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+</pre>
+<p>allows accessing SE3 quantities at specified index in a doubly dimensioned array, with entities specified in column major order</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-se3f-t-r">
+<span id="doxid-unionksl-s-e3f-t-1a134189e68331e79e46493933aafb1c3a"></span><a class="reference internal" href="union_ksl_mat3x3f_t.html#doxid-unionksl-mat3x3f-t"><span class="std std-ref">ksl_mat3x3f_t</span></a><span></span> <span class="n">R</span>
+</pre>
+<p>rotation component of SE3 transformation</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-se3f-t-t">
+<span id="doxid-unionksl-s-e3f-t-1a3197ad64b57690cbf7b99d35f69fb1ed"></span><a class="reference internal" href="union_ksl_vec3f_t.html#doxid-unionksl-vec3f-t"><span class="std std-ref">ksl_vec3f_t</span></a><span></span> <span class="n">t</span>
+</pre>
+<p>translation component of SE3 transformation</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-se3f-t-v">
+<span id="doxid-unionksl-s-e3f-t-1a25b357f06c92064dac04792d3e088568"></span><a class="reference internal" href="union_ksl_vec3f_t.html#doxid-unionksl-vec3f-t"><span class="std std-ref">ksl_vec3f_t</span></a><span></span> <span class="n">v</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+</pre>
+<p>anonymous union allows accessing columns of rotation matrix quantities at specified index</p>
+</div>
 </div>
 </div>
 
 
           </div>
+          
         </div>
       </div>
     <div class="clearer"></div>
@@ -154,8 +161,8 @@
       &copy;2018, Kristopher Wehage, Roger Wehage.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.0+</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
       |
       <a href="../_sources/doxyrest/union_ksl_SE3f_t.rst.txt"

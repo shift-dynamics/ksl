@@ -1,0 +1,320 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>SE3 &#8212; KSL 0.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">KSL</a></h1>
+
+
+
+<p class="blurb">Kinematics Subroutine Library</p>
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notation/notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vectors/vectors.html">Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SO(3) and SE(3) Groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../screws/screws.html">Screws</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coscrews/coscrews.html">Coscrews</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../influence_coefficient_matrices/influence_coefficient_matrices.html">Influence Coefficient Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inertia/inertia.html">Inertia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lu_full/lu_full.html">Full Factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zreferences.html">References</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../doxyrest/global.html">Global Namespace</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="se3">
+<span id="id1"></span><h1>SE3<a class="headerlink" href="#se3" title="Permalink to this headline">¶</a></h1>
+<p>The Special Orthogonal group, SO(3), consists of the set of 3x3 orthonormal matrices for rigid body rotations.</p>
+<p>SE3 matrices have the property that:</p>
+<div class="math notranslate nohighlight">
+\[R^{-1} = R^T\]</div>
+<dl class="type">
+<dt id="_CPPv312ksl_mat3x3_t">
+<span id="_CPPv212ksl_mat3x3_t"></span><span id="ksl_mat3x3_t"></span><span class="target" id="unionksl__mat3x3__t"></span><em class="property">union </em><code class="descname">ksl_mat3x3_t</code><a class="headerlink" href="#_CPPv312ksl_mat3x3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;matrix.h&gt;</em><p>general 3x3 double precision matrix </p>
+<p>allow accessing mat3x3 quantities by field name or by using at / as_array operators. if using the at or as_array operators, quantities are accessed in column major order </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_t8as_arrayE">
+<span id="_CPPv2N12ksl_mat3x3_t8as_arrayE"></span><span id="ksl_mat3x3_t::as_array__doubleA"></span><span class="target" id="unionksl__mat3x3__t_1af8a0577428c1f106f77e2d490f2045d7"></span>double <code class="descname">as_array</code>[9]<a class="headerlink" href="#_CPPv3N12ksl_mat3x3_t8as_arrayE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>allows accessing quantities at specified index in linear array, where entities are specified in column major order </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_t2atE">
+<span id="_CPPv2N12ksl_mat3x3_t2atE"></span><span id="ksl_mat3x3_t::at__doubleAA"></span><span class="target" id="unionksl__mat3x3__t_1a6ce045febd1d090b69e3d90e75d3bb48"></span>double <code class="descname">at</code>[3][3]<a class="headerlink" href="#_CPPv3N12ksl_mat3x3_t2atE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>allows accessing mat3x3 quantities at specified index in a doubly dimensioned array, where entities are specified in column major order </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_t3m00E">
+<span id="_CPPv2N12ksl_mat3x3_t3m00E"></span><span id="ksl_mat3x3_t::m00__double"></span><span class="target" id="unionksl__mat3x3__t_1a162a0190fa2a2340c23a54299ba1501b"></span>double <code class="descname">m00</code><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_t3m00E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_t3m10E">
+<span id="_CPPv2N12ksl_mat3x3_t3m10E"></span><span id="ksl_mat3x3_t::m10__double"></span><span class="target" id="unionksl__mat3x3__t_1a91cd59c9da0690418147081584906959"></span>double <code class="descname">m10</code><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_t3m10E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_t3m20E">
+<span id="_CPPv2N12ksl_mat3x3_t3m20E"></span><span id="ksl_mat3x3_t::m20__double"></span><span class="target" id="unionksl__mat3x3__t_1acb3e71790ce566891039e7dbdf5f31fc"></span>double <code class="descname">m20</code><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_t3m20E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_t3m01E">
+<span id="_CPPv2N12ksl_mat3x3_t3m01E"></span><span id="ksl_mat3x3_t::m01__double"></span><span class="target" id="unionksl__mat3x3__t_1ab8068d20d7f2371dcd39d20ad890ae03"></span>double <code class="descname">m01</code><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_t3m01E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_t3m11E">
+<span id="_CPPv2N12ksl_mat3x3_t3m11E"></span><span id="ksl_mat3x3_t::m11__double"></span><span class="target" id="unionksl__mat3x3__t_1a6d83ae2504ae905fb65fbd03a460ba3a"></span>double <code class="descname">m11</code><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_t3m11E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_t3m21E">
+<span id="_CPPv2N12ksl_mat3x3_t3m21E"></span><span id="ksl_mat3x3_t::m21__double"></span><span class="target" id="unionksl__mat3x3__t_1a1c08cee73f76531cfec45ac253b09dba"></span>double <code class="descname">m21</code><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_t3m21E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_t3m02E">
+<span id="_CPPv2N12ksl_mat3x3_t3m02E"></span><span id="ksl_mat3x3_t::m02__double"></span><span class="target" id="unionksl__mat3x3__t_1ae495158cba0849f8ef59b226e6aed111"></span>double <code class="descname">m02</code><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_t3m02E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_t3m12E">
+<span id="_CPPv2N12ksl_mat3x3_t3m12E"></span><span id="ksl_mat3x3_t::m12__double"></span><span class="target" id="unionksl__mat3x3__t_1ad7716f45ff7235162695407abe155db7"></span>double <code class="descname">m12</code><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_t3m12E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_t3m22E">
+<span id="_CPPv2N12ksl_mat3x3_t3m22E"></span><span id="ksl_mat3x3_t::m22__double"></span><span class="target" id="unionksl__mat3x3__t_1a807e5473906d9c261cf5800a773d5230"></span>double <code class="descname">m22</code><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_t3m22E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_tUt2_17E">
+<span class="target" id="unionksl__mat3x3__t_1a6fc7e5620820c49ebedf772cd406937a"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_tUt2_17E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing rotation matrix quantities by field name </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_t2v0E">
+<span id="_CPPv2N12ksl_mat3x3_t2v0E"></span><span id="ksl_mat3x3_t::v0__ksl_vec3_t"></span><span class="target" id="unionksl__mat3x3__t_1a252afd31c4f921ab2bafe0707c59df50"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">v0</code><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_t2v0E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_t2v1E">
+<span id="_CPPv2N12ksl_mat3x3_t2v1E"></span><span id="ksl_mat3x3_t::v1__ksl_vec3_t"></span><span class="target" id="unionksl__mat3x3__t_1aa385567df3e4b48528c42e251a2b93bb"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">v1</code><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_t2v1E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_t2v2E">
+<span id="_CPPv2N12ksl_mat3x3_t2v2E"></span><span id="ksl_mat3x3_t::v2__ksl_vec3_t"></span><span class="target" id="unionksl__mat3x3__t_1aed4d36a602440a5ac5c573d77bf46fcb"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">v2</code><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_t2v2E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_tUt2_19E">
+<span class="target" id="unionksl__mat3x3__t_1a3df2aec3a527eee675bc3e2f081024cb"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_tUt2_19E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing columns of rotation matrix quantities by field name </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_t1vE">
+<span id="_CPPv2N12ksl_mat3x3_t1vE"></span><span id="ksl_mat3x3_t::v__ksl_vec3_tA"></span><span class="target" id="unionksl__mat3x3__t_1a08c00340cd3bcae96d6edf4479603a27"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">v</code>[3]<a class="headerlink" href="#_CPPv3N12ksl_mat3x3_t1vE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing columns of rotation matrix quantities at specified index </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv313ksl_mat3x3f_t">
+<span id="_CPPv213ksl_mat3x3f_t"></span><span id="ksl_mat3x3f_t"></span><span class="target" id="unionksl__mat3x3f__t"></span><em class="property">union </em><code class="descname">ksl_mat3x3f_t</code><a class="headerlink" href="#_CPPv313ksl_mat3x3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;matrix.h&gt;</em><p>general 3x3 double precision matrix </p>
+<p>allow accessing mat3x3 quantities by field name or by using at / as_array operators. if using the at or as_array operators, quantities are accessed in column major order </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_t8as_arrayE">
+<span id="_CPPv2N13ksl_mat3x3f_t8as_arrayE"></span><span id="ksl_mat3x3f_t::as_array__floatA"></span><span class="target" id="unionksl__mat3x3f__t_1a233431ba494406a5eaa05e21cb0c61d8"></span>float <code class="descname">as_array</code>[9]<a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_t8as_arrayE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>allows accessing quantities at specified index in linear array, where entities are specified in column major order </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_t2atE">
+<span id="_CPPv2N13ksl_mat3x3f_t2atE"></span><span id="ksl_mat3x3f_t::at__floatAA"></span><span class="target" id="unionksl__mat3x3f__t_1a53027ce9683d9d0b59b0464f9e3f0487"></span>float <code class="descname">at</code>[3][3]<a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_t2atE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>allows accessing mat3x3 quantities at specified index in a doubly dimensioned array, where entities are specified in column major order </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_t3m00E">
+<span id="_CPPv2N13ksl_mat3x3f_t3m00E"></span><span id="ksl_mat3x3f_t::m00__float"></span><span class="target" id="unionksl__mat3x3f__t_1a1006a7449667905708e4c8eca844103e"></span>float <code class="descname">m00</code><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_t3m00E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_t3m10E">
+<span id="_CPPv2N13ksl_mat3x3f_t3m10E"></span><span id="ksl_mat3x3f_t::m10__float"></span><span class="target" id="unionksl__mat3x3f__t_1ad81b40b6fa61fcd79110dd0660ce1c52"></span>float <code class="descname">m10</code><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_t3m10E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_t3m20E">
+<span id="_CPPv2N13ksl_mat3x3f_t3m20E"></span><span id="ksl_mat3x3f_t::m20__float"></span><span class="target" id="unionksl__mat3x3f__t_1a00919ee9f5fdb6cc6d865237129cddf6"></span>float <code class="descname">m20</code><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_t3m20E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_t3m01E">
+<span id="_CPPv2N13ksl_mat3x3f_t3m01E"></span><span id="ksl_mat3x3f_t::m01__float"></span><span class="target" id="unionksl__mat3x3f__t_1adba89925fd0b73ac2a95b5ef03dee9d2"></span>float <code class="descname">m01</code><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_t3m01E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_t3m11E">
+<span id="_CPPv2N13ksl_mat3x3f_t3m11E"></span><span id="ksl_mat3x3f_t::m11__float"></span><span class="target" id="unionksl__mat3x3f__t_1ae7af2a52c4c7b5be2e95e5182ee4878a"></span>float <code class="descname">m11</code><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_t3m11E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_t3m21E">
+<span id="_CPPv2N13ksl_mat3x3f_t3m21E"></span><span id="ksl_mat3x3f_t::m21__float"></span><span class="target" id="unionksl__mat3x3f__t_1a23ec053c7fb796dbaf1027e84069adf3"></span>float <code class="descname">m21</code><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_t3m21E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_t3m02E">
+<span id="_CPPv2N13ksl_mat3x3f_t3m02E"></span><span id="ksl_mat3x3f_t::m02__float"></span><span class="target" id="unionksl__mat3x3f__t_1a979fc73175cd085e0cec1fe5a1d39f06"></span>float <code class="descname">m02</code><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_t3m02E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_t3m12E">
+<span id="_CPPv2N13ksl_mat3x3f_t3m12E"></span><span id="ksl_mat3x3f_t::m12__float"></span><span class="target" id="unionksl__mat3x3f__t_1add15116857bf84a0cfe4e658161d857d"></span>float <code class="descname">m12</code><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_t3m12E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_t3m22E">
+<span id="_CPPv2N13ksl_mat3x3f_t3m22E"></span><span id="ksl_mat3x3f_t::m22__float"></span><span class="target" id="unionksl__mat3x3f__t_1a6c20498998604e5d3b46db8f37d52230"></span>float <code class="descname">m22</code><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_t3m22E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_tUt2_21E">
+<span class="target" id="unionksl__mat3x3f__t_1a66cd923bc74256d6ac3ef47b610e94dc"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_tUt2_21E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing rotation matrix quantities by field name </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_t2v0E">
+<span id="_CPPv2N13ksl_mat3x3f_t2v0E"></span><span id="ksl_mat3x3f_t::v0__ksl_vec3f_t"></span><span class="target" id="unionksl__mat3x3f__t_1a142c24ac07a4d3ae9dc2bd05fef74a31"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <code class="descname">v0</code><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_t2v0E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_t2v1E">
+<span id="_CPPv2N13ksl_mat3x3f_t2v1E"></span><span id="ksl_mat3x3f_t::v1__ksl_vec3f_t"></span><span class="target" id="unionksl__mat3x3f__t_1a3b7c8385e68ce89e70f4064057506390"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <code class="descname">v1</code><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_t2v1E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_t2v2E">
+<span id="_CPPv2N13ksl_mat3x3f_t2v2E"></span><span id="ksl_mat3x3f_t::v2__ksl_vec3f_t"></span><span class="target" id="unionksl__mat3x3f__t_1ae1878c1ae11efeefd6c27dd7d0d52b18"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <code class="descname">v2</code><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_t2v2E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_tUt2_23E">
+<span class="target" id="unionksl__mat3x3f__t_1a4ed89362b83b3742bb3a5fecc260acb7"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_tUt2_23E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing columns of rotation matrix quantities by field name </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_t1vE">
+<span id="_CPPv2N13ksl_mat3x3f_t1vE"></span><span id="ksl_mat3x3f_t::v__ksl_vec3f_tA"></span><span class="target" id="unionksl__mat3x3f__t_1ace1667287f6ab22d7f1027be1f82942f"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <code class="descname">v</code>[3]<a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_t1vE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing columns of rotation matrix quantities at specified index </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018, Kristopher Wehage, Roger Wehage.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.0+</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="../_sources/SO3/SO3.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

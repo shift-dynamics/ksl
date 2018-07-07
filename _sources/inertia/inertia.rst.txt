@@ -144,3 +144,75 @@ Therefore, :math:`\tilde{a} \tilde{b}` is found as:
   :label: eq:result2
 
   \bar{I}^{ff}_{ff} = \bar{I}^{ff}_{cc} - result
+
+
+KSL double precision inertia matrices
+-------------------------------------
+
+.. doxygenunion:: ksl_inertia_t
+
+
+.. doxygenfunction:: ksl_inertia
+
+
+.. doxygenfunction:: ksl_inertia_alloc
+
+
+.. doxygenfunction:: ksl_inertia_rotated
+
+
+.. doxygenfunction:: ksl_inertia_rotate
+
+
+.. doxygenfunction:: ksl_inertia_translated
+
+
+.. doxygenfunction:: ksl_inertia_translate
+
+
+.. doxygenfunction:: ksl_inertia_transformed
+
+
+.. doxygenfunction:: ksl_inertia_transform
+
+
+.. doxygenfunction:: ksl_inertia_merge
+
+
+.. doxygenfunction:: ksl_inertia_factor
+
+
+KSL single precision inertia matrices
+-------------------------------------
+
+.. doxygenunion:: ksl_inertiaf_t
+
+
+.. doxygenfunction:: ksl_inertiaf
+
+
+.. doxygenfunction:: ksl_inertiaf_alloc
+
+
+.. doxygenfunction:: ksl_inertiaf_rotated
+
+
+.. doxygenfunction:: ksl_inertiaf_rotate
+
+
+.. doxygenfunction:: ksl_inertiaf_translated
+
+
+.. doxygenfunction:: ksl_inertiaf_translate
+
+
+.. doxygenfunction:: ksl_inertiaf_transformed
+
+
+.. doxygenfunction:: ksl_inertiaf_transform
+
+
+.. doxygenfunction:: ksl_inertiaf_merge
+
+
+.. doxygenfunction:: ksl_inertiaf_factor

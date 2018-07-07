@@ -9,16 +9,14 @@
     <title>union ksl_mat4x4_t &#8212; KSL 0.0.0 documentation</title>
     <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="union ksl_mat4x4f_t" href="union_ksl_mat4x4f_t.html" />
-    <link rel="prev" title="union ksl_mat3x3f_t" href="union_ksl_mat3x3f_t.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -47,56 +45,22 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notation/notation.html">Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../vectors/vectors.html">Vectors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SE3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SO(3) and SE(3) Groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quaternions/quaternions.html">Quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trig/trig.html">Trigonometric Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../screws/screws.html">Screws</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../coscrews/coscrews.html">Coscrews</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../influence_coefficient_matrices/influence_coefficient_matrices.html">Influence Coefficient Matrices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../inertia/inertia.html">Inertia</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../lu_full/lu_full.html">Full Factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../linalg/linalg.html">Linear Algebra</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing/contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../zreferences.html">References</a></li>
-</ul>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="global.html">Global Namespace</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="enum_ksl_axis_enum_t.html">enum ksl_axis_enum_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_SE3_t.html">union ksl_SE3_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_SE3f_t.html">union ksl_SE3f_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_coscrew_t.html">union ksl_coscrew_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_coscrewf_t.html">union ksl_coscrewf_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_inertia_t.html">union ksl_inertia_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_inertiaf_t.html">union ksl_inertiaf_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_mat3x3_t.html">union ksl_mat3x3_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_mat3x3f_t.html">union ksl_mat3x3f_t</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">union ksl_mat4x4_t</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#detailed-documentation">Detailed Documentation</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_mat4x4f_t.html">union ksl_mat4x4f_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_quaternion_t.html">union ksl_quaternion_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_quaternionf_t.html">union ksl_quaternionf_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_screw_t.html">union ksl_screw_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_screwf_t.html">union ksl_screwf_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_vec3_t.html">union ksl_vec3_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_vec3f_t.html">union ksl_vec3f_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_vec3i_t.html">union ksl_vec3i_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_vec4_t.html">union ksl_vec4_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="union_ksl_vec4f_t.html">union ksl_vec4f_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="global.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="global.html#detailed-documentation">Detailed Documentation</a></li>
-</ul>
-</li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="global.html">Global Namespace</a><ul>
-      <li>Previous: <a href="union_ksl_mat3x3f_t.html" title="previous chapter">union ksl_mat3x3f_t</a></li>
-      <li>Next: <a href="union_ksl_mat4x4f_t.html" title="next chapter">union ksl_mat4x4f_t</a></li>
-  </ul></li>
   </ul></li>
 </ul>
 </div>
@@ -116,6 +80,8 @@
       </div>
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="union-ksl-mat4x4-t">
@@ -128,11 +94,11 @@
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>general 4x4 double precision matrix <a class="reference internal" href="#details-doxid-unionksl-mat4x4-t"><span class="std std-ref">More…</span></a></p>
-<pre class="highlight overview-code-block literal-block" id="cid-ksl-mat4x4-t-23">
-<span id="doxid-unionksl-mat4x4-t-1a9816a3f18af4659f57cae555a6edc59b"></span><span id="cid-ksl-mat4x4-t-v3"></span><span id="doxid-unionksl-mat4x4-t-1ad6de37665a6d582b7a78a6e85ae8040e"></span><span id="cid-ksl-mat4x4-t-v2"></span><span id="doxid-unionksl-mat4x4-t-1ac13bac37de762a17149ea6f98add9d52"></span><span id="cid-ksl-mat4x4-t-v1"></span><span id="doxid-unionksl-mat4x4-t-1a05b1b3778a7f270ea2a50735d36b1dcc"></span><span id="cid-ksl-mat4x4-t-v0"></span><span id="doxid-unionksl-mat4x4-t-1ada7c5c1b80c8bf03d88b7eb93b9c4220"></span><span id="cid-ksl-mat4x4-t-21"></span><span id="doxid-unionksl-mat4x4-t-1a7186939d46d3265dc53f5877a82cfc7b"></span><span id="cid-ksl-mat4x4-t-m33"></span><span id="doxid-unionksl-mat4x4-t-1a5af9cd475cc771ff8e6332dbb581f350"></span><span id="cid-ksl-mat4x4-t-m23"></span><span id="doxid-unionksl-mat4x4-t-1a1290f7b29005c6bb03a36733af17c7b0"></span><span id="cid-ksl-mat4x4-t-m13"></span><span id="doxid-unionksl-mat4x4-t-1a22a655278a32f92214f37cbf7e7228b5"></span><span id="cid-ksl-mat4x4-t-m03"></span><span id="doxid-unionksl-mat4x4-t-1ad2503c720dca9d142206917d3f19a725"></span><span id="cid-ksl-mat4x4-t-m32"></span><span id="doxid-unionksl-mat4x4-t-1aa1ed0515112e4b548c287c1d5e752751"></span><span id="cid-ksl-mat4x4-t-m22"></span><span id="doxid-unionksl-mat4x4-t-1aa7b089f5ca3bcc77e2d4f1eae1bc52ab"></span><span id="cid-ksl-mat4x4-t-m12"></span><span id="doxid-unionksl-mat4x4-t-1acb960fe71180a3ab7f125ebe7b6ada1c"></span><span id="cid-ksl-mat4x4-t-m02"></span><span id="doxid-unionksl-mat4x4-t-1a1510fa969f934d6c1cd8149f48a48f2a"></span><span id="cid-ksl-mat4x4-t-m31"></span><span id="doxid-unionksl-mat4x4-t-1a37e102cb3745e527511667c35bdcd3aa"></span><span id="cid-ksl-mat4x4-t-m21"></span><span id="doxid-unionksl-mat4x4-t-1a9d0fa8f5410d2c59b70ff55ee1f94f05"></span><span id="cid-ksl-mat4x4-t-m11"></span><span id="doxid-unionksl-mat4x4-t-1ad117cb0707b9cfd13358902aa9c05610"></span><span id="cid-ksl-mat4x4-t-m01"></span><span id="doxid-unionksl-mat4x4-t-1a69b9748a3bb0ecdb6b3ce7c661c1c8ff"></span><span id="cid-ksl-mat4x4-t-m30"></span><span id="doxid-unionksl-mat4x4-t-1a12016bb418969f7616e48cb931a8d847"></span><span id="cid-ksl-mat4x4-t-m20"></span><span id="doxid-unionksl-mat4x4-t-1ab1c099a2c160338a69a77daf0b0b53e6"></span><span id="cid-ksl-mat4x4-t-m10"></span><span id="doxid-unionksl-mat4x4-t-1a8e8afc7688310155483c3c9e5f5380c6"></span><span id="cid-ksl-mat4x4-t-m00"></span><span id="doxid-unionksl-mat4x4-t-1aaa6f86ad444a4cc69c51c14786f9269b"></span><span id="cid-ksl-mat4x4-t-as-array"></span><span id="doxid-unionksl-mat4x4-t-1a118e9e1947836c9e8a09b171f7fe0a4d"></span><span id="cid-ksl-mat4x4-t-at"></span><span id="doxid-unionksl-mat4x4-t-1a6bdede3ec2682ed43dd9c3b4f0f70111"></span><span></span><span class="c1">// fields</span>
+<pre class="highlight overview-code-block literal-block" id="cid-ksl-mat4x4-t-v3">
+<span id="doxid-unionksl-mat4x4-t-1ad6de37665a6d582b7a78a6e85ae8040e"></span><span id="cid-ksl-mat4x4-t-v2"></span><span id="doxid-unionksl-mat4x4-t-1ac13bac37de762a17149ea6f98add9d52"></span><span id="cid-ksl-mat4x4-t-v1"></span><span id="doxid-unionksl-mat4x4-t-1a05b1b3778a7f270ea2a50735d36b1dcc"></span><span id="cid-ksl-mat4x4-t-v0"></span><span id="doxid-unionksl-mat4x4-t-1ada7c5c1b80c8bf03d88b7eb93b9c4220"></span><span id="cid-ksl-mat4x4-t-m33"></span><span id="doxid-unionksl-mat4x4-t-1a5af9cd475cc771ff8e6332dbb581f350"></span><span id="cid-ksl-mat4x4-t-m23"></span><span id="doxid-unionksl-mat4x4-t-1a1290f7b29005c6bb03a36733af17c7b0"></span><span id="cid-ksl-mat4x4-t-m13"></span><span id="doxid-unionksl-mat4x4-t-1a22a655278a32f92214f37cbf7e7228b5"></span><span id="cid-ksl-mat4x4-t-m03"></span><span id="doxid-unionksl-mat4x4-t-1ad2503c720dca9d142206917d3f19a725"></span><span id="cid-ksl-mat4x4-t-m32"></span><span id="doxid-unionksl-mat4x4-t-1aa1ed0515112e4b548c287c1d5e752751"></span><span id="cid-ksl-mat4x4-t-m22"></span><span id="doxid-unionksl-mat4x4-t-1aa7b089f5ca3bcc77e2d4f1eae1bc52ab"></span><span id="cid-ksl-mat4x4-t-m12"></span><span id="doxid-unionksl-mat4x4-t-1acb960fe71180a3ab7f125ebe7b6ada1c"></span><span id="cid-ksl-mat4x4-t-m02"></span><span id="doxid-unionksl-mat4x4-t-1a1510fa969f934d6c1cd8149f48a48f2a"></span><span id="cid-ksl-mat4x4-t-m31"></span><span id="doxid-unionksl-mat4x4-t-1a37e102cb3745e527511667c35bdcd3aa"></span><span id="cid-ksl-mat4x4-t-m21"></span><span id="doxid-unionksl-mat4x4-t-1a9d0fa8f5410d2c59b70ff55ee1f94f05"></span><span id="cid-ksl-mat4x4-t-m11"></span><span id="doxid-unionksl-mat4x4-t-1ad117cb0707b9cfd13358902aa9c05610"></span><span id="cid-ksl-mat4x4-t-m01"></span><span id="doxid-unionksl-mat4x4-t-1a69b9748a3bb0ecdb6b3ce7c661c1c8ff"></span><span id="cid-ksl-mat4x4-t-m30"></span><span id="doxid-unionksl-mat4x4-t-1a12016bb418969f7616e48cb931a8d847"></span><span id="cid-ksl-mat4x4-t-m20"></span><span id="doxid-unionksl-mat4x4-t-1ab1c099a2c160338a69a77daf0b0b53e6"></span><span id="cid-ksl-mat4x4-t-m10"></span><span id="doxid-unionksl-mat4x4-t-1a8e8afc7688310155483c3c9e5f5380c6"></span><span id="cid-ksl-mat4x4-t-m00"></span><span id="doxid-unionksl-mat4x4-t-1aaa6f86ad444a4cc69c51c14786f9269b"></span><span></span><span class="c1">// fields</span>
 
-<span class="kt">double</span> <span class="n">at</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span>
-<span class="kt">double</span> <span class="n">as_array</span> <span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span>
+<span class="kt">double</span> <a class="reference internal" href="#doxid-unionksl-mat4x4-t-1a192806c862763241fd677747204c3e27"><span class="std std-ref">as_array</span></a><span></span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span>
+<span class="kt">double</span> <a class="reference internal" href="#doxid-unionksl-mat4x4-t-1a2003d53db98c45fe2d95f1d474a914dc"><span class="std std-ref">at</span></a><span></span> <span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span>
 <span class="kt">double</span> <span class="n">m00</span>
 <span class="kt">double</span> <span class="n">m10</span>
 <span class="kt">double</span> <span class="n">m20</span>
@@ -153,17 +119,34 @@
 <a class="reference internal" href="union_ksl_vec4_t.html#doxid-unionksl-vec4-t"><span class="std std-ref">ksl_vec4_t</span></a><span></span> <span class="n">v1</span>
 <a class="reference internal" href="union_ksl_vec4_t.html#doxid-unionksl-vec4-t"><span class="std std-ref">ksl_vec4_t</span></a><span></span> <span class="n">v2</span>
 <a class="reference internal" href="union_ksl_vec4_t.html#doxid-unionksl-vec4-t"><span class="std std-ref">ksl_vec4_t</span></a><span></span> <span class="n">v3</span>
+<a class="reference internal" href="union_ksl_vec4_t.html#doxid-unionksl-vec4-t"><span class="std std-ref">ksl_vec4_t</span></a><span></span> <a class="reference internal" href="#doxid-unionksl-mat4x4-t-1a183ee20137dc9033a57a954e518c0f76"><span class="std std-ref">v</span></a><span></span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span>
 </pre>
 </div>
 <div class="section" id="detailed-documentation">
 <span id="details-doxid-unionksl-mat4x4-t"></span><h2>Detailed Documentation<a class="headerlink" href="#detailed-documentation" title="Permalink to this headline">¶</a></h2>
 <p>general 4x4 double precision matrix</p>
 <p>allow accessing mat4x4 quantities by field name or using at / as_array operators. if using the at / as_array operators, quantities are accessed in column major order</p>
+<div class="section" id="fields">
+<h3>Fields<a class="headerlink" href="#fields" title="Permalink to this headline">¶</a></h3>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-mat4x4-t-as-array">
+<span id="doxid-unionksl-mat4x4-t-1a192806c862763241fd677747204c3e27"></span><span></span><span class="kt">double</span> <span class="n">as_array</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span>
+</pre>
+<p>allows accessing quantities at specified index in linear array, where entities are specified in column major order</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-mat4x4-t-at">
+<span id="doxid-unionksl-mat4x4-t-1a2003d53db98c45fe2d95f1d474a914dc"></span><span></span><span class="kt">double</span> <span class="n">at</span> <span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span>
+</pre>
+<p>allows accessing mat3x3 quantities at specified index in a doubly dimensioned array, where entities are specified in column major order</p>
+<pre class="highlight title-code-block literal-block" id="cid-ksl-mat4x4-t-v">
+<span id="doxid-unionksl-mat4x4-t-1a183ee20137dc9033a57a954e518c0f76"></span><a class="reference internal" href="union_ksl_vec4_t.html#doxid-unionksl-vec4-t"><span class="std std-ref">ksl_vec4_t</span></a><span></span> <span class="n">v</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+</pre>
+<p>anonymous union allows accessing columns of rotation matrix quantities at specified index</p>
+</div>
 </div>
 </div>
 
 
           </div>
+          
         </div>
       </div>
     <div class="clearer"></div>
@@ -172,8 +155,8 @@
       &copy;2018, Kristopher Wehage, Roger Wehage.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.0+</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
       |
       <a href="../_sources/doxyrest/union_ksl_mat4x4_t.rst.txt"
