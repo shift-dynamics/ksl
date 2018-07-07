@@ -21,8 +21,6 @@ double precision mass and inertia properties :ref:`More...<details-doxid-unionks
 
 .. _doxid-unionksl__inertia__t_1a7e473f4d334f16258e711b99162b77b3:
 .. _cid-ksl_inertia_t::at:
-.. _doxid-unionksl__inertia__t_1afd5c4854ed9a438c33126299e6c2e752:
-.. _cid-ksl_inertia_t::@9:
 .. ref-code-block:: cpp
 	:class: overview-code-block
 
@@ -37,6 +35,14 @@ double precision mass and inertia properties :ref:`More...<details-doxid-unionks
 	double :ref:`Ixy<doxid-unionksl__inertia__t_1a1e6573bc60662216e73675bf2076a11b>`
 	double :ref:`Iyz<doxid-unionksl__inertia__t_1a0944254e6ea2d48340c112a5e59dd6ea>`
 	double :ref:`Izx<doxid-unionksl__inertia__t_1aafcb32737673b966298d44998d4649a0>`
+	double :ref:`mass<doxid-unionksl__inertia__t_1a3f8156d0486574f6b810d393d553a501>`
+	:ref:`ksl_vec3_t<doxid-unionksl__vec3__t>` :ref:`mr<doxid-unionksl__inertia__t_1afab97679e93c0c3f7283fa760655a71d>`
+	double :ref:`_Ixx<doxid-unionksl__inertia__t_1a84125375ee133ad0d92c1ba31cfa1c74>`
+	double :ref:`_Iyy<doxid-unionksl__inertia__t_1a26e90ef5a5d27004ef98812388e82d34>`
+	double :ref:`_Izz<doxid-unionksl__inertia__t_1a3077f4f2ba55b4cd95667e5d1fac9b07>`
+	double :ref:`Iyx<doxid-unionksl__inertia__t_1ad902ca677203432d4a25b6d7928af981>`
+	double :ref:`Izy<doxid-unionksl__inertia__t_1af3382f7297d21c91524ab1e5a7f211a7>`
+	double :ref:`Ixz<doxid-unionksl__inertia__t_1a33f55406e42b2af43c5e903dd3f9bc0a>`
 
 .. _details-doxid-unionksl__inertia__t:
 
@@ -117,6 +123,78 @@ Iyz centroidal inertia term, expressed in reference frame coordinates
 	:class: title-code-block
 
 	double Izx
+
+Izx centroidal inertia term, expressed in reference frame coordinates
+
+.. _doxid-unionksl__inertia__t_1a3f8156d0486574f6b810d393d553a501:
+.. _cid-ksl_inertia_t::mass:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	double mass
+
+mass
+
+.. _doxid-unionksl__inertia__t_1afab97679e93c0c3f7283fa760655a71d:
+.. _cid-ksl_inertia_t::mr:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	:ref:`ksl_vec3_t<doxid-unionksl__vec3__t>` mr
+
+mass times a vector, r, from reference frame to body centroid
+
+.. _doxid-unionksl__inertia__t_1a84125375ee133ad0d92c1ba31cfa1c74:
+.. _cid-ksl_inertia_t::_ixx:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	double _Ixx
+
+Ixx centroidal inertia term, expressed in reference frame coordinates
+
+.. _doxid-unionksl__inertia__t_1a26e90ef5a5d27004ef98812388e82d34:
+.. _cid-ksl_inertia_t::_iyy:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	double _Iyy
+
+Ixy centroidal inertia term, expressed in reference frame coordinates
+
+.. _doxid-unionksl__inertia__t_1a3077f4f2ba55b4cd95667e5d1fac9b07:
+.. _cid-ksl_inertia_t::_izz:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	double _Izz
+
+Izz centroidal inertia term, expressed in reference frame coordinates
+
+.. _doxid-unionksl__inertia__t_1ad902ca677203432d4a25b6d7928af981:
+.. _cid-ksl_inertia_t::iyx:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	double Iyx
+
+Ixy centroidal inertia term, expressed in reference frame coordinates
+
+.. _doxid-unionksl__inertia__t_1af3382f7297d21c91524ab1e5a7f211a7:
+.. _cid-ksl_inertia_t::izy:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	double Izy
+
+Iyz centroidal inertia term, expressed in reference frame coordinates
+
+.. _doxid-unionksl__inertia__t_1a33f55406e42b2af43c5e903dd3f9bc0a:
+.. _cid-ksl_inertia_t::ixz:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	double Ixz
 
 Izx centroidal inertia term, expressed in reference frame coordinates
 

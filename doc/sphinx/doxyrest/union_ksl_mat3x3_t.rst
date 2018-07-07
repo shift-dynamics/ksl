@@ -19,10 +19,6 @@ Overview
 
 general 3x3 double precision matrix :ref:`More...<details-doxid-unionksl__mat3x3__t>`
 
-.. _doxid-unionksl__mat3x3__t_1a85626d4763e6987c2a94d4c40bb7d997:
-.. _cid-ksl_mat3x3_t::at:
-.. _doxid-unionksl__mat3x3__t_1a650ee547f53d919564246fa6edc915db:
-.. _cid-ksl_mat3x3_t::as_array:
 .. _doxid-unionksl__mat3x3__t_1a162a0190fa2a2340c23a54299ba1501b:
 .. _cid-ksl_mat3x3_t::m00:
 .. _doxid-unionksl__mat3x3__t_1a91cd59c9da0690418147081584906959:
@@ -41,23 +37,19 @@ general 3x3 double precision matrix :ref:`More...<details-doxid-unionksl__mat3x3
 .. _cid-ksl_mat3x3_t::m12:
 .. _doxid-unionksl__mat3x3__t_1a807e5473906d9c261cf5800a773d5230:
 .. _cid-ksl_mat3x3_t::m22:
-.. _doxid-unionksl__mat3x3__t_1aedde1f8219a1435a245d620ab2683868:
-.. _cid-ksl_mat3x3_t::@13:
 .. _doxid-unionksl__mat3x3__t_1a252afd31c4f921ab2bafe0707c59df50:
 .. _cid-ksl_mat3x3_t::v0:
 .. _doxid-unionksl__mat3x3__t_1aa385567df3e4b48528c42e251a2b93bb:
 .. _cid-ksl_mat3x3_t::v1:
 .. _doxid-unionksl__mat3x3__t_1aed4d36a602440a5ac5c573d77bf46fcb:
 .. _cid-ksl_mat3x3_t::v2:
-.. _doxid-unionksl__mat3x3__t_1a5b3a7d78b89aaeed1746fae5f178c75e:
-.. _cid-ksl_mat3x3_t::@15:
 .. ref-code-block:: cpp
 	:class: overview-code-block
 
 	// fields
 
-	double at [9]
-	double as_array [3][3]
+	double :ref:`as_array<doxid-unionksl__mat3x3__t_1af8a0577428c1f106f77e2d490f2045d7>` [9]
+	double :ref:`at<doxid-unionksl__mat3x3__t_1a6ce045febd1d090b69e3d90e75d3bb48>` [3][3]
 	double m00
 	double m10
 	double m20
@@ -70,6 +62,7 @@ general 3x3 double precision matrix :ref:`More...<details-doxid-unionksl__mat3x3
 	:ref:`ksl_vec3_t<doxid-unionksl__vec3__t>` v0
 	:ref:`ksl_vec3_t<doxid-unionksl__vec3__t>` v1
 	:ref:`ksl_vec3_t<doxid-unionksl__vec3__t>` v2
+	:ref:`ksl_vec3_t<doxid-unionksl__vec3__t>` :ref:`v<doxid-unionksl__mat3x3__t_1a08c00340cd3bcae96d6edf4479603a27>` [3]
 
 .. _details-doxid-unionksl__mat3x3__t:
 
@@ -78,5 +71,35 @@ Detailed Documentation
 
 general 3x3 double precision matrix
 
-allow accessing mat3x3 quantities by field name or by using at / as_array operators. if using the at or as_array operators, then quantities are accessed in column major order
+allow accessing mat3x3 quantities by field name or by using at / as_array operators. if using the at or as_array operators, quantities are accessed in column major order
+
+Fields
+------
+
+.. _doxid-unionksl__mat3x3__t_1af8a0577428c1f106f77e2d490f2045d7:
+.. _cid-ksl_mat3x3_t::as_array:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	double as_array [9]
+
+allows accessing quantities at specified index in linear array, where entities are specified in column major order
+
+.. _doxid-unionksl__mat3x3__t_1a6ce045febd1d090b69e3d90e75d3bb48:
+.. _cid-ksl_mat3x3_t::at:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	double at [3][3]
+
+allows accessing mat3x3 quantities at specified index in a doubly dimensioned array, where entities are specified in column major order
+
+.. _doxid-unionksl__mat3x3__t_1a08c00340cd3bcae96d6edf4479603a27:
+.. _cid-ksl_mat3x3_t::v:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	:ref:`ksl_vec3_t<doxid-unionksl__vec3__t>` v [3]
+
+anonymous union allows accessing columns of rotation matrix quantities at specified index
 

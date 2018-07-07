@@ -223,3 +223,130 @@ The left derivative operator for :math:`[Ad]^*` matrices is:
     \tilde{\omega} & 0\\
     \tilde{v} & \tilde{\omega}
     \end{bmatrix}
+
+
+KSL double precision coscrew functions
+--------------------------------------
+
+.. doxygenunion:: ksl_coscrew_t
+
+
+.. doxygenfunction:: ksl_coscrew
+
+
+.. doxygenfunction:: ksl_coscrew_alloc
+
+
+.. doxygenfunction:: ksl_coscrew_copy
+
+
+.. doxygenfunction:: ksl_coscrew_scale
+
+
+.. doxygenfunction:: ksl_coscrew_inverted
+
+
+.. doxygenfunction:: ksl_coscrew_invert
+
+
+.. doxygenfunction:: ksl_axpy_cc
+
+
+.. doxygenfunction:: ksl_xpy_cc
+
+
+.. doxygenfunction:: ksl_nxpy_cc
+
+
+.. doxygenfunction:: ksl_product_ca
+
+
+.. doxygenfunction:: ksl_add_cc
+
+
+.. doxygenfunction:: ksl_subtract_cc
+
+
+.. doxygenfunction:: ksl_cross_cc
+
+
+.. doxygenfunction:: ksl_product_CoAdtc
+
+
+.. doxygenfunction:: ksl_product_CoAdtcinv
+
+
+.. doxygenfunction:: ksl_product_CoAdrc
+
+
+.. doxygenfunction:: ksl_product_CoAdrinvc
+
+
+.. doxygenfunction:: ksl_product_CoAdc
+
+
+.. doxygenfunction:: ksl_product_CoAdinvc
+
+
+
+KSL single precision coscrew functions
+--------------------------------------
+
+.. doxygenunion:: ksl_coscrewf_t
+
+
+.. doxygenfunction:: ksl_coscrewf
+
+
+.. doxygenfunction:: ksl_coscrewf_alloc
+
+
+.. doxygenfunction:: ksl_coscrewf_copy
+
+
+.. doxygenfunction:: ksl_coscrewf_scale
+
+
+.. doxygenfunction:: ksl_coscrewf_inverted
+
+
+.. doxygenfunction:: ksl_coscrewf_invert
+
+
+.. doxygenfunction:: ksl_axpy_ccf
+
+
+.. doxygenfunction:: ksl_xpy_ccf
+
+
+.. doxygenfunction:: ksl_nxpy_ccf
+
+
+.. doxygenfunction:: ksl_product_caf
+
+
+.. doxygenfunction:: ksl_add_ccf
+
+
+.. doxygenfunction:: ksl_subtract_ccf
+
+
+.. doxygenfunction:: ksl_cross_ccf
+
+
+.. doxygenfunction:: ksl_product_CoAdtcf
+
+
+.. doxygenfunction:: ksl_product_CoAdtcinvf
+
+
+.. doxygenfunction:: ksl_product_CoAdrcf
+
+
+.. doxygenfunction:: ksl_product_CoAdrinvcf
+
+
+.. doxygenfunction:: ksl_product_CoAdrcf
+
+
+.. doxygenfunction:: ksl_product_CoAdinvcf

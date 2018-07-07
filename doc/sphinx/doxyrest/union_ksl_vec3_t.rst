@@ -24,8 +24,8 @@ union ksl_vec3_t
 .. _cid-ksl_vec3_t::y:
 .. _doxid-unionksl__vec3__t_1a2e16004ac1d59a12639f729863b52bda:
 .. _cid-ksl_vec3_t::z:
-.. _doxid-unionksl__vec3__t_1a0ae53bad6613cf2bc57cf4af8608b178:
-.. _cid-ksl_vec3_t::@53:
+.. _doxid-unionksl__vec3__t_1ab4e5cd4145e9086a12c4451f1698d8f6:
+.. _cid-ksl_vec3_t::@65:
 .. ref-code-block:: cpp
 	:class: overview-code-block
 

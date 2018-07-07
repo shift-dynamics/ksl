@@ -121,6 +121,8 @@ ksl_vec3f_t ksl_vec3f(const float x, const float y, const float z);
 
 ksl_vec3i_t ksl_vec3i(const int x, const int y, const int z);
 
+ksl_vec4i_t ksl_vec4i(const int x, const int y, const int z, const int w);
+
 ksl_vec4_t ksl_vec4(const double x, const double y, const double z,
                     const double w);
 

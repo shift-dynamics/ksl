@@ -32,16 +32,18 @@ typedef union ksl_coscrewf_t ksl_coscrewf_t;
 configuration space
 */
 typedef union ksl_screw_t {
-  double at[6];
+  double at[6]; /*!< allows accessing screw quantities at specified index */
   struct {
     ksl_vec3_t lin; /*!< free linear vector, e.g. linear velocity or
                             acceleration */
     ksl_vec3_t ang; /*!< bound angular vector, e.g. angular velocity or
-                             angular acceleration (\omega, or \dot{\omega}) */
-  };
+                             angular acceleration */
+  }; /*!< anonymous union allows accessing screw quantities by field name or
+        index */
   struct {
     double m0, m1, m2, m3, m4, m5;
-  };
+  }; /*!< anonymous union allows accessing screw quantities by field name or
+        index */
 } ksl_screw_t;
 
 /*!
@@ -49,202 +51,529 @@ typedef union ksl_screw_t {
 pair in configuration space
 */
 typedef union ksl_screwf_t {
-  float at[6];
+  float at[6]; /*!< allows accessing screw quantities at specified index */
   struct {
     ksl_vec3f_t lin; /*!< free linear vector, e.g. linear velocity or
                             acceleration */
     ksl_vec3f_t ang; /*!< bound angular vector, e.g. angular velocity or
                              angular acceleration (\omega, or \dot{\omega}) */
-  };
+  }; /*!< anonymous union allows accessing screw quantities by field name or
+        index */
   struct {
     float m0, m1, m2, m3, m4, m5;
-  };
+  }; /*!< anonymous union allows accessing screw quantities by field name or
+        index */
 } ksl_screwf_t;
 
+/*!
+@brief double precision screw constructor
+*/
 ksl_screw_t ksl_screw(const double m0, const double m1, const double m2,
                       const double m3, const double m4, const double m5);
 
+/*!
+@brief single precision screw constructor
+*/
 ksl_screwf_t ksl_screwf(const float m0, const float m1, const float m2,
                         const float m3, const float m4, const float m5);
 
-ksl_screw_t* ksl_screw_alloc(int);
+/*!
+@brief allocate n double precision screw quantities on the heap, must be freed
+by the user.
+*/
+ksl_screw_t* ksl_screw_alloc(int n);
 
-ksl_screwf_t* ksl_screwf_alloc(int);
+/*!
+@brief allocate n single precision screw quantities on the heap, must be freed
+by the user.
+*/
+ksl_screwf_t* ksl_screwf_alloc(int n);
 
-double ksl_screw_norm(const ksl_screw_t* v);
+/*!
+@brief Compute the screw norm of a double precision spatial screw.
 
-float ksl_screwf_norm(const ksl_screwf_t* v);
+@param s [in] input screw
+@return screw norm
+*/
+double ksl_screw_norm(const ksl_screw_t* s);
 
-void ksl_screw_normalize(ksl_screw_t* v);
+/*!
+@brief Compute the screw norm of a single precision spatial screw.
 
-void ksl_screwf_normalize(ksl_screwf_t* v);
+@param s [in] input screw
+@return screw norm
+*/
+float ksl_screwf_norm(const ksl_screwf_t* s);
 
+/*!
+@brief TODO document this function
+*/
+void ksl_screw_normalize(ksl_screw_t* s);
+
+/*!
+@brief TODO document this function
+*/
+void ksl_screwf_normalize(ksl_screwf_t* s);
+
+/*!
+@brief TODO document this function
+*/
 void ksl_screw_normalized(const ksl_screw_t* si, ksl_screw_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_screwf_normalized(const ksl_screwf_t* si, ksl_screwf_t* so);
 
-double ksl_dot_cs(const ksl_coscrew_t*, const ksl_screw_t*);
+/*!
+@brief compute double precision dot product between a coscrew and screw
+*/
+double ksl_dot_cs(const ksl_coscrew_t* ci, const ksl_screw_t* si);
 
-float ksl_dot_csf(const ksl_coscrewf_t*, const ksl_screwf_t*);
+/*!
+@brief compute single precision dot product between a coscrew and screw
+*/
+float ksl_dot_csf(const ksl_coscrewf_t* ci, const ksl_screwf_t* si);
 
+/*!
+@brief TODO document this function
+*/
 void ks_screw_scale(ksl_screw_t, const double);
 
+/*!
+@brief TODO document this function
+*/
+void ks_screwf_scale(ksl_screwf_t, const float);
+
+/*!
+@brief Copy double precision ksl_screw_t si to so.
+
+\f$S_i \rightarrow S_o\f$
+
+@param si [in] screw to copy
+@param so [out] si is copied to so
+*/
 void ksl_screw_copy(const ksl_screw_t* si, ksl_screw_t* so);
 
+/*!
+@brief Copy single precision ksl_screwf_t si to so.
+
+\f$S_i \rightarrow S_o\f$
+
+@param si [in] screw to copy
+@param so [out] si is copied to so
+*/
 void ksl_screwf_copy(const ksl_screwf_t* si, ksl_screwf_t* so);
 
+/*!
+@brief Invert (i.e. negate) a ksl_screw_t in place.
+
+\f$\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}\f$
+\f$-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}\f$
+
+@param si [in/out] screw to invert
+*/
 void ksl_screw_invert(ksl_screw_t* si);
 
+/*!
+@brief Invert (i.e. negate) a ksl_screwf_t in place.
+
+\f$\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}\f$
+\f$-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}\f$
+
+@param si [in/out] screw to invert
+*/
 void ksl_screwf_invert(ksl_screwf_t* si);
 
+/*!
+@brief Returns the inverse of a ksl_screw_t.
+
+\f$\mathbf{\underline{s}}_i^{-1} \rightarrow \mathbf{\underline{s}}_o\f$
+
+@param si [in] screw to invert
+@param so [out] inverse of si
+*/
 void ksl_screw_inverted(const ksl_screw_t* si, ksl_screw_t* so);
 
+/*!
+@brief Returns the inverse of a ksl_screwf_t.
+
+\f$\mathbf{\underline{s}}_i^{-1} \rightarrow \mathbf{\underline{s}}_o\f$
+
+@param si [in] screw to invert
+@param so [out] inverse of si
+*/
 void ksl_screwf_inverted(const ksl_screwf_t* si, ksl_screwf_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_product_as(const double k, const ksl_screw_t* si, ksl_screw_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_product_asf(const float k, const ksl_screwf_t* si, ksl_screwf_t* so);
 
+/*!
+@brief compute axpy (a * x + y \rightarrow y) operation for double precision
+screws
+*/
 void ksl_axpy_ss(const double, const ksl_screw_t*, ksl_screw_t*);
 
+/*!
+@brief compute axpy (a * x + y \rightarrow y) operation for single precision
+screws
+*/
 void ksl_axpy_ssf(const float, const ksl_screwf_t*, ksl_screwf_t*);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_xpy_ss(const ksl_screw_t*, ksl_screw_t*);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_xpy_ssf(const ksl_screwf_t*, ksl_screwf_t*);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_nxpy_ss(const ksl_screw_t*, ksl_screw_t*);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_nxpy_ssf(const ksl_screwf_t*, ksl_screwf_t*);
 
-void ksl_product_sa(const ksl_screw_t* si, const double ki, ksl_screw_t* so);
-
-void ksl_product_saf(const ksl_screwf_t* si, const float ki, ksl_screwf_t* so);
-
+/*!
+@brief TODO document this function
+*/
 void ksl_add_ss(const ksl_screw_t* s1i, const ksl_screw_t* s2i,
                 ksl_screw_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_add_ssf(const ksl_screwf_t* s1i, const ksl_screwf_t* s2i,
                  ksl_screwf_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_subtract_ss(const ksl_screw_t* s1i, const ksl_screw_t* s2i,
                      ksl_screw_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_subtract_ssf(const ksl_screwf_t* s1i, const ksl_screwf_t* s2i,
                       ksl_screwf_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_add_sst(const ksl_screw_t* si1, const ksl_screw_t* si2,
                  ksl_screw_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_add_sstf(const ksl_screwf_t* si1, const ksl_screwf_t* si2,
                   ksl_screwf_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_htx(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_htxf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_hty(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_htyf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_htz(const ksl_SE3_t* ri, ksl_screw_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_htzf(const ksl_SE3f_t* ri, ksl_screwf_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_hrx(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_hrxf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_hry(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
+/*!
+@brief TODO document this function
+*/
+void ksl_hryf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
+
+/*!
+@brief TODO document this function
+*/
 void ksl_hrz(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_hrzf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_htxinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_htxinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_htyinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_htyinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_htzinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_htzinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_hrxinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_hrxinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_hryinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_hryinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_hrzinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_hrzinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
+/*!
+@brief double precision screw cross product
+
+*/
 void ksl_cross_ss(const ksl_screw_t* s1i, const ksl_screw_t* s2i,
                   ksl_screw_t* so);
 
+/*!
+@brief single precision screw cross product
+
+*/
 void ksl_cross_ssf(const ksl_screwf_t* s1i, const ksl_screwf_t* s2i,
                    ksl_screwf_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_cross_sst(const ksl_screw_t* s1i, const ksl_screw_t* s2i,
                    ksl_screw_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_cross_sstf(const ksl_screwf_t* s1i, const ksl_screwf_t* s2i,
                     ksl_screwf_t* so);
 
+/*!
+@brief rotates a double precision screw
+
+Store product of direction cosine matrix ri with spatial vector si in so.
+
+\f$ R_i * S_i[0:2] \rightarrow S_o[0:2]\f$
+
+\f$ R_i * S_i[3:5] \rightarrow S_o[3:5]\f$
+
+@param ri a SO3 rotation matrix
+@param si a 1x6 screw
+@param so the output of ri * si is returned in so
+*/
 void ksl_product_Adrs(const ksl_mat3x3_t* ri, const ksl_screw_t* si,
                       ksl_screw_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_product_Adrsinv(const ksl_mat3x3_t* ri, const ksl_screw_t* si,
                          ksl_screw_t* so);
 
+/*!
+@brief rotates a single precision screw
+
+Store product of direction cosine matrix ri with spatial vector si in so.
+
+\f$ R_i * S_i[0:2] \rightarrow S_o[0:2]\f$
+
+\f$ R_i * S_i[3:5] \rightarrow S_o[3:5]\f$
+
+@param ri a SO3 rotation matrix
+@param si a 1x6 screw
+@param so the output of ri * si is returned in so
+*/
 void ksl_product_Adrsf(const ksl_mat3x3f_t* ri, const ksl_screwf_t* si,
                        ksl_screwf_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_product_Adrsinvf(const ksl_mat3x3f_t* ri, const ksl_screwf_t* si,
                           ksl_screwf_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_product_Adrinvs(const ksl_mat3x3_t* ri, const ksl_screw_t* si,
                          ksl_screw_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_product_Adrinvsf(const ksl_mat3x3f_t* ri, const ksl_screwf_t* si,
                           ksl_screwf_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_product_Adts(const ksl_vec3_t* ti, const ksl_screw_t* si,
                       ksl_screw_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_product_Adtsf(const ksl_vec3f_t* ti, const ksl_screwf_t* si,
                        ksl_screwf_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_product_Adtinvs(const ksl_vec3_t* ti, const ksl_screw_t* si,
                          ksl_screw_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_product_Adtinvsf(const ksl_vec3f_t* ti, const ksl_screwf_t* si,
                           ksl_screwf_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_product_Adtsinv(const ksl_vec3_t* ti, const ksl_screw_t* si,
                          ksl_screw_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_product_Adtsinvf(const ksl_vec3f_t* ti, const ksl_screwf_t* si,
                           ksl_screwf_t* so);
 
+/*!
+@brief General spatial transformation a double precision screw
+
+Store product of direction cosine matrix ri with spatial vector si in so.
+
+\f$ R_i * S_i[0:2] \rightarrow S_o[0:2]\f$
+
+\f$ R_i * S_i[3:5] \rightarrow S_o[3:5]\f$
+
+@param ri a SO3 rotation matrix
+@param si a 1x6 screw
+@param so the output of ri * si is returned in so
+*/
 void ksl_product_Ads(const ksl_SE3_t* Di, const ksl_screw_t* si,
                      ksl_screw_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_product_Adsinv(const ksl_SE3_t* Di, const ksl_screw_t* si,
                         ksl_screw_t* so);
 
+/*!
+@brief TODO document this function
+*/
+void ksl_product_Adsinvf(const ksl_SE3f_t* Di, const ksl_screwf_t* si,
+                         ksl_screwf_t* so);
+
+/*!
+@brief General spatial transformation a single precision screw
+
+Store product of direction cosine matrix ri with spatial vector si in so.
+
+\f$ R_i * S_i[0:2] \rightarrow S_o[0:2]\f$
+
+\f$ R_i * S_i[3:5] \rightarrow S_o[3:5]\f$
+
+@param ri a SO3 rotation matrix
+@param si a 1x6 screw
+@param so the output of ri * si is returned in so
+*/
 void ksl_product_Adsf(const ksl_SE3f_t* Di, const ksl_screwf_t* si,
                       ksl_screwf_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_product_Adinvs(const ksl_SE3_t* Di, const ksl_screw_t* si,
                         ksl_screw_t* so);
 
+/*!
+@brief TODO document this function
+*/
 void ksl_product_Adinvsf(const ksl_SE3f_t* Di, const ksl_screwf_t* si,
                          ksl_screwf_t* so);
 

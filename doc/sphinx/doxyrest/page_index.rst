@@ -4,11 +4,11 @@ My Project Documentation
 .. toctree::
 	:hidden:
 
-	group_Coscrew.rst
+	page_todo.rst
 
-.. rubric:: Further Reading:
+.. rubric:: Related Pages:
 
-|	:ref:`methods<doxid-group___coscrew>`
+|	:doc:`page_todo`
 
 
 .. rubric:: Reference and Index:

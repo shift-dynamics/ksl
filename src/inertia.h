@@ -44,7 +44,7 @@ typedef union ksl_inertia_t {
                         frame coordinates */
     double Izx;    /*!< Izx centroidal inertia term, expressed in reference
                         frame coordinates */
-  };
+  }; /*!< anonymous union allows accessing by index or field names */
   struct {
     double mass;   /*!< mass */
     ksl_vec3_t mr; /*!< mass times a vector, r, from reference
@@ -61,7 +61,8 @@ typedef union ksl_inertia_t {
                         frame coordinates */
     double Ixz;    /*!< Izx centroidal inertia term, expressed in reference
                         frame coordinates */
-  };
+  }; /*!< anonymous union allows accessing by index or alternative field names
+      */
 } ksl_inertia_t;
 
 /*!
@@ -105,52 +106,211 @@ typedef union ksl_inertiaf_t {
   };
 } ksl_inertiaf_t;
 
+/*!
+@brief double precision spatial inertia matrix constructor
+@param m [in] mass
+@param t [in] vector from reference frame to body centroid
+@param Ixx [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Iyy [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Izz [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Ixy [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Iyz [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Izx [in] centroidal inertia term, expressed in reference frame
+coordinates
+*/
 ksl_inertia_t ksl_inertia(const double m, const ksl_vec3_t t, const double Ixx,
                           const double Iyy, const double Izz, const double Ixy,
                           const double Iyz, const double Izx);
 
+/*!
+@brief single precision spatial inertia matrix constructor
+@param m [in] mass
+@param t [in] vector from reference frame to body centroid
+@param Ixx [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Iyy [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Izz [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Ixy [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Iyz [in] centroidal inertia term, expressed in reference frame
+coordinates
+@param Izx [in] centroidal inertia term, expressed in reference frame
+coordinates
+*/
 ksl_inertiaf_t ksl_inertiaf(const float m, const ksl_vec3f_t t, const float Ixx,
                             const float Iyy, const float Izz, const float Ixy,
                             const float Iyz, const float Izx);
 
-ksl_inertia_t* ksl_inertia_alloc(int);
+/*!
+@brief allocate n ksl_inertia_t datastructures on the heap
+*/
+ksl_inertia_t* ksl_inertia_alloc(int n);
 
-ksl_inertiaf_t* ksl_inertiaf_alloc(int);
+/*!
+@brief allocate n ksl_inertiaf_t datastructures on the heap
+*/
+ksl_inertiaf_t* ksl_inertiaf_alloc(int n);
 
+/*!
+@brief rotate a double precision centroidal inertia matrix
+
+  I_ff = CoAd(D(R_{fc})) * Icc * Ad(D(R_{fc}^{-1}))
+
+*/
 void ksl_inertia_rotated(const ksl_inertia_t* inertia_i, const ksl_mat3x3_t* r,
                          ksl_inertia_t* inertia_o);
 
+/*!
+@brief rotate a single precision centroidal inertia matrix
+
+  \f$ I_{ff} = CoAd(D(R_{fc})) * I_{cc} * Ad(D(R_{fc}^{-1})) \f$
+
+*/
 void ksl_inertiaf_rotated(const ksl_inertiaf_t* inertia_i,
                           const ksl_mat3x3f_t* r, ksl_inertiaf_t* inertia_o);
 
+/*!
+@brief rotate a double precision centroidal inertia matrix in place
+
+  \f$ I_{ff} = CoAd(D(R_{fc})) * I_{cc} * Ad(D(R_{fc}^{-1})) \f$
+
+*/
 void ksl_inertia_rotate(ksl_inertia_t* inertia_i, const ksl_mat3x3_t* r);
 
+/*!
+@brief rotate a single precision centroidal inertia matrix in place
+
+  \f$ I_{ff} = CoAd(D(R_{fc})) * I_{cc} * Ad(D(R_{fc}^{-1})) \f$
+
+*/
 void ksl_inertiaf_rotate(ksl_inertiaf_t* inertia_i, const ksl_mat3x3f_t* r);
 
+/*!
+@brief translate a double precision centroidal inertia matrix
+
+  \f$ I_ff = CoAd(D(t_{fc})) * Icc * Ad(D(t_{fc}^{-1})) \f$
+*/
 void ksl_inertia_translated(const ksl_inertia_t* inertia_i, const ksl_vec3_t* r,
                             ksl_inertia_t* inertia_o);
 
+/*!
+@brief translate a single precision centroidal inertia matrix
+
+  \f$ I_{ff} = CoAd(D(t_{fc})) * I_{cc} * Ad(D(t_{fc}^{-1})) \f$
+*/
 void ksl_inertiaf_translated(const ksl_inertiaf_t* inertia_i,
                              const ksl_vec3f_t* r, ksl_inertiaf_t* inertia_o);
 
+/*!
+@brief translate a double precision centroidal inertia matrix in place
+
+  \f$ I_ff = CoAd(D(t_{fc})) * Icc * Ad(D(t_{fc}^{-1})) \f$
+*/
 void ksl_inertia_translate(ksl_inertia_t* inertia_i, const ksl_vec3_t* r);
 
+/*!
+@brief translate a single precision centroidal inertia matrix in place
+
+  \f$ I_{ff} = CoAd(D(t_{fc})) * I_{cc} * Ad(D(t_{fc}^{-1})) \f$
+*/
 void ksl_inertiaf_translate(ksl_inertiaf_t* inertia_i, const ksl_vec3f_t* r);
 
+/*!
+@brief spatial transform a double precision centroidal inertia matrix
+
+  \f$ I_ff = CoAd(D_{fc}) * Icc * Ad(D_{fc}^{-1}) \f$
+*/
 void ksl_inertia_transformed(const ksl_inertia_t* inertia_i, const ksl_SE3_t* d,
                              ksl_inertia_t* inertia_o);
 
+/*!
+@brief spatial transform a single precision centroidal inertia matrix
+
+  \f$ I_{ff} = CoAd(D_{fc}) * Icc * Ad(D_{fc}^{-1}) \f$
+*/
 void ksl_inertiaf_transformed(const ksl_inertiaf_t* inertia_i,
                               const ksl_SE3f_t* d, ksl_inertiaf_t* inertia_o);
 
+/*!
+@brief spatial transform a double precision centroidal inertia matrix in place
+
+  \f$ I_ff = CoAd(D_{fc}) * Icc * Ad(D_{fc}^{-1}) \f$
+*/
+void ksl_inertia_transform(ksl_inertia_t* inertia_i, const ksl_SE3_t* d);
+
+/*!
+@brief spatial transform a single precision centroidal inertia matrix in place
+
+  \f$ I_{ff} = CoAd(D_{fc}) * Icc * Ad(D_{fc}^{-1}) \f$
+*/
+void ksl_inertiaf_transform(ksl_inertiaf_t* inertia_i, const ksl_SE3f_t* d);
+
+/*!
+@brief merge double precision child inertia (j) with parent inertia (i)
+@param parent inertia [in/out] parent inertia to be merged
+@param t_ic_i [in/out] vector from parent body reference frame i to body center
+of mass frame c, expressed in body frame i
+@param child inertia [in]
+@param t_jc_j [in] vector from child body reference frame j to body center of
+mass frame c, expressed in body frame j
+@param D_ij [in] transformation from parent reference frame i to child reference
+frame j
+*/
 void ksl_inertia_merge(ksl_inertia_t* inertia_i, ksl_vec3_t* t_ic_i,
                        ksl_inertia_t* inertia_j, const ksl_vec3_t* t_jc_j,
                        const ksl_SE3_t* D_ij);
 
+/*!
+@brief merge single precision child inertia (j) with parent inertia (i)
+@param parent inertia [in/out] parent inertia to be merged
+@param t_ic_i [in/out] vector from parent body reference frame i to body center
+of mass frame c, expressed in body frame i
+@param child inertia [in]
+@param t_jc_j [in] vector from child body reference frame j to body center of
+mass frame c, expressed in body frame j
+@param D_ij [in] transformation from parent reference frame i to child reference
+frame j
+*/
 void ksl_inertiaf_merge(ksl_inertiaf_t* inertia_i, ksl_vec3f_t* t_ic_i,
                         ksl_inertiaf_t* inertia_j, const ksl_vec3f_t* t_jc_j,
                         const ksl_SE3f_t* D_ij);
 
+/*!
+@brief factor double precision inertia matrix
+
+@todo finish this
+
+inertia matrix is overwritten with its factors
+
+4 cases:
+  * rank 2+, full rank, positive definite, or rank 2, positive semidefinite
+  * rank 1, positive semidefinite
+  * rank 0, do nothing
+
+  @return rank of inertia matrix
+*/
 int ksl_inertia_factor(ksl_inertia_t*);
 
+/*!
+@brief factor single precision inertia matrix
+
+@todo finish this
+
+inertia matrix is overwritten with its factors
+
+4 cases:
+  * rank 2+, full rank, positive definite, or rank 2, positive semidefinite
+  * rank 1, positive semidefinite
+  * rank 0, do nothing
+
+  @return rank of inertia matrix
+*/
+int ksl_inertiaf_factor(ksl_inertiaf_t*);
 #endif

@@ -7,9 +7,6 @@
 #include "matrix.h"
 #include "screw.h"
 
-/*!
-@brief screw constructor
-*/
 ksl_screw_t ksl_screw(const double m0, const double m1, const double m2,
                       const double m3, const double m4, const double m5) {
   ksl_screw_t s;
@@ -22,9 +19,6 @@ ksl_screw_t ksl_screw(const double m0, const double m1, const double m2,
   return s;
 }
 
-/*!
-@brief screwf constructor
-*/
 ksl_screwf_t ksl_screwf(const float m0, const float m1, const float m2,
                         const float m3, const float m4, const float m5) {
   ksl_screwf_t s;
@@ -37,67 +31,55 @@ ksl_screwf_t ksl_screwf(const float m0, const float m1, const float m2,
   return s;
 }
 
-/*!
-@brief allocate n double precision screw quantities
-*/
 ksl_screw_t* ksl_screw_alloc(const int n) {
   return calloc(n, sizeof(ksl_screw_t));
 }
 
-/*!
-@brief allocate n single precision screw quantities
-*/
 ksl_screwf_t* ksl_screwf_alloc(const int n) {
   return calloc(n, sizeof(ksl_screwf_t));
 }
 
-/*!
-@todo
-*/
-inline double ksl_screw_norm(const ksl_screw_t* restrict v) {
+inline double ksl_screw_norm(const ksl_screw_t* restrict s) {
   const double eps = 1e-9;
-  if((fabs(v->ang.x) < eps) && (fabs(v->ang.y) < eps) &&
-     (fabs(v->ang.z) < eps)) {
-    return (ksl_vec3_l2norm(&v->lin));
+  if((fabs(s->ang.x) < eps) && (fabs(s->ang.y) < eps) &&
+     (fabs(s->ang.z) < eps)) {
+    return (ksl_vec3_l2norm(&s->lin));
   } else {
-    return (ksl_vec3_l2norm(&v->ang));
+    return (ksl_vec3_l2norm(&s->ang));
   }
 }
 
-/*!
-@todo
-*/
-inline float ksl_screwf_norm(const ksl_screwf_t* restrict v) {
+inline float ksl_screwf_norm(const ksl_screwf_t* restrict s) {
   const float eps = 1e-6;
-  if((fabs(v->ang.x) < eps) && (fabs(v->ang.y) < eps) &&
-     (fabs(v->ang.z) < eps)) {
-    return (ksl_vec3f_l2norm(&v->lin));
+  if((fabs(s->ang.x) < eps) && (fabs(s->ang.y) < eps) &&
+     (fabs(s->ang.z) < eps)) {
+    return (ksl_vec3f_l2norm(&s->lin));
   } else {
-    return (ksl_vec3f_l2norm(&v->ang));
+    return (ksl_vec3f_l2norm(&s->ang));
   }
 }
 
-inline void ksl_screw_normalize(ksl_screw_t* v) {
+inline void ksl_screw_normalize(ksl_screw_t* s) {
   const double eps = 1e-9;
-  if((fabs(v->ang.x) < eps) && (fabs(v->ang.y) < eps) &&
-     (fabs(v->ang.z) < eps)) {
-    ksl_vec3_normalize(&v->lin);
+  if((fabs(s->ang.x) < eps) && (fabs(s->ang.y) < eps) &&
+     (fabs(s->ang.z) < eps)) {
+    ksl_vec3_normalize(&s->lin);
   } else {
-    double ang_inv_norm = 1.0 / ksl_vec3_l2norm(&v->ang);
-    ksl_product_av(ang_inv_norm, &v->lin, &v->lin);
-    ksl_product_av(ang_inv_norm, &v->ang, &v->ang);
+    double ang_inv_norm = 1.0 / ksl_vec3_l2norm(&s->ang);
+    ksl_product_av(ang_inv_norm, &s->lin, &s->lin);
+    ksl_product_av(ang_inv_norm, &s->ang, &s->ang);
   }
 }
 
-inline void ksl_screwf_normalize(ksl_screwf_t* v) {
+inline void ksl_screwf_normalize(ksl_screwf_t* s) {
   const float eps = 1e-6;
-  if((fabs(v->ang.x) < eps) && (fabs(v->ang.y) < eps) &&
-     (fabs(v->ang.z) < eps)) {
-    ksl_vec3f_normalize(&v->lin);
+  if((fabs(s->ang.x) < eps) && (fabs(s->ang.y) < eps) &&
+     (fabs(s->ang.z) < eps)) {
+    ksl_vec3f_normalize(&s->lin);
   } else {
-    float ang_inv_norm = 1.0 / ksl_vec3f_l2norm(&v->ang);
-    ksl_product_avf(ang_inv_norm, &v->lin, &v->lin);
-    ksl_product_avf(ang_inv_norm, &v->ang, &v->ang);
+    float ang_inv_norm = 1.0 / ksl_vec3f_l2norm(&s->ang);
+    ksl_product_avf(ang_inv_norm, &s->lin, &s->lin);
+    ksl_product_avf(ang_inv_norm, &s->ang, &s->ang);
   }
 }
 
@@ -129,9 +111,6 @@ inline void ksl_screwf_normalized(const ksl_screwf_t* restrict si,
   }
 }
 
-/*!
-@brief compute double precision dot product between a coscrew and screw
-*/
 inline double ksl_dot_cs(const ksl_coscrew_t* restrict ci,
                          const ksl_screw_t* restrict si) {
   register double sum = 0;
@@ -141,9 +120,6 @@ inline double ksl_dot_cs(const ksl_coscrew_t* restrict ci,
   return sum;
 }
 
-/*!
-@brief compute single precision dot product between a coscrew and screw
-*/
 inline float ksl_dot_csf(const ksl_coscrewf_t* restrict ci,
                          const ksl_screwf_t* restrict si) {
   register float sum = 0;
@@ -153,10 +129,6 @@ inline float ksl_dot_csf(const ksl_coscrewf_t* restrict ci,
   return sum;
 }
 
-/*!
-@brief compute axpy (a * x + y \rightarrow y) operation for double precision
-screws
-*/
 inline void ksl_axpy_ss(const double a, const ksl_screw_t* restrict x,
                         ksl_screw_t* restrict y) {
   for(int i = 0; i < 6; i++) {
@@ -164,10 +136,6 @@ inline void ksl_axpy_ss(const double a, const ksl_screw_t* restrict x,
   }
 }
 
-/*!
-@brief compute axpy (a * x + y \rightarrow y) operation for single precision
-screws
-*/
 inline void ksl_axpy_ssf(const float a, const ksl_screwf_t* restrict x,
                          ksl_screwf_t* restrict y) {
   for(int i = 0; i < 6; i++) {
@@ -175,40 +143,16 @@ inline void ksl_axpy_ssf(const float a, const ksl_screwf_t* restrict x,
   }
 }
 
-/*!
-@brief Copy double precision ksl_screw_t si to so.
-
-\f$S_i \rightarrow S_o\f$
-
-@param si [in] screw to copy
-@param so [out] si is copied to so
-*/
 inline void ksl_screw_copy(const ksl_screw_t* restrict si,
                            ksl_screw_t* restrict so) {
   memcpy(so, si, sizeof(ksl_screw_t));
 }
 
-/*!
-@brief Copy single precision ksl_screwf_t si to so.
-
-\f$S_i \rightarrow S_o\f$
-
-@param si [in] screw to copy
-@param so [out] si is copied to so
-*/
 inline void ksl_screwf_copy(const ksl_screwf_t* restrict si,
                             ksl_screwf_t* restrict so) {
   memcpy(so, si, sizeof(ksl_screwf_t));
 }
 
-/*!
-@brief Returns the inverse of a ksl_screw_t.
-
-\f$\mathbf{\underline{s}}_i^{-1} \rightarrow \mathbf{\underline{s}}_o\f$
-
-@param si [in] screw to invert
-@param so [out] inverse of si
-*/
 inline void ksl_screw_inverted(const ksl_screw_t* restrict si,
                                ksl_screw_t* restrict so) {
   for(int i = 0; i < 6; i++) {
@@ -216,14 +160,6 @@ inline void ksl_screw_inverted(const ksl_screw_t* restrict si,
   }
 }
 
-/*!
-@brief Returns the inverse of a ksl_screwf_t.
-
-\f$\mathbf{\underline{s}}_i^{-1} \rightarrow \mathbf{\underline{s}}_o\f$
-
-@param si [in] screw to invert
-@param so [out] inverse of si
-*/
 inline void ksl_screwf_inverted(const ksl_screwf_t* restrict si,
                                 ksl_screwf_t* restrict so) {
   for(int i = 0; i < 6; i++) {
@@ -231,28 +167,12 @@ inline void ksl_screwf_inverted(const ksl_screwf_t* restrict si,
   }
 }
 
-/*!
-@brief Invert (i.e. negate) a ksl_screw_t in place.
-
-\f$\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}\f$
-\f$-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}\f$
-
-@param si [in/out] screw to invert
-*/
 inline void ksl_screw_invert(ksl_screw_t* restrict s) {
   for(int i = 0; i < 6; i++) {
     s->at[i] = -s->at[i];
   }
 }
 
-/*!
-@brief Invert (i.e. negate) a ksl_screwf_t in place.
-
-\f$\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}\f$
-\f$-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}\f$
-
-@param si [in/out] screw to invert
-*/
 inline void ksl_screwf_invert(ksl_screwf_t* restrict s) {
   for(int i = 0; i < 6; i++) {
     s->at[i] = -s->at[i];
@@ -462,10 +382,6 @@ inline void ksl_hrzinvf(const ksl_SE3f_t* restrict Di,
   ksl_cross_vvf(&Di->t, &ho->ang, &ho->lin);
 }
 
-/*!
-@brief double precision screw cross product
-
-*/
 inline void ksl_cross_ss(const ksl_screw_t* restrict s1i,
                          const ksl_screw_t* restrict s2i,
                          ksl_screw_t* restrict so) {
@@ -533,19 +449,6 @@ inline void ksl_cross_sstf(const ksl_screwf_t* restrict s1i,
   memset(&so->ang, 0, sizeof(ksl_vec3f_t));
 }
 
-/*!
-@brief rotates a double precision screw
-
-Store product of direction cosine matrix ri with spatial vector si in so.
-
-\f$ R_i * S_i[0:2] \rightarrow S_o[0:2]\f$
-
-\f$ R_i * S_i[3:5] \rightarrow S_o[3:5]\f$
-
-@param ri a SO3 rotation matrix
-@param si a 1x6 screw
-@param so the output of ri * si is returned in so
-*/
 inline void ksl_product_Adrs(const ksl_mat3x3_t* restrict ri,
                              const ksl_screw_t* restrict si,
                              ksl_screw_t* restrict so) {
@@ -557,19 +460,6 @@ inline void ksl_product_Adrs(const ksl_mat3x3_t* restrict ri,
   ksl_product_drv(ri, &si->ang, &so->ang);
 }
 
-/*!
-@brief rotates a single precision screw
-
-Store product of direction cosine matrix ri with spatial vector si in so.
-
-\f$ R_i * S_i[0:2] \rightarrow S_o[0:2]\f$
-
-\f$ R_i * S_i[3:5] \rightarrow S_o[3:5]\f$
-
-@param ri a SO3 rotation matrix
-@param si a 1x6 screw
-@param so the output of ri * si is returned in so
-*/
 inline void ksl_product_Adrsf(const ksl_mat3x3f_t* restrict ri,
                               const ksl_screwf_t* restrict si,
                               ksl_screwf_t* restrict so) {
@@ -581,19 +471,6 @@ inline void ksl_product_Adrsf(const ksl_mat3x3f_t* restrict ri,
   ksl_product_drvf(ri, &si->ang, &so->ang);
 }
 
-/*!
-@brief General spatial transformation a double precision screw
-
-Store product of direction cosine matrix ri with spatial vector si in so.
-
-\f$ R_i * S_i[0:2] \rightarrow S_o[0:2]\f$
-
-\f$ R_i * S_i[3:5] \rightarrow S_o[3:5]\f$
-
-@param ri a SO3 rotation matrix
-@param si a 1x6 screw
-@param so the output of ri * si is returned in so
-*/
 inline void ksl_product_Ads(const ksl_SE3_t* restrict Di,
                             const ksl_screw_t* restrict si,
                             ksl_screw_t* restrict so) {
@@ -608,19 +485,6 @@ inline void ksl_product_Ads(const ksl_SE3_t* restrict Di,
   so->m2 += Di->t.x * si->m4 - Di->t.y * si->m3;
 }
 
-/*!
-@brief General spatial transformation a single precision screw
-
-Store product of direction cosine matrix ri with spatial vector si in so.
-
-\f$ R_i * S_i[0:2] \rightarrow S_o[0:2]\f$
-
-\f$ R_i * S_i[3:5] \rightarrow S_o[3:5]\f$
-
-@param ri a SO3 rotation matrix
-@param si a 1x6 screw
-@param so the output of ri * si is returned in so
-*/
 inline void ksl_product_Adsf(const ksl_SE3f_t* restrict Di,
                              const ksl_screwf_t* restrict si,
                              ksl_screwf_t* restrict so) {

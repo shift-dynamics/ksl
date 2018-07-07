@@ -160,9 +160,12 @@ void ksl_mat3x3_toQuaternion(const ksl_mat3x3_t* restrict ri,
       qo->w = p / 2; // q3
       p = p + p;     // 4q3
 
-      qo->x = (ri->at[2 + 1 * 3] - ri->at[1 + 2 * 3]) / p; // q0 = 4q3q0/4q3
-      qo->y = (ri->at[0 + 2 * 3] - ri->at[2 + 0 * 3]) / p; // q1 = 4q3q1/4q3
-      qo->z = (ri->at[1 + 0 * 3] - ri->at[0 + 1 * 3]) / p; // q2 = 4q3q2/4q3
+      qo->x = (ri->as_array[2 + 1 * 3] - ri->as_array[1 + 2 * 3]) /
+              p; // q0 = 4q3q0/4q3
+      qo->y = (ri->as_array[0 + 2 * 3] - ri->as_array[2 + 0 * 3]) /
+              p; // q1 = 4q3q1/4q3
+      qo->z = (ri->as_array[1 + 0 * 3] - ri->as_array[0 + 1 * 3]) /
+              p; // q2 = 4q3q2/4q3
     } else if((p = ri->m00 - ri->m11 - ri->m22) > 0) {
       // 4q0q0-1 > 0 or q0q0 > 1/4 or |q0| > 1/2
 
@@ -173,9 +176,12 @@ void ksl_mat3x3_toQuaternion(const ksl_mat3x3_t* restrict ri,
       qo->x = p / 2; // q0
       p = p + p;     // 4q0
 
-      qo->w = (ri->at[2 + 1 * 3] - ri->at[1 + 2 * 3]) / p; // q3 = 4q3q0/4q0
-      qo->y = (ri->at[1 + 0 * 3] + ri->at[0 + 1 * 3]) / p; // q1 = 4q0q1/4q0
-      qo->z = (ri->at[2 + 0 * 3] + ri->at[0 + 2 * 3]) / p; // q2 = 4q2q0/4q0
+      qo->w = (ri->as_array[2 + 1 * 3] - ri->as_array[1 + 2 * 3]) /
+              p; // q3 = 4q3q0/4q0
+      qo->y = (ri->as_array[1 + 0 * 3] + ri->as_array[0 + 1 * 3]) /
+              p; // q1 = 4q0q1/4q0
+      qo->z = (ri->as_array[2 + 0 * 3] + ri->as_array[0 + 2 * 3]) /
+              p; // q2 = 4q2q0/4q0
     } else if((p = ri->m11 - ri->m00 - ri->m22) > 0) {
       // 4q1q1-1 > 0 or q1q1 > 1/4 or |q1| > 1/2
 
@@ -187,9 +193,12 @@ void ksl_mat3x3_toQuaternion(const ksl_mat3x3_t* restrict ri,
       qo->y = p / 2; // q1
       p = p + p;     // 4q1
 
-      qo->w = (ri->at[0 + 2 * 3] - ri->at[2 + 0 * 3]) / p; // q3 = 4q3q1/4q1
-      qo->x = (ri->at[0 + 1 * 3] + ri->at[1 + 0 * 3]) / p; // q0 = 4q0q1/4q1
-      qo->z = (ri->at[1 + 2 * 3] + ri->at[2 + 1 * 3]) / p; // q2 = 4q1q2/4q1
+      qo->w = (ri->as_array[0 + 2 * 3] - ri->as_array[2 + 0 * 3]) /
+              p; // q3 = 4q3q1/4q1
+      qo->x = (ri->as_array[0 + 1 * 3] + ri->as_array[1 + 0 * 3]) /
+              p; // q0 = 4q0q1/4q1
+      qo->z = (ri->as_array[1 + 2 * 3] + ri->as_array[2 + 1 * 3]) /
+              p; // q2 = 4q1q2/4q1
     } else {
       // 4q2q2-1 > 0 or q2q2 > 1/4 or |q2| > 1/2
       p = ri->m22 - ri->m00 - ri->m11;
@@ -202,15 +211,18 @@ void ksl_mat3x3_toQuaternion(const ksl_mat3x3_t* restrict ri,
       qo->z = p / 2; // q2
       p = p + p;     // 4q2
 
-      qo->w = (ri->at[1 + 0 * 3] - ri->at[0 + 1 * 3]) / p; // q3 = 4q3q2/4q2
-      qo->x = (ri->at[0 + 2 * 3] + ri->at[2 + 0 * 3]) / p; // q0 = 4q2q0/4q2
-      qo->y = (ri->at[2 + 1 * 3] + ri->at[1 + 2 * 3]) / p; // q1 = 4q1q2/4q2
+      qo->w = (ri->as_array[1 + 0 * 3] - ri->as_array[0 + 1 * 3]) /
+              p; // q3 = 4q3q2/4q2
+      qo->x = (ri->as_array[0 + 2 * 3] + ri->as_array[2 + 0 * 3]) /
+              p; // q0 = 4q2q0/4q2
+      qo->y = (ri->as_array[2 + 1 * 3] + ri->as_array[1 + 2 * 3]) /
+              p; // q1 = 4q1q2/4q2
     }
   } else {
     qo->w = 0.5;
-    qo->x = copysign(0.5, ri->at[2 + 1 * 3] - ri->at[1 + 2 * 3]);
-    qo->y = copysign(0.5, ri->at[0 + 2 * 3] - ri->at[2 + 0 * 3]);
-    qo->z = copysign(0.5, ri->at[1 + 0 * 3] - ri->at[0 + 1 * 3]);
+    qo->x = copysign(0.5, ri->as_array[2 + 1 * 3] - ri->as_array[1 + 2 * 3]);
+    qo->y = copysign(0.5, ri->as_array[0 + 2 * 3] - ri->as_array[2 + 0 * 3]);
+    qo->z = copysign(0.5, ri->as_array[1 + 0 * 3] - ri->as_array[0 + 1 * 3]);
   }
   return;
 }
@@ -250,9 +262,12 @@ inline void ksl_mat3x3f_toQuaternion(const ksl_mat3x3f_t* restrict ri,
       qo->w = p / 2; // q3
       p = p + p;     // 4q3
 
-      qo->x = (ri->at[2 + 1 * 3] - ri->at[1 + 2 * 3]) / p; // q0 = 4q3q0/4q3
-      qo->y = (ri->at[0 + 2 * 3] - ri->at[2 + 0 * 3]) / p; // q1 = 4q3q1/4q3
-      qo->z = (ri->at[1 + 0 * 3] - ri->at[0 + 1 * 3]) / p; // q2 = 4q3q2/4q3
+      qo->x = (ri->as_array[2 + 1 * 3] - ri->as_array[1 + 2 * 3]) /
+              p; // q0 = 4q3q0/4q3
+      qo->y = (ri->as_array[0 + 2 * 3] - ri->as_array[2 + 0 * 3]) /
+              p; // q1 = 4q3q1/4q3
+      qo->z = (ri->as_array[1 + 0 * 3] - ri->as_array[0 + 1 * 3]) /
+              p; // q2 = 4q3q2/4q3
     } else if((p = ri->m00 - ri->m11 - ri->m22) > 0) {
       // 4q0q0-1 > 0 or q0q0 > 1/4 or |q0| > 1/2
 
@@ -260,11 +275,14 @@ inline void ksl_mat3x3f_toQuaternion(const ksl_mat3x3f_t* restrict ri,
 
       // If (2|q0| - 2q0) > 1, then p = 2|q0| has the wrong sign.
       // if ( p - qr[0] - qr[0] > 1 ) p = -p; // 2q0
-      qo->x = p / 2;                                       // q0
-      p = p + p;                                           // 4q0
-      qo->w = (ri->at[2 + 1 * 3] - ri->at[1 + 2 * 3]) / p; // q3 = 4q3q0/4q0
-      qo->y = (ri->at[1 + 0 * 3] + ri->at[0 + 1 * 3]) / p; // q1 = 4q0q1/4q0
-      qo->z = (ri->at[2 + 0 * 3] + ri->at[0 + 2 * 3]) / p; // q2 = 4q2q0/4q0
+      qo->x = p / 2; // q0
+      p = p + p;     // 4q0
+      qo->w = (ri->as_array[2 + 1 * 3] - ri->as_array[1 + 2 * 3]) /
+              p; // q3 = 4q3q0/4q0
+      qo->y = (ri->as_array[1 + 0 * 3] + ri->as_array[0 + 1 * 3]) /
+              p; // q1 = 4q0q1/4q0
+      qo->z = (ri->as_array[2 + 0 * 3] + ri->as_array[0 + 2 * 3]) /
+              p; // q2 = 4q2q0/4q0
     } else if((p = ri->m11 - ri->m00 - ri->m22) > 0) {
       // 4q1q1-1 > 0 or q1q1 > 1/4 or |q1| > 1/2
 
@@ -276,9 +294,12 @@ inline void ksl_mat3x3f_toQuaternion(const ksl_mat3x3f_t* restrict ri,
       qo->y = p / 2; // q1
       p = p + p;     // 4q1
 
-      qo->w = (ri->at[0 + 2 * 3] - ri->at[2 + 0 * 3]) / p; // q3 = 4q3q1/4q1
-      qo->x = (ri->at[0 + 1 * 3] + ri->at[1 + 0 * 3]) / p; // q0 = 4q0q1/4q1
-      qo->z = (ri->at[1 + 2 * 3] + ri->at[2 + 1 * 3]) / p; // q2 = 4q1q2/4q1
+      qo->w = (ri->as_array[0 + 2 * 3] - ri->as_array[2 + 0 * 3]) /
+              p; // q3 = 4q3q1/4q1
+      qo->x = (ri->as_array[0 + 1 * 3] + ri->as_array[1 + 0 * 3]) /
+              p; // q0 = 4q0q1/4q1
+      qo->z = (ri->as_array[1 + 2 * 3] + ri->as_array[2 + 1 * 3]) /
+              p; // q2 = 4q1q2/4q1
     } else {
       // 4q2q2-1 > 0 or q2q2 > 1/4 or |q2| > 1/2
       p = ri->m22 - ri->m00 - ri->m11;
@@ -291,15 +312,18 @@ inline void ksl_mat3x3f_toQuaternion(const ksl_mat3x3f_t* restrict ri,
       qo->z = p / 2; // q2
       p = p + p;     // 4q2
 
-      qo->w = (ri->at[1 + 0 * 3] - ri->at[0 + 1 * 3]) / p; // q3 = 4q3q2/4q2
-      qo->x = (ri->at[0 + 2 * 3] + ri->at[2 + 0 * 3]) / p; // q0 = 4q2q0/4q2
-      qo->y = (ri->at[2 + 1 * 3] + ri->at[1 + 2 * 3]) / p; // q1 = 4q1q2/4q2
+      qo->w = (ri->as_array[1 + 0 * 3] - ri->as_array[0 + 1 * 3]) /
+              p; // q3 = 4q3q2/4q2
+      qo->x = (ri->as_array[0 + 2 * 3] + ri->as_array[2 + 0 * 3]) /
+              p; // q0 = 4q2q0/4q2
+      qo->y = (ri->as_array[2 + 1 * 3] + ri->as_array[1 + 2 * 3]) /
+              p; // q1 = 4q1q2/4q2
     }
   } else {
     qo->w = 0.5;
-    qo->x = copysign(0.5, ri->at[2 + 1 * 3] - ri->at[1 + 2 * 3]);
-    qo->y = copysign(0.5, ri->at[0 + 2 * 3] - ri->at[2 + 0 * 3]);
-    qo->z = copysign(0.5, ri->at[1 + 0 * 3] - ri->at[0 + 1 * 3]);
+    qo->x = copysign(0.5, ri->as_array[2 + 1 * 3] - ri->as_array[1 + 2 * 3]);
+    qo->y = copysign(0.5, ri->as_array[0 + 2 * 3] - ri->as_array[2 + 0 * 3]);
+    qo->z = copysign(0.5, ri->as_array[1 + 0 * 3] - ri->as_array[0 + 1 * 3]);
   }
   return;
 }

@@ -6,23 +6,6 @@
 #include "inertia.h"
 #include "util.h"
 
-/*!
-@brief double precision spatial inertia matrix constructor
-@param m [in] mass
-@param t [in] vector from reference frame to body centroid
-@param Ixx [in] centroidal inertia term, expressed in reference frame
-coordinates
-@param Iyy [in] centroidal inertia term, expressed in reference frame
-coordinates
-@param Izz [in] centroidal inertia term, expressed in reference frame
-coordinates
-@param Ixy [in] centroidal inertia term, expressed in reference frame
-coordinates
-@param Iyz [in] centroidal inertia term, expressed in reference frame
-coordinates
-@param Izx [in] centroidal inertia term, expressed in reference frame
-coordinates
-*/
 ksl_inertia_t ksl_inertia(const double m, const ksl_vec3_t t, const double Ixx,
                           const double Iyy, const double Izz, const double Ixy,
                           const double Iyz, const double Izx) {
@@ -40,23 +23,6 @@ ksl_inertia_t ksl_inertia(const double m, const ksl_vec3_t t, const double Ixx,
   return i;
 }
 
-/*!
-@brief single precision spatial inertia matrix constructor
-@param m [in] mass
-@param t [in] vector from reference frame to body centroid
-@param Ixx [in] centroidal inertia term, expressed in reference frame
-coordinates
-@param Iyy [in] centroidal inertia term, expressed in reference frame
-coordinates
-@param Izz [in] centroidal inertia term, expressed in reference frame
-coordinates
-@param Ixy [in] centroidal inertia term, expressed in reference frame
-coordinates
-@param Iyz [in] centroidal inertia term, expressed in reference frame
-coordinates
-@param Izx [in] centroidal inertia term, expressed in reference frame
-coordinates
-*/
 ksl_inertiaf_t ksl_inertiaf(const float m, const ksl_vec3f_t t, const float Ixx,
                             const float Iyy, const float Izz, const float Ixy,
                             const float Iyz, const float Izx) {
@@ -92,12 +58,6 @@ inline void ksl_inertiaf_copy(const ksl_inertiaf_t* restrict inertia_i,
   memcpy(inertia_o, inertia_i, sizeof(ksl_inertiaf_t));
 }
 
-/*!
-@brief rotate a double precision centroidal inertia matrix
-
-  I_ff = CoAd(D(R_{fc})) * Icc * Ad(D(R_{fc}^{-1}))
-
-*/
 inline void ksl_inertia_rotated(const ksl_inertia_t* restrict inertia_i,
                                 const ksl_mat3x3_t* restrict r,
                                 ksl_inertia_t* restrict inertia_o) {
@@ -148,12 +108,6 @@ inline void ksl_inertia_rotated(const ksl_inertia_t* restrict inertia_i,
   ksl_product_drv(r, &inertia_i->mt, &inertia_o->mt);
 }
 
-/*!
-@brief rotate a single precision centroidal inertia matrix
-
-  I_ff = CoAd(D(R_{fc})) * Icc * Ad(D(R_{fc}^{-1}))
-
-*/
 inline void ksl_inertiaf_rotated(const ksl_inertiaf_t* restrict inertia_i,
                                  const ksl_mat3x3f_t* restrict r,
                                  ksl_inertiaf_t* restrict inertia_o) {
@@ -204,12 +158,6 @@ inline void ksl_inertiaf_rotated(const ksl_inertiaf_t* restrict inertia_i,
   ksl_product_drvf(r, &inertia_i->mt, &inertia_o->mt);
 }
 
-/*!
-@brief rotate a double precision centroidal inertia matrix in place
-
-  I_ff = CoAd(D(R_{fc})) * Icc * Ad(D(R_{fc}^{-1}))
-
-*/
 inline void ksl_inertia_rotate(ksl_inertia_t* restrict inertia_i,
                                const ksl_mat3x3_t* restrict r) {
   ksl_inertia_t inertia_o;
@@ -217,12 +165,6 @@ inline void ksl_inertia_rotate(ksl_inertia_t* restrict inertia_i,
   ksl_inertia_copy(&inertia_o, inertia_i);
 }
 
-/*!
-@brief rotate a single precision centroidal inertia matrix in place
-
-  I_ff = CoAd(D(R_{fc})) * Icc * Ad(D(R_{fc}^{-1}))
-
-*/
 inline void ksl_inertiaf_rotate(ksl_inertiaf_t* restrict inertia_i,
                                 const ksl_mat3x3f_t* restrict r) {
   ksl_inertiaf_t inertia_o;
@@ -230,11 +172,6 @@ inline void ksl_inertiaf_rotate(ksl_inertiaf_t* restrict inertia_i,
   ksl_inertiaf_copy(&inertia_o, inertia_i);
 }
 
-/*!
-@brief translate a double precision centroidal inertia matrix
-
-  I_ff = CoAd(D(t_{fc})) * Icc * Ad(D(t_{fc}^{-1}))
-*/
 void ksl_inertia_translated(const ksl_inertia_t* restrict inertia_i,
                             const ksl_vec3_t* restrict t,
                             ksl_inertia_t* restrict inertia_o) {
@@ -259,11 +196,6 @@ void ksl_inertia_translated(const ksl_inertia_t* restrict inertia_i,
   inertia_o->Izz += temp2.x + temp2.y;
 }
 
-/*!
-@brief translate a single precision centroidal inertia matrix
-
-  I_ff = CoAd(D(t_{fc})) * Icc * Ad(D(t_{fc}^{-1}))
-*/
 void ksl_inertiaf_translated(const ksl_inertiaf_t* restrict inertia_i,
                              const ksl_vec3f_t* restrict t,
                              ksl_inertiaf_t* restrict inertia_o) {
@@ -288,11 +220,6 @@ void ksl_inertiaf_translated(const ksl_inertiaf_t* restrict inertia_i,
   inertia_o->Izz += temp2.x + temp2.y;
 }
 
-/*!
-@brief translate a double precision centroidal inertia matrix in place
-
-  I_ff = CoAd(D(t_{fc})) * Icc * Ad(D(t_{fc}^{-1}))
-*/
 inline void ksl_inertia_translate(ksl_inertia_t* restrict inertia_i,
                                   const ksl_vec3_t* restrict t) {
   ksl_inertia_t inertia_o;
@@ -300,11 +227,6 @@ inline void ksl_inertia_translate(ksl_inertia_t* restrict inertia_i,
   ksl_inertia_copy(&inertia_o, inertia_i);
 }
 
-/*!
-@brief translate a single precision centroidal inertia matrix in place
-
-  I_ff = CoAd(D(t_{fc})) * Icc * Ad(D(t_{fc}^{-1}))
-*/
 inline void ksl_inertiaf_translate(ksl_inertiaf_t* restrict inertia_i,
                                    const ksl_vec3f_t* restrict t) {
   ksl_inertiaf_t inertia_o;
@@ -312,11 +234,6 @@ inline void ksl_inertiaf_translate(ksl_inertiaf_t* restrict inertia_i,
   ksl_inertiaf_copy(&inertia_o, inertia_i);
 }
 
-/*!
-@brief spatial transform a double precision centroidal inertia matrix
-
-  I_ff = CoAd(D_{fc}) * Icc * Ad(D_{fc}^{-1})
-*/
 inline void ksl_inertia_transformed(const ksl_inertia_t* restrict inertia_i,
                                     const ksl_SE3_t* restrict d,
                                     ksl_inertia_t* restrict inertia_o) {
@@ -341,11 +258,6 @@ inline void ksl_inertia_transformed(const ksl_inertia_t* restrict inertia_i,
   inertia_o->Izz += temp2.x + temp2.y;
 }
 
-/*!
-@brief spatial transform a single precision centroidal inertia matrix
-
-  I_ff = CoAd(D_{fc}) * Icc * Ad(D_{fc}^{-1})
-*/
 inline void ksl_inertiaf_transformed(const ksl_inertiaf_t* restrict inertia_i,
                                      const ksl_SE3f_t* restrict d,
                                      ksl_inertiaf_t* restrict inertia_o) {
@@ -370,11 +282,6 @@ inline void ksl_inertiaf_transformed(const ksl_inertiaf_t* restrict inertia_i,
   inertia_o->Izz += temp2.x + temp2.y;
 }
 
-/*!
-@brief translate a double precision centroidal inertia matrix in place
-
-  I_ff = CoAd(D(t_{fc})) * Icc * Ad(D(t_{fc}^{-1}))
-*/
 inline void ksl_inertia_transform(ksl_inertia_t* restrict inertia_i,
                                   const ksl_SE3_t* restrict d) {
   ksl_inertia_t inertia_o;
@@ -382,11 +289,6 @@ inline void ksl_inertia_transform(ksl_inertia_t* restrict inertia_i,
   ksl_inertia_copy(&inertia_o, inertia_i);
 }
 
-/*!
-@brief translate a single precision centroidal inertia matrix in place
-
-  I_ff = CoAd(D(t_{fc})) * Icc * Ad(D(t_{fc}^{-1}))
-*/
 inline void ksl_inertiaf_transform(ksl_inertiaf_t* restrict inertia_i,
                                    const ksl_SE3f_t* restrict d) {
   ksl_inertiaf_t inertia_o;
@@ -394,17 +296,6 @@ inline void ksl_inertiaf_transform(ksl_inertiaf_t* restrict inertia_i,
   ksl_inertiaf_copy(&inertia_o, inertia_i);
 }
 
-/*!
-@brief merge double precision child inertia (j) with parent inertia (i)
-@param parent inertia [in/out] parent inertia to be merged
-@param t_ic_i [in/out] vector from parent body reference frame i to body center
-of mass frame c, expressed in body frame i
-@param child inertia [in]
-@param t_jc_j [in] vector from child body reference frame j to body center of
-mass frame c, expressed in body frame j
-@param D_ij [in] transformation from parent reference frame i to child reference
-frame j
-*/
 void ksl_inertia_merge(ksl_inertia_t* restrict inertia_i,
                        ksl_vec3_t* restrict t_ic_i,
                        ksl_inertia_t* restrict inertia_j,
@@ -483,17 +374,6 @@ void ksl_inertia_merge(ksl_inertia_t* restrict inertia_i,
   ksl_product_av(m_ij, &t_icbar, &inertia_i->mt);
 }
 
-/*!
-@brief merge single precision child inertia (j) with parent inertia (i)
-@param parent inertia [in/out] parent inertia to be merged
-@param t_ic_i [in/out] vector from parent body reference frame i to body center
-of mass frame c, expressed in body frame i
-@param child inertia [in]
-@param t_jc_j [in] vector from child body reference frame j to body center of
-mass frame c, expressed in body frame j
-@param D_ij [in] transformation from parent reference frame i to child reference
-frame j
-*/
 void ksl_inertiaf_merge(ksl_inertiaf_t* restrict inertia_i,
                         ksl_vec3f_t* restrict t_ic_i,
                         ksl_inertiaf_t* restrict inertia_j,
@@ -572,29 +452,15 @@ void ksl_inertiaf_merge(ksl_inertiaf_t* restrict inertia_i,
   ksl_product_avf(m_ij, &t_icbar, &inertia_i->mt);
 }
 
-/*!
-@brief factor double precision inertia matrix
-
-@todo finish this
-
-inertia matrix is overwritten with its factors
-
-4 cases:
-  * rank 2+, full rank, positive definite, or rank 2, positive semidefinite
-  * rank 1, positive semidefinite
-  * rank 0, do nothing
-
-  @return rank of inertia matrix
-*/
 int ksl_inertia_factor(ksl_inertia_t* restrict inertia) {
 
   ksl_mat3x3_t M2;
-  M2.as_array[0][0] = inertia->Ixx;
-  M2.as_array[1][1] = inertia->Iyy;
-  M2.as_array[2][2] = inertia->Izz;
-  M2.as_array[0][1] = M2.as_array[1][0] = inertia->Ixy;
-  M2.as_array[0][2] = M2.as_array[2][0] = inertia->Izx;
-  M2.as_array[1][2] = M2.as_array[2][1] = inertia->Iyz;
+  M2.at[0][0] = inertia->Ixx;
+  M2.at[1][1] = inertia->Iyy;
+  M2.at[2][2] = inertia->Izz;
+  M2.at[0][1] = M2.at[1][0] = inertia->Ixy;
+  M2.at[0][2] = M2.at[2][0] = inertia->Izx;
+  M2.at[1][2] = M2.at[2][1] = inertia->Iyz;
 
   ksl_mat3x3_t M2WRTReference;
   ksl_mat3x3_copy(&M2, &M2WRTReference);
@@ -622,15 +488,12 @@ int ksl_inertia_factor(ksl_inertia_t* restrict inertia) {
 
   /* compute 3 determinants */
   double determinants[3];
-  determinants[0] =
-    M2WRTReference.as_array[1][1] * M2WRTReference.as_array[2][2] -
-    M2WRTReference.as_array[1][2] * M2WRTReference.as_array[2][1];
-  determinants[1] =
-    M2WRTReference.as_array[2][2] * M2WRTReference.as_array[0][0] -
-    M2WRTReference.as_array[2][0] * M2WRTReference.as_array[0][2];
-  determinants[2] =
-    M2WRTReference.as_array[0][0] * M2WRTReference.as_array[1][1] -
-    M2WRTReference.as_array[0][1] * M2WRTReference.as_array[1][0];
+  determinants[0] = M2WRTReference.at[1][1] * M2WRTReference.at[2][2] -
+                    M2WRTReference.at[1][2] * M2WRTReference.at[2][1];
+  determinants[1] = M2WRTReference.at[2][2] * M2WRTReference.at[0][0] -
+                    M2WRTReference.at[2][0] * M2WRTReference.at[0][2];
+  determinants[2] = M2WRTReference.at[0][0] * M2WRTReference.at[1][1] -
+                    M2WRTReference.at[0][1] * M2WRTReference.at[1][0];
 
   /* find largest value in determinants */
   int i = 1;
@@ -653,29 +516,29 @@ int ksl_inertia_factor(ksl_inertia_t* restrict inertia) {
     maxVal = determinants[2];
   }
 
-  if(M2WRTReference.as_array[j][j] > M2WRTReference.as_array[i][i]) {
+  if(M2WRTReference.at[j][j] > M2WRTReference.at[i][i]) {
     ksl_swapi(&i, &j);
   }
   // fprintf(f, "4. Processing body: %s\n", body->name);
   // if maxVal > epsilon, then we have a rank of 2 or 3
   if(maxVal > 1e-9) {
     // F[i,i]
-    f[0] = sqrt(M2WRTReference.as_array[i][i]);
+    f[0] = sqrt(M2WRTReference.at[i][i]);
 
     // F[j,i]
-    f[1] = M2WRTReference.as_array[j][i] / f[0];
+    f[1] = M2WRTReference.at[j][i] / f[0];
 
     // F[k,i]
-    f[2] = M2WRTReference.as_array[k][i] / f[0];
+    f[2] = M2WRTReference.at[k][i] / f[0];
 
     // F[j,j]
-    f[3] = sqrt(M2WRTReference.as_array[j][j] - f[1] * f[1]);
+    f[3] = sqrt(M2WRTReference.at[j][j] - f[1] * f[1]);
 
     /* F[k,j] */
-    f[4] = (M2WRTReference.as_array[k][j] - f[2] * f[1]) / f[3];
+    f[4] = (M2WRTReference.at[k][j] - f[2] * f[1]) / f[3];
 
     /* F[k,k] */
-    f[5] = sqrt(M2WRTReference.as_array[k][k] - f[2] * f[2] - f[4] * f[4]);
+    f[5] = sqrt(M2WRTReference.at[k][k] - f[2] * f[2] - f[4] * f[4]);
     indices.x = i;
     indices.y = j;
     indices.z = k;
@@ -690,7 +553,7 @@ int ksl_inertia_factor(ksl_inertia_t* restrict inertia) {
     epsilon */
     for(i = 0; i < 3; i++) {
       for(j = i; j < 3; j++) {
-        maxVal = fmax(maxVal, fabs(M2WRTReference.as_array[i][j]));
+        maxVal = fmax(maxVal, fabs(M2WRTReference.at[i][j]));
       }
     }
     if(maxVal < 1e-9) {
@@ -703,25 +566,25 @@ int ksl_inertia_factor(ksl_inertia_t* restrict inertia) {
       // 1.find largest value on diagonal
       for(i = 0; i < 3; i++) {
         // fprintf(f, "M2 diagonal term: %f\n", M2WRTReference[i][i]);
-        if(fabs(M2WRTReference.as_array[i][i]) > maxVal) {
+        if(fabs(M2WRTReference.at[i][i]) > maxVal) {
           j = i;
           // fprintf(f, "\n\nj = %d\n\n", j);
-          maxVal = fabs(M2WRTReference.as_array[i][i]);
+          maxVal = fabs(M2WRTReference.at[i][i]);
         }
       }
       /* 2. select a column and normalize it
          3. compute sqrt of trace
          4. multipy sqrt of trace with unit vector */
       double sqrtMassDivideByNorm =
-        sqrt((M2WRTReference.as_array[0][0] + M2WRTReference.as_array[1][1] +
-              M2WRTReference.as_array[2][2]) /
-             (M2WRTReference.as_array[0][j] * M2WRTReference.as_array[0][j] +
-              M2WRTReference.as_array[1][j] * M2WRTReference.as_array[1][j] +
-              M2WRTReference.as_array[2][j] * M2WRTReference.as_array[2][j]));
+        sqrt((M2WRTReference.at[0][0] + M2WRTReference.at[1][1] +
+              M2WRTReference.at[2][2]) /
+             (M2WRTReference.at[0][j] * M2WRTReference.at[0][j] +
+              M2WRTReference.at[1][j] * M2WRTReference.at[1][j] +
+              M2WRTReference.at[2][j] * M2WRTReference.at[2][j]));
 
-      f[0] = M2WRTReference.as_array[0][j] * sqrtMassDivideByNorm;
-      f[1] = M2WRTReference.as_array[1][j] * sqrtMassDivideByNorm;
-      f[2] = M2WRTReference.as_array[2][j] * sqrtMassDivideByNorm;
+      f[0] = M2WRTReference.at[0][j] * sqrtMassDivideByNorm;
+      f[1] = M2WRTReference.at[1][j] * sqrtMassDivideByNorm;
+      f[2] = M2WRTReference.at[2][j] * sqrtMassDivideByNorm;
 
       /* return rank 1 */
       return 1;

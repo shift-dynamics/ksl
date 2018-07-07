@@ -416,10 +416,10 @@ inline void ksl_SE3_toMat4x4(const ksl_SE3_t* restrict d,
   memset(m, 0, sizeof(ksl_mat4x4_t));
   for(int i = 0; i < 4; i++) {   /* column index */
     for(int j = 0; j < 3; j++) { /* row index */
-      m->as_array[i][j] = d->as_array[i][j];
+      m->at[i][j] = d->at[i][j];
     }
   }
-  m->as_array[3][3] = 1.0;
+  m->at[3][3] = 1.0;
 }
 
 inline void ksl_SE3f_toMat4x4f(const ksl_SE3f_t* restrict d,
@@ -427,20 +427,20 @@ inline void ksl_SE3f_toMat4x4f(const ksl_SE3f_t* restrict d,
   memset(m, 0, sizeof(ksl_mat4x4f_t));
   for(int i = 0; i < 4; i++) {   /* column index */
     for(int j = 0; j < 3; j++) { /* row index */
-      m->as_array[i][j] = d->as_array[i][j];
+      m->at[i][j] = d->at[i][j];
     }
   }
-  m->as_array[3][3] = 1.0;
+  m->at[3][3] = 1.0;
 }
 
 inline void ksl_SE3_toMat4x4f(const ksl_SE3_t* d, ksl_mat4x4f_t* restrict m) {
   memset(m, 0, sizeof(ksl_mat4x4f_t));
   for(int i = 0; i < 4; i++) {   /* column index */
     for(int j = 0; j < 3; j++) { /* row index */
-      m->as_array[i][j] = d->as_array[i][j];
+      m->at[i][j] = d->at[i][j];
     }
   }
-  m->as_array[3][3] = 1.f;
+  m->at[3][3] = 1.f;
 }
 
 inline void ksl_dc(const double thetai, double dc[2]) {
@@ -455,78 +455,78 @@ inline void ksl_dcf(const float thetai, float dc[2]) {
 inline void ksl_SE3_setIdentity(ksl_SE3_t* restrict d) {
   memset(d, 0, sizeof(ksl_SE3_t));
   for(int i = 0; i < 3; i++) {
-    d->as_array[i][i] = 1.0;
+    d->at[i][i] = 1.0;
   }
 }
 
 inline void ksl_SE3f_setIdentity(ksl_SE3f_t* restrict d) {
   memset(d, 0, sizeof(ksl_SE3f_t));
   for(int i = 0; i < 3; i++) {
-    d->as_array[i][i] = 1.f;
+    d->at[i][i] = 1.f;
   }
 }
 
 inline void ksl_mat3x3_setIdentity(ksl_mat3x3_t* restrict r) {
   memset(r, 0, sizeof(ksl_mat3x3_t));
   for(int i = 0; i < 3; i++) {
-    r->as_array[i][i] = 1.0;
+    r->at[i][i] = 1.0;
   }
 }
 
 inline void ksl_mat3x3f_setIdentity(ksl_mat3x3f_t* restrict r) {
   memset(r, 0, sizeof(ksl_mat3x3f_t));
   for(int i = 0; i < 3; i++) {
-    r->as_array[i][i] = 1.0;
+    r->at[i][i] = 1.0;
   }
 }
 
 inline void ksl_mat4x4_setIdentity(ksl_mat4x4_t* M) {
   memset(M, 0, sizeof(ksl_mat4x4_t));
   for(int i = 0; i < 4; i++) {
-    M->as_array[i][i] = 1.0;
+    M->at[i][i] = 1.0;
   }
 }
 
 inline void ksl_mat4x4f_setIdentity(ksl_mat4x4f_t* M) {
   memset(M, 0, sizeof(ksl_mat4x4f_t));
   for(int i = 0; i < 4; i++) {
-    M->as_array[i][i] = 1.0;
+    M->at[i][i] = 1.0;
   }
 }
 
 inline void ksl_mat3x3_set(ksl_mat3x3_t* restrict R, const int row,
                            const int column, const double value) {
   assert(row < 3 && column < 3);
-  R->as_array[column][row] = value;
+  R->at[column][row] = value;
 }
 
 inline void ksl_mat3x3f_set(ksl_mat3x3f_t* restrict R, int row, int column,
                             float value) {
   assert(row < 3 && column < 3);
-  R->as_array[column][row] = value;
+  R->at[column][row] = value;
 }
 
 inline void ksl_mat4x4_set(ksl_mat4x4_t* restrict M, const int row,
                            const int column, const double value) {
   assert(row < 4 && column < 4);
-  M->as_array[column][row] = value;
+  M->at[column][row] = value;
 }
 
 inline void ksl_mat4x4f_set(ksl_mat4x4f_t* restrict M, int row, int column,
                             float value) {
   assert(row < 4 && column < 4);
-  M->as_array[column][row] = value;
+  M->at[column][row] = value;
 }
 
 inline void ksl_SE3_set(ksl_SE3_t* restrict D, const int row, const int column,
                         const double value) {
   assert(row < 3 && column < 4);
-  D->as_array[column][row] = value;
+  D->at[column][row] = value;
 }
 
 inline void ksl_SE3f_set(ksl_SE3f_t* D, int row, int column, float value) {
   assert(row < 3 && column < 4);
-  D->as_array[column][row] = value;
+  D->at[column][row] = value;
 }
 
 inline void ksl_mat3x3_setFromVectors(ksl_mat3x3_t* restrict R,
@@ -549,37 +549,37 @@ inline void ksl_mat3x3f_setFromVectors(ksl_mat3x3f_t* restrict R,
 inline double ksl_SE3_get(const ksl_SE3_t* restrict D, const int row,
                           const int column) {
   assert(row < 3 && column < 4);
-  return D->as_array[column][row];
+  return D->at[column][row];
 }
 
 inline float ksl_SE3f_get(const ksl_SE3f_t* restrict D, const int row,
                           const int column) {
   assert(row < 3 && column < 4);
-  return D->as_array[column][row];
+  return D->at[column][row];
 }
 
 inline double ksl_mat3x3_get(const ksl_mat3x3_t* restrict R, const int row,
                              const int column) {
   assert(row < 3 && column < 3);
-  return R->as_array[column][row];
+  return R->at[column][row];
 }
 
 inline float ksl_mat3x3f_get(const ksl_mat3x3f_t* restrict R, const int row,
                              const int column) {
   assert(row < 3 && column < 3);
-  return R->as_array[column][row];
+  return R->at[column][row];
 }
 
 inline double ksl_mat4x4_get(const ksl_mat4x4_t* restrict R, const int row,
                              const int column) {
   assert(row < 4 && column < 4);
-  return R->as_array[column][row];
+  return R->at[column][row];
 }
 
 inline float ksl_mat4x4f_get(const ksl_mat4x4f_t* restrict R, const int row,
                              const int column) {
   assert(row < 4 && column < 4);
-  return R->as_array[column][row];
+  return R->at[column][row];
 }
 
 inline void ksl_SE3_getTranslation(const ksl_SE3_t* restrict D,
@@ -616,10 +616,10 @@ inline int ksl_mat3x3_invert(ksl_mat3x3_t* restrict R) {
     /* i iterates over rows of a */
     for(int i = row + 1; i < 3; i++) {
       /* Evaluate the current entry in the L matrix.*/
-      a.as_array[row][i] /= a.as_array[row][row];
+      a.at[row][i] /= a.at[row][row];
       /* Compute U matrix */
       for(int j = row + 1; j < 3; j++) {
-        a.as_array[j][i] -= a.as_array[row][i] * a.as_array[j][row];
+        a.at[j][i] -= a.at[row][i] * a.at[j][row];
       }
     }
   }
@@ -636,25 +636,25 @@ inline int ksl_mat3x3_invert(ksl_mat3x3_t* restrict R) {
     for(int i = 0; i < 3; i++) {
       b.at[i] = y.at[i];
       for(int j = 0; j < i; j++) {
-        b.at[i] -= a.as_array[j][i] * b.at[j];
+        b.at[i] -= a.at[j][i] * b.at[j];
       }
     }
 
     /* perform backward substitution U^-1 b -> x
     where U is non-unit upper triangular */
-    if(fabs(a.as_array[2][2]) < 1e-12) {
+    if(fabs(a.at[2][2]) < 1e-12) {
       return -3;
     }
-    R->as_array[k][2] = b.at[2] / a.as_array[2][2];
+    R->at[k][2] = b.at[2] / a.at[2][2];
     for(int i = 1; i > -1; i--) {
       double t = b.at[i];
       for(int j = i + 1; j < 3; j++) {
-        t -= a.as_array[j][i] * R->as_array[k][j];
+        t -= a.at[j][i] * R->at[k][j];
       }
-      if(fabs(a.as_array[i][i]) < 1e-12) {
+      if(fabs(a.at[i][i]) < 1e-12) {
         return -(i + 1);
       }
-      R->as_array[k][i] = t / a.as_array[i][i];
+      R->at[k][i] = t / a.at[i][i];
     }
   }
 
@@ -675,10 +675,10 @@ inline int ksl_mat3x3f_invert(ksl_mat3x3f_t* restrict R) {
     /* i iterates over rows of a */
     for(int i = row + 1; i < 3; i++) {
       /* Evaluate the current entry in the L matrix.*/
-      a.as_array[row][i] /= a.as_array[row][row];
+      a.at[row][i] /= a.at[row][row];
       /* Compute U matrix */
       for(int j = row + 1; j < 3; j++) {
-        a.as_array[j][i] -= a.as_array[row][i] * a.as_array[j][row];
+        a.at[j][i] -= a.at[row][i] * a.at[j][row];
       }
     }
   }
@@ -695,25 +695,25 @@ inline int ksl_mat3x3f_invert(ksl_mat3x3f_t* restrict R) {
     for(int i = 0; i < 3; i++) {
       b.at[i] = y.at[i];
       for(int j = 0; j < i; j++) {
-        b.at[i] -= a.as_array[j][i] * b.at[j];
+        b.at[i] -= a.at[j][i] * b.at[j];
       }
     }
 
     /* perform backward substitution U^-1 b -> x
     where U is non-unit upper triangular */
-    if(fabs(a.as_array[2][2]) < 1e-12) {
+    if(fabs(a.at[2][2]) < 1e-12) {
       return -3;
     }
-    R->as_array[k][2] = b.at[2] / a.as_array[2][2];
+    R->at[k][2] = b.at[2] / a.at[2][2];
     for(int i = 1; i > -1; i--) {
       double t = b.at[i];
       for(int j = i + 1; j < 3; j++) {
-        t -= a.as_array[j][i] * R->as_array[k][j];
+        t -= a.at[j][i] * R->at[k][j];
       }
-      if(fabs(a.as_array[i][i]) < 1e-12) {
+      if(fabs(a.at[i][i]) < 1e-12) {
         return -(i + 1);
       }
-      R->as_array[k][i] = t / a.as_array[i][i];
+      R->at[k][i] = t / a.at[i][i];
     }
   }
   return 0;
@@ -734,10 +734,10 @@ inline int ksl_mat3x3_inverted(const ksl_mat3x3_t* restrict ri,
     /* i iterates over rows of a */
     for(int i = row + 1; i < 3; i++) {
       /* Evaluate the current entry in the L matrix.*/
-      a.as_array[row][i] /= a.as_array[row][row];
+      a.at[row][i] /= a.at[row][row];
       /* Compute U matrix */
       for(int j = row + 1; j < 3; j++) {
-        a.as_array[j][i] -= a.as_array[row][i] * a.as_array[j][row];
+        a.at[j][i] -= a.at[row][i] * a.at[j][row];
       }
     }
   }
@@ -754,25 +754,25 @@ inline int ksl_mat3x3_inverted(const ksl_mat3x3_t* restrict ri,
     for(int i = 0; i < 3; i++) {
       b.at[i] = y.at[i];
       for(int j = 0; j < i; j++) {
-        b.at[i] -= a.as_array[j][i] * b.at[j];
+        b.at[i] -= a.at[j][i] * b.at[j];
       }
     }
 
     /* perform backward substitution U^-1 b -> x
     where U is non-unit upper triangular */
-    if(fabs(a.as_array[2][2]) < 1e-12) {
+    if(fabs(a.at[2][2]) < 1e-12) {
       return -3;
     }
-    ro->as_array[k][2] = b.at[2] / a.as_array[2][2];
+    ro->at[k][2] = b.at[2] / a.at[2][2];
     for(int i = 1; i > -1; i--) {
       double t = b.at[i];
       for(int j = i + 1; j < 3; j++) {
-        t -= a.as_array[j][i] * ro->as_array[k][j];
+        t -= a.at[j][i] * ro->at[k][j];
       }
-      if(fabs(a.as_array[i][i]) < 1e-12) {
+      if(fabs(a.at[i][i]) < 1e-12) {
         return -(i + 1);
       }
-      ro->as_array[k][i] = t / a.as_array[i][i];
+      ro->at[k][i] = t / a.at[i][i];
     }
   }
   return 0;
@@ -793,10 +793,10 @@ inline int ksl_mat3x3f_inverted(const ksl_mat3x3f_t* restrict ri,
     /* i iterates over rows of a */
     for(int i = row + 1; i < 3; i++) {
       /* Evaluate the current entry in the L matrix.*/
-      a.as_array[row][i] /= a.as_array[row][row];
+      a.at[row][i] /= a.at[row][row];
       /* Compute U matrix */
       for(int j = row + 1; j < 3; j++) {
-        a.as_array[j][i] -= a.as_array[row][i] * a.as_array[j][row];
+        a.at[j][i] -= a.at[row][i] * a.at[j][row];
       }
     }
   }
@@ -813,47 +813,47 @@ inline int ksl_mat3x3f_inverted(const ksl_mat3x3f_t* restrict ri,
     for(int i = 0; i < 3; i++) {
       b.at[i] = y.at[i];
       for(int j = 0; j < i; j++) {
-        b.at[i] -= a.as_array[j][i] * b.at[j];
+        b.at[i] -= a.at[j][i] * b.at[j];
       }
     }
 
     /* perform backward substitution U^-1 b -> x
     where U is non-unit upper triangular */
-    if(fabs(a.as_array[2][2]) < 1e-12) {
+    if(fabs(a.at[2][2]) < 1e-12) {
       return -3;
     }
-    ro->as_array[k][2] = b.at[2] / a.as_array[2][2];
+    ro->at[k][2] = b.at[2] / a.at[2][2];
     for(int i = 1; i > -1; i--) {
       double t = b.at[i];
       for(int j = i + 1; j < 3; j++) {
-        t -= a.as_array[j][i] * ro->as_array[k][j];
+        t -= a.at[j][i] * ro->at[k][j];
       }
-      if(fabs(a.as_array[i][i]) < 1e-12) {
+      if(fabs(a.at[i][i]) < 1e-12) {
         return -(i + 1);
       }
-      ro->as_array[k][i] = t / a.as_array[i][i];
+      ro->at[k][i] = t / a.at[i][i];
     }
   }
   return 0;
 }
 
 inline void ksl_mat3x3_transpose(ksl_mat3x3_t* restrict R) {
-  ksl_swap(&R->as_array[0][1], &R->as_array[1][0]);
-  ksl_swap(&R->as_array[0][2], &R->as_array[2][0]);
-  ksl_swap(&R->as_array[1][2], &R->as_array[2][1]);
+  ksl_swap(&R->at[0][1], &R->at[1][0]);
+  ksl_swap(&R->at[0][2], &R->at[2][0]);
+  ksl_swap(&R->at[1][2], &R->at[2][1]);
 }
 
 inline void ksl_mat3x3f_transpose(ksl_mat3x3f_t* restrict R) {
-  ksl_swapf(&R->as_array[0][1], &R->as_array[1][0]);
-  ksl_swapf(&R->as_array[0][2], &R->as_array[2][0]);
-  ksl_swapf(&R->as_array[1][2], &R->as_array[2][1]);
+  ksl_swapf(&R->at[0][1], &R->at[1][0]);
+  ksl_swapf(&R->at[0][2], &R->at[2][0]);
+  ksl_swapf(&R->at[1][2], &R->at[2][1]);
 }
 
 inline void ksl_mat3x3_transposed(const ksl_mat3x3_t* restrict ri,
                                   ksl_mat3x3_t* restrict ro) {
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 3; j++) {
-      ro->as_array[i][j] = ri->as_array[j][i];
+      ro->at[i][j] = ri->at[j][i];
     }
   }
 }
@@ -862,7 +862,7 @@ inline void ksl_mat3x3f_transposed(const ksl_mat3x3f_t* restrict ri,
                                    ksl_mat3x3f_t* restrict ro) {
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 3; j++) {
-      ro->as_array[i][j] = ri->as_array[j][i];
+      ro->at[i][j] = ri->at[j][i];
     }
   }
 }
@@ -939,15 +939,13 @@ ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
       // Ri[j][i] * s,
       // angle[0]); angle[1] = catan2pi(Ri[i][k], Ri[i][i]*c - Ri[i][j]*s,
       // angle[1]);
-      angles->at[2] =
-        catan1pi(-r->as_array[1][0], r->as_array[0][0], reference->at[2]);
+      angles->at[2] = catan1pi(-r->at[1][0], r->at[0][0], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(r->as_array[1][2] * c + r->as_array[0][2] * s,
-                               r->as_array[1][1] * c + r->as_array[0][1] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(r->as_array[2][0],
-                               r->as_array[0][0] * c - r->as_array[1][0] * s,
+      angles->at[0] =
+        catan2pi(r->at[1][2] * c + r->at[0][2] * s,
+                 r->at[1][1] * c + r->at[0][1] * s, reference->at[0]);
+      angles->at[1] = catan2pi(r->at[2][0], r->at[0][0] * c - r->at[1][0] * s,
                                reference->at[1]);
       break;
     case KSL_AXIS_YZX:
@@ -957,15 +955,13 @@ ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
       // Ri[j][i] * s,
       // angle[0]); angle[1] = catan2pi(Ri[i][k], Ri[i][i]*c - Ri[i][j]*s,
       // angle[1]);
-      angles->at[2] =
-        catan1pi(-r->as_array[2][1], r->as_array[1][1], reference->at[2]);
+      angles->at[2] = catan1pi(-r->at[2][1], r->at[1][1], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(r->as_array[2][0] * c + r->as_array[1][0] * s,
-                               r->as_array[2][2] * c + r->as_array[1][2] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(r->as_array[0][1],
-                               r->as_array[1][1] * c - r->as_array[2][1] * s,
+      angles->at[0] =
+        catan2pi(r->at[2][0] * c + r->at[1][0] * s,
+                 r->at[2][2] * c + r->at[1][2] * s, reference->at[0]);
+      angles->at[1] = catan2pi(r->at[0][1], r->at[1][1] * c - r->at[2][1] * s,
                                reference->at[1]);
       break;
     case KSL_AXIS_ZXY:
@@ -975,15 +971,13 @@ ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
       // Ri[j][i] * s,
       // angle[0]); angle[1] = catan2pi(Ri[i][k], Ri[i][i]*c - Ri[i][j]*s,
       // angle[1]);
-      angles->at[2] =
-        catan1pi(-r->as_array[0][2], r->as_array[2][2], reference->at[2]);
+      angles->at[2] = catan1pi(-r->at[0][2], r->at[2][2], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(r->as_array[0][1] * c + r->as_array[2][1] * s,
-                               r->as_array[0][0] * c + r->as_array[2][0] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(r->as_array[1][2],
-                               r->as_array[2][2] * c - r->as_array[0][2] * s,
+      angles->at[0] =
+        catan2pi(r->at[0][1] * c + r->at[2][1] * s,
+                 r->at[0][0] * c + r->at[2][0] * s, reference->at[0]);
+      angles->at[1] = catan2pi(r->at[1][2], r->at[2][2] * c - r->at[0][2] * s,
                                reference->at[1]);
       break;
     case KSL_AXIS_XYX:
@@ -994,15 +988,14 @@ ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
       // Ri[j][k] * s,
       // angle[0]); angle[1] = catan2pi(Ri[i][k]*c + Ri[i][j]*s, Ri[i][i],
       // angle[1]);		k = f[j];
-      angles->at[2] =
-        catan1pi(r->as_array[1][0], r->as_array[2][0], reference->at[2]);
+      angles->at[2] = catan1pi(r->at[1][0], r->at[2][0], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(r->as_array[1][2] * c - r->as_array[2][2] * s,
-                               r->as_array[1][1] * c - r->as_array[2][1] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(r->as_array[2][0] * c + r->as_array[1][0] * s,
-                               r->as_array[0][0], reference->at[1]);
+      angles->at[0] =
+        catan2pi(r->at[1][2] * c - r->at[2][2] * s,
+                 r->at[1][1] * c - r->at[2][1] * s, reference->at[0]);
+      angles->at[1] = catan2pi(r->at[2][0] * c + r->at[1][0] * s, r->at[0][0],
+                               reference->at[1]);
       break;
     case KSL_AXIS_YZY:
       // i = 1, j = 2, k = 1
@@ -1012,15 +1005,14 @@ ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
       // Ri[j][k] * s,
       // angle[0]); angle[1] = catan2pi(Ri[i][k]*c + Ri[i][j]*s, Ri[i][i],
       // angle[1]);
-      angles->at[2] =
-        catan1pi(r->as_array[2][1], r->as_array[0][1], reference->at[2]);
+      angles->at[2] = catan1pi(r->at[2][1], r->at[0][1], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(r->as_array[2][0] * c - r->as_array[0][0] * s,
-                               r->as_array[2][2] * c - r->as_array[0][2] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(r->as_array[0][1] * c + r->as_array[2][1] * s,
-                               r->as_array[1][1], reference->at[1]);
+      angles->at[0] =
+        catan2pi(r->at[2][0] * c - r->at[0][0] * s,
+                 r->at[2][2] * c - r->at[0][2] * s, reference->at[0]);
+      angles->at[1] = catan2pi(r->at[0][1] * c + r->at[2][1] * s, r->at[1][1],
+                               reference->at[1]);
       break;
     case KSL_AXIS_ZXZ:
       // i = 2, j = 0, k = 2
@@ -1031,15 +1023,14 @@ ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
       // angle[0]);
       // angle[1] = catan2pi(Ri[i][k]*c + Ri[i][j]*s, Ri[i][i],
       // angle[1]);
-      angles->at[2] =
-        catan1pi(r->as_array[0][2], r->as_array[1][2], reference->at[2]);
+      angles->at[2] = catan1pi(r->at[0][2], r->at[1][2], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(r->as_array[0][1] * c - r->as_array[1][1] * s,
-                               r->as_array[0][0] * c - r->as_array[1][0] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(r->as_array[1][2] * c + r->as_array[0][2] * s,
-                               r->as_array[2][2], reference->at[1]);
+      angles->at[0] =
+        catan2pi(r->at[0][1] * c - r->at[1][1] * s,
+                 r->at[0][0] * c - r->at[1][0] * s, reference->at[0]);
+      angles->at[1] = catan2pi(r->at[1][2] * c + r->at[0][2] * s, r->at[2][2],
+                               reference->at[1]);
       break;
     case KSL_AXIS_XZY:
       // i = 0, j = 2, k = 1
@@ -1047,15 +1038,13 @@ ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
       // angle[0] = catan2pi(-(Ri[k][j]*c - Ri[k][i]*s), Ri[j][j]*c -
       // Ri[j][i]*s, angle[0]);  angle[1] = catan2pi(-Ri[i][k], Ri[i][i]*c +
       // Ri[i][j]*s, angle[1]);
-      angles->at[2] =
-        catan1pi(r->as_array[2][0], r->as_array[0][0], reference->at[2]);
+      angles->at[2] = catan1pi(r->at[2][0], r->at[0][0], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(-(r->as_array[2][1] * c - r->as_array[0][1] * s),
-                               r->as_array[2][2] * c - r->as_array[0][2] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(-r->as_array[1][0],
-                               r->as_array[0][0] * c + r->as_array[2][0] * s,
+      angles->at[0] =
+        catan2pi(-(r->at[2][1] * c - r->at[0][1] * s),
+                 r->at[2][2] * c - r->at[0][2] * s, reference->at[0]);
+      angles->at[1] = catan2pi(-r->at[1][0], r->at[0][0] * c + r->at[2][0] * s,
                                reference->at[1]);
       break;
     case KSL_AXIS_YXZ:
@@ -1064,15 +1053,13 @@ ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
       // angle[0] = catan2pi(-(Ri[k][j]*c - Ri[k][i]*s), Ri[j][j]*c -
       // Ri[j][i]*s, angle[0]);  angle[1] = catan2pi(-Ri[i][k], Ri[i][i]*c +
       // Ri[i][j]*s, angle[1]);
-      angles->at[2] =
-        catan1pi(r->as_array[0][1], r->as_array[1][1], reference->at[2]);
+      angles->at[2] = catan1pi(r->at[0][1], r->at[1][1], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(-(r->as_array[0][2] * c - r->as_array[1][2] * s),
-                               r->as_array[0][0] * c - r->as_array[1][0] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(-r->as_array[2][1],
-                               r->as_array[1][1] * c + r->as_array[0][1] * s,
+      angles->at[0] =
+        catan2pi(-(r->at[0][2] * c - r->at[1][2] * s),
+                 r->at[0][0] * c - r->at[1][0] * s, reference->at[0]);
+      angles->at[1] = catan2pi(-r->at[2][1], r->at[1][1] * c + r->at[0][1] * s,
                                reference->at[1]);
       break;
     case KSL_AXIS_ZYX:
@@ -1081,15 +1068,13 @@ ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
       // angle[0] = catan2pi(-(Ri[k][j]*c - Ri[k][i]*s), Ri[j][j]*c -
       // Ri[j][i]*s, angle[0]);  angle[1] = catan2pi(-Ri[i][k], Ri[i][i]*c +
       // Ri[i][j]*s, angle[1]);
-      angles->at[2] =
-        catan1pi(r->as_array[1][2], r->as_array[2][2], reference->at[2]);
+      angles->at[2] = catan1pi(r->at[1][2], r->at[2][2], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(-(r->as_array[1][0] * c - r->as_array[2][0] * s),
-                               r->as_array[1][1] * c - r->as_array[2][1] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(-r->as_array[0][2],
-                               r->as_array[2][2] * c + r->as_array[1][2] * s,
+      angles->at[0] =
+        catan2pi(-(r->at[1][0] * c - r->at[2][0] * s),
+                 r->at[1][1] * c - r->at[2][1] * s, reference->at[0]);
+      angles->at[1] = catan2pi(-r->at[0][2], r->at[2][2] * c + r->at[1][2] * s,
                                reference->at[1]);
       break;
     case KSL_AXIS_XZX:
@@ -1100,15 +1085,14 @@ ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
       // Ri[j][k]*s, angle[0]);  angle[1] = catan2pi(-(Ri[i][k]*c -
       // Ri[i][j]*s),
       // Ri[i][i], angle[1]);
-      angles->at[2] =
-        catan1pi(-r->as_array[2][0], r->as_array[1][0], reference->at[2]);
+      angles->at[2] = catan1pi(-r->at[2][0], r->at[1][0], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(-(r->as_array[2][1] * c + r->as_array[1][1] * s),
-                               r->as_array[2][2] * c + r->as_array[1][2] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(-(r->as_array[1][0] * c - r->as_array[2][0] * s),
-                               r->as_array[0][0], reference->at[1]);
+      angles->at[0] =
+        catan2pi(-(r->at[2][1] * c + r->at[1][1] * s),
+                 r->at[2][2] * c + r->at[1][2] * s, reference->at[0]);
+      angles->at[1] = catan2pi(-(r->at[1][0] * c - r->at[2][0] * s),
+                               r->at[0][0], reference->at[1]);
       break;
     case KSL_AXIS_YXY:
       // i = 1, j = 0, k = 1
@@ -1118,15 +1102,14 @@ ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
       // Ri[j][k]*s, angle[0]);  angle[1] = catan2pi(-(Ri[i][k]*c -
       // Ri[i][j]*s),
       // Ri[i][i], angle[1]);
-      angles->at[2] =
-        catan1pi(-r->as_array[0][1], r->as_array[2][1], reference->at[2]);
+      angles->at[2] = catan1pi(-r->at[0][1], r->at[2][1], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(-(r->as_array[0][2] * c + r->as_array[2][2] * s),
-                               r->as_array[0][0] * c + r->as_array[2][0] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(-(r->as_array[2][1] * c - r->as_array[0][1] * s),
-                               r->as_array[1][1], reference->at[1]);
+      angles->at[0] =
+        catan2pi(-(r->at[0][2] * c + r->at[2][2] * s),
+                 r->at[0][0] * c + r->at[2][0] * s, reference->at[0]);
+      angles->at[1] = catan2pi(-(r->at[2][1] * c - r->at[0][1] * s),
+                               r->at[1][1], reference->at[1]);
       break;
     case KSL_AXIS_ZYZ:
       // i = 2, j = 1, k = 2
@@ -1136,15 +1119,14 @@ ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
       // Ri[j][k]*s, angle[0]);  angle[1] = catan2pi(-(Ri[i][k]*c -
       // Ri[i][j]*s),
       // Ri[i][i], angle[1]);
-      angles->at[2] =
-        catan1pi(-r->as_array[1][2], r->as_array[0][2], reference->at[2]);
+      angles->at[2] = catan1pi(-r->at[1][2], r->at[0][2], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(-(r->as_array[1][0] * c + r->as_array[0][0] * s),
-                               r->as_array[1][1] * c + r->as_array[0][1] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(-(r->as_array[0][2] * c - r->as_array[1][2] * s),
-                               r->as_array[2][2], reference->at[1]);
+      angles->at[0] =
+        catan2pi(-(r->at[1][0] * c + r->at[0][0] * s),
+                 r->at[1][1] * c + r->at[0][1] * s, reference->at[0]);
+      angles->at[1] = catan2pi(-(r->at[0][2] * c - r->at[1][2] * s),
+                               r->at[2][2], reference->at[1]);
       break;
     default:
       fprintf(
@@ -1171,50 +1153,50 @@ ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
   // if(j == f[i]) { // Identifies Cases 1 and 3: forward cycle i --> j
   //   if(k != i) {  // forward cycle j --> k
   //     // Case 1: 0 --> 1 --> 2; 1 --> 2 --> 0; 2 --> 0 --> 1
-  //     angles->y = catan1pi(-r->as_array[j][i], r->as_array[i][i],
+  //     angles->y = catan1pi(-r->at [j][i], r->at [i][i],
   //     reference->y); c = cos(angles->y); s = sin(angles->y); angles->x =
-  //       catan2pi(r->as_array[j][k] * c + r->as_array[i][k] * s,
-  //                r->as_array[j][j] * c + r->as_array[i][j] * s,
+  //       catan2pi(r->at [j][k] * c + r->at [i][k] * s,
+  //                r->at [j][j] * c + r->at [i][j] * s,
   //                reference->x);
   //     angles->y =
-  //       catan2pi(r->as_array[k][i],
-  //                r->as_array[i][i] * c - r->as_array[j][i] * s,
+  //       catan2pi(r->at [k][i],
+  //                r->at [i][i] * c - r->at [j][i] * s,
   //                reference->y);
   //   } else { // k == i; reverse cycle j --> i
   //     // Case 3: 0 --> 1 --> 0; 1 --> 2 --> 1; 2 --> 0 --> 2
   //     // Reset k for correct index into direction cosine matrix.
   //     k = f[j];
-  //     angles->z = catan1pi(r->as_array[j][i], r->as_array[k][i],
+  //     angles->z = catan1pi(r->at [j][i], r->at [k][i],
   //     reference->z); c = cos(angles->z); s = sin(angles->z); angles->x =
-  //       catan2pi(r->as_array[j][k] * c - r->as_array[k][k] * s,
-  //                r->as_array[j][j] * c - r->as_array[k][j] * s,
+  //       catan2pi(r->at [j][k] * c - r->at [k][k] * s,
+  //                r->at [j][j] * c - r->at [k][j] * s,
   //                reference->x);
-  //     angles->y = catan2pi(r->as_array[k][i] * c + r->as_array[j][i] * s,
-  //                          r->as_array[i][i], reference->y);
+  //     angles->y = catan2pi(r->at [k][i] * c + r->at [j][i] * s,
+  //                          r->at [i][i], reference->y);
   //   }
   // } else {       // Cases 2 and 4: reverse cycle i --> j
   //   if(k != i) { // reverse cycle j --> k
   //     // Case 2: 0 --> 2 --> 1; 1 --> 0 --> 2; 2 --> 1 --> 0
-  //     angles->z = catan1pi(r->as_array[j][i], r->as_array[i][i],
+  //     angles->z = catan1pi(r->at [j][i], r->at [i][i],
   //     reference->z); c = cos(angles->z); s = sin(angles->z); angles->x =
-  //       catan2pi(-(r->as_array[j][k] * c - r->as_array[i][k] * s),
-  //                r->as_array[j][j] * c - r->as_array[i][j] * s,
+  //       catan2pi(-(r->at [j][k] * c - r->at [i][k] * s),
+  //                r->at [j][j] * c - r->at [i][j] * s,
   //                reference->x);
   //     angles->y =
-  //       catan2pi(-r->as_array[k][i],
-  //                r->as_array[i][i] * c + r->as_array[j][i] * s,
+  //       catan2pi(-r->at [k][i],
+  //                r->at [i][i] * c + r->at [j][i] * s,
   //                reference->y);
   //   } else { // k == i; forward cycle j --> i
   //     // Case 4: 0 --> 2 --> 0; 1 --> 0 --> 1; 2 --> 1 --> 2
   //     // Reset k for correct index into direction cosine matrix.
   //     k = f[i];
-  //     angles->z = catan1pi(-r->as_array[j][i], r->as_array[k][i],
+  //     angles->z = catan1pi(-r->at [j][i], r->at [k][i],
   //     reference->z); c = cos(angles->z); s = sin(angles->z); angles->x =
-  //       catan2pi(-(r->as_array[j][k] * c + r->as_array[k][k] * s),
-  //                r->as_array[j][j] * c + r->as_array[k][j] * s,
+  //       catan2pi(-(r->at [j][k] * c + r->at [k][k] * s),
+  //                r->at [j][j] * c + r->at [k][j] * s,
   //                reference->x);
-  //     angles->y = catan2pi(-(r->as_array[k][i] * c - r->as_array[j][i] * s),
-  //                          r->as_array[i][i], reference->y);
+  //     angles->y = catan2pi(-(r->at [k][i] * c - r->at [j][i] * s),
+  //                          r->at [i][i], reference->y);
   //   }
   // }
 }
@@ -1259,15 +1241,13 @@ ksl_mat3x3f_getEulerAnglesWithReference(const ksl_mat3x3f_t* r,
       // Ri[j][i] * s,
       // angle[0]); angle[1] = catan2pi(Ri[i][k], Ri[i][i]*c - Ri[i][j]*s,
       // angle[1]);
-      angles->at[2] =
-        catan1pi(-r->as_array[1][0], r->as_array[0][0], reference->at[2]);
+      angles->at[2] = catan1pi(-r->at[1][0], r->at[0][0], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(r->as_array[1][2] * c + r->as_array[0][2] * s,
-                               r->as_array[1][1] * c + r->as_array[0][1] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(r->as_array[2][0],
-                               r->as_array[0][0] * c - r->as_array[1][0] * s,
+      angles->at[0] =
+        catan2pi(r->at[1][2] * c + r->at[0][2] * s,
+                 r->at[1][1] * c + r->at[0][1] * s, reference->at[0]);
+      angles->at[1] = catan2pi(r->at[2][0], r->at[0][0] * c - r->at[1][0] * s,
                                reference->at[1]);
       break;
     case KSL_AXIS_YZX:
@@ -1277,15 +1257,13 @@ ksl_mat3x3f_getEulerAnglesWithReference(const ksl_mat3x3f_t* r,
       // Ri[j][i] * s,
       // angle[0]); angle[1] = catan2pi(Ri[i][k], Ri[i][i]*c - Ri[i][j]*s,
       // angle[1]);
-      angles->at[2] =
-        catan1pi(-r->as_array[2][1], r->as_array[1][1], reference->at[2]);
+      angles->at[2] = catan1pi(-r->at[2][1], r->at[1][1], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(r->as_array[2][0] * c + r->as_array[1][0] * s,
-                               r->as_array[2][2] * c + r->as_array[1][2] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(r->as_array[0][1],
-                               r->as_array[1][1] * c - r->as_array[2][1] * s,
+      angles->at[0] =
+        catan2pi(r->at[2][0] * c + r->at[1][0] * s,
+                 r->at[2][2] * c + r->at[1][2] * s, reference->at[0]);
+      angles->at[1] = catan2pi(r->at[0][1], r->at[1][1] * c - r->at[2][1] * s,
                                reference->at[1]);
       break;
     case KSL_AXIS_ZXY:
@@ -1295,15 +1273,13 @@ ksl_mat3x3f_getEulerAnglesWithReference(const ksl_mat3x3f_t* r,
       // Ri[j][i] * s,
       // angle[0]); angle[1] = catan2pi(Ri[i][k], Ri[i][i]*c - Ri[i][j]*s,
       // angle[1]);
-      angles->at[2] =
-        catan1pi(-r->as_array[0][2], r->as_array[2][2], reference->at[2]);
+      angles->at[2] = catan1pi(-r->at[0][2], r->at[2][2], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(r->as_array[0][1] * c + r->as_array[2][1] * s,
-                               r->as_array[0][0] * c + r->as_array[2][0] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(r->as_array[1][2],
-                               r->as_array[2][2] * c - r->as_array[0][2] * s,
+      angles->at[0] =
+        catan2pi(r->at[0][1] * c + r->at[2][1] * s,
+                 r->at[0][0] * c + r->at[2][0] * s, reference->at[0]);
+      angles->at[1] = catan2pi(r->at[1][2], r->at[2][2] * c - r->at[0][2] * s,
                                reference->at[1]);
       break;
     case KSL_AXIS_XYX:
@@ -1314,15 +1290,14 @@ ksl_mat3x3f_getEulerAnglesWithReference(const ksl_mat3x3f_t* r,
       // Ri[j][k] * s,
       // angle[0]); angle[1] = catan2pi(Ri[i][k]*c + Ri[i][j]*s, Ri[i][i],
       // angle[1]);		k = f[j];
-      angles->at[2] =
-        catan1pi(r->as_array[1][0], r->as_array[2][0], reference->at[2]);
+      angles->at[2] = catan1pi(r->at[1][0], r->at[2][0], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(r->as_array[1][2] * c - r->as_array[2][2] * s,
-                               r->as_array[1][1] * c - r->as_array[2][1] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(r->as_array[2][0] * c + r->as_array[1][0] * s,
-                               r->as_array[0][0], reference->at[1]);
+      angles->at[0] =
+        catan2pi(r->at[1][2] * c - r->at[2][2] * s,
+                 r->at[1][1] * c - r->at[2][1] * s, reference->at[0]);
+      angles->at[1] = catan2pi(r->at[2][0] * c + r->at[1][0] * s, r->at[0][0],
+                               reference->at[1]);
       break;
     case KSL_AXIS_YZY:
       // i = 1, j = 2, k = 1
@@ -1332,15 +1307,14 @@ ksl_mat3x3f_getEulerAnglesWithReference(const ksl_mat3x3f_t* r,
       // Ri[j][k] * s,
       // angle[0]); angle[1] = catan2pi(Ri[i][k]*c + Ri[i][j]*s, Ri[i][i],
       // angle[1]);
-      angles->at[2] =
-        catan1pi(r->as_array[2][1], r->as_array[0][1], reference->at[2]);
+      angles->at[2] = catan1pi(r->at[2][1], r->at[0][1], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(r->as_array[2][0] * c - r->as_array[0][0] * s,
-                               r->as_array[2][2] * c - r->as_array[0][2] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(r->as_array[0][1] * c + r->as_array[2][1] * s,
-                               r->as_array[1][1], reference->at[1]);
+      angles->at[0] =
+        catan2pi(r->at[2][0] * c - r->at[0][0] * s,
+                 r->at[2][2] * c - r->at[0][2] * s, reference->at[0]);
+      angles->at[1] = catan2pi(r->at[0][1] * c + r->at[2][1] * s, r->at[1][1],
+                               reference->at[1]);
       break;
     case KSL_AXIS_ZXZ:
       // i = 2, j = 0, k = 2
@@ -1351,15 +1325,14 @@ ksl_mat3x3f_getEulerAnglesWithReference(const ksl_mat3x3f_t* r,
       // angle[0]);
       // angle[1] = catan2pi(Ri[i][k]*c + Ri[i][j]*s, Ri[i][i],
       // angle[1]);
-      angles->at[2] =
-        catan1pi(r->as_array[0][2], r->as_array[1][2], reference->at[2]);
+      angles->at[2] = catan1pi(r->at[0][2], r->at[1][2], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(r->as_array[0][1] * c - r->as_array[1][1] * s,
-                               r->as_array[0][0] * c - r->as_array[1][0] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(r->as_array[1][2] * c + r->as_array[0][2] * s,
-                               r->as_array[2][2], reference->at[1]);
+      angles->at[0] =
+        catan2pi(r->at[0][1] * c - r->at[1][1] * s,
+                 r->at[0][0] * c - r->at[1][0] * s, reference->at[0]);
+      angles->at[1] = catan2pi(r->at[1][2] * c + r->at[0][2] * s, r->at[2][2],
+                               reference->at[1]);
       break;
     case KSL_AXIS_XZY:
       // i = 0, j = 2, k = 1
@@ -1367,15 +1340,13 @@ ksl_mat3x3f_getEulerAnglesWithReference(const ksl_mat3x3f_t* r,
       // angle[0] = catan2pi(-(Ri[k][j]*c - Ri[k][i]*s), Ri[j][j]*c -
       // Ri[j][i]*s, angle[0]);  angle[1] = catan2pi(-Ri[i][k], Ri[i][i]*c +
       // Ri[i][j]*s, angle[1]);
-      angles->at[2] =
-        catan1pi(r->as_array[2][0], r->as_array[0][0], reference->at[2]);
+      angles->at[2] = catan1pi(r->at[2][0], r->at[0][0], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(-(r->as_array[2][1] * c - r->as_array[0][1] * s),
-                               r->as_array[2][2] * c - r->as_array[0][2] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(-r->as_array[1][0],
-                               r->as_array[0][0] * c + r->as_array[2][0] * s,
+      angles->at[0] =
+        catan2pi(-(r->at[2][1] * c - r->at[0][1] * s),
+                 r->at[2][2] * c - r->at[0][2] * s, reference->at[0]);
+      angles->at[1] = catan2pi(-r->at[1][0], r->at[0][0] * c + r->at[2][0] * s,
                                reference->at[1]);
       break;
     case KSL_AXIS_YXZ:
@@ -1384,15 +1355,13 @@ ksl_mat3x3f_getEulerAnglesWithReference(const ksl_mat3x3f_t* r,
       // angle[0] = catan2pi(-(Ri[k][j]*c - Ri[k][i]*s), Ri[j][j]*c -
       // Ri[j][i]*s, angle[0]);  angle[1] = catan2pi(-Ri[i][k], Ri[i][i]*c +
       // Ri[i][j]*s, angle[1]);
-      angles->at[2] =
-        catan1pi(r->as_array[0][1], r->as_array[1][1], reference->at[2]);
+      angles->at[2] = catan1pi(r->at[0][1], r->at[1][1], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(-(r->as_array[0][2] * c - r->as_array[1][2] * s),
-                               r->as_array[0][0] * c - r->as_array[1][0] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(-r->as_array[2][1],
-                               r->as_array[1][1] * c + r->as_array[0][1] * s,
+      angles->at[0] =
+        catan2pi(-(r->at[0][2] * c - r->at[1][2] * s),
+                 r->at[0][0] * c - r->at[1][0] * s, reference->at[0]);
+      angles->at[1] = catan2pi(-r->at[2][1], r->at[1][1] * c + r->at[0][1] * s,
                                reference->at[1]);
       break;
     case KSL_AXIS_ZYX:
@@ -1401,15 +1370,13 @@ ksl_mat3x3f_getEulerAnglesWithReference(const ksl_mat3x3f_t* r,
       // angle[0] = catan2pi(-(Ri[k][j]*c - Ri[k][i]*s), Ri[j][j]*c -
       // Ri[j][i]*s, angle[0]);  angle[1] = catan2pi(-Ri[i][k], Ri[i][i]*c +
       // Ri[i][j]*s, angle[1]);
-      angles->at[2] =
-        catan1pi(r->as_array[1][2], r->as_array[2][2], reference->at[2]);
+      angles->at[2] = catan1pi(r->at[1][2], r->at[2][2], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(-(r->as_array[1][0] * c - r->as_array[2][0] * s),
-                               r->as_array[1][1] * c - r->as_array[2][1] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(-r->as_array[0][2],
-                               r->as_array[2][2] * c + r->as_array[1][2] * s,
+      angles->at[0] =
+        catan2pi(-(r->at[1][0] * c - r->at[2][0] * s),
+                 r->at[1][1] * c - r->at[2][1] * s, reference->at[0]);
+      angles->at[1] = catan2pi(-r->at[0][2], r->at[2][2] * c + r->at[1][2] * s,
                                reference->at[1]);
       break;
     case KSL_AXIS_XZX:
@@ -1420,15 +1387,14 @@ ksl_mat3x3f_getEulerAnglesWithReference(const ksl_mat3x3f_t* r,
       // Ri[j][k]*s, angle[0]);  angle[1] = catan2pi(-(Ri[i][k]*c -
       // Ri[i][j]*s),
       // Ri[i][i], angle[1]);
-      angles->at[2] =
-        catan1pi(-r->as_array[2][0], r->as_array[1][0], reference->at[2]);
+      angles->at[2] = catan1pi(-r->at[2][0], r->at[1][0], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(-(r->as_array[2][1] * c + r->as_array[1][1] * s),
-                               r->as_array[2][2] * c + r->as_array[1][2] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(-(r->as_array[1][0] * c - r->as_array[2][0] * s),
-                               r->as_array[0][0], reference->at[1]);
+      angles->at[0] =
+        catan2pi(-(r->at[2][1] * c + r->at[1][1] * s),
+                 r->at[2][2] * c + r->at[1][2] * s, reference->at[0]);
+      angles->at[1] = catan2pi(-(r->at[1][0] * c - r->at[2][0] * s),
+                               r->at[0][0], reference->at[1]);
       break;
     case KSL_AXIS_YXY:
       // i = 1, j = 0, k = 1
@@ -1438,15 +1404,14 @@ ksl_mat3x3f_getEulerAnglesWithReference(const ksl_mat3x3f_t* r,
       // Ri[j][k]*s, angle[0]);  angle[1] = catan2pi(-(Ri[i][k]*c -
       // Ri[i][j]*s),
       // Ri[i][i], angle[1]);
-      angles->at[2] =
-        catan1pi(-r->as_array[0][1], r->as_array[2][1], reference->at[2]);
+      angles->at[2] = catan1pi(-r->at[0][1], r->at[2][1], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(-(r->as_array[0][2] * c + r->as_array[2][2] * s),
-                               r->as_array[0][0] * c + r->as_array[2][0] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(-(r->as_array[2][1] * c - r->as_array[0][1] * s),
-                               r->as_array[1][1], reference->at[1]);
+      angles->at[0] =
+        catan2pi(-(r->at[0][2] * c + r->at[2][2] * s),
+                 r->at[0][0] * c + r->at[2][0] * s, reference->at[0]);
+      angles->at[1] = catan2pi(-(r->at[2][1] * c - r->at[0][1] * s),
+                               r->at[1][1], reference->at[1]);
       break;
     case KSL_AXIS_ZYZ:
       // i = 2, j = 1, k = 2
@@ -1456,15 +1421,14 @@ ksl_mat3x3f_getEulerAnglesWithReference(const ksl_mat3x3f_t* r,
       // Ri[j][k]*s, angle[0]);  angle[1] = catan2pi(-(Ri[i][k]*c -
       // Ri[i][j]*s),
       // Ri[i][i], angle[1]);
-      angles->at[2] =
-        catan1pi(-r->as_array[1][2], r->as_array[0][2], reference->at[2]);
+      angles->at[2] = catan1pi(-r->at[1][2], r->at[0][2], reference->at[2]);
       c = cos(angles->at[2]);
       s = sin(angles->at[2]);
-      angles->at[0] = catan2pi(-(r->as_array[1][0] * c + r->as_array[0][0] * s),
-                               r->as_array[1][1] * c + r->as_array[0][1] * s,
-                               reference->at[0]);
-      angles->at[1] = catan2pi(-(r->as_array[0][2] * c - r->as_array[1][2] * s),
-                               r->as_array[2][2], reference->at[1]);
+      angles->at[0] =
+        catan2pi(-(r->at[1][0] * c + r->at[0][0] * s),
+                 r->at[1][1] * c + r->at[0][1] * s, reference->at[0]);
+      angles->at[1] = catan2pi(-(r->at[0][2] * c - r->at[1][2] * s),
+                               r->at[2][2], reference->at[1]);
       break;
     default:
       fprintf(
@@ -1491,50 +1455,50 @@ ksl_mat3x3f_getEulerAnglesWithReference(const ksl_mat3x3f_t* r,
   // if(j == f[i]) { // Identifies Cases 1 and 3: forward cycle i --> j
   //   if(k != i) {  // forward cycle j --> k
   //     // Case 1: 0 --> 1 --> 2; 1 --> 2 --> 0; 2 --> 0 --> 1
-  //     angles->y = catan1pi(-r->as_array[j][i], r->as_array[i][i],
+  //     angles->y = catan1pi(-r->at [j][i], r->at [i][i],
   //     reference->y); c = cos(angles->y); s = sin(angles->y); angles->x =
-  //       catan2pi(r->as_array[j][k] * c + r->as_array[i][k] * s,
-  //                r->as_array[j][j] * c + r->as_array[i][j] * s,
+  //       catan2pi(r->at [j][k] * c + r->at [i][k] * s,
+  //                r->at [j][j] * c + r->at [i][j] * s,
   //                reference->x);
   //     angles->y =
-  //       catan2pi(r->as_array[k][i],
-  //                r->as_array[i][i] * c - r->as_array[j][i] * s,
+  //       catan2pi(r->at [k][i],
+  //                r->at [i][i] * c - r->at [j][i] * s,
   //                reference->y);
   //   } else { // k == i; reverse cycle j --> i
   //     // Case 3: 0 --> 1 --> 0; 1 --> 2 --> 1; 2 --> 0 --> 2
   //     // Reset k for correct index into direction cosine matrix.
   //     k = f[j];
-  //     angles->z = catan1pi(r->as_array[j][i], r->as_array[k][i],
+  //     angles->z = catan1pi(r->at [j][i], r->at [k][i],
   //     reference->z); c = cos(angles->z); s = sin(angles->z); angles->x =
-  //       catan2pi(r->as_array[j][k] * c - r->as_array[k][k] * s,
-  //                r->as_array[j][j] * c - r->as_array[k][j] * s,
+  //       catan2pi(r->at [j][k] * c - r->at [k][k] * s,
+  //                r->at [j][j] * c - r->at [k][j] * s,
   //                reference->x);
-  //     angles->y = catan2pi(r->as_array[k][i] * c + r->as_array[j][i] * s,
-  //                          r->as_array[i][i], reference->y);
+  //     angles->y = catan2pi(r->at [k][i] * c + r->at [j][i] * s,
+  //                          r->at [i][i], reference->y);
   //   }
   // } else {       // Cases 2 and 4: reverse cycle i --> j
   //   if(k != i) { // reverse cycle j --> k
   //     // Case 2: 0 --> 2 --> 1; 1 --> 0 --> 2; 2 --> 1 --> 0
-  //     angles->z = catan1pi(r->as_array[j][i], r->as_array[i][i],
+  //     angles->z = catan1pi(r->at [j][i], r->at [i][i],
   //     reference->z); c = cos(angles->z); s = sin(angles->z); angles->x =
-  //       catan2pi(-(r->as_array[j][k] * c - r->as_array[i][k] * s),
-  //                r->as_array[j][j] * c - r->as_array[i][j] * s,
+  //       catan2pi(-(r->at [j][k] * c - r->at [i][k] * s),
+  //                r->at [j][j] * c - r->at [i][j] * s,
   //                reference->x);
   //     angles->y =
-  //       catan2pi(-r->as_array[k][i],
-  //                r->as_array[i][i] * c + r->as_array[j][i] * s,
+  //       catan2pi(-r->at [k][i],
+  //                r->at [i][i] * c + r->at [j][i] * s,
   //                reference->y);
   //   } else { // k == i; forward cycle j --> i
   //     // Case 4: 0 --> 2 --> 0; 1 --> 0 --> 1; 2 --> 1 --> 2
   //     // Reset k for correct index into direction cosine matrix.
   //     k = f[i];
-  //     angles->z = catan1pi(-r->as_array[j][i], r->as_array[k][i],
+  //     angles->z = catan1pi(-r->at [j][i], r->at [k][i],
   //     reference->z); c = cos(angles->z); s = sin(angles->z); angles->x =
-  //       catan2pi(-(r->as_array[j][k] * c + r->as_array[k][k] * s),
-  //                r->as_array[j][j] * c + r->as_array[k][j] * s,
+  //       catan2pi(-(r->at [j][k] * c + r->at [k][k] * s),
+  //                r->at [j][j] * c + r->at [k][j] * s,
   //                reference->x);
-  //     angles->y = catan2pi(-(r->as_array[k][i] * c - r->as_array[j][i] * s),
-  //                          r->as_array[i][i], reference->y);
+  //     angles->y = catan2pi(-(r->at [k][i] * c - r->at [j][i] * s),
+  //                          r->at [i][i], reference->y);
   //   }
   // }
 }

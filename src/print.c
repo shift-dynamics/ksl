@@ -328,12 +328,12 @@ void ksl_mat3x3_printWithOptions(FILE* f, const ksl_mat3x3_t* restrict r, ...) {
     for(int j = 0; j < 2; j++) {
       switch(options->print_row_column_major) {
         case KSL_ROW_MAJOR: {
-          fprintf(f, options->real_fmt, r->as_array[j][i]);
+          fprintf(f, options->real_fmt, r->at[j][i]);
           fprintf(f, "%s", options->delimiter);
           break;
         }
         case KSL_COLUMN_MAJOR: {
-          fprintf(f, options->real_fmt, r->as_array[i][j]);
+          fprintf(f, options->real_fmt, r->at[i][j]);
           fprintf(f, "%s", options->delimiter);
           break;
         }
@@ -341,11 +341,11 @@ void ksl_mat3x3_printWithOptions(FILE* f, const ksl_mat3x3_t* restrict r, ...) {
     }
     switch(options->print_row_column_major) {
       case KSL_ROW_MAJOR: {
-        fprintf(f, options->real_fmt, r->as_array[2][i]);
+        fprintf(f, options->real_fmt, r->at[2][i]);
         break;
       }
       case KSL_COLUMN_MAJOR: {
-        fprintf(f, options->real_fmt, r->as_array[i][2]);
+        fprintf(f, options->real_fmt, r->at[i][2]);
         break;
       }
     }
@@ -399,12 +399,12 @@ void ksl_mat3x3f_printWithOptions(FILE* f, const ksl_mat3x3f_t* restrict r,
     for(int j = 0; j < 2; j++) {
       switch(options->print_row_column_major) {
         case KSL_ROW_MAJOR: {
-          fprintf(f, options->real_fmt, r->as_array[j][i]);
+          fprintf(f, options->real_fmt, r->at[j][i]);
           fprintf(f, "%s", options->delimiter);
           break;
         }
         case KSL_COLUMN_MAJOR: {
-          fprintf(f, options->real_fmt, r->as_array[i][j]);
+          fprintf(f, options->real_fmt, r->at[i][j]);
           fprintf(f, "%s", options->delimiter);
           break;
         }
@@ -412,11 +412,11 @@ void ksl_mat3x3f_printWithOptions(FILE* f, const ksl_mat3x3f_t* restrict r,
     }
     switch(options->print_row_column_major) {
       case KSL_ROW_MAJOR: {
-        fprintf(f, options->real_fmt, r->as_array[2][i]);
+        fprintf(f, options->real_fmt, r->at[2][i]);
         break;
       }
       case KSL_COLUMN_MAJOR: {
-        fprintf(f, options->real_fmt, r->as_array[i][2]);
+        fprintf(f, options->real_fmt, r->at[i][2]);
         break;
       }
     }
@@ -740,7 +740,7 @@ void ksl_SE3_printWithOptions(FILE* f, const ksl_SE3_t* restrict m, ...) {
       for(int i = 0; i < 3; i++) {
         fprintf(f, "%s", options->inner_left_bracket);
         for(int j = 0; j < 3; j++) {
-          fprintf(f, options->real_fmt, m->as_array[j][i]);
+          fprintf(f, options->real_fmt, m->at[j][i]);
           fprintf(f, "%s", options->delimiter);
         }
         fprintf(f, options->real_fmt, m->t.at[i]);
@@ -768,7 +768,7 @@ void ksl_SE3_printWithOptions(FILE* f, const ksl_SE3_t* restrict m, ...) {
       for(int i = 0; i < 4; i++) {
         fprintf(f, "%s", options->inner_left_bracket);
         for(int j = 0; j < 3; j++) {
-          fprintf(f, options->real_fmt, m->as_array[i][j]);
+          fprintf(f, options->real_fmt, m->at[i][j]);
           fprintf(f, "%s", options->delimiter);
         }
         fprintf(f, options->real_fmt, vec[i]);
@@ -828,7 +828,7 @@ void ksl_SE3f_printWithOptions(FILE* f, const ksl_SE3f_t* restrict m, ...) {
       for(int i = 0; i < 3; i++) {
         fprintf(f, "%s", options->inner_left_bracket);
         for(int j = 0; j < 3; j++) {
-          fprintf(f, options->real_fmt, m->as_array[j][i]);
+          fprintf(f, options->real_fmt, m->at[j][i]);
           fprintf(f, "%s", options->delimiter);
         }
         fprintf(f, options->real_fmt, m->t.at[i]);
@@ -856,7 +856,7 @@ void ksl_SE3f_printWithOptions(FILE* f, const ksl_SE3f_t* restrict m, ...) {
       for(int i = 0; i < 4; i++) {
         fprintf(f, "%s", options->inner_left_bracket);
         for(int j = 0; j < 3; j++) {
-          fprintf(f, options->real_fmt, m->as_array[i][j]);
+          fprintf(f, options->real_fmt, m->at[i][j]);
           fprintf(f, "%s", options->delimiter);
         }
         fprintf(f, options->real_fmt, vec[i]);
@@ -916,12 +916,12 @@ void ksl_mat4x4_printWithOptions(FILE* f, const ksl_mat4x4_t* restrict r, ...) {
     for(int j = 0; j < 3; j++) {
       switch(options->print_row_column_major) {
         case KSL_ROW_MAJOR: {
-          fprintf(f, options->real_fmt, r->as_array[j][i]);
+          fprintf(f, options->real_fmt, r->at[j][i]);
           fprintf(f, "%s", options->delimiter);
           break;
         }
         case KSL_COLUMN_MAJOR: {
-          fprintf(f, options->real_fmt, r->as_array[i][j]);
+          fprintf(f, options->real_fmt, r->at[i][j]);
           fprintf(f, "%s", options->delimiter);
           break;
         }
@@ -929,11 +929,11 @@ void ksl_mat4x4_printWithOptions(FILE* f, const ksl_mat4x4_t* restrict r, ...) {
     }
     switch(options->print_row_column_major) {
       case KSL_ROW_MAJOR: {
-        fprintf(f, options->real_fmt, r->as_array[3][i]);
+        fprintf(f, options->real_fmt, r->at[3][i]);
         break;
       }
       case KSL_COLUMN_MAJOR: {
-        fprintf(f, options->real_fmt, r->as_array[i][3]);
+        fprintf(f, options->real_fmt, r->at[i][3]);
         break;
       }
     }
@@ -991,12 +991,12 @@ void ksl_mat4x4f_printWithOptions(FILE* f, const ksl_mat4x4f_t* restrict r,
     for(int j = 0; j < 3; j++) {
       switch(options->print_row_column_major) {
         case KSL_ROW_MAJOR: {
-          fprintf(f, options->real_fmt, r->as_array[j][i]);
+          fprintf(f, options->real_fmt, r->at[j][i]);
           fprintf(f, "%s", options->delimiter);
           break;
         }
         case KSL_COLUMN_MAJOR: {
-          fprintf(f, options->real_fmt, r->as_array[i][j]);
+          fprintf(f, options->real_fmt, r->at[i][j]);
           fprintf(f, "%s", options->delimiter);
           break;
         }
@@ -1004,11 +1004,11 @@ void ksl_mat4x4f_printWithOptions(FILE* f, const ksl_mat4x4f_t* restrict r,
     }
     switch(options->print_row_column_major) {
       case KSL_ROW_MAJOR: {
-        fprintf(f, options->real_fmt, r->as_array[3][i]);
+        fprintf(f, options->real_fmt, r->at[3][i]);
         break;
       }
       case KSL_COLUMN_MAJOR: {
-        fprintf(f, options->real_fmt, r->as_array[i][3]);
+        fprintf(f, options->real_fmt, r->at[i][3]);
         break;
       }
     }

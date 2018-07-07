@@ -19,10 +19,6 @@ Overview
 
 general 4x4 double precision matrix :ref:`More...<details-doxid-unionksl__mat4x4__t>`
 
-.. _doxid-unionksl__mat4x4__t_1a6bdede3ec2682ed43dd9c3b4f0f70111:
-.. _cid-ksl_mat4x4_t::at:
-.. _doxid-unionksl__mat4x4__t_1a118e9e1947836c9e8a09b171f7fe0a4d:
-.. _cid-ksl_mat4x4_t::as_array:
 .. _doxid-unionksl__mat4x4__t_1aaa6f86ad444a4cc69c51c14786f9269b:
 .. _cid-ksl_mat4x4_t::m00:
 .. _doxid-unionksl__mat4x4__t_1a8e8afc7688310155483c3c9e5f5380c6:
@@ -55,8 +51,6 @@ general 4x4 double precision matrix :ref:`More...<details-doxid-unionksl__mat4x4
 .. _cid-ksl_mat4x4_t::m23:
 .. _doxid-unionksl__mat4x4__t_1a5af9cd475cc771ff8e6332dbb581f350:
 .. _cid-ksl_mat4x4_t::m33:
-.. _doxid-unionksl__mat4x4__t_1a7186939d46d3265dc53f5877a82cfc7b:
-.. _cid-ksl_mat4x4_t::@21:
 .. _doxid-unionksl__mat4x4__t_1ada7c5c1b80c8bf03d88b7eb93b9c4220:
 .. _cid-ksl_mat4x4_t::v0:
 .. _doxid-unionksl__mat4x4__t_1a05b1b3778a7f270ea2a50735d36b1dcc:
@@ -65,15 +59,13 @@ general 4x4 double precision matrix :ref:`More...<details-doxid-unionksl__mat4x4
 .. _cid-ksl_mat4x4_t::v2:
 .. _doxid-unionksl__mat4x4__t_1ad6de37665a6d582b7a78a6e85ae8040e:
 .. _cid-ksl_mat4x4_t::v3:
-.. _doxid-unionksl__mat4x4__t_1a9816a3f18af4659f57cae555a6edc59b:
-.. _cid-ksl_mat4x4_t::@23:
 .. ref-code-block:: cpp
 	:class: overview-code-block
 
 	// fields
 
-	double at [16]
-	double as_array [4][4]
+	double :ref:`as_array<doxid-unionksl__mat4x4__t_1a192806c862763241fd677747204c3e27>` [16]
+	double :ref:`at<doxid-unionksl__mat4x4__t_1a2003d53db98c45fe2d95f1d474a914dc>` [4][4]
 	double m00
 	double m10
 	double m20
@@ -94,6 +86,7 @@ general 4x4 double precision matrix :ref:`More...<details-doxid-unionksl__mat4x4
 	:ref:`ksl_vec4_t<doxid-unionksl__vec4__t>` v1
 	:ref:`ksl_vec4_t<doxid-unionksl__vec4__t>` v2
 	:ref:`ksl_vec4_t<doxid-unionksl__vec4__t>` v3
+	:ref:`ksl_vec4_t<doxid-unionksl__vec4__t>` :ref:`v<doxid-unionksl__mat4x4__t_1a183ee20137dc9033a57a954e518c0f76>` [4]
 
 .. _details-doxid-unionksl__mat4x4__t:
 
@@ -103,4 +96,34 @@ Detailed Documentation
 general 4x4 double precision matrix
 
 allow accessing mat4x4 quantities by field name or using at / as_array operators. if using the at / as_array operators, quantities are accessed in column major order
+
+Fields
+------
+
+.. _doxid-unionksl__mat4x4__t_1a192806c862763241fd677747204c3e27:
+.. _cid-ksl_mat4x4_t::as_array:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	double as_array [16]
+
+allows accessing quantities at specified index in linear array, where entities are specified in column major order
+
+.. _doxid-unionksl__mat4x4__t_1a2003d53db98c45fe2d95f1d474a914dc:
+.. _cid-ksl_mat4x4_t::at:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	double at [4][4]
+
+allows accessing mat3x3 quantities at specified index in a doubly dimensioned array, where entities are specified in column major order
+
+.. _doxid-unionksl__mat4x4__t_1a183ee20137dc9033a57a954e518c0f76:
+.. _cid-ksl_mat4x4_t::v:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	:ref:`ksl_vec4_t<doxid-unionksl__vec4__t>` v [4]
+
+anonymous union allows accessing columns of rotation matrix quantities at specified index
 

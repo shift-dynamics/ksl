@@ -13,22 +13,15 @@ overview
    notation/notation
    vectors/vectors
    SE3/SE3
+   quaternions/quaternions
+   trig/trig
    screws/screws
    coscrews/coscrews
-   influence_coefficient_matrices/influence_coefficient_matrices
    inertia/inertia
-   lu_full/lu_full
+   linalg/linalg
    license
    contributing/contributing
    zreferences.rst
-
-
-api reference
--------------
-
-.. toctree::
-
-   doxyrest/global.rst
 
 
 indices and tables

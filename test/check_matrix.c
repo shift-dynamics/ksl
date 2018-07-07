@@ -16,7 +16,7 @@ START_TEST(test_matrix_SE3) {
   double k = 1;
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 4; j++) {
-      ck_assert_double_eq(D[1].as_array[j][i], k++);
+      ck_assert_double_eq(D[1].at[j][i], k++);
     }
   }
   free(D);
@@ -33,7 +33,7 @@ START_TEST(test_matrix_SE3f) {
   float k = 1;
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 4; j++) {
-      ck_assert_float_eq(D[1].as_array[j][i], k++);
+      ck_assert_float_eq(D[1].at[j][i], k++);
     }
   }
   free(D);
@@ -49,7 +49,7 @@ START_TEST(test_matrix_mat3x3) {
   double k = 1;
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 3; j++) {
-      ck_assert_double_eq(D[1].as_array[j][i], k++);
+      ck_assert_double_eq(D[1].at[j][i], k++);
     }
   }
   free(D);
@@ -65,7 +65,7 @@ START_TEST(test_matrix_mat3x3f) {
   float k = 1;
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 3; j++) {
-      ck_assert_float_eq(D[1].as_array[j][i], k++);
+      ck_assert_float_eq(D[1].at[j][i], k++);
     }
   }
   free(D);
@@ -82,7 +82,7 @@ START_TEST(test_matrix_mat4x4) {
   double k = 1;
   for(int i = 0; i < 4; i++) {
     for(int j = 0; j < 4; j++) {
-      ck_assert_double_eq(D[1].as_array[j][i], k++);
+      ck_assert_double_eq(D[1].at[j][i], k++);
     }
   }
   free(D);
@@ -99,7 +99,7 @@ START_TEST(test_matrix_mat4x4f) {
   float k = 1;
   for(int i = 0; i < 4; i++) {
     for(int j = 0; j < 4; j++) {
-      ck_assert_float_eq(D[1].as_array[j][i], k++);
+      ck_assert_float_eq(D[1].at[j][i], k++);
     }
   }
   free(D);
@@ -112,9 +112,9 @@ START_TEST(test_matrix_SE3_alloc) {
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 4; j++) {
       if(i == j) {
-        ck_assert_double_eq(D[0].as_array[j][i], 1.0);
+        ck_assert_double_eq(D[0].at[j][i], 1.0);
       } else {
-        ck_assert_double_eq(D[0].as_array[j][i], 0.0);
+        ck_assert_double_eq(D[0].at[j][i], 0.0);
       }
     }
   }
@@ -130,9 +130,9 @@ START_TEST(test_matrix_SE3f_alloc) {
     for(int i = 0; i < 3; i++) {
       for(int j = 0; j < 4; j++) {
         if(i == j) {
-          ck_assert_double_eq(Df[k].as_array[j][i], 1.0);
+          ck_assert_double_eq(Df[k].at[j][i], 1.0);
         } else {
-          ck_assert_double_eq(Df[k].as_array[j][i], 0.0);
+          ck_assert_double_eq(Df[k].at[j][i], 0.0);
         }
       }
     }
@@ -149,9 +149,9 @@ START_TEST(test_matrix_mat3x3_alloc) {
     for(int i = 0; i < 3; i++) {
       for(int j = 0; j < 3; j++) {
         if(i == j) {
-          ck_assert_double_eq(R[k].as_array[j][i], 1.0);
+          ck_assert_double_eq(R[k].at[j][i], 1.0);
         } else {
-          ck_assert_double_eq(R[k].as_array[j][i], 0.0);
+          ck_assert_double_eq(R[k].at[j][i], 0.0);
         }
       }
     }
@@ -168,9 +168,9 @@ START_TEST(test_matrix_mat3x3f_alloc) {
     for(int i = 0; i < 3; i++) {
       for(int j = 0; j < 3; j++) {
         if(i == j) {
-          ck_assert_double_eq(Rf[k].as_array[j][i], 1.0);
+          ck_assert_double_eq(Rf[k].at[j][i], 1.0);
         } else {
-          ck_assert_double_eq(Rf[k].as_array[j][i], 0.0);
+          ck_assert_double_eq(Rf[k].at[j][i], 0.0);
         }
       }
     }
@@ -187,9 +187,9 @@ START_TEST(test_matrix_mat4x4_alloc) {
     for(int i = 0; i < 4; i++) {
       for(int j = 0; j < 4; j++) {
         if(i == j) {
-          ck_assert_double_eq(M[k].as_array[j][i], 1.0);
+          ck_assert_double_eq(M[k].at[j][i], 1.0);
         } else {
-          ck_assert_double_eq(M[k].as_array[j][i], 0.0);
+          ck_assert_double_eq(M[k].at[j][i], 0.0);
         }
       }
     }
@@ -206,9 +206,9 @@ START_TEST(test_matrix_mat4x4f_alloc) {
     for(int i = 0; i < 4; i++) {
       for(int j = 0; j < 4; j++) {
         if(i == j) {
-          ck_assert_double_eq(Mf[k].as_array[j][i], 1.0);
+          ck_assert_double_eq(Mf[k].at[j][i], 1.0);
         } else {
-          ck_assert_double_eq(Mf[k].as_array[j][i], 0.0);
+          ck_assert_double_eq(Mf[k].at[j][i], 0.0);
         }
       }
     }
@@ -224,12 +224,12 @@ START_TEST(test_matrix_SE3toMat4x4) {
   ksl_SE3_toMat4x4(&d, &m);
   for(int j = 0; j < 4; j++) {
     for(int i = 0; i < 3; i++) {
-      ck_assert_double_eq(m.as_array[j][i], d.as_array[j][i]);
+      ck_assert_double_eq(m.at[j][i], d.at[j][i]);
     }
     if(j != 3) {
-      ck_assert_double_eq(m.as_array[j][3], 0.0);
+      ck_assert_double_eq(m.at[j][3], 0.0);
     } else {
-      ck_assert_double_eq(m.as_array[j][3], 1.0);
+      ck_assert_double_eq(m.at[j][3], 1.0);
     }
   }
 }
@@ -242,12 +242,12 @@ START_TEST(test_matrix_SE3ftoMat4x4f) {
   ksl_SE3f_toMat4x4f(&d, &m);
   for(int j = 0; j < 4; j++) {
     for(int i = 0; i < 3; i++) {
-      ck_assert_float_eq(m.as_array[j][i], d.as_array[j][i]);
+      ck_assert_float_eq(m.at[j][i], d.at[j][i]);
     }
     if(j != 3) {
-      ck_assert_float_eq(m.as_array[j][3], 0.0);
+      ck_assert_float_eq(m.at[j][3], 0.0);
     } else {
-      ck_assert_float_eq(m.as_array[j][3], 1.0);
+      ck_assert_float_eq(m.at[j][3], 1.0);
     }
   }
 }
@@ -260,12 +260,12 @@ START_TEST(test_matrix_SE3toMat4x4f) {
   ksl_SE3_toMat4x4f(&d, &m);
   for(int j = 0; j < 4; j++) {
     for(int i = 0; i < 3; i++) {
-      ck_assert_float_eq(m.as_array[j][i], (float)d.as_array[j][i]);
+      ck_assert_float_eq(m.at[j][i], (float)d.at[j][i]);
     }
     if(j != 3) {
-      ck_assert_float_eq(m.as_array[j][3], 0.0);
+      ck_assert_float_eq(m.at[j][3], 0.0);
     } else {
-      ck_assert_float_eq(m.as_array[j][3], 1.0);
+      ck_assert_float_eq(m.at[j][3], 1.0);
     }
   }
 }
@@ -289,9 +289,9 @@ START_TEST(test_matrix_SE3_setIdentity) {
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 4; j++) {
       if(i == j) {
-        ck_assert_double_eq(d.as_array[j][i], 1.0);
+        ck_assert_double_eq(d.at[j][i], 1.0);
       } else {
-        ck_assert_double_eq(d.as_array[j][i], 0.0);
+        ck_assert_double_eq(d.at[j][i], 0.0);
       }
     }
   }
@@ -305,9 +305,9 @@ START_TEST(test_matrix_SE3f_setIdentity) {
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 4; j++) {
       if(i == j) {
-        ck_assert_float_eq(d.as_array[j][i], 1.0);
+        ck_assert_float_eq(d.at[j][i], 1.0);
       } else {
-        ck_assert_float_eq(d.as_array[j][i], 0.0);
+        ck_assert_float_eq(d.at[j][i], 0.0);
       }
     }
   }
@@ -320,9 +320,9 @@ START_TEST(test_matrix_mat3x3_setIdentity) {
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 3; j++) {
       if(i == j) {
-        ck_assert_double_eq(r.as_array[j][i], 1.0);
+        ck_assert_double_eq(r.at[j][i], 1.0);
       } else {
-        ck_assert_double_eq(r.as_array[j][i], 0.0);
+        ck_assert_double_eq(r.at[j][i], 0.0);
       }
     }
   }
@@ -335,9 +335,9 @@ START_TEST(test_matrix_mat3x3f_setIdentity) {
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 3; j++) {
       if(i == j) {
-        ck_assert_float_eq(rf.as_array[j][i], 1.0);
+        ck_assert_float_eq(rf.at[j][i], 1.0);
       } else {
-        ck_assert_float_eq(rf.as_array[j][i], 0.0);
+        ck_assert_float_eq(rf.at[j][i], 0.0);
       }
     }
   }
@@ -351,9 +351,9 @@ START_TEST(test_matrix_mat4x4_setIdentity) {
   for(int i = 0; i < 4; i++) {
     for(int j = 0; j < 4; j++) {
       if(i == j) {
-        ck_assert_double_eq(m.as_array[j][i], 1.0);
+        ck_assert_double_eq(m.at[j][i], 1.0);
       } else {
-        ck_assert_double_eq(m.as_array[j][i], 0.0);
+        ck_assert_double_eq(m.at[j][i], 0.0);
       }
     }
   }
@@ -367,9 +367,9 @@ START_TEST(test_matrix_mat4x4f_setIdentity) {
   for(int i = 0; i < 4; i++) {
     for(int j = 0; j < 4; j++) {
       if(i == j) {
-        ck_assert_float_eq(m.as_array[j][i], 1.0);
+        ck_assert_float_eq(m.at[j][i], 1.0);
       } else {
-        ck_assert_float_eq(m.as_array[j][i], 0.0);
+        ck_assert_float_eq(m.at[j][i], 0.0);
       }
     }
   }
@@ -461,7 +461,7 @@ START_TEST(test_matrix_mat3x3_setFromVectors) {
 
   for(int j = 0; j < 3; j++) {
     for(int i = 0; i < 3; i++) {
-      ck_assert_double_eq(m.as_array[j][i], v[j].at[i]);
+      ck_assert_double_eq(m.at[j][i], v[j].at[i]);
     }
   }
 }
@@ -474,7 +474,7 @@ START_TEST(test_matrix_mat3x3f_setFromVectors) {
 
   for(int j = 0; j < 3; j++) {
     for(int i = 0; i < 3; i++) {
-      ck_assert_float_eq(m.as_array[j][i], v[j].at[i]);
+      ck_assert_float_eq(m.at[j][i], v[j].at[i]);
     }
   }
 }
@@ -510,7 +510,7 @@ START_TEST(test_matrix_mat3x3_copy) {
   ksl_mat3x3_copy(&r1, &r2);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_double_eq(r1.at[i], r2.at[i]);
+    ck_assert_double_eq(r1.as_array[i], r2.as_array[i]);
   }
 }
 END_TEST
@@ -521,7 +521,7 @@ START_TEST(test_matrix_mat3x3f_copy) {
   ksl_mat3x3f_copy(&r1, &r2);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_float_eq(r1.at[i], r2.at[i]);
+    ck_assert_float_eq(r1.as_array[i], r2.as_array[i]);
   }
 }
 END_TEST
@@ -537,7 +537,7 @@ START_TEST(test_matrix_mat3x3_invert) {
                -0.037634408602150546, 0.016129032258064523, 0.4408602150537635);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_double_eq_tol(r1.at[i], r2.at[i], 1e-9);
+    ck_assert_double_eq_tol(r1.as_array[i], r2.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -553,7 +553,7 @@ START_TEST(test_matrix_mat3x3f_invert) {
     -0.037634408602150546, 0.016129032258064523, 0.4408602150537635);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_float_eq_tol(r1.at[i], r2.at[i], 1e-6);
+    ck_assert_float_eq_tol(r1.as_array[i], r2.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -565,7 +565,7 @@ START_TEST(test_matrix_mat3x3_inverted) {
   ksl_mat3x3_invert(&r1);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_double_eq(r1.at[i], r2.at[i]);
+    ck_assert_double_eq(r1.as_array[i], r2.as_array[i]);
   }
 }
 END_TEST
@@ -577,7 +577,7 @@ START_TEST(test_matrix_mat3x3f_inverted) {
   ksl_mat3x3f_invert(&r1);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert(fabs(r1.at[i] - r2.at[i]) < 1e-8);
+    ck_assert(fabs(r1.as_array[i] - r2.as_array[i]) < 1e-8);
   }
 }
 END_TEST
@@ -589,7 +589,7 @@ START_TEST(test_matrix_mat3x3_transpose) {
   ksl_mat3x3_transpose(&r1);
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 3; j++) {
-      ck_assert_double_eq(r1.as_array[i][j], r2.as_array[j][i]);
+      ck_assert_double_eq(r1.at[i][j], r2.at[j][i]);
     }
   }
 }
@@ -602,7 +602,7 @@ START_TEST(test_matrix_mat3x3f_transpose) {
   ksl_mat3x3f_transpose(&r1);
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 3; j++) {
-      ck_assert_float_eq(r1.as_array[i][j], r2.as_array[j][i]);
+      ck_assert_float_eq(r1.at[i][j], r2.at[j][i]);
     }
   }
 }
@@ -614,7 +614,7 @@ START_TEST(test_matrix_mat3x3_transposed) {
   ksl_mat3x3_transposed(&r1, &r2);
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 3; j++) {
-      ck_assert_double_eq(r1.as_array[i][j], r2.as_array[j][i]);
+      ck_assert_double_eq(r1.at[i][j], r2.at[j][i]);
     }
   }
 }
@@ -626,7 +626,7 @@ START_TEST(test_matrix_mat3x3f_transposed) {
   ksl_mat3x3f_transposed(&r1, &r2);
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 3; j++) {
-      ck_assert_float_eq(r1.as_array[i][j], r2.as_array[j][i]);
+      ck_assert_float_eq(r1.at[i][j], r2.at[j][i]);
     }
   }
 }
@@ -638,7 +638,7 @@ START_TEST(test_matrix_SE3_copy) {
   ksl_SE3_t d2;
   ksl_SE3_copy(&d1, &d2);
   for(int i = 0; i < 12; i++) {
-    ck_assert_double_eq(d1.at[i], d2.at[i]);
+    ck_assert_double_eq(d1.as_array[i], d2.as_array[i]);
   }
 }
 END_TEST
@@ -649,7 +649,7 @@ START_TEST(test_matrix_SE3f_copy) {
   ksl_SE3f_t d2;
   ksl_SE3f_copy(&d1, &d2);
   for(int i = 0; i < 12; i++) {
-    ck_assert_float_eq(d1.at[i], d2.at[i]);
+    ck_assert_float_eq(d1.as_array[i], d2.as_array[i]);
   }
 }
 END_TEST
@@ -668,9 +668,9 @@ START_TEST(test_matrix_SE3_inverted) {
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 4; j++) {
       if(i == j) {
-        ck_assert_double_eq_tol(1.0, d3.as_array[j][i], 1e-9);
+        ck_assert_double_eq_tol(1.0, d3.at[j][i], 1e-9);
       } else {
-        ck_assert_double_eq_tol(0.0, d3.as_array[j][i], 1e-9);
+        ck_assert_double_eq_tol(0.0, d3.at[j][i], 1e-9);
       }
     }
   }
@@ -691,9 +691,9 @@ START_TEST(test_matrix_SE3f_inverted) {
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 4; j++) {
       if(i == j) {
-        ck_assert_float_eq_tol(1.0, d3.as_array[j][i], 1e-6);
+        ck_assert_float_eq_tol(1.0, d3.at[j][i], 1e-6);
       } else {
-        ck_assert_float_eq_tol(0.0, d3.as_array[j][i], 1e-6);
+        ck_assert_float_eq_tol(0.0, d3.at[j][i], 1e-6);
       }
     }
   }
@@ -715,9 +715,9 @@ START_TEST(test_matrix_SE3_invert) {
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 4; j++) {
       if(i == j) {
-        ck_assert_double_eq_tol(1.0, d3.as_array[j][i], 1e-9);
+        ck_assert_double_eq_tol(1.0, d3.at[j][i], 1e-9);
       } else {
-        ck_assert_double_eq_tol(0.0, d3.as_array[j][i], 1e-9);
+        ck_assert_double_eq_tol(0.0, d3.at[j][i], 1e-9);
       }
     }
   }
@@ -739,9 +739,9 @@ START_TEST(test_matrix_SE3f_invert) {
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 4; j++) {
       if(i == j) {
-        ck_assert(fabs(1.0 - d3.as_array[j][i]) < 1e-6);
+        ck_assert(fabs(1.0 - d3.at[j][i]) < 1e-6);
       } else {
-        ck_assert(fabs(d3.as_array[j][i]) < 1e-6);
+        ck_assert(fabs(d3.at[j][i]) < 1e-6);
       }
     }
   }
@@ -827,7 +827,7 @@ START_TEST(test_matrix_mat3x3_setFromEulerAngles) {
     }
     ksl_mat3x3_setFromEulerAngles(&r2, axis, &angles);
     for(int i = 0; i < 9; i++) {
-      ck_assert_msg(fabs(r1.at[i] - r2.at[i]) < 1e-6,
+      ck_assert_msg(fabs(r1.as_array[i] - r2.as_array[i]) < 1e-6,
                     "setFromEulerAngles failed for angle sequence: %d%d%d",
                     sequence.at[0], sequence.at[1], sequence.at[2]);
     }
@@ -1207,7 +1207,7 @@ START_TEST(test_matrix_product_drdrx) {
                -0.1894009330885121, 0.7084487058270867, 0.6798733100785226);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_double_eq_tol(r2.at[i], r3.at[i], 1e-9);
+    ck_assert_double_eq_tol(r2.as_array[i], r3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -1228,7 +1228,7 @@ START_TEST(test_matrix_product_drdrxf) {
                 -0.1894009330885121, 0.7084487058270867, 0.6798733100785226);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_float_eq_tol(r2.at[i], r3.at[i], 1e-6);
+    ck_assert_float_eq_tol(r2.as_array[i], r3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -1249,7 +1249,7 @@ START_TEST(test_matrix_product_drdrxinv) {
                -0.1894009330885121, -0.1893171944287045, 0.963476147311829);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_double_eq_tol(r2.at[i], r3.at[i], 1e-9);
+    ck_assert_double_eq_tol(r2.as_array[i], r3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -1270,7 +1270,7 @@ START_TEST(test_matrix_product_drdrxinvf) {
                 -0.1894009330885121, -0.1893171944287045, 0.963476147311829);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_float_eq_tol(r2.at[i], r3.at[i], 1e-6);
+    ck_assert_float_eq_tol(r2.as_array[i], r3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -1291,7 +1291,7 @@ START_TEST(test_matrix_product_drdry) {
                -0.6150979062121391, 0.2957736023606357, 0.7308710843370773);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_double_eq_tol(r2.at[i], r3.at[i], 1e-9);
+    ck_assert_double_eq_tol(r2.as_array[i], r3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -1312,7 +1312,7 @@ START_TEST(test_matrix_product_drdryf) {
                 -0.6150979062121391, 0.2957736023606357, 0.7308710843370773);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_float_eq_tol(r2.at[i], r3.at[i], 1e-6);
+    ck_assert_float_eq_tol(r2.as_array[i], r3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -1333,7 +1333,7 @@ START_TEST(test_matrix_product_drdryinv) {
                0.2826679940436521, 0.2957736023606357, 0.9124783730532743);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_double_eq_tol(r2.at[i], r3.at[i], 1e-9);
+    ck_assert_double_eq_tol(r2.as_array[i], r3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -1354,7 +1354,7 @@ START_TEST(test_matrix_product_drdryinvf) {
                 0.2826679940436521, 0.2957736023606357, 0.9124783730532743);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_float_eq_tol(r2.at[i], r3.at[i], 1e-6);
+    ck_assert_float_eq_tol(r2.as_array[i], r3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -1375,7 +1375,7 @@ START_TEST(test_matrix_product_drdrz) {
                -0.0244135374675904, 0.3503694000572896, 0.9362933635841992);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_double_eq_tol(r2.at[i], r3.at[i], 1e-9);
+    ck_assert_double_eq_tol(r2.as_array[i], r3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -1396,7 +1396,7 @@ START_TEST(test_matrix_product_drdrzf) {
                 -0.0244135374675904, 0.3503694000572896, 0.9362933635841992);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_float_eq_tol(r2.at[i], r3.at[i], 1e-6);
+    ck_assert_float_eq_tol(r2.as_array[i], r3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -1417,7 +1417,7 @@ START_TEST(test_matrix_product_drdrzinv) {
                -0.3080163747008967, 0.1687621113410926, 0.9362933635841992);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_double_eq_tol(r2.at[i], r3.at[i], 1e-9);
+    ck_assert_double_eq_tol(r2.as_array[i], r3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -1438,7 +1438,7 @@ START_TEST(test_matrix_product_drdrzinvf) {
                 -0.3080163747008967, 0.1687621113410926, 0.9362933635841992);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_float_eq_tol(r2.at[i], r3.at[i], 1e-6);
+    ck_assert_float_eq_tol(r2.as_array[i], r3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -1459,7 +1459,7 @@ START_TEST(test_matrix_product_drdr) {
                -0.2151150451545507, 0.6076257122885793, 0.7645367951341207);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_double_eq_tol(r3.at[i], r4.at[i], 1e-9);
+    ck_assert_double_eq_tol(r3.as_array[i], r4.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -1480,7 +1480,7 @@ START_TEST(test_matrix_product_drdrf) {
                 -0.2151150451545507, 0.6076257122885793, 0.7645367951341207);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_float_eq_tol(r3.at[i], r4.at[i], 1e-6);
+    ck_assert_float_eq_tol(r3.as_array[i], r4.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -1498,7 +1498,7 @@ START_TEST(test_matrix_product_drdrinv) {
   ksl_mat3x3_t r4 = ksl_mat3x3(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_double_eq_tol(r3.at[i], r4.at[i], 1e-9);
+    ck_assert_double_eq_tol(r3.as_array[i], r4.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -1516,7 +1516,7 @@ START_TEST(test_matrix_product_drdrinvf) {
   ksl_mat3x3f_t r4 = ksl_mat3x3f(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_float_eq_tol(r3.at[i], r4.at[i], 1e-6);
+    ck_assert_float_eq_tol(r3.as_array[i], r4.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -1534,7 +1534,7 @@ START_TEST(test_matrix_product_drinvdr) {
   ksl_mat3x3_t r4 = ksl_mat3x3(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_double_eq_tol(r3.at[i], r4.at[i], 1e-9);
+    ck_assert_double_eq_tol(r3.as_array[i], r4.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -1552,7 +1552,7 @@ START_TEST(test_matrix_product_drinvdrf) {
   ksl_mat3x3f_t r4 = ksl_mat3x3f(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_float_eq_tol(r3.at[i], r4.at[i], 1e-6);
+    ck_assert_float_eq_tol(r3.as_array[i], r4.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -1635,7 +1635,7 @@ START_TEST(test_matrix_product_ddrx) {
             0.4357321314618704, 0.6811374365560571, -0.588378536431725, 2.,
             -0.1894009330885121, 0.7084487058270867, 0.6798733100785226, 3.);
   for(int i = 0; i < 12; i++) {
-    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+    ck_assert_double_eq_tol(d2.as_array[i], d3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -1654,7 +1654,7 @@ START_TEST(test_matrix_product_ddrxf) {
              0.4357321314618704, 0.6811374365560571, -0.588378536431725, 2.,
              -0.1894009330885121, 0.7084487058270867, 0.6798733100785226, 3.);
   for(int i = 0; i < 12; i++) {
-    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+    ck_assert_float_eq_tol(d2.as_array[i], d3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -1673,7 +1673,7 @@ START_TEST(test_matrix_product_ddrxinv) {
             0.4357321314618704, 0.8631235940753836, 0.2552551095709691, 2.,
             -0.1894009330885121, -0.1893171944287045, 0.963476147311829, 3.);
   for(int i = 0; i < 12; i++) {
-    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+    ck_assert_double_eq_tol(d2.as_array[i], d3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -1692,7 +1692,7 @@ START_TEST(test_matrix_product_ddrxinvf) {
              0.4357321314618704, 0.8631235940753836, 0.2552551095709691, 2.,
              -0.1894009330885121, -0.1893171944287045, 0.963476147311829, 3.);
   for(int i = 0; i < 12; i++) {
-    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+    ck_assert_float_eq_tol(d2.as_array[i], d3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -1711,7 +1711,7 @@ START_TEST(test_matrix_product_ddry) {
             0.4733839989859243, 0.8798380333042382, 0.0423393983828867, 2.,
             -0.6150979062121391, 0.2957736023606357, 0.7308710843370773, 3);
   for(int i = 0; i < 12; i++) {
-    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+    ck_assert_double_eq_tol(d2.as_array[i], d3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -1730,7 +1730,7 @@ START_TEST(test_matrix_product_ddryf) {
              0.4733839989859243, 0.8798380333042382, 0.0423393983828867, 2.,
              -0.6150979062121391, 0.2957736023606357, 0.7308710843370773, 3);
   for(int i = 0; i < 12; i++) {
-    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+    ck_assert_float_eq_tol(d2.as_array[i], d3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -1749,7 +1749,7 @@ START_TEST(test_matrix_product_ddryinv) {
             0.2913978414665975, 0.8798380333042382, -0.3754628252436425, 2.,
             0.2826679940436521, 0.2957736023606357, 0.9124783730532743, 3.);
   for(int i = 0; i < 12; i++) {
-    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+    ck_assert_double_eq_tol(d2.as_array[i], d3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -1768,7 +1768,7 @@ START_TEST(test_matrix_product_ddryinvf) {
              0.2913978414665975, 0.8798380333042382, -0.3754628252436425, 2.,
              0.2826679940436521, 0.2957736023606357, 0.9124783730532743, 3.);
   for(int i = 0; i < 12; i++) {
-    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+    ck_assert_float_eq_tol(d2.as_array[i], d3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -1787,7 +1787,7 @@ START_TEST(test_matrix_product_ddrz) {
             0.804207743227608, 0.5632294035024559, -0.1897960609786874, 2.,
             -0.0244135374675904, 0.3503694000572896, 0.9362933635841992, 3.);
   for(int i = 0; i < 12; i++) {
-    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+    ck_assert_double_eq_tol(d2.as_array[i], d3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -1806,7 +1806,7 @@ START_TEST(test_matrix_product_ddrzf) {
              0.804207743227608, 0.5632294035024559, -0.1897960609786874, 2.,
              -0.0244135374675904, 0.3503694000572896, 0.9362933635841992, 3.);
   for(int i = 0; i < 12; i++) {
-    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+    ck_assert_float_eq_tol(d2.as_array[i], d3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -1825,7 +1825,7 @@ START_TEST(test_matrix_product_ddrzinv) {
             -0.0394259027750862, 0.981031627128985, -0.1897960609786874, 2.,
             -0.3080163747008967, 0.1687621113410926, 0.9362933635841992, 3.);
   for(int i = 0; i < 12; i++) {
-    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+    ck_assert_double_eq_tol(d2.as_array[i], d3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -1844,7 +1844,7 @@ START_TEST(test_matrix_product_ddrzinvf) {
              -0.0394259027750862, 0.981031627128985, -0.1897960609786874, 2.,
              -0.3080163747008967, 0.1687621113410926, 0.9362933635841992, 3.);
   for(int i = 0; i < 12; i++) {
-    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+    ck_assert_float_eq_tol(d2.as_array[i], d3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -1863,7 +1863,7 @@ START_TEST(test_matrix_product_ddt) {
             -0.1897960609786874, 3.6260200151342845, -0.1894009330885121,
             0.2957736023606357, 0.9362933635841992, 6.211026362385357);
   for(int i = 0; i < 12; i++) {
-    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+    ck_assert_double_eq_tol(d2.as_array[i], d3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -1882,7 +1882,7 @@ START_TEST(test_matrix_product_ddtf) {
              -0.1897960609786874, 3.6260200151342845, -0.1894009330885121,
              0.2957736023606357, 0.9362933635841992, 6.211026362385357);
   for(int i = 0; i < 12; i++) {
-    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+    ck_assert_float_eq_tol(d2.as_array[i], d3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -1901,7 +1901,7 @@ START_TEST(test_matrix_product_ddtinv) {
             -0.1897960609786874, 0.3739799848657155, -0.1894009330885121,
             0.2957736023606357, 0.9362933635841992, -0.2110263623853568);
   for(int i = 0; i < 12; i++) {
-    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+    ck_assert_double_eq_tol(d2.as_array[i], d3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -1920,7 +1920,7 @@ START_TEST(test_matrix_product_ddtinvf) {
              -0.1897960609786874, 0.3739799848657155, -0.1894009330885121,
              0.2957736023606357, 0.9362933635841992, -0.2110263623853568);
   for(int i = 0; i < 12; i++) {
-    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+    ck_assert_float_eq_tol(d2.as_array[i], d3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -1938,7 +1938,7 @@ START_TEST(test_matrix_product_ddtx) {
             -0.1897960609786874, 2.871464262923741, -0.1894009330885121,
             0.2957736023606357, 0.9362933635841992, 2.621198133822976);
   for(int i = 0; i < 12; i++) {
-    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+    ck_assert_double_eq_tol(d2.as_array[i], d3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -1956,7 +1956,7 @@ START_TEST(test_matrix_product_ddtxf) {
              -0.1897960609786874, 2.871464262923741, -0.1894009330885121,
              0.2957736023606357, 0.9362933635841992, 2.621198133822976);
   for(int i = 0; i < 12; i++) {
-    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+    ck_assert_float_eq_tol(d2.as_array[i], d3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -1974,7 +1974,7 @@ START_TEST(test_matrix_product_ddtxinv) {
             -0.1897960609786874, 1.1285357370762592, -0.1894009330885121,
             0.2957736023606357, 0.9362933635841992, 3.378801866177024);
   for(int i = 0; i < 12; i++) {
-    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+    ck_assert_double_eq_tol(d2.as_array[i], d3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -1992,7 +1992,7 @@ START_TEST(test_matrix_product_ddtxinvf) {
              -0.1897960609786874, 1.1285357370762592, -0.1894009330885121,
              0.2957736023606357, 0.9362933635841992, 3.378801866177024);
   for(int i = 0; i < 12; i++) {
-    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+    ck_assert_float_eq_tol(d2.as_array[i], d3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -2010,7 +2010,7 @@ START_TEST(test_matrix_product_ddty) {
             -0.1897960609786874, 3.7596760666084763, -0.1894009330885121,
             0.2957736023606357, 0.9362933635841992, 3.5915472047212713);
   for(int i = 0; i < 12; i++) {
-    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+    ck_assert_double_eq_tol(d2.as_array[i], d3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -2028,7 +2028,7 @@ START_TEST(test_matrix_product_ddtyf) {
              -0.1897960609786874, 3.7596760666084763, -0.1894009330885121,
              0.2957736023606357, 0.9362933635841992, 3.5915472047212713);
   for(int i = 0; i < 12; i++) {
-    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+    ck_assert_float_eq_tol(d2.as_array[i], d3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -2046,7 +2046,7 @@ START_TEST(test_matrix_product_ddtyinv) {
             -0.1897960609786874, 0.2403239333915237, -0.1894009330885121,
             0.2957736023606357, 0.9362933635841992, 2.4084527952787287);
   for(int i = 0; i < 12; i++) {
-    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+    ck_assert_double_eq_tol(d2.as_array[i], d3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -2064,7 +2064,7 @@ START_TEST(test_matrix_product_ddtyinvf) {
              -0.1897960609786874, 0.2403239333915237, -0.1894009330885121,
              0.2957736023606357, 0.9362933635841992, 2.4084527952787287);
   for(int i = 0; i < 12; i++) {
-    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+    ck_assert_float_eq_tol(d2.as_array[i], d3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -2082,7 +2082,7 @@ START_TEST(test_matrix_product_ddtz) {
             -0.1897960609786874, 1.6204078780426252, -0.1894009330885121,
             0.2957736023606357, 0.9362933635841992, 4.8725867271683985);
   for(int i = 0; i < 12; i++) {
-    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+    ck_assert_double_eq_tol(d2.as_array[i], d3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -2100,7 +2100,7 @@ START_TEST(test_matrix_product_ddtzf) {
              -0.1897960609786874, 1.6204078780426252, -0.1894009330885121,
              0.2957736023606357, 0.9362933635841992, 4.8725867271683985);
   for(int i = 0; i < 12; i++) {
-    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+    ck_assert_float_eq_tol(d2.as_array[i], d3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -2118,7 +2118,7 @@ START_TEST(test_matrix_product_ddtzinv) {
             -0.1897960609786874, 2.3795921219573746, -0.1894009330885121,
             0.2957736023606357, 0.9362933635841992, 1.1274132728316015);
   for(int i = 0; i < 12; i++) {
-    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+    ck_assert_double_eq_tol(d2.as_array[i], d3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -2136,7 +2136,7 @@ START_TEST(test_matrix_product_ddtzinvf) {
              -0.1897960609786874, 2.3795921219573746, -0.1894009330885121,
              0.2957736023606357, 0.9362933635841992, 1.1274132728316015);
   for(int i = 0; i < 12; i++) {
-    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+    ck_assert_float_eq_tol(d2.as_array[i], d3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -2154,7 +2154,7 @@ START_TEST(test_matrix_product_ddr) {
             0.8027320537624947, 0.5558748134730649, -0.2159269358105487, 2.,
             -0.2151150451545508, 0.6076257122885793, 0.7645367951341207, 3.);
   for(int i = 0; i < 12; i++) {
-    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+    ck_assert_double_eq_tol(d2.as_array[i], d3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -2172,7 +2172,7 @@ START_TEST(test_matrix_product_ddrf) {
              0.8027320537624947, 0.5558748134730649, -0.2159269358105487, 2.,
              -0.2151150451545508, 0.6076257122885793, 0.7645367951341207, 3.);
   for(int i = 0; i < 12; i++) {
-    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+    ck_assert_float_eq_tol(d2.as_array[i], d3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -2188,7 +2188,7 @@ START_TEST(test_matrix_product_ddrinv) {
   ksl_SE3_t d3 =
     ksl_SE3(1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 2.0, 0.0, 0.0, 1.0, 3.0);
   for(int i = 0; i < 12; i++) {
-    ck_assert_double_eq_tol(d2.at[i], d3.at[i], 1e-9);
+    ck_assert_double_eq_tol(d2.as_array[i], d3.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -2204,7 +2204,7 @@ START_TEST(test_matrix_product_ddrinvf) {
   ksl_SE3f_t d3 =
     ksl_SE3f(1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 2.0, 0.0, 0.0, 1.0, 3.0);
   for(int i = 0; i < 12; i++) {
-    ck_assert_float_eq_tol(d2.at[i], d3.at[i], 1e-6);
+    ck_assert_float_eq_tol(d2.as_array[i], d3.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -2224,7 +2224,7 @@ START_TEST(test_matrix_product_dd) {
             0.6076257122885793, 0.7645367951341207, 6.211026362385358);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_double_eq_tol(d3.at[i], d4.at[i], 1e-9);
+    ck_assert_double_eq_tol(d3.as_array[i], d4.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -2244,7 +2244,7 @@ START_TEST(test_matrix_product_ddf) {
              0.6076257122885793, 0.7645367951341207, 6.211026362385358);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_float_eq_tol(d3.at[i], d4.at[i], 1e-6);
+    ck_assert_float_eq_tol(d3.as_array[i], d4.as_array[i], 1e-6);
   }
 }
 END_TEST
@@ -2261,7 +2261,7 @@ START_TEST(test_matrix_product_ddinv) {
   ksl_SE3_setIdentity(&d4);
 
   for(int i = 0; i < 9; i++) {
-    ck_assert_double_eq_tol(d3.at[i], d4.at[i], 1e-9);
+    ck_assert_double_eq_tol(d3.as_array[i], d4.as_array[i], 1e-9);
   }
 }
 END_TEST
@@ -2277,7 +2277,7 @@ START_TEST(test_matrix_product_ddinvf) {
   ksl_SE3f_t d4;
   ksl_SE3f_setIdentity(&d4);
   for(int i = 0; i < 9; i++) {
-    ck_assert_float_eq_tol(d3.at[i], d4.at[i], 1e-6);
+    ck_assert_float_eq_tol(d3.as_array[i], d4.as_array[i], 1e-6);
   }
 }
 END_TEST

@@ -29,16 +29,18 @@ SUCH DAMAGE.
 of a linear and angular vector pair in function space.
 */
 typedef union ksl_coscrew_t {
-  double at[6];
+  double at[6]; /*!< allows accessing coscrew quantity at specified index */
   struct {
     ksl_vec3_t lin; /*!< bound linear vector, e.g. force or linear
                          momentum */
     ksl_vec3_t ang; /*!< free angular vector, e.g. moment/torque
-                         or angular momentum*/
-  };
+                         or angular momentum */
+  }; /*!< anonymous union allows accessing coscrew quantities using field names
+        or by index */
   struct {
     double m0, m1, m2, m3, m4, m5;
-  };
+  }; /*!< anonymous union allows accessing coscrew quantities using field names
+        or by index */
 } ksl_coscrew_t;
 
 /*!
@@ -46,56 +48,553 @@ typedef union ksl_coscrew_t {
 of a linear and angular vector pair in function space.
 */
 typedef union ksl_coscrewf_t {
-  float at[6];
+  float at[6]; /*!< allows accessing coscrew quantity at specified index */
   struct {
     ksl_vec3f_t lin; /*!< bound linear vector, e.g. force or linear
                          momentum */
     ksl_vec3f_t ang; /*!< free angular vector, e.g. moment/torque
                          or angular momentum*/
-  };
+  }; /*!< anonymous union allows accessing coscrew quantities using field names
+        or by index */
   struct {
     float m0, m1, m2, m3, m4, m5;
-  };
+  }; /*!< anonymous union allows accessing coscrew quantities using field names
+       or by index */
 } ksl_coscrewf_t;
 
-ksl_screw_t ksl_screw(const double m0, const double m1, const double m2,
-                      const double m3, const double m4, const double m5);
+/*!
+@brief double precision screw constructor
+*/
+ksl_coscrew_t ksl_coscrew(const double m0, const double m1, const double m2,
+                          const double m3, const double m4, const double m5);
 
-ksl_screwf_t ksl_screwf(const float m0, const float m1, const float m2,
-                        const float m3, const float m4, const float m5);
+/*!
+@brief single precision screwf constructor
+*/
+ksl_coscrewf_t ksl_coscrewf(const float m0, const float m1, const float m2,
+                            const float m3, const float m4, const float m5);
 
-ksl_coscrew_t* ksl_coscrew_alloc(int);
+/*!
+@brief Allocates n double precision coscrew quantities on the heap. Must be
+freed by the user.
+*/
+ksl_coscrew_t* ksl_coscrew_alloc(int n);
 
-ksl_coscrewf_t* ksl_coscrewf_alloc(int);
+/*!
+@brief Allocate n single precision coscrew quantities on the heap. Must be freed
+by the user.
+*/
+ksl_coscrewf_t* ksl_coscrewf_alloc(int n);
 
-void ksl_cross_cc(const ksl_coscrew_t* s1i, const ksl_coscrew_t* s2i,
-                  ksl_coscrew_t* so);
+/*!
+@brief Copy double precision ksl_coscrew_t.
 
-void ksl_cross_ccf(const ksl_coscrewf_t* s1i, const ksl_coscrewf_t* s2i,
-                   ksl_coscrewf_t* so);
+\f$\mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
 
-void ksl_product_CoAdtc(const ksl_vec3_t* ti, const ksl_coscrew_t* si,
-                        ksl_coscrew_t* so);
+@param ci [in] screw to copy
+@param co [out] input screw is copied to co
+*/
+void ksl_coscrew_copy(const ksl_coscrew_t* ci, ksl_coscrew_t* co);
 
-void ksl_product_CoAdtcf(const ksl_vec3f_t* ti, const ksl_coscrewf_t* si,
-                         ksl_coscrewf_t* so);
+/*!
+@brief Copy single precision ksl_coscrewf_t ci to co.
 
-void ksl_product_CoAdtcinv(const ksl_vec3_t* ti, const ksl_coscrew_t* si,
-                           ksl_coscrew_t* so);
+\f$\mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
 
-void ksl_product_CoAdtcinvf(const ksl_vec3f_t* ti, const ksl_coscrewf_t* si,
-                            ksl_coscrewf_t* so);
+@param self [in] screw to copy
+@param co [out] ci is copied to co
+*/
+void ksl_coscrewf_copy(const ksl_coscrewf_t* self, ksl_coscrewf_t* co);
 
-void ksl_product_CoAdc(const ksl_SE3_t* Di, const ksl_coscrew_t* si,
-                       ksl_coscrew_t* so);
+/*!
+@brief Scale a double precision ksl_coscrew_t.
 
-void ksl_product_CoAdcf(const ksl_SE3f_t* Di, const ksl_coscrewf_t* si,
-                        ksl_coscrewf_t* so);
+\f$\mathbf{\underline{c}}_{i}^* * a \rightarrow
+\mathbf{\underline{c}}_i^*\f$
 
-void ksl_product_CoAdinvc(const ksl_SE3_t* Di, const ksl_coscrew_t* si,
+@param self [in] coscrew to invert
+@param a [out] amount to scale the screw
+*/
+void ksl_coscrew_scale(ksl_coscrew_t* self, const double a);
+
+/*!
+@brief Scale a single precision ksl_coscrew_t.
+
+\f$\mathbf{\underline{c}}_{i}^* * a \rightarrow
+\mathbf{\underline{c}}_i^*\f$
+
+@param self [in] coscrew to invert
+@param a [out] inverse of ci
+*/
+void ksl_coscrewf_scale(ksl_coscrewf_t* self, const float a);
+
+/*!
+@brief Returns the inverse of a ksl_coscrew_t.
+
+\f$-\mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+@param ci [in] coscrew to invert
+@param co [out] inverse of ci
+*/
+void ksl_coscrew_inverted(const ksl_coscrew_t* ci, ksl_coscrew_t* co);
+
+/*!
+@brief Returns the inverse of a ksl_coscrewf_t.
+
+\f$-\mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+@param self [in] coscrew to invert
+@param co [out] inverse of ci
+*/
+void ksl_coscrewf_inverted(const ksl_coscrewf_t* self, ksl_coscrewf_t* co);
+
+/*!
+@brief Invert (i.e. negate) a ksl_coscrew_t in place.
+
+\f$-\mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_i^*\f$
+
+@param self [in/out] coscrew to invert
+*/
+void ksl_coscrew_invert(ksl_coscrew_t* self);
+
+/*!
+@brief Invert (i.e. negate) a ksl_coscrewf_t in place.
+
+\f$-\mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_i^*\f$
+
+@param self [in/out] coscrew to invert
+*/
+void ksl_coscrewf_invert(ksl_coscrewf_t* self);
+
+/*!
+@brief In-place add a double precision coscrew multiplied with a scalar to an
+existing coscrew.
+
+\f$a * \mathbf{\underline{c}}_{x}^* + \mathbf{\underline{c}}_y^* \rightarrow
+\mathbf{\underline{c}}_y^*\f$
+
+@param a [in]
+@param x [in]
+@param y [in/out] coscrew to add
+*/
+void ksl_axpy_cc(const double a, const ksl_coscrew_t* x, ksl_coscrew_t* y);
+
+/*!
+@brief In-place add a single precision coscrew multiplied with a scalar to an
+existing coscrew.
+
+\f$a * \mathbf{\underline{c}}_{x}^* + \mathbf{\underline{c}}_y^* \rightarrow
+\mathbf{\underline{c}}_y^*\f$
+
+@param a [in]
+@param x [in]
+@param y [in/out]
+*/
+void ksl_axpy_ccf(const float a, const ksl_coscrewf_t* x, ksl_coscrewf_t* y);
+
+/*!
+@brief In-place add a double precision coscrew to an existing coscrew. This is a
+variant of axpy where the scalar term a is 1.
+
+\f$ \mathbf{\underline{c}}_{x}^* + \mathbf{\underline{c}}_y^* \rightarrow
+\mathbf{\underline{c}}_y^*\f$
+
+@param c [in/out]
+@param ci [in] coscrew to add
+*/
+void ksl_xpy_cc(const ksl_coscrew_t* x, ksl_coscrew_t* y);
+
+/*!
+@brief In-place add a single precision coscrew to an existing coscrew. This is a
+variant of axpy where there the scalar term is 1.
+
+\f$ \mathbf{\underline{c}}_{x}^* + \mathbf{\underline{c}}_y^* \rightarrow
+\mathbf{\underline{c}}_y^*\f$
+
+@param co [in/out] sum of c1i and co
+@param c1i [in] first coscrew to add
+*/
+void ksl_xpy_ccf(const ksl_coscrewf_t* x, ksl_coscrewf_t* y);
+
+/*!
+@brief In-place subtract a double precision coscrew x from an  coscrew y. This
+is a variant of axpy where the scalar term is -1.
+
+\f$ -\mathbf{\underline{c}}_{x}^* + \mathbf{\underline{c}}_y^* \rightarrow
+\mathbf{\underline{c}}_y^*\f$
+
+@param self [in/out]
+@param ci [in] first coscrew to subtract
+*/
+void ksl_nxpy_cc(const ksl_coscrew_t* x, ksl_coscrew_t* y);
+
+/*!
+@brief In-place subtract a single precision coscrew from an existing coscrew.
+This is a variant of axpy where the scalar term is -1.
+
+\f$ -\mathbf{\underline{c}}_{x}^* + \mathbf{\underline{c}}_y^* \rightarrow
+\mathbf{\underline{c}}_y^*\f$
+
+@param self [in/out]
+@param ci [in] first coscrew to subtract
+*/
+void ksl_nxpy_ccf(const ksl_coscrewf_t* x, ksl_coscrewf_t* y);
+
+/*!
+@brief Scale a double precision coscrew.
+
+\f$ \mathbf{\underline{c}}_i^* * a \rightarrow \mathbf{\underline{c}}_o^*\f$
+
+@param ci [in/out] coscrew to invert
+*/
+void ksl_product_ca(const ksl_coscrew_t* ci, const double a, ksl_coscrew_t* co);
+
+/*!
+@brief Scale a single precision coscrew.
+
+\f$ \mathbf{\underline{c}}_i^* * a \rightarrow \mathbf{\underline{c}}_o^*\f$
+
+@param ci [in/out] coscrew to invert
+*/
+void ksl_product_caf(const ksl_coscrewf_t* ci, const float a,
+                     ksl_coscrewf_t* co);
+
+/*!
+@brief Compute the sum of two double precision coscrews
+
+\f$\mathbf{\underline{c}}_{1i}^* + \mathbf{\underline{c}}_{2i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+@param c1i [in] first coscrew to add
+@param c1i [in] second coscrew to add
+@param co [out] sum of c1i and c2i
+*/
+void ksl_add_cc(const ksl_coscrew_t* c1i, const ksl_coscrew_t* c2i,
+                ksl_coscrew_t* co);
+
+/*!
+@brief Compute the sum of two single precision coscrews
+
+\f$\mathbf{\underline{c}}_{1i}^* + \mathbf{\underline{c}}_{2i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+@param c1i [in] first coscrew to add
+@param c2i [in] second coscrew to add
+@param co [out] sum of c1i and c2i
+*/
+void ksl_add_ccf(const ksl_coscrewf_t* c1i, const ksl_coscrewf_t* c2i,
+                 ksl_coscrewf_t* co);
+
+/*!
+@brief Compute the difference between two double precision coscrews
+
+\f$\mathbf{\underline{c}}_{1i}^* - \mathbf{\underline{c}}_{2i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+@param c1i [in] first coscrew
+@param c2i [in] second coscrew
+@param co [out] c1i minus c2i
+*/
+void ksl_subtract_cc(const ksl_coscrew_t* c1i, const ksl_coscrew_t* c2i,
+                     ksl_coscrew_t* co);
+
+/*!
+@brief Compute the difference between two double precision coscrews
+
+\f$\mathbf{\underline{c}}_{1i}^* - \mathbf{\underline{c}}_{2i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+@param c1i [in] first coscrew
+@param c2i [in] second coscrew
+@param co [out] result of c1i minus c2i
+*/
+void ksl_subtract_ccf(const ksl_coscrewf_t* c1i, const ksl_coscrewf_t* c2i,
+                      ksl_coscrewf_t* co);
+
+/*!
+@brief Compute the double precision coscrew cross product
+
+\f$ \mathbf{\underline{c}}_{1i}^* \times \mathbf{\underline{c}}_{2i}^*
+\rightarrow \mathbf{\underline{c}}_o^*\f$
+
+@param c1i [in] first coscrew
+@param c2i [in] second coscrew
+@param co [out] result of c1i x c2i
+*/
+void ksl_cross_cc(const ksl_coscrew_t* c1i, const ksl_coscrew_t* c2i,
+                  ksl_coscrew_t* co);
+
+/*!
+@brief Compute the single precision coscrew cross product
+
+\f$\mathbf{\underline{c}}_{1i}^* \times \mathbf{\underline{c}}_{2i}^*
+\rightarrow \mathbf{\underline{c}}_o^*\f$
+
+@param c1i [in] first coscrew
+@param c2i [in] second coscrew
+@param co [out] result of c1i x c2i
+*/
+void ksl_cross_ccf(const ksl_coscrewf_t* c1i, const ksl_coscrewf_t* c2i,
+                   ksl_coscrewf_t* co);
+
+/*!
+@brief Performs a double precision spatial translation of a coscrew. Performs a
+Coadjoint transformation of a coscrew, where CoAdjoint transformation matrix
+consists of only a translation component.
+
+\f$ [Ad]^*(\underline{t}_i) \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$\ \begin{bmatrix} I & 0\\ \underline{\tilde{t}}_i & I \end{bmatrix}
+\mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\f$
+
+
+@param ti [in] translation vector
+@param ci [in] input coscrew
+@param co [out] output coscrew
+*/
+void ksl_product_CoAdtc(const ksl_vec3_t* ti, const ksl_coscrew_t* ci,
+                        ksl_coscrew_t* co);
+
+/*!
+@brief Performs a single precision spatial translation of a coscrew. Performs a
+Coadjoint transformation of a coscrew, where CoAdjoint transformation matrix
+consists of only a translation component.
+
+\f$ [Ad]^*(\underline{t}_i) \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$\ \begin{bmatrix} I & 0\\ \underline{\tilde{t}}_i & I \end{bmatrix}
+\mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\f$
+
+
+@param ti [in] translation vector
+@param ci [in] input coscrew
+@param co [out] output coscrew
+*/
+void ksl_product_CoAdtcf(const ksl_vec3f_t* ti, const ksl_coscrewf_t* ci,
+                         ksl_coscrewf_t* co);
+
+/*!
+@brief Performs a double precision spatial translation of the inverse of a
+coscrew. Performs a Coadjoint transformation of the inverse of a coscrew, where
+CoAdjoint transformation matrix consists of only a translation component.
+
+\f$ [Ad]^*(\underline{t}_i) * -\mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$ -[Ad]^*(\underline{t}_i) \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$\ -\begin{bmatrix} I & 0\\ \underline{\tilde{t}}_i & I \end{bmatrix}
+\mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\f$
+
+@param ti [in] translation vector
+@param ci [in] input coscrew
+@param co [out] output coscrew
+*/
+void ksl_product_CoAdtcinv(const ksl_vec3_t* ti, const ksl_coscrew_t* ci,
+                           ksl_coscrew_t* co);
+
+/*!
+@brief Performs a single precision spatial translation of the inverse of a
+coscrew. Performs a Coadjoint transformation of the inverse of a coscrew, where
+CoAdjoint transformation matrix consists of only a translation component.
+
+\f$ [Ad]^*(\underline{t}_i) * -\mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$ -[Ad]^*(\underline{t}_i) \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$\ -\begin{bmatrix} I & 0\\ \underline{\tilde{t}}_i & I \end{bmatrix}
+\mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\f$
+
+@param ti [in] translation vector
+@param ci [in] input coscrew
+@param co [out] output coscrew
+*/
+void ksl_product_CoAdtcinvf(const ksl_vec3f_t* ti, const ksl_coscrewf_t* ci,
+                            ksl_coscrewf_t* co);
+
+/*!
+@brief Performs a double precision spatial rotation of a coscrew. Performs a
+Coadjoint transformation of a coscrew, where CoAdjoint transformation matrix
+consists of only a rotation component.
+
+\f$ [Ad]^*(R_i) \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$\ \begin{bmatrix} R_i & 0\\ 0 & R_i \end{bmatrix}
+\mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\f$
+
+@param Ri [in] input rotation matrix
+@param ci [in] input coscrew
+@param co [out] output coscrew
+*/
+void ksl_product_CoAdrc(const ksl_mat3x3_t* Ri, const ksl_coscrew_t* ci,
+                        ksl_coscrew_t* co);
+
+/*!
+@brief Performs a single precision spatial rotation of a coscrew. Performs a
+Coadjoint transformation of a coscrew, where CoAdjoint transformation matrix
+consists of only a rotation component.
+
+\f$ [Ad]^*(R_i) \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$\ \begin{bmatrix} R_i & 0\\ 0 & R_i \end{bmatrix}
+\mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\f$
+
+@param Ri [in] input rotation matrix
+@param ci [in] input coscrew
+@param co [out] output coscrew
+*/
+void ksl_product_CoAdrcf(const ksl_mat3x3f_t* Ri, const ksl_coscrewf_t* ci,
+                         ksl_coscrewf_t* co);
+
+/*!
+@brief Performs a double precision spatial rotation of a coscrew, using the
+transpose of the input rotation matrix. Performs a Coadjoint transformation of a
+coscrew, where CoAdjoint transformation matrix consists of only a rotation
+component transposed.
+
+\f$ [Ad]^*(R_i^T) \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$ \left([Ad]^*(R_i) \right)^{-1} \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$\ \begin{bmatrix} R_i^T & 0\\ 0 & R_i^T \end{bmatrix}
+\mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\f$
+
+@param Ri [in] input rotation matrix
+@param ci [in] input coscrew
+@param co [out] output coscrew
+*/
+void ksl_product_CoAdrinvc(const ksl_mat3x3_t* Ri, const ksl_coscrew_t* ci,
+                           ksl_coscrew_t* co);
+
+/*!
+@brief Performs a single precision spatial rotation of a coscrew, using the
+transpose of the input rotation matrix. Performs a Coadjoint transformation of a
+coscrew, where CoAdjoint transformation matrix consists of only a rotation
+component transposed.
+
+\f$ [Ad]^*(R_i^T) \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$ \left([Ad]^*(R_i) \right)^{-1} \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$\ \begin{bmatrix} R_i^T & 0\\ 0 & R_i^T \end{bmatrix}
+\mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\f$
+
+@param Ri [in] input rotation matrix
+@param ci [in] input coscrew
+@param co [out] output coscrew
+*/
+void ksl_product_CoAdrinvcf(const ksl_mat3x3f_t* Ri, const ksl_coscrewf_t* ci,
+                            ksl_coscrewf_t* co);
+
+/*!
+@brief Performs a double precision spatial transformation of a coscrew. Performs
+a Coadjoint transformation of a coscrew, where CoAdjoint transformation matrix
+consists of a rotation and translation component.
+
+\f$ [Ad]^*(\Phi_{Di}) \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$ [Ad]^*(R_i, \underline{t}_i) \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$\ \begin{bmatrix} R_i & 0\\ \tilde{\underline{t}}_i R_i & R_i \end{bmatrix}
+\mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\f$
+
+@param Ri [in] input rotation matrix
+@param ci [in] input coscrew
+@param co [out] output coscrew
+*/
+void ksl_product_CoAdc(const ksl_SE3_t* Di, const ksl_coscrew_t* ci,
+                       ksl_coscrew_t* co);
+
+/*!
+@brief Performs a single precision spatial transformation of a coscrew. Performs
+a Coadjoint transformation of a coscrew, where CoAdjoint transformation matrix
+consists of a rotation and translation component.
+
+\f$ [Ad]^*(\Phi_{Di}) \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$ [Ad]^*(R_i, \underline{t}_i) \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$\ \begin{bmatrix} R_i & 0\\ \tilde{\underline{t}}_i R_i & R_i \end{bmatrix}
+\mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\f$
+
+@param Di [in] input SE3 matrix
+@param ci [in] input coscrew
+@param co [out] output coscrew
+*/
+void ksl_product_CoAdcf(const ksl_SE3f_t* Di, const ksl_coscrewf_t* ci,
+                        ksl_coscrewf_t* co);
+
+/*!
+@brief Performs the inverse single precision spatial transformation of a
+coscrew. Performs the inverse of a Coadjoint transformation of a coscrew, where
+the CoAdjoint transformation matrix consists of a rotation and translation
+component.
+
+\f$ [Ad]^*(\Phi_{Di}^{-1}) \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$ \left( [Ad]^*(\Phi_{Di}) \right)^{-1} \mathbf{\underline{c}}_{i}^*
+\rightarrow \mathbf{\underline{c}}_o^*\f$
+
+\f$ [Ad]^*(R_i^T, -\underline{t}_i) \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$\ \begin{bmatrix} R_i^T & 0\\ -\tilde{\underline{t}}_i R_i^T & R_i^T
+\end{bmatrix} \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+@param Di [in] input SE3 matrix
+@param ci [in] input coscrew
+@param co [out] output coscrew
+*/
+void ksl_product_CoAdinvc(const ksl_SE3_t* Di, const ksl_coscrew_t* ci,
                           ksl_coscrew_t* co);
 
-void ksl_product_CoAdinvcf(const ksl_SE3f_t* Di, const ksl_coscrewf_t* si,
-                           ksl_coscrewf_t* so);
+/*!
+@brief Performs the inverse single precision spatial transformation of a
+coscrew. Performs the inverse of a Coadjoint transformation of a coscrew, where
+the CoAdjoint transformation matrix consists of a rotation and translation
+component.
+
+\f$ [Ad]^*(\Phi_{Di}^{-1}) \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$ \left( [Ad]^*(\Phi_{Di}) \right)^{-1} \mathbf{\underline{c}}_{i}^*
+\rightarrow \mathbf{\underline{c}}_o^*\f$
+
+\f$ [Ad]^*(R_i^T, -\underline{t}_i) \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+\f$\ \begin{bmatrix} R_i^T & 0\\ -\tilde{\underline{t}}_i R_i^T & R_i^T
+\end{bmatrix} \mathbf{\underline{c}}_{i}^* \rightarrow
+\mathbf{\underline{c}}_o^*\f$
+
+@param Di [in] input SE3 matrix
+@param ci [in] input coscrew
+@param co [out] output coscrew
+*/
+void ksl_product_CoAdinvcf(const ksl_SE3f_t* Di, const ksl_coscrewf_t* ci,
+                           ksl_coscrewf_t* co);
 
 #endif

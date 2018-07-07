@@ -7,11 +7,24 @@
     <a href='http://104.35.187.125:8090/job/shift-dynamics/job/ksl/job/master/'><img src='http://104.35.187.125:8090/buildStatus/icon?job=shift-dynamics/ksl/master' alt="Build Status"></a>
    </embed>
 
+overview
+--------
 
-A sparse math library for kinematics and dynamics.
+*KSL* is a sparse math library written in the C programming language that is targeted to real-time kinematics, dynamics, contact detection, robotics and 3D visualization applications.
+
+*KSL* contains a number of utility functions to transform vectors, screws, coscrews and spatial inertia matrices using the minimum number of operations as described in the *KSL* documentation at https://ksl.shift-dynamics.io.
+
+Additionally, *KSL* contains routines for performing LU decomposition with complete row and column pivoting, an important component in the robust processing of kinematics and dynamics equations.
+
+The code is available open-source with minimal restrictions. If you find the code to be useful in your projects, we would love to hear from you.
+
+
+quick introduction
+------------------
+The below tables contain examples of the naming conventions used for *KSL* datastructures and functions. For a complete list of functions, refer to the *KSL* website and source code.
 
 double precision
--------------------------
+^^^^^^^^^^^^^^^^
 
 short notation
 **************
@@ -60,7 +73,7 @@ Function name                 operation description
 
 
 single precision
----------------------------------
+^^^^^^^^^^^^^^^^
 
 short notation
 **************
