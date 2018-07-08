@@ -16,6 +16,8 @@ overview
    mat3x3/mat3x3
    mat4x4/mat4x4
    SE3/SE3
+   matrix-vector/matrix-vector
+   matrix-matrix/matrix-matrix
    quaternions/quaternions
    trig/trig
    screws/screws

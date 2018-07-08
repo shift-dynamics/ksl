@@ -1,0 +1,253 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Matrix-vector operations &#8212; KSL 0.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Matrix-matrix operations" href="../matrix-matrix/matrix-matrix.html" />
+    <link rel="prev" title="SE(3)" href="../SE3/SE3.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">KSL</a></h1>
+
+
+
+<p class="blurb">Kinematics Subroutine Library</p>
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notation/notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vectors/vec3.html">3D Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vectors/vec4.html">4D Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mat3x3/mat3x3.html">3x3 Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mat4x4/mat4x4.html">4x4 Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SE(3)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Matrix-vector operations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#double-precision">Double precision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#single-precision">Single precision</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../matrix-matrix/matrix-matrix.html">Matrix-matrix operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quaternions/quaternions.html">Quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trig/trig.html">Trigonometric Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../screws/screws.html">Screws</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coscrews/coscrews.html">Coscrews</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inertia/inertia.html">Inertia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../linalg/linalg.html">Linear Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zreferences.html">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../SE3/SE3.html" title="previous chapter">SE(3)</a></li>
+      <li>Next: <a href="../matrix-matrix/matrix-matrix.html" title="next chapter">Matrix-matrix operations</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="matrix-vector-operations">
+<span id="matrix-vector"></span><h1>Matrix-vector operations<a class="headerlink" href="#matrix-vector-operations" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="double-precision">
+<h2>Double precision<a class="headerlink" href="#double-precision" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="_CPPv315ksl_product_drvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t">
+<span id="_CPPv215ksl_product_drvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t"></span><span id="ksl_product_drv__ksl_mat3x3_tCP.ksl_vec3_tCP.ksl_vec3_tP"></span><span class="target" id="matrix_8h_1a403d3115123b4f76a6f27ec5ca7ce274"></span>void <code class="descname">ksl_product_drv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vi</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_product_drvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv318ksl_product_drvinvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t">
+<span id="_CPPv218ksl_product_drvinvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t"></span><span id="ksl_product_drvinv__ksl_mat3x3_tCP.ksl_vec3_tCP.ksl_vec3_tP"></span><span class="target" id="matrix_8h_1a5b7eee293303e16c8231e8afefcbd264"></span>void <code class="descname">ksl_product_drvinv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vi</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_product_drvinvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv318ksl_product_drinvvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t">
+<span id="_CPPv218ksl_product_drinvvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t"></span><span id="ksl_product_drinvv__ksl_mat3x3_tCP.ksl_vec3_tCP.ksl_vec3_tP"></span><span class="target" id="matrix_8h_1a6f03fffadeea016f79b189a676ef6590"></span>void <code class="descname">ksl_product_drinvv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vi</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_product_drinvvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv321ksl_product_drinvvinvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t">
+<span id="_CPPv221ksl_product_drinvvinvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t"></span><span id="ksl_product_drinvvinv__ksl_mat3x3_tCP.ksl_vec3_tCP.ksl_vec3_tP"></span><span class="target" id="matrix_8h_1a512dbc30bc144e22d84b0ebcb467ee99"></span>void <code class="descname">ksl_product_drinvvinv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vi</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv321ksl_product_drinvvinvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv317ksl_product_drvtxPK12ksl_mat3x3_tKdP10ksl_vec3_t">
+<span id="_CPPv217ksl_product_drvtxPK12ksl_mat3x3_tKdP10ksl_vec3_t"></span><span id="ksl_product_drvtx__ksl_mat3x3_tCP.doubleC.ksl_vec3_tP"></span><span class="target" id="matrix_8h_1a74533c22448aa1778ff734d287931ff5"></span>void <code class="descname">ksl_product_drvtx</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> double <em>ti</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv317ksl_product_drvtxPK12ksl_mat3x3_tKdP10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_product_drvtxinvPK12ksl_mat3x3_tKdP10ksl_vec3_t">
+<span id="_CPPv220ksl_product_drvtxinvPK12ksl_mat3x3_tKdP10ksl_vec3_t"></span><span id="ksl_product_drvtxinv__ksl_mat3x3_tCP.doubleC.ksl_vec3_tP"></span><span class="target" id="matrix_8h_1ac6c6d0870043eae9ac8d21170ac0f35e"></span>void <code class="descname">ksl_product_drvtxinv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> double <em>ti</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_drvtxinvPK12ksl_mat3x3_tKdP10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv317ksl_product_drvtyPK12ksl_mat3x3_tKdP10ksl_vec3_t">
+<span id="_CPPv217ksl_product_drvtyPK12ksl_mat3x3_tKdP10ksl_vec3_t"></span><span id="ksl_product_drvty__ksl_mat3x3_tCP.doubleC.ksl_vec3_tP"></span><span class="target" id="matrix_8h_1a77fc0964e58b852eb9849fdc98500853"></span>void <code class="descname">ksl_product_drvty</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> double <em>ti</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv317ksl_product_drvtyPK12ksl_mat3x3_tKdP10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_product_drvtyinvPK12ksl_mat3x3_tKdP10ksl_vec3_t">
+<span id="_CPPv220ksl_product_drvtyinvPK12ksl_mat3x3_tKdP10ksl_vec3_t"></span><span id="ksl_product_drvtyinv__ksl_mat3x3_tCP.doubleC.ksl_vec3_tP"></span><span class="target" id="matrix_8h_1af0db5c28061626299de279551fdf1448"></span>void <code class="descname">ksl_product_drvtyinv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> double <em>ti</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_drvtyinvPK12ksl_mat3x3_tKdP10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv317ksl_product_drvtzPK12ksl_mat3x3_tKdP10ksl_vec3_t">
+<span id="_CPPv217ksl_product_drvtzPK12ksl_mat3x3_tKdP10ksl_vec3_t"></span><span id="ksl_product_drvtz__ksl_mat3x3_tCP.doubleC.ksl_vec3_tP"></span><span class="target" id="matrix_8h_1a382179892501b2ca11749f8dabfff479"></span>void <code class="descname">ksl_product_drvtz</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> double <em>ti</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv317ksl_product_drvtzPK12ksl_mat3x3_tKdP10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_product_drvtzinvPK12ksl_mat3x3_tKdP10ksl_vec3_t">
+<span id="_CPPv220ksl_product_drvtzinvPK12ksl_mat3x3_tKdP10ksl_vec3_t"></span><span id="ksl_product_drvtzinv__ksl_mat3x3_tCP.doubleC.ksl_vec3_tP"></span><span class="target" id="matrix_8h_1a3c25a5ad0517dddf6459876b6a2aded7"></span>void <code class="descname">ksl_product_drvtzinv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> double <em>ti</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_drvtzinvPK12ksl_mat3x3_tKdP10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+</div>
+<div class="section" id="single-precision">
+<h2>Single precision<a class="headerlink" href="#single-precision" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="_CPPv316ksl_product_drvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t">
+<span id="_CPPv216ksl_product_drvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t"></span><span id="ksl_product_drvf__ksl_mat3x3f_tCP.ksl_vec3f_tCP.ksl_vec3f_tP"></span><span class="target" id="matrix_8h_1aecf5aac9412aa19ae834d319ebd98ea5"></span>void <code class="descname">ksl_product_drvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vi</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_product_drvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv319ksl_product_drvinvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t">
+<span id="_CPPv219ksl_product_drvinvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t"></span><span id="ksl_product_drvinvf__ksl_mat3x3f_tCP.ksl_vec3f_tCP.ksl_vec3f_tP"></span><span class="target" id="matrix_8h_1aafcb94ac1cdfccb9971afbe83469ee48"></span>void <code class="descname">ksl_product_drvinvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vi</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_drvinvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv319ksl_product_drinvvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t">
+<span id="_CPPv219ksl_product_drinvvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t"></span><span id="ksl_product_drinvvf__ksl_mat3x3f_tCP.ksl_vec3f_tCP.ksl_vec3f_tP"></span><span class="target" id="matrix_8h_1aa4c9340e1679402e966641529aef2dd5"></span>void <code class="descname">ksl_product_drinvvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vi</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_drinvvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv322ksl_product_drinvvinvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t">
+<span id="_CPPv222ksl_product_drinvvinvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t"></span><span id="ksl_product_drinvvinvf__ksl_mat3x3f_tCP.ksl_vec3f_tCP.ksl_vec3f_tP"></span><span class="target" id="matrix_8h_1acfca5a948a1b891c67fbabe61afb4f82"></span>void <code class="descname">ksl_product_drinvvinvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vi</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_product_drinvvinvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv318ksl_product_drvtxfPK13ksl_mat3x3f_tKfP11ksl_vec3f_t">
+<span id="_CPPv218ksl_product_drvtxfPK13ksl_mat3x3f_tKfP11ksl_vec3f_t"></span><span id="ksl_product_drvtxf__ksl_mat3x3f_tCP.floatC.ksl_vec3f_tP"></span><span class="target" id="matrix_8h_1a895ddfe07eb888ed3d287a6da0d21b98"></span>void <code class="descname">ksl_product_drvtxf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <em class="property">const</em> float <em>ti</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_product_drvtxfPK13ksl_mat3x3f_tKfP11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv321ksl_product_drvtxinvfPK13ksl_mat3x3f_tKfP11ksl_vec3f_t">
+<span id="_CPPv221ksl_product_drvtxinvfPK13ksl_mat3x3f_tKfP11ksl_vec3f_t"></span><span id="ksl_product_drvtxinvf__ksl_mat3x3f_tCP.floatC.ksl_vec3f_tP"></span><span class="target" id="matrix_8h_1a20e95b864ae594011833dc0b2d58bb33"></span>void <code class="descname">ksl_product_drvtxinvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <em class="property">const</em> float <em>ti</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv321ksl_product_drvtxinvfPK13ksl_mat3x3f_tKfP11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv318ksl_product_drvtyfPK13ksl_mat3x3f_tKfP11ksl_vec3f_t">
+<span id="_CPPv218ksl_product_drvtyfPK13ksl_mat3x3f_tKfP11ksl_vec3f_t"></span><span id="ksl_product_drvtyf__ksl_mat3x3f_tCP.floatC.ksl_vec3f_tP"></span><span class="target" id="matrix_8h_1adaed020b38a6b59f2b3ca909b134ab33"></span>void <code class="descname">ksl_product_drvtyf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <em class="property">const</em> float <em>ti</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_product_drvtyfPK13ksl_mat3x3f_tKfP11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv321ksl_product_drvtyinvfPK13ksl_mat3x3f_tKfP11ksl_vec3f_t">
+<span id="_CPPv221ksl_product_drvtyinvfPK13ksl_mat3x3f_tKfP11ksl_vec3f_t"></span><span id="ksl_product_drvtyinvf__ksl_mat3x3f_tCP.floatC.ksl_vec3f_tP"></span><span class="target" id="matrix_8h_1a528e7cf7dd8657c1c16b2476c8e3180b"></span>void <code class="descname">ksl_product_drvtyinvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <em class="property">const</em> float <em>ti</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv321ksl_product_drvtyinvfPK13ksl_mat3x3f_tKfP11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv318ksl_product_drvtzfPK13ksl_mat3x3f_tKfP11ksl_vec3f_t">
+<span id="_CPPv218ksl_product_drvtzfPK13ksl_mat3x3f_tKfP11ksl_vec3f_t"></span><span id="ksl_product_drvtzf__ksl_mat3x3f_tCP.floatC.ksl_vec3f_tP"></span><span class="target" id="matrix_8h_1afea0117039f42f40c2f5a20cbeca8682"></span>void <code class="descname">ksl_product_drvtzf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <em class="property">const</em> float <em>ti</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_product_drvtzfPK13ksl_mat3x3f_tKfP11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv321ksl_product_drvtzinvfPK13ksl_mat3x3f_tKfP11ksl_vec3f_t">
+<span id="_CPPv221ksl_product_drvtzinvfPK13ksl_mat3x3f_tKfP11ksl_vec3f_t"></span><span id="ksl_product_drvtzinvf__ksl_mat3x3f_tCP.floatC.ksl_vec3f_tP"></span><span class="target" id="matrix_8h_1a156424d82a2ec1821ddfa518de21fbdb"></span>void <code class="descname">ksl_product_drvtzinvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <em class="property">const</em> float <em>ti</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv321ksl_product_drvtzinvfPK13ksl_mat3x3f_tKfP11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TODO document this function. </p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018, Kristopher Wehage, Roger Wehage.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.0+</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="../_sources/matrix-vector/matrix-vector.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
