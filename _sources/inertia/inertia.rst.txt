@@ -4,6 +4,9 @@
 Inertia
 ==========
 
+Overview
+--------
+
 In the body center of mass frame, the :math:`6 \times 6` Inertia matrix, :math:`M`, can be expressed as:
 
 .. math::
@@ -146,8 +149,8 @@ Therefore, :math:`\tilde{a} \tilde{b}` is found as:
   \bar{I}^{ff}_{ff} = \bar{I}^{ff}_{cc} - result
 
 
-KSL double precision inertia matrices
--------------------------------------
+Double precision
+----------------
 
 .. doxygenunion:: ksl_inertia_t
 
@@ -182,8 +185,8 @@ KSL double precision inertia matrices
 .. doxygenfunction:: ksl_inertia_factor
 
 
-KSL single precision inertia matrices
--------------------------------------
+Single precision
+----------------
 
 .. doxygenunion:: ksl_inertiaf_t
 

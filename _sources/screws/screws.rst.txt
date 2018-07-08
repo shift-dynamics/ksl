@@ -4,6 +4,10 @@
 Screws
 ==========
 
+
+Overview
+--------
+
 In the early 1800s, Chasles proved that any change in the configuration of a rigid body can be parameterized in terms of a helical motion along a fixed axis :cite:`chasles1830note`. Poinsot is credited with the discovery that a system of forces acting on a rigid body can be resolved as a force acting along a line combined with a torque acting about the same line :cite:`poinsot1806composition`. Chasles' and Poinsot's work was later developed by Sir Robert Ball into the theory of screws :cite:`ball1998treatise`. Screws represent angular and translational quantities in a single 6x1 vector quantity. Not only do screws provide a systematic framework for kinematics and dynamics of mechanisms, their compact representation is well-suited for compact computer storage and facilitates vectorization.
 
 Linear and angular velocity can be combined into a single 6x1 quantity as:
@@ -17,7 +21,7 @@ Linear and angular velocity can be combined into a single 6x1 quantity as:
 In 1873, Clifford coined the word *motor* to refer to this screw quantity (i.e. a combination of *motion* and *vector*) :cite:`davidson2004robots`. Later, Ball referred to this screw quantity as a *twist* :cite:`ball1998treatise`. The term *twist* is used more frequently in modern literature, and therefore is used in the present work.
 
 Adjoint Matrix :math:`[Ad]`
-----------------------------
+***************************
 
 The :math:`6 \times 6` adjoint transformation matrix, :math:`[Ad]`, for transforming twists from one coordinate system to another can be formed from :math:`SE(3)` matrices. The derivation is briefly summarized below:
 
@@ -331,7 +335,7 @@ Carrying out the minimal required operations to transform screw quantities requi
 
 
 Derivative operator matrices: :math:`[ad]`
-------------------------------------------------------------------
+******************************************
 
 In Eq. :eq:`eq:spatial_velocity2`, the derivative operator of the SE(3) group was found. Similarly, the derivative operator matrices for the :math:`6 \times 6` transformation matrices, :math:`[Ad]` and :math:`[Ad]^*` can be found as follows:
 
@@ -392,7 +396,7 @@ Similarly, the left derivative operator for :math:`[Ad]^*` matrices is:
 Previously, it was discussed how the derivative operators form the Lie algebra of the SE(3) group. Similarly, the :math:`6\times6` :math:`[Ad]` matrices themselves fulfill the necessary requirements of a Lie group :cite:`selig2005geometric`. The :math:`[ad]` and :math:`[ad]^*` matrices comprise their respective Lie algebras.
 
 Influence coefficient matrices
-------------------------------
+******************************
 
 An important tool in the analysis of mechanisms and multibody systems is a map of a particular joint's velocity to the body velocity. From Eqs. :eq:`eq:omega_z` and :eq:`eq:screw`, it is possible to find the velocity screw associated with a revolute joint. The joint is aligned with :math:`z` axis of reference frame :math:`a`.
 
@@ -457,9 +461,8 @@ These influence coefficient matrices taken with respect to the inertial referenc
 Once the position and orientation of each joint in a mechanism has been computed, the influence coefficient matrix can be computed simply by forming the corresponding column of :math:`[Ad]`, which requires only 9 additional FLOPs for revolute joints and no additional FLOPs for prismatic joints. Additionally, if SE(3) displacements and the Jacobian matrix are stored in column-major order, updating the influence coefficient matrices and elements Jacobian matrix can be vectorized with a stride of 1, which is optimal in terms of memory access.
 
 
-
-KSL double precision screw functions
-------------------------------------
+Double precision
+----------------
 
 .. doxygenunion:: ksl_screw_t
 
@@ -585,8 +588,8 @@ KSL double precision screw functions
 
 
 
-KSL single precision screw functions
-------------------------------------
+Single precision
+----------------
 
 .. doxygenunion:: ksl_screwf_t
 

@@ -46,15 +46,19 @@
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notation/notation.html">Notation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../vectors/vectors.html">Vectors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SO(3) and SE(3) Groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vectors/vec3.html">3D Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vectors/vec4.html">4D Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mat3x3/mat3x3.html">3x3 Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mat4x4/mat4x4.html">4x4 Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SE(3)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quaternions/quaternions.html">Quaternions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../trig/trig.html">Trigonometric Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../screws/screws.html">Screws</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../coscrews/coscrews.html">Coscrews</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Inertia</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#ksl-double-precision-inertia-matrices">KSL double precision inertia matrices</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#ksl-single-precision-inertia-matrices">KSL single precision inertia matrices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#double-precision">Double precision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#single-precision">Single precision</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../linalg/linalg.html">Linear Algebra</a></li>
@@ -94,6 +98,8 @@
             
   <div class="section" id="inertia">
 <span id="id1"></span><h1>Inertia<a class="headerlink" href="#inertia" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>In the body center of mass frame, the <span class="math notranslate nohighlight">\(6 \times 6\)</span> Inertia matrix, <span class="math notranslate nohighlight">\(M\)</span>, can be expressed as:</p>
 <div class="math notranslate nohighlight" id="equation-eq-inertia-matrix">
 <span class="eqno">(1)<a class="headerlink" href="#equation-eq-inertia-matrix" title="Permalink to this equation">¶</a></span>\[\begin{split}M_{11} = \begin{bmatrix}
@@ -157,8 +163,9 @@ result -= trace(result) * I
 <span class="eqno">(16)<a class="headerlink" href="#equation-eq-result" title="Permalink to this equation">¶</a></span>\[\bar{I}^{ff}_{ff} = \bar{I}^{ff}_{cc} - \tilde{t}_{temp} \tilde{r}^{f}_{fc}\]</div>
 <div class="math notranslate nohighlight" id="equation-eq-result2">
 <span class="eqno">(17)<a class="headerlink" href="#equation-eq-result2" title="Permalink to this equation">¶</a></span>\[\bar{I}^{ff}_{ff} = \bar{I}^{ff}_{cc} - result\]</div>
-<div class="section" id="ksl-double-precision-inertia-matrices">
-<h2>KSL double precision inertia matrices<a class="headerlink" href="#ksl-double-precision-inertia-matrices" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="double-precision">
+<h2>Double precision<a class="headerlink" href="#double-precision" title="Permalink to this headline">¶</a></h2>
 <dl class="type">
 <dt id="_CPPv313ksl_inertia_t">
 <span id="_CPPv213ksl_inertia_t"></span><span id="ksl_inertia_t"></span><span class="target" id="unionksl__inertia__t"></span><em class="property">union </em><code class="descname">ksl_inertia_t</code><a class="headerlink" href="#_CPPv313ksl_inertia_t" title="Permalink to this definition">¶</a><br /></dt>
@@ -178,7 +185,7 @@ result -= trace(result) * I
 
 <dl class="member">
 <dt id="_CPPv3N13ksl_inertia_t2mtE">
-<span id="_CPPv2N13ksl_inertia_t2mtE"></span><span id="ksl_inertia_t::mt__ksl_vec3_t"></span><span class="target" id="unionksl__inertia__t_1a01f08a63b6f7fec66f999a1e310dfee2"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">mt</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t2mtE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv2N13ksl_inertia_t2mtE"></span><span id="ksl_inertia_t::mt__ksl_vec3_t"></span><span class="target" id="unionksl__inertia__t_1a01f08a63b6f7fec66f999a1e310dfee2"></span><a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">mt</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t2mtE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>mass times a vector, t, from reference frame to body centroid </p>
 </dd></dl>
 
@@ -232,7 +239,7 @@ result -= trace(result) * I
 
 <dl class="member">
 <dt id="_CPPv3N13ksl_inertia_t2mrE">
-<span id="_CPPv2N13ksl_inertia_t2mrE"></span><span id="ksl_inertia_t::mr__ksl_vec3_t"></span><span class="target" id="unionksl__inertia__t_1afab97679e93c0c3f7283fa760655a71d"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">mr</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t2mrE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv2N13ksl_inertia_t2mrE"></span><span id="ksl_inertia_t::mr__ksl_vec3_t"></span><span class="target" id="unionksl__inertia__t_1afab97679e93c0c3f7283fa760655a71d"></span><a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">mr</code><a class="headerlink" href="#_CPPv3N13ksl_inertia_t2mrE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>mass times a vector, r, from reference frame to body centroid </p>
 </dd></dl>
 
@@ -283,7 +290,7 @@ result -= trace(result) * I
 
 <dl class="function">
 <dt id="_CPPv311ksl_inertiaKdK10ksl_vec3_tKdKdKdKdKdKd">
-<span id="_CPPv211ksl_inertiaKdK10ksl_vec3_tKdKdKdKdKdKd"></span><span id="ksl_inertia__doubleC.ksl_vec3_tC.doubleC.doubleC.doubleC.doubleC.doubleC.doubleC"></span><span class="target" id="inertia_8h_1ae205178752af78031aa294a2afb2abeb"></span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> <code class="descname">ksl_inertia</code><span class="sig-paren">(</span><em class="property">const</em> double <em>m</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <em>t</em>, <em class="property">const</em> double <em>Ixx</em>, <em class="property">const</em> double <em>Iyy</em>, <em class="property">const</em> double <em>Izz</em>, <em class="property">const</em> double <em>Ixy</em>, <em class="property">const</em> double <em>Iyz</em>, <em class="property">const</em> double <em>Izx</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv311ksl_inertiaKdK10ksl_vec3_tKdKdKdKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv211ksl_inertiaKdK10ksl_vec3_tKdKdKdKdKdKd"></span><span id="ksl_inertia__doubleC.ksl_vec3_tC.doubleC.doubleC.doubleC.doubleC.doubleC.doubleC"></span><span class="target" id="inertia_8h_1ae205178752af78031aa294a2afb2abeb"></span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> <code class="descname">ksl_inertia</code><span class="sig-paren">(</span><em class="property">const</em> double <em>m</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <em>t</em>, <em class="property">const</em> double <em>Ixx</em>, <em class="property">const</em> double <em>Iyy</em>, <em class="property">const</em> double <em>Izz</em>, <em class="property">const</em> double <em>Ixy</em>, <em class="property">const</em> double <em>Iyz</em>, <em class="property">const</em> double <em>Izx</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv311ksl_inertiaKdK10ksl_vec3_tKdKdKdKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>double precision spatial inertia matrix constructor </p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
@@ -310,28 +317,28 @@ result -= trace(result) * I
 
 <dl class="function">
 <dt id="_CPPv319ksl_inertia_rotatedPK13ksl_inertia_tPK12ksl_mat3x3_tP13ksl_inertia_t">
-<span id="_CPPv219ksl_inertia_rotatedPK13ksl_inertia_tPK12ksl_mat3x3_tP13ksl_inertia_t"></span><span id="ksl_inertia_rotated__ksl_inertia_tCP.ksl_mat3x3_tCP.ksl_inertia_tP"></span><span class="target" id="inertia_8h_1a4a387d0c872abcabf269273ba58db901"></span>void <code class="descname">ksl_inertia_rotated</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>r</em>, <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_inertia_rotatedPK13ksl_inertia_tPK12ksl_mat3x3_tP13ksl_inertia_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv219ksl_inertia_rotatedPK13ksl_inertia_tPK12ksl_mat3x3_tP13ksl_inertia_t"></span><span id="ksl_inertia_rotated__ksl_inertia_tCP.ksl_mat3x3_tCP.ksl_inertia_tP"></span><span class="target" id="inertia_8h_1a4a387d0c872abcabf269273ba58db901"></span>void <code class="descname">ksl_inertia_rotated</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>r</em>, <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_inertia_rotatedPK13ksl_inertia_tPK12ksl_mat3x3_tP13ksl_inertia_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>rotate a double precision centroidal inertia matrix </p>
 <p>I_ff = CoAd(D(R_{fc})) * Icc * Ad(D(R_{fc}^{-1})) </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv318ksl_inertia_rotateP13ksl_inertia_tPK12ksl_mat3x3_t">
-<span id="_CPPv218ksl_inertia_rotateP13ksl_inertia_tPK12ksl_mat3x3_t"></span><span id="ksl_inertia_rotate__ksl_inertia_tP.ksl_mat3x3_tCP"></span><span class="target" id="inertia_8h_1a5143ef0a4aa1f7a701d28388aa8cf1e1"></span>void <code class="descname">ksl_inertia_rotate</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_inertia_rotateP13ksl_inertia_tPK12ksl_mat3x3_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv218ksl_inertia_rotateP13ksl_inertia_tPK12ksl_mat3x3_t"></span><span id="ksl_inertia_rotate__ksl_inertia_tP.ksl_mat3x3_tCP"></span><span class="target" id="inertia_8h_1a5143ef0a4aa1f7a701d28388aa8cf1e1"></span>void <code class="descname">ksl_inertia_rotate</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_inertia_rotateP13ksl_inertia_tPK12ksl_mat3x3_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>rotate a double precision centroidal inertia matrix in place </p>
 <p><span class="math notranslate nohighlight">\( I_{ff} = CoAd(D(R_{fc})) * I_{cc} * Ad(D(R_{fc}^{-1})) \)</span> </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv322ksl_inertia_translatedPK13ksl_inertia_tPK10ksl_vec3_tP13ksl_inertia_t">
-<span id="_CPPv222ksl_inertia_translatedPK13ksl_inertia_tPK10ksl_vec3_tP13ksl_inertia_t"></span><span id="ksl_inertia_translated__ksl_inertia_tCP.ksl_vec3_tCP.ksl_inertia_tP"></span><span class="target" id="inertia_8h_1a0ffd6ef04f8f7abb2901d45fd22daf63"></span>void <code class="descname">ksl_inertia_translated</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>r</em>, <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_inertia_translatedPK13ksl_inertia_tPK10ksl_vec3_tP13ksl_inertia_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv222ksl_inertia_translatedPK13ksl_inertia_tPK10ksl_vec3_tP13ksl_inertia_t"></span><span id="ksl_inertia_translated__ksl_inertia_tCP.ksl_vec3_tCP.ksl_inertia_tP"></span><span class="target" id="inertia_8h_1a0ffd6ef04f8f7abb2901d45fd22daf63"></span>void <code class="descname">ksl_inertia_translated</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>r</em>, <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_inertia_translatedPK13ksl_inertia_tPK10ksl_vec3_tP13ksl_inertia_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>translate a double precision centroidal inertia matrix </p>
 <p><span class="math notranslate nohighlight">\( I_ff = CoAd(D(t_{fc})) * Icc * Ad(D(t_{fc}^{-1})) \)</span> </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv321ksl_inertia_translateP13ksl_inertia_tPK10ksl_vec3_t">
-<span id="_CPPv221ksl_inertia_translateP13ksl_inertia_tPK10ksl_vec3_t"></span><span id="ksl_inertia_translate__ksl_inertia_tP.ksl_vec3_tCP"></span><span class="target" id="inertia_8h_1a05c6d53f909791b8796bbb4fe909a789"></span>void <code class="descname">ksl_inertia_translate</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv321ksl_inertia_translateP13ksl_inertia_tPK10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv221ksl_inertia_translateP13ksl_inertia_tPK10ksl_vec3_t"></span><span id="ksl_inertia_translate__ksl_inertia_tP.ksl_vec3_tCP"></span><span class="target" id="inertia_8h_1a05c6d53f909791b8796bbb4fe909a789"></span>void <code class="descname">ksl_inertia_translate</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv321ksl_inertia_translateP13ksl_inertia_tPK10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>translate a double precision centroidal inertia matrix in place </p>
 <p><span class="math notranslate nohighlight">\( I_ff = CoAd(D(t_{fc})) * Icc * Ad(D(t_{fc}^{-1})) \)</span> </p>
 </dd></dl>
@@ -352,7 +359,7 @@ result -= trace(result) * I
 
 <dl class="function">
 <dt id="_CPPv317ksl_inertia_mergeP13ksl_inertia_tP10ksl_vec3_tP13ksl_inertia_tPK10ksl_vec3_tPK9ksl_SE3_t">
-<span id="_CPPv217ksl_inertia_mergeP13ksl_inertia_tP10ksl_vec3_tP13ksl_inertia_tPK10ksl_vec3_tPK9ksl_SE3_t"></span><span id="ksl_inertia_merge__ksl_inertia_tP.ksl_vec3_tP.ksl_inertia_tP.ksl_vec3_tCP.ksl_SE3_tCP"></span><span class="target" id="inertia_8h_1aaa8803a3a2c64f1c85035bb525c1db63"></span>void <code class="descname">ksl_inertia_merge</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>t_ic_i</em>, <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_j</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>t_jc_j</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>D_ij</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv317ksl_inertia_mergeP13ksl_inertia_tP10ksl_vec3_tP13ksl_inertia_tPK10ksl_vec3_tPK9ksl_SE3_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv217ksl_inertia_mergeP13ksl_inertia_tP10ksl_vec3_tP13ksl_inertia_tPK10ksl_vec3_tPK9ksl_SE3_t"></span><span id="ksl_inertia_merge__ksl_inertia_tP.ksl_vec3_tP.ksl_inertia_tP.ksl_vec3_tCP.ksl_SE3_tCP"></span><span class="target" id="inertia_8h_1aaa8803a3a2c64f1c85035bb525c1db63"></span>void <code class="descname">ksl_inertia_merge</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>t_ic_i</em>, <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_j</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>t_jc_j</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>D_ij</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv317ksl_inertia_mergeP13ksl_inertia_tP10ksl_vec3_tP13ksl_inertia_tPK10ksl_vec3_tPK9ksl_SE3_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>merge double precision child inertia (j) with parent inertia (i) </p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
@@ -383,8 +390,8 @@ result -= trace(result) * I
 </dd></dl>
 
 </div>
-<div class="section" id="ksl-single-precision-inertia-matrices">
-<h2>KSL single precision inertia matrices<a class="headerlink" href="#ksl-single-precision-inertia-matrices" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="single-precision">
+<h2>Single precision<a class="headerlink" href="#single-precision" title="Permalink to this headline">¶</a></h2>
 <dl class="type">
 <dt id="_CPPv314ksl_inertiaf_t">
 <span id="_CPPv214ksl_inertiaf_t"></span><span id="ksl_inertiaf_t"></span><span class="target" id="unionksl__inertiaf__t"></span><em class="property">union </em><code class="descname">ksl_inertiaf_t</code><a class="headerlink" href="#_CPPv314ksl_inertiaf_t" title="Permalink to this definition">¶</a><br /></dt>
@@ -404,7 +411,7 @@ result -= trace(result) * I
 
 <dl class="member">
 <dt id="_CPPv3N14ksl_inertiaf_t2mtE">
-<span id="_CPPv2N14ksl_inertiaf_t2mtE"></span><span id="ksl_inertiaf_t::mt__ksl_vec3f_t"></span><span class="target" id="unionksl__inertiaf__t_1a655bab49abb224308a73f020c6f1d430"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <code class="descname">mt</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t2mtE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv2N14ksl_inertiaf_t2mtE"></span><span id="ksl_inertiaf_t::mt__ksl_vec3f_t"></span><span class="target" id="unionksl__inertiaf__t_1a655bab49abb224308a73f020c6f1d430"></span><a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <code class="descname">mt</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t2mtE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>mass times a vector, t, from reference frame to body centroid </p>
 </dd></dl>
 
@@ -457,7 +464,7 @@ result -= trace(result) * I
 
 <dl class="member">
 <dt id="_CPPv3N14ksl_inertiaf_t2mrE">
-<span id="_CPPv2N14ksl_inertiaf_t2mrE"></span><span id="ksl_inertiaf_t::mr__ksl_vec3f_t"></span><span class="target" id="unionksl__inertiaf__t_1a3eb1717b9a76a042572aa8993ca8a7a2"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <code class="descname">mr</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t2mrE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv2N14ksl_inertiaf_t2mrE"></span><span id="ksl_inertiaf_t::mr__ksl_vec3f_t"></span><span class="target" id="unionksl__inertiaf__t_1a3eb1717b9a76a042572aa8993ca8a7a2"></span><a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <code class="descname">mr</code><a class="headerlink" href="#_CPPv3N14ksl_inertiaf_t2mrE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>mass times a vector, r, from reference frame to body centroid </p>
 </dd></dl>
 
@@ -507,7 +514,7 @@ result -= trace(result) * I
 
 <dl class="function">
 <dt id="_CPPv312ksl_inertiafKfK11ksl_vec3f_tKfKfKfKfKfKf">
-<span id="_CPPv212ksl_inertiafKfK11ksl_vec3f_tKfKfKfKfKfKf"></span><span id="ksl_inertiaf__floatC.ksl_vec3f_tC.floatC.floatC.floatC.floatC.floatC.floatC"></span><span class="target" id="inertia_8h_1ac5464502b987b6b23ac37d3b354e6534"></span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> <code class="descname">ksl_inertiaf</code><span class="sig-paren">(</span><em class="property">const</em> float <em>m</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <em>t</em>, <em class="property">const</em> float <em>Ixx</em>, <em class="property">const</em> float <em>Iyy</em>, <em class="property">const</em> float <em>Izz</em>, <em class="property">const</em> float <em>Ixy</em>, <em class="property">const</em> float <em>Iyz</em>, <em class="property">const</em> float <em>Izx</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv312ksl_inertiafKfK11ksl_vec3f_tKfKfKfKfKfKf" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv212ksl_inertiafKfK11ksl_vec3f_tKfKfKfKfKfKf"></span><span id="ksl_inertiaf__floatC.ksl_vec3f_tC.floatC.floatC.floatC.floatC.floatC.floatC"></span><span class="target" id="inertia_8h_1ac5464502b987b6b23ac37d3b354e6534"></span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> <code class="descname">ksl_inertiaf</code><span class="sig-paren">(</span><em class="property">const</em> float <em>m</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <em>t</em>, <em class="property">const</em> float <em>Ixx</em>, <em class="property">const</em> float <em>Iyy</em>, <em class="property">const</em> float <em>Izz</em>, <em class="property">const</em> float <em>Ixy</em>, <em class="property">const</em> float <em>Iyz</em>, <em class="property">const</em> float <em>Izx</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv312ksl_inertiafKfK11ksl_vec3f_tKfKfKfKfKfKf" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>single precision spatial inertia matrix constructor </p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
@@ -534,28 +541,28 @@ result -= trace(result) * I
 
 <dl class="function">
 <dt id="_CPPv320ksl_inertiaf_rotatedPK14ksl_inertiaf_tPK13ksl_mat3x3f_tP14ksl_inertiaf_t">
-<span id="_CPPv220ksl_inertiaf_rotatedPK14ksl_inertiaf_tPK13ksl_mat3x3f_tP14ksl_inertiaf_t"></span><span id="ksl_inertiaf_rotated__ksl_inertiaf_tCP.ksl_mat3x3f_tCP.ksl_inertiaf_tP"></span><span class="target" id="inertia_8h_1a1a1e3f03ccf343e0bbae6cf5b5057bf9"></span>void <code class="descname">ksl_inertiaf_rotated</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>r</em>, <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_inertiaf_rotatedPK14ksl_inertiaf_tPK13ksl_mat3x3f_tP14ksl_inertiaf_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv220ksl_inertiaf_rotatedPK14ksl_inertiaf_tPK13ksl_mat3x3f_tP14ksl_inertiaf_t"></span><span id="ksl_inertiaf_rotated__ksl_inertiaf_tCP.ksl_mat3x3f_tCP.ksl_inertiaf_tP"></span><span class="target" id="inertia_8h_1a1a1e3f03ccf343e0bbae6cf5b5057bf9"></span>void <code class="descname">ksl_inertiaf_rotated</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>r</em>, <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_inertiaf_rotatedPK14ksl_inertiaf_tPK13ksl_mat3x3f_tP14ksl_inertiaf_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>rotate a single precision centroidal inertia matrix </p>
 <p><span class="math notranslate nohighlight">\( I_{ff} = CoAd(D(R_{fc})) * I_{cc} * Ad(D(R_{fc}^{-1})) \)</span> </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv319ksl_inertiaf_rotateP14ksl_inertiaf_tPK13ksl_mat3x3f_t">
-<span id="_CPPv219ksl_inertiaf_rotateP14ksl_inertiaf_tPK13ksl_mat3x3f_t"></span><span id="ksl_inertiaf_rotate__ksl_inertiaf_tP.ksl_mat3x3f_tCP"></span><span class="target" id="inertia_8h_1a095683dadc83becbf6160d84888bdbd8"></span>void <code class="descname">ksl_inertiaf_rotate</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_inertiaf_rotateP14ksl_inertiaf_tPK13ksl_mat3x3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv219ksl_inertiaf_rotateP14ksl_inertiaf_tPK13ksl_mat3x3f_t"></span><span id="ksl_inertiaf_rotate__ksl_inertiaf_tP.ksl_mat3x3f_tCP"></span><span class="target" id="inertia_8h_1a095683dadc83becbf6160d84888bdbd8"></span>void <code class="descname">ksl_inertiaf_rotate</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_inertiaf_rotateP14ksl_inertiaf_tPK13ksl_mat3x3f_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>rotate a single precision centroidal inertia matrix in place </p>
 <p><span class="math notranslate nohighlight">\( I_{ff} = CoAd(D(R_{fc})) * I_{cc} * Ad(D(R_{fc}^{-1})) \)</span> </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv323ksl_inertiaf_translatedPK14ksl_inertiaf_tPK11ksl_vec3f_tP14ksl_inertiaf_t">
-<span id="_CPPv223ksl_inertiaf_translatedPK14ksl_inertiaf_tPK11ksl_vec3f_tP14ksl_inertiaf_t"></span><span id="ksl_inertiaf_translated__ksl_inertiaf_tCP.ksl_vec3f_tCP.ksl_inertiaf_tP"></span><span class="target" id="inertia_8h_1a073ce8555bd68566833b2b7ef95e181e"></span>void <code class="descname">ksl_inertiaf_translated</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>r</em>, <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv323ksl_inertiaf_translatedPK14ksl_inertiaf_tPK11ksl_vec3f_tP14ksl_inertiaf_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv223ksl_inertiaf_translatedPK14ksl_inertiaf_tPK11ksl_vec3f_tP14ksl_inertiaf_t"></span><span id="ksl_inertiaf_translated__ksl_inertiaf_tCP.ksl_vec3f_tCP.ksl_inertiaf_tP"></span><span class="target" id="inertia_8h_1a073ce8555bd68566833b2b7ef95e181e"></span>void <code class="descname">ksl_inertiaf_translated</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>r</em>, <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv323ksl_inertiaf_translatedPK14ksl_inertiaf_tPK11ksl_vec3f_tP14ksl_inertiaf_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>translate a single precision centroidal inertia matrix </p>
 <p><span class="math notranslate nohighlight">\( I_{ff} = CoAd(D(t_{fc})) * I_{cc} * Ad(D(t_{fc}^{-1})) \)</span> </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv322ksl_inertiaf_translateP14ksl_inertiaf_tPK11ksl_vec3f_t">
-<span id="_CPPv222ksl_inertiaf_translateP14ksl_inertiaf_tPK11ksl_vec3f_t"></span><span id="ksl_inertiaf_translate__ksl_inertiaf_tP.ksl_vec3f_tCP"></span><span class="target" id="inertia_8h_1a896b52736acad0b43b06d61fac55b99f"></span>void <code class="descname">ksl_inertiaf_translate</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_inertiaf_translateP14ksl_inertiaf_tPK11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv222ksl_inertiaf_translateP14ksl_inertiaf_tPK11ksl_vec3f_t"></span><span id="ksl_inertiaf_translate__ksl_inertiaf_tP.ksl_vec3f_tCP"></span><span class="target" id="inertia_8h_1a896b52736acad0b43b06d61fac55b99f"></span>void <code class="descname">ksl_inertiaf_translate</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_inertiaf_translateP14ksl_inertiaf_tPK11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>translate a single precision centroidal inertia matrix in place </p>
 <p><span class="math notranslate nohighlight">\( I_{ff} = CoAd(D(t_{fc})) * I_{cc} * Ad(D(t_{fc}^{-1})) \)</span> </p>
 </dd></dl>
@@ -576,7 +583,7 @@ result -= trace(result) * I
 
 <dl class="function">
 <dt id="_CPPv318ksl_inertiaf_mergeP14ksl_inertiaf_tP11ksl_vec3f_tP14ksl_inertiaf_tPK11ksl_vec3f_tPK10ksl_SE3f_t">
-<span id="_CPPv218ksl_inertiaf_mergeP14ksl_inertiaf_tP11ksl_vec3f_tP14ksl_inertiaf_tPK11ksl_vec3f_tPK10ksl_SE3f_t"></span><span id="ksl_inertiaf_merge__ksl_inertiaf_tP.ksl_vec3f_tP.ksl_inertiaf_tP.ksl_vec3f_tCP.ksl_SE3f_tCP"></span><span class="target" id="inertia_8h_1ad2a5726ed9a42f28903084ae99eac1ca"></span>void <code class="descname">ksl_inertiaf_merge</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>t_ic_i</em>, <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_j</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>t_jc_j</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>D_ij</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_inertiaf_mergeP14ksl_inertiaf_tP11ksl_vec3f_tP14ksl_inertiaf_tPK11ksl_vec3f_tPK10ksl_SE3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv218ksl_inertiaf_mergeP14ksl_inertiaf_tP11ksl_vec3f_tP14ksl_inertiaf_tPK11ksl_vec3f_tPK10ksl_SE3f_t"></span><span id="ksl_inertiaf_merge__ksl_inertiaf_tP.ksl_vec3f_tP.ksl_inertiaf_tP.ksl_vec3f_tCP.ksl_SE3f_tCP"></span><span class="target" id="inertia_8h_1ad2a5726ed9a42f28903084ae99eac1ca"></span>void <code class="descname">ksl_inertiaf_merge</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>t_ic_i</em>, <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_j</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>t_jc_j</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>D_ij</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_inertiaf_mergeP14ksl_inertiaf_tP11ksl_vec3f_tP14ksl_inertiaf_tPK11ksl_vec3f_tPK10ksl_SE3f_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>merge single precision child inertia (j) with parent inertia (i) </p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>

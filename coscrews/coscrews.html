@@ -46,17 +46,18 @@
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notation/notation.html">Notation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../vectors/vectors.html">Vectors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SO(3) and SE(3) Groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vectors/vec3.html">3D Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vectors/vec4.html">4D Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mat3x3/mat3x3.html">3x3 Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mat4x4/mat4x4.html">4x4 Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SE(3)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quaternions/quaternions.html">Quaternions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../trig/trig.html">Trigonometric Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../screws/screws.html">Screws</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Coscrews</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#coadjoint-matrix-ad">Coadjoint Matrix <span class="math notranslate nohighlight">\([Ad]^*\)</span></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#constraint-forces">Constraint Forces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#derivative-operator-matrices-ad">Derivative operator matrices: <span class="math notranslate nohighlight">\([ad]^*\)</span></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#ksl-double-precision-coscrew-functions">KSL double precision coscrew functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#ksl-single-precision-coscrew-functions">KSL single precision coscrew functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#double-precision">Double precision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#single-precision">Single precision</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../inertia/inertia.html">Inertia</a></li>
@@ -97,6 +98,8 @@
             
   <div class="section" id="coscrews">
 <span id="id1"></span><h1>Coscrews<a class="headerlink" href="#coscrews" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>Just as the linear and angular velocities can be combined in to a single <span class="math notranslate nohighlight">\(6 \times 1\)</span> column vector, forces and moments can be combined in a single quantity called a <em>wrench</em>.  A wrench is <em>dual</em> to a screw, i.e., it is a linear operator on a screw. In older literature, a wrench is often referred to as another kind of screw. In modern literature, a wrenches are referred to as a <em>coscrews</em> <a class="reference internal" href="../zreferences.html#selig2005geometric" id="id2">[7]</a>. A superscript <span class="math notranslate nohighlight">\(^*\)</span> is used to distinguish a coscrew from a screw. A wrench, <span class="math notranslate nohighlight">\(\underline{\mathbf{f}}^*\)</span>, is defined as</p>
 <div class="math notranslate nohighlight" id="equation-eq-wrench">
 <span class="eqno">(1)<a class="headerlink" href="#equation-eq-wrench" title="Permalink to this equation">¶</a></span>\[\begin{split}\underline{\mathbf{f}}^*=\begin{Bmatrix}\underline{f}\\ \underline{\tau}\end{Bmatrix}=
@@ -109,7 +112,7 @@ f_z\\
 \tau_z
 \end{Bmatrix}\end{split}\]</div>
 <div class="section" id="coadjoint-matrix-ad">
-<h2>Coadjoint Matrix <span class="math notranslate nohighlight">\([Ad]^*\)</span><a class="headerlink" href="#coadjoint-matrix-ad" title="Permalink to this headline">¶</a></h2>
+<h3>Coadjoint Matrix <span class="math notranslate nohighlight">\([Ad]^*\)</span><a class="headerlink" href="#coadjoint-matrix-ad" title="Permalink to this headline">¶</a></h3>
 <p>As coscrews are dual to screws, they are transformed differently than screws. The following simple example illustrates how coscrews are transformed.  The power imparted by a linear combination of a wrench and screw is invariant, regardless of the coordinate system in which it is expressed. The power imparted by a given wrench and screw, the scalar quantity <span class="math notranslate nohighlight">\(p\)</span>, is given as</p>
 <div class="math notranslate nohighlight" id="equation-eq-power">
 <span class="eqno">(2)<a class="headerlink" href="#equation-eq-power" title="Permalink to this equation">¶</a></span>\[p = \underline{f}\cdot \underline{v} + \underline{\tau} \cdot \underline{\omega}=
@@ -170,7 +173,7 @@ I &amp; 0
 </table>
 </div>
 <div class="section" id="constraint-forces">
-<h2>Constraint Forces<a class="headerlink" href="#constraint-forces" title="Permalink to this headline">¶</a></h2>
+<h3>Constraint Forces<a class="headerlink" href="#constraint-forces" title="Permalink to this headline">¶</a></h3>
 <p>Consider two bodies pinned together by a revolute joint aligned with the <span class="math notranslate nohighlight">\(z\)</span> axis of its local coordinate frame, <span class="math notranslate nohighlight">\(a\)</span>. If the joint is modeled without friction, then no torques about the joint axis can be transmitted from the first body to the second body. The only forces that can be imparted from one joint to the next are those orthogonal to the joint’s axis. If a spatial wrench <span class="math notranslate nohighlight">\(\underline{\mathbf{f}}^*_a\)</span> is applied to the joint, the non–working joint reaction forces are given by</p>
 <div class="math notranslate nohighlight" id="equation-eq-joint-reaction-forces">
 <span class="eqno">(7)<a class="headerlink" href="#equation-eq-joint-reaction-forces" title="Permalink to this equation">¶</a></span>\[\begin{split}\bar{H}^*_a\underline{\mathbf{f}}^*_a=
@@ -236,7 +239,7 @@ R_{0a} &amp; 0\\
 <p>In the present example, <span class="math notranslate nohighlight">\([\bar{H}^* \cup \underline{\mathbf{h}}^*]=[\bar{H}^* \underline{\mathbf{h}}^*]\)</span>, as <span class="math notranslate nohighlight">\(\underline{\mathbf{h}}^*\)</span> occurs in the last column of <span class="math notranslate nohighlight">\([Ad]^*\)</span>, however in the general case, <span class="math notranslate nohighlight">\(\underline{\mathbf{h}}^*\)</span> may occur in a different column of <span class="math notranslate nohighlight">\([Ad]^*\)</span>, corresponding to the type of primitive joint. In the following discussion, the <span class="math notranslate nohighlight">\(\cup\)</span> symbol is dropped with the understanding that the matrix <span class="math notranslate nohighlight">\(\underline{\mathbf{h}}^*\)</span> occurs in its respective column, interspersed within the columns of <span class="math notranslate nohighlight">\(\bar{H}^*\)</span>.</p>
 </div>
 <div class="section" id="derivative-operator-matrices-ad">
-<h2>Derivative operator matrices: <span class="math notranslate nohighlight">\([ad]^*\)</span><a class="headerlink" href="#derivative-operator-matrices-ad" title="Permalink to this headline">¶</a></h2>
+<h3>Derivative operator matrices: <span class="math notranslate nohighlight">\([ad]^*\)</span><a class="headerlink" href="#derivative-operator-matrices-ad" title="Permalink to this headline">¶</a></h3>
 <p>The left derivative operator for <span class="math notranslate nohighlight">\([Ad]^*\)</span> matrices is:</p>
 <div class="math notranslate nohighlight" id="equation-eq-adjoint-dual-rep">
 <span class="eqno">(12)<a class="headerlink" href="#equation-eq-adjoint-dual-rep" title="Permalink to this equation">¶</a></span>\[\begin{split}[ad]^* = \dot{[Ad]^*}[Ad]^{*-1} =
@@ -253,8 +256,9 @@ v_z &amp; 0 &amp; -v_x &amp;   \omega_z &amp; 0 &amp; -\omega_x\\
 \tilde{v} &amp; \tilde{\omega}
 \end{bmatrix}\end{split}\]</div>
 </div>
-<div class="section" id="ksl-double-precision-coscrew-functions">
-<h2>KSL double precision coscrew functions<a class="headerlink" href="#ksl-double-precision-coscrew-functions" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="double-precision">
+<h2>Double precision<a class="headerlink" href="#double-precision" title="Permalink to this headline">¶</a></h2>
 <dl class="type">
 <dt id="_CPPv313ksl_coscrew_t">
 <span id="_CPPv213ksl_coscrew_t"></span><span id="ksl_coscrew_t"></span><span class="target" id="unionksl__coscrew__t"></span><em class="property">union </em><code class="descname">ksl_coscrew_t</code><a class="headerlink" href="#_CPPv313ksl_coscrew_t" title="Permalink to this definition">¶</a><br /></dt>
@@ -269,13 +273,13 @@ v_z &amp; 0 &amp; -v_x &amp;   \omega_z &amp; 0 &amp; -\omega_x\\
 
 <dl class="member">
 <dt id="_CPPv3N13ksl_coscrew_t3linE">
-<span id="_CPPv2N13ksl_coscrew_t3linE"></span><span id="ksl_coscrew_t::lin__ksl_vec3_t"></span><span class="target" id="unionksl__coscrew__t_1ab57fd5fdc42e837a08d695852c055386"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">lin</code><a class="headerlink" href="#_CPPv3N13ksl_coscrew_t3linE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv2N13ksl_coscrew_t3linE"></span><span id="ksl_coscrew_t::lin__ksl_vec3_t"></span><span class="target" id="unionksl__coscrew__t_1ab57fd5fdc42e837a08d695852c055386"></span><a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">lin</code><a class="headerlink" href="#_CPPv3N13ksl_coscrew_t3linE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>bound linear vector, e.g. force or linear momentum </p>
 </dd></dl>
 
 <dl class="member">
 <dt id="_CPPv3N13ksl_coscrew_t3angE">
-<span id="_CPPv2N13ksl_coscrew_t3angE"></span><span id="ksl_coscrew_t::ang__ksl_vec3_t"></span><span class="target" id="unionksl__coscrew__t_1a8d29d9b0e7c76cec6f11dc77ed4e2eed"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">ang</code><a class="headerlink" href="#_CPPv3N13ksl_coscrew_t3angE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv2N13ksl_coscrew_t3angE"></span><span id="ksl_coscrew_t::ang__ksl_vec3_t"></span><span class="target" id="unionksl__coscrew__t_1a8d29d9b0e7c76cec6f11dc77ed4e2eed"></span><a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">ang</code><a class="headerlink" href="#_CPPv3N13ksl_coscrew_t3angE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>free angular vector, e.g. moment/torque or angular momentum </p>
 </dd></dl>
 
@@ -516,7 +520,7 @@ v_z &amp; 0 &amp; -v_x &amp;   \omega_z &amp; 0 &amp; -\omega_x\\
 
 <dl class="function">
 <dt id="_CPPv318ksl_product_CoAdtcPK10ksl_vec3_tPK13ksl_coscrew_tP13ksl_coscrew_t">
-<span id="_CPPv218ksl_product_CoAdtcPK10ksl_vec3_tPK13ksl_coscrew_tP13ksl_coscrew_t"></span><span id="ksl_product_CoAdtc__ksl_vec3_tCP.ksl_coscrew_tCP.ksl_coscrew_tP"></span><span class="target" id="coscrew_8h_1aea01c281ea5652435836dc9374820d41"></span>void <code class="descname">ksl_product_CoAdtc</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>ti</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_coscrew_t" title="ksl_coscrew_t">ksl_coscrew_t</a> *<em>ci</em>, <a class="reference internal" href="#_CPPv313ksl_coscrew_t" title="ksl_coscrew_t">ksl_coscrew_t</a> *<em>co</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_product_CoAdtcPK10ksl_vec3_tPK13ksl_coscrew_tP13ksl_coscrew_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv218ksl_product_CoAdtcPK10ksl_vec3_tPK13ksl_coscrew_tP13ksl_coscrew_t"></span><span id="ksl_product_CoAdtc__ksl_vec3_tCP.ksl_coscrew_tCP.ksl_coscrew_tP"></span><span class="target" id="coscrew_8h_1aea01c281ea5652435836dc9374820d41"></span>void <code class="descname">ksl_product_CoAdtc</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>ti</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_coscrew_t" title="ksl_coscrew_t">ksl_coscrew_t</a> *<em>ci</em>, <a class="reference internal" href="#_CPPv313ksl_coscrew_t" title="ksl_coscrew_t">ksl_coscrew_t</a> *<em>co</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_product_CoAdtcPK10ksl_vec3_tPK13ksl_coscrew_tP13ksl_coscrew_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Performs a double precision spatial translation of a coscrew. Performs a Coadjoint transformation of a coscrew, where CoAdjoint transformation matrix consists of only a translation component. </p>
 <p><span class="math notranslate nohighlight">\( [Ad]^*(\underline{t}_i) \mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\)</span></p>
 <p><span class="math notranslate nohighlight">\(\ \begin{bmatrix} I &amp; 0\\ \underline{\tilde{t}}_i &amp; I \end{bmatrix} \mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\)</span></p>
@@ -534,7 +538,7 @@ v_z &amp; 0 &amp; -v_x &amp;   \omega_z &amp; 0 &amp; -\omega_x\\
 
 <dl class="function">
 <dt id="_CPPv321ksl_product_CoAdtcinvPK10ksl_vec3_tPK13ksl_coscrew_tP13ksl_coscrew_t">
-<span id="_CPPv221ksl_product_CoAdtcinvPK10ksl_vec3_tPK13ksl_coscrew_tP13ksl_coscrew_t"></span><span id="ksl_product_CoAdtcinv__ksl_vec3_tCP.ksl_coscrew_tCP.ksl_coscrew_tP"></span><span class="target" id="coscrew_8h_1a418fcdb10f1b086d46c22271430c9db3"></span>void <code class="descname">ksl_product_CoAdtcinv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>ti</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_coscrew_t" title="ksl_coscrew_t">ksl_coscrew_t</a> *<em>ci</em>, <a class="reference internal" href="#_CPPv313ksl_coscrew_t" title="ksl_coscrew_t">ksl_coscrew_t</a> *<em>co</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv321ksl_product_CoAdtcinvPK10ksl_vec3_tPK13ksl_coscrew_tP13ksl_coscrew_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv221ksl_product_CoAdtcinvPK10ksl_vec3_tPK13ksl_coscrew_tP13ksl_coscrew_t"></span><span id="ksl_product_CoAdtcinv__ksl_vec3_tCP.ksl_coscrew_tCP.ksl_coscrew_tP"></span><span class="target" id="coscrew_8h_1a418fcdb10f1b086d46c22271430c9db3"></span>void <code class="descname">ksl_product_CoAdtcinv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>ti</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_coscrew_t" title="ksl_coscrew_t">ksl_coscrew_t</a> *<em>ci</em>, <a class="reference internal" href="#_CPPv313ksl_coscrew_t" title="ksl_coscrew_t">ksl_coscrew_t</a> *<em>co</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv321ksl_product_CoAdtcinvPK10ksl_vec3_tPK13ksl_coscrew_tP13ksl_coscrew_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Performs a double precision spatial translation of the inverse of a coscrew. Performs a Coadjoint transformation of the inverse of a coscrew, where CoAdjoint transformation matrix consists of only a translation component. </p>
 <p><span class="math notranslate nohighlight">\( [Ad]^*(\underline{t}_i) * -\mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\)</span></p>
 <p><span class="math notranslate nohighlight">\( -[Ad]^*(\underline{t}_i) \mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\)</span></p>
@@ -553,7 +557,7 @@ v_z &amp; 0 &amp; -v_x &amp;   \omega_z &amp; 0 &amp; -\omega_x\\
 
 <dl class="function">
 <dt id="_CPPv318ksl_product_CoAdrcPK12ksl_mat3x3_tPK13ksl_coscrew_tP13ksl_coscrew_t">
-<span id="_CPPv218ksl_product_CoAdrcPK12ksl_mat3x3_tPK13ksl_coscrew_tP13ksl_coscrew_t"></span><span id="ksl_product_CoAdrc__ksl_mat3x3_tCP.ksl_coscrew_tCP.ksl_coscrew_tP"></span><span class="target" id="coscrew_8h_1a2849447a782870e7450ff21cdb6b0394"></span>void <code class="descname">ksl_product_CoAdrc</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>Ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_coscrew_t" title="ksl_coscrew_t">ksl_coscrew_t</a> *<em>ci</em>, <a class="reference internal" href="#_CPPv313ksl_coscrew_t" title="ksl_coscrew_t">ksl_coscrew_t</a> *<em>co</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_product_CoAdrcPK12ksl_mat3x3_tPK13ksl_coscrew_tP13ksl_coscrew_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv218ksl_product_CoAdrcPK12ksl_mat3x3_tPK13ksl_coscrew_tP13ksl_coscrew_t"></span><span id="ksl_product_CoAdrc__ksl_mat3x3_tCP.ksl_coscrew_tCP.ksl_coscrew_tP"></span><span class="target" id="coscrew_8h_1a2849447a782870e7450ff21cdb6b0394"></span>void <code class="descname">ksl_product_CoAdrc</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>Ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_coscrew_t" title="ksl_coscrew_t">ksl_coscrew_t</a> *<em>ci</em>, <a class="reference internal" href="#_CPPv313ksl_coscrew_t" title="ksl_coscrew_t">ksl_coscrew_t</a> *<em>co</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_product_CoAdrcPK12ksl_mat3x3_tPK13ksl_coscrew_tP13ksl_coscrew_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Performs a double precision spatial rotation of a coscrew. Performs a Coadjoint transformation of a coscrew, where CoAdjoint transformation matrix consists of only a rotation component. </p>
 <p><span class="math notranslate nohighlight">\( [Ad]^*(R_i) \mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\)</span></p>
 <p><span class="math notranslate nohighlight">\(\ \begin{bmatrix} R_i &amp; 0\\ 0 &amp; R_i \end{bmatrix} \mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\)</span></p>
@@ -571,7 +575,7 @@ v_z &amp; 0 &amp; -v_x &amp;   \omega_z &amp; 0 &amp; -\omega_x\\
 
 <dl class="function">
 <dt id="_CPPv321ksl_product_CoAdrinvcPK12ksl_mat3x3_tPK13ksl_coscrew_tP13ksl_coscrew_t">
-<span id="_CPPv221ksl_product_CoAdrinvcPK12ksl_mat3x3_tPK13ksl_coscrew_tP13ksl_coscrew_t"></span><span id="ksl_product_CoAdrinvc__ksl_mat3x3_tCP.ksl_coscrew_tCP.ksl_coscrew_tP"></span><span class="target" id="coscrew_8h_1accc4e52ece31b13e54717307669846ec"></span>void <code class="descname">ksl_product_CoAdrinvc</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>Ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_coscrew_t" title="ksl_coscrew_t">ksl_coscrew_t</a> *<em>ci</em>, <a class="reference internal" href="#_CPPv313ksl_coscrew_t" title="ksl_coscrew_t">ksl_coscrew_t</a> *<em>co</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv321ksl_product_CoAdrinvcPK12ksl_mat3x3_tPK13ksl_coscrew_tP13ksl_coscrew_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv221ksl_product_CoAdrinvcPK12ksl_mat3x3_tPK13ksl_coscrew_tP13ksl_coscrew_t"></span><span id="ksl_product_CoAdrinvc__ksl_mat3x3_tCP.ksl_coscrew_tCP.ksl_coscrew_tP"></span><span class="target" id="coscrew_8h_1accc4e52ece31b13e54717307669846ec"></span>void <code class="descname">ksl_product_CoAdrinvc</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>Ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_coscrew_t" title="ksl_coscrew_t">ksl_coscrew_t</a> *<em>ci</em>, <a class="reference internal" href="#_CPPv313ksl_coscrew_t" title="ksl_coscrew_t">ksl_coscrew_t</a> *<em>co</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv321ksl_product_CoAdrinvcPK12ksl_mat3x3_tPK13ksl_coscrew_tP13ksl_coscrew_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Performs a double precision spatial rotation of a coscrew, using the transpose of the input rotation matrix. Performs a Coadjoint transformation of a coscrew, where CoAdjoint transformation matrix consists of only a rotation component transposed. </p>
 <p><span class="math notranslate nohighlight">\( [Ad]^*(R_i^T) \mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\)</span></p>
 <p><span class="math notranslate nohighlight">\( \left([Ad]^*(R_i) \right)^{-1} \mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\)</span></p>
@@ -628,8 +632,8 @@ v_z &amp; 0 &amp; -v_x &amp;   \omega_z &amp; 0 &amp; -\omega_x\\
 </dd></dl>
 
 </div>
-<div class="section" id="ksl-single-precision-coscrew-functions">
-<h2>KSL single precision coscrew functions<a class="headerlink" href="#ksl-single-precision-coscrew-functions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="single-precision">
+<h2>Single precision<a class="headerlink" href="#single-precision" title="Permalink to this headline">¶</a></h2>
 <dl class="type">
 <dt id="_CPPv314ksl_coscrewf_t">
 <span id="_CPPv214ksl_coscrewf_t"></span><span id="ksl_coscrewf_t"></span><span class="target" id="unionksl__coscrewf__t"></span><em class="property">union </em><code class="descname">ksl_coscrewf_t</code><a class="headerlink" href="#_CPPv314ksl_coscrewf_t" title="Permalink to this definition">¶</a><br /></dt>
@@ -644,13 +648,13 @@ v_z &amp; 0 &amp; -v_x &amp;   \omega_z &amp; 0 &amp; -\omega_x\\
 
 <dl class="member">
 <dt id="_CPPv3N14ksl_coscrewf_t3linE">
-<span id="_CPPv2N14ksl_coscrewf_t3linE"></span><span id="ksl_coscrewf_t::lin__ksl_vec3f_t"></span><span class="target" id="unionksl__coscrewf__t_1aeb248395e0060c9febdc6a702d89313b"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <code class="descname">lin</code><a class="headerlink" href="#_CPPv3N14ksl_coscrewf_t3linE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv2N14ksl_coscrewf_t3linE"></span><span id="ksl_coscrewf_t::lin__ksl_vec3f_t"></span><span class="target" id="unionksl__coscrewf__t_1aeb248395e0060c9febdc6a702d89313b"></span><a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <code class="descname">lin</code><a class="headerlink" href="#_CPPv3N14ksl_coscrewf_t3linE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>bound linear vector, e.g. force or linear momentum </p>
 </dd></dl>
 
 <dl class="member">
 <dt id="_CPPv3N14ksl_coscrewf_t3angE">
-<span id="_CPPv2N14ksl_coscrewf_t3angE"></span><span id="ksl_coscrewf_t::ang__ksl_vec3f_t"></span><span class="target" id="unionksl__coscrewf__t_1a8a5d53fe8630263f4fa6cd73518baff0"></span><a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <code class="descname">ang</code><a class="headerlink" href="#_CPPv3N14ksl_coscrewf_t3angE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv2N14ksl_coscrewf_t3angE"></span><span id="ksl_coscrewf_t::ang__ksl_vec3f_t"></span><span class="target" id="unionksl__coscrewf__t_1a8a5d53fe8630263f4fa6cd73518baff0"></span><a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <code class="descname">ang</code><a class="headerlink" href="#_CPPv3N14ksl_coscrewf_t3angE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>free angular vector, e.g. moment/torque or angular momentum </p>
 </dd></dl>
 
@@ -891,7 +895,7 @@ v_z &amp; 0 &amp; -v_x &amp;   \omega_z &amp; 0 &amp; -\omega_x\\
 
 <dl class="function">
 <dt id="_CPPv319ksl_product_CoAdtcfPK11ksl_vec3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t">
-<span id="_CPPv219ksl_product_CoAdtcfPK11ksl_vec3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t"></span><span id="ksl_product_CoAdtcf__ksl_vec3f_tCP.ksl_coscrewf_tCP.ksl_coscrewf_tP"></span><span class="target" id="coscrew_8h_1a7a3ade7bd8ff468dd63f944247d667c1"></span>void <code class="descname">ksl_product_CoAdtcf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>ti</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>ci</em>, <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>co</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_CoAdtcfPK11ksl_vec3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv219ksl_product_CoAdtcfPK11ksl_vec3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t"></span><span id="ksl_product_CoAdtcf__ksl_vec3f_tCP.ksl_coscrewf_tCP.ksl_coscrewf_tP"></span><span class="target" id="coscrew_8h_1a7a3ade7bd8ff468dd63f944247d667c1"></span>void <code class="descname">ksl_product_CoAdtcf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>ti</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>ci</em>, <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>co</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_CoAdtcfPK11ksl_vec3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Performs a single precision spatial translation of a coscrew. Performs a Coadjoint transformation of a coscrew, where CoAdjoint transformation matrix consists of only a translation component. </p>
 <p><span class="math notranslate nohighlight">\( [Ad]^*(\underline{t}_i) \mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\)</span></p>
 <p><span class="math notranslate nohighlight">\(\ \begin{bmatrix} I &amp; 0\\ \underline{\tilde{t}}_i &amp; I \end{bmatrix} \mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\)</span></p>
@@ -909,7 +913,7 @@ v_z &amp; 0 &amp; -v_x &amp;   \omega_z &amp; 0 &amp; -\omega_x\\
 
 <dl class="function">
 <dt id="_CPPv322ksl_product_CoAdtcinvfPK11ksl_vec3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t">
-<span id="_CPPv222ksl_product_CoAdtcinvfPK11ksl_vec3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t"></span><span id="ksl_product_CoAdtcinvf__ksl_vec3f_tCP.ksl_coscrewf_tCP.ksl_coscrewf_tP"></span><span class="target" id="coscrew_8h_1a3929622d53bb5e2de5c3f98e2d660e7f"></span>void <code class="descname">ksl_product_CoAdtcinvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>ti</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>ci</em>, <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>co</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_product_CoAdtcinvfPK11ksl_vec3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv222ksl_product_CoAdtcinvfPK11ksl_vec3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t"></span><span id="ksl_product_CoAdtcinvf__ksl_vec3f_tCP.ksl_coscrewf_tCP.ksl_coscrewf_tP"></span><span class="target" id="coscrew_8h_1a3929622d53bb5e2de5c3f98e2d660e7f"></span>void <code class="descname">ksl_product_CoAdtcinvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>ti</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>ci</em>, <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>co</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_product_CoAdtcinvfPK11ksl_vec3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Performs a single precision spatial translation of the inverse of a coscrew. Performs a Coadjoint transformation of the inverse of a coscrew, where CoAdjoint transformation matrix consists of only a translation component. </p>
 <p><span class="math notranslate nohighlight">\( [Ad]^*(\underline{t}_i) * -\mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\)</span></p>
 <p><span class="math notranslate nohighlight">\( -[Ad]^*(\underline{t}_i) \mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\)</span></p>
@@ -928,7 +932,7 @@ v_z &amp; 0 &amp; -v_x &amp;   \omega_z &amp; 0 &amp; -\omega_x\\
 
 <dl class="function">
 <dt id="_CPPv319ksl_product_CoAdrcfPK13ksl_mat3x3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t">
-<span id="_CPPv219ksl_product_CoAdrcfPK13ksl_mat3x3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t"></span><span id="ksl_product_CoAdrcf__ksl_mat3x3f_tCP.ksl_coscrewf_tCP.ksl_coscrewf_tP"></span><span class="target" id="coscrew_8h_1aa2eaf64d9ad04b1ec95c78fa3cca7139"></span>void <code class="descname">ksl_product_CoAdrcf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>Ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>ci</em>, <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>co</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_CoAdrcfPK13ksl_mat3x3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv219ksl_product_CoAdrcfPK13ksl_mat3x3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t"></span><span id="ksl_product_CoAdrcf__ksl_mat3x3f_tCP.ksl_coscrewf_tCP.ksl_coscrewf_tP"></span><span class="target" id="coscrew_8h_1aa2eaf64d9ad04b1ec95c78fa3cca7139"></span>void <code class="descname">ksl_product_CoAdrcf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>Ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>ci</em>, <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>co</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_CoAdrcfPK13ksl_mat3x3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Performs a single precision spatial rotation of a coscrew. Performs a Coadjoint transformation of a coscrew, where CoAdjoint transformation matrix consists of only a rotation component. </p>
 <p><span class="math notranslate nohighlight">\( [Ad]^*(R_i) \mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\)</span></p>
 <p><span class="math notranslate nohighlight">\(\ \begin{bmatrix} R_i &amp; 0\\ 0 &amp; R_i \end{bmatrix} \mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\)</span></p>
@@ -946,7 +950,7 @@ v_z &amp; 0 &amp; -v_x &amp;   \omega_z &amp; 0 &amp; -\omega_x\\
 
 <dl class="function">
 <dt id="_CPPv322ksl_product_CoAdrinvcfPK13ksl_mat3x3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t">
-<span id="_CPPv222ksl_product_CoAdrinvcfPK13ksl_mat3x3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t"></span><span id="ksl_product_CoAdrinvcf__ksl_mat3x3f_tCP.ksl_coscrewf_tCP.ksl_coscrewf_tP"></span><span class="target" id="coscrew_8h_1a7014f00cf6f331b6be58db7415b61ed0"></span>void <code class="descname">ksl_product_CoAdrinvcf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>Ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>ci</em>, <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>co</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_product_CoAdrinvcfPK13ksl_mat3x3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv222ksl_product_CoAdrinvcfPK13ksl_mat3x3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t"></span><span id="ksl_product_CoAdrinvcf__ksl_mat3x3f_tCP.ksl_coscrewf_tCP.ksl_coscrewf_tP"></span><span class="target" id="coscrew_8h_1a7014f00cf6f331b6be58db7415b61ed0"></span>void <code class="descname">ksl_product_CoAdrinvcf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>Ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>ci</em>, <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>co</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_product_CoAdrinvcfPK13ksl_mat3x3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Performs a single precision spatial rotation of a coscrew, using the transpose of the input rotation matrix. Performs a Coadjoint transformation of a coscrew, where CoAdjoint transformation matrix consists of only a rotation component transposed. </p>
 <p><span class="math notranslate nohighlight">\( [Ad]^*(R_i^T) \mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\)</span></p>
 <p><span class="math notranslate nohighlight">\( \left([Ad]^*(R_i) \right)^{-1} \mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\)</span></p>
@@ -965,7 +969,7 @@ v_z &amp; 0 &amp; -v_x &amp;   \omega_z &amp; 0 &amp; -\omega_x\\
 
 <dl class="function">
 <dt id="_CPPv319ksl_product_CoAdrcfPK13ksl_mat3x3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t">
-<span id="_CPPv219ksl_product_CoAdrcfPK13ksl_mat3x3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t"></span><span class="target" id="coscrew_8h_1aa2eaf64d9ad04b1ec95c78fa3cca7139"></span>void <code class="descname">ksl_product_CoAdrcf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>Ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>ci</em>, <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>co</em><span class="sig-paren">)</span><br /></dt>
+<span id="_CPPv219ksl_product_CoAdrcfPK13ksl_mat3x3f_tPK14ksl_coscrewf_tP14ksl_coscrewf_t"></span><span class="target" id="coscrew_8h_1aa2eaf64d9ad04b1ec95c78fa3cca7139"></span>void <code class="descname">ksl_product_CoAdrcf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>Ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>ci</em>, <a class="reference internal" href="#_CPPv314ksl_coscrewf_t" title="ksl_coscrewf_t">ksl_coscrewf_t</a> *<em>co</em><span class="sig-paren">)</span><br /></dt>
 <dd><p>Performs a single precision spatial rotation of a coscrew. Performs a Coadjoint transformation of a coscrew, where CoAdjoint transformation matrix consists of only a rotation component. </p>
 <p><span class="math notranslate nohighlight">\( [Ad]^*(R_i) \mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\)</span></p>
 <p><span class="math notranslate nohighlight">\(\ \begin{bmatrix} R_i &amp; 0\\ 0 &amp; R_i \end{bmatrix} \mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\)</span></p>

@@ -4,6 +4,9 @@
 Coscrews
 ==========
 
+Overview
+--------
+
 Just as the linear and angular velocities can be combined in to a single :math:`6 \times 1` column vector, forces and moments can be combined in a single quantity called a *wrench*.  A wrench is *dual* to a screw, i.e., it is a linear operator on a screw. In older literature, a wrench is often referred to as another kind of screw. In modern literature, a wrenches are referred to as a *coscrews* :cite:`selig2005geometric`. A superscript :math:`^*` is used to distinguish a coscrew from a screw. A wrench, :math:`\underline{\mathbf{f}}^*`, is defined as
 
 .. math::
@@ -21,7 +24,7 @@ Just as the linear and angular velocities can be combined in to a single :math:`
 
 
 Coadjoint Matrix :math:`[Ad]^*`
-----------------------------------
+*******************************
 
 As coscrews are dual to screws, they are transformed differently than screws. The following simple example illustrates how coscrews are transformed.  The power imparted by a linear combination of a wrench and screw is invariant, regardless of the coordinate system in which it is expressed. The power imparted by a given wrench and screw, the scalar quantity :math:`p`, is given as
 
@@ -108,7 +111,7 @@ Therefore, the :math:`6\times6` *coadjoint* transformation matrix for transformi
 
 
 Constraint Forces
------------------
+*****************
 
 Consider two bodies pinned together by a revolute joint aligned with the :math:`z` axis of its local coordinate frame, :math:`a`. If the joint is modeled without friction, then no torques about the joint axis can be transmitted from the first body to the second body. The only forces that can be imparted from one joint to the next are those orthogonal to the joint's axis. If a spatial wrench :math:`\underline{\mathbf{f}}^*_a` is applied to the joint, the non--working joint reaction forces are given by
 
@@ -203,7 +206,7 @@ In the present example, :math:`[\bar{H}^* \cup \underline{\mathbf{h}}^*]=[\bar{H
 
 
 Derivative operator matrices: :math:`[ad]^*`
-------------------------------------------------------------------
+********************************************
 
 The left derivative operator for :math:`[Ad]^*` matrices is:
 
@@ -225,8 +228,8 @@ The left derivative operator for :math:`[Ad]^*` matrices is:
     \end{bmatrix}
 
 
-KSL double precision coscrew functions
---------------------------------------
+Double precision
+----------------
 
 .. doxygenunion:: ksl_coscrew_t
 
@@ -289,8 +292,8 @@ KSL double precision coscrew functions
 
 
 
-KSL single precision coscrew functions
---------------------------------------
+Single precision
+----------------
 
 .. doxygenunion:: ksl_coscrewf_t
 

@@ -1,0 +1,393 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>4D Vectors &#8212; KSL 0.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3x3 Matrices" href="../mat3x3/mat3x3.html" />
+    <link rel="prev" title="3D Vectors" href="vec3.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">KSL</a></h1>
+
+
+
+<p class="blurb">Kinematics Subroutine Library</p>
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notation/notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vec3.html">3D Vectors</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4D Vectors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#double-precision">Double precision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#single-precision">Single precision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#integer">Integer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../mat3x3/mat3x3.html">3x3 Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mat4x4/mat4x4.html">4x4 Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SE(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quaternions/quaternions.html">Quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trig/trig.html">Trigonometric Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../screws/screws.html">Screws</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coscrews/coscrews.html">Coscrews</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inertia/inertia.html">Inertia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../linalg/linalg.html">Linear Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zreferences.html">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="vec3.html" title="previous chapter">3D Vectors</a></li>
+      <li>Next: <a href="../mat3x3/mat3x3.html" title="next chapter">3x3 Matrices</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="d-vectors">
+<span id="vec4"></span><h1>4D Vectors<a class="headerlink" href="#d-vectors" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="double-precision">
+<h2>Double precision<a class="headerlink" href="#double-precision" title="Permalink to this headline">¶</a></h2>
+<dl class="type">
+<dt id="_CPPv310ksl_vec4_t">
+<span id="_CPPv210ksl_vec4_t"></span><span id="ksl_vec4_t"></span><span class="target" id="unionksl__vec4__t"></span><em class="property">union </em><code class="descname">ksl_vec4_t</code><a class="headerlink" href="#_CPPv310ksl_vec4_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;vector.h&gt;</em><p>double precision 4x1 vector representing a 3x1 vector with a homogeneous coordinate (w) appended. </p>
+<p>Typically used for nonlinear transformations such as camera projections. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv3N10ksl_vec4_t2atE">
+<span id="_CPPv2N10ksl_vec4_t2atE"></span><span id="ksl_vec4_t::at__doubleA"></span><span class="target" id="unionksl__vec4__t_1a812f1b71f83255f3c8dc9c1a6b65fb4d"></span>double <code class="descname">at</code>[4]<a class="headerlink" href="#_CPPv3N10ksl_vec4_t2atE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N10ksl_vec4_t1rE">
+<span id="_CPPv2N10ksl_vec4_t1rE"></span><span id="ksl_vec4_t::r__ksl_vec3_t"></span><span class="target" id="unionksl__vec4__t_1a6e16be0f64f6cf39a4366ec1c1370ea0"></span><a class="reference internal" href="vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">r</code><a class="headerlink" href="#_CPPv3N10ksl_vec4_t1rE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N10ksl_vec4_t1xE">
+<span id="_CPPv2N10ksl_vec4_t1xE"></span><span id="ksl_vec4_t::x__double"></span><span class="target" id="unionksl__vec4__t_1a3bdea62edd67a5ae3f7a1910c220ce03"></span>double <code class="descname">x</code><a class="headerlink" href="#_CPPv3N10ksl_vec4_t1xE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N10ksl_vec4_t1yE">
+<span id="_CPPv2N10ksl_vec4_t1yE"></span><span id="ksl_vec4_t::y__double"></span><span class="target" id="unionksl__vec4__t_1ac468a99515c0ae0d1c34779a3c537f46"></span>double <code class="descname">y</code><a class="headerlink" href="#_CPPv3N10ksl_vec4_t1yE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N10ksl_vec4_t1zE">
+<span id="_CPPv2N10ksl_vec4_t1zE"></span><span id="ksl_vec4_t::z__double"></span><span class="target" id="unionksl__vec4__t_1a8cb6cb1e0ca6c3b30b8a7e279afc4458"></span>double <code class="descname">z</code><a class="headerlink" href="#_CPPv3N10ksl_vec4_t1zE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N10ksl_vec4_t1wE">
+<span id="_CPPv2N10ksl_vec4_t1wE"></span><span id="ksl_vec4_t::w__double"></span><span class="target" id="unionksl__vec4__t_1ad616f057a4113c468fb0b07d8f22148e"></span>double <code class="descname">w</code><a class="headerlink" href="#_CPPv3N10ksl_vec4_t1wE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N10ksl_vec4_tUt2_71E">
+<span class="target" id="unionksl__vec4__t_1aa01e95bd9076b296d5b497b43526f56f"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv310ksl_vec4_t" title="ksl_vec4_t">ksl_vec4_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N10ksl_vec4_tUt2_71E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv38ksl_vec4KdKdKdKd">
+<span id="_CPPv28ksl_vec4KdKdKdKd"></span><span id="ksl_vec4__doubleC.doubleC.doubleC.doubleC"></span><span class="target" id="vector_8h_1afd6bb01fca0d56d7514eae51b205c9a7"></span><a class="reference internal" href="#_CPPv310ksl_vec4_t" title="ksl_vec4_t">ksl_vec4_t</a> <code class="descname">ksl_vec4</code><span class="sig-paren">(</span><em class="property">const</em> double <em>x</em>, <em class="property">const</em> double <em>y</em>, <em class="property">const</em> double <em>z</em>, <em class="property">const</em> double <em>w</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv38ksl_vec4KdKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>vec4 constructor </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv314ksl_vec4_alloci">
+<span id="_CPPv214ksl_vec4_alloci"></span><span id="ksl_vec4_alloc__i"></span><span class="target" id="vector_8h_1ad8219bcf00ad612fa1791efff35c0a54"></span><a class="reference internal" href="#_CPPv310ksl_vec4_t" title="ksl_vec4_t">ksl_vec4_t</a> *<code class="descname">ksl_vec4_alloc</code><span class="sig-paren">(</span>int<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv314ksl_vec4_alloci" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>initialize n <a class="reference internal" href="#unionksl__vec4__t"><span class="std std-ref">ksl_vec4_t</span></a> double precision vectors datastructures on the heap </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv315ksl_vec4_l2normPK10ksl_vec4_t">
+<span id="_CPPv215ksl_vec4_l2normPK10ksl_vec4_t"></span><span id="ksl_vec4_l2norm__ksl_vec4_tCP"></span><span class="target" id="vector_8h_1ac75b94fd01bd48fdf9c30cc3ae9172a9"></span>double <code class="descname">ksl_vec4_l2norm</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv310ksl_vec4_t" title="ksl_vec4_t">ksl_vec4_t</a> *<em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_vec4_l2normPK10ksl_vec4_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv318ksl_vec4_normalizeP10ksl_vec4_t">
+<span id="_CPPv218ksl_vec4_normalizeP10ksl_vec4_t"></span><span id="ksl_vec4_normalize__ksl_vec4_tP"></span><span class="target" id="vector_8h_1a52333541549ee703697a691755091413"></span>void <code class="descname">ksl_vec4_normalize</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv310ksl_vec4_t" title="ksl_vec4_t">ksl_vec4_t</a> *<em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_vec4_normalizeP10ksl_vec4_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv319ksl_vec4_normalizedPK10ksl_vec4_tP10ksl_vec4_t">
+<span id="_CPPv219ksl_vec4_normalizedPK10ksl_vec4_tP10ksl_vec4_t"></span><span id="ksl_vec4_normalized__ksl_vec4_tCP.ksl_vec4_tP"></span><span class="target" id="vector_8h_1a00b88f4eb0a002a2ec4a21840d1d3d14"></span>void <code class="descname">ksl_vec4_normalized</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv310ksl_vec4_t" title="ksl_vec4_t">ksl_vec4_t</a> *<em>v</em>, <a class="reference internal" href="#_CPPv310ksl_vec4_t" title="ksl_vec4_t">ksl_vec4_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_vec4_normalizedPK10ksl_vec4_tP10ksl_vec4_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv314ksl_vec4_scaleP10ksl_vec4_tKd">
+<span id="_CPPv214ksl_vec4_scaleP10ksl_vec4_tKd"></span><span id="ksl_vec4_scale__ksl_vec4_tP.doubleC"></span><span class="target" id="vector_8h_1a89c5b571ee03e1878687b1c57723c5d5"></span>void <code class="descname">ksl_vec4_scale</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv310ksl_vec4_t" title="ksl_vec4_t">ksl_vec4_t</a> *<em>v</em>, <em class="property">const</em> double<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv314ksl_vec4_scaleP10ksl_vec4_tKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv315ksl_vec4_scaledPK10ksl_vec4_tKdP10ksl_vec4_t">
+<span id="_CPPv215ksl_vec4_scaledPK10ksl_vec4_tKdP10ksl_vec4_t"></span><span id="ksl_vec4_scaled__ksl_vec4_tCP.doubleC.ksl_vec4_tP"></span><span class="target" id="vector_8h_1ac098278594bdaabd3139ef405997a75c"></span>void <code class="descname">ksl_vec4_scaled</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv310ksl_vec4_t" title="ksl_vec4_t">ksl_vec4_t</a> *<em>v</em>, <em class="property">const</em> double, <a class="reference internal" href="#_CPPv310ksl_vec4_t" title="ksl_vec4_t">ksl_vec4_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_vec4_scaledPK10ksl_vec4_tKdP10ksl_vec4_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv313ksl_vec4_copyPK10ksl_vec4_tP10ksl_vec4_t">
+<span id="_CPPv213ksl_vec4_copyPK10ksl_vec4_tP10ksl_vec4_t"></span><span id="ksl_vec4_copy__ksl_vec4_tCP.ksl_vec4_tP"></span><span class="target" id="vector_8h_1a22596d87e74def7448df4992c0b702c3"></span>void <code class="descname">ksl_vec4_copy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv310ksl_vec4_t" title="ksl_vec4_t">ksl_vec4_t</a> *<em>vi</em>, <a class="reference internal" href="#_CPPv310ksl_vec4_t" title="ksl_vec4_t">ksl_vec4_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv313ksl_vec4_copyPK10ksl_vec4_tP10ksl_vec4_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv313ksl_vec4_swapP10ksl_vec4_tP10ksl_vec4_t">
+<span id="_CPPv213ksl_vec4_swapP10ksl_vec4_tP10ksl_vec4_t"></span><span id="ksl_vec4_swap__ksl_vec4_tP.ksl_vec4_tP"></span><span class="target" id="vector_8h_1a7e6bbfba032008d7dfcf6ae98123d8ca"></span>void <code class="descname">ksl_vec4_swap</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv310ksl_vec4_t" title="ksl_vec4_t">ksl_vec4_t</a> *<em>v1</em>, <a class="reference internal" href="#_CPPv310ksl_vec4_t" title="ksl_vec4_t">ksl_vec4_t</a> *<em>v2</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv313ksl_vec4_swapP10ksl_vec4_tP10ksl_vec4_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv317ksl_vec4_invertedPK10ksl_vec4_tP10ksl_vec4_t">
+<span id="_CPPv217ksl_vec4_invertedPK10ksl_vec4_tP10ksl_vec4_t"></span><span id="ksl_vec4_inverted__ksl_vec4_tCP.ksl_vec4_tP"></span><span class="target" id="vector_8h_1a0a3c32903e08658f8d605177170f11e0"></span>void <code class="descname">ksl_vec4_inverted</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv310ksl_vec4_t" title="ksl_vec4_t">ksl_vec4_t</a> *<em>vi</em>, <a class="reference internal" href="#_CPPv310ksl_vec4_t" title="ksl_vec4_t">ksl_vec4_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv317ksl_vec4_invertedPK10ksl_vec4_tP10ksl_vec4_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv315ksl_vec4_invertP10ksl_vec4_t">
+<span id="_CPPv215ksl_vec4_invertP10ksl_vec4_t"></span><span id="ksl_vec4_invert__ksl_vec4_tP"></span><span class="target" id="vector_8h_1a16fcf7f2446c5e5e978b9001a6aaf9f4"></span>void <code class="descname">ksl_vec4_invert</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv310ksl_vec4_t" title="ksl_vec4_t">ksl_vec4_t</a> *<em>vi</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_vec4_invertP10ksl_vec4_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="single-precision">
+<h2>Single precision<a class="headerlink" href="#single-precision" title="Permalink to this headline">¶</a></h2>
+<dl class="type">
+<dt id="_CPPv311ksl_vec4f_t">
+<span id="_CPPv211ksl_vec4f_t"></span><span id="ksl_vec4f_t"></span><span class="target" id="unionksl__vec4f__t"></span><em class="property">union </em><code class="descname">ksl_vec4f_t</code><a class="headerlink" href="#_CPPv311ksl_vec4f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;vector.h&gt;</em><p>single precision 4x1 vector representing a 3x1 vector with a homogeneous coordinate (w) appended. </p>
+<p>Typically used for nonlinear transformations such as camera projections. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv3N11ksl_vec4f_t2atE">
+<span id="_CPPv2N11ksl_vec4f_t2atE"></span><span id="ksl_vec4f_t::at__floatA"></span><span class="target" id="unionksl__vec4f__t_1aec9b0d8aaf92553db022196620cbcddb"></span>float <code class="descname">at</code>[4]<a class="headerlink" href="#_CPPv3N11ksl_vec4f_t2atE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_vec4f_t1rE">
+<span id="_CPPv2N11ksl_vec4f_t1rE"></span><span id="ksl_vec4f_t::r__ksl_vec3f_t"></span><span class="target" id="unionksl__vec4f__t_1aa32cc84d175429264aa5e113af5e56d2"></span><a class="reference internal" href="vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <code class="descname">r</code><a class="headerlink" href="#_CPPv3N11ksl_vec4f_t1rE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_vec4f_t1xE">
+<span id="_CPPv2N11ksl_vec4f_t1xE"></span><span id="ksl_vec4f_t::x__float"></span><span class="target" id="unionksl__vec4f__t_1a6b94735d96bb29a1f37d6ab89eb76c3e"></span>float <code class="descname">x</code><a class="headerlink" href="#_CPPv3N11ksl_vec4f_t1xE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_vec4f_t1yE">
+<span id="_CPPv2N11ksl_vec4f_t1yE"></span><span id="ksl_vec4f_t::y__float"></span><span class="target" id="unionksl__vec4f__t_1aba46acdd3995ba22c2e56f77bbbdd121"></span>float <code class="descname">y</code><a class="headerlink" href="#_CPPv3N11ksl_vec4f_t1yE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_vec4f_t1zE">
+<span id="_CPPv2N11ksl_vec4f_t1zE"></span><span id="ksl_vec4f_t::z__float"></span><span class="target" id="unionksl__vec4f__t_1a332b54719ae9b66d7a827e7c76a126e8"></span>float <code class="descname">z</code><a class="headerlink" href="#_CPPv3N11ksl_vec4f_t1zE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_vec4f_t1wE">
+<span id="_CPPv2N11ksl_vec4f_t1wE"></span><span id="ksl_vec4f_t::w__float"></span><span class="target" id="unionksl__vec4f__t_1a813deba41fc54746642c4d6091a0c12f"></span>float <code class="descname">w</code><a class="headerlink" href="#_CPPv3N11ksl_vec4f_t1wE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_vec4f_tUt2_77E">
+<span class="target" id="unionksl__vec4f__t_1a3e00cfa278331c4bc5d345fc86a3bac7"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv311ksl_vec4f_t" title="ksl_vec4f_t">ksl_vec4f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N11ksl_vec4f_tUt2_77E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv39ksl_vec4fKfKfKfKf">
+<span id="_CPPv29ksl_vec4fKfKfKfKf"></span><span id="ksl_vec4f__floatC.floatC.floatC.floatC"></span><span class="target" id="vector_8h_1a54c592f1f7175d5a77a9ca3bd6af1181"></span><a class="reference internal" href="#_CPPv311ksl_vec4f_t" title="ksl_vec4f_t">ksl_vec4f_t</a> <code class="descname">ksl_vec4f</code><span class="sig-paren">(</span><em class="property">const</em> float <em>x</em>, <em class="property">const</em> float <em>y</em>, <em class="property">const</em> float <em>z</em>, <em class="property">const</em> float <em>w</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv39ksl_vec4fKfKfKfKf" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>vec4f constructor </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv315ksl_vec4f_alloci">
+<span id="_CPPv215ksl_vec4f_alloci"></span><span id="ksl_vec4f_alloc__i"></span><span class="target" id="vector_8h_1a67c0ecb326dd2dd17cb2467e2c33f067"></span><a class="reference internal" href="#_CPPv311ksl_vec4f_t" title="ksl_vec4f_t">ksl_vec4f_t</a> *<code class="descname">ksl_vec4f_alloc</code><span class="sig-paren">(</span>int<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_vec4f_alloci" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>initialize n <a class="reference internal" href="#unionksl__vec4f__t"><span class="std std-ref">ksl_vec4f_t</span></a> single precision vectors datastructures on the heap </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv316ksl_vec4f_l2normPK11ksl_vec4f_t">
+<span id="_CPPv216ksl_vec4f_l2normPK11ksl_vec4f_t"></span><span id="ksl_vec4f_l2norm__ksl_vec4f_tCP"></span><span class="target" id="vector_8h_1a791e5a988f602b0c398c98c221c84eb8"></span>float <code class="descname">ksl_vec4f_l2norm</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_vec4f_t" title="ksl_vec4f_t">ksl_vec4f_t</a> *<em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_vec4f_l2normPK11ksl_vec4f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv319ksl_vec4f_normalizeP11ksl_vec4f_t">
+<span id="_CPPv219ksl_vec4f_normalizeP11ksl_vec4f_t"></span><span id="ksl_vec4f_normalize__ksl_vec4f_tP"></span><span class="target" id="vector_8h_1ac9d5a002c1d8f215a01da7d948b007ec"></span>void <code class="descname">ksl_vec4f_normalize</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv311ksl_vec4f_t" title="ksl_vec4f_t">ksl_vec4f_t</a> *<em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_vec4f_normalizeP11ksl_vec4f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv320ksl_vec4f_normalizedPK11ksl_vec4f_tP11ksl_vec4f_t">
+<span id="_CPPv220ksl_vec4f_normalizedPK11ksl_vec4f_tP11ksl_vec4f_t"></span><span id="ksl_vec4f_normalized__ksl_vec4f_tCP.ksl_vec4f_tP"></span><span class="target" id="vector_8h_1a6391de001da1de61037cc65d1864005f"></span>void <code class="descname">ksl_vec4f_normalized</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_vec4f_t" title="ksl_vec4f_t">ksl_vec4f_t</a> *<em>v</em>, <a class="reference internal" href="#_CPPv311ksl_vec4f_t" title="ksl_vec4f_t">ksl_vec4f_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_vec4f_normalizedPK11ksl_vec4f_tP11ksl_vec4f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv315ksl_vec4f_scaleP11ksl_vec4f_tKf">
+<span id="_CPPv215ksl_vec4f_scaleP11ksl_vec4f_tKf"></span><span id="ksl_vec4f_scale__ksl_vec4f_tP.floatC"></span><span class="target" id="vector_8h_1a1a6e1c46bddd0eb4350867b46eba1b4f"></span>void <code class="descname">ksl_vec4f_scale</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv311ksl_vec4f_t" title="ksl_vec4f_t">ksl_vec4f_t</a> *<em>v</em>, <em class="property">const</em> float<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_vec4f_scaleP11ksl_vec4f_tKf" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv316ksl_vec4f_scaledPK11ksl_vec4f_tKfP11ksl_vec4f_t">
+<span id="_CPPv216ksl_vec4f_scaledPK11ksl_vec4f_tKfP11ksl_vec4f_t"></span><span id="ksl_vec4f_scaled__ksl_vec4f_tCP.floatC.ksl_vec4f_tP"></span><span class="target" id="vector_8h_1ab8e360a3c49fd6c509df3bd84500b014"></span>void <code class="descname">ksl_vec4f_scaled</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_vec4f_t" title="ksl_vec4f_t">ksl_vec4f_t</a> *<em>v</em>, <em class="property">const</em> float, <a class="reference internal" href="#_CPPv311ksl_vec4f_t" title="ksl_vec4f_t">ksl_vec4f_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_vec4f_scaledPK11ksl_vec4f_tKfP11ksl_vec4f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv314ksl_vec4f_copyPK11ksl_vec4f_tP11ksl_vec4f_t">
+<span id="_CPPv214ksl_vec4f_copyPK11ksl_vec4f_tP11ksl_vec4f_t"></span><span id="ksl_vec4f_copy__ksl_vec4f_tCP.ksl_vec4f_tP"></span><span class="target" id="vector_8h_1a5aab9f24d582c497c8c4b82ee3c6afad"></span>void <code class="descname">ksl_vec4f_copy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_vec4f_t" title="ksl_vec4f_t">ksl_vec4f_t</a> *<em>vi</em>, <a class="reference internal" href="#_CPPv311ksl_vec4f_t" title="ksl_vec4f_t">ksl_vec4f_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv314ksl_vec4f_copyPK11ksl_vec4f_tP11ksl_vec4f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv314ksl_vec4f_swapP11ksl_vec4f_tP11ksl_vec4f_t">
+<span id="_CPPv214ksl_vec4f_swapP11ksl_vec4f_tP11ksl_vec4f_t"></span><span id="ksl_vec4f_swap__ksl_vec4f_tP.ksl_vec4f_tP"></span><span class="target" id="vector_8h_1afcfd75bcf9647562007dcd408724f400"></span>void <code class="descname">ksl_vec4f_swap</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv311ksl_vec4f_t" title="ksl_vec4f_t">ksl_vec4f_t</a> *<em>v1</em>, <a class="reference internal" href="#_CPPv311ksl_vec4f_t" title="ksl_vec4f_t">ksl_vec4f_t</a> *<em>v2</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv314ksl_vec4f_swapP11ksl_vec4f_tP11ksl_vec4f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv318ksl_vec4f_invertedPK11ksl_vec4f_tP11ksl_vec4f_t">
+<span id="_CPPv218ksl_vec4f_invertedPK11ksl_vec4f_tP11ksl_vec4f_t"></span><span id="ksl_vec4f_inverted__ksl_vec4f_tCP.ksl_vec4f_tP"></span><span class="target" id="vector_8h_1a8f6e214555d3334d70f260079a35341b"></span>void <code class="descname">ksl_vec4f_inverted</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_vec4f_t" title="ksl_vec4f_t">ksl_vec4f_t</a> *<em>vi</em>, <a class="reference internal" href="#_CPPv311ksl_vec4f_t" title="ksl_vec4f_t">ksl_vec4f_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_vec4f_invertedPK11ksl_vec4f_tP11ksl_vec4f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv316ksl_vec4f_invertP11ksl_vec4f_t">
+<span id="_CPPv216ksl_vec4f_invertP11ksl_vec4f_t"></span><span id="ksl_vec4f_invert__ksl_vec4f_tP"></span><span class="target" id="vector_8h_1a8c5947e04e37bd74d04aa2a46f7807de"></span>void <code class="descname">ksl_vec4f_invert</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv311ksl_vec4f_t" title="ksl_vec4f_t">ksl_vec4f_t</a> *<em>vi</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_vec4f_invertP11ksl_vec4f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="integer">
+<h2>Integer<a class="headerlink" href="#integer" title="Permalink to this headline">¶</a></h2>
+<dl class="type">
+<dt id="_CPPv311ksl_vec4i_t">
+<span id="_CPPv211ksl_vec4i_t"></span><span id="ksl_vec4i_t"></span><span class="target" id="unionksl__vec4i__t"></span><em class="property">union </em><code class="descname">ksl_vec4i_t</code><a class="headerlink" href="#_CPPv311ksl_vec4i_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv3N11ksl_vec4i_t2atE">
+<span id="_CPPv2N11ksl_vec4i_t2atE"></span><span id="ksl_vec4i_t::at__iA"></span><span class="target" id="unionksl__vec4i__t_1acb8e0fac4f466b699d6c8d9d01f5ef6d"></span>int <code class="descname">at</code>[4]<a class="headerlink" href="#_CPPv3N11ksl_vec4i_t2atE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_vec4i_t1rE">
+<span id="_CPPv2N11ksl_vec4i_t1rE"></span><span id="ksl_vec4i_t::r__ksl_vec3i_t"></span><span class="target" id="unionksl__vec4i__t_1ac7ac0387966593bd931cda338b8d5f44"></span><a class="reference internal" href="vec3.html#_CPPv311ksl_vec3i_t" title="ksl_vec3i_t">ksl_vec3i_t</a> <code class="descname">r</code><a class="headerlink" href="#_CPPv3N11ksl_vec4i_t1rE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_vec4i_t1xE">
+<span id="_CPPv2N11ksl_vec4i_t1xE"></span><span id="ksl_vec4i_t::x__i"></span><span class="target" id="unionksl__vec4i__t_1ad22b920fabeaec4c0f4456c3c4b75a78"></span>int <code class="descname">x</code><a class="headerlink" href="#_CPPv3N11ksl_vec4i_t1xE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_vec4i_t1yE">
+<span id="_CPPv2N11ksl_vec4i_t1yE"></span><span id="ksl_vec4i_t::y__i"></span><span class="target" id="unionksl__vec4i__t_1ac9ef8099cb1c358396a3488b300b3e32"></span>int <code class="descname">y</code><a class="headerlink" href="#_CPPv3N11ksl_vec4i_t1yE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_vec4i_t1zE">
+<span id="_CPPv2N11ksl_vec4i_t1zE"></span><span id="ksl_vec4i_t::z__i"></span><span class="target" id="unionksl__vec4i__t_1a09db6bed8b9ab463785d155c70bffed5"></span>int <code class="descname">z</code><a class="headerlink" href="#_CPPv3N11ksl_vec4i_t1zE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_vec4i_t1wE">
+<span id="_CPPv2N11ksl_vec4i_t1wE"></span><span id="ksl_vec4i_t::w__i"></span><span class="target" id="unionksl__vec4i__t_1aca9397cde9ea0635b766803bc11c99ed"></span>int <code class="descname">w</code><a class="headerlink" href="#_CPPv3N11ksl_vec4i_t1wE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N11ksl_vec4i_tUt2_83E">
+<span class="target" id="unionksl__vec4i__t_1acde3ecc29e1923fb085f61e89897733f"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv311ksl_vec4i_t" title="ksl_vec4i_t">ksl_vec4i_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N11ksl_vec4i_tUt2_83E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv39ksl_vec4iKiKiKiKi">
+<span id="_CPPv29ksl_vec4iKiKiKiKi"></span><span id="ksl_vec4i__iC.iC.iC.iC"></span><span class="target" id="vector_8h_1a7c19972f3b88a060bc37371df2e58b7d"></span><a class="reference internal" href="#_CPPv311ksl_vec4i_t" title="ksl_vec4i_t">ksl_vec4i_t</a> <code class="descname">ksl_vec4i</code><span class="sig-paren">(</span><em class="property">const</em> int <em>x</em>, <em class="property">const</em> int <em>y</em>, <em class="property">const</em> int <em>z</em>, <em class="property">const</em> int <em>w</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv39ksl_vec4iKiKiKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv315ksl_vec4i_alloci">
+<span id="_CPPv215ksl_vec4i_alloci"></span><span id="ksl_vec4i_alloc__i"></span><span class="target" id="vector_8h_1a6942778c81cae89afc59b8e78381dec7"></span><a class="reference internal" href="#_CPPv311ksl_vec4i_t" title="ksl_vec4i_t">ksl_vec4i_t</a> *<code class="descname">ksl_vec4i_alloc</code><span class="sig-paren">(</span>int<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_vec4i_alloci" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>initialize n <a class="reference internal" href="#unionksl__vec4i__t"><span class="std std-ref">ksl_vec4i_t</span></a> vectors of integers on the heap </p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018, Kristopher Wehage, Roger Wehage.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.0+</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="../_sources/vectors/vec4.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

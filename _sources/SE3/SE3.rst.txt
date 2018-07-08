@@ -1,24 +1,11 @@
 .. _SE3:
-.. title:: SO(3) and SE(3)
-
-
-SO(3) and SE(3) Groups
-======================
-
-SO(3)
------
-
-The Special Orthogonal group, SO(3), consists of the set of 3x3 orthonormal matrices for rigid body rotations.
-
-SE3 matrices have the property that:
-
-.. math::
-
-    R^{-1} = R^T
-
+.. title:: SE(3)
 
 SE(3)
------
+=====
+
+Overview
+--------
 
 4x4 matrices for transforming homogeneous coordinates are commonly used to describe general rigid body displacements :cite:`uicker2013`.
 
@@ -26,7 +13,14 @@ SE(3)
 
     \Phi \in SE(3) = \begin{bmatrix}R & \underline{r}\\ 0 & 1 \end{bmatrix}
 
-Here :math:`R` is an orthonormal rotation matrix :math:`\in SE(3)` and :math:`\underline{r}` is a translation vector. In group theory, these 4x4 matrices are identified as the Special Euclidian group, SE(3).
+Here :math:`R` is an orthonormal rotation matrix that is a member of the Special Orthogonal Group (:math:`\in SO(3)`) with the property:
+
+.. math::
+
+    R^{-1} = R^T
+
+
+and :math:`\underline{r}` is a translation vector. In group theory, this set of 4x4 matrices is identified as the Special Euclidian group, SE(3).
 
 SE(3) matrices have the property that:
 
@@ -47,134 +41,9 @@ Consider how the 3 dimensional vector :math:`\underline{v}_a` is transformed to 
 
 The notation provided by the SE(3) group is convenient for its compact notation in that it encapsulates general rigid body rotation and translation in one symbol. However, this example demonstrates that when composing rigid body transformations, there is no need to perform the full 4x4 matrix multiplication or store the 0s and 1s. *KSL* has a special datastructure for rigid body transformations called *ksl_SE3_t* and a collection of functions that perform only the minimum number of operations for composing rigid body transformations and transforming vectors.
 
-Rigid body rotations
---------------------
 
-double precision
-****************
-
-.. doxygenunion:: ksl_mat3x3_t
-
-
-.. doxygenfunction:: ksl_mat3x3
-
-
-.. doxygenfunction:: ksl_mat3x3_cmo
-
-
-.. doxygenfunction:: ksl_mat3x3_alloc
-
-
-.. doxygenfunction:: ksl_mat3x3_setIdentity
-
-
-.. doxygenfunction:: ksl_mat3x3_set
-
-
-.. doxygenfunction:: ksl_mat3x3_setFromVectors
-
-
-.. doxygenfunction:: ksl_mat3x3_get
-
-
-.. doxygenfunction:: ksl_mat3x3_copy
-
-
-.. doxygenfunction:: ksl_mat3x3_invert
-
-
-.. doxygenfunction:: ksl_mat3x3_inverted
-
-
-.. doxygenfunction:: ksl_mat3x3_transpose
-
-
-.. doxygenfunction:: ksl_mat3x3_transposed
-
-
-.. doxygenmacro:: ksl_mat3x3_getEulerAngles
-
-
-.. doxygenfunction:: ksl_mat3x3_getEulerAnglesWithReference
-
-
-.. doxygenfunction:: ksl_mat3x3_setFromEulerAngles
-
-
-.. doxygenfunction:: ksl_mat3x3_getAxisAngle
-
-
-.. doxygenfunction:: ksl_mat3x3_setFromAxisAngle
-
-
-.. doxygenfunction:: ksl_mat3x3_determinant
-
-
-single precision
-****************
-
-.. doxygenunion:: ksl_mat3x3f_t
-
-
-.. doxygenfunction:: ksl_mat3x3f
-
-
-.. doxygenfunction:: ksl_mat3x3f_cmo
-
-
-.. doxygenfunction:: ksl_mat3x3f_alloc
-
-
-.. doxygenfunction:: ksl_mat3x3f_setIdentity
-
-
-.. doxygenfunction:: ksl_mat3x3f_set
-
-
-.. doxygenfunction:: ksl_mat3x3f_setFromVectors
-
-
-.. doxygenfunction:: ksl_mat3x3f_get
-
-
-.. doxygenfunction:: ksl_mat3x3f_copy
-
-
-.. doxygenfunction:: ksl_mat3x3f_invert
-
-
-.. doxygenfunction:: ksl_mat3x3f_inverted
-
-
-.. doxygenfunction:: ksl_mat3x3f_transpose
-
-
-.. doxygenfunction:: ksl_mat3x3f_transposed
-
-
-.. doxygenmacro:: ksl_mat3x3f_getEulerAngles
-
-
-.. doxygenfunction:: ksl_mat3x3f_getEulerAnglesWithReference
-
-
-.. doxygenfunction:: ksl_mat3x3f_setFromEulerAngles
-
-
-.. doxygenfunction:: ksl_mat3x3f_getAxisAngle
-
-
-.. doxygenfunction:: ksl_mat3x3f_setFromAxisAngle
-
-
-.. doxygenfunction:: ksl_mat3x3f_determinant
-
-
-Rigid body transformations
---------------------------
-
-double precision
-****************
+Double precision
+----------------
 
 .. doxygenunion:: ksl_SE3_t
 
@@ -218,8 +87,8 @@ double precision
 .. doxygenfunction:: ksl_SE3_copy
 
 
-single precision
-****************
+Single precision
+----------------
 
 .. doxygenunion:: ksl_SE3f_t
 
@@ -260,79 +129,11 @@ single precision
 .. doxygenfunction:: ksl_SE3f_copy
 
 
-4x4 matrices
--------------
-
-double precision
-****************
-
-.. doxygenunion:: ksl_mat4x4_t
-
-
-.. doxygenfunction:: ksl_mat4x4
-
-
-.. doxygenfunction:: ksl_mat4x4_cmo
-
-
-.. doxygenfunction:: ksl_mat4x4_fromSE3
-
-
-.. doxygenfunction:: ksl_mat4x4_fromRt
-
-
-.. doxygenfunction:: ksl_mat4x4_alloc
-
-
-.. doxygenfunction:: ksl_mat4x4_set
-
-
-.. doxygenfunction:: ksl_mat4x4_setIdentity
-
-
-.. doxygenfunction:: ksl_mat4x4_getTranslation
-
-
-.. doxygenfunction:: ksl_mat4x4_get
-
-
-single precision
-****************
-
-.. doxygenunion:: ksl_mat4x4f_t
-
-
-.. doxygenfunction:: ksl_mat4x4f
-
-
-.. doxygenfunction:: ksl_mat4x4f_cmo
-
-
-.. doxygenfunction:: ksl_mat4x4f_fromSE3f
-
-
-.. doxygenfunction:: ksl_mat4x4f_fromRt
-
-
-.. doxygenfunction:: ksl_mat4x4f_alloc
-
-
-.. doxygenfunction:: ksl_mat4x4f_set
-
-
-.. doxygenfunction:: ksl_mat4x4f_setIdentity
-
-
-.. doxygenfunction:: ksl_mat4x4f_getTranslation
-
-
-.. doxygenfunction:: ksl_mat4x4f_get
-
 
 Matrix-vector operations
 ------------------------
 
-double precision
+Double precision
 ****************
 
 .. doxygenfunction:: ksl_product_drv
@@ -365,7 +166,7 @@ double precision
 .. doxygenfunction:: ksl_product_drvtzinv
 
 
-single precision
+Single precision
 ****************
 
 .. doxygenfunction:: ksl_product_drvf
@@ -401,7 +202,7 @@ single precision
 Matrix-matrix operations
 ---------------------------------------------
 
-double precision
+Double precision
 ****************
 
 .. doxygenfunction:: ksl_product_drdrx
@@ -494,7 +295,7 @@ double precision
 .. doxygenfunction:: ksl_product_ddinv
 
 
-single precision
+Single precision
 ****************
 
 .. doxygenfunction:: ksl_product_drdrxf
