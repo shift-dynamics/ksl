@@ -17,7 +17,6 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Global Namespace" href="doxyrest/global.html" />
     <link rel="prev" title="Contributing" href="contributing/contributing.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -47,18 +46,16 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notation/notation.html">Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vectors/vectors.html">Vectors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SE3/SE3.html">SE3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SE3/SE3.html">SO(3) and SE(3) Groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quaternions/quaternions.html">Quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trig/trig.html">Trigonometric Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screws/screws.html">Screws</a></li>
 <li class="toctree-l1"><a class="reference internal" href="coscrews/coscrews.html">Coscrews</a></li>
-<li class="toctree-l1"><a class="reference internal" href="influence_coefficient_matrices/influence_coefficient_matrices.html">Influence Coefficient Matrices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inertia/inertia.html">Inertia</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lu_full/lu_full.html">Full Factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg/linalg.html">Linear Algebra</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing/contributing.html">Contributing</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">References</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="doxyrest/global.html">Global Namespace</a></li>
 </ul>
 
 <div class="relations">
@@ -66,7 +63,6 @@
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="contributing/contributing.html" title="previous chapter">Contributing</a></li>
-      <li>Next: <a href="doxyrest/global.html" title="next chapter">Global Namespace</a></li>
   </ul></li>
 </ul>
 </div>
@@ -90,10 +86,76 @@
 
           <div class="body" role="main">
             
-  <p class="rubric">References</p>
-<div class="section" id="references">
+  <div class="section" id="references">
 <h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
 </div>
+<p id="bibtex-bibliography-zreferences-0"><table class="docutils citation" frame="void" id="ball1998treatise" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td>R.&nbsp;S. Ball. <em>A Treatise on the Theory of Screws</em>. Cambridge university press, 1900. reprinted in 1998.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="chasles1830note" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td>M.&nbsp;Chasles. Note sur les propriétés générales du système de deux corps semblables entr’eux et placés d’une manière quelconque dans l’espace; et sur le déplacement fini ou infiniment petit d’un corps solide libre. <em>Bulletin des Sciences Mathématiques, Férussac</em>, 14:321–26, 1830.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="clifford1882mathematical" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[3]</td><td>W.&nbsp;Clifford. <em>Mathematical Papers</em>. Macmillan, London, 1882.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="davidson2004robots" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[4]</td><td>J.K. Davidson and K.H. Hunt. <em>Robots and screw theory: applications of kinematics and statics to robotics</em>. Oxford University Press, 2004.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="park1995lie" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[5]</td><td>F.C. Park, J.E. Bobrow, and S.R. Ploen. A lie group formulation of robot dynamics. <em>The International Journal of Robotics Research</em>, 14(6):609–618, 1995.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="poinsot1806composition" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[6]</td><td>L.&nbsp;Poinsot. <em>Sur la composition des momens et la composition des aires</em>. 1806.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="selig2005geometric" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[7]</td><td>J.&nbsp;M. Selig. <em>Geometric Fundamentals of Robotics</em>. Monographs in Computer Science. Springer, 2005. ISBN 9780387208749.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="shabana2010computational" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[8]</td><td>A.A. Shabana. <em>Computational Dynamics, 3rd Edition</em>. Wiley, 2010. ISBN 9780470686157.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="tsai1999robot" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[9]</td><td>L.W. Tsai. <em>Robot analysis: the mechanics of serial and parallel manipulators</em>. John Wiley &amp; Sons, 1999.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="uicker2013" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[10]</td><td>J.J. Uicker, B.&nbsp;Ravani, and P.N. Sheth. <em>Matrix Methods in the Design Analysis of Mechanisms and Multibody Systems</em>. Cambridge University Press, 2013.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="yuan1970kinematic" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[11]</td><td>M.&nbsp;Yuan and F.&nbsp;Freudenstein. Kinematic analysis of spatial mechanisms by means of screw coordinates — part 2: analysis of spatial mechanisms. In volume&nbsp;93, 67–73. ASME, 1970.</td></tr>
+</tbody>
+</table>
+</p>
 
 
           </div>

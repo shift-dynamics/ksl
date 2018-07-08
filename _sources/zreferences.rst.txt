@@ -1,9 +1,9 @@
-.. only:: html
+.. .. only:: html
 
     .. title:: References
 
 
-.. only:: html
+.. .. only:: html
 
    .. rubric:: References
 

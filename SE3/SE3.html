@@ -108,7 +108,7 @@
 </div>
 <div class="section" id="se-3">
 <h2>SE(3)<a class="headerlink" href="#se-3" title="Permalink to this headline">¶</a></h2>
-<p>4x4 matrices for transforming homogeneous coordinates are commonly used to describe general rigid body displacements <a href="#id1"><span class="problematic" id="id2">:cite:`uicker2013`</span></a>.</p>
+<p>4x4 matrices for transforming homogeneous coordinates are commonly used to describe general rigid body displacements <a class="reference internal" href="../zreferences.html#uicker2013" id="id1">[10]</a>.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\Phi \in SE(3) = \begin{bmatrix}R &amp; \underline{r}\\ 0 &amp; 1 \end{bmatrix}\end{split}\]</div>
 <p>Here <span class="math notranslate nohighlight">\(R\)</span> is an orthonormal rotation matrix <span class="math notranslate nohighlight">\(\in SE(3)\)</span> and <span class="math notranslate nohighlight">\(\underline{r}\)</span> is a translation vector. In group theory, these 4x4 matrices are identified as the Special Euclidian group, SE(3).</p>
@@ -556,8 +556,8 @@
 </div>
 <div class="section" id="rigid-body-transformations">
 <h2>Rigid body transformations<a class="headerlink" href="#rigid-body-transformations" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id3">
-<h3>double precision<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h3>double precision<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <dl class="type">
 <dt id="_CPPv39ksl_SE3_t">
 <span id="_CPPv29ksl_SE3_t"></span><span id="ksl_SE3_t"></span><span class="target" id="unionksl___s_e3__t"></span><em class="property">union </em><code class="descname">ksl_SE3_t</code><a class="headerlink" href="#_CPPv39ksl_SE3_t" title="Permalink to this definition">¶</a><br /></dt>
@@ -795,8 +795,8 @@
 </dd></dl>
 
 </div>
-<div class="section" id="id4">
-<h3>single precision<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>single precision<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <dl class="type">
 <dt id="_CPPv310ksl_SE3f_t">
 <span id="_CPPv210ksl_SE3f_t"></span><span id="ksl_SE3f_t"></span><span class="target" id="unionksl___s_e3f__t"></span><em class="property">union </em><code class="descname">ksl_SE3f_t</code><a class="headerlink" href="#_CPPv310ksl_SE3f_t" title="Permalink to this definition">¶</a><br /></dt>
@@ -1022,8 +1022,8 @@
 </div>
 <div class="section" id="x4-matrices">
 <h2>4x4 matrices<a class="headerlink" href="#x4-matrices" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id5">
-<h3>double precision<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h3>double precision<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <dl class="type">
 <dt id="_CPPv312ksl_mat4x4_t">
 <span id="_CPPv212ksl_mat4x4_t"></span><span id="ksl_mat4x4_t"></span><span class="target" id="unionksl__mat4x4__t"></span><em class="property">union </em><code class="descname">ksl_mat4x4_t</code><a class="headerlink" href="#_CPPv312ksl_mat4x4_t" title="Permalink to this definition">¶</a><br /></dt>
@@ -1221,8 +1221,8 @@
 </dd></dl>
 
 </div>
-<div class="section" id="id6">
-<h3>single precision<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>single precision<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <dl class="type">
 <dt id="_CPPv313ksl_mat4x4f_t">
 <span id="_CPPv213ksl_mat4x4f_t"></span><span id="ksl_mat4x4f_t"></span><span class="target" id="unionksl__mat4x4f__t"></span><em class="property">union </em><code class="descname">ksl_mat4x4f_t</code><a class="headerlink" href="#_CPPv313ksl_mat4x4f_t" title="Permalink to this definition">¶</a><br /></dt>
@@ -1423,8 +1423,8 @@
 </div>
 <div class="section" id="matrix-vector-operations">
 <h2>Matrix-vector operations<a class="headerlink" href="#matrix-vector-operations" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id7">
-<h3>double precision<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3>double precision<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="_CPPv315ksl_product_drvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t">
 <span id="_CPPv215ksl_product_drvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t"></span><span id="ksl_product_drv__ksl_mat3x3_tCP.ksl_vec3_tCP.ksl_vec3_tP"></span><span class="target" id="matrix_8h_1a403d3115123b4f76a6f27ec5ca7ce274"></span>void <code class="descname">ksl_product_drv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vi</em>, <a class="reference internal" href="../vectors/vectors.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_product_drvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
@@ -1486,8 +1486,8 @@
 </dd></dl>
 
 </div>
-<div class="section" id="id8">
-<h3>single precision<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3>single precision<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="_CPPv316ksl_product_drvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t">
 <span id="_CPPv216ksl_product_drvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t"></span><span id="ksl_product_drvf__ksl_mat3x3f_tCP.ksl_vec3f_tCP.ksl_vec3f_tP"></span><span class="target" id="matrix_8h_1aecf5aac9412aa19ae834d319ebd98ea5"></span>void <code class="descname">ksl_product_drvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vi</em>, <a class="reference internal" href="../vectors/vectors.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_product_drvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
@@ -1552,8 +1552,8 @@
 </div>
 <div class="section" id="matrix-matrix-operations">
 <h2>Matrix-matrix operations<a class="headerlink" href="#matrix-matrix-operations" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id9">
-<h3>double precision<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>double precision<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="_CPPv317ksl_product_drdrxPK12ksl_mat3x3_tAL2E_KdP12ksl_mat3x3_t">
 <span id="_CPPv217ksl_product_drdrxPK12ksl_mat3x3_tA2_KdP12ksl_mat3x3_t"></span><span id="ksl_product_drdrx__ksl_mat3x3_tCP.doubleCA.ksl_mat3x3_tP"></span><span class="target" id="matrix_8h_1ab28fd58fa54787c6d00e8583551f269b"></span>void <code class="descname">ksl_product_drdrx</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> double <em>dc</em>[2], <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ro</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv317ksl_product_drdrxPK12ksl_mat3x3_tAL2E_KdP12ksl_mat3x3_t" title="Permalink to this definition">¶</a><br /></dt>
@@ -1735,8 +1735,8 @@
 </dd></dl>
 
 </div>
-<div class="section" id="id10">
-<h3>single precision<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>single precision<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="_CPPv318ksl_product_drdrxfPK13ksl_mat3x3f_tAL2E_KfP13ksl_mat3x3f_t">
 <span id="_CPPv218ksl_product_drdrxfPK13ksl_mat3x3f_tA2_KfP13ksl_mat3x3f_t"></span><span id="ksl_product_drdrxf__ksl_mat3x3f_tCP.floatCA.ksl_mat3x3f_tP"></span><span class="target" id="matrix_8h_1a841e4404e3180416561d1eb85f42f752"></span>void <code class="descname">ksl_product_drdrxf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <em class="property">const</em> float <em>dc</em>[2], <a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ro</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_product_drdrxfPK13ksl_mat3x3f_tAL2E_KfP13ksl_mat3x3f_t" title="Permalink to this definition">¶</a><br /></dt>

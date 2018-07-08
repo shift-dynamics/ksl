@@ -17,8 +17,6 @@
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Inertia" href="../inertia/inertia.html" />
-    <link rel="prev" title="Coscrews" href="../coscrews/coscrews.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -42,31 +40,27 @@
 
 
 <h3>Navigation</h3>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notation/notation.html">Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../vectors/vectors.html">Vectors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SE3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SE3/SE3.html">SO(3) and SE(3) Groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quaternions/quaternions.html">Quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trig/trig.html">Trigonometric Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../screws/screws.html">Screws</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../coscrews/coscrews.html">Coscrews</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Influence Coefficient Matrices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../inertia/inertia.html">Inertia</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../lu_full/lu_full.html">Full Factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../linalg/linalg.html">Linear Algebra</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing/contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../zreferences.html">References</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../doxyrest/global.html">Global Namespace</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="../coscrews/coscrews.html" title="previous chapter">Coscrews</a></li>
-      <li>Next: <a href="../inertia/inertia.html" title="next chapter">Inertia</a></li>
   </ul></li>
 </ul>
 </div>
@@ -101,7 +95,7 @@
 \begin{Bmatrix}
 0\\0\\ 0 \\0 \\0 \\1
 \end{Bmatrix}\dot{q}=\underline{\mathbf{h}}_a\dot{q}\end{split}\]</div>
-<p>Here <span class="math notranslate nohighlight">\(\underline{h}_a\)</span> is the <em>influence coefficient matrix</em> <a href="#id2"><span class="problematic" id="id3">:cite:`tsai1999robot`</span></a> associated with the joint. Note that the influence coefficient matrix taken at the joint’s origin is simply a unit twist, <span class="math notranslate nohighlight">\(\omega_z\)</span>, about the <span class="math notranslate nohighlight">\(z\)</span> axis.</p>
+<p>Here <span class="math notranslate nohighlight">\(\underline{h}_a\)</span> is the <em>influence coefficient matrix</em> <a class="reference internal" href="../zreferences.html#tsai1999robot" id="id2">[9]</a> associated with the joint. Note that the influence coefficient matrix taken at the joint’s origin is simply a unit twist, <span class="math notranslate nohighlight">\(\omega_z\)</span>, about the <span class="math notranslate nohighlight">\(z\)</span> axis.</p>
 <p>Usually it is desirable to express the influence coefficient matrix with respect to other coordinate systems, such as the inertial reference frame. Using the <span class="math notranslate nohighlight">\([Ad]\)</span> operator in Eq. <a class="reference internal" href="../screws/screws.html#equation-eq-screw">(9)</a> yields:</p>
 <div class="math notranslate nohighlight" id="equation-eq-influence-coefficient-matrix">
 <span class="eqno">(2)<a class="headerlink" href="#equation-eq-influence-coefficient-matrix" title="Permalink to this equation">¶</a></span>\[\begin{split}\underline{\mathbf{v}}_0=

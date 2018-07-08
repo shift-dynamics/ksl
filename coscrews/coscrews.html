@@ -97,7 +97,7 @@
             
   <div class="section" id="coscrews">
 <span id="id1"></span><h1>Coscrews<a class="headerlink" href="#coscrews" title="Permalink to this headline">¶</a></h1>
-<p>Just as the linear and angular velocities can be combined in to a single <span class="math notranslate nohighlight">\(6 \times 1\)</span> column vector, forces and moments can be combined in a single quantity called a <em>wrench</em>.  A wrench is <em>dual</em> to a screw, i.e., it is a linear operator on a screw. In older literature, a wrench is often referred to as another kind of screw. In modern literature, a wrenches are referred to as a <em>coscrews</em> <a href="#id2"><span class="problematic" id="id3">:cite:`selig2005geometric`</span></a>. A superscript <span class="math notranslate nohighlight">\(^*\)</span> is used to distinguish a coscrew from a screw. A wrench, <span class="math notranslate nohighlight">\(\underline{\mathbf{f}}^*\)</span>, is defined as</p>
+<p>Just as the linear and angular velocities can be combined in to a single <span class="math notranslate nohighlight">\(6 \times 1\)</span> column vector, forces and moments can be combined in a single quantity called a <em>wrench</em>.  A wrench is <em>dual</em> to a screw, i.e., it is a linear operator on a screw. In older literature, a wrench is often referred to as another kind of screw. In modern literature, a wrenches are referred to as a <em>coscrews</em> <a class="reference internal" href="../zreferences.html#selig2005geometric" id="id2">[7]</a>. A superscript <span class="math notranslate nohighlight">\(^*\)</span> is used to distinguish a coscrew from a screw. A wrench, <span class="math notranslate nohighlight">\(\underline{\mathbf{f}}^*\)</span>, is defined as</p>
 <div class="math notranslate nohighlight" id="equation-eq-wrench">
 <span class="eqno">(1)<a class="headerlink" href="#equation-eq-wrench" title="Permalink to this equation">¶</a></span>\[\begin{split}\underline{\mathbf{f}}^*=\begin{Bmatrix}\underline{f}\\ \underline{\tau}\end{Bmatrix}=
 \begin{Bmatrix}
@@ -145,17 +145,17 @@ R &amp; 0\\
 \tilde{r}R &amp; R
 \end{bmatrix}
 \underline{\mathbf{f}}^*\end{split}\]</div>
-<p>Therefore, the <span class="math notranslate nohighlight">\(6\times6\)</span> <em>coadjoint</em> transformation matrix for transforming coscrews is <a class="footnote-reference" href="#id5" id="id4">[1]</a> :</p>
+<p>Therefore, the <span class="math notranslate nohighlight">\(6\times6\)</span> <em>coadjoint</em> transformation matrix for transforming coscrews is <a class="footnote-reference" href="#id4" id="id3">[1]</a> :</p>
 <div class="math notranslate nohighlight" id="equation-eq-coadjoint-matrix">
 <span class="eqno">(6)<a class="headerlink" href="#equation-eq-coadjoint-matrix" title="Permalink to this equation">¶</a></span>\[\begin{split}[Ad]^* =
 \begin{bmatrix}
 R &amp; 0\\
 \tilde{r}R &amp; R
 \end{bmatrix}\end{split}\]</div>
-<table class="docutils footnote" frame="void" id="id5" rules="none">
+<table class="docutils footnote" frame="void" id="id4" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[1]</a></td><td><p class="first">Note that the linear components of force and velocity are found in the top position of the velocity screw and wrenches; the angular components are found in the lower position. This convention allows power to be computed using the linear algebra dot product operator. Many authors swap the angular and linear terms in screw and wrench quantities, in which case the dot product does not yield power, and a special “reciprocal product” operator, denoted as <span class="math notranslate nohighlight">\(\odot\)</span> is used. For example, if angular terms are placed above the velocity screws, a reciprocal product is used to combine screw and coscrew quantities as:</p>
+<tr><td class="label"><a class="fn-backref" href="#id3">[1]</a></td><td><p class="first">Note that the linear components of force and velocity are found in the top position of the velocity screw and wrenches; the angular components are found in the lower position. This convention allows power to be computed using the linear algebra dot product operator. Many authors swap the angular and linear terms in screw and wrench quantities, in which case the dot product does not yield power, and a special “reciprocal product” operator, denoted as <span class="math notranslate nohighlight">\(\odot\)</span> is used. For example, if angular terms are placed above the velocity screws, a reciprocal product is used to combine screw and coscrew quantities as:</p>
 <p><span class="math notranslate nohighlight">\(p = \underline{f}\cdot{\underline{v}} + \underline{\tau} \cdot \underline{\omega}=\mathscr{\underline{W}} \odot \underline{\$} = \begin{Bmatrix}\underline{f}\\ \underline{\tau}
 \end{Bmatrix}^T \begin{bmatrix}
 0 &amp; I\\
