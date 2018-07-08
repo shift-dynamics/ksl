@@ -184,7 +184,7 @@ Single precision
 
 
 
-integer
+Integer
 -------
 
 .. doxygenunion:: ksl_vec3i_t

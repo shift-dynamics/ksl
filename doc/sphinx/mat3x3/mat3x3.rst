@@ -4,7 +4,7 @@
 3x3 Matrices
 ============
 
-double precision
+Double precision
 ----------------
 
 .. doxygenunion:: ksl_mat3x3_t
@@ -64,7 +64,7 @@ double precision
 .. doxygenfunction:: ksl_mat3x3_determinant
 
 
-single precision
+Single precision
 ----------------
 
 .. doxygenunion:: ksl_mat3x3f_t
