@@ -1,8 +1,11 @@
+.. _quaternions:
+.. title:: Quaternions
+
 Quaternions
 ===========
 
 
-double precision
+Double precision
 ----------------
 
 .. doxygenunion:: ksl_quaternion_t
@@ -146,7 +149,7 @@ double precision
 
 
 
-single precision
+Single precision
 ----------------
 
 .. doxygenunion:: ksl_quaternionf_t

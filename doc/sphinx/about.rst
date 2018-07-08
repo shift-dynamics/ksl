@@ -9,4 +9,4 @@ About
 
 The code is available open-source with minimal restrictions. If you find the code to be useful in your projects, we would love to hear from you.
 
-This website is a work in progress. Please refer to the `GitHub issues <https://github.com/shift-dynamics/ksl/issues>`_ page for the latest status.
+This website is a work in progress. Please refer to the `GitHub issues <https://github.com/shift-dynamics/ksl/issues>`_ page for the latest development status.

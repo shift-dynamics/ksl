@@ -43,7 +43,7 @@ extensions = [
     'sphinx.ext.viewcode',
     'breathe',
     'numfig',
-    # 'sphinxcontrib.bibtex',
+    'sphinxcontrib.bibtex',
     'doxyrest',
     'cpplexer'
 ]
