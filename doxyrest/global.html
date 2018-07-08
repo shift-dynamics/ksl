@@ -57,6 +57,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../coscrews/coscrews.html">Coscrews</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../inertia/inertia.html">Inertia</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../linalg/linalg.html">Linear Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../print-debug/print-debug.html">Printing and debugging</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing/contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../zreferences.html">References</a></li>
@@ -1278,16 +1279,16 @@
 
 <span class="kt">void</span>
 <a class="reference internal" href="#doxid-matrix-8h-1a1d998186da1242f36e0d3c1b26073239"><span class="std std-ref">ksl_mat3x3_setFromEulerAngles</span></a><span></span> <span class="p">(</span>
-    <a class="reference internal" href="union_ksl_mat3x3_t.html#doxid-unionksl-mat3x3-t"><span class="std std-ref">ksl_mat3x3_t</span></a><span></span><span class="o">*</span> <span class="n">r</span><span class="p">,</span>
+    <a class="reference internal" href="union_ksl_mat3x3_t.html#doxid-unionksl-mat3x3-t"><span class="std std-ref">ksl_mat3x3_t</span></a><span></span><span class="o">*</span><span class="p">,</span>
     <span class="k">const</span> <span class="n">ksl_axis_enum_t</span> <span class="n">axisType</span><span class="p">,</span>
-    <span class="k">const</span> <a class="reference internal" href="union_ksl_vec3_t.html#doxid-unionksl-vec3-t"><span class="std std-ref">ksl_vec3_t</span></a><span></span><span class="o">*</span> <span class="n">angles</span>
+    <span class="k">const</span> <a class="reference internal" href="union_ksl_vec3_t.html#doxid-unionksl-vec3-t"><span class="std std-ref">ksl_vec3_t</span></a><span></span><span class="o">*</span>
     <span class="p">)</span>
 
 <span class="kt">void</span>
 <a class="reference internal" href="#doxid-matrix-8h-1a39aacd9b358f91bcf9ca414892f5d0fc"><span class="std std-ref">ksl_mat3x3f_setFromEulerAngles</span></a><span></span> <span class="p">(</span>
-    <a class="reference internal" href="union_ksl_mat3x3f_t.html#doxid-unionksl-mat3x3f-t"><span class="std std-ref">ksl_mat3x3f_t</span></a><span></span><span class="o">*</span> <span class="n">r</span><span class="p">,</span>
+    <a class="reference internal" href="union_ksl_mat3x3f_t.html#doxid-unionksl-mat3x3f-t"><span class="std std-ref">ksl_mat3x3f_t</span></a><span></span><span class="o">*</span><span class="p">,</span>
     <span class="k">const</span> <span class="n">ksl_axis_enum_t</span> <span class="n">axisType</span><span class="p">,</span>
-    <span class="k">const</span> <a class="reference internal" href="union_ksl_vec3f_t.html#doxid-unionksl-vec3f-t"><span class="std std-ref">ksl_vec3f_t</span></a><span></span><span class="o">*</span> <span class="n">angles</span>
+    <span class="k">const</span> <a class="reference internal" href="union_ksl_vec3f_t.html#doxid-unionksl-vec3f-t"><span class="std std-ref">ksl_vec3f_t</span></a><span></span><span class="o">*</span>
     <span class="p">)</span>
 
 <span class="kt">void</span>
@@ -5960,13 +5961,12 @@
 <pre class="highlight title-code-block literal-block" id="cid-ksl-mat3x3-setfromeulerangles">
 <span id="doxid-matrix-8h-1a1d998186da1242f36e0d3c1b26073239"></span><span></span><span class="kt">void</span>
 <span class="n">ksl_mat3x3_setFromEulerAngles</span> <span class="p">(</span>
-    <a class="reference internal" href="union_ksl_mat3x3_t.html#doxid-unionksl-mat3x3-t"><span class="std std-ref">ksl_mat3x3_t</span></a><span></span><span class="o">*</span> <span class="n">r</span><span class="p">,</span>
+    <a class="reference internal" href="union_ksl_mat3x3_t.html#doxid-unionksl-mat3x3-t"><span class="std std-ref">ksl_mat3x3_t</span></a><span></span><span class="o">*</span><span class="p">,</span>
     <span class="k">const</span> <span class="n">ksl_axis_enum_t</span> <span class="n">axisType</span><span class="p">,</span>
-    <span class="k">const</span> <a class="reference internal" href="union_ksl_vec3_t.html#doxid-unionksl-vec3-t"><span class="std std-ref">ksl_vec3_t</span></a><span></span><span class="o">*</span> <span class="n">angles</span>
+    <span class="k">const</span> <a class="reference internal" href="union_ksl_vec3_t.html#doxid-unionksl-vec3-t"><span class="std std-ref">ksl_vec3_t</span></a><span></span><span class="o">*</span>
     <span class="p">)</span>
 </pre>
-<p>TODO document this function.</p>
-<p>TODO document this function.</p>
+<p>set mat3x3 matrix from a sequence of Euler angles</p>
 <p>This function takes three Euler angles in one of twelve rotation orders and outputs a direction cosine matrix. The axis sequence is input through axis. Rotations about successive axes x=0, y=1, and z=2 are as follows: xyx = 010; xyz = 012; xzx = 020; xzy = 021 yxy = 101; yxz = 102; yzx = 120; yzy = 121 zxy = 201; zxz = 202; zyx = 210; zyz = 212</p>
 <pre class="highlight literal-block">
 |1      |       | c     s|       |c -s   |
@@ -5975,13 +5975,12 @@
 <pre class="highlight title-code-block literal-block" id="cid-ksl-mat3x3f-setfromeulerangles">
 <span id="doxid-matrix-8h-1a39aacd9b358f91bcf9ca414892f5d0fc"></span><span></span><span class="kt">void</span>
 <span class="n">ksl_mat3x3f_setFromEulerAngles</span> <span class="p">(</span>
-    <a class="reference internal" href="union_ksl_mat3x3f_t.html#doxid-unionksl-mat3x3f-t"><span class="std std-ref">ksl_mat3x3f_t</span></a><span></span><span class="o">*</span> <span class="n">r</span><span class="p">,</span>
+    <a class="reference internal" href="union_ksl_mat3x3f_t.html#doxid-unionksl-mat3x3f-t"><span class="std std-ref">ksl_mat3x3f_t</span></a><span></span><span class="o">*</span><span class="p">,</span>
     <span class="k">const</span> <span class="n">ksl_axis_enum_t</span> <span class="n">axisType</span><span class="p">,</span>
-    <span class="k">const</span> <a class="reference internal" href="union_ksl_vec3f_t.html#doxid-unionksl-vec3f-t"><span class="std std-ref">ksl_vec3f_t</span></a><span></span><span class="o">*</span> <span class="n">angles</span>
+    <span class="k">const</span> <a class="reference internal" href="union_ksl_vec3f_t.html#doxid-unionksl-vec3f-t"><span class="std std-ref">ksl_vec3f_t</span></a><span></span><span class="o">*</span>
     <span class="p">)</span>
 </pre>
-<p>TODO document this function.</p>
-<p>TODO document this function.</p>
+<p>set single precision mat3x3 matrix from a sequence of Euler angles</p>
 <p>This function takes three Euler angles in one of twelve rotation orders and outputs a direction cosine matrix. The axis sequence is input through axis. Rotations about successive axes x=0, y=1, and z=2 are as follows: xyx = 010; xyz = 012; xzx = 020; xzy = 021 yxy = 101; yxz = 102; yzx = 120; yzy = 121 zxy = 201; zxz = 202; zyx = 210; zyz = 212</p>
 <pre class="highlight literal-block">
 |1      |       | c     s|       |c -s   |
@@ -5995,7 +5994,8 @@
     <span class="kt">double</span><span class="o">*</span>
     <span class="p">)</span>
 </pre>
-<p>TODO document this function.</p>
+<p>get axis and angle from a double precision rotation matrix</p>
+<p>if sin is close to 0, the axis of rotation is not well defined.</p>
 <pre class="highlight title-code-block literal-block" id="cid-ksl-mat3x3-setfromaxisangle">
 <span id="doxid-matrix-8h-1a305b61035160d778913d6512475f469f"></span><span></span><span class="kt">void</span>
 <span class="n">ksl_mat3x3_setFromAxisAngle</span> <span class="p">(</span>
@@ -6004,7 +6004,25 @@
     <span class="k">const</span> <span class="kt">double</span>
     <span class="p">)</span>
 </pre>
-<p>TODO document this function.</p>
+<p>set double precision rotation matrix from axis and angle representation</p>
+<p class="rubric">Parameters:</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>r</td>
+<td>[out] rotation matrix will be set here</td>
+</tr>
+<tr class="row-even"><td>axis</td>
+<td>[in] axis of rotation</td>
+</tr>
+<tr class="row-odd"><td>angle</td>
+<td>[in] angle of rotation in radians</td>
+</tr>
+</tbody>
+</table>
 <pre class="highlight title-code-block literal-block" id="cid-ksl-mat3x3f-getaxisangle">
 <span id="doxid-matrix-8h-1af9e7adb94891fcb280e68a475e049000"></span><span></span><span class="kt">void</span>
 <span class="n">ksl_mat3x3f_getAxisAngle</span> <span class="p">(</span>
@@ -6013,7 +6031,8 @@
     <span class="kt">float</span><span class="o">*</span>
     <span class="p">)</span>
 </pre>
-<p>TODO document this function.</p>
+<p>get axis and angle from a single precision rotation matrix</p>
+<p>if sin is close to 0, the axis of rotation is not well defined.</p>
 <pre class="highlight title-code-block literal-block" id="cid-ksl-mat3x3f-setfromaxisangle">
 <span id="doxid-matrix-8h-1a909d6e045fbf9be40b47dcca564d18de"></span><span></span><span class="kt">void</span>
 <span class="n">ksl_mat3x3f_setFromAxisAngle</span> <span class="p">(</span>
@@ -6022,7 +6041,25 @@
     <span class="k">const</span> <span class="kt">float</span>
     <span class="p">)</span>
 </pre>
-<p>TODO document this function.</p>
+<p>set rotation matrix from axis and angle representation</p>
+<p class="rubric">Parameters:</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>r</td>
+<td>[out] rotation matrix will be set here</td>
+</tr>
+<tr class="row-even"><td>axis</td>
+<td>[in] axis of rotation</td>
+</tr>
+<tr class="row-odd"><td>angle</td>
+<td>[in] angle of rotation in radians</td>
+</tr>
+</tbody>
+</table>
 <pre class="highlight title-code-block literal-block" id="cid-ksl-mat4x4-gettranslation">
 <span id="doxid-matrix-8h-1a655d343e8889959a198bd3055c8c0d7c"></span><span></span><span class="kt">void</span>
 <span class="n">ksl_mat4x4_getTranslation</span> <span class="p">(</span>

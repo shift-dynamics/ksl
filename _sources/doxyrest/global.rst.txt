@@ -1655,16 +1655,16 @@ Overview
 
 	void
 	:ref:`ksl_mat3x3_setFromEulerAngles<doxid-matrix_8h_1a1d998186da1242f36e0d3c1b26073239>` (
-	    :ref:`ksl_mat3x3_t<doxid-unionksl__mat3x3__t>`* r,
+	    :ref:`ksl_mat3x3_t<doxid-unionksl__mat3x3__t>`*,
 	    const ksl_axis_enum_t axisType,
-	    const :ref:`ksl_vec3_t<doxid-unionksl__vec3__t>`* angles
+	    const :ref:`ksl_vec3_t<doxid-unionksl__vec3__t>`*
 	    )
 
 	void
 	:ref:`ksl_mat3x3f_setFromEulerAngles<doxid-matrix_8h_1a39aacd9b358f91bcf9ca414892f5d0fc>` (
-	    :ref:`ksl_mat3x3f_t<doxid-unionksl__mat3x3f__t>`* r,
+	    :ref:`ksl_mat3x3f_t<doxid-unionksl__mat3x3f__t>`*,
 	    const ksl_axis_enum_t axisType,
-	    const :ref:`ksl_vec3f_t<doxid-unionksl__vec3f__t>`* angles
+	    const :ref:`ksl_vec3f_t<doxid-unionksl__vec3f__t>`*
 	    )
 
 	void
@@ -7360,14 +7360,12 @@ This function decomposes a general direction cosine matrix into three primitive 
 
 	void
 	ksl_mat3x3_setFromEulerAngles (
-	    :ref:`ksl_mat3x3_t<doxid-unionksl__mat3x3__t>`* r,
+	    :ref:`ksl_mat3x3_t<doxid-unionksl__mat3x3__t>`*,
 	    const ksl_axis_enum_t axisType,
-	    const :ref:`ksl_vec3_t<doxid-unionksl__vec3__t>`* angles
+	    const :ref:`ksl_vec3_t<doxid-unionksl__vec3__t>`*
 	    )
 
-TODO document this function.
-
-TODO document this function.
+set mat3x3 matrix from a sequence of Euler angles
 
 This function takes three Euler angles in one of twelve rotation orders and outputs a direction cosine matrix. The axis sequence is input through axis. Rotations about successive axes x=0, y=1, and z=2 are as follows: xyx = 010; xyz = 012; xzx = 020; xzy = 021 yxy = 101; yxz = 102; yzx = 120; yzy = 121 zxy = 201; zxz = 202; zyx = 210; zyz = 212
 
@@ -7384,14 +7382,12 @@ Rx = | c -s| Ry = | 1 | Rz = |s c | | s c| |-s c| | 1|
 
 	void
 	ksl_mat3x3f_setFromEulerAngles (
-	    :ref:`ksl_mat3x3f_t<doxid-unionksl__mat3x3f__t>`* r,
+	    :ref:`ksl_mat3x3f_t<doxid-unionksl__mat3x3f__t>`*,
 	    const ksl_axis_enum_t axisType,
-	    const :ref:`ksl_vec3f_t<doxid-unionksl__vec3f__t>`* angles
+	    const :ref:`ksl_vec3f_t<doxid-unionksl__vec3f__t>`*
 	    )
 
-TODO document this function.
-
-TODO document this function.
+set single precision mat3x3 matrix from a sequence of Euler angles
 
 This function takes three Euler angles in one of twelve rotation orders and outputs a direction cosine matrix. The axis sequence is input through axis. Rotations about successive axes x=0, y=1, and z=2 are as follows: xyx = 010; xyz = 012; xzx = 020; xzy = 021 yxy = 101; yxz = 102; yzx = 120; yzy = 121 zxy = 201; zxz = 202; zyx = 210; zyz = 212
 
@@ -7413,7 +7409,9 @@ Rx = | c -s| Ry = | 1 | Rz = |s c | | s c| |-s c| | 1|
 	    double*
 	    )
 
-TODO document this function.
+get axis and angle from a double precision rotation matrix
+
+if sin is close to 0, the axis of rotation is not well defined.
 
 .. _doxid-matrix_8h_1a305b61035160d778913d6512475f469f:
 .. _cid-ksl_mat3x3_setfromaxisangle:
@@ -7427,7 +7425,29 @@ TODO document this function.
 	    const double
 	    )
 
-TODO document this function.
+set double precision rotation matrix from axis and angle representation
+
+
+
+.. rubric:: Parameters:
+
+.. list-table::
+    :widths: 20 80
+
+    *
+        - r
+
+        - [out] rotation matrix will be set here
+
+    *
+        - axis
+
+        - [in] axis of rotation
+
+    *
+        - angle
+
+        - [in] angle of rotation in radians
 
 .. _doxid-matrix_8h_1af9e7adb94891fcb280e68a475e049000:
 .. _cid-ksl_mat3x3f_getaxisangle:
@@ -7441,7 +7461,9 @@ TODO document this function.
 	    float*
 	    )
 
-TODO document this function.
+get axis and angle from a single precision rotation matrix
+
+if sin is close to 0, the axis of rotation is not well defined.
 
 .. _doxid-matrix_8h_1a909d6e045fbf9be40b47dcca564d18de:
 .. _cid-ksl_mat3x3f_setfromaxisangle:
@@ -7455,7 +7477,29 @@ TODO document this function.
 	    const float
 	    )
 
-TODO document this function.
+set rotation matrix from axis and angle representation
+
+
+
+.. rubric:: Parameters:
+
+.. list-table::
+    :widths: 20 80
+
+    *
+        - r
+
+        - [out] rotation matrix will be set here
+
+    *
+        - axis
+
+        - [in] axis of rotation
+
+    *
+        - angle
+
+        - [in] angle of rotation in radians
 
 .. _doxid-matrix_8h_1a655d343e8889959a198bd3055c8c0d7c:
 .. _cid-ksl_mat4x4_gettranslation:

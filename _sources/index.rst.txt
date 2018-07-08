@@ -24,6 +24,7 @@ overview
    coscrews/coscrews
    inertia/inertia
    linalg/linalg
+   print-debug/print-debug
    license
    contributing/contributing
    zreferences.rst

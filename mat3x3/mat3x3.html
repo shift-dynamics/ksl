@@ -63,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../coscrews/coscrews.html">Coscrews</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../inertia/inertia.html">Inertia</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../linalg/linalg.html">Linear Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../print-debug/print-debug.html">Printing and debugging</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing/contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../zreferences.html">References</a></li>
@@ -275,6 +276,23 @@
 <dd><p>TODO document this function. </p>
 </dd></dl>
 
+<dl class="macro">
+<dt id="c.ksl_mat3x3_getEulerAngles">
+<span class="target" id="matrix_8h_1a075673d8b8724b0b149e3d2444a81d2e"></span><code class="descname">ksl_mat3x3_getEulerAngles</code><span class="sig-paren">(</span>r, angles, axisType, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.ksl_mat3x3_getEulerAngles" title="Permalink to this definition">¶</a></dt>
+<dd><p>macro used obtain Euler angles, allows optionally passing in reference angles from a previous nearby pose to ensure continuity in angles between adjacent poses </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: [in] rotation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">angles</span></code>: [out] euler angles returned in angles </li>
+<li><code class="docutils literal notranslate"><span class="pre">axisType</span></code>: [in] a ksl_axis_enum_t type specifying Euler angle axis sequence. </li>
+<li><code class="docutils literal notranslate"><span class="pre">reference_angles</span></code>: [optional] euler angles from a previous nearby pose </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
 <dl class="function">
 <dt id="_CPPv338ksl_mat3x3_getEulerAnglesWithReferencePK12ksl_mat3x3_tK15ksl_axis_enum_tP10ksl_vec3_tz">
 <span id="_CPPv238ksl_mat3x3_getEulerAnglesWithReferencePK12ksl_mat3x3_tK15ksl_axis_enum_tP10ksl_vec3_tz"></span><span id="ksl_mat3x3_getEulerAnglesWithReference__ksl_mat3x3_tCP.ksl_axis_enum_tC.ksl_vec3_tP.z"></span><span class="target" id="matrix_8h_1a99c973220c97d334acefb30e0706ed9b"></span>void <code class="descname">ksl_mat3x3_getEulerAnglesWithReference</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>r</em>, <em class="property">const</em> ksl_axis_enum_t <em>axisType</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>angles</em>, ...<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv338ksl_mat3x3_getEulerAnglesWithReferencePK12ksl_mat3x3_tK15ksl_axis_enum_tP10ksl_vec3_tz" title="Permalink to this definition">¶</a><br /></dt>
@@ -285,9 +303,8 @@
 
 <dl class="function">
 <dt id="_CPPv329ksl_mat3x3_setFromEulerAnglesP12ksl_mat3x3_tK15ksl_axis_enum_tPK10ksl_vec3_t">
-<span id="_CPPv229ksl_mat3x3_setFromEulerAnglesP12ksl_mat3x3_tK15ksl_axis_enum_tPK10ksl_vec3_t"></span><span id="ksl_mat3x3_setFromEulerAngles__ksl_mat3x3_tP.ksl_axis_enum_tC.ksl_vec3_tCP"></span><span class="target" id="matrix_8h_1a1d998186da1242f36e0d3c1b26073239"></span>void <code class="descname">ksl_mat3x3_setFromEulerAngles</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>r</em>, <em class="property">const</em> ksl_axis_enum_t <em>axisType</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>angles</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv329ksl_mat3x3_setFromEulerAnglesP12ksl_mat3x3_tK15ksl_axis_enum_tPK10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
-<p>TODO document this function.</p>
+<span id="_CPPv229ksl_mat3x3_setFromEulerAnglesP12ksl_mat3x3_tK15ksl_axis_enum_tPK10ksl_vec3_t"></span><span id="ksl_mat3x3_setFromEulerAngles__ksl_mat3x3_tP.ksl_axis_enum_tC.ksl_vec3_tCP"></span><span class="target" id="matrix_8h_1a1d998186da1242f36e0d3c1b26073239"></span>void <code class="descname">ksl_mat3x3_setFromEulerAngles</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *, <em class="property">const</em> ksl_axis_enum_t <em>axisType</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv329ksl_mat3x3_setFromEulerAnglesP12ksl_mat3x3_tK15ksl_axis_enum_tPK10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set mat3x3 matrix from a sequence of Euler angles </p>
 <p>This function takes three Euler angles in one of twelve rotation orders and outputs a direction cosine matrix. The axis sequence is input through axis. Rotations about successive axes x=0, y=1, and z=2 are as follows: xyx = 010; xyz = 012; xzx = 020; xzy = 021 yxy = 101; yxz = 102; yzx = 120; yzy = 121 zxy = 201; zxz = 202; zyx = 210; zyz = 212 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="o">|</span><span class="mi">1</span>      <span class="o">|</span>       <span class="o">|</span> <span class="n">c</span>     <span class="n">s</span><span class="o">|</span>       <span class="o">|</span><span class="n">c</span> <span class="o">-</span><span class="n">s</span>   <span class="o">|</span>
 </pre></div>
 </div>
@@ -297,13 +314,24 @@
 <dl class="function">
 <dt id="_CPPv323ksl_mat3x3_getAxisAnglePK12ksl_mat3x3_tP10ksl_vec3_tPd">
 <span id="_CPPv223ksl_mat3x3_getAxisAnglePK12ksl_mat3x3_tP10ksl_vec3_tPd"></span><span id="ksl_mat3x3_getAxisAngle__ksl_mat3x3_tCP.ksl_vec3_tP.doubleP"></span><span class="target" id="matrix_8h_1a21b4e9dad800701badf4a4ae20e9e888"></span>void <code class="descname">ksl_mat3x3_getAxisAngle</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *, double *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv323ksl_mat3x3_getAxisAnglePK12ksl_mat3x3_tP10ksl_vec3_tPd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>get axis and angle from a double precision rotation matrix </p>
+<p>if sin is close to 0, the axis of rotation is not well defined. </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv327ksl_mat3x3_setFromAxisAngleP12ksl_mat3x3_tPK10ksl_vec3_tKd">
 <span id="_CPPv227ksl_mat3x3_setFromAxisAngleP12ksl_mat3x3_tPK10ksl_vec3_tKd"></span><span id="ksl_mat3x3_setFromAxisAngle__ksl_mat3x3_tP.ksl_vec3_tCP.doubleC"></span><span class="target" id="matrix_8h_1a305b61035160d778913d6512475f469f"></span>void <code class="descname">ksl_mat3x3_setFromAxisAngle</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *, <em class="property">const</em> double<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv327ksl_mat3x3_setFromAxisAngleP12ksl_mat3x3_tPK10ksl_vec3_tKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>set double precision rotation matrix from axis and angle representation </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: [out] rotation matrix will be set here </li>
+<li><code class="docutils literal notranslate"><span class="pre">axis</span></code>: [in] axis of rotation </li>
+<li><code class="docutils literal notranslate"><span class="pre">angle</span></code>: [in] angle of rotation in radians </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
@@ -489,6 +517,23 @@
 <dd><p>TODO document this function. </p>
 </dd></dl>
 
+<dl class="macro">
+<dt id="c.ksl_mat3x3f_getEulerAngles">
+<span class="target" id="matrix_8h_1a7f9d70aa654ca2ec9834920e6513e098"></span><code class="descname">ksl_mat3x3f_getEulerAngles</code><span class="sig-paren">(</span>r, angles, axisType, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.ksl_mat3x3f_getEulerAngles" title="Permalink to this definition">¶</a></dt>
+<dd><p>macro used obtain Euler angles from a single precision rotation matrix, allows optionally passing in reference angles from a previous nearby pose to ensure continuity in angles between adjacent poses </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: [in] rotation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">angles</span></code>: [out] euler angles returned in angles </li>
+<li><code class="docutils literal notranslate"><span class="pre">axisType</span></code>: [in] a ksl_axis_enum_t type specifying Euler angle axis sequence. </li>
+<li><code class="docutils literal notranslate"><span class="pre">reference_angles</span></code>: [optional] euler angles from a previous nearby pose </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
 <dl class="function">
 <dt id="_CPPv339ksl_mat3x3f_getEulerAnglesWithReferencePK13ksl_mat3x3f_tK15ksl_axis_enum_tP11ksl_vec3f_tz">
 <span id="_CPPv239ksl_mat3x3f_getEulerAnglesWithReferencePK13ksl_mat3x3f_tK15ksl_axis_enum_tP11ksl_vec3f_tz"></span><span id="ksl_mat3x3f_getEulerAnglesWithReference__ksl_mat3x3f_tCP.ksl_axis_enum_tC.ksl_vec3f_tP.z"></span><span class="target" id="matrix_8h_1a75ed791c7dc1d6a6cbb0319e4e2b493a"></span>void <code class="descname">ksl_mat3x3f_getEulerAnglesWithReference</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>r</em>, <em class="property">const</em> ksl_axis_enum_t <em>axisType</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>angles</em>, ...<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv339ksl_mat3x3f_getEulerAnglesWithReferencePK13ksl_mat3x3f_tK15ksl_axis_enum_tP11ksl_vec3f_tz" title="Permalink to this definition">¶</a><br /></dt>
@@ -499,9 +544,8 @@
 
 <dl class="function">
 <dt id="_CPPv330ksl_mat3x3f_setFromEulerAnglesP13ksl_mat3x3f_tK15ksl_axis_enum_tPK11ksl_vec3f_t">
-<span id="_CPPv230ksl_mat3x3f_setFromEulerAnglesP13ksl_mat3x3f_tK15ksl_axis_enum_tPK11ksl_vec3f_t"></span><span id="ksl_mat3x3f_setFromEulerAngles__ksl_mat3x3f_tP.ksl_axis_enum_tC.ksl_vec3f_tCP"></span><span class="target" id="matrix_8h_1a39aacd9b358f91bcf9ca414892f5d0fc"></span>void <code class="descname">ksl_mat3x3f_setFromEulerAngles</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>r</em>, <em class="property">const</em> ksl_axis_enum_t <em>axisType</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>angles</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv330ksl_mat3x3f_setFromEulerAnglesP13ksl_mat3x3f_tK15ksl_axis_enum_tPK11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
-<p>TODO document this function.</p>
+<span id="_CPPv230ksl_mat3x3f_setFromEulerAnglesP13ksl_mat3x3f_tK15ksl_axis_enum_tPK11ksl_vec3f_t"></span><span id="ksl_mat3x3f_setFromEulerAngles__ksl_mat3x3f_tP.ksl_axis_enum_tC.ksl_vec3f_tCP"></span><span class="target" id="matrix_8h_1a39aacd9b358f91bcf9ca414892f5d0fc"></span>void <code class="descname">ksl_mat3x3f_setFromEulerAngles</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *, <em class="property">const</em> ksl_axis_enum_t <em>axisType</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv330ksl_mat3x3f_setFromEulerAnglesP13ksl_mat3x3f_tK15ksl_axis_enum_tPK11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set single precision mat3x3 matrix from a sequence of Euler angles </p>
 <p>This function takes three Euler angles in one of twelve rotation orders and outputs a direction cosine matrix. The axis sequence is input through axis. Rotations about successive axes x=0, y=1, and z=2 are as follows: xyx = 010; xyz = 012; xzx = 020; xzy = 021 yxy = 101; yxz = 102; yzx = 120; yzy = 121 zxy = 201; zxz = 202; zyx = 210; zyz = 212 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="o">|</span><span class="mi">1</span>      <span class="o">|</span>       <span class="o">|</span> <span class="n">c</span>     <span class="n">s</span><span class="o">|</span>       <span class="o">|</span><span class="n">c</span> <span class="o">-</span><span class="n">s</span>   <span class="o">|</span>
 </pre></div>
 </div>
@@ -511,13 +555,24 @@
 <dl class="function">
 <dt id="_CPPv324ksl_mat3x3f_getAxisAnglePK13ksl_mat3x3f_tP11ksl_vec3f_tPf">
 <span id="_CPPv224ksl_mat3x3f_getAxisAnglePK13ksl_mat3x3f_tP11ksl_vec3f_tPf"></span><span id="ksl_mat3x3f_getAxisAngle__ksl_mat3x3f_tCP.ksl_vec3f_tP.floatP"></span><span class="target" id="matrix_8h_1af9e7adb94891fcb280e68a475e049000"></span>void <code class="descname">ksl_mat3x3f_getAxisAngle</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *, float *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv324ksl_mat3x3f_getAxisAnglePK13ksl_mat3x3f_tP11ksl_vec3f_tPf" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>get axis and angle from a single precision rotation matrix </p>
+<p>if sin is close to 0, the axis of rotation is not well defined. </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv328ksl_mat3x3f_setFromAxisAngleP13ksl_mat3x3f_tPK11ksl_vec3f_tKf">
 <span id="_CPPv228ksl_mat3x3f_setFromAxisAngleP13ksl_mat3x3f_tPK11ksl_vec3f_tKf"></span><span id="ksl_mat3x3f_setFromAxisAngle__ksl_mat3x3f_tP.ksl_vec3f_tCP.floatC"></span><span class="target" id="matrix_8h_1a909d6e045fbf9be40b47dcca564d18de"></span>void <code class="descname">ksl_mat3x3f_setFromAxisAngle</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *, <em class="property">const</em> float<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv328ksl_mat3x3f_setFromAxisAngleP13ksl_mat3x3f_tPK11ksl_vec3f_tKf" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>set rotation matrix from axis and angle representation </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: [out] rotation matrix will be set here </li>
+<li><code class="docutils literal notranslate"><span class="pre">axis</span></code>: [in] axis of rotation </li>
+<li><code class="docutils literal notranslate"><span class="pre">angle</span></code>: [in] angle of rotation in radians </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
