@@ -46,7 +46,7 @@ Double precision
 .. doxygenfunction:: ksl_mat3x3_transposed
 
 
-.. doxygenmacro:: ksl_mat3x3_getEulerAngles
+.. doxygendefine:: ksl_mat3x3_getEulerAngles
 
 
 .. doxygenfunction:: ksl_mat3x3_getEulerAnglesWithReference
@@ -106,7 +106,7 @@ Single precision
 .. doxygenfunction:: ksl_mat3x3f_transposed
 
 
-.. doxygenmacro:: ksl_mat3x3f_getEulerAngles
+.. doxygendefine:: ksl_mat3x3f_getEulerAngles
 
 
 .. doxygenfunction:: ksl_mat3x3f_getEulerAnglesWithReference

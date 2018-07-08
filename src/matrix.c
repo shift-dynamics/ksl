@@ -1503,20 +1503,6 @@ ksl_mat3x3f_getEulerAnglesWithReference(const ksl_mat3x3f_t* r,
   // }
 }
 
-/*!
-@brief set mat3x3 matrix from a sequence of Euler angles
-
-This function takes three Euler angles in one of twelve rotation orders
-   and outputs a direction cosine matrix. The axis sequence is input through
-         axis. Rotations about successive axes x=0, y=1, and z=2 are as
-   follows: xyx = 010; xyz = 012; xzx = 020; xzy = 021 yxy = 101; yxz = 102;
-   yzx = 120; yzy = 121 zxy = 201; zxz = 202; zyx = 210; zyz = 212
-
-        |1      |       | c     s|       |c -s   |
-   Rx = |   c -s|  Ry = |    1   |  Rz = |s  c   |
-        |   s  c|       |-s     c|       |      1|
-
-*/
 inline void ksl_mat3x3_setFromEulerAngles(ksl_mat3x3_t* r,
                                           const ksl_axis_enum_t axisType,
                                           const ksl_vec3_t* angles) {
@@ -1548,20 +1534,6 @@ inline void ksl_mat3x3_setFromEulerAngles(ksl_mat3x3_t* r,
   return;
 }
 
-/*!
-@brief set single precision mat3x3 matrix from a sequence of Euler angles
-
-This function takes three Euler angles in one of twelve rotation orders
-   and outputs a direction cosine matrix. The axis sequence is input through
-         axis. Rotations about successive axes x=0, y=1, and z=2 are as
-   follows: xyx = 010; xyz = 012; xzx = 020; xzy = 021 yxy = 101; yxz = 102;
-   yzx = 120; yzy = 121 zxy = 201; zxz = 202; zyx = 210; zyz = 212
-
-        |1      |       | c     s|       |c -s   |
-   Rx = |   c -s|  Ry = |    1   |  Rz = |s  c   |
-        |   s  c|       |-s     c|       |      1|
-
-*/
 inline void ksl_mat3x3f_setFromEulerAngles(ksl_mat3x3f_t* r,
                                            const ksl_axis_enum_t axisType,
                                            const ksl_vec3f_t* angles) {
@@ -1615,11 +1587,6 @@ inline float ksl_mat3x3f_determinant(const ksl_mat3x3f_t* restrict R) {
           R->m20 * (R->m01 * R->m12 - R->m11 * R->m02));
 }
 
-/*!
-@brief get axis and angle from a double precision rotation matrix
-
-if sin is close to 0, the axis of rotation is not well defined.
-*/
 inline void ksl_mat3x3_getAxisAngle(const ksl_mat3x3_t* restrict r,
                                     ksl_vec3_t* restrict axis,
                                     double* restrict angle) {
@@ -1646,13 +1613,6 @@ inline void ksl_mat3x3_getAxisAngle(const ksl_mat3x3_t* restrict r,
   ksl_vec3_scale(axis, 1 / (2 * sin(*angle)));
 }
 
-/*!
-@brief set double precision rotation matrix from axis and angle representation
-
-@param r [out] rotation matrix will be set here
-@param axis [in] axis of rotation
-@param angle [in] angle of rotation in radians
-*/
 inline void ksl_mat3x3_setFromAxisAngle(ksl_mat3x3_t* restrict r,
                                         const ksl_vec3_t* restrict axis,
                                         const double angle) {
@@ -1680,11 +1640,6 @@ inline void ksl_mat3x3_setFromAxisAngle(ksl_mat3x3_t* restrict r,
   r->m12 = tmp1 - tmp2;
 }
 
-/*!
-@brief get axis and angle from a single precision rotation matrix
-
-if sin is close to 0, the axis of rotation is not well defined.
-*/
 inline void ksl_mat3x3f_getAxisAngle(const ksl_mat3x3f_t* restrict r,
                                      ksl_vec3f_t* restrict axis,
                                      float* restrict angle) {
@@ -1711,13 +1666,6 @@ inline void ksl_mat3x3f_getAxisAngle(const ksl_mat3x3f_t* restrict r,
   ksl_vec3f_scale(axis, 1 / (2 * sin(*angle)));
 }
 
-/*!
-@brief set rotation matrix from axis and angle representation
-
-@param r [out] rotation matrix will be set here
-@param axis [in] axis of rotation
-@param angle [in] angle of rotation in radians
-*/
 inline void ksl_mat3x3f_setFromAxisAngle(ksl_mat3x3f_t* restrict r,
                                          const ksl_vec3f_t* restrict axis,
                                          const float angle) {
