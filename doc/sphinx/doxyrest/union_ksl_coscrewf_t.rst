@@ -19,6 +19,8 @@ Overview
 
 single precision coscrew (i.e. a linear operator on a screw), consisting of a linear and angular vector pair in function space. :ref:`More...<details-doxid-unionksl__coscrewf__t>`
 
+.. _doxid-unionksl__coscrewf__t_1a031608610b216c8a41371a1b4dd93ffc:
+.. _cid-ksl_coscrewf_t::at:
 .. _doxid-unionksl__coscrewf__t_1a7f1df0ce12dbbbf9e517e23773fe2254:
 .. _cid-ksl_coscrewf_t::m0:
 .. _doxid-unionksl__coscrewf__t_1a4483b31d8f6bd391cd8b9191bcd0c84c:
@@ -36,7 +38,7 @@ single precision coscrew (i.e. a linear operator on a screw), consisting of a li
 
 	// fields
 
-	float :ref:`at<doxid-unionksl__coscrewf__t_1a031608610b216c8a41371a1b4dd93ffc>` [6]
+	float at [6]
 	:ref:`ksl_vec3f_t<doxid-unionksl__vec3f__t>` :ref:`lin<doxid-unionksl__coscrewf__t_1aeb248395e0060c9febdc6a702d89313b>`
 	:ref:`ksl_vec3f_t<doxid-unionksl__vec3f__t>` :ref:`ang<doxid-unionksl__coscrewf__t_1a8a5d53fe8630263f4fa6cd73518baff0>`
 	float m0
@@ -55,15 +57,6 @@ single precision coscrew (i.e. a linear operator on a screw), consisting of a li
 
 Fields
 ------
-
-.. _doxid-unionksl__coscrewf__t_1a031608610b216c8a41371a1b4dd93ffc:
-.. _cid-ksl_coscrewf_t::at:
-.. ref-code-block:: cpp
-	:class: title-code-block
-
-	float at [6]
-
-allows accessing coscrew quantity at specified index
 
 .. _doxid-unionksl__coscrewf__t_1aeb248395e0060c9febdc6a702d89313b:
 .. _cid-ksl_coscrewf_t::lin:

@@ -14,7 +14,10 @@ union ksl_vec3f_t
 	#include <vector.h>
 
 
-3 dimensional single precision vector
+Overview
+~~~~~~~~
+
+3 dimensional single precision vector :ref:`More...<details-doxid-unionksl__vec3f__t>`
 
 .. _doxid-unionksl__vec3f__t_1a5ef55f40e7c74c6aa47e33abe81fbc98:
 .. _cid-ksl_vec3f_t::at:
@@ -24,8 +27,6 @@ union ksl_vec3f_t
 .. _cid-ksl_vec3f_t::y:
 .. _doxid-unionksl__vec3f__t_1acf2422e0486ffe465577964424c30626:
 .. _cid-ksl_vec3f_t::z:
-.. _doxid-unionksl__vec3f__t_1aed857d0af09d8a67c9d91f3aef1137b4:
-.. _cid-ksl_vec3f_t::@67:
 .. ref-code-block:: cpp
 	:class: overview-code-block
 
@@ -35,4 +36,14 @@ union ksl_vec3f_t
 	float x
 	float y
 	float z
+
+.. _details-doxid-unionksl__vec3f__t:
+
+Detailed Documentation
+~~~~~~~~~~~~~~~~~~~~~~
+
+3 dimensional single precision vector
+
+Fields
+------
 

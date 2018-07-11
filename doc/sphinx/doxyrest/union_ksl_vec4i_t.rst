@@ -10,6 +10,9 @@ union ksl_vec4i_t
 
 
 
+Overview
+~~~~~~~~
+
 
 
 .. _doxid-unionksl__vec4i__t_1acb8e0fac4f466b699d6c8d9d01f5ef6d:
@@ -22,10 +25,6 @@ union ksl_vec4i_t
 .. _cid-ksl_vec4i_t::y:
 .. _doxid-unionksl__vec4i__t_1a09db6bed8b9ab463785d155c70bffed5:
 .. _cid-ksl_vec4i_t::z:
-.. _doxid-unionksl__vec4i__t_1aca9397cde9ea0635b766803bc11c99ed:
-.. _cid-ksl_vec4i_t::w:
-.. _doxid-unionksl__vec4i__t_1acde3ecc29e1923fb085f61e89897733f:
-.. _cid-ksl_vec4i_t::@83:
 .. ref-code-block:: cpp
 	:class: overview-code-block
 
@@ -36,5 +35,24 @@ union ksl_vec4i_t
 	int x
 	int y
 	int z
+	int :ref:`w<doxid-unionksl__vec4i__t_1aca9397cde9ea0635b766803bc11c99ed>`
+
+.. _details-doxid-unionksl__vec4i__t:
+
+Detailed Documentation
+~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+Fields
+------
+
+.. _doxid-unionksl__vec4i__t_1aca9397cde9ea0635b766803bc11c99ed:
+.. _cid-ksl_vec4i_t::w:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
 	int w
+
+homogeneous coordinate of 4d vector
 
