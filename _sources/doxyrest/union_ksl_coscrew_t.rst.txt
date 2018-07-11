@@ -19,6 +19,8 @@ Overview
 
 double precision coscrew (i.e. a linear operator on a screw), consisting of a linear and angular vector pair in function space. :ref:`More...<details-doxid-unionksl__coscrew__t>`
 
+.. _doxid-unionksl__coscrew__t_1afad4d4c7f661a9abac72cda156022e2d:
+.. _cid-ksl_coscrew_t::at:
 .. _doxid-unionksl__coscrew__t_1ab42fd4ef9267ef487aabdb1a487c239c:
 .. _cid-ksl_coscrew_t::m0:
 .. _doxid-unionksl__coscrew__t_1ac2b8e770c7a82e5fa18c2352c45207a5:
@@ -36,7 +38,7 @@ double precision coscrew (i.e. a linear operator on a screw), consisting of a li
 
 	// fields
 
-	double :ref:`at<doxid-unionksl__coscrew__t_1afad4d4c7f661a9abac72cda156022e2d>` [6]
+	double at [6]
 	:ref:`ksl_vec3_t<doxid-unionksl__vec3__t>` :ref:`lin<doxid-unionksl__coscrew__t_1ab57fd5fdc42e837a08d695852c055386>`
 	:ref:`ksl_vec3_t<doxid-unionksl__vec3__t>` :ref:`ang<doxid-unionksl__coscrew__t_1a8d29d9b0e7c76cec6f11dc77ed4e2eed>`
 	double m0
@@ -55,15 +57,6 @@ double precision coscrew (i.e. a linear operator on a screw), consisting of a li
 
 Fields
 ------
-
-.. _doxid-unionksl__coscrew__t_1afad4d4c7f661a9abac72cda156022e2d:
-.. _cid-ksl_coscrew_t::at:
-.. ref-code-block:: cpp
-	:class: title-code-block
-
-	double at [6]
-
-allows accessing coscrew quantity at specified index
 
 .. _doxid-unionksl__coscrew__t_1ab57fd5fdc42e837a08d695852c055386:
 .. _cid-ksl_coscrew_t::lin:

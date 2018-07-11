@@ -14,7 +14,10 @@ union ksl_vec3i_t
 	#include <vector.h>
 
 
-3 dimensional integer vector
+Overview
+~~~~~~~~
+
+3 dimensional integer vector :ref:`More...<details-doxid-unionksl__vec3i__t>`
 
 .. _doxid-unionksl__vec3i__t_1a0738883bd29091410089dbe13d090c52:
 .. _cid-ksl_vec3i_t::at:
@@ -24,8 +27,6 @@ union ksl_vec3i_t
 .. _cid-ksl_vec3i_t::y:
 .. _doxid-unionksl__vec3i__t_1a0f6e325440b009fd1d0ec0e7e8f81cc2:
 .. _cid-ksl_vec3i_t::z:
-.. _doxid-unionksl__vec3i__t_1a9507743b023f5581c9e648ebab956bb6:
-.. _cid-ksl_vec3i_t::@69:
 .. ref-code-block:: cpp
 	:class: overview-code-block
 
@@ -35,4 +36,14 @@ union ksl_vec3i_t
 	int x
 	int y
 	int z
+
+.. _details-doxid-unionksl__vec3i__t:
+
+Detailed Documentation
+~~~~~~~~~~~~~~~~~~~~~~
+
+3 dimensional integer vector
+
+Fields
+------
 

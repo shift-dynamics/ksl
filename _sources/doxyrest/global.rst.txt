@@ -42,6 +42,86 @@ Overview
 
 .. _doxid-axis_8h_1ad6073885fe924b7021988bab4a48d7aa:
 .. _cid-ksl_axis_enumfromchar:
+.. _doxid-coscrew_8h_1a103caaa5535f7e5af28db8e43fc8e3b6:
+.. _cid-ksl_coscrew_norm:
+.. _doxid-coscrew_8h_1a36d141e888bfef4d83fe9a6c744bacc2:
+.. _cid-ksl_coscrewf_norm:
+.. _doxid-coscrew_8h_1ac1e974431dd19179ec7ebfca7e1db9c3:
+.. _cid-ksl_coscrew_normalize:
+.. _doxid-coscrew_8h_1af81b59b80727e9951f228d6d6f2a2fa5:
+.. _cid-ksl_coscrewf_normalize:
+.. _doxid-coscrew_8h_1a01f865c6ea1dbb0344e65687f236984c:
+.. _cid-ksl_add_cct:
+.. _doxid-coscrew_8h_1aa041360d96f4010dd884685878295b74:
+.. _cid-ksl_add_cctf:
+.. _doxid-coscrew_8h_1ae544690bab18999cc93a94aa9dfa4568:
+.. _cid-ksl_hctx:
+.. _doxid-coscrew_8h_1a2bbe8714eaed9f57ee422be24acffbe8:
+.. _cid-ksl_hctxf:
+.. _doxid-coscrew_8h_1a3b42771ea39a19559035580ff9197316:
+.. _cid-ksl_hcty:
+.. _doxid-coscrew_8h_1ad64531a5fec9751f91e03999b5483b1e:
+.. _cid-ksl_hctyf:
+.. _doxid-coscrew_8h_1a670d2243b27cd2b69bf831bb0e78f414:
+.. _cid-ksl_hctz:
+.. _doxid-coscrew_8h_1a054529ad34ceda5717bcd769d21f84d3:
+.. _cid-ksl_hctzf:
+.. _doxid-coscrew_8h_1ac392fe39d1cd141a18e953bf5e754747:
+.. _cid-ksl_hcrx:
+.. _doxid-coscrew_8h_1a2d0b7fdcb9bfbc002f7708db21b270a6:
+.. _cid-ksl_hcrxf:
+.. _doxid-coscrew_8h_1a5e07c819e106cdb57cf184869698ae22:
+.. _cid-ksl_hcry:
+.. _doxid-coscrew_8h_1abafedd95505c49d98a0c604771631a1a:
+.. _cid-ksl_hcryf:
+.. _doxid-coscrew_8h_1aca428bf7638576f7a1ec24bc937ea72d:
+.. _cid-ksl_hcrz:
+.. _doxid-coscrew_8h_1ab9da773ee96b60296f4d2d3feb9a7a64:
+.. _cid-ksl_hcrzf:
+.. _doxid-coscrew_8h_1a80bbf60536f4fd27b50bdf18717f41d2:
+.. _cid-ksl_hctxinv:
+.. _doxid-coscrew_8h_1aa09f56561d3008d659cf418e404aebed:
+.. _cid-ksl_hctxinvf:
+.. _doxid-coscrew_8h_1a90451d4fd377e389ca9c400036b55f12:
+.. _cid-ksl_hctyinv:
+.. _doxid-coscrew_8h_1aef67a6a8b63f3a2b50948b08d70732d1:
+.. _cid-ksl_hctyinvf:
+.. _doxid-coscrew_8h_1a2b681e5326050df0a3affbd5edce99fc:
+.. _cid-ksl_hctzinv:
+.. _doxid-coscrew_8h_1aa8c5e3ff5b5d94dcfe95eefcf8f100f9:
+.. _cid-ksl_hctzinvf:
+.. _doxid-coscrew_8h_1a0a02e852948507d3c6fcd28c133a3f97:
+.. _cid-ksl_hcrxinv:
+.. _doxid-coscrew_8h_1a29cbc17a749e48d6d8e43f2c25838821:
+.. _cid-ksl_hcrxinvf:
+.. _doxid-coscrew_8h_1a95ab69f71f147f670e3a9fde94205317:
+.. _cid-ksl_hcryinv:
+.. _doxid-coscrew_8h_1a63385d6fd6a9097ef7c94b740e365da6:
+.. _cid-ksl_hcryinvf:
+.. _doxid-coscrew_8h_1acbb72abd9a63496bcdc8e5d22fee8fe6:
+.. _cid-ksl_hcrzinv:
+.. _doxid-coscrew_8h_1adf430c7be58c0fcb391b7959d31d3251:
+.. _cid-ksl_hcrzinvf:
+.. _doxid-coscrew_8h_1a66a158017d4ed92dc3432aa2c6a3f2e4:
+.. _cid-ksl_cross_sc:
+.. _doxid-coscrew_8h_1af7f799f96a9352674b367003ced7236a:
+.. _cid-ksl_cross_scf:
+.. _doxid-coscrew_8h_1a868fa42536ca245f9963abd62483ac7a:
+.. _cid-ksl_cross_sca:
+.. _doxid-coscrew_8h_1a334d955c0e167c444e4706199a010b62:
+.. _cid-ksl_cross_scaf:
+.. _doxid-coscrew_8h_1a7c8f12bed1c349f91a2494d37d2c7440:
+.. _cid-ksl_product_coadrcinv:
+.. _doxid-coscrew_8h_1a96363492b23dcfc214dd7189c2ff629b:
+.. _cid-ksl_product_coadrcinvf:
+.. _doxid-coscrew_8h_1a288d1b55e87ca8e4055b763d20007e20:
+.. _cid-ksl_product_coadtinvc:
+.. _doxid-coscrew_8h_1afedc98daba942fbd90a077226053136d:
+.. _cid-ksl_product_coadtinvcf:
+.. _doxid-coscrew_8h_1aab3b60bdbaed285e39fe3d7809ae416d:
+.. _cid-ksl_product_coadcinv:
+.. _doxid-coscrew_8h_1a1dbe4ad9926119cda3da73e1b2701758:
+.. _cid-ksl_product_coadcinvf:
 .. _doxid-linalg_8h_1a39fe7ed1c9c5d79e9b853a5c896b5f81:
 .. _cid-ksl_linalg_gramschmidt:
 .. _doxid-linalg_8h_1a847ae66e3fdbb96c2dfd1907d7e9321b:
@@ -330,8 +410,6 @@ Overview
 .. _cid-ksl_arraylerp:
 .. _doxid-util_8h_1a64da2905a6a2d7cb1521af05138e0b51:
 .. _cid-ksl_arraylerpf:
-.. _doxid-vector_8h_1a7c19972f3b88a060bc37371df2e58b7d:
-.. _cid-ksl_vec4i:
 .. _doxid-vector_8h_1a08e257a47562dc6e060faa7891363e88:
 .. _cid-ksl_vec3_l2norm:
 .. _doxid-vector_8h_1a19ea31a44f869ce9e065b4a95089532c:
@@ -605,6 +683,18 @@ Overview
 	void
 	:ref:`ksl_coscrewf_invert<doxid-coscrew_8h_1ac3f856a46560c8e92d68d91f3f0b0d0f>` (:ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* self)
 
+	double
+	ksl_coscrew_norm (const :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* v)
+
+	float
+	ksl_coscrewf_norm (const :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* v)
+
+	void
+	ksl_coscrew_normalize (:ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* v)
+
+	void
+	ksl_coscrewf_normalize (:ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* v)
+
 	void
 	:ref:`ksl_axpy_cc<doxid-coscrew_8h_1abb248fdd9c35689ad7034b94faa372b0>` (
 	    const double a,
@@ -644,16 +734,16 @@ Overview
 	    )
 
 	void
-	:ref:`ksl_product_ca<doxid-coscrew_8h_1ada223e7701cf1454472c3bdd6aeb2a8c>` (
-	    const :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* ci,
+	:ref:`ksl_product_ac<doxid-coscrew_8h_1a0c1e986df85b65d1dbf1f243e44f2030>` (
 	    const double a,
+	    const :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* ci,
 	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
 	    )
 
 	void
-	:ref:`ksl_product_caf<doxid-coscrew_8h_1a9575e49d6dc7ddecd6c6ddd64309634a>` (
-	    const :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* ci,
+	:ref:`ksl_product_acf<doxid-coscrew_8h_1a0b37b4ab3609aaed7f081a76b9971cc9>` (
 	    const float a,
+	    const :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* ci,
 	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
 	    )
 
@@ -686,15 +776,187 @@ Overview
 	    )
 
 	void
-	:ref:`ksl_cross_cc<doxid-coscrew_8h_1ade4b35932b19f74784e1c86975e8b055>` (
-	    const :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* c1i,
+	ksl_add_cct (
+	    const :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* ci1,
+	    const :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* ci2,
+	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
+	    )
+
+	void
+	ksl_add_cctf (
+	    const :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* ci1,
+	    const :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* ci2,
+	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
+	    )
+
+	void
+	ksl_hctx (
+	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
+	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
+	    )
+
+	void
+	ksl_hctxf (
+	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
+	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
+	    )
+
+	void
+	ksl_hcty (
+	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
+	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
+	    )
+
+	void
+	ksl_hctyf (
+	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
+	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
+	    )
+
+	void
+	ksl_hctz (
+	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* ri,
+	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
+	    )
+
+	void
+	ksl_hctzf (
+	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* ri,
+	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
+	    )
+
+	void
+	ksl_hcrx (
+	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
+	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
+	    )
+
+	void
+	ksl_hcrxf (
+	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
+	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
+	    )
+
+	void
+	ksl_hcry (
+	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
+	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
+	    )
+
+	void
+	ksl_hcryf (
+	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
+	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
+	    )
+
+	void
+	ksl_hcrz (
+	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
+	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
+	    )
+
+	void
+	ksl_hcrzf (
+	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
+	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
+	    )
+
+	void
+	ksl_hctxinv (
+	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
+	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
+	    )
+
+	void
+	ksl_hctxinvf (
+	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
+	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
+	    )
+
+	void
+	ksl_hctyinv (
+	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
+	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
+	    )
+
+	void
+	ksl_hctyinvf (
+	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
+	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
+	    )
+
+	void
+	ksl_hctzinv (
+	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
+	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
+	    )
+
+	void
+	ksl_hctzinvf (
+	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
+	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
+	    )
+
+	void
+	ksl_hcrxinv (
+	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
+	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
+	    )
+
+	void
+	ksl_hcrxinvf (
+	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
+	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
+	    )
+
+	void
+	ksl_hcryinv (
+	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
+	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
+	    )
+
+	void
+	ksl_hcryinvf (
+	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
+	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
+	    )
+
+	void
+	ksl_hcrzinv (
+	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
+	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
+	    )
+
+	void
+	ksl_hcrzinvf (
+	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
+	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
+	    )
+
+	void
+	ksl_cross_sc (
+	    const :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* s1i,
 	    const :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* c2i,
 	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
 	    )
 
 	void
-	:ref:`ksl_cross_ccf<doxid-coscrew_8h_1ae2bdbfdf4104c4230d33aa51ea383128>` (
-	    const :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* c1i,
+	ksl_cross_scf (
+	    const :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* s1i,
+	    const :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* c2i,
+	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
+	    )
+
+	void
+	ksl_cross_sca (
+	    const :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* s1i,
+	    const :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* c2i,
+	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
+	    )
+
+	void
+	ksl_cross_scaf (
+	    const :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* s1i,
 	    const :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* c2i,
 	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
 	    )
@@ -778,6 +1040,48 @@ Overview
 
 	void
 	:ref:`ksl_product_CoAdinvcf<doxid-coscrew_8h_1a24f2cd5aa0326db48165973bc0c53464>` (
+	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
+	    const :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* ci,
+	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
+	    )
+
+	void
+	ksl_product_CoAdrcinv (
+	    const :ref:`ksl_mat3x3_t<doxid-unionksl__mat3x3__t>`* ri,
+	    const :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* ci,
+	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
+	    )
+
+	void
+	ksl_product_CoAdrcinvf (
+	    const :ref:`ksl_mat3x3f_t<doxid-unionksl__mat3x3f__t>`* ri,
+	    const :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* ci,
+	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
+	    )
+
+	void
+	ksl_product_CoAdtinvc (
+	    const :ref:`ksl_vec3_t<doxid-unionksl__vec3__t>`* ti,
+	    const :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* ci,
+	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
+	    )
+
+	void
+	ksl_product_CoAdtinvcf (
+	    const :ref:`ksl_vec3f_t<doxid-unionksl__vec3f__t>`* ti,
+	    const :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* ci,
+	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
+	    )
+
+	void
+	ksl_product_CoAdcinv (
+	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
+	    const :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* ci,
+	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
+	    )
+
+	void
+	ksl_product_CoAdcinvf (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
 	    const :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* ci,
 	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
@@ -3137,15 +3441,15 @@ Overview
 	    )
 
 	void
-	:ref:`ks_screw_scale<doxid-screw_8h_1ace8288864ae74b66f23d5c80d8e32e36>` (
-	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`,
-	    const double
+	:ref:`ksl_screw_scale<doxid-screw_8h_1af5b80f67a1b28779f9dff3c45c10194b>` (
+	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* s,
+	    const double a
 	    )
 
 	void
-	:ref:`ks_screwf_scale<doxid-screw_8h_1acb56e1c2c428883359aa0bd2186d6ff3>` (
-	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`,
-	    const float
+	:ref:`ksl_screwf_scale<doxid-screw_8h_1ad62c22a30bf1a3075aabcb9e39bad0a0>` (
+	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* s,
+	    const float a
 	    )
 
 	void
@@ -3273,145 +3577,151 @@ Overview
 	    )
 
 	void
-	:ref:`ksl_htx<doxid-screw_8h_1afe2ef0d4a1122930410c642897d98c38>` (
+	:ref:`ksl_hstx<doxid-screw_8h_1a734d9d59cf61860e9c54ed1cac80ee7f>` (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
 	    )
 
 	void
-	:ref:`ksl_htxf<doxid-screw_8h_1a1f13aea633ae9ca05fd505ee42438a9c>` (
+	:ref:`ksl_hstxf<doxid-screw_8h_1a6c2935ec1c78b5048081aa33f14b2648>` (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 	void
-	:ref:`ksl_hty<doxid-screw_8h_1a1847fad4a681462988904e25470334fc>` (
+	:ref:`ksl_hsty<doxid-screw_8h_1aadfdc04cf34fd21c2dad7a3294604b2a>` (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
 	    )
 
 	void
-	:ref:`ksl_htyf<doxid-screw_8h_1ab5097bed364627bfafd5d2ffc1a65c21>` (
+	:ref:`ksl_hstyf<doxid-screw_8h_1af2c0fd7ed8de17ed11c109eaf1c5154b>` (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 	void
-	:ref:`ksl_htz<doxid-screw_8h_1a6c9fd5d6bda14c8776a9039da9c68edb>` (
+	:ref:`ksl_hstz<doxid-screw_8h_1aa7ab762b315c6a082f3e661e2d9b74cb>` (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* ri,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
 	    )
 
 	void
-	:ref:`ksl_htzf<doxid-screw_8h_1afb53bc09a2fd5ccacb58a3d3a59e2cda>` (
+	:ref:`ksl_hstzf<doxid-screw_8h_1a2e2419462c769fed447232adb63b5859>` (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* ri,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 	void
-	:ref:`ksl_hrx<doxid-screw_8h_1ab5fbd0fad8e93a98f1739d487548baab>` (
+	:ref:`ksl_hsrx<doxid-screw_8h_1acab1531a251ab42507b5a653c4a8dd14>` (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
 	    )
 
 	void
-	:ref:`ksl_hrxf<doxid-screw_8h_1a52cb7ed0ef48209762827917f7628ca2>` (
+	:ref:`ksl_hsrxf<doxid-screw_8h_1a006069790005acedb665fb8d1b10eefb>` (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 	void
-	:ref:`ksl_hry<doxid-screw_8h_1a34682efe1a0b82d7922aa422b30fb337>` (
+	:ref:`ksl_hsrxinv<doxid-screw_8h_1a5814f07ce594a3b58aace6cf84f19a85>` (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
 	    )
 
 	void
-	:ref:`ksl_hryf<doxid-screw_8h_1a6e29c843495c725418296b2c644b67e1>` (
+	:ref:`ksl_hsrxinvf<doxid-screw_8h_1acda23ead2d563f9281b99fdbd5824e52>` (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 	void
-	:ref:`ksl_hrz<doxid-screw_8h_1a12134a4aa42f6da6b546e1310075236b>` (
+	:ref:`ksl_hsry<doxid-screw_8h_1aac56dc67335bb250e0102d947680d4f6>` (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
 	    )
 
 	void
-	:ref:`ksl_hrzf<doxid-screw_8h_1a26a98b68c63a0fae907df9a1e8bd8fb8>` (
+	:ref:`ksl_hsryf<doxid-screw_8h_1a5c5461ff0df45641dfc1949c854d4350>` (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 	void
-	:ref:`ksl_htxinv<doxid-screw_8h_1a64e6347999ca22e50bcc471cd0c0e35e>` (
+	:ref:`ksl_hsryinv<doxid-screw_8h_1a71c27b923703a82a9a862e47c87bfce3>` (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
 	    )
 
 	void
-	:ref:`ksl_htxinvf<doxid-screw_8h_1ab0f67034f70fb3b1d32b6bebd0935b7f>` (
+	:ref:`ksl_hsryinvf<doxid-screw_8h_1a2778c99c9bdddbe16faeb2c1a37abb47>` (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 	void
-	:ref:`ksl_htyinv<doxid-screw_8h_1a518f1c41de8bb4b75fcfeb4835f262c2>` (
+	:ref:`ksl_hsrz<doxid-screw_8h_1a81755397412309e9fa7d39015942ab14>` (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
 	    )
 
 	void
-	:ref:`ksl_htyinvf<doxid-screw_8h_1a89fe85bfca60c9b6b08952749fb44d31>` (
+	:ref:`ksl_hsrzf<doxid-screw_8h_1a0d44d0e23cb23a99f2c482039415623f>` (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 	void
-	:ref:`ksl_htzinv<doxid-screw_8h_1a913fceabb404e4a65e7a8f397207a760>` (
+	:ref:`ksl_hsrzinv<doxid-screw_8h_1acbecac74a578c64aa2e07f66aee25d3f>` (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
 	    )
 
 	void
-	:ref:`ksl_htzinvf<doxid-screw_8h_1a870420bb6b1ccd4c7ff6e343d78c5b28>` (
+	:ref:`ksl_hsrzinvf<doxid-screw_8h_1ad598edec5e8028adf2577d7205b1dcd6>` (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 	void
-	:ref:`ksl_hrxinv<doxid-screw_8h_1ae03a4efc62eb052700680af0a562b1ec>` (
+	:ref:`ksl_hstxinv<doxid-screw_8h_1a1e8253162b0cf00f19acca3f2935b2e2>` (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
+	    )
+
+	void
+	:ref:`ksl_hstxinvf<doxid-screw_8h_1ada01d1fc2885c12e02085d6088b297c2>` (
+	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
+	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
+	    )
+
+	void
+	:ref:`ksl_hstyinv<doxid-screw_8h_1a36b792fdf0baa1cfcc20c4f904e41797>` (
+	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
+	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
+	    )
+
+	void
+	:ref:`ksl_hstyinvf<doxid-screw_8h_1ae15494f0b5aaa797282e3155627de3d8>` (
+	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
+	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
+	    )
+
+	void
+	:ref:`ksl_hstzinv<doxid-screw_8h_1af9e84a2fa5903a114c61c9641c4bdef4>` (
+	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
+	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
+	    )
+
+	void
+	:ref:`ksl_hstzinvf<doxid-screw_8h_1abce9f5700a018e8329978a684ffbcce0>` (
+	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
+	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 	void
 	:ref:`ksl_hrxinvf<doxid-screw_8h_1aef7516989eb0ce1827d94389afb34d79>` (
-	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
-	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
-	    )
-
-	void
-	:ref:`ksl_hryinv<doxid-screw_8h_1a644b5464130512659a1231f13916e7ed>` (
-	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
-	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
-	    )
-
-	void
-	:ref:`ksl_hryinvf<doxid-screw_8h_1aa704f202430c33b994ad397702e73b54>` (
-	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
-	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
-	    )
-
-	void
-	:ref:`ksl_hrzinv<doxid-screw_8h_1ad8858eccb5fa00cbba06989f3d362ead>` (
-	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
-	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
-	    )
-
-	void
-	:ref:`ksl_hrzinvf<doxid-screw_8h_1a41cf5ba358ed78f8a40201b7074dc309>` (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
@@ -3705,7 +4015,7 @@ Overview
 	    )
 
 	:ref:`ksl_vec4i_t<doxid-unionksl__vec4i__t>`
-	ksl_vec4i (
+	:ref:`ksl_vec4i<doxid-vector_8h_1a7c19972f3b88a060bc37371df2e58b7d>` (
 	    const int x,
 	    const int y,
 	    const int z,
@@ -4927,15 +5237,15 @@ $ -\mathbf{\underline{c}}_{x}^\* + \mathbf{\underline{c}}_y^\* \rightarrow \math
 
         - [in] first coscrew to subtract
 
-.. _doxid-coscrew_8h_1ada223e7701cf1454472c3bdd6aeb2a8c:
-.. _cid-ksl_product_ca:
+.. _doxid-coscrew_8h_1a0c1e986df85b65d1dbf1f243e44f2030:
+.. _cid-ksl_product_ac:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_product_ca (
-	    const :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* ci,
+	ksl_product_ac (
 	    const double a,
+	    const :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* ci,
 	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
 	    )
 
@@ -4951,19 +5261,19 @@ $ \mathbf{\underline{c}}_i^\* \* a \rightarrow \mathbf{\underline{c}}_o^\*$
     :widths: 20 80
 
     *
-        - ci
+        - co
 
-        - [in/out] coscrew to invert
+        - [in/out] coscrew to scale
 
-.. _doxid-coscrew_8h_1a9575e49d6dc7ddecd6c6ddd64309634a:
-.. _cid-ksl_product_caf:
+.. _doxid-coscrew_8h_1a0b37b4ab3609aaed7f081a76b9971cc9:
+.. _cid-ksl_product_acf:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_product_caf (
-	    const :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* ci,
+	ksl_product_acf (
 	    const float a,
+	    const :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* ci,
 	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
 	    )
 
@@ -4979,9 +5289,9 @@ $ \mathbf{\underline{c}}_i^\* \* a \rightarrow \mathbf{\underline{c}}_o^\*$
     :widths: 20 80
 
     *
-        - ci
+        - co
 
-        - [in/out] coscrew to invert
+        - [in/out] coscrew to scale
 
 .. _doxid-coscrew_8h_1a59dadd311149ae3e5e520185899695f4:
 .. _cid-ksl_add_cc:
@@ -5134,82 +5444,6 @@ $\mathbf{\underline{c}}_{1i}^\* - \mathbf{\underline{c}}_{2i}^\* \rightarrow \ma
         - co
 
         - [out] result of c1i minus c2i
-
-.. _doxid-coscrew_8h_1ade4b35932b19f74784e1c86975e8b055:
-.. _cid-ksl_cross_cc:
-.. ref-code-block:: cpp
-	:class: title-code-block
-
-	void
-	ksl_cross_cc (
-	    const :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* c1i,
-	    const :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* c2i,
-	    :ref:`ksl_coscrew_t<doxid-unionksl__coscrew__t>`* co
-	    )
-
-Compute the double precision coscrew cross product.
-
-$ \mathbf{\underline{c}}_{1i}^\* \times \mathbf{\underline{c}}_{2i}^\* \rightarrow \mathbf{\underline{c}}_o^\*$
-
-
-
-.. rubric:: Parameters:
-
-.. list-table::
-    :widths: 20 80
-
-    *
-        - c1i
-
-        - [in] first coscrew
-
-    *
-        - c2i
-
-        - [in] second coscrew
-
-    *
-        - co
-
-        - [out] result of c1i x c2i
-
-.. _doxid-coscrew_8h_1ae2bdbfdf4104c4230d33aa51ea383128:
-.. _cid-ksl_cross_ccf:
-.. ref-code-block:: cpp
-	:class: title-code-block
-
-	void
-	ksl_cross_ccf (
-	    const :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* c1i,
-	    const :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* c2i,
-	    :ref:`ksl_coscrewf_t<doxid-unionksl__coscrewf__t>`* co
-	    )
-
-Compute the single precision coscrew cross product.
-
-$\mathbf{\underline{c}}_{1i}^\* \times \mathbf{\underline{c}}_{2i}^\* \rightarrow \mathbf{\underline{c}}_o^\*$
-
-
-
-.. rubric:: Parameters:
-
-.. list-table::
-    :widths: 20 80
-
-    *
-        - c1i
-
-        - [in] first coscrew
-
-    *
-        - c2i
-
-        - [in] second coscrew
-
-    *
-        - co
-
-        - [out] result of c1i x c2i
 
 .. _doxid-coscrew_8h_1aea01c281ea5652435836dc9374820d41:
 .. _cid-ksl_product_coadtc:
@@ -9159,28 +9393,28 @@ compute double precision dot product between a coscrew and screw
 
 compute single precision dot product between a coscrew and screw
 
-.. _doxid-screw_8h_1ace8288864ae74b66f23d5c80d8e32e36:
-.. _cid-ks_screw_scale:
+.. _doxid-screw_8h_1af5b80f67a1b28779f9dff3c45c10194b:
+.. _cid-ksl_screw_scale:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ks_screw_scale (
-	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`,
-	    const double
+	ksl_screw_scale (
+	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* s,
+	    const double a
 	    )
 
 TODO document this function.
 
-.. _doxid-screw_8h_1acb56e1c2c428883359aa0bd2186d6ff3:
-.. _cid-ks_screwf_scale:
+.. _doxid-screw_8h_1ad62c22a30bf1a3075aabcb9e39bad0a0:
+.. _cid-ksl_screwf_scale:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ks_screwf_scale (
-	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`,
-	    const float
+	ksl_screwf_scale (
+	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* s,
+	    const float a
 	    )
 
 TODO document this function.
@@ -9553,249 +9787,314 @@ TODO document this function.
 
 TODO document this function.
 
-.. _doxid-screw_8h_1afe2ef0d4a1122930410c642897d98c38:
-.. _cid-ksl_htx:
+.. _doxid-screw_8h_1a734d9d59cf61860e9c54ed1cac80ee7f:
+.. _cid-ksl_hstx:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_htx (
+	ksl_hstx (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
 	    )
 
 TODO document this function.
 
-.. _doxid-screw_8h_1a1f13aea633ae9ca05fd505ee42438a9c:
-.. _cid-ksl_htxf:
+.. _doxid-screw_8h_1a6c2935ec1c78b5048081aa33f14b2648:
+.. _cid-ksl_hstxf:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_htxf (
+	ksl_hstxf (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 TODO document this function.
 
-.. _doxid-screw_8h_1a1847fad4a681462988904e25470334fc:
-.. _cid-ksl_hty:
+.. _doxid-screw_8h_1aadfdc04cf34fd21c2dad7a3294604b2a:
+.. _cid-ksl_hsty:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_hty (
+	ksl_hsty (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
 	    )
 
 TODO document this function.
 
-.. _doxid-screw_8h_1ab5097bed364627bfafd5d2ffc1a65c21:
-.. _cid-ksl_htyf:
+.. _doxid-screw_8h_1af2c0fd7ed8de17ed11c109eaf1c5154b:
+.. _cid-ksl_hstyf:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_htyf (
+	ksl_hstyf (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 TODO document this function.
 
-.. _doxid-screw_8h_1a6c9fd5d6bda14c8776a9039da9c68edb:
-.. _cid-ksl_htz:
+.. _doxid-screw_8h_1aa7ab762b315c6a082f3e661e2d9b74cb:
+.. _cid-ksl_hstz:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_htz (
+	ksl_hstz (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* ri,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
 	    )
 
 TODO document this function.
 
-.. _doxid-screw_8h_1afb53bc09a2fd5ccacb58a3d3a59e2cda:
-.. _cid-ksl_htzf:
+.. _doxid-screw_8h_1a2e2419462c769fed447232adb63b5859:
+.. _cid-ksl_hstzf:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_htzf (
+	ksl_hstzf (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* ri,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 TODO document this function.
 
-.. _doxid-screw_8h_1ab5fbd0fad8e93a98f1739d487548baab:
-.. _cid-ksl_hrx:
+.. _doxid-screw_8h_1acab1531a251ab42507b5a653c4a8dd14:
+.. _cid-ksl_hsrx:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_hrx (
+	ksl_hsrx (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
 	    )
 
 TODO document this function.
 
-.. _doxid-screw_8h_1a52cb7ed0ef48209762827917f7628ca2:
-.. _cid-ksl_hrxf:
+.. _doxid-screw_8h_1a006069790005acedb665fb8d1b10eefb:
+.. _cid-ksl_hsrxf:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_hrxf (
+	ksl_hsrxf (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 TODO document this function.
 
-.. _doxid-screw_8h_1a34682efe1a0b82d7922aa422b30fb337:
-.. _cid-ksl_hry:
+.. _doxid-screw_8h_1a5814f07ce594a3b58aace6cf84f19a85:
+.. _cid-ksl_hsrxinv:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_hry (
+	ksl_hsrxinv (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
 	    )
 
 TODO document this function.
 
-.. _doxid-screw_8h_1a6e29c843495c725418296b2c644b67e1:
-.. _cid-ksl_hryf:
+.. _doxid-screw_8h_1acda23ead2d563f9281b99fdbd5824e52:
+.. _cid-ksl_hsrxinvf:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_hryf (
+	ksl_hsrxinvf (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 TODO document this function.
 
-.. _doxid-screw_8h_1a12134a4aa42f6da6b546e1310075236b:
-.. _cid-ksl_hrz:
+.. _doxid-screw_8h_1aac56dc67335bb250e0102d947680d4f6:
+.. _cid-ksl_hsry:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_hrz (
+	ksl_hsry (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
 	    )
 
 TODO document this function.
 
-.. _doxid-screw_8h_1a26a98b68c63a0fae907df9a1e8bd8fb8:
-.. _cid-ksl_hrzf:
+.. _doxid-screw_8h_1a5c5461ff0df45641dfc1949c854d4350:
+.. _cid-ksl_hsryf:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_hrzf (
+	ksl_hsryf (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 TODO document this function.
 
-.. _doxid-screw_8h_1a64e6347999ca22e50bcc471cd0c0e35e:
-.. _cid-ksl_htxinv:
+.. _doxid-screw_8h_1a71c27b923703a82a9a862e47c87bfce3:
+.. _cid-ksl_hsryinv:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_htxinv (
+	ksl_hsryinv (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
 	    )
 
 TODO document this function.
 
-.. _doxid-screw_8h_1ab0f67034f70fb3b1d32b6bebd0935b7f:
-.. _cid-ksl_htxinvf:
+.. _doxid-screw_8h_1a2778c99c9bdddbe16faeb2c1a37abb47:
+.. _cid-ksl_hsryinvf:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_htxinvf (
+	ksl_hsryinvf (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 TODO document this function.
 
-.. _doxid-screw_8h_1a518f1c41de8bb4b75fcfeb4835f262c2:
-.. _cid-ksl_htyinv:
+.. _doxid-screw_8h_1a81755397412309e9fa7d39015942ab14:
+.. _cid-ksl_hsrz:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_htyinv (
+	ksl_hsrz (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
 	    )
 
 TODO document this function.
 
-.. _doxid-screw_8h_1a89fe85bfca60c9b6b08952749fb44d31:
-.. _cid-ksl_htyinvf:
+.. _doxid-screw_8h_1a0d44d0e23cb23a99f2c482039415623f:
+.. _cid-ksl_hsrzf:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_htyinvf (
+	ksl_hsrzf (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 TODO document this function.
 
-.. _doxid-screw_8h_1a913fceabb404e4a65e7a8f397207a760:
-.. _cid-ksl_htzinv:
+.. _doxid-screw_8h_1acbecac74a578c64aa2e07f66aee25d3f:
+.. _cid-ksl_hsrzinv:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_htzinv (
+	ksl_hsrzinv (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
 	    )
 
 TODO document this function.
 
-.. _doxid-screw_8h_1a870420bb6b1ccd4c7ff6e343d78c5b28:
-.. _cid-ksl_htzinvf:
+.. _doxid-screw_8h_1ad598edec5e8028adf2577d7205b1dcd6:
+.. _cid-ksl_hsrzinvf:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_htzinvf (
+	ksl_hsrzinvf (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 TODO document this function.
 
-.. _doxid-screw_8h_1ae03a4efc62eb052700680af0a562b1ec:
-.. _cid-ksl_hrxinv:
+.. _doxid-screw_8h_1a1e8253162b0cf00f19acca3f2935b2e2:
+.. _cid-ksl_hstxinv:
 .. ref-code-block:: cpp
 	:class: title-code-block
 
 	void
-	ksl_hrxinv (
+	ksl_hstxinv (
 	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
 	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
+	    )
+
+TODO document this function.
+
+.. _doxid-screw_8h_1ada01d1fc2885c12e02085d6088b297c2:
+.. _cid-ksl_hstxinvf:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	void
+	ksl_hstxinvf (
+	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
+	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
+	    )
+
+TODO document this function.
+
+.. _doxid-screw_8h_1a36b792fdf0baa1cfcc20c4f904e41797:
+.. _cid-ksl_hstyinv:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	void
+	ksl_hstyinv (
+	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
+	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
+	    )
+
+TODO document this function.
+
+.. _doxid-screw_8h_1ae15494f0b5aaa797282e3155627de3d8:
+.. _cid-ksl_hstyinvf:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	void
+	ksl_hstyinvf (
+	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
+	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
+	    )
+
+TODO document this function.
+
+.. _doxid-screw_8h_1af9e84a2fa5903a114c61c9641c4bdef4:
+.. _cid-ksl_hstzinv:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	void
+	ksl_hstzinv (
+	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
+	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
+	    )
+
+TODO document this function.
+
+.. _doxid-screw_8h_1abce9f5700a018e8329978a684ffbcce0:
+.. _cid-ksl_hstzinvf:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	void
+	ksl_hstzinvf (
+	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
+	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
 
 TODO document this function.
@@ -9807,58 +10106,6 @@ TODO document this function.
 
 	void
 	ksl_hrxinvf (
-	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
-	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
-	    )
-
-TODO document this function.
-
-.. _doxid-screw_8h_1a644b5464130512659a1231f13916e7ed:
-.. _cid-ksl_hryinv:
-.. ref-code-block:: cpp
-	:class: title-code-block
-
-	void
-	ksl_hryinv (
-	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
-	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
-	    )
-
-TODO document this function.
-
-.. _doxid-screw_8h_1aa704f202430c33b994ad397702e73b54:
-.. _cid-ksl_hryinvf:
-.. ref-code-block:: cpp
-	:class: title-code-block
-
-	void
-	ksl_hryinvf (
-	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
-	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
-	    )
-
-TODO document this function.
-
-.. _doxid-screw_8h_1ad8858eccb5fa00cbba06989f3d362ead:
-.. _cid-ksl_hrzinv:
-.. ref-code-block:: cpp
-	:class: title-code-block
-
-	void
-	ksl_hrzinv (
-	    const :ref:`ksl_SE3_t<doxid-unionksl___s_e3__t>`* Di,
-	    :ref:`ksl_screw_t<doxid-unionksl__screw__t>`* ho
-	    )
-
-TODO document this function.
-
-.. _doxid-screw_8h_1a41cf5ba358ed78f8a40201b7074dc309:
-.. _cid-ksl_hrzinvf:
-.. ref-code-block:: cpp
-	:class: title-code-block
-
-	void
-	ksl_hrzinvf (
 	    const :ref:`ksl_SE3f_t<doxid-unionksl___s_e3f__t>`* Di,
 	    :ref:`ksl_screwf_t<doxid-unionksl__screwf__t>`* ho
 	    )
@@ -10482,6 +10729,21 @@ vec3f constructor
 	    )
 
 vec3i constructor
+
+.. _doxid-vector_8h_1a7c19972f3b88a060bc37371df2e58b7d:
+.. _cid-ksl_vec4i:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	:ref:`ksl_vec4i_t<doxid-unionksl__vec4i__t>`
+	ksl_vec4i (
+	    const int x,
+	    const int y,
+	    const int z,
+	    const int w
+	    )
+
+vec4i constructor
 
 .. _doxid-vector_8h_1afd6bb01fca0d56d7514eae51b205c9a7:
 .. _cid-ksl_vec4:

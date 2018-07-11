@@ -485,7 +485,7 @@ Double precision
 .. doxygenfunction:: ksl_dot_cs
 
 
-.. doxygenfunction:: ks_screw_scale
+.. doxygenfunction:: ksl_screw_scale
 
 
 .. doxygenfunction:: ksl_screw_copy
@@ -518,40 +518,40 @@ Double precision
 .. doxygenfunction:: ksl_add_sst
 
 
-.. doxygenfunction:: ksl_htxf
+.. doxygenfunction:: ksl_hstxf
 
 
-.. doxygenfunction:: ksl_htyf
+.. doxygenfunction:: ksl_hstyf
 
 
-.. doxygenfunction:: ksl_htz
+.. doxygenfunction:: ksl_hstz
 
 
-.. doxygenfunction:: ksl_hrx
+.. doxygenfunction:: ksl_hsrx
 
 
-.. doxygenfunction:: ksl_hry
+.. doxygenfunction:: ksl_hsry
 
 
-.. doxygenfunction:: ksl_hrz
+.. doxygenfunction:: ksl_hsrz
 
 
-.. doxygenfunction:: ksl_htxinv
+.. doxygenfunction:: ksl_hstxinv
 
 
-.. doxygenfunction:: ksl_htyinv
+.. doxygenfunction:: ksl_hstyinv
 
 
-.. doxygenfunction:: ksl_htzinv
+.. doxygenfunction:: ksl_hstzinv
 
 
-.. doxygenfunction:: ksl_hrxinv
+.. doxygenfunction:: ksl_hsrxinv
 
 
-.. doxygenfunction:: ksl_hryinv
+.. doxygenfunction:: ksl_hsryinv
 
 
-.. doxygenfunction:: ksl_hrzinv
+.. doxygenfunction:: ksl_hsrzinv
 
 
 .. doxygenfunction:: ksl_cross_ss
@@ -612,7 +612,7 @@ Single precision
 .. doxygenfunction:: ksl_dot_csf
 
 
-.. doxygenfunction:: ks_screwf_scale
+.. doxygenfunction:: ksl_screwf_scale
 
 
 .. doxygenfunction:: ksl_screwf_copy
@@ -645,40 +645,40 @@ Single precision
 .. doxygenfunction:: ksl_add_sstf
 
 
-.. doxygenfunction:: ksl_htxf
+.. doxygenfunction:: ksl_hstxf
 
 
-.. doxygenfunction:: ksl_htyf
+.. doxygenfunction:: ksl_hstyf
 
 
-.. doxygenfunction:: ksl_htzf
+.. doxygenfunction:: ksl_hstzf
 
 
-.. doxygenfunction:: ksl_hrxf
+.. doxygenfunction:: ksl_hsrxf
 
 
-.. doxygenfunction:: ksl_hryf
+.. doxygenfunction:: ksl_hsryf
 
 
-.. doxygenfunction:: ksl_hrzf
+.. doxygenfunction:: ksl_hsrzf
 
 
-.. doxygenfunction:: ksl_htxinvf
+.. doxygenfunction:: ksl_hstxinvf
 
 
-.. doxygenfunction:: ksl_htyinvf
+.. doxygenfunction:: ksl_hstyinvf
 
 
-.. doxygenfunction:: ksl_htzinvf
+.. doxygenfunction:: ksl_hstzinvf
 
 
-.. doxygenfunction:: ksl_hrxinvf
+.. doxygenfunction:: ksl_hsrxinvf
 
 
-.. doxygenfunction:: ksl_hryinvf
+.. doxygenfunction:: ksl_hsryinvf
 
 
-.. doxygenfunction:: ksl_hrzinvf
+.. doxygenfunction:: ksl_hsrzinvf
 
 
 .. doxygenfunction:: ksl_cross_ssf

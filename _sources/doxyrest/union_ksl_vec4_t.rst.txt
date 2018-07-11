@@ -29,10 +29,6 @@ double precision 4x1 vector representing a 3x1 vector with a homogeneous coordin
 .. _cid-ksl_vec4_t::y:
 .. _doxid-unionksl__vec4__t_1a8cb6cb1e0ca6c3b30b8a7e279afc4458:
 .. _cid-ksl_vec4_t::z:
-.. _doxid-unionksl__vec4__t_1ad616f057a4113c468fb0b07d8f22148e:
-.. _cid-ksl_vec4_t::w:
-.. _doxid-unionksl__vec4__t_1aa01e95bd9076b296d5b497b43526f56f:
-.. _cid-ksl_vec4_t::@71:
 .. ref-code-block:: cpp
 	:class: overview-code-block
 
@@ -43,7 +39,7 @@ double precision 4x1 vector representing a 3x1 vector with a homogeneous coordin
 	double x
 	double y
 	double z
-	double w
+	double :ref:`w<doxid-unionksl__vec4__t_1ad616f057a4113c468fb0b07d8f22148e>`
 
 .. _details-doxid-unionksl__vec4__t:
 
@@ -53,4 +49,16 @@ Detailed Documentation
 double precision 4x1 vector representing a 3x1 vector with a homogeneous coordinate (w) appended.
 
 Typically used for nonlinear transformations such as camera projections.
+
+Fields
+------
+
+.. _doxid-unionksl__vec4__t_1ad616f057a4113c468fb0b07d8f22148e:
+.. _cid-ksl_vec4_t::w:
+.. ref-code-block:: cpp
+	:class: title-code-block
+
+	double w
+
+homogeneous coordinate of 4d vector
 

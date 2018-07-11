@@ -19,6 +19,8 @@ Overview
 
 double precision screw consisting of a linear and angular vector pair in configuration space :ref:`More...<details-doxid-unionksl__screw__t>`
 
+.. _doxid-unionksl__screw__t_1ada5c023f9bd09a888176eebfac47dcba:
+.. _cid-ksl_screw_t::at:
 .. _doxid-unionksl__screw__t_1a9e6c40f46851fd02a65e2a9839871ba4:
 .. _cid-ksl_screw_t::m0:
 .. _doxid-unionksl__screw__t_1a1966593d0013d38fa281b2976b095d70:
@@ -36,7 +38,7 @@ double precision screw consisting of a linear and angular vector pair in configu
 
 	// fields
 
-	double :ref:`at<doxid-unionksl__screw__t_1ada5c023f9bd09a888176eebfac47dcba>` [6]
+	double at [6]
 	:ref:`ksl_vec3_t<doxid-unionksl__vec3__t>` :ref:`lin<doxid-unionksl__screw__t_1ae874feb8d45111b747ab609800bccba0>`
 	:ref:`ksl_vec3_t<doxid-unionksl__vec3__t>` :ref:`ang<doxid-unionksl__screw__t_1a1f38cba5a2fc17b3850b51fded2a7094>`
 	double m0
@@ -55,15 +57,6 @@ double precision screw consisting of a linear and angular vector pair in configu
 
 Fields
 ------
-
-.. _doxid-unionksl__screw__t_1ada5c023f9bd09a888176eebfac47dcba:
-.. _cid-ksl_screw_t::at:
-.. ref-code-block:: cpp
-	:class: title-code-block
-
-	double at [6]
-
-allows accessing screw quantities at specified index
 
 .. _doxid-unionksl__screw__t_1ae874feb8d45111b747ab609800bccba0:
 .. _cid-ksl_screw_t::lin:
