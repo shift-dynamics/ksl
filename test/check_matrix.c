@@ -805,7 +805,7 @@ START_TEST(test_matrix_mat3x3_setFromEulerAngles) {
     ksl_mat3x3_setIdentity(&r1);
     ksl_axis_enum_t axis = j;
     ksl_vec3i_t sequence = ksl_axis_getVector(axis);
-    ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+    ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
     double dc[2];
     for(int i = 0; i < 3; i++) {
       ksl_dc(angles.at[i], dc);
@@ -912,7 +912,7 @@ START_TEST(test_matrix_product_drv) {
 
   ksl_mat3x3_t r;
   ksl_mat3x3_setIdentity(&r);
-  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
 
   ksl_vec3_t v1 = {{1.0, 2.0, 3.0}};
@@ -929,7 +929,8 @@ START_TEST(test_matrix_product_drvf) {
 
   ksl_mat3x3f_t r;
   ksl_mat3x3f_setIdentity(&r);
-  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
+  ;
   ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
   ksl_vec3f_t v1 = {{1.0, 2.0, 3.0}};
 
@@ -945,7 +946,7 @@ START_TEST(test_matrix_product_drvinv) {
 
   ksl_mat3x3_t r;
   ksl_mat3x3_setIdentity(&r);
-  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
   ksl_vec3_t v1 = {{1.0, 2.0, 3.0}};
   ksl_vec3_t v2;
@@ -960,7 +961,9 @@ START_TEST(test_matrix_product_drvinvf) {
 
   ksl_mat3x3f_t r;
   ksl_mat3x3f_setIdentity(&r);
-  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
+
+  ;
   ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
   ksl_vec3f_t v1 = {{1.0, 2.0, 3.0}};
 
@@ -976,7 +979,7 @@ START_TEST(test_matrix_product_drinvv) {
 
   ksl_mat3x3_t r;
   ksl_mat3x3_setIdentity(&r);
-  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
   ksl_vec3_t v1 = {{1.0, 2.0, 3.0}};
   ksl_vec3_t v2;
@@ -991,7 +994,7 @@ START_TEST(test_matrix_product_drinvvf) {
 
   ksl_mat3x3f_t r;
   ksl_mat3x3f_setIdentity(&r);
-  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
   ksl_vec3f_t v1 = {{1.0, 2.0, 3.0}};
 
@@ -1007,7 +1010,7 @@ START_TEST(test_matrix_product_drinvvinv) {
 
   ksl_mat3x3_t r;
   ksl_mat3x3_setIdentity(&r);
-  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
   ksl_vec3_t v1 = {{1.0, 2.0, 3.0}};
   ksl_vec3_t v2;
@@ -1022,7 +1025,7 @@ START_TEST(test_matrix_product_drinvvinvf) {
 
   ksl_mat3x3f_t r;
   ksl_mat3x3f_setIdentity(&r);
-  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
   ksl_vec3f_t v1 = {{1.0, 2.0, 3.0}};
 
@@ -1037,7 +1040,7 @@ END_TEST
 START_TEST(test_matrix_product_drvtx) {
   ksl_mat3x3_t r;
   ksl_mat3x3_setIdentity(&r);
-  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
   ksl_vec3_t v2;
   ksl_product_drvtx(&r, 2.0, &v2);
@@ -1050,7 +1053,7 @@ END_TEST
 START_TEST(test_matrix_product_drvtxf) {
   ksl_mat3x3f_t r;
   ksl_mat3x3f_setIdentity(&r);
-  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
   ksl_vec3f_t v2;
   ksl_product_drvtxf(&r, 2.0, &v2);
@@ -1063,7 +1066,7 @@ END_TEST
 START_TEST(test_matrix_product_drvtxinv) {
   ksl_mat3x3_t r;
   ksl_mat3x3_setIdentity(&r);
-  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
   ksl_vec3_t v2;
   ksl_product_drvtxinv(&r, 2.0, &v2);
@@ -1076,7 +1079,7 @@ END_TEST
 START_TEST(test_matrix_product_drvtxinvf) {
   ksl_mat3x3f_t r;
   ksl_mat3x3f_setIdentity(&r);
-  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
   ksl_vec3f_t v2;
   ksl_product_drvtxinvf(&r, 2.0, &v2);
@@ -1089,7 +1092,7 @@ END_TEST
 START_TEST(test_matrix_product_drvty) {
   ksl_mat3x3_t r;
   ksl_mat3x3_setIdentity(&r);
-  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
   ksl_vec3_t v2;
   ksl_product_drvty(&r, 2.0, &v2);
@@ -1102,7 +1105,7 @@ END_TEST
 START_TEST(test_matrix_product_drvtyf) {
   ksl_mat3x3f_t r;
   ksl_mat3x3f_setIdentity(&r);
-  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
   ksl_vec3f_t v2;
   ksl_product_drvtyf(&r, 2.0, &v2);
@@ -1115,7 +1118,7 @@ END_TEST
 START_TEST(test_matrix_product_drvtyinv) {
   ksl_mat3x3_t r;
   ksl_mat3x3_setIdentity(&r);
-  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
   ksl_vec3_t v2;
   ksl_product_drvtyinv(&r, 2.0, &v2);
@@ -1128,7 +1131,7 @@ END_TEST
 START_TEST(test_matrix_product_drvtyinvf) {
   ksl_mat3x3f_t r;
   ksl_mat3x3f_setIdentity(&r);
-  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
   ksl_vec3f_t v2;
   ksl_product_drvtyinvf(&r, 2.0, &v2);
@@ -1141,7 +1144,7 @@ END_TEST
 START_TEST(test_matrix_product_drvtz) {
   ksl_mat3x3_t r;
   ksl_mat3x3_setIdentity(&r);
-  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
   ksl_vec3_t v2;
   ksl_product_drvtz(&r, 2.0, &v2);
@@ -1154,7 +1157,7 @@ END_TEST
 START_TEST(test_matrix_product_drvtzf) {
   ksl_mat3x3f_t r;
   ksl_mat3x3f_setIdentity(&r);
-  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
   ksl_vec3f_t v2;
   ksl_product_drvtzf(&r, 2.0, &v2);
@@ -1167,7 +1170,7 @@ END_TEST
 START_TEST(test_matrix_product_drvtzinv) {
   ksl_mat3x3_t r;
   ksl_mat3x3_setIdentity(&r);
-  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
   ksl_vec3_t v2;
   ksl_product_drvtzinv(&r, 2.0, &v2);
@@ -1180,7 +1183,7 @@ END_TEST
 START_TEST(test_matrix_product_drvtzinvf) {
   ksl_mat3x3f_t r;
   ksl_mat3x3f_setIdentity(&r);
-  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
   ksl_vec3f_t v2;
   ksl_product_drvtzinvf(&r, 2.0, &v2);
@@ -1194,7 +1197,7 @@ END_TEST
 START_TEST(test_matrix_product_drdrx) {
   ksl_mat3x3_t r1;
   ksl_mat3x3_setIdentity(&r1);
-  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
   ksl_mat3x3_t r2;
   double dc[2];
@@ -1215,7 +1218,7 @@ END_TEST
 START_TEST(test_matrix_product_drdrxf) {
   ksl_mat3x3f_t r1;
   ksl_mat3x3f_setIdentity(&r1);
-  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ksl_mat3x3f_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
   ksl_mat3x3f_t r2;
   float dc[2];
@@ -1236,7 +1239,7 @@ END_TEST
 START_TEST(test_matrix_product_drdrxinv) {
   ksl_mat3x3_t r1;
   ksl_mat3x3_setIdentity(&r1);
-  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
   ksl_mat3x3_t r2;
   double dc[2];
@@ -1257,7 +1260,7 @@ END_TEST
 START_TEST(test_matrix_product_drdrxinvf) {
   ksl_mat3x3f_t r1;
   ksl_mat3x3f_setIdentity(&r1);
-  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ksl_mat3x3f_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
   ksl_mat3x3f_t r2;
   float dc[2];
@@ -1278,7 +1281,7 @@ END_TEST
 START_TEST(test_matrix_product_drdry) {
   ksl_mat3x3_t r1;
   ksl_mat3x3_setIdentity(&r1);
-  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
   ksl_mat3x3_t r2;
   double dc[2];
@@ -1299,7 +1302,7 @@ END_TEST
 START_TEST(test_matrix_product_drdryf) {
   ksl_mat3x3f_t r1;
   ksl_mat3x3f_setIdentity(&r1);
-  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ksl_mat3x3f_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
   ksl_mat3x3f_t r2;
   float dc[2];
@@ -1320,7 +1323,7 @@ END_TEST
 START_TEST(test_matrix_product_drdryinv) {
   ksl_mat3x3_t r1;
   ksl_mat3x3_setIdentity(&r1);
-  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
   ksl_mat3x3_t r2;
   double dc[2];
@@ -1341,7 +1344,7 @@ END_TEST
 START_TEST(test_matrix_product_drdryinvf) {
   ksl_mat3x3f_t r1;
   ksl_mat3x3f_setIdentity(&r1);
-  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ksl_mat3x3f_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
   ksl_mat3x3f_t r2;
   float dc[2];
@@ -1362,7 +1365,7 @@ END_TEST
 START_TEST(test_matrix_product_drdrz) {
   ksl_mat3x3_t r1;
   ksl_mat3x3_setIdentity(&r1);
-  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
   ksl_mat3x3_t r2;
   double dc[2];
@@ -1383,7 +1386,7 @@ END_TEST
 START_TEST(test_matrix_product_drdrzf) {
   ksl_mat3x3f_t r1;
   ksl_mat3x3f_setIdentity(&r1);
-  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ksl_mat3x3f_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
   ksl_mat3x3f_t r2;
   float dc[2];
@@ -1404,7 +1407,7 @@ END_TEST
 START_TEST(test_matrix_product_drdrzinv) {
   ksl_mat3x3_t r1;
   ksl_mat3x3_setIdentity(&r1);
-  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
   ksl_mat3x3_t r2;
   double dc[2];
@@ -1425,7 +1428,7 @@ END_TEST
 START_TEST(test_matrix_product_drdrzinvf) {
   ksl_mat3x3f_t r1;
   ksl_mat3x3f_setIdentity(&r1);
-  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ksl_mat3x3f_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
   ksl_mat3x3f_t r2;
   float dc[2];
@@ -1446,7 +1449,7 @@ END_TEST
 START_TEST(test_matrix_product_drdr) {
   ksl_mat3x3_t r1;
   ksl_mat3x3_setIdentity(&r1);
-  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
   ksl_mat3x3_t r2;
   ksl_mat3x3_setFromEulerAngles(&r2, KSL_AXIS_XYZ, &angles);
@@ -1467,7 +1470,7 @@ END_TEST
 START_TEST(test_matrix_product_drdrf) {
   ksl_mat3x3f_t r1;
   ksl_mat3x3f_setIdentity(&r1);
-  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ksl_mat3x3f_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
   ksl_mat3x3f_t r2;
   ksl_mat3x3f_setFromEulerAngles(&r2, KSL_AXIS_XYZ, &angles);
@@ -1488,7 +1491,7 @@ END_TEST
 START_TEST(test_matrix_product_drdrinv) {
   ksl_mat3x3_t r1;
   ksl_mat3x3_setIdentity(&r1);
-  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
   ksl_mat3x3_t r2;
   ksl_mat3x3_setFromEulerAngles(&r2, KSL_AXIS_XYZ, &angles);
@@ -1506,7 +1509,7 @@ END_TEST
 START_TEST(test_matrix_product_drdrinvf) {
   ksl_mat3x3f_t r1;
   ksl_mat3x3f_setIdentity(&r1);
-  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ksl_mat3x3f_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
   ksl_mat3x3f_t r2;
   ksl_mat3x3f_setFromEulerAngles(&r2, KSL_AXIS_XYZ, &angles);
@@ -1524,7 +1527,7 @@ END_TEST
 START_TEST(test_matrix_product_drinvdr) {
   ksl_mat3x3_t r1;
   ksl_mat3x3_setIdentity(&r1);
-  ksl_vec3_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
   ksl_mat3x3_t r2;
   ksl_mat3x3_setFromEulerAngles(&r2, KSL_AXIS_XYZ, &angles);
@@ -1542,7 +1545,7 @@ END_TEST
 START_TEST(test_matrix_product_drinvdrf) {
   ksl_mat3x3f_t r1;
   ksl_mat3x3f_setIdentity(&r1);
-  ksl_vec3f_t angles = {{0.2, 0.3, 0.4}};
+  ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ksl_mat3x3f_setFromEulerAngles(&r1, KSL_AXIS_XYZ, &angles);
   ksl_mat3x3f_t r2;
   ksl_mat3x3f_setFromEulerAngles(&r2, KSL_AXIS_XYZ, &angles);

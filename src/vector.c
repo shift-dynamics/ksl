@@ -64,6 +64,18 @@ ksl_vec4f_t ksl_vec4f(const float x, const float y, const float z,
 }
 
 /*!
+@brief vec4i constructor
+*/
+ksl_vec4i_t ksl_vec4i(const int x, const int y, const int z, const int w) {
+  ksl_vec4i_t v;
+  v.x = x;
+  v.y = y;
+  v.z = z;
+  v.w = w;
+  return v;
+}
+
+/*!
 @brief initialize n ksl_vec3_t double precision vectors datastructures on the
 heap
 */

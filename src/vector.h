@@ -26,36 +26,48 @@ SUCH DAMAGE.
 @brief 3 dimensional double precision vector
 */
 typedef union ksl_vec3_t {
-  double at[3];
+  struct {
+    double at[3];
+  }; /*!< anonymous union allows accessing vector quantities at specified index
+      */
   struct {
     double x;
     double y;
     double z;
-  };
+  }; /*!< anonymous union allows accessing vector quantities by descriptive name
+      */
 } ksl_vec3_t;
 
 /*!
 @brief 3 dimensional single precision vector
 */
 typedef union ksl_vec3f_t {
-  float at[3];
+  struct {
+    float at[3];
+  }; /*!< anonymous union allows accessing vector quantities at specified index
+      */
   struct {
     float x;
     float y;
     float z;
-  };
+  }; /*!< anonymous union allows accessing vector quantities by descriptive name
+      */
 } ksl_vec3f_t;
 
 /*!
 @brief 3 dimensional integer vector
 */
 typedef union ksl_vec3i_t {
-  int at[3];
+  struct {
+    int at[3];
+  }; /*!< anonymous union allows accessing vector quantities at specified index
+      */
   struct {
     int x;
     int y;
     int z;
-  };
+  }; /*!< anonymous union allows accessing vector quantities by descriptive name
+      */
 } ksl_vec3i_t;
 
 /*!
@@ -65,18 +77,26 @@ with a homogeneous coordinate (w) appended.
 Typically used for nonlinear transformations such as camera projections.
 */
 typedef union ksl_vec4_t {
-  double at[4];
+  struct {
+    double at[4];
+  }; /*!< anonymous union allows accessing vector quantities at specified index
+      */
   struct {
     union {
-      ksl_vec3_t r;
+      struct {
+        ksl_vec3_t r;
+      }; /*!< anonymous union allows accessing 3d vector component of 4d vector
+          */
       struct {
         double x;
         double y;
         double z;
-      };
+      }; /*!< anonymous union allows x, y, z vector component of 4d vector by
+            descriptive name*/
     };
-    double w;
-  };
+    double w; /*!< homogeneous coordinate of 4d vector */
+  }; /*!< anonymous union allows x, y, z, w vector components of 4d vector by
+        descriptive name or 3d vector component */
 } ksl_vec4_t;
 
 /*!
@@ -86,33 +106,49 @@ with a homogeneous coordinate (w) appended.
 Typically used for nonlinear transformations such as camera projections.
 */
 typedef union ksl_vec4f_t {
-  float at[4];
+  struct {
+    float at[4];
+  }; /*!< anonymous union allows accessing vector quantities at specified index
+      */
   struct {
     union {
-      ksl_vec3f_t r;
+      struct {
+        ksl_vec3f_t r;
+      }; /*!< anonymous union allows accessing 3d vector component of 4d vector
+          */
       struct {
         float x;
         float y;
         float z;
-      };
+      }; /*!< anonymous union allows x, y, z vector component of 4d vector by
+           descriptive name*/
     };
-    float w;
-  };
+    float w; /*!< homogeneous coordinate of 4d vector */
+  }; /*!< anonymous union allows x, y, z, w vector components of 4d vector by
+        descriptive name or 3d vector component */
 } ksl_vec4f_t;
 
 typedef union ksl_vec4i_t {
-  int at[4];
+  struct {
+    int at[4];
+  }; /*!< anonymous union allows accessing vector quantities at specified index
+      */
   struct {
     union {
-      ksl_vec3i_t r;
+      struct {
+        ksl_vec3i_t r;
+      }; /*!< anonymous union allows accessing 3d vector component of 4d vector
+          */
       struct {
         int x;
         int y;
         int z;
-      };
+      }; /*!< anonymous union allows x, y, z vector component of 4d vector by
+           descriptive name*/
     };
-    int w;
-  };
+    int w; /*!< homogeneous coordinate of 4d vector */
+  }; /*!< anonymous union allows x, y, z, w vector components of 4d vector by
+        descriptive name or 3d vector component */
 } ksl_vec4i_t;
 
 ksl_vec3_t ksl_vec3(const double x, const double y, const double z);

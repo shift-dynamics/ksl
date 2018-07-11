@@ -20,7 +20,7 @@ START_TEST(test_print_vec3) {
   fprintf(f, "-----\n");
   ksl_print_options_t* options = ksl_print_options();
 
-  ksl_vec3_t v = {{1.0, 2.0, 3.0}};
+  ksl_vec3_t v = ksl_vec3(1.0, 2.0, 3.0);
   ksl_vec3_print(f, &v);
 
   ksl_print_setDelimiter(" ", options);
@@ -40,7 +40,7 @@ START_TEST(test_print_vec3f) {
   fprintf(f, "------\n");
   ksl_print_options_t* options = ksl_print_options();
 
-  ksl_vec3_t v = {{1.0, 2.0, 3.0}};
+  ksl_vec3_t v = ksl_vec3(1.0, 2.0, 3.0);
   ksl_vec3_print(f, &v);
 
   ksl_print_setDelimiter("\t", options);
@@ -62,7 +62,7 @@ START_TEST(test_print_screw) {
   fprintf(f, "------\n");
   ksl_print_options_t* options = ksl_print_options();
 
-  ksl_screw_t v = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0}};
+  ksl_screw_t v = ksl_screw(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
   ksl_screw_print(f, &v);
 
   ksl_print_setDelimiter(" ", options);
@@ -83,7 +83,7 @@ START_TEST(test_print_screwf) {
   fprintf(f, "-------\n");
   ksl_print_options_t* options = ksl_print_options();
 
-  ksl_screwf_t v = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0}};
+  ksl_screwf_t v = ksl_screwf(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
   ksl_screwf_print(f, &v);
 
   ksl_print_setDelimiter("\t", options);
@@ -106,7 +106,7 @@ START_TEST(test_print_coscrew) {
   fprintf(f, "--------\n");
   ksl_print_options_t* options = ksl_print_options();
 
-  ksl_coscrew_t v = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0}};
+  ksl_coscrew_t v = ksl_coscrew(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
   ksl_coscrew_print(f, &v);
 
   ksl_print_setDelimiter(" ", options);
@@ -127,7 +127,7 @@ START_TEST(test_print_coscrewf) {
   fprintf(f, "---------\n");
   ksl_print_options_t* options = ksl_print_options();
 
-  ksl_coscrewf_t v = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0}};
+  ksl_coscrewf_t v = ksl_coscrewf(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
   ksl_coscrewf_print(f, &v);
 
   ksl_print_setDelimiter("\t", options);
@@ -149,7 +149,7 @@ START_TEST(test_print_mat3x3) {
   fprintf(f, "mat3x3:\n");
   fprintf(f, "-------\n");
   ksl_print_options_t* options = ksl_print_options();
-  ksl_mat3x3_t m = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0}};
+  ksl_mat3x3_t m = ksl_mat3x3_cmo(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
   ksl_mat3x3_print(f, &m);
 
   ksl_print_setDelimiter(" ", options);
@@ -171,7 +171,8 @@ START_TEST(test_print_mat3x3f) {
   fprintf(f, "mat3x3f:\n");
   fprintf(f, "--------\n");
   ksl_print_options_t* options = ksl_print_options();
-  ksl_mat3x3f_t m = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0}};
+  ksl_mat3x3f_t m =
+    ksl_mat3x3f_cmo(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
   ksl_mat3x3f_print(f, &m);
 
   ksl_print_setDelimiter(" ", options);
@@ -193,8 +194,8 @@ START_TEST(test_print_mat4x4) {
   fprintf(f, "mat4x4:\n");
   fprintf(f, "-------\n");
   ksl_print_options_t* options = ksl_print_options();
-  ksl_mat4x4_t m = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0,
-                     12.0, 13.0, 14.0, 15.0, 16.0}};
+  ksl_mat4x4_t m = ksl_mat4x4_cmo(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0,
+                                  10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0);
   ksl_mat4x4_print(f, &m);
 
   ksl_print_setDelimiter(" ", options);
@@ -217,8 +218,8 @@ START_TEST(test_print_mat4x4f) {
   fprintf(f, "mat4x4f:\n");
   fprintf(f, "--------\n");
   ksl_print_options_t* options = ksl_print_options();
-  ksl_mat4x4f_t m = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0,
-                      12.0, 13.0, 14.0, 15.0, 16.0}};
+  ksl_mat4x4f_t m = ksl_mat4x4f_cmo(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0,
+                                    10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0);
   ksl_mat4x4f_print(f, &m);
 
   ksl_print_setDelimiter(" ", options);
@@ -240,8 +241,8 @@ START_TEST(test_print_SE3) {
   fprintf(f, "SE3:\n");
   fprintf(f, "----\n");
   ksl_print_options_t* options = ksl_print_options();
-  ksl_SE3_t m = {
-    {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0}};
+  ksl_SE3_t m =
+    ksl_SE3_cmo(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0);
   ksl_SE3_print(f, &m);
 
   ksl_print_setDelimiter(" ", options);
@@ -264,8 +265,8 @@ START_TEST(test_print_SE3f) {
   fprintf(f, "SE3f:\n");
   fprintf(f, "-----\n");
   ksl_print_options_t* options = ksl_print_options();
-  ksl_SE3f_t m = {
-    {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0}};
+  ksl_SE3f_t m =
+    ksl_SE3f_cmo(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0);
   ksl_SE3f_print(f, &m);
 
   ksl_print_setDelimiter(" ", options);

@@ -2171,17 +2171,19 @@ inline void ksl_product_ddtinvf(const ksl_SE3f_t* restrict Di,
 inline void ksl_product_dinvdt(const ksl_SE3_t* restrict Di,
                                const ksl_vec3_t* restrict t,
                                ksl_SE3_t* restrict Do) {
-  ksl_subtract_vv(t, &Di->t, &Do->t);
+  ksl_vec3_t temp;
+  ksl_subtract_vv(t, &Di->t, &temp);
   ksl_mat3x3_transposed(&Di->R, &Do->R);
-  ksl_product_drinvv(&Di->R, &Do->t, &Do->t);
+  ksl_product_drinvv(&Di->R, &temp, &Do->t);
 }
 
 inline void ksl_product_dinvdtf(const ksl_SE3f_t* restrict Di,
                                 const ksl_vec3f_t* restrict t,
                                 ksl_SE3f_t* restrict Do) {
-  ksl_subtract_vvf(t, &Di->t, &Do->t);
+  ksl_vec3f_t temp;
+  ksl_subtract_vvf(t, &Di->t, &temp);
   ksl_mat3x3f_transposed(&Di->R, &Do->R);
-  ksl_product_drinvvf(&Di->R, &Do->t, &Do->t);
+  ksl_product_drinvvf(&Di->R, &temp, &Do->t);
 }
 
 inline void ksl_product_ddtx(const ksl_SE3_t* restrict Di, const double ti,

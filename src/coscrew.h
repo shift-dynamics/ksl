@@ -29,18 +29,20 @@ SUCH DAMAGE.
 of a linear and angular vector pair in function space.
 */
 typedef union ksl_coscrew_t {
-  double at[6]; /*!< allows accessing coscrew quantity at specified index */
+  struct {
+    double at[6];
+  }; /*!< anyonymous union allows accessing coscrew quantities at specified
+        index */
   struct {
     ksl_vec3_t lin; /*!< bound linear vector, e.g. force or linear
                          momentum */
     ksl_vec3_t ang; /*!< free angular vector, e.g. moment/torque
-                         or angular momentum */
-  }; /*!< anonymous union allows accessing coscrew quantities using field names
-        or by index */
+                         or angular momentum*/
+  }; /*!< anyonymous union allows accessing coscrew quantities by its linear and
+        angular vector components */
   struct {
     double m0, m1, m2, m3, m4, m5;
-  }; /*!< anonymous union allows accessing coscrew quantities using field names
-        or by index */
+  }; /*!< anonymous union allows accessing coscrew quantities by field name */
 } ksl_coscrew_t;
 
 /*!
@@ -48,18 +50,20 @@ typedef union ksl_coscrew_t {
 of a linear and angular vector pair in function space.
 */
 typedef union ksl_coscrewf_t {
-  float at[6]; /*!< allows accessing coscrew quantity at specified index */
+  struct {
+    float at[6];
+  }; /*!< anonymous union allows accessing coscrew quantities at specified index
+      */
   struct {
     ksl_vec3f_t lin; /*!< bound linear vector, e.g. force or linear
                          momentum */
     ksl_vec3f_t ang; /*!< free angular vector, e.g. moment/torque
                          or angular momentum*/
-  }; /*!< anonymous union allows accessing coscrew quantities using field names
-        or by index */
+  }; /*!< anyonymous union allows accessing coscrew quantities by its linear and
+        angular vector components */
   struct {
     float m0, m1, m2, m3, m4, m5;
-  }; /*!< anonymous union allows accessing coscrew quantities using field names
-       or by index */
+  }; /*!< anonymous union allows accessing coscrew quantities by field name */
 } ksl_coscrewf_t;
 
 /*!
@@ -172,6 +176,14 @@ void ksl_coscrew_invert(ksl_coscrew_t* self);
 */
 void ksl_coscrewf_invert(ksl_coscrewf_t* self);
 
+double ksl_coscrew_norm(const ksl_coscrew_t* v);
+
+float ksl_coscrewf_norm(const ksl_coscrewf_t* v);
+
+void ksl_coscrew_normalize(ksl_coscrew_t* v);
+
+void ksl_coscrewf_normalize(ksl_coscrewf_t* v);
+
 /*!
 @brief In-place add a double precision coscrew multiplied with a scalar to an
 existing coscrew.
@@ -251,18 +263,18 @@ void ksl_nxpy_ccf(const ksl_coscrewf_t* x, ksl_coscrewf_t* y);
 
 \f$ \mathbf{\underline{c}}_i^* * a \rightarrow \mathbf{\underline{c}}_o^*\f$
 
-@param ci [in/out] coscrew to invert
+@param co [in/out] coscrew to scale
 */
-void ksl_product_ca(const ksl_coscrew_t* ci, const double a, ksl_coscrew_t* co);
+void ksl_product_ac(const double a, const ksl_coscrew_t* ci, ksl_coscrew_t* co);
 
 /*!
 @brief Scale a single precision coscrew.
 
 \f$ \mathbf{\underline{c}}_i^* * a \rightarrow \mathbf{\underline{c}}_o^*\f$
 
-@param ci [in/out] coscrew to invert
+@param co [in/out] coscrew to scale
 */
-void ksl_product_caf(const ksl_coscrewf_t* ci, const float a,
+void ksl_product_acf(const float a, const ksl_coscrewf_t* ci,
                      ksl_coscrewf_t* co);
 
 /*!
@@ -317,31 +329,71 @@ void ksl_subtract_cc(const ksl_coscrew_t* c1i, const ksl_coscrew_t* c2i,
 void ksl_subtract_ccf(const ksl_coscrewf_t* c1i, const ksl_coscrewf_t* c2i,
                       ksl_coscrewf_t* co);
 
-/*!
-@brief Compute the double precision coscrew cross product
+void ksl_add_cct(const ksl_coscrew_t* ci1, const ksl_coscrew_t* ci2,
+                 ksl_coscrew_t* co);
 
-\f$ \mathbf{\underline{c}}_{1i}^* \times \mathbf{\underline{c}}_{2i}^*
-\rightarrow \mathbf{\underline{c}}_o^*\f$
+void ksl_add_cctf(const ksl_coscrewf_t* ci1, const ksl_coscrewf_t* ci2,
+                  ksl_coscrewf_t* co);
 
-@param c1i [in] first coscrew
-@param c2i [in] second coscrew
-@param co [out] result of c1i x c2i
-*/
-void ksl_cross_cc(const ksl_coscrew_t* c1i, const ksl_coscrew_t* c2i,
+void ksl_hctx(const ksl_SE3_t* Di, ksl_coscrew_t* co);
+
+void ksl_hctxf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
+
+void ksl_hcty(const ksl_SE3_t* Di, ksl_coscrew_t* co);
+
+void ksl_hctyf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
+
+void ksl_hctz(const ksl_SE3_t* ri, ksl_coscrew_t* co);
+
+void ksl_hctzf(const ksl_SE3f_t* ri, ksl_coscrewf_t* co);
+
+void ksl_hcrx(const ksl_SE3_t* Di, ksl_coscrew_t* co);
+
+void ksl_hcrxf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
+
+void ksl_hcry(const ksl_SE3_t* Di, ksl_coscrew_t* co);
+
+void ksl_hcryf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
+
+void ksl_hcrz(const ksl_SE3_t* Di, ksl_coscrew_t* co);
+
+void ksl_hcrzf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
+
+void ksl_hctxinv(const ksl_SE3_t* Di, ksl_coscrew_t* co);
+
+void ksl_hctxinvf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
+
+void ksl_hctyinv(const ksl_SE3_t* Di, ksl_coscrew_t* co);
+
+void ksl_hctyinvf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
+
+void ksl_hctzinv(const ksl_SE3_t* Di, ksl_coscrew_t* co);
+
+void ksl_hctzinvf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
+
+void ksl_hcrxinv(const ksl_SE3_t* Di, ksl_coscrew_t* co);
+
+void ksl_hcrxinvf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
+
+void ksl_hcryinv(const ksl_SE3_t* Di, ksl_coscrew_t* co);
+
+void ksl_hcryinvf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
+
+void ksl_hcrzinv(const ksl_SE3_t* Di, ksl_coscrew_t* co);
+
+void ksl_hcrzinvf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
+
+void ksl_cross_sc(const ksl_screw_t* s1i, const ksl_coscrew_t* c2i,
                   ksl_coscrew_t* co);
 
-/*!
-@brief Compute the single precision coscrew cross product
-
-\f$\mathbf{\underline{c}}_{1i}^* \times \mathbf{\underline{c}}_{2i}^*
-\rightarrow \mathbf{\underline{c}}_o^*\f$
-
-@param c1i [in] first coscrew
-@param c2i [in] second coscrew
-@param co [out] result of c1i x c2i
-*/
-void ksl_cross_ccf(const ksl_coscrewf_t* c1i, const ksl_coscrewf_t* c2i,
+void ksl_cross_scf(const ksl_screwf_t* s1i, const ksl_coscrewf_t* c2i,
                    ksl_coscrewf_t* co);
+
+void ksl_cross_sca(const ksl_screw_t* s1i, const ksl_coscrew_t* c2i,
+                   ksl_coscrew_t* co);
+
+void ksl_cross_scaf(const ksl_screwf_t* s1i, const ksl_coscrewf_t* c2i,
+                    ksl_coscrewf_t* co);
 
 /*!
 @brief Performs a double precision spatial translation of a coscrew. Performs a
@@ -595,6 +647,30 @@ component.
 @param co [out] output coscrew
 */
 void ksl_product_CoAdinvcf(const ksl_SE3f_t* Di, const ksl_coscrewf_t* ci,
+                           ksl_coscrewf_t* co);
+
+void ksl_product_CoAdrc(const ksl_mat3x3_t* ri, const ksl_coscrew_t* ci,
+                        ksl_coscrew_t* co);
+
+void ksl_product_CoAdrcf(const ksl_mat3x3f_t* ri, const ksl_coscrewf_t* ci,
+                         ksl_coscrewf_t* co);
+
+void ksl_product_CoAdrcinv(const ksl_mat3x3_t* ri, const ksl_coscrew_t* ci,
+                           ksl_coscrew_t* co);
+
+void ksl_product_CoAdrcinvf(const ksl_mat3x3f_t* ri, const ksl_coscrewf_t* ci,
+                            ksl_coscrewf_t* co);
+
+void ksl_product_CoAdtinvc(const ksl_vec3_t* ti, const ksl_coscrew_t* ci,
+                           ksl_coscrew_t* co);
+
+void ksl_product_CoAdtinvcf(const ksl_vec3f_t* ti, const ksl_coscrewf_t* ci,
+                            ksl_coscrewf_t* co);
+
+void ksl_product_CoAdcinv(const ksl_SE3_t* Di, const ksl_coscrew_t* ci,
+                          ksl_coscrew_t* co);
+
+void ksl_product_CoAdcinvf(const ksl_SE3f_t* Di, const ksl_coscrewf_t* ci,
                            ksl_coscrewf_t* co);
 
 #endif

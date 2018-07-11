@@ -202,7 +202,7 @@ void ksl_inertiaf_translated(const ksl_inertiaf_t* restrict inertia_i,
   ksl_axpy_vvf(inertia_i->m, t, &inertia_o->mt);
 
   ksl_vec3f_t temp;
-  memcpy(&temp, &inertia_o->mt, sizeof(ksl_vec3_t));
+  memcpy(&temp, &inertia_o->mt, sizeof(ksl_vec3f_t));
   assert(inertia_i->m > 0);
   ksl_vec3f_scale(&temp, 1 / inertia_i->m);
 
