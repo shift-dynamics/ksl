@@ -261,7 +261,7 @@ Double precision
 .. doxygenfunction:: ksl_nxpy_cc
 
 
-.. doxygenfunction:: ksl_product_ca
+.. doxygenfunction:: ksl_product_ac
 
 
 .. doxygenfunction:: ksl_add_cc
@@ -270,7 +270,7 @@ Double precision
 .. doxygenfunction:: ksl_subtract_cc
 
 
-.. doxygenfunction:: ksl_cross_cc
+.. doxygenfunction:: ksl_cross_sc
 
 
 .. doxygenfunction:: ksl_product_CoAdtc
@@ -325,7 +325,7 @@ Single precision
 .. doxygenfunction:: ksl_nxpy_ccf
 
 
-.. doxygenfunction:: ksl_product_caf
+.. doxygenfunction:: ksl_product_acf
 
 
 .. doxygenfunction:: ksl_add_ccf
@@ -334,7 +334,7 @@ Single precision
 .. doxygenfunction:: ksl_subtract_ccf
 
 
-.. doxygenfunction:: ksl_cross_ccf
+.. doxygenfunction:: ksl_cross_scf
 
 
 .. doxygenfunction:: ksl_product_CoAdtcf
