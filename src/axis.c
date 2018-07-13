@@ -8,56 +8,41 @@ ksl_vec3i_t ksl_axis_getVector(ksl_axis_enum_t axisType) {
 
   switch(axisType) {
     case KSL_AXIS_XYZ: {
-      ksl_vec3i_t axis = {{0, 1, 2}};
-      return axis;
+      return ksl_vec3i(0, 1, 2);
     }
     case KSL_AXIS_YZX: {
-      ksl_vec3i_t axis = {{1, 2, 0}};
-      return axis;
+      return ksl_vec3i(1, 2, 0);
     }
     case KSL_AXIS_ZXY: {
-      ksl_vec3i_t axis = {{2, 0, 1}};
-      return axis;
+      return ksl_vec3i(2, 0, 1);
     }
     case KSL_AXIS_XZY: {
-      ksl_vec3i_t axis = {{0, 2, 1}};
-      return axis;
+      return ksl_vec3i(0, 2, 1);
     }
     case KSL_AXIS_YXZ: {
-      ksl_vec3i_t axis = {{1, 0, 2}};
-      return axis;
+      return ksl_vec3i(1, 0, 2);
     }
     case KSL_AXIS_ZYX: {
-      ksl_vec3i_t axis = {{2, 1, 0}};
-      return axis;
+      return ksl_vec3i(2, 1, 0);
     }
     case KSL_AXIS_XYX: {
-      ksl_vec3i_t axis = {{0, 1, 0}};
-      return axis;
+      return ksl_vec3i(0, 1, 0);
     }
     case KSL_AXIS_XZX: {
-      ksl_vec3i_t axis = {{0, 2, 0}};
-      return axis;
+      return ksl_vec3i(0, 2, 0);
     }
     case KSL_AXIS_YXY: {
-      ksl_vec3i_t axis = {{1, 0, 1}};
-      return axis;
+      return ksl_vec3i(1, 0, 1);
     }
     case KSL_AXIS_YZY: {
-      ksl_vec3i_t axis = {{1, 2, 1}};
-      return axis;
+      return ksl_vec3i(1, 2, 1);
     }
     case KSL_AXIS_ZXZ: {
-      ksl_vec3i_t axis = {{2, 0, 2}};
-      return axis;
+      return ksl_vec3i(2, 0, 2);
     }
     case KSL_AXIS_ZYZ: {
-      ksl_vec3i_t axis = {{2, 1, 2}};
-      return axis;
+      return ksl_vec3i(2, 1, 2);
     }
-    default: {
-      ksl_vec3i_t axis = {{0, 1, 2}};
-      return axis;
-    }
+    default: { return ksl_vec3i(0, 1, 2); }
   }
 }

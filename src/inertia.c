@@ -304,10 +304,10 @@ void ksl_inertia_merge(ksl_inertia_t* restrict inertia_i,
 
   /* locate the combined center of mass */
   ksl_vec3_t* mt_ic_i = &inertia_i->mt;
-  ksl_vec3_t t_jc_i = {{0.0, 0.0, 0.0}};
-  ksl_vec3_t mt_jc_i = {{0.0, 0.0, 0.0}};
-  ksl_vec3_t t_icbar = {{0.0, 0.0, 0.0}};
-  ksl_vec3_t mt_icbar = {{0.0, 0.0, 0.0}};
+  ksl_vec3_t t_jc_i = ksl_vec3(0.0, 0.0, 0.0);
+  ksl_vec3_t mt_jc_i = ksl_vec3(0.0, 0.0, 0.0);
+  ksl_vec3_t t_icbar = ksl_vec3(0.0, 0.0, 0.0);
+  ksl_vec3_t mt_icbar = ksl_vec3(0.0, 0.0, 0.0);
 
   double m_i = inertia_i->m;
   double m_j = inertia_j->m;
@@ -338,7 +338,7 @@ void ksl_inertia_merge(ksl_inertia_t* restrict inertia_i,
 
   /* a. find vector t_ccbar^i from center of mass to new combined centroid
   (cbar) (eq. 1.10) */
-  ksl_vec3_t t_ccbar = {{0.0, 0.0, 0.0}};
+  ksl_vec3_t t_ccbar = ksl_vec3(0.0, 0.0, 0.0);
   ksl_subtract_vv(&t_icbar, t_ic_i, &t_ccbar);
 
   /* b. transform centroidal inertia matrix of parent body to new centroid
@@ -354,7 +354,7 @@ void ksl_inertia_merge(ksl_inertia_t* restrict inertia_i,
   ksl_inertia_rotated(M_j_cc_jj, &D_ij->R, &M_j_ccbar_temp);
 
   /* equation 1.13 */
-  ksl_vec3_t temp = {{0.0, 0.0, 0.0}};
+  ksl_vec3_t temp = ksl_vec3(0.0, 0.0, 0.0);
   ksl_product_drv(&D_ij->R, t_jc_j, &temp);
   ksl_xpy_vv(&D_ij->t, &temp);
   ksl_subtract_vv(&t_icbar, &temp, &t_ccbar);
@@ -382,10 +382,10 @@ void ksl_inertiaf_merge(ksl_inertiaf_t* restrict inertia_i,
 
   /* locate the combined center of mass */
   ksl_vec3f_t* mt_ic_i = &inertia_i->mt;
-  ksl_vec3f_t t_jc_i = {{0.0, 0.0, 0.0}};
-  ksl_vec3f_t mt_jc_i = {{0.0, 0.0, 0.0}};
-  ksl_vec3f_t t_icbar = {{0.0, 0.0, 0.0}};
-  ksl_vec3f_t mt_icbar = {{0.0, 0.0, 0.0}};
+  ksl_vec3f_t t_jc_i = ksl_vec3f(0.0, 0.0, 0.0);
+  ksl_vec3f_t mt_jc_i = ksl_vec3f(0.0, 0.0, 0.0);
+  ksl_vec3f_t t_icbar = ksl_vec3f(0.0, 0.0, 0.0);
+  ksl_vec3f_t mt_icbar = ksl_vec3f(0.0, 0.0, 0.0);
 
   float m_i = inertia_i->m;
   float m_j = inertia_j->m;
@@ -416,7 +416,7 @@ void ksl_inertiaf_merge(ksl_inertiaf_t* restrict inertia_i,
 
   /* a. find vector t_ccbar^i from center of mass to new combined centroid
   (cbar) (eq. 1.10) */
-  ksl_vec3f_t t_ccbar = {{0.0, 0.0, 0.0}};
+  ksl_vec3f_t t_ccbar = ksl_vec3f(0.0, 0.0, 0.0);
   ksl_subtract_vvf(&t_icbar, t_ic_i, &t_ccbar);
 
   /* b. transform centroidal inertia matrix of parent body to new centroid
@@ -432,7 +432,7 @@ void ksl_inertiaf_merge(ksl_inertiaf_t* restrict inertia_i,
   ksl_inertiaf_rotated(M_j_cc_jj, &D_ij->R, &M_j_ccbar_temp);
 
   /* equation 1.13 */
-  ksl_vec3f_t temp = {{0.0, 0.0, 0.0}};
+  ksl_vec3f_t temp = ksl_vec3f(.0, 0.0, 0.0);
   ksl_product_drvf(&D_ij->R, t_jc_j, &temp);
   ksl_xpy_vvf(&D_ij->t, &temp);
   ksl_subtract_vvf(&t_icbar, &temp, &t_ccbar);
@@ -465,7 +465,7 @@ int ksl_inertia_factor(ksl_inertia_t* restrict inertia) {
   ksl_mat3x3_t M2WRTReference;
   ksl_mat3x3_copy(&M2, &M2WRTReference);
   double f[6] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-  ksl_vec3i_t indices = {{0.0, 0.0, 0.0}};
+  ksl_vec3i_t indices = ksl_vec3i(0.0, 0.0, 0.0);
 
   /* @todo this needs to be updated to use ksl functions */
 

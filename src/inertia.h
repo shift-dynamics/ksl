@@ -27,7 +27,9 @@ SUCH DAMAGE.
 @brief double precision mass and inertia properties
 */
 typedef union ksl_inertia_t {
-  double at[10];
+  struct {
+    double at[10];
+  }; /*!< anonymous union allows accessing by index */
   struct {
     double m;      /*!< mass */
     ksl_vec3_t mt; /*!< mass times a vector, t, from reference
@@ -44,7 +46,7 @@ typedef union ksl_inertia_t {
                         frame coordinates */
     double Izx;    /*!< Izx centroidal inertia term, expressed in reference
                         frame coordinates */
-  }; /*!< anonymous union allows accessing by index or field names */
+  };               /*!< anonymous union allows accessing by field names */
   struct {
     double mass;   /*!< mass */
     ksl_vec3_t mr; /*!< mass times a vector, r, from reference
@@ -61,7 +63,7 @@ typedef union ksl_inertia_t {
                         frame coordinates */
     double Ixz;    /*!< Izx centroidal inertia term, expressed in reference
                         frame coordinates */
-  }; /*!< anonymous union allows accessing by index or alternative field names
+  }; /*!< anonymous union allows accessing by alternative field names
       */
 } ksl_inertia_t;
 
@@ -69,7 +71,9 @@ typedef union ksl_inertia_t {
 @brief single precision mass and inertia properties
 */
 typedef union ksl_inertiaf_t {
-  float at[10];
+  struct {
+    float at[10];
+  }; /*!< anonymous union allows accessing by index */
   struct {
     float m;        /*!< mass */
     ksl_vec3f_t mt; /*!< mass times a vector, t, from reference
@@ -86,7 +90,7 @@ typedef union ksl_inertiaf_t {
                          frame coordinates */
     float Izx;      /*!< Izx centroidal inertia term, expressed in reference
                          frame coordinates */
-  };
+  }; /*!< anonymous union allows accessing inertial quantities by field name */
   struct {
     float mass;     /*!< mass */
     ksl_vec3f_t mr; /*!< mass times a vector, r, from reference
@@ -103,7 +107,8 @@ typedef union ksl_inertiaf_t {
                           frame coordinates */
     float Ixz;      /*!< Izx centroidal inertia term, expressed in reference
                           frame coordinates */
-  };
+  }; /*!< anonymous union allows accessing inertial quantities by alternative
+        field name */
 } ksl_inertiaf_t;
 
 /*!

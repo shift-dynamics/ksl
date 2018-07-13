@@ -288,7 +288,7 @@ START_TEST(test_print_array) {
   fprintf(f, "array:\n");
   fprintf(f, "------\n");
 
-  double m[20] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0};
+  double m[7] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0};
   /* modify global options */
   ksl_print_setRealFormat("% 0.3f");
   ksl_array_print(f, 7, m, "array: ");
@@ -335,7 +335,8 @@ START_TEST(test_print_inertia) {
   fprintf(f, "inertia:\n");
   fprintf(f, "--------\n");
   ksl_print_options_t* options = ksl_print_options();
-  ksl_inertia_t m = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0}};
+  ksl_inertia_t m =
+    ksl_inertia(1.0, ksl_vec3(1.0, 2.0, 3.0), 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
   ksl_inertia_print(f, &m);
 
   ksl_print_setDelimiter(" ", options);

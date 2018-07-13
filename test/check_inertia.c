@@ -6,7 +6,8 @@
 #include "inertia.h"
 
 START_TEST(test_inertia_create) {
-  ksl_inertia_t inertia = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0}};
+  ksl_inertia_t inertia =
+    ksl_inertia(1.0, ksl_vec3(2.0, 3.0, 4.0), 5.0, 6.0, 7.0, 8.0, 9.0, 10.0);
   ck_assert(inertia.m == inertia.at[0]);
   ck_assert(inertia.mt.x == inertia.at[1]);
   ck_assert(inertia.mt.y == inertia.at[2]);

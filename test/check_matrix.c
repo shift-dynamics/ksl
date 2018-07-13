@@ -218,8 +218,8 @@ START_TEST(test_matrix_mat4x4f_alloc) {
 END_TEST
 
 START_TEST(test_matrix_SE3toMat4x4) {
-  ksl_SE3_t d = {
-    {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0}};
+  ksl_SE3_t d =
+    ksl_SE3_cmo(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0);
   ksl_mat4x4_t m;
   ksl_SE3_toMat4x4(&d, &m);
   for(int j = 0; j < 4; j++) {
@@ -236,8 +236,8 @@ START_TEST(test_matrix_SE3toMat4x4) {
 END_TEST
 
 START_TEST(test_matrix_SE3ftoMat4x4f) {
-  ksl_SE3f_t d = {
-    {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0}};
+  ksl_SE3f_t d =
+    ksl_SE3f_cmo(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0);
   ksl_mat4x4f_t m;
   ksl_SE3f_toMat4x4f(&d, &m);
   for(int j = 0; j < 4; j++) {
@@ -254,8 +254,8 @@ START_TEST(test_matrix_SE3ftoMat4x4f) {
 END_TEST
 
 START_TEST(test_matrix_SE3toMat4x4f) {
-  ksl_SE3_t d = {
-    {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0}};
+  ksl_SE3_t d =
+    ksl_SE3_cmo(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0);
   ksl_mat4x4f_t m;
   ksl_SE3_toMat4x4f(&d, &m);
   for(int j = 0; j < 4; j++) {
@@ -283,8 +283,8 @@ START_TEST(test_matrix_dc) {
 END_TEST
 
 START_TEST(test_matrix_SE3_setIdentity) {
-  ksl_SE3_t d = {
-    {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0}};
+  ksl_SE3_t d =
+    ksl_SE3(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0);
   ksl_SE3_setIdentity(&d);
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 4; j++) {
@@ -299,8 +299,8 @@ START_TEST(test_matrix_SE3_setIdentity) {
 END_TEST
 
 START_TEST(test_matrix_SE3f_setIdentity) {
-  ksl_SE3f_t d = {
-    {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0}};
+  ksl_SE3f_t d =
+    ksl_SE3f(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0);
   ksl_SE3f_setIdentity(&d);
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 4; j++) {
@@ -315,7 +315,7 @@ START_TEST(test_matrix_SE3f_setIdentity) {
 END_TEST
 
 START_TEST(test_matrix_mat3x3_setIdentity) {
-  ksl_mat3x3_t r = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0}};
+  ksl_mat3x3_t r = ksl_mat3x3_cmo(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
   ksl_mat3x3_setIdentity(&r);
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 3; j++) {
@@ -330,7 +330,7 @@ START_TEST(test_matrix_mat3x3_setIdentity) {
 END_TEST
 
 START_TEST(test_matrix_mat3x3f_setIdentity) {
-  ksl_mat3x3f_t rf = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0}};
+  ksl_mat3x3f_t rf = ksl_mat3x3f(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
   ksl_mat3x3f_setIdentity(&rf);
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 3; j++) {
@@ -345,8 +345,8 @@ START_TEST(test_matrix_mat3x3f_setIdentity) {
 END_TEST
 
 START_TEST(test_matrix_mat4x4_setIdentity) {
-  ksl_mat4x4_t m = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0,
-                     12.0, 13.0, 14.0, 15.0, 16.0}};
+  ksl_mat4x4_t m = ksl_mat4x4(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0,
+                              11.0, 12.0, 13.0, 14.0, 15.0, 16.0);
   ksl_mat4x4_setIdentity(&m);
   for(int i = 0; i < 4; i++) {
     for(int j = 0; j < 4; j++) {
@@ -361,8 +361,8 @@ START_TEST(test_matrix_mat4x4_setIdentity) {
 END_TEST
 
 START_TEST(test_matrix_mat4x4f_setIdentity) {
-  ksl_mat4x4f_t m = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0,
-                      12.0, 13.0, 14.0, 15.0, 16.0}};
+  ksl_mat4x4f_t m = ksl_mat4x4f(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0,
+                                10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0);
   ksl_mat4x4f_setIdentity(&m);
   for(int i = 0; i < 4; i++) {
     for(int j = 0; j < 4; j++) {
@@ -456,7 +456,8 @@ END_TEST
 
 START_TEST(test_matrix_mat3x3_setFromVectors) {
   ksl_mat3x3_t m;
-  ksl_vec3_t v[3] = {{{1.0, 2.0, 3.0}}, {{4.0, 5.0, 6.0}}, {{7.0, 8.0, 9.0}}};
+  ksl_vec3_t v[3] = {ksl_vec3(1.0, 2.0, 3.0), ksl_vec3(4.0, 5.0, 6.0),
+                     ksl_vec3(7.0, 8.0, 9.0)};
   ksl_mat3x3_setFromVectors(&m, &v[0], &v[1], &v[2]);
 
   for(int j = 0; j < 3; j++) {
@@ -469,7 +470,8 @@ END_TEST
 
 START_TEST(test_matrix_mat3x3f_setFromVectors) {
   ksl_mat3x3f_t m;
-  ksl_vec3f_t v[3] = {{{1.0, 2.0, 3.0}}, {{4.0, 5.0, 6.0}}, {{7.0, 8.0, 9.0}}};
+  ksl_vec3f_t v[3] = {ksl_vec3f(1.0, 2.0, 3.0), ksl_vec3f(4.0, 5.0, 6.0),
+                      ksl_vec3f(7.0, 8.0, 9.0)};
   ksl_mat3x3f_setFromVectors(&m, &v[0], &v[1], &v[2]);
 
   for(int j = 0; j < 3; j++) {
@@ -481,8 +483,8 @@ START_TEST(test_matrix_mat3x3f_setFromVectors) {
 END_TEST
 
 START_TEST(test_matrix_SE3_getTranslation) {
-  ksl_SE3_t d = {
-    {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0}};
+  ksl_SE3_t d =
+    ksl_SE3_cmo(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0);
   ksl_vec3_t v;
   ksl_SE3_getTranslation(&d, &v);
 
@@ -493,8 +495,8 @@ START_TEST(test_matrix_SE3_getTranslation) {
 END_TEST
 
 START_TEST(test_matrix_SE3f_getTranslation) {
-  ksl_SE3f_t d = {
-    {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0}};
+  ksl_SE3f_t d =
+    ksl_SE3f_cmo(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0);
   ksl_vec3f_t v;
   ksl_SE3f_getTranslation(&d, &v);
 
@@ -505,7 +507,7 @@ START_TEST(test_matrix_SE3f_getTranslation) {
 END_TEST
 
 START_TEST(test_matrix_mat3x3_copy) {
-  ksl_mat3x3_t r1 = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0}};
+  ksl_mat3x3_t r1 = ksl_mat3x3(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
   ksl_mat3x3_t r2;
   ksl_mat3x3_copy(&r1, &r2);
 
@@ -516,7 +518,7 @@ START_TEST(test_matrix_mat3x3_copy) {
 END_TEST
 
 START_TEST(test_matrix_mat3x3f_copy) {
-  ksl_mat3x3f_t r1 = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0}};
+  ksl_mat3x3f_t r1 = ksl_mat3x3f(.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
   ksl_mat3x3f_t r2;
   ksl_mat3x3f_copy(&r1, &r2);
 
@@ -756,7 +758,7 @@ START_TEST(test_matrix_mat3x3_getEulerAngles) {
     ksl_mat3x3_setIdentity(&r1);
     ksl_axis_enum_t axis = j;
     ksl_vec3i_t sequence = ksl_axis_getVector(axis);
-    ksl_vec3_t angles_test = {{0.2, 0.3, 0.4}};
+    ksl_vec3_t angles_test = ksl_vec3(0.2, 0.3, 0.4);
     double dc[2];
     for(int i = 0; i < 3; i++) {
       ksl_dc(angles_test.at[i], dc);
@@ -778,7 +780,7 @@ START_TEST(test_matrix_mat3x3_getEulerAngles) {
     }
 
     ksl_vec3_t angles;
-    ksl_vec3_t angles_prev = {{0.21, 0.31, 0.41}};
+    ksl_vec3_t angles_prev = ksl_vec3(0.21, 0.31, 0.41);
     ksl_mat3x3_getEulerAngles(&r1, axis, &angles, &angles_prev);
 
     for(int i = 0; i < 3; i++) {
@@ -836,8 +838,8 @@ START_TEST(test_matrix_mat3x3_setFromEulerAngles) {
 END_TEST
 
 START_TEST(test_matrix_mat4x4_getTranslation) {
-  ksl_mat4x4_t m = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0,
-                     12.0, 13.0, 14.0, 15.0, 16.0}};
+  ksl_mat4x4_t m = ksl_mat4x4_cmo(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0,
+                                  10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0);
   ksl_vec3_t v;
   ksl_mat4x4_getTranslation(&m, &v);
   ck_assert_double_eq(v.x, m.m03);
@@ -847,8 +849,8 @@ START_TEST(test_matrix_mat4x4_getTranslation) {
 END_TEST
 
 START_TEST(test_matrix_mat4x4f_getTranslation) {
-  ksl_mat4x4f_t m = {{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0,
-                      12.0, 13.0, 14.0, 15.0, 16.0}};
+  ksl_mat4x4f_t m = ksl_mat4x4f_cmo(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0,
+                                    10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0);
   ksl_vec3f_t v;
   ksl_mat4x4f_getTranslation(&m, &v);
   ck_assert_float_eq(v.x, m.m03);
@@ -858,21 +860,22 @@ START_TEST(test_matrix_mat4x4f_getTranslation) {
 END_TEST
 
 START_TEST(test_matrix_mat3x3_determinant) {
-  ksl_mat3x3_t m = {{3.0, 2.0, 1.0, 4.0, 5.0, 6.0, 7.0, 9.0, 8.0}};
+  ksl_mat3x3_t m = ksl_mat3x3_cmo(3.0, 2.0, 1.0, 4.0, 5.0, 6.0, 7.0, 9.0, 8.0);
   double det = ksl_mat3x3_determinant(&m);
   ck_assert_double_eq_tol(det, -21, 1e-9);
 }
 END_TEST
 
 START_TEST(test_matrix_mat3x3f_determinant) {
-  ksl_mat3x3f_t m = {{3.0, 2.0, 1.0, 4.0, 5.0, 6.0, 7.0, 9.0, 8.0}};
+  ksl_mat3x3f_t m =
+    ksl_mat3x3f_cmo(3.0, 2.0, 1.0, 4.0, 5.0, 6.0, 7.0, 9.0, 8.0);
   float det = ksl_mat3x3f_determinant(&m);
   ck_assert_float_eq_tol(det, -21, 1e-6);
 }
 END_TEST
 
 START_TEST(test_matrix_mat3x3_getAxisAngle) {
-  ksl_vec3_t axis = {{1.0, 2.0, 3.0}};
+  ksl_vec3_t axis = ksl_vec3(1.0, 2.0, 3.0);
   double angle = 0.5;
   ksl_mat3x3_t m;
   ksl_mat3x3_setFromAxisAngle(&m, &axis, angle);
@@ -890,7 +893,7 @@ START_TEST(test_matrix_mat3x3_getAxisAngle) {
 END_TEST
 
 START_TEST(test_matrix_mat3x3f_getAxisAngle) {
-  ksl_vec3f_t axis = {{1.0, 2.0, 3.0}};
+  ksl_vec3f_t axis = ksl_vec3f(1.0, 2.0, 3.0);
   float angle = 0.5;
   ksl_mat3x3f_t m;
   ksl_mat3x3f_setFromAxisAngle(&m, &axis, angle);
@@ -915,7 +918,7 @@ START_TEST(test_matrix_product_drv) {
   ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
 
-  ksl_vec3_t v1 = {{1.0, 2.0, 3.0}};
+  ksl_vec3_t v1 = ksl_vec3(1.0, 2.0, 3.0);
   ksl_vec3_t v2;
   ksl_product_drv(&r, &v1, &v2);
 
@@ -932,7 +935,7 @@ START_TEST(test_matrix_product_drvf) {
   ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ;
   ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
-  ksl_vec3f_t v1 = {{1.0, 2.0, 3.0}};
+  ksl_vec3f_t v1 = ksl_vec3f(1.0, 2.0, 3.0);
 
   ksl_vec3f_t v2;
   ksl_product_drvf(&r, &v1, &v2);
@@ -948,7 +951,7 @@ START_TEST(test_matrix_product_drvinv) {
   ksl_mat3x3_setIdentity(&r);
   ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
-  ksl_vec3_t v1 = {{1.0, 2.0, 3.0}};
+  ksl_vec3_t v1 = ksl_vec3(1.0, 2.0, 3.0);
   ksl_vec3_t v2;
   ksl_product_drvinv(&r, &v1, &v2);
   ck_assert_double_eq_tol(v2.x, -1.0224326923807563, 1e-9);
@@ -965,7 +968,7 @@ START_TEST(test_matrix_product_drvinvf) {
 
   ;
   ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
-  ksl_vec3f_t v1 = {{1.0, 2.0, 3.0}};
+  ksl_vec3f_t v1 = ksl_vec3f(1.0, 2.0, 3.0);
 
   ksl_vec3f_t v2;
   ksl_product_drvinvf(&r, &v1, &v2);
@@ -981,7 +984,7 @@ START_TEST(test_matrix_product_drinvv) {
   ksl_mat3x3_setIdentity(&r);
   ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
-  ksl_vec3_t v1 = {{1.0, 2.0, 3.0}};
+  ksl_vec3_t v1 = ksl_vec3(1.0, 2.0, 3.0);
   ksl_vec3_t v2;
   ksl_product_drinvv(&r, &v1, &v2);
   ck_assert_double_eq_tol(v2.x, 1.1831846399394617, 1e-9);
@@ -996,7 +999,7 @@ START_TEST(test_matrix_product_drinvvf) {
   ksl_mat3x3f_setIdentity(&r);
   ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
-  ksl_vec3f_t v1 = {{1.0, 2.0, 3.0}};
+  ksl_vec3f_t v1 = ksl_vec3f(1.0, 2.0, 3.0);
 
   ksl_vec3f_t v2;
   ksl_product_drinvvf(&r, &v1, &v2);
@@ -1012,7 +1015,7 @@ START_TEST(test_matrix_product_drinvvinv) {
   ksl_mat3x3_setIdentity(&r);
   ksl_vec3_t angles = ksl_vec3(0.2, 0.3, 0.4);
   ksl_mat3x3_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
-  ksl_vec3_t v1 = {{1.0, 2.0, 3.0}};
+  ksl_vec3_t v1 = ksl_vec3(1.0, 2.0, 3.0);
   ksl_vec3_t v2;
   ksl_product_drinvvinv(&r, &v1, &v2);
   ck_assert_double_eq_tol(v2.x, -1.1831846399394617, 1e-9);
@@ -1027,7 +1030,7 @@ START_TEST(test_matrix_product_drinvvinvf) {
   ksl_mat3x3f_setIdentity(&r);
   ksl_vec3f_t angles = ksl_vec3f(0.2, 0.3, 0.4);
   ksl_mat3x3f_setFromEulerAngles(&r, KSL_AXIS_XYZ, &angles);
-  ksl_vec3f_t v1 = {{1.0, 2.0, 3.0}};
+  ksl_vec3f_t v1 = ksl_vec3f(1.0, 2.0, 3.0);
 
   ksl_vec3f_t v2;
   ksl_product_drinvvinvf(&r, &v1, &v2);

@@ -899,20 +899,6 @@ inline void ksl_SE3f_invert(ksl_SE3f_t* D) {
   ksl_vec3f_copy(&temp, &D->t);
 }
 
-/*!
-@brief obtain sequence of Euler angles using specified axis sequence convention
-
-This function decomposes a general direction cosine matrix into three
-      primitive direction cosine matrices, whose axes are determined by the
-      integers passed in through axisSequence. The direction cosine matrix
-      is passed in through Ri, and the three computed angles are updated
-and returned in angle. The previous values assigned to angle are passed in
-      to RtoA in angle. RtoA calls catan2, which uses the values stored in
-angle to maintain continuity if at all possible. This function does not
-check for bad axis indices. These checks could be added but would reduce
-      efficiency. For actual reporting purposes, especially when a large
-number of user output requests are to be processed.
-*/
 inline void
 ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
                                        const ksl_axis_enum_t axisType,
@@ -922,7 +908,7 @@ ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
   va_start(arguments, angles);
   ksl_vec3_t* reference = va_arg(arguments, ksl_vec3_t*);
   va_end(arguments);
-  ksl_vec3_t reference_angles = {{0.0, 0.0, 0.0}};
+  ksl_vec3_t reference_angles = ksl_vec3(0.0, 0.0, 0.0);
   if(!reference) {
     reference = &reference_angles;
   }
@@ -1204,16 +1190,25 @@ ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
 /*!
 @brief obtain sequence of Euler angles using specified axis sequence convention
 
+Note that this function requires the input direction cosine matrix to be
+orthonormal, that is, a member of the SO3 group. For efficiency, no checks are
+performed on the input direction cosine matrix to check whether it is
+orthonormal.
+
 This function decomposes a general direction cosine matrix into three
-      primitive direction cosine matrices, whose axes are determined by the
-      integers passed in through axisSequence. The direction cosine matrix
-      is passed in through Ri, and the three computed angles are updated
-and returned in angle. The previous values assigned to angle are passed in
-      to RtoA in angle. RtoA calls catan2, which uses the values stored in
-angle to maintain continuity if at all possible. This function does not
-check for bad axis indices. These checks could be added but would reduce
-      efficiency. For actual reporting purposes, especially when a large
-number of user output requests are to be processed.
+primitive direction cosine matrices, whose axes are determined by a
+ksl_axis_enum_t datasturcture which is passed in through the axisSequence
+parameter. The direction cosine matrix is passed in through the r, and the three
+computed angles are updated and returned in angles.
+
+Optionally, reference angles from a previous nearby position can be passed in
+the last argument.
+
+@param r [in] direction cosine matrix
+@param axisType [in] an enum specifying angle sequence
+@param angles [out] sequence of euler angles
+@param referenceAngles [in/optional] a sequence of reference angles from a
+nearby pose, used to obtain continuity in angles between poses.
 */
 inline void
 ksl_mat3x3f_getEulerAnglesWithReference(const ksl_mat3x3f_t* r,
@@ -1224,7 +1219,7 @@ ksl_mat3x3f_getEulerAnglesWithReference(const ksl_mat3x3f_t* r,
   va_start(arguments, angles);
   ksl_vec3f_t* reference = va_arg(arguments, ksl_vec3f_t*);
   va_end(arguments);
-  ksl_vec3f_t reference_angles = {{0.0, 0.0, 0.0}};
+  ksl_vec3f_t reference_angles = ksl_vec3f(0.0, 0.0, 0.0);
   if(!reference) {
     reference = &reference_angles;
   }
