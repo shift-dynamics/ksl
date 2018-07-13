@@ -281,7 +281,7 @@
 <span class="target" id="matrix_8h_1a075673d8b8724b0b149e3d2444a81d2e"></span><code class="descname">ksl_mat3x3_getEulerAngles</code><span class="sig-paren">(</span>r, angles, axisType, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.ksl_mat3x3_getEulerAngles" title="Permalink to this definition">¶</a></dt>
 <dd><p>macro used to obtain sequence of double precision Euler angles using specified axis sequence convention </p>
 <p>Note that this function requires the input direction cosine matrix to be orthonormal, that is, a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.</p>
-<p>This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t datasturcture which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.</p>
+<p>This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t data structure which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.</p>
 <p>Optionally, reference angles from a previous nearby position can be passed in the last argument.</p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
@@ -301,7 +301,7 @@
 <span id="_CPPv238ksl_mat3x3_getEulerAnglesWithReferencePK12ksl_mat3x3_tK15ksl_axis_enum_tP10ksl_vec3_tz"></span><span id="ksl_mat3x3_getEulerAnglesWithReference__ksl_mat3x3_tCP.ksl_axis_enum_tC.ksl_vec3_tP.z"></span><span class="target" id="matrix_8h_1a99c973220c97d334acefb30e0706ed9b"></span>void <code class="descname">ksl_mat3x3_getEulerAnglesWithReference</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>r</em>, <em class="property">const</em> ksl_axis_enum_t <em>axisType</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>angles</em>, ...<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv338ksl_mat3x3_getEulerAnglesWithReferencePK12ksl_mat3x3_tK15ksl_axis_enum_tP10ksl_vec3_tz" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>obtain sequence of double precision Euler angles using specified axis sequence convention </p>
 <p>Note that this function requires the input direction cosine matrix to be orthonormal, that is, a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.</p>
-<p>This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t datasturcture which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.</p>
+<p>This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t data structure which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.</p>
 <p>Optionally, reference angles from a previous nearby position can be passed in the last argument.</p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
@@ -537,7 +537,7 @@
 <span class="target" id="matrix_8h_1a7f9d70aa654ca2ec9834920e6513e098"></span><code class="descname">ksl_mat3x3f_getEulerAngles</code><span class="sig-paren">(</span>r, angles, axisType, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.ksl_mat3x3f_getEulerAngles" title="Permalink to this definition">¶</a></dt>
 <dd><p>macro used to obtain single precision sequence of Euler angles using specified axis sequence convention </p>
 <p>Note that this function requires the input direction cosine matrix to be orthonormal, that is, a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.</p>
-<p>This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t datasturcture which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.</p>
+<p>This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t data structure which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.</p>
 <p>Optionally, reference angles from a previous nearby position can be passed in the last argument.</p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
@@ -557,22 +557,7 @@
 <span id="_CPPv239ksl_mat3x3f_getEulerAnglesWithReferencePK13ksl_mat3x3f_tK15ksl_axis_enum_tP11ksl_vec3f_tz"></span><span id="ksl_mat3x3f_getEulerAnglesWithReference__ksl_mat3x3f_tCP.ksl_axis_enum_tC.ksl_vec3f_tP.z"></span><span class="target" id="matrix_8h_1a75ed791c7dc1d6a6cbb0319e4e2b493a"></span>void <code class="descname">ksl_mat3x3f_getEulerAnglesWithReference</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>r</em>, <em class="property">const</em> ksl_axis_enum_t <em>axisType</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>angles</em>, ...<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv339ksl_mat3x3f_getEulerAnglesWithReferencePK13ksl_mat3x3f_tK15ksl_axis_enum_tP11ksl_vec3f_tz" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>obtain single precision sequence of Euler angles using specified axis sequence convention </p>
 <p>Note that this function requires the input direction cosine matrix to be orthonormal, that is, a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.</p>
-<p>This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t datasturcture which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.</p>
-<p>Optionally, reference angles from a previous nearby position can be passed in the last argument.</p>
-<p><p>obtain single precision sequence of Euler angles using specified axis sequence convention</p>
-<dl class="docutils">
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: [in] direction cosine matrix </li>
-<li><code class="docutils literal notranslate"><span class="pre">axisType</span></code>: [in] an enum specifying angle sequence </li>
-<li><code class="docutils literal notranslate"><span class="pre">angles</span></code>: [out] sequence of euler angles </li>
-<li><code class="docutils literal notranslate"><span class="pre">referenceAngles</span></code>: [in/optional] a sequence of reference angles from a nearby pose, used to obtain continuity in angles between poses.</li>
-</ul>
-</dd>
-</dl>
-</p>
-<p>Note that this function requires the input direction cosine matrix to be orthonormal, that is, a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.</p>
-<p>This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t datasturcture which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.</p>
+<p>This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t data structure which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.</p>
 <p>Optionally, reference angles from a previous nearby position can be passed in the last argument.</p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>

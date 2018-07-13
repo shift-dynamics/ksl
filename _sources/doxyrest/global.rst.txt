@@ -7566,7 +7566,7 @@ obtain sequence of double precision Euler angles using specified axis sequence c
 
 Note that this function requires the input direction cosine matrix to be orthonormal, that is, a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.
 
-This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t datasturcture which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.
+This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t data structure which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.
 
 Optionally, reference angles from a previous nearby position can be passed in the last argument.
 
@@ -7614,15 +7614,7 @@ obtain single precision sequence of Euler angles using specified axis sequence c
 
 Note that this function requires the input direction cosine matrix to be orthonormal, that is, a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.
 
-This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t datasturcture which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.
-
-Optionally, reference angles from a previous nearby position can be passed in the last argument.
-
-obtain single precision sequence of Euler angles using specified axis sequence convention
-
-Note that this function requires the input direction cosine matrix to be orthonormal, that is, a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.
-
-This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t datasturcture which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.
+This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t data structure which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.
 
 Optionally, reference angles from a previous nearby position can be passed in the last argument.
 
@@ -7632,26 +7624,6 @@ Optionally, reference angles from a previous nearby position can be passed in th
 
 .. list-table::
     :widths: 20 80
-
-    *
-        - r
-
-        - [in] direction cosine matrix
-
-    *
-        - axisType
-
-        - [in] an enum specifying angle sequence
-
-    *
-        - angles
-
-        - [out] sequence of euler angles
-
-    *
-        - referenceAngles
-
-        - [in/optional] a sequence of reference angles from a nearby pose, used to obtain continuity in angles between poses.
 
     *
         - r
@@ -11608,7 +11580,7 @@ macro used to obtain sequence of double precision Euler angles using specified a
 
 Note that this function requires the input direction cosine matrix to be orthonormal, that is, a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.
 
-This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t datasturcture which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.
+This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t data structure which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.
 
 Optionally, reference angles from a previous nearby position can be passed in the last argument.
 
@@ -11722,7 +11694,7 @@ macro used to obtain single precision sequence of Euler angles using specified a
 
 Note that this function requires the input direction cosine matrix to be orthonormal, that is, a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.
 
-This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t datasturcture which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.
+This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t data structure which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.
 
 Optionally, reference angles from a previous nearby position can be passed in the last argument.
 
