@@ -9551,7 +9551,9 @@ $S_i \rightarrow S_o$
 
 Invert (i.e. negate) a :ref:`ksl_screw_t <doxid-unionksl__screw__t>` in place.
 
-$\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}$ $-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}$
+$\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}$
+
+$-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}$
 
 
 
@@ -9575,7 +9577,9 @@ $\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}$ $-\mathbf{\unde
 
 Invert (i.e. negate) a :ref:`ksl_screwf_t <doxid-unionksl__screwf__t>` in place.
 
-$\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}$ $-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}$
+$\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}$
+
+$-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}$
 
 
 

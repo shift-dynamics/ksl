@@ -591,7 +591,8 @@ R_{31} &amp; R_{32} &amp; R_{33} &amp; r_xR_{21}-r_yR_{11} &amp; r_xR_{22}-r_yR_
 <dt id="_CPPv316ksl_screw_invertP11ksl_screw_t">
 <span id="_CPPv216ksl_screw_invertP11ksl_screw_t"></span><span id="ksl_screw_invert__ksl_screw_tP"></span><span class="target" id="screw_8h_1a3b1aea456f3d39464b038afc44fb97f1"></span>void <code class="descname">ksl_screw_invert</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_screw_invertP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Invert (i.e. negate) a <a class="reference internal" href="#unionksl__screw__t"><span class="std std-ref">ksl_screw_t</span></a> in place. </p>
-<p><span class="math notranslate nohighlight">\(\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}\)</span> <span class="math notranslate nohighlight">\(-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}\)</span></p>
+<p><span class="math notranslate nohighlight">\(\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}\)</span></p>
+<p><span class="math notranslate nohighlight">\(-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}\)</span></p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
@@ -746,17 +747,18 @@ R_{31} &amp; R_{32} &amp; R_{33} &amp; r_xR_{21}-r_yR_{11} &amp; r_xR_{22}-r_yR_
 
 <dl class="function">
 <dt id="_CPPv316ksl_product_AdrsPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t">
-<span id="_CPPv216ksl_product_AdrsPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_product_Adrs__ksl_mat3x3_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1a22606f0ceb8788b12eb25a20d38be7a1"></span>void <code class="descname">ksl_product_Adrs</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_product_AdrsPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>rotates a double precision screw </p>
-<p>Store product of direction cosine matrix ri with spatial vector si in so.</p>
-<p><span class="math notranslate nohighlight">\( R_i * S_i[0:2] \rightarrow S_o[0:2]\)</span></p>
-<p><span class="math notranslate nohighlight">\( R_i * S_i[3:5] \rightarrow S_o[3:5]\)</span></p>
+<span id="_CPPv216ksl_product_AdrsPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_product_Adrs__ksl_mat3x3_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1aefe909178b33a5558da3164418953ad6"></span>void <code class="descname">ksl_product_Adrs</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>r_oi</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>s_i</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>s_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_product_AdrsPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Rotate a double precision screw. </p>
+<p>Store product of direction cosine matrix <code class="docutils literal notranslate"><span class="pre">r_oi</span></code> and screw <code class="docutils literal notranslate"><span class="pre">s_i</span></code> in <code class="docutils literal notranslate"><span class="pre">s_o</span></code>.</p>
+<p><span class="math notranslate nohighlight">\( [Ad]_{(R^{oi})} \mathbf{\underline{s}}_{io,i}^i \rightarrow \mathbf{\underline{s}}_{io,i}^o \)</span></p>
+<p><span class="math notranslate nohighlight">\( \begin{bmatrix} R^{oi} &amp; 0\\0 &amp; R^{oi} \end{bmatrix} \begin{Bmatrix} \underline{v}_{io,i}^i \\ \underline{\omega}_{io}^i \end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\ \underline{\omega}_{io}^o \end{Bmatrix}\)</span></p>
+<p><span class="math notranslate nohighlight">\( R^{oi} \underline{v}_{io,i}^i \rightarrow \underline{v}_{io,i}^i, R^{oi} \underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^o \)</span></p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal notranslate"><span class="pre">ri</span></code>: a SO3 rotation matrix </li>
-<li><code class="docutils literal notranslate"><span class="pre">si</span></code>: a 1x6 screw </li>
-<li><code class="docutils literal notranslate"><span class="pre">so</span></code>: the output of ri * si is returned in so </li>
+<li><code class="docutils literal notranslate"><span class="pre">r_oi</span></code>: [in] an SO3 rotation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">s_i</span></code>: [in] a 6x1 screw </li>
+<li><code class="docutils literal notranslate"><span class="pre">s_o</span></code>: [out] the product of r_oi * s_i is returned in s_o </li>
 </ul>
 </dd>
 </dl>
@@ -765,20 +767,57 @@ R_{31} &amp; R_{32} &amp; R_{33} &amp; r_xR_{21}-r_yR_{11} &amp; r_xR_{22}-r_yR_
 
 <dl class="function">
 <dt id="_CPPv319ksl_product_AdrsinvPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t">
-<span id="_CPPv219ksl_product_AdrsinvPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_product_Adrsinv__ksl_mat3x3_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1ae2aa2e7020f68dd9b4716b9400cc754e"></span>void <code class="descname">ksl_product_Adrsinv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_AdrsinvPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<span id="_CPPv219ksl_product_AdrsinvPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_product_Adrsinv__ksl_mat3x3_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1af6edbccf8834d15d6fbfc13fa9c35f98"></span>void <code class="descname">ksl_product_Adrsinv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>r_oi</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>s_i</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>s_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_AdrsinvPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Rotate the inverse of a double precision screw. </p>
+<p>Store product of direction cosine matrix <code class="docutils literal notranslate"><span class="pre">r_oi</span></code> and the inverse of screw <code class="docutils literal notranslate"><span class="pre">s_i</span></code> in <code class="docutils literal notranslate"><span class="pre">s_o</span></code>.</p>
+<p><span class="math notranslate nohighlight">\( [Ad]_{(R^{oi})} (-\mathbf{\underline{s}}_{io,i}^i) \rightarrow \mathbf{\underline{s}}_{io,i}^o \)</span></p>
+<p><span class="math notranslate nohighlight">\( -[Ad]_{(R^{oi})} \mathbf{\underline{s}}_{io,i}^i \rightarrow \mathbf{\underline{s}}_{io,i}^o \)</span></p>
+<p><span class="math notranslate nohighlight">\( \begin{bmatrix} R^{oi} &amp; 0\\0 &amp; R^{oi} \end{bmatrix} \begin{Bmatrix} -\underline{v}_{io,i}^i \\ -\underline{\omega}_{io}^i \end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\ \underline{\omega}_{io}^o \end{Bmatrix}\)</span></p>
+<p><span class="math notranslate nohighlight">\( \begin{bmatrix} -R^{oi} &amp; 0\\0 &amp; -R^{oi} \end{bmatrix} \begin{Bmatrix} \underline{v}_{io,i}^i \\ \underline{\omega}_{io}^i \end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\ \underline{\omega}_{io}^o \end{Bmatrix}\)</span></p>
+<p><span class="math notranslate nohighlight">\( -R^{oi} \underline{v}_{io,i}^i \rightarrow \underline{v}_{io,i}^i, -R^{oi} \underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^o \)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r_oi</span></code>: [in] an SO3 rotation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">s_i</span></code>: [in] a 6x1 screw </li>
+<li><code class="docutils literal notranslate"><span class="pre">s_o</span></code>: [out] the product of r_oi * s_i is returned in s_o </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv319ksl_product_AdrinvsPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t">
-<span id="_CPPv219ksl_product_AdrinvsPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_product_Adrinvs__ksl_mat3x3_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1aadc61d866d74258ccc9bdfe151213ff8"></span>void <code class="descname">ksl_product_Adrinvs</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_AdrinvsPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<span id="_CPPv219ksl_product_AdrinvsPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_product_Adrinvs__ksl_mat3x3_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1a51145a813b873ebab03ae58d01afc4cf"></span>void <code class="descname">ksl_product_Adrinvs</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>r_io</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>s_i</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>s_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_product_AdrinvsPK12ksl_mat3x3_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Perform inverse rotation of a double precision screw. </p>
+<p>Store product of the inverse of direction cosine matrix <code class="docutils literal notranslate"><span class="pre">r_io</span></code> with screw <code class="docutils literal notranslate"><span class="pre">s_i</span></code> in <code class="docutils literal notranslate"><span class="pre">s_o</span></code>, where <code class="docutils literal notranslate"><span class="pre">r_io</span></code> is a member of SO(3).</p>
+<p><span class="math notranslate nohighlight">\( [Ad]_{(R^{io})^{-1}} \mathbf{\underline{s}}_{io,i}^i \rightarrow \mathbf{\underline{s}}_{io,i}^o \)</span></p>
+<p><span class="math notranslate nohighlight">\( [Ad]_{(R^{oi})} \mathbf{\underline{s}}_{io,i}^i \rightarrow \mathbf{\underline{s}}_{io,i}^o \)</span></p>
+<p><span class="math notranslate nohighlight">\( \begin{bmatrix} (R^{io})^{-1} &amp; 0\\0 &amp; (R^{io})^{-1} \end{bmatrix} \begin{Bmatrix} \underline{v}_{io,i}^i \\ \underline{\omega}_{io}^i \end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\ \underline{\omega}_{io}^o \end{Bmatrix}\)</span></p>
+<p><span class="math notranslate nohighlight">\( \begin{bmatrix} R^{oi} &amp; 0\\0 &amp; R^{oi} \end{bmatrix} \begin{Bmatrix} \underline{v}_{io,i}^i \\ \underline{\omega}_{io}^i \end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\ \underline{\omega}_{io}^o \end{Bmatrix}\)</span></p>
+<p><span class="math notranslate nohighlight">\( (R^{io})^{-1} \underline{v}_{io,i}^i \rightarrow \underline{v}_{io,i}^i, (R^{io})^{-1} \underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^o \)</span></p>
+<p><span class="math notranslate nohighlight">\( R^{oi} \underline{v}_{io,i}^i \rightarrow \underline{v}_{io,i}^i, R^{oi} \underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^o \)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r_io</span></code>: [in] an SO3 rotation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">s_i</span></code>: [in] a 6x1 screw </li>
+<li><code class="docutils literal notranslate"><span class="pre">s_o</span></code>: [out] the product of r_oi * s_i is returned in s_o </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv316ksl_product_AdtsPK10ksl_vec3_tPK11ksl_screw_tP11ksl_screw_t">
-<span id="_CPPv216ksl_product_AdtsPK10ksl_vec3_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_product_Adts__ksl_vec3_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1ad608d5b26172dbcc52dbd454b664e693"></span>void <code class="descname">ksl_product_Adts</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>ti</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_product_AdtsPK10ksl_vec3_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<span id="_CPPv216ksl_product_AdtsPK10ksl_vec3_tPK11ksl_screw_tP11ksl_screw_t"></span><span id="ksl_product_Adts__ksl_vec3_tCP.ksl_screw_tCP.ksl_screw_tP"></span><span class="target" id="screw_8h_1adcc08bf8dc444d0daffdce54160b09a7"></span>void <code class="descname">ksl_product_Adts</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>t_oi</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>s_i</em>, <a class="reference internal" href="#_CPPv311ksl_screw_t" title="ksl_screw_t">ksl_screw_t</a> *<em>s_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_product_AdtsPK10ksl_vec3_tPK11ksl_screw_tP11ksl_screw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Translate a double precision screw. </p>
+<p>Perform a spatial translation of screw <code class="docutils literal notranslate"><span class="pre">s_i</span></code> using the translation vector <code class="docutils literal notranslate"><span class="pre">t_oi</span></code>, storing results in <code class="docutils literal notranslate"><span class="pre">s_o</span></code>.</p>
+<p><span class="math notranslate nohighlight">\( [Ad]_{(\underline{t}_{oi}^i)} \mathbf{\underline{s}}_{io,i}^i \rightarrow \mathbf{\underline{s}}_{io,o}^i \)</span></p>
+<p><span class="math notranslate nohighlight">\( \begin{bmatrix} I &amp; \underline{\tilde{r}}_{oi}^i \\0 &amp; I \end{bmatrix} \begin{Bmatrix} \underline{v}_{io,i}^i \\ \underline{\omega}_{io}^i \end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,o}^i \\ \underline{\omega}_{io}^i \end{Bmatrix}\)</span></p>
+<p><span class="math notranslate nohighlight">\( \underline{v}_{io,i}^i + \underline{\tilde{r}}_{oi}^i \underline{\omega}_{io}^i \rightarrow \underline{v}_{io,o}^i, \underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^i \)</span> </p>
 </dd></dl>
 
 <dl class="function">
@@ -968,7 +1007,8 @@ R_{31} &amp; R_{32} &amp; R_{33} &amp; r_xR_{21}-r_yR_{11} &amp; r_xR_{22}-r_yR_
 <dt id="_CPPv317ksl_screwf_invertP12ksl_screwf_t">
 <span id="_CPPv217ksl_screwf_invertP12ksl_screwf_t"></span><span id="ksl_screwf_invert__ksl_screwf_tP"></span><span class="target" id="screw_8h_1a6405e06d36986bdcd43fce3084c24461"></span>void <code class="descname">ksl_screwf_invert</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv317ksl_screwf_invertP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Invert (i.e. negate) a <a class="reference internal" href="#unionksl__screwf__t"><span class="std std-ref">ksl_screwf_t</span></a> in place. </p>
-<p><span class="math notranslate nohighlight">\(\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}\)</span> <span class="math notranslate nohighlight">\(-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}\)</span></p>
+<p><span class="math notranslate nohighlight">\(\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}\)</span></p>
+<p><span class="math notranslate nohighlight">\(-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}\)</span></p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
@@ -1123,17 +1163,18 @@ R_{31} &amp; R_{32} &amp; R_{33} &amp; r_xR_{21}-r_yR_{11} &amp; r_xR_{22}-r_yR_
 
 <dl class="function">
 <dt id="_CPPv317ksl_product_AdrsfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t">
-<span id="_CPPv217ksl_product_AdrsfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_product_Adrsf__ksl_mat3x3f_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a3c6d2dedcb47ca15e4dfa198f84a6a44"></span>void <code class="descname">ksl_product_Adrsf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv317ksl_product_AdrsfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>rotates a single precision screw </p>
-<p>Store product of direction cosine matrix ri with spatial vector si in so.</p>
-<p><span class="math notranslate nohighlight">\( R_i * S_i[0:2] \rightarrow S_o[0:2]\)</span></p>
-<p><span class="math notranslate nohighlight">\( R_i * S_i[3:5] \rightarrow S_o[3:5]\)</span></p>
+<span id="_CPPv217ksl_product_AdrsfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_product_Adrsf__ksl_mat3x3f_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1acd67f8a41c02db33a4127e5dc46068b5"></span>void <code class="descname">ksl_product_Adrsf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>r_oi</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>s_i</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>s_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv317ksl_product_AdrsfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Rotate a single precision screw. </p>
+<p>Store product of direction cosine matrix <code class="docutils literal notranslate"><span class="pre">r_oi</span></code> and screw <code class="docutils literal notranslate"><span class="pre">s_i</span></code> in <code class="docutils literal notranslate"><span class="pre">s_o</span></code>.</p>
+<p><span class="math notranslate nohighlight">\( [Ad]_{(R^{oi})} \mathbf{\underline{s}}_{io,i}^i \rightarrow \mathbf{\underline{s}}_{io,i}^o \)</span></p>
+<p><span class="math notranslate nohighlight">\( \begin{bmatrix} R^{oi} &amp; 0\\0 &amp; R^{oi} \end{bmatrix} \begin{Bmatrix} \underline{v}_{io,i}^i \\ \underline{\omega}_{io}^i \end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\ \underline{\omega}_{io}^o \end{Bmatrix}\)</span></p>
+<p><span class="math notranslate nohighlight">\( R^{oi} \underline{v}_{io,i}^i \rightarrow \underline{v}_{io,i}^i, R^{oi} \underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^o \)</span></p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal notranslate"><span class="pre">ri</span></code>: a SO3 rotation matrix </li>
-<li><code class="docutils literal notranslate"><span class="pre">si</span></code>: a 1x6 screw </li>
-<li><code class="docutils literal notranslate"><span class="pre">so</span></code>: the output of ri * si is returned in so </li>
+<li><code class="docutils literal notranslate"><span class="pre">r_oi</span></code>: [in] an SO3 rotation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">s_i</span></code>: [in] a 6x1 screw </li>
+<li><code class="docutils literal notranslate"><span class="pre">s_o</span></code>: [out] the product of r_oi * s_i is returned in s_o </li>
 </ul>
 </dd>
 </dl>
@@ -1142,20 +1183,57 @@ R_{31} &amp; R_{32} &amp; R_{33} &amp; r_xR_{21}-r_yR_{11} &amp; r_xR_{22}-r_yR_
 
 <dl class="function">
 <dt id="_CPPv320ksl_product_AdrsinvfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t">
-<span id="_CPPv220ksl_product_AdrsinvfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_product_Adrsinvf__ksl_mat3x3f_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1ac1c548130b277dc68ed9c72bff498030"></span>void <code class="descname">ksl_product_Adrsinvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_AdrsinvfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<span id="_CPPv220ksl_product_AdrsinvfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_product_Adrsinvf__ksl_mat3x3f_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a7fa66dc083cbfc18764c85004818e753"></span>void <code class="descname">ksl_product_Adrsinvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>r_oi</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>s_i</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>s_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_AdrsinvfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Rotate the inverse of a single precision screw. </p>
+<p>Store product of direction cosine matrix <code class="docutils literal notranslate"><span class="pre">r_oi</span></code> and the inverse of screw <code class="docutils literal notranslate"><span class="pre">s_i</span></code> in <code class="docutils literal notranslate"><span class="pre">s_o</span></code>.</p>
+<p><span class="math notranslate nohighlight">\( [Ad]_{(R^{oi})} (-\mathbf{\underline{s}}_{io,i}^i) \rightarrow \mathbf{\underline{s}}_{io,i}^o \)</span></p>
+<p><span class="math notranslate nohighlight">\( -[Ad]_{(R^{oi})} \mathbf{\underline{s}}_{io,i}^i \rightarrow \mathbf{\underline{s}}_{io,i}^o \)</span></p>
+<p><span class="math notranslate nohighlight">\( \begin{bmatrix} R^{oi} &amp; 0\\0 &amp; R^{oi} \end{bmatrix} \begin{Bmatrix} -\underline{v}_{io,i}^i \\ -\underline{\omega}_{io}^i \end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\ \underline{\omega}_{io}^o \end{Bmatrix}\)</span></p>
+<p><span class="math notranslate nohighlight">\( \begin{bmatrix} -R^{oi} &amp; 0\\0 &amp; -R^{oi} \end{bmatrix} \begin{Bmatrix} \underline{v}_{io,i}^i \\ \underline{\omega}_{io}^i \end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\ \underline{\omega}_{io}^o \end{Bmatrix}\)</span></p>
+<p><span class="math notranslate nohighlight">\( -R^{oi} \underline{v}_{io,i}^i \rightarrow \underline{v}_{io,i}^i, -R^{oi} \underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^o \)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r_oi</span></code>: [in] an SO3 rotation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">s_i</span></code>: [in] a 6x1 screw </li>
+<li><code class="docutils literal notranslate"><span class="pre">s_o</span></code>: [out] the product of r_oi * s_i is returned in s_o </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv320ksl_product_AdrinvsfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t">
-<span id="_CPPv220ksl_product_AdrinvsfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_product_Adrinvsf__ksl_mat3x3f_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a5f1226ded1159f5695a22f944302f418"></span>void <code class="descname">ksl_product_Adrinvsf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_AdrinvsfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<span id="_CPPv220ksl_product_AdrinvsfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_product_Adrinvsf__ksl_mat3x3f_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a451386913995bc78fa147884d6f0e880"></span>void <code class="descname">ksl_product_Adrinvsf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>r_io</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>s_i</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>s_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_product_AdrinvsfPK13ksl_mat3x3f_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Perform inverse rotation of a single precision screw. </p>
+<p>Store product of the inverse of direction cosine matrix <code class="docutils literal notranslate"><span class="pre">r_io</span></code> with screw <code class="docutils literal notranslate"><span class="pre">s_i</span></code> in <code class="docutils literal notranslate"><span class="pre">s_o</span></code>, where <code class="docutils literal notranslate"><span class="pre">r_io</span></code> is a member of SO(3).</p>
+<p><span class="math notranslate nohighlight">\( [Ad]_{(R^{io})^{-1}} \mathbf{\underline{s}}_{io,i}^i \rightarrow \mathbf{\underline{s}}_{io,i}^o \)</span></p>
+<p><span class="math notranslate nohighlight">\( [Ad]_{(R^{oi})} \mathbf{\underline{s}}_{io,i}^i \rightarrow \mathbf{\underline{s}}_{io,i}^o \)</span></p>
+<p><span class="math notranslate nohighlight">\( \begin{bmatrix} (R^{io})^{-1} &amp; 0\\0 &amp; (R^{io})^{-1} \end{bmatrix} \begin{Bmatrix} \underline{v}_{io,i}^i \\ \underline{\omega}_{io}^i \end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\ \underline{\omega}_{io}^o \end{Bmatrix}\)</span></p>
+<p><span class="math notranslate nohighlight">\( \begin{bmatrix} R^{oi} &amp; 0\\0 &amp; R^{oi} \end{bmatrix} \begin{Bmatrix} \underline{v}_{io,i}^i \\ \underline{\omega}_{io}^i \end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\ \underline{\omega}_{io}^o \end{Bmatrix}\)</span></p>
+<p><span class="math notranslate nohighlight">\( (R^{io})^{-1} \underline{v}_{io,i}^i \rightarrow \underline{v}_{io,i}^i, (R^{io})^{-1} \underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^o \)</span></p>
+<p><span class="math notranslate nohighlight">\( R^{oi} \underline{v}_{io,i}^i \rightarrow \underline{v}_{io,i}^i, R^{oi} \underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^o \)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r_io</span></code>: [in] an SO3 rotation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">s_i</span></code>: [in] a 6x1 screw </li>
+<li><code class="docutils literal notranslate"><span class="pre">s_o</span></code>: [out] the product of r_oi * s_i is returned in s_o </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv317ksl_product_AdtsfPK11ksl_vec3f_tPK12ksl_screwf_tP12ksl_screwf_t">
 <span id="_CPPv217ksl_product_AdtsfPK11ksl_vec3f_tPK12ksl_screwf_tP12ksl_screwf_t"></span><span id="ksl_product_Adtsf__ksl_vec3f_tCP.ksl_screwf_tCP.ksl_screwf_tP"></span><span class="target" id="screw_8h_1a3d09944886b213613b15da820f5f74ef"></span>void <code class="descname">ksl_product_Adtsf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>ti</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>si</em>, <a class="reference internal" href="#_CPPv312ksl_screwf_t" title="ksl_screwf_t">ksl_screwf_t</a> *<em>so</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv317ksl_product_AdtsfPK11ksl_vec3f_tPK12ksl_screwf_tP12ksl_screwf_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>Translate a single precision screw. </p>
+<p>Perform a spatial translation of screw <code class="docutils literal notranslate"><span class="pre">s_i</span></code> using the translation vector <code class="docutils literal notranslate"><span class="pre">t_oi</span></code>, storing results in <code class="docutils literal notranslate"><span class="pre">s_o</span></code>.</p>
+<p><span class="math notranslate nohighlight">\( [Ad]_{(\underline{t}_{oi}^i)} \mathbf{\underline{s}}_{io,i}^i \rightarrow \mathbf{\underline{s}}_{io,o}^i \)</span></p>
+<p><span class="math notranslate nohighlight">\( \begin{bmatrix} I &amp; \underline{\tilde{r}}_{oi}^i \\0 &amp; I \end{bmatrix} \begin{Bmatrix} \underline{v}_{io,i}^i \\ \underline{\omega}_{io}^i \end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,o}^i \\ \underline{\omega}_{io}^i \end{Bmatrix}\)</span></p>
+<p><span class="math notranslate nohighlight">\( \underline{v}_{io,i}^i + \underline{\tilde{r}}_{oi}^i \underline{\omega}_{io}^i \rightarrow \underline{v}_{io,o}^i, \underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^i \)</span> </p>
 </dd></dl>
 
 <dl class="function">
