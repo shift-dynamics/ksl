@@ -670,7 +670,7 @@ orthonormal.
 
 This function decomposes a general direction cosine matrix into three
 primitive direction cosine matrices, whose axes are determined by a
-ksl_axis_enum_t datasturcture which is passed in through the axisSequence
+ksl_axis_enum_t data structure which is passed in through the axisSequence
 parameter. The direction cosine matrix is passed in through the r, and the three
 computed angles are updated and returned in angles.
 
@@ -700,7 +700,7 @@ orthonormal.
 
 This function decomposes a general direction cosine matrix into three
 primitive direction cosine matrices, whose axes are determined by a
-ksl_axis_enum_t datasturcture which is passed in through the axisSequence
+ksl_axis_enum_t data structure which is passed in through the axisSequence
 parameter. The direction cosine matrix is passed in through the r, and the three
 computed angles are updated and returned in angles.
 
@@ -728,7 +728,7 @@ orthonormal.
 
 This function decomposes a general direction cosine matrix into three
 primitive direction cosine matrices, whose axes are determined by a
-ksl_axis_enum_t datasturcture which is passed in through the axisSequence
+ksl_axis_enum_t data structure which is passed in through the axisSequence
 parameter. The direction cosine matrix is passed in through the r, and the three
 computed angles are updated and returned in angles.
 
@@ -758,7 +758,7 @@ orthonormal.
 
 This function decomposes a general direction cosine matrix into three
 primitive direction cosine matrices, whose axes are determined by a
-ksl_axis_enum_t datasturcture which is passed in through the axisSequence
+ksl_axis_enum_t data structure which is passed in through the axisSequence
 parameter. The direction cosine matrix is passed in through the r, and the three
 computed angles are updated and returned in angles.
 

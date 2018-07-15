@@ -5,7 +5,7 @@ option(BUILD_DOCUMENTATION
 
 if(BUILD_DOCUMENTATION)
   if(NOT DOXYGEN_FOUND)
-    message(FATAL_ERROR "Doxygen is needed to build the documentation.")
+    message(FATAL_ERROR "Doxygen is required to build documentation.")
   endif()
 
   set(doxyfile_in ${CMAKE_CURRENT_LIST_DIR}/Doxyfile.in)
@@ -14,7 +14,8 @@ if(BUILD_DOCUMENTATION)
   configure_file(${doxyfile_in} ${doxyfile} @ONLY)
 
   # generate doxygen documentation
-  add_custom_target(doxygen
+  add_custom_target(
+    doxygen
     COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     COMMENT "Generating API documentation with Doxygen"
@@ -34,30 +35,30 @@ if(BUILD_DOCUMENTATION)
   set (RST_DIR  ${CMAKE_CURRENT_LIST_DIR}/sphinx/doxyrest)
   set (TMP_DIR  ${CMAKE_CURRENT_BINARY_DIR}/tmp)
   set (HTML_DIR ${CMAKE_CURRENT_LIST_DIR}/html)
-  set (DOXYREST_FRAME_DIR ${CMAKE_CURRENT_LIST_DIR}/doxyrest/frame)
+  # set (DOXYREST_FRAME_DIR ${CMAKE_CURRENT_LIST_DIR}/doxyrest/frame)
 
-  message(${DOXYREST_FRAME_DIR})
+  # message(${DOXYREST_FRAME_DIR})
 
-  set (
-  	DOXYREST_CMD_LINE
-  	${XML_DIR}/index.xml
-  	-D g_hasNewLineAfterReturnType
-  	-D g_nameDelimiter=::
-  	-D g_escapeAsterisks
-  	-D g_verbatimToCodeBlock
-  	-o ${RST_DIR}/page_index.rst
-  	-F ${DOXYREST_FRAME_DIR}
-  	-f c_index.rst.in
-  	)
+  # set (
+  # 	DOXYREST_CMD_LINE
+  # 	${XML_DIR}/index.xml
+  # 	-D g_hasNewLineAfterReturnType
+  # 	-D g_nameDelimiter=::
+  # 	-D g_escapeAsterisks
+  # 	-D g_verbatimToCodeBlock
+  # 	-o ${RST_DIR}/page_index.rst
+  # 	-F ${DOXYREST_FRAME_DIR}
+  # 	-f c_index.rst.in
+  # 	)
 
   # running doxyrest to convert doxygen to rst format
-  add_custom_target(doxyrest
-    COMMAND doxyrest ${DOXYREST_CMD_LINE}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-    COMMENT "Generating .rst from Doxygen .xml listing using Doxyrest"
-    VERBATIM)
-
-  add_dependencies(doxyrest doxygen)
+  # add_custom_target(doxyrest
+  #   COMMAND doxyrest ${DOXYREST_CMD_LINE}
+  #   WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
+  #   COMMENT "Generating .rst from Doxygen .xml listing using Doxyrest"
+  #   VERBATIM)
+  #
+  # add_dependencies(doxyrest doxygen)
 
   # generate sphinx documentation
   add_custom_target(doc
@@ -66,7 +67,7 @@ if(BUILD_DOCUMENTATION)
     COMMENT "Generating API documentation with Sphinx"
     VERBATIM)
 
-  add_dependencies(doc doxyrest)
+  add_dependencies(doc doxygen)
 
   # optionally install doxygen documentation to /share/doc
   install(

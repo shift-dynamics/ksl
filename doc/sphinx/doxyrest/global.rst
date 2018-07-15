@@ -7562,11 +7562,40 @@ TODO document this function.
 	    ...
 	    )
 
-TODO document this function.
+obtain sequence of double precision Euler angles using specified axis sequence convention
 
-TODO document this function.
+Note that this function requires the input direction cosine matrix to be orthonormal, that is, a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.
 
-This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by the integers passed in through axisSequence. The direction cosine matrix is passed in through Ri, and the three computed angles are updated and returned in angle. The previous values assigned to angle are passed in to RtoA in angle. RtoA calls catan2, which uses the values stored in angle to maintain continuity if at all possible. This function does not check for bad axis indices. These checks could be added but would reduce efficiency. For actual reporting purposes, especially when a large number of user output requests are to be processed.
+This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t data structure which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.
+
+Optionally, reference angles from a previous nearby position can be passed in the last argument.
+
+
+
+.. rubric:: Parameters:
+
+.. list-table::
+    :widths: 20 80
+
+    *
+        - r
+
+        - [in] direction cosine matrix
+
+    *
+        - axisType
+
+        - [in] an enum specifying angle sequence
+
+    *
+        - angles
+
+        - [out] sequence of euler angles
+
+    *
+        - referenceAngles
+
+        - [in/optional] a sequence of reference angles from a nearby pose, used to obtain continuity in angles between poses.
 
 .. _doxid-matrix_8h_1a75ed791c7dc1d6a6cbb0319e4e2b493a:
 .. _cid-ksl_mat3x3f_geteulerangleswithreference:
@@ -7581,11 +7610,40 @@ This function decomposes a general direction cosine matrix into three primitive 
 	    ...
 	    )
 
-TODO document this function.
+obtain single precision sequence of Euler angles using specified axis sequence convention
 
-TODO document this function.
+Note that this function requires the input direction cosine matrix to be orthonormal, that is, a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.
 
-This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by the integers passed in through axisSequence. The direction cosine matrix is passed in through Ri, and the three computed angles are updated and returned in angle. The previous values assigned to angle are passed in to RtoA in angle. RtoA calls catan2, which uses the values stored in angle to maintain continuity if at all possible. This function does not check for bad axis indices. These checks could be added but would reduce efficiency. For actual reporting purposes, especially when a large number of user output requests are to be processed.
+This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t data structure which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.
+
+Optionally, reference angles from a previous nearby position can be passed in the last argument.
+
+
+
+.. rubric:: Parameters:
+
+.. list-table::
+    :widths: 20 80
+
+    *
+        - r
+
+        - [in] direction cosine matrix
+
+    *
+        - axisType
+
+        - [in] an enum specifying angle sequence
+
+    *
+        - angles
+
+        - [out] sequence of euler angles
+
+    *
+        - referenceAngles
+
+        - [in/optional] a sequence of reference angles from a nearby pose, used to obtain continuity in angles between poses.
 
 .. _doxid-matrix_8h_1a1d998186da1242f36e0d3c1b26073239:
 .. _cid-ksl_mat3x3_setfromeulerangles:
@@ -7599,15 +7657,15 @@ This function decomposes a general direction cosine matrix into three primitive 
 	    const :ref:`ksl_vec3_t<doxid-unionksl__vec3__t>`*
 	    )
 
-set mat3x3 matrix from a sequence of Euler angles
+set a double precision mat3x3 matrix from a sequence of Euler angles
 
-This function takes three Euler angles in one of twelve rotation orders and outputs a direction cosine matrix. The axis sequence is input through axis. Rotations about successive axes x=0, y=1, and z=2 are as follows: xyx = 010; xyz = 012; xzx = 020; xzy = 021 yxy = 101; yxz = 102; yzx = 120; yzy = 121 zxy = 201; zxz = 202; zyx = 210; zyz = 212
+This function takes three Euler angles in one of twelve rotation orders and outputs a direction cosine matrix. The axis sequence is input using a ksl_axis_enum_t datastructure.
 
-.. code-block:: none
+$ R_x = \begin{bmatrix} 1 & 0 & 0\\ 0 & c & -s \\ 0 & s & c \end{bmatrix}$
 
-    |1      |       | c     s|       |c -s   |
+$ R_y = \begin{bmatrix} c & 0 & s\\ 0 & 1 & 0 \\ -s & 0 & c \end{bmatrix}$
 
-Rx = | c -s| Ry = | 1 | Rz = |s c | | s c| |-s c| | 1|
+$ R_z = \begin{bmatrix} c & -s & 0\\ s & c & 0 \\ 0 & 0 & 1 \end{bmatrix}$
 
 .. _doxid-matrix_8h_1a39aacd9b358f91bcf9ca414892f5d0fc:
 .. _cid-ksl_mat3x3f_setfromeulerangles:
@@ -7621,15 +7679,15 @@ Rx = | c -s| Ry = | 1 | Rz = |s c | | s c| |-s c| | 1|
 	    const :ref:`ksl_vec3f_t<doxid-unionksl__vec3f__t>`*
 	    )
 
-set single precision mat3x3 matrix from a sequence of Euler angles
+set a single precision mat3x3f matrix from a sequence of Euler angles
 
-This function takes three Euler angles in one of twelve rotation orders and outputs a direction cosine matrix. The axis sequence is input through axis. Rotations about successive axes x=0, y=1, and z=2 are as follows: xyx = 010; xyz = 012; xzx = 020; xzy = 021 yxy = 101; yxz = 102; yzx = 120; yzy = 121 zxy = 201; zxz = 202; zyx = 210; zyz = 212
+This function takes three Euler angles in one of twelve rotation orders and outputs a direction cosine matrix. The axis sequence is input using a ksl_axis_enum_t datastructure.
 
-.. code-block:: none
+$ R_x = \begin{bmatrix} 1 & 0 & 0\\ 0 & c & -s \\ 0 & s & c \end{bmatrix}$
 
-    |1      |       | c     s|       |c -s   |
+$ R_y = \begin{bmatrix} c & 0 & s\\ 0 & 1 & 0 \\ -s & 0 & c \end{bmatrix}$
 
-Rx = | c -s| Ry = | 1 | Rz = |s c | | s c| |-s c| | 1|
+$ R_z = \begin{bmatrix} c & -s & 0\\ s & c & 0 \\ 0 & 0 & 1 \end{bmatrix}$
 
 .. _doxid-matrix_8h_1a21b4e9dad800701badf4a4ae20e9e888:
 .. _cid-ksl_mat3x3_getaxisangle:
@@ -7645,7 +7703,7 @@ Rx = | c -s| Ry = | 1 | Rz = |s c | | s c| |-s c| | 1|
 
 get axis and angle from a double precision rotation matrix
 
-if sin is close to 0, the axis of rotation is not well defined.
+Note that if sin is close to 0, the axis of rotation is not well defined.
 
 .. _doxid-matrix_8h_1a305b61035160d778913d6512475f469f:
 .. _cid-ksl_mat3x3_setfromaxisangle:
@@ -9493,7 +9551,9 @@ $S_i \rightarrow S_o$
 
 Invert (i.e. negate) a :ref:`ksl_screw_t <doxid-unionksl__screw__t>` in place.
 
-$\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}$ $-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}$
+$\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}$
+
+$-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}$
 
 
 
@@ -9517,7 +9577,9 @@ $\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}$ $-\mathbf{\unde
 
 Invert (i.e. negate) a :ref:`ksl_screwf_t <doxid-unionksl__screwf__t>` in place.
 
-$\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}$ $-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}$
+$\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}$
+
+$-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}$
 
 
 
@@ -11518,7 +11580,13 @@ print a lower triangular array of booleans.
 
 	#define ksl_mat3x3_getEulerAngles(r, angles, axisType, ...)
 
-macro used obtain Euler angles, allows optionally passing in reference angles from a previous nearby pose to ensure continuity in angles between adjacent poses
+macro used to obtain sequence of double precision Euler angles using specified axis sequence convention
+
+Note that this function requires the input direction cosine matrix to be orthonormal, that is, a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.
+
+This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t data structure which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.
+
+Optionally, reference angles from a previous nearby position can be passed in the last argument.
 
 
 
@@ -11530,22 +11598,22 @@ macro used obtain Euler angles, allows optionally passing in reference angles fr
     *
         - r
 
-        - [in] rotation matrix
-
-    *
-        - angles
-
-        - [out] euler angles returned in angles
+        - [in] direction cosine matrix
 
     *
         - axisType
 
-        - [in] a ksl_axis_enum_t type specifying Euler angle axis sequence.
+        - [in] an enum specifying angle sequence
 
     *
-        - reference_angles
+        - angles
 
-        - [optional] euler angles from a previous nearby pose
+        - [out] sequence of euler angles
+
+    *
+        - referenceAngles
+
+        - [in/optional] a sequence of reference angles from a nearby pose, used to obtain continuity in angles between poses.
 
 .. _doxid-print_8h_1a18c6ce31ebb6566618c2c37c8880e78d:
 .. _cid-ksl_mat3x3_print:
@@ -11626,7 +11694,13 @@ print a :ref:`ksl_mat3x3_t <doxid-unionksl__mat3x3__t>` data structure.
 
 	#define ksl_mat3x3f_getEulerAngles(r, angles, axisType, ...)
 
-macro used obtain Euler angles from a single precision rotation matrix, allows optionally passing in reference angles from a previous nearby pose to ensure continuity in angles between adjacent poses
+macro used to obtain single precision sequence of Euler angles using specified axis sequence convention
+
+Note that this function requires the input direction cosine matrix to be orthonormal, that is, a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.
+
+This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t data structure which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.
+
+Optionally, reference angles from a previous nearby position can be passed in the last argument.
 
 
 
@@ -11638,22 +11712,22 @@ macro used obtain Euler angles from a single precision rotation matrix, allows o
     *
         - r
 
-        - [in] rotation matrix
-
-    *
-        - angles
-
-        - [out] euler angles returned in angles
+        - [in] direction cosine matrix
 
     *
         - axisType
 
-        - [in] a ksl_axis_enum_t type specifying Euler angle axis sequence.
+        - [in] an enum specifying angle sequence
 
     *
-        - reference_angles
+        - angles
 
-        - [optional] euler angles from a previous nearby pose
+        - [out] sequence of euler angles
+
+    *
+        - referenceAngles
+
+        - [in/optional] a sequence of reference angles from a nearby pose, used to obtain continuity in angles between poses.
 
 .. _doxid-print_8h_1a771b950c28c042929e799a14c77ae5ce:
 .. _cid-ksl_mat3x3f_print:

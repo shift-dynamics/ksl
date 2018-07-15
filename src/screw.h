@@ -173,6 +173,7 @@ void ksl_screwf_copy(const ksl_screwf_t* si, ksl_screwf_t* so);
 @brief Invert (i.e. negate) a ksl_screw_t in place.
 
 \f$\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}\f$
+
 \f$-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}\f$
 
 @param si [in/out] screw to invert
@@ -183,6 +184,7 @@ void ksl_screw_invert(ksl_screw_t* si);
 @brief Invert (i.e. negate) a ksl_screwf_t in place.
 
 \f$\mathbf{\underline{s}}^{-1} \rightarrow \mathbf{\underline{s}}\f$
+
 \f$-\mathbf{\underline{s}} \rightarrow \mathbf{\underline{s}}\f$
 
 @param si [in/out] screw to invert
@@ -463,69 +465,239 @@ void ksl_cross_sstf(const ksl_screwf_t* s1i, const ksl_screwf_t* s2i,
                     ksl_screwf_t* so);
 
 /*!
-@brief rotates a double precision screw
+@brief Rotate a double precision screw
 
-Store product of direction cosine matrix ri with spatial vector si in so.
+Store product of direction cosine matrix `r_oi` and screw `s_i` in `s_o`.
 
-\f$ R_i * S_i[0:2] \rightarrow S_o[0:2]\f$
+\f$ [Ad]_{(R^{oi})} \mathbf{\underline{s}}_{io,i}^i \rightarrow
+\mathbf{\underline{s}}_{io,i}^o \f$
 
-\f$ R_i * S_i[3:5] \rightarrow S_o[3:5]\f$
+\f$ \begin{bmatrix} R^{oi} & 0\\0 & R^{oi} \end{bmatrix}
+\begin{Bmatrix} \underline{v}_{io,i}^i \\ \underline{\omega}_{io}^i
+\end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\
+\underline{\omega}_{io}^o \end{Bmatrix}\f$
 
-@param ri a SO3 rotation matrix
-@param si a 1x6 screw
-@param so the output of ri * si is returned in so
+\f$ R^{oi} \underline{v}_{io,i}^i \rightarrow \underline{v}_{io,i}^i,
+R^{oi} \underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^o \f$
+
+@param r_oi [in] an SO3 rotation matrix
+@param s_i [in] a 6x1 screw
+@param s_o [out] the product of r_oi * s_i is returned in s_o
 */
-void ksl_product_Adrs(const ksl_mat3x3_t* ri, const ksl_screw_t* si,
-                      ksl_screw_t* so);
+void ksl_product_Adrs(const ksl_mat3x3_t* r_oi, const ksl_screw_t* s_i,
+                      ksl_screw_t* s_o);
 
 /*!
-@brief TODO document this function
+@brief Rotate the inverse of a double precision screw
+
+Store product of direction cosine matrix `r_oi` and the inverse of screw `s_i`
+in `s_o`.
+
+\f$ [Ad]_{(R^{oi})} (-\mathbf{\underline{s}}_{io,i}^i) \rightarrow
+\mathbf{\underline{s}}_{io,i}^o \f$
+
+\f$ -[Ad]_{(R^{oi})} \mathbf{\underline{s}}_{io,i}^i \rightarrow
+\mathbf{\underline{s}}_{io,i}^o \f$
+
+\f$ \begin{bmatrix} R^{oi} & 0\\0 & R^{oi} \end{bmatrix}
+\begin{Bmatrix} -\underline{v}_{io,i}^i \\ -\underline{\omega}_{io}^i
+\end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\
+\underline{\omega}_{io}^o \end{Bmatrix}\f$
+
+\f$ \begin{bmatrix} -R^{oi} & 0\\0 & -R^{oi} \end{bmatrix}
+\begin{Bmatrix} \underline{v}_{io,i}^i \\ \underline{\omega}_{io}^i
+\end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\
+\underline{\omega}_{io}^o \end{Bmatrix}\f$
+
+\f$ -R^{oi} \underline{v}_{io,i}^i \rightarrow \underline{v}_{io,i}^i,
+-R^{oi} \underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^o \f$
+
+@param r_oi [in] an SO3 rotation matrix
+@param s_i [in] a 6x1 screw
+@param s_o [out] the product of r_oi * s_i is returned in s_o
 */
-void ksl_product_Adrsinv(const ksl_mat3x3_t* ri, const ksl_screw_t* si,
-                         ksl_screw_t* so);
+void ksl_product_Adrsinv(const ksl_mat3x3_t* r_oi, const ksl_screw_t* s_i,
+                         ksl_screw_t* s_o);
 
 /*!
-@brief rotates a single precision screw
+@brief Rotate a single precision screw
 
-Store product of direction cosine matrix ri with spatial vector si in so.
+Store product of direction cosine matrix `r_oi` and screw `s_i` in `s_o`.
 
-\f$ R_i * S_i[0:2] \rightarrow S_o[0:2]\f$
+\f$ [Ad]_{(R^{oi})} \mathbf{\underline{s}}_{io,i}^i \rightarrow
+\mathbf{\underline{s}}_{io,i}^o \f$
 
-\f$ R_i * S_i[3:5] \rightarrow S_o[3:5]\f$
+\f$ \begin{bmatrix} R^{oi} & 0\\0 & R^{oi} \end{bmatrix}
+\begin{Bmatrix} \underline{v}_{io,i}^i \\ \underline{\omega}_{io}^i
+\end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\
+\underline{\omega}_{io}^o \end{Bmatrix}\f$
 
-@param ri a SO3 rotation matrix
-@param si a 1x6 screw
-@param so the output of ri * si is returned in so
+\f$ R^{oi} \underline{v}_{io,i}^i \rightarrow \underline{v}_{io,i}^i,
+R^{oi} \underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^o \f$
+
+@param r_oi [in] an SO3 rotation matrix
+@param s_i [in] a 6x1 screw
+@param s_o [out] the product of r_oi * s_i is returned in s_o
 */
-void ksl_product_Adrsf(const ksl_mat3x3f_t* ri, const ksl_screwf_t* si,
-                       ksl_screwf_t* so);
+void ksl_product_Adrsf(const ksl_mat3x3f_t* r_oi, const ksl_screwf_t* s_i,
+                       ksl_screwf_t* s_o);
 
 /*!
-@brief TODO document this function
+@brief Rotate the inverse of a single precision screw
+
+Store product of direction cosine matrix `r_oi` and the inverse of screw `s_i`
+in `s_o`.
+
+\f$ [Ad]_{(R^{oi})} (-\mathbf{\underline{s}}_{io,i}^i) \rightarrow
+\mathbf{\underline{s}}_{io,i}^o \f$
+
+\f$ -[Ad]_{(R^{oi})} \mathbf{\underline{s}}_{io,i}^i \rightarrow
+\mathbf{\underline{s}}_{io,i}^o \f$
+
+\f$ \begin{bmatrix} R^{oi} & 0\\0 & R^{oi} \end{bmatrix}
+\begin{Bmatrix} -\underline{v}_{io,i}^i \\ -\underline{\omega}_{io}^i
+\end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\
+\underline{\omega}_{io}^o \end{Bmatrix}\f$
+
+\f$ \begin{bmatrix} -R^{oi} & 0\\0 & -R^{oi} \end{bmatrix}
+\begin{Bmatrix} \underline{v}_{io,i}^i \\ \underline{\omega}_{io}^i
+\end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\
+\underline{\omega}_{io}^o \end{Bmatrix}\f$
+
+\f$ -R^{oi} \underline{v}_{io,i}^i \rightarrow \underline{v}_{io,i}^i,
+-R^{oi} \underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^o \f$
+
+@param r_oi [in] an SO3 rotation matrix
+@param s_i [in] a 6x1 screw
+@param s_o [out] the product of r_oi * s_i is returned in s_o
 */
-void ksl_product_Adrsinvf(const ksl_mat3x3f_t* ri, const ksl_screwf_t* si,
-                          ksl_screwf_t* so);
+void ksl_product_Adrsinvf(const ksl_mat3x3f_t* r_oi, const ksl_screwf_t* s_i,
+                          ksl_screwf_t* s_o);
 
 /*!
-@brief TODO document this function
+@brief Perform inverse rotation of a double precision screw
+
+Store product of the inverse of direction cosine matrix `r_io` with screw `s_i`
+in `s_o`, where `r_io` is a member of SO(3).
+
+\f$ [Ad]_{(R^{io})^{-1}} \mathbf{\underline{s}}_{io,i}^i \rightarrow
+\mathbf{\underline{s}}_{io,i}^o \f$
+
+\f$ [Ad]_{(R^{oi})} \mathbf{\underline{s}}_{io,i}^i \rightarrow
+\mathbf{\underline{s}}_{io,i}^o \f$
+
+\f$ \begin{bmatrix} (R^{io})^{-1} & 0\\0 & (R^{io})^{-1} \end{bmatrix}
+\begin{Bmatrix} \underline{v}_{io,i}^i \\ \underline{\omega}_{io}^i
+\end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\
+\underline{\omega}_{io}^o \end{Bmatrix}\f$
+
+\f$ \begin{bmatrix} R^{oi} & 0\\0 & R^{oi} \end{bmatrix}
+\begin{Bmatrix} \underline{v}_{io,i}^i \\ \underline{\omega}_{io}^i
+\end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\
+\underline{\omega}_{io}^o \end{Bmatrix}\f$
+
+\f$ (R^{io})^{-1} \underline{v}_{io,i}^i \rightarrow \underline{v}_{io,i}^i,
+(R^{io})^{-1} \underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^o
+\f$
+
+\f$ R^{oi} \underline{v}_{io,i}^i \rightarrow \underline{v}_{io,i}^i,
+R^{oi} \underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^o \f$
+
+@param r_io [in] an SO3 rotation matrix
+@param s_i [in] a 6x1 screw
+@param s_o [out] the product of r_oi * s_i is returned in s_o
 */
-void ksl_product_Adrinvs(const ksl_mat3x3_t* ri, const ksl_screw_t* si,
-                         ksl_screw_t* so);
+void ksl_product_Adrinvs(const ksl_mat3x3_t* r_io, const ksl_screw_t* s_i,
+                         ksl_screw_t* s_o);
 
 /*!
-@brief TODO document this function
+@brief Perform inverse rotation of a single precision screw
+
+Store product of the inverse of direction cosine matrix `r_io` with screw `s_i`
+in `s_o`, where `r_io` is a member of SO(3).
+
+\f$ [Ad]_{(R^{io})^{-1}} \mathbf{\underline{s}}_{io,i}^i \rightarrow
+\mathbf{\underline{s}}_{io,i}^o \f$
+
+\f$ [Ad]_{(R^{oi})} \mathbf{\underline{s}}_{io,i}^i \rightarrow
+\mathbf{\underline{s}}_{io,i}^o \f$
+
+\f$ \begin{bmatrix} (R^{io})^{-1} & 0\\0 & (R^{io})^{-1} \end{bmatrix}
+\begin{Bmatrix} \underline{v}_{io,i}^i \\ \underline{\omega}_{io}^i
+\end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\
+\underline{\omega}_{io}^o \end{Bmatrix}\f$
+
+\f$ \begin{bmatrix} R^{oi} & 0\\0 & R^{oi} \end{bmatrix}
+\begin{Bmatrix} \underline{v}_{io,i}^i \\ \underline{\omega}_{io}^i
+\end{Bmatrix} \rightarrow \begin{Bmatrix} \underline{v}_{io,i}^o \\
+\underline{\omega}_{io}^o \end{Bmatrix}\f$
+
+\f$ (R^{io})^{-1} \underline{v}_{io,i}^i \rightarrow \underline{v}_{io,i}^i,
+(R^{io})^{-1} \underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^o
+\f$
+
+\f$ R^{oi} \underline{v}_{io,i}^i \rightarrow \underline{v}_{io,i}^i,
+R^{oi} \underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^o \f$
+
+@param r_io [in] an SO3 rotation matrix
+@param s_i [in] a 6x1 screw
+@param s_o [out] the product of r_oi * s_i is returned in s_o
 */
-void ksl_product_Adrinvsf(const ksl_mat3x3f_t* ri, const ksl_screwf_t* si,
-                          ksl_screwf_t* so);
+void ksl_product_Adrinvsf(const ksl_mat3x3f_t* r_io, const ksl_screwf_t* s_i,
+                          ksl_screwf_t* s_o);
 
 /*!
-@brief TODO document this function
+@brief Translate a double precision screw
+
+Perform a spatial translation of screw `s_i` using the translation vector
+`t_oi`, storing results in `s_o`.
+
+\f$ [Ad]_{(\underline{t}_{oi}^i)} \mathbf{\underline{s}}_{io,i}^i \rightarrow
+\mathbf{\underline{s}}_{io,o}^i \f$
+
+\f$ \begin{bmatrix} I & \underline{\tilde{r}}_{oi}^i \\0 & I
+\end{bmatrix}
+\begin{Bmatrix}
+  \underline{v}_{io,i}^i \\
+  \underline{\omega}_{io}^i
+\end{Bmatrix}
+\rightarrow
+\begin{Bmatrix}
+  \underline{v}_{io,o}^i \\
+  \underline{\omega}_{io}^i
+\end{Bmatrix}\f$
+
+\f$ \underline{v}_{io,i}^i + \underline{\tilde{r}}_{oi}^i
+\underline{\omega}_{io}^i \rightarrow \underline{v}_{io,o}^i,
+\underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^i \f$
 */
-void ksl_product_Adts(const ksl_vec3_t* ti, const ksl_screw_t* si,
-                      ksl_screw_t* so);
+void ksl_product_Adts(const ksl_vec3_t* t_oi, const ksl_screw_t* s_i,
+                      ksl_screw_t* s_o);
 
 /*!
-@brief TODO document this function
+@brief Translate a single precision screw
+
+Perform a spatial translation of screw `s_i` using the translation vector
+`t_oi`, storing results in `s_o`.
+
+\f$ [Ad]_{(\underline{t}_{oi}^i)} \mathbf{\underline{s}}_{io,i}^i \rightarrow
+\mathbf{\underline{s}}_{io,o}^i \f$
+
+\f$ \begin{bmatrix} I & \underline{\tilde{r}}_{oi}^i \\0 & I
+\end{bmatrix}
+\begin{Bmatrix}
+  \underline{v}_{io,i}^i \\
+  \underline{\omega}_{io}^i
+\end{Bmatrix}
+\rightarrow
+\begin{Bmatrix}
+  \underline{v}_{io,o}^i \\
+  \underline{\omega}_{io}^i
+\end{Bmatrix}\f$
+
+\f$ \underline{v}_{io,i}^i + \underline{\tilde{r}}_{oi}^i
+\underline{\omega}_{io}^i \rightarrow \underline{v}_{io,o}^i,
+\underline{\omega}_{io}^i \rightarrow \underline{\omega}_{io}^i \f$
 */
 void ksl_product_Adtsf(const ksl_vec3f_t* ti, const ksl_screwf_t* si,
                        ksl_screwf_t* so);

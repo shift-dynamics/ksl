@@ -21,10 +21,6 @@ single precision mass and inertia properties :ref:`More...<details-doxid-unionks
 
 .. _doxid-unionksl__inertiaf__t_1ac8b1f3d007c055681edab90f3296de9f:
 .. _cid-ksl_inertiaf_t::at:
-.. _doxid-unionksl__inertiaf__t_1a71ab407f48e77db63ea216e85ab1b959:
-.. _cid-ksl_inertiaf_t::@17:
-.. _doxid-unionksl__inertiaf__t_1a0a561d71cd6f1f7ad7fa742f5cf219df:
-.. _cid-ksl_inertiaf_t::@19:
 .. ref-code-block:: cpp
 	:class: overview-code-block
 

@@ -1187,29 +1187,6 @@ ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
   // }
 }
 
-/*!
-@brief obtain sequence of Euler angles using specified axis sequence convention
-
-Note that this function requires the input direction cosine matrix to be
-orthonormal, that is, a member of the SO3 group. For efficiency, no checks are
-performed on the input direction cosine matrix to check whether it is
-orthonormal.
-
-This function decomposes a general direction cosine matrix into three
-primitive direction cosine matrices, whose axes are determined by a
-ksl_axis_enum_t datasturcture which is passed in through the axisSequence
-parameter. The direction cosine matrix is passed in through the r, and the three
-computed angles are updated and returned in angles.
-
-Optionally, reference angles from a previous nearby position can be passed in
-the last argument.
-
-@param r [in] direction cosine matrix
-@param axisType [in] an enum specifying angle sequence
-@param angles [out] sequence of euler angles
-@param referenceAngles [in/optional] a sequence of reference angles from a
-nearby pose, used to obtain continuity in angles between poses.
-*/
 inline void
 ksl_mat3x3f_getEulerAnglesWithReference(const ksl_mat3x3f_t* r,
                                         const ksl_axis_enum_t axisType,
