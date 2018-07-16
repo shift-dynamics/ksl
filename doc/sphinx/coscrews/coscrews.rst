@@ -7,7 +7,8 @@ Coscrews
 Overview
 --------
 
-Just as the linear and angular velocities can be combined in to a single :math:`6 \times 1` column vector, forces and moments can be combined in a single quantity called a *wrench*.  A wrench is *dual* to a screw, i.e., it is a linear operator on a screw. In older literature, a wrench is often referred to as another kind of screw. In modern literature, a wrenches are referred to as a *coscrews* :cite:`selig2005geometric`. A superscript :math:`^*` is used to distinguish a coscrew from a screw. A wrench, :math:`\underline{\mathbf{f}}^*`, is defined as
+Just as the linear and angular velocities can be combined into a single :math:`6 \times 1` column vector, forces and moments can be combined in a single quantity called a *wrench*.  A wrench is *dual* to a screw, i.e., it is a linear operator on a screw. In older literature, a wrench is often referred to as another kind of screw. In modern literature, a wrenches are referred to as a *coscrews* :cite:`selig2005geometric`. A superscript :math:`^*` is used to distinguish a coscrew from a screw. A wrench,
+ :math:`\underline{\mathbf{f}}^*`, is defined as
 
 .. math::
     :label: eq:wrench

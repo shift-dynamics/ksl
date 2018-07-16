@@ -430,7 +430,7 @@ the user.
 ksl_mat4x4f_t* ksl_mat4x4f_alloc(int n);
 
 /*!
-@brief convert a ksl_SE3_t datastructure to a ksl_mat4x4_t datastructure
+@brief convert a `ksl_SE3_t` datastructure to a `ksl_mat4x4_t` datastructure
 
 @param d [in] input SE3 datastructure
 @param m [out] output mat4x4 matrix
@@ -438,7 +438,7 @@ ksl_mat4x4f_t* ksl_mat4x4f_alloc(int n);
 void ksl_SE3_toMat4x4(const ksl_SE3_t* d, ksl_mat4x4_t* m);
 
 /*!
-@brief convert a ksl_SE3f_t datastructure to a ksl_mat4x4f_t datastructure
+@brief convert a `ksl_SE3f_t` datastructure to a `ksl_mat4x4f_t` datastructure
 
 @param d [in] input SE3f datastructure
 @param m [out] output mat4x4f matrix
@@ -446,7 +446,7 @@ void ksl_SE3_toMat4x4(const ksl_SE3_t* d, ksl_mat4x4_t* m);
 void ksl_SE3f_toMat4x4f(const ksl_SE3f_t* d, ksl_mat4x4f_t* m);
 
 /*!
-@brief convert a ksl_SE3_t datastructure to a ksl_mat4x4f_t datastructure
+@brief convert a `ksl_SE3_t` datastructure to a `ksl_mat4x4f_t` datastructure
 
 @param d [in] input SE3 datastructure
 @param m [out] output mat4x4f matrix
@@ -474,78 +474,186 @@ stored in dc[1]
 void ksl_dcf(const float thetai, float dc[2]);
 
 /*!
-@brief TODO document this function
+@brief Set a double precision SE3 matrix to identity.
+
+\f$\begin{bmatrix}I & 0\\0 & 1\end{bmatrix} \rightarrow \Phi \f$
+
+@param d [in/out] input SE3 matrix
 */
 void ksl_SE3_setIdentity(ksl_SE3_t* d);
 
 /*!
-@brief TODO document this function
+@brief Set a single precision SE3 matrix to identity.
+
+\f$\begin{bmatrix}I & 0\\0 & 1\end{bmatrix} \rightarrow \Phi \f$
+
+@param d [in/out] input SE3 matrix
 */
 void ksl_SE3f_setIdentity(ksl_SE3f_t* d);
 
 /*!
-@brief TODO document this function
+@brief Set a double precision 3x3 matrix to identity.
+
+\f$ I \rightarrow R \f$
+
+@param r [in/out] input 3x3 matrix
 */
 void ksl_mat3x3_setIdentity(ksl_mat3x3_t* r);
 
 /*!
-@brief TODO document this function
+@brief Set a single precision 3x3 matrix to identity.
+
+\f$ I \rightarrow R \f$
+
+@param r [in/out] input 3x3 matrix
 */
 void ksl_mat3x3f_setIdentity(ksl_mat3x3f_t* r);
 
 /*!
-@brief TODO document this function
+@brief Set a value in a double precision 3x3 matrix at specified row and
+column index.
+
+Bounds checking are performed in debug mode. Bounds checking can be disabled by
+compiling in release mode using the compiler flag -DNDEBUG.
+
+@param R [in/out]
+@param row [in] row index, \f$0 \le row \lt 3\f$
+@param column [in] column index, \f$0 \le column \lt 3\f$
+@param value [in] value to set
 */
 void ksl_mat3x3_set(ksl_mat3x3_t* R, const int row, const int column,
                     const double value);
 
 /*!
-@brief TODO document this function
+@brief Set a value in a double precision 4x4 matrix at specified row and
+column index.
+
+Bounds checking are performed in debug mode. Bounds checking can be disabled by
+compiling in release mode using the compiler flag -DNDEBUG.
+
+@param M [in/out]
+@param row [in] row index, \f$0 \le row \lt 4\f$
+@param column [in] column index, \f$0 \le column \lt 4\f$
+@param value [in] value to set
 */
-void ksl_mat4x4_set(ksl_mat4x4_t* R, const int row, const int column,
+void ksl_mat4x4_set(ksl_mat4x4_t* M, const int row, const int column,
                     const double value);
 
 /*!
-@brief TODO document this function
+@brief Set a value in a double precision SE3 matrix at specified row and
+column index.
+
+Bounds checking are performed in debug mode. Bounds checking can be disabled by
+compiling in release mode using the compiler flag -DNDEBUG.
+
+The `ksl_SE3_t` data structure is designed specifically for rigid body
+transformations and is a subset of more general 4x4 matrices. As the fourth row
+of an SE(3) matrix always contains 0s and 1s, no memory is allocated for these
+quantities and it is not permitted to set values in these locations. If it is
+desired to set quantities in the last row, it is recommended to use the more
+general `ksl_mat4x4_t` data structure.
+
+@param D [in/out]
+@param row [in] row index, \f$0 \le row \lt 3\f$
+@param column [in] column index, \f$0 \le column \lt 4\f$
+@param value [in] value to set
 */
 void ksl_SE3_set(ksl_SE3_t* D, const int row, const int column,
                  const double value);
 
 /*!
-@brief TODO document this function
+@brief Set a value in a single precision SE3 matrix at specified row and
+column index.
+
+Bounds checking are performed in debug mode. Bounds checking can be disabled by
+compiling in release mode using the compiler flag -DNDEBUG.
+
+The `ksl_SE3_t` data structure is designed specifically for rigid body
+transformations and is a subset of more general 4x4 matrices. As the fourth row
+of an SE(3) matrix always contains 0s and 1s, no memory is allocated for these
+quantities and it is not permitted to set values in these locations. If it is
+desired to set quantities in the last row, it is recommended to use the more
+general `ksl_mat4x4_t` data structure.
+
+@param D [in/out]
+@param row [in] row index, \f$0 \le row \lt 3\f$
+@param column [in] column index, \f$0 \le column \lt 4\f$
+@param value [in] value to set
 */
 void ksl_SE3f_set(ksl_SE3f_t* D, const int row, const int column,
                   const float value);
 
 /*!
-@brief TODO document this function
+@brief Set a double precision 3x3 matrix from a 3 column vectors
+
+\f$ \begin{bmatrix} \underline{v}_x & \underline{v}_y & \underline{v}_z
+\end{bmatrix} \rightarrow R \f$
+
+@param R [in/out] 3x3 rotation matrix
+@param x [in] first column to set
+@param y [in] second column to set
+@param z [in] third column to set
 */
 void ksl_mat3x3_setFromVectors(ksl_mat3x3_t* R, const ksl_vec3_t* x,
                                const ksl_vec3_t* y, const ksl_vec3_t* z);
 
 /*!
-@brief TODO document this function
+@brief Set a single precision 3x3 matrix from a 3 column vectors
+
+\f$ \begin{bmatrix} \underline{v}_x & \underline{v}_y & \underline{v}_z
+\end{bmatrix} \rightarrow R \f$
+
+@param R [in/out] 3x3 rotation matrix
+@param x [in] first column to set
+@param y [in] second column to set
+@param z [in] third column to set
 */
 void ksl_mat3x3f_setFromVectors(ksl_mat3x3f_t* R, const ksl_vec3f_t* x,
                                 const ksl_vec3f_t* y, const ksl_vec3f_t* z);
 
 /*!
-@brief TODO document this function
+@brief Set a value in a single precision 3x3 matrix at specified row and
+column index.
+
+Bounds checking are performed in debug mode. Bounds checking can be disabled by
+compiling in release mode using the compiler flag -DNDEBUG.
+
+@param R [in/out]
+@param row [in] row index, \f$0 \le row \lt 3\f$
+@param column [in] column index, \f$0 \le column \lt 3\f$
+@param value [in] value to set
 */
 void ksl_mat3x3f_set(ksl_mat3x3f_t* R, int row, int column, float value);
 
 /*!
-@brief TODO document this function
+@brief Set a value in a single precision 4x4 matrix at specified row and
+column index.
+
+Bounds checking are performed in debug mode. Bounds checking can be disabled by
+compiling in release mode using the compiler flag -DNDEBUG.
+
+@param M [in/out]
+@param row [in] row index, \f$0 \le row \lt 4\f$
+@param column [in] column index, \f$0 \le column \lt 4\f$
+@param value [in] value to set
 */
 void ksl_mat4x4f_set(ksl_mat4x4f_t* D, int row, int column, float value);
 
 /*!
-@brief TODO document this function
+@brief Set a double precision 4x4 matrix to identity.
+
+\f$ I \rightarrow M \f$
+
+@param M [in/out] input 4x4 matrix
 */
 void ksl_mat4x4_setIdentity(ksl_mat4x4_t* M);
 
 /*!
-@brief TODO document this function
+@brief Set a single precision 4x4 matrix to identity.
+
+\f$ I \rightarrow M \f$
+
+@param M [in/out] input 4x4 matrix
 */
 void ksl_mat4x4f_setIdentity(ksl_mat4x4f_t* M);
 
@@ -660,19 +768,19 @@ void ksl_SE3_copy(const ksl_SE3_t* Di, ksl_SE3_t* Do);
 void ksl_SE3f_copy(const ksl_SE3f_t* Di, ksl_SE3f_t* Do);
 
 /*!
-@brief macro used to obtain sequence of double precision Euler angles using
-specified axis sequence convention
+@brief This macro is used to obtain a double precision sequence of Euler angles
+from an orthonormal rotation matrix using a specified axis sequence convention.
 
 Note that this function requires the input direction cosine matrix to be
-orthonormal, that is, a member of the SO3 group. For efficiency, no checks are
+orthonormal, i.e., a member of the SO3 group. For efficiency, no checks are
 performed on the input direction cosine matrix to check whether it is
 orthonormal.
 
 This function decomposes a general direction cosine matrix into three
 primitive direction cosine matrices, whose axes are determined by a
-ksl_axis_enum_t data structure which is passed in through the axisSequence
-parameter. The direction cosine matrix is passed in through the r, and the three
-computed angles are updated and returned in angles.
+`ksl_axis_enum_t` data structure which is passed in through the `axisType`
+parameter. The direction cosine matrix is passed in through `r`, and the three
+computed angles are updated and returned in `angles`.
 
 Optionally, reference angles from a previous nearby position can be passed in
 the last argument.
@@ -690,19 +798,19 @@ nearby pose, used to obtain continuity in angles between poses.
   }
 
 /*!
-@brief obtain sequence of double precision Euler angles using specified axis
-sequence convention
+@brief Obtain double precision sequence of Euler angles using
+specified axis sequence convention.
 
-Note that this function requires the input direction cosine matrix to be
-orthonormal, that is, a member of the SO3 group. For efficiency, no checks are
-performed on the input direction cosine matrix to check whether it is
+This function requires the input direction cosine matrix to be
+orthonormal, i.e., a member of the SO3 group. For efficiency, no checks are
+performed on the input direction cosine matrix to verify that it is
 orthonormal.
 
 This function decomposes a general direction cosine matrix into three
 primitive direction cosine matrices, whose axes are determined by a
-ksl_axis_enum_t data structure which is passed in through the axisSequence
-parameter. The direction cosine matrix is passed in through the r, and the three
-computed angles are updated and returned in angles.
+`ksl_axis_enum_t` enum data structure passed in through the `axisType`
+parameter. The direction cosine matrix is passed in through the `r`, and the
+three computed angles are updated and returned in `angles`.
 
 Optionally, reference angles from a previous nearby position can be passed in
 the last argument.
@@ -718,19 +826,19 @@ void ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
                                             ksl_vec3_t* angles, ...);
 
 /*!
-@brief macro used to obtain single precision sequence of Euler angles using
-specified axis sequence convention
+@brief This macro is used to obtain a single precision sequence of Euler angles
+from an orthonormal rotation matrix using a specified axis sequence convention.
 
 Note that this function requires the input direction cosine matrix to be
-orthonormal, that is, a member of the SO3 group. For efficiency, no checks are
+orthonormal, i.e., a member of the SO3 group. For efficiency, no checks are
 performed on the input direction cosine matrix to check whether it is
 orthonormal.
 
 This function decomposes a general direction cosine matrix into three
 primitive direction cosine matrices, whose axes are determined by a
-ksl_axis_enum_t data structure which is passed in through the axisSequence
-parameter. The direction cosine matrix is passed in through the r, and the three
-computed angles are updated and returned in angles.
+`ksl_axis_enum_t` data structure which is passed in through the `axisType`
+parameter. The direction cosine matrix is passed in through `r`, and the three
+computed angles are updated and returned in `angles`.
 
 Optionally, reference angles from a previous nearby position can be passed in
 the last argument.
@@ -748,19 +856,19 @@ nearby pose, used to obtain continuity in angles between poses.
   }
 
 /*!
-@brief obtain single precision sequence of Euler angles using
-specified axis sequence convention
+@brief Obtain single precision sequence of Euler angles using
+specified axis sequence convention.
 
-Note that this function requires the input direction cosine matrix to be
-orthonormal, that is, a member of the SO3 group. For efficiency, no checks are
-performed on the input direction cosine matrix to check whether it is
+This function requires the input direction cosine matrix to be
+orthonormal, i.e., a member of the SO3 group. For efficiency, no checks are
+performed on the input direction cosine matrix to verify that it is
 orthonormal.
 
 This function decomposes a general direction cosine matrix into three
 primitive direction cosine matrices, whose axes are determined by a
-ksl_axis_enum_t data structure which is passed in through the axisSequence
-parameter. The direction cosine matrix is passed in through the r, and the three
-computed angles are updated and returned in angles.
+`ksl_axis_enum_t` enum data structure passed in through the `axisType`
+parameter. The direction cosine matrix is passed in through the `r`, and the
+three computed angles are updated and returned in `angles`.
 
 Optionally, reference angles from a previous nearby position can be passed in
 the last argument.
@@ -776,7 +884,7 @@ void ksl_mat3x3f_getEulerAnglesWithReference(const ksl_mat3x3f_t* r,
                                              ksl_vec3f_t* angles, ...);
 
 /*!
-@brief set a double precision mat3x3 matrix from a sequence of Euler angles
+@brief Set a double precision mat3x3 matrix from a sequence of Euler angles.
 
 This function takes three Euler angles in one of twelve rotation orders
 and outputs a direction cosine matrix. The axis sequence is input
@@ -794,7 +902,7 @@ void ksl_mat3x3_setFromEulerAngles(ksl_mat3x3_t*,
                                    const ksl_vec3_t*);
 
 /*!
-@brief set a single precision mat3x3f matrix from a sequence of Euler angles
+@brief Set a single precision mat3x3f matrix from a sequence of Euler angles
 
 This function takes three Euler angles in one of twelve rotation orders
 and outputs a direction cosine matrix. The axis sequence is input
@@ -812,14 +920,24 @@ void ksl_mat3x3f_setFromEulerAngles(ksl_mat3x3f_t*,
                                     const ksl_vec3f_t*);
 
 /*!
-@brief get axis and angle from a double precision rotation matrix
+@brief Get axis and angle from a double precision rotation matrix.
+
+This function requires the input direction cosine matrix to be
+orthonormal, i.e., a member of the SO3 group. For efficiency, no checks are
+performed on the input direction cosine matrix to verify that it is
+orthonormal.
 
 Note that if sin is close to 0, the axis of rotation is not well defined.
+
+@param r [in] input rotation matrix
+@param axis [out] axis of rotation
+@param angle [out] angle of rotation in radians
 */
-void ksl_mat3x3_getAxisAngle(const ksl_mat3x3_t*, ksl_vec3_t*, double*);
+void ksl_mat3x3_getAxisAngle(const ksl_mat3x3_t* r, ksl_vec3_t* axis,
+                             double* angle);
 
 /*!
-@brief set double precision rotation matrix from axis and angle representation
+@brief Set double precision rotation matrix from axis and angle representation.
 
 @param r [out] rotation matrix will be set here
 @param axis [in] axis of rotation
@@ -829,68 +947,128 @@ void ksl_mat3x3_setFromAxisAngle(ksl_mat3x3_t*, const ksl_vec3_t*,
                                  const double);
 
 /*!
-@brief get axis and angle from a single precision rotation matrix
+@brief Get axis and angle from a single precision rotation matrix.
 
-if sin is close to 0, the axis of rotation is not well defined.
+This function requires the input direction cosine matrix to be
+orthonormal, i.e., a member of the SO3 group. For efficiency, no checks are
+performed on the input direction cosine matrix to verify that it is
+orthonormal.
+
+Note that if sin is close to 0, the axis of rotation is not well defined.
+
+@param r [in] input rotation matrix
+@param axis [out] axis of rotation
+@param angle [out] angle of rotation in radians
 */
-void ksl_mat3x3f_getAxisAngle(const ksl_mat3x3f_t*, ksl_vec3f_t*, float*);
+void ksl_mat3x3f_getAxisAngle(const ksl_mat3x3f_t* r, ksl_vec3f_t* axis,
+                              float* angle);
 
 /*!
-@brief set rotation matrix from axis and angle representation
+@brief Set a single precision rotation matrix from axis and angle
+representation.
 
-@param r [out] rotation matrix will be set here
+@param r [out] rotation matrix to set
 @param axis [in] axis of rotation
 @param angle [in] angle of rotation in radians
 */
-void ksl_mat3x3f_setFromAxisAngle(ksl_mat3x3f_t*, const ksl_vec3f_t*,
-                                  const float);
+void ksl_mat3x3f_setFromAxisAngle(ksl_mat3x3f_t* r, const ksl_vec3f_t* axis,
+                                  const float angle);
 
 /*!
-@brief TODO document this function
+@brief Obtain the 3D translation component of a double precision 4x4 matrix
+@param Mi [in] input 4x4 matrix
+@param to [out] translation vector returned in to
 */
 void ksl_mat4x4_getTranslation(const ksl_mat4x4_t* Mi, ksl_vec3_t* to);
 
 /*!
-@brief TODO document this function
+@brief Obtain the 3D translation component of a single precision 4x4 matrix
+@param Mi [in] input 4x4 matrix
+@param to [out] translation vector returned in to
 */
 void ksl_mat4x4f_getTranslation(const ksl_mat4x4f_t* Mi, ksl_vec3f_t* to);
 
 /*!
-@brief TODO document this function
+@brief Basic get function for a double precision 4x4 matrix
+
+Bounds checking are performed in debug mode. Bounds checking can be disabled by
+compiling in release mode using the compiler flag -DNDEBUG.
+
+@param Mi [in] input 4x4 matrix
+@param row [in] row index
+@param column [in] column index
+@return value at specified row and column index
 */
 double ksl_mat4x4_get(const ksl_mat4x4_t* Mi, const int row, const int column);
 
 /*!
-@brief TODO document this function
+@brief Basic get function for a single precision 4x4 matrix
+
+Bounds checking are performed in debug mode. Bounds checking can be disabled by
+compiling in release mode using the compiler flag -DNDEBUG.
+
+@param Mi [in] input 4x4 matrix
+@param row [in] row index
+@param column [in] column index
+@return value at specified row and column index
 */
 float ksl_mat4x4f_get(const ksl_mat4x4f_t* Mi, const int row, const int column);
 
 /*!
-@brief TODO document this function
+@brief Compute the determinant of a 3x3 double precision matrix
+@param ri [in] input 3x3 matrix
+@param determinant
 */
-double ksl_mat3x3_determinant(const ksl_mat3x3_t*);
+double ksl_mat3x3_determinant(const ksl_mat3x3_t* r_i);
 
 /*!
-@brief TODO document this function
+@brief Compute the determinant of a 3x3 single precision matrix
+@param ri [in] input 3x3 matrix
+@param determinant
 */
 float ksl_mat3x3f_determinant(const ksl_mat3x3f_t*);
 
 /* matrix vector operations */
 
 /*!
-@brief TODO document this function
+@brief Compute the double precision matrix product of a 3x3 matrix \f$R^{oi}\f$
+and a 3x1 vector \f$\underline{v}^i_{oi}\f$.
+
+\f$R^{oi} \underline{v}^i_{oi} \rightarrow \underline{v}^o_{oi} \f$
+
+@param r_oi [in] input 3x3 matrix
+@param v_i [in] input vector
+@param v_o [out] result returned in v_o
 */
-void ksl_product_drv(const ksl_mat3x3_t* ri, const ksl_vec3_t* vi,
-                     ksl_vec3_t* vo);
+void ksl_product_drv(const ksl_mat3x3_t* r_oi, const ksl_vec3_t* v_i,
+                     ksl_vec3_t* v_o);
 
 /*!
-@brief TODO document this function
+@brief Compute the single precision matrix product of a 3x3 matrix \f$R^{oi}\f$
+and a 3x1 vector \f$\underline{v}^i_{oi}\f$.
+
+\f$R^{oi} \underline{v}^i_{oi} \rightarrow \underline{v}^o_{oi} \f$
+
+@param r_oi [in] input 3x3 matrix
+@param v_i [in] input vector
+@param v_o [out] result returned in v_o
 */
-void ksl_product_drvf(const ksl_mat3x3f_t* ri, const ksl_vec3f_t* vi,
-                      ksl_vec3f_t* vo);
+void ksl_product_drvf(const ksl_mat3x3f_t* r_oi, const ksl_vec3f_t* v_i,
+                      ksl_vec3f_t* v_o);
 
 /*!
-@brief TODO document this function
+@brief Compute the double precision matrix product of a 3x3 matrix \f$R^{oi}\f$
+and the inverse of a 3x1 input vector \f$\underline{v}^i_{oi}\f$.
+
+\f$R^{oi} (-\underline{v}^i_{oi}) \rightarrow \underline{v}^o_{io} \f$
+
+\f$-R^{oi} \underline{v}^i_{oi} \rightarrow \underline{v}^o_{io} \f$
+
+\f$R^{oi} \underline{v}^i_{io} \rightarrow \underline{v}^o_{io} \f$
+
+@param r_oi [in] input 3x3 matrix
+@param v_i [in] input vector
+@param v_o [out] result returned in v_o
 */
 void ksl_product_drvinv(const ksl_mat3x3_t* ri, const ksl_vec3_t* vi,
                         ksl_vec3_t* vo);
