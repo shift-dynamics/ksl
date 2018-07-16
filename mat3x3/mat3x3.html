@@ -225,19 +225,52 @@
 <dl class="function">
 <dt id="_CPPv322ksl_mat3x3_setIdentityP12ksl_mat3x3_t">
 <span id="_CPPv222ksl_mat3x3_setIdentityP12ksl_mat3x3_t"></span><span id="ksl_mat3x3_setIdentity__ksl_mat3x3_tP"></span><span class="target" id="matrix_8h_1ab58fb659ed34589b759a9bff7257f9c0"></span>void <code class="descname">ksl_mat3x3_setIdentity</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_mat3x3_setIdentityP12ksl_mat3x3_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>Set a double precision 3x3 matrix to identity. </p>
+<p><span class="math notranslate nohighlight">\( I \rightarrow R \)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: [in/out] input 3x3 matrix </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv314ksl_mat3x3_setP12ksl_mat3x3_tKiKiKd">
 <span id="_CPPv214ksl_mat3x3_setP12ksl_mat3x3_tKiKiKd"></span><span id="ksl_mat3x3_set__ksl_mat3x3_tP.iC.iC.doubleC"></span><span class="target" id="matrix_8h_1a214b4ee953af0437c415341ac20ba7c9"></span>void <code class="descname">ksl_mat3x3_set</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>R</em>, <em class="property">const</em> int <em>row</em>, <em class="property">const</em> int <em>column</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv314ksl_mat3x3_setP12ksl_mat3x3_tKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>Set a value in a double precision 3x3 matrix at specified row and column index. </p>
+<p>Bounds checking are performed in debug mode. Bounds checking can be disabled by compiling in release mode using the compiler flag -DNDEBUG.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">R</span></code>: [in/out] </li>
+<li><code class="docutils literal notranslate"><span class="pre">row</span></code>: [in] row index, <span class="math notranslate nohighlight">\(0 \le row \lt 3\)</span> </li>
+<li><code class="docutils literal notranslate"><span class="pre">column</span></code>: [in] column index, <span class="math notranslate nohighlight">\(0 \le column \lt 3\)</span> </li>
+<li><code class="docutils literal notranslate"><span class="pre">value</span></code>: [in] value to set </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv325ksl_mat3x3_setFromVectorsP12ksl_mat3x3_tPK10ksl_vec3_tPK10ksl_vec3_tPK10ksl_vec3_t">
 <span id="_CPPv225ksl_mat3x3_setFromVectorsP12ksl_mat3x3_tPK10ksl_vec3_tPK10ksl_vec3_tPK10ksl_vec3_t"></span><span id="ksl_mat3x3_setFromVectors__ksl_mat3x3_tP.ksl_vec3_tCP.ksl_vec3_tCP.ksl_vec3_tCP"></span><span class="target" id="matrix_8h_1a2f0629a91c545f60a49380a74ce1bf46"></span>void <code class="descname">ksl_mat3x3_setFromVectors</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>R</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>x</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>y</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>z</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv325ksl_mat3x3_setFromVectorsP12ksl_mat3x3_tPK10ksl_vec3_tPK10ksl_vec3_tPK10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>Set a double precision 3x3 matrix from a 3 column vectors. </p>
+<p><span class="math notranslate nohighlight">\( \begin{bmatrix} \underline{v}_x &amp; \underline{v}_y &amp; \underline{v}_z \end{bmatrix} \rightarrow R \)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">R</span></code>: [in/out] 3x3 rotation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">x</span></code>: [in] first column to set </li>
+<li><code class="docutils literal notranslate"><span class="pre">y</span></code>: [in] second column to set </li>
+<li><code class="docutils literal notranslate"><span class="pre">z</span></code>: [in] third column to set </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
@@ -279,9 +312,9 @@
 <dl class="macro">
 <dt id="c.ksl_mat3x3_getEulerAngles">
 <span class="target" id="matrix_8h_1a075673d8b8724b0b149e3d2444a81d2e"></span><code class="descname">ksl_mat3x3_getEulerAngles</code><span class="sig-paren">(</span>r, angles, axisType, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.ksl_mat3x3_getEulerAngles" title="Permalink to this definition">¶</a></dt>
-<dd><p>macro used to obtain sequence of double precision Euler angles using specified axis sequence convention </p>
-<p>Note that this function requires the input direction cosine matrix to be orthonormal, that is, a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.</p>
-<p>This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t data structure which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.</p>
+<dd><p>This macro is used to obtain a double precision sequence of Euler angles from an orthonormal rotation matrix using a specified axis sequence convention. </p>
+<p>Note that this function requires the input direction cosine matrix to be orthonormal, i.e., a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.</p>
+<p>This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a <code class="docutils literal notranslate"><span class="pre">ksl_axis_enum_t</span></code> data structure which is passed in through the <code class="docutils literal notranslate"><span class="pre">axisType</span></code> parameter. The direction cosine matrix is passed in through <code class="docutils literal notranslate"><span class="pre">r</span></code>, and the three computed angles are updated and returned in <code class="docutils literal notranslate"><span class="pre">angles</span></code>.</p>
 <p>Optionally, reference angles from a previous nearby position can be passed in the last argument.</p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
@@ -299,9 +332,9 @@
 <dl class="function">
 <dt id="_CPPv338ksl_mat3x3_getEulerAnglesWithReferencePK12ksl_mat3x3_tK15ksl_axis_enum_tP10ksl_vec3_tz">
 <span id="_CPPv238ksl_mat3x3_getEulerAnglesWithReferencePK12ksl_mat3x3_tK15ksl_axis_enum_tP10ksl_vec3_tz"></span><span id="ksl_mat3x3_getEulerAnglesWithReference__ksl_mat3x3_tCP.ksl_axis_enum_tC.ksl_vec3_tP.z"></span><span class="target" id="matrix_8h_1a99c973220c97d334acefb30e0706ed9b"></span>void <code class="descname">ksl_mat3x3_getEulerAnglesWithReference</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>r</em>, <em class="property">const</em> ksl_axis_enum_t <em>axisType</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>angles</em>, ...<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv338ksl_mat3x3_getEulerAnglesWithReferencePK12ksl_mat3x3_tK15ksl_axis_enum_tP10ksl_vec3_tz" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>obtain sequence of double precision Euler angles using specified axis sequence convention </p>
-<p>Note that this function requires the input direction cosine matrix to be orthonormal, that is, a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.</p>
-<p>This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t data structure which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.</p>
+<dd><p>Obtain double precision sequence of Euler angles using specified axis sequence convention. </p>
+<p>This function requires the input direction cosine matrix to be orthonormal, i.e., a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to verify that it is orthonormal.</p>
+<p>This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a <code class="docutils literal notranslate"><span class="pre">ksl_axis_enum_t</span></code> enum data structure passed in through the <code class="docutils literal notranslate"><span class="pre">axisType</span></code> parameter. The direction cosine matrix is passed in through the <code class="docutils literal notranslate"><span class="pre">r</span></code>, and the three computed angles are updated and returned in <code class="docutils literal notranslate"><span class="pre">angles</span></code>.</p>
 <p>Optionally, reference angles from a previous nearby position can be passed in the last argument.</p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
@@ -319,7 +352,7 @@
 <dl class="function">
 <dt id="_CPPv329ksl_mat3x3_setFromEulerAnglesP12ksl_mat3x3_tK15ksl_axis_enum_tPK10ksl_vec3_t">
 <span id="_CPPv229ksl_mat3x3_setFromEulerAnglesP12ksl_mat3x3_tK15ksl_axis_enum_tPK10ksl_vec3_t"></span><span id="ksl_mat3x3_setFromEulerAngles__ksl_mat3x3_tP.ksl_axis_enum_tC.ksl_vec3_tCP"></span><span class="target" id="matrix_8h_1a1d998186da1242f36e0d3c1b26073239"></span>void <code class="descname">ksl_mat3x3_setFromEulerAngles</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *, <em class="property">const</em> ksl_axis_enum_t <em>axisType</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv329ksl_mat3x3_setFromEulerAnglesP12ksl_mat3x3_tK15ksl_axis_enum_tPK10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>set a double precision mat3x3 matrix from a sequence of Euler angles </p>
+<dd><p>Set a double precision mat3x3 matrix from a sequence of Euler angles. </p>
 <p>This function takes three Euler angles in one of twelve rotation orders and outputs a direction cosine matrix. The axis sequence is input using a ksl_axis_enum_t datastructure.</p>
 <p><span class="math notranslate nohighlight">\( R_x = \begin{bmatrix} 1 &amp; 0 &amp; 0\\ 0 &amp; c &amp; -s \\ 0 &amp; s &amp; c \end{bmatrix}\)</span></p>
 <p><span class="math notranslate nohighlight">\( R_y = \begin{bmatrix} c &amp; 0 &amp; s\\ 0 &amp; 1 &amp; 0 \\ -s &amp; 0 &amp; c \end{bmatrix}\)</span></p>
@@ -328,15 +361,26 @@
 
 <dl class="function">
 <dt id="_CPPv323ksl_mat3x3_getAxisAnglePK12ksl_mat3x3_tP10ksl_vec3_tPd">
-<span id="_CPPv223ksl_mat3x3_getAxisAnglePK12ksl_mat3x3_tP10ksl_vec3_tPd"></span><span id="ksl_mat3x3_getAxisAngle__ksl_mat3x3_tCP.ksl_vec3_tP.doubleP"></span><span class="target" id="matrix_8h_1a21b4e9dad800701badf4a4ae20e9e888"></span>void <code class="descname">ksl_mat3x3_getAxisAngle</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *, double *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv323ksl_mat3x3_getAxisAnglePK12ksl_mat3x3_tP10ksl_vec3_tPd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>get axis and angle from a double precision rotation matrix </p>
-<p>Note that if sin is close to 0, the axis of rotation is not well defined. </p>
+<span id="_CPPv223ksl_mat3x3_getAxisAnglePK12ksl_mat3x3_tP10ksl_vec3_tPd"></span><span id="ksl_mat3x3_getAxisAngle__ksl_mat3x3_tCP.ksl_vec3_tP.doubleP"></span><span class="target" id="matrix_8h_1aa860e3c8ec24a6f9abcbea8249ac98fb"></span>void <code class="descname">ksl_mat3x3_getAxisAngle</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>r</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>axis</em>, double *<em>angle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv323ksl_mat3x3_getAxisAnglePK12ksl_mat3x3_tP10ksl_vec3_tPd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get axis and angle from a double precision rotation matrix. </p>
+<p>This function requires the input direction cosine matrix to be orthonormal, i.e., a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to verify that it is orthonormal.</p>
+<p>Note that if sin is close to 0, the axis of rotation is not well defined.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: [in] input rotation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">axis</span></code>: [out] axis of rotation </li>
+<li><code class="docutils literal notranslate"><span class="pre">angle</span></code>: [out] angle of rotation in radians </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv327ksl_mat3x3_setFromAxisAngleP12ksl_mat3x3_tPK10ksl_vec3_tKd">
 <span id="_CPPv227ksl_mat3x3_setFromAxisAngleP12ksl_mat3x3_tPK10ksl_vec3_tKd"></span><span id="ksl_mat3x3_setFromAxisAngle__ksl_mat3x3_tP.ksl_vec3_tCP.doubleC"></span><span class="target" id="matrix_8h_1a305b61035160d778913d6512475f469f"></span>void <code class="descname">ksl_mat3x3_setFromAxisAngle</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *, <em class="property">const</em> double<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv327ksl_mat3x3_setFromAxisAngleP12ksl_mat3x3_tPK10ksl_vec3_tKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>set double precision rotation matrix from axis and angle representation </p>
+<dd><p>Set double precision rotation matrix from axis and angle representation. </p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
@@ -351,8 +395,17 @@
 
 <dl class="function">
 <dt id="_CPPv322ksl_mat3x3_determinantPK12ksl_mat3x3_t">
-<span id="_CPPv222ksl_mat3x3_determinantPK12ksl_mat3x3_t"></span><span id="ksl_mat3x3_determinant__ksl_mat3x3_tCP"></span><span class="target" id="matrix_8h_1a9c6c8a3db26680b4aa525c5253a950ee"></span>double <code class="descname">ksl_mat3x3_determinant</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_mat3x3_determinantPK12ksl_mat3x3_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<span id="_CPPv222ksl_mat3x3_determinantPK12ksl_mat3x3_t"></span><span id="ksl_mat3x3_determinant__ksl_mat3x3_tCP"></span><span class="target" id="matrix_8h_1ae41da80dbad7d7eb8f285ed3880ecf08"></span>double <code class="descname">ksl_mat3x3_determinant</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>r_i</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_mat3x3_determinantPK12ksl_mat3x3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute the determinant of a 3x3 double precision matrix. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">ri</span></code>: [in] input 3x3 matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">determinant</span></code>: </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 </div>
@@ -481,19 +534,52 @@
 <dl class="function">
 <dt id="_CPPv323ksl_mat3x3f_setIdentityP13ksl_mat3x3f_t">
 <span id="_CPPv223ksl_mat3x3f_setIdentityP13ksl_mat3x3f_t"></span><span id="ksl_mat3x3f_setIdentity__ksl_mat3x3f_tP"></span><span class="target" id="matrix_8h_1a81ad7fbd8db8e8464cf7a96c8d87df09"></span>void <code class="descname">ksl_mat3x3f_setIdentity</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv323ksl_mat3x3f_setIdentityP13ksl_mat3x3f_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>Set a single precision 3x3 matrix to identity. </p>
+<p><span class="math notranslate nohighlight">\( I \rightarrow R \)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: [in/out] input 3x3 matrix </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv315ksl_mat3x3f_setP13ksl_mat3x3f_tiif">
 <span id="_CPPv215ksl_mat3x3f_setP13ksl_mat3x3f_tiif"></span><span id="ksl_mat3x3f_set__ksl_mat3x3f_tP.i.i.float"></span><span class="target" id="matrix_8h_1a826c58e7955ed694952468b334e42d79"></span>void <code class="descname">ksl_mat3x3f_set</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>R</em>, int <em>row</em>, int <em>column</em>, float <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_mat3x3f_setP13ksl_mat3x3f_tiif" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>Set a value in a single precision 3x3 matrix at specified row and column index. </p>
+<p>Bounds checking are performed in debug mode. Bounds checking can be disabled by compiling in release mode using the compiler flag -DNDEBUG.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">R</span></code>: [in/out] </li>
+<li><code class="docutils literal notranslate"><span class="pre">row</span></code>: [in] row index, <span class="math notranslate nohighlight">\(0 \le row \lt 3\)</span> </li>
+<li><code class="docutils literal notranslate"><span class="pre">column</span></code>: [in] column index, <span class="math notranslate nohighlight">\(0 \le column \lt 3\)</span> </li>
+<li><code class="docutils literal notranslate"><span class="pre">value</span></code>: [in] value to set </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv326ksl_mat3x3f_setFromVectorsP13ksl_mat3x3f_tPK11ksl_vec3f_tPK11ksl_vec3f_tPK11ksl_vec3f_t">
 <span id="_CPPv226ksl_mat3x3f_setFromVectorsP13ksl_mat3x3f_tPK11ksl_vec3f_tPK11ksl_vec3f_tPK11ksl_vec3f_t"></span><span id="ksl_mat3x3f_setFromVectors__ksl_mat3x3f_tP.ksl_vec3f_tCP.ksl_vec3f_tCP.ksl_vec3f_tCP"></span><span class="target" id="matrix_8h_1a340c64a953a994d665382361a29229f0"></span>void <code class="descname">ksl_mat3x3f_setFromVectors</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>R</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>x</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>y</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>z</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv326ksl_mat3x3f_setFromVectorsP13ksl_mat3x3f_tPK11ksl_vec3f_tPK11ksl_vec3f_tPK11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>Set a single precision 3x3 matrix from a 3 column vectors. </p>
+<p><span class="math notranslate nohighlight">\( \begin{bmatrix} \underline{v}_x &amp; \underline{v}_y &amp; \underline{v}_z \end{bmatrix} \rightarrow R \)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">R</span></code>: [in/out] 3x3 rotation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">x</span></code>: [in] first column to set </li>
+<li><code class="docutils literal notranslate"><span class="pre">y</span></code>: [in] second column to set </li>
+<li><code class="docutils literal notranslate"><span class="pre">z</span></code>: [in] third column to set </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
@@ -535,9 +621,9 @@
 <dl class="macro">
 <dt id="c.ksl_mat3x3f_getEulerAngles">
 <span class="target" id="matrix_8h_1a7f9d70aa654ca2ec9834920e6513e098"></span><code class="descname">ksl_mat3x3f_getEulerAngles</code><span class="sig-paren">(</span>r, angles, axisType, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.ksl_mat3x3f_getEulerAngles" title="Permalink to this definition">¶</a></dt>
-<dd><p>macro used to obtain single precision sequence of Euler angles using specified axis sequence convention </p>
-<p>Note that this function requires the input direction cosine matrix to be orthonormal, that is, a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.</p>
-<p>This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t data structure which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.</p>
+<dd><p>This macro is used to obtain a single precision sequence of Euler angles from an orthonormal rotation matrix using a specified axis sequence convention. </p>
+<p>Note that this function requires the input direction cosine matrix to be orthonormal, i.e., a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.</p>
+<p>This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a <code class="docutils literal notranslate"><span class="pre">ksl_axis_enum_t</span></code> data structure which is passed in through the <code class="docutils literal notranslate"><span class="pre">axisType</span></code> parameter. The direction cosine matrix is passed in through <code class="docutils literal notranslate"><span class="pre">r</span></code>, and the three computed angles are updated and returned in <code class="docutils literal notranslate"><span class="pre">angles</span></code>.</p>
 <p>Optionally, reference angles from a previous nearby position can be passed in the last argument.</p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
@@ -555,9 +641,9 @@
 <dl class="function">
 <dt id="_CPPv339ksl_mat3x3f_getEulerAnglesWithReferencePK13ksl_mat3x3f_tK15ksl_axis_enum_tP11ksl_vec3f_tz">
 <span id="_CPPv239ksl_mat3x3f_getEulerAnglesWithReferencePK13ksl_mat3x3f_tK15ksl_axis_enum_tP11ksl_vec3f_tz"></span><span id="ksl_mat3x3f_getEulerAnglesWithReference__ksl_mat3x3f_tCP.ksl_axis_enum_tC.ksl_vec3f_tP.z"></span><span class="target" id="matrix_8h_1a75ed791c7dc1d6a6cbb0319e4e2b493a"></span>void <code class="descname">ksl_mat3x3f_getEulerAnglesWithReference</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>r</em>, <em class="property">const</em> ksl_axis_enum_t <em>axisType</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>angles</em>, ...<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv339ksl_mat3x3f_getEulerAnglesWithReferencePK13ksl_mat3x3f_tK15ksl_axis_enum_tP11ksl_vec3f_tz" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>obtain single precision sequence of Euler angles using specified axis sequence convention </p>
-<p>Note that this function requires the input direction cosine matrix to be orthonormal, that is, a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to check whether it is orthonormal.</p>
-<p>This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a ksl_axis_enum_t data structure which is passed in through the axisSequence parameter. The direction cosine matrix is passed in through the r, and the three computed angles are updated and returned in angles.</p>
+<dd><p>Obtain single precision sequence of Euler angles using specified axis sequence convention. </p>
+<p>This function requires the input direction cosine matrix to be orthonormal, i.e., a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to verify that it is orthonormal.</p>
+<p>This function decomposes a general direction cosine matrix into three primitive direction cosine matrices, whose axes are determined by a <code class="docutils literal notranslate"><span class="pre">ksl_axis_enum_t</span></code> enum data structure passed in through the <code class="docutils literal notranslate"><span class="pre">axisType</span></code> parameter. The direction cosine matrix is passed in through the <code class="docutils literal notranslate"><span class="pre">r</span></code>, and the three computed angles are updated and returned in <code class="docutils literal notranslate"><span class="pre">angles</span></code>.</p>
 <p>Optionally, reference angles from a previous nearby position can be passed in the last argument.</p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
@@ -575,7 +661,7 @@
 <dl class="function">
 <dt id="_CPPv330ksl_mat3x3f_setFromEulerAnglesP13ksl_mat3x3f_tK15ksl_axis_enum_tPK11ksl_vec3f_t">
 <span id="_CPPv230ksl_mat3x3f_setFromEulerAnglesP13ksl_mat3x3f_tK15ksl_axis_enum_tPK11ksl_vec3f_t"></span><span id="ksl_mat3x3f_setFromEulerAngles__ksl_mat3x3f_tP.ksl_axis_enum_tC.ksl_vec3f_tCP"></span><span class="target" id="matrix_8h_1a39aacd9b358f91bcf9ca414892f5d0fc"></span>void <code class="descname">ksl_mat3x3f_setFromEulerAngles</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *, <em class="property">const</em> ksl_axis_enum_t <em>axisType</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv330ksl_mat3x3f_setFromEulerAnglesP13ksl_mat3x3f_tK15ksl_axis_enum_tPK11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>set a single precision mat3x3f matrix from a sequence of Euler angles </p>
+<dd><p>Set a single precision mat3x3f matrix from a sequence of Euler angles. </p>
 <p>This function takes three Euler angles in one of twelve rotation orders and outputs a direction cosine matrix. The axis sequence is input using a ksl_axis_enum_t datastructure.</p>
 <p><span class="math notranslate nohighlight">\( R_x = \begin{bmatrix} 1 &amp; 0 &amp; 0\\ 0 &amp; c &amp; -s \\ 0 &amp; s &amp; c \end{bmatrix}\)</span></p>
 <p><span class="math notranslate nohighlight">\( R_y = \begin{bmatrix} c &amp; 0 &amp; s\\ 0 &amp; 1 &amp; 0 \\ -s &amp; 0 &amp; c \end{bmatrix}\)</span></p>
@@ -584,19 +670,30 @@
 
 <dl class="function">
 <dt id="_CPPv324ksl_mat3x3f_getAxisAnglePK13ksl_mat3x3f_tP11ksl_vec3f_tPf">
-<span id="_CPPv224ksl_mat3x3f_getAxisAnglePK13ksl_mat3x3f_tP11ksl_vec3f_tPf"></span><span id="ksl_mat3x3f_getAxisAngle__ksl_mat3x3f_tCP.ksl_vec3f_tP.floatP"></span><span class="target" id="matrix_8h_1af9e7adb94891fcb280e68a475e049000"></span>void <code class="descname">ksl_mat3x3f_getAxisAngle</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *, float *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv324ksl_mat3x3f_getAxisAnglePK13ksl_mat3x3f_tP11ksl_vec3f_tPf" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>get axis and angle from a single precision rotation matrix </p>
-<p>if sin is close to 0, the axis of rotation is not well defined. </p>
+<span id="_CPPv224ksl_mat3x3f_getAxisAnglePK13ksl_mat3x3f_tP11ksl_vec3f_tPf"></span><span id="ksl_mat3x3f_getAxisAngle__ksl_mat3x3f_tCP.ksl_vec3f_tP.floatP"></span><span class="target" id="matrix_8h_1ae3e33c1111adfce57a4a0930b1cfcc60"></span>void <code class="descname">ksl_mat3x3f_getAxisAngle</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>r</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>axis</em>, float *<em>angle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv324ksl_mat3x3f_getAxisAnglePK13ksl_mat3x3f_tP11ksl_vec3f_tPf" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get axis and angle from a single precision rotation matrix. </p>
+<p>This function requires the input direction cosine matrix to be orthonormal, i.e., a member of the SO3 group. For efficiency, no checks are performed on the input direction cosine matrix to verify that it is orthonormal.</p>
+<p>Note that if sin is close to 0, the axis of rotation is not well defined.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: [in] input rotation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">axis</span></code>: [out] axis of rotation </li>
+<li><code class="docutils literal notranslate"><span class="pre">angle</span></code>: [out] angle of rotation in radians </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv328ksl_mat3x3f_setFromAxisAngleP13ksl_mat3x3f_tPK11ksl_vec3f_tKf">
-<span id="_CPPv228ksl_mat3x3f_setFromAxisAngleP13ksl_mat3x3f_tPK11ksl_vec3f_tKf"></span><span id="ksl_mat3x3f_setFromAxisAngle__ksl_mat3x3f_tP.ksl_vec3f_tCP.floatC"></span><span class="target" id="matrix_8h_1a909d6e045fbf9be40b47dcca564d18de"></span>void <code class="descname">ksl_mat3x3f_setFromAxisAngle</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *, <em class="property">const</em> float<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv328ksl_mat3x3f_setFromAxisAngleP13ksl_mat3x3f_tPK11ksl_vec3f_tKf" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>set rotation matrix from axis and angle representation </p>
+<span id="_CPPv228ksl_mat3x3f_setFromAxisAngleP13ksl_mat3x3f_tPK11ksl_vec3f_tKf"></span><span id="ksl_mat3x3f_setFromAxisAngle__ksl_mat3x3f_tP.ksl_vec3f_tCP.floatC"></span><span class="target" id="matrix_8h_1a7f7f66d8ffcdc7a4d3141e94a15f1043"></span>void <code class="descname">ksl_mat3x3f_setFromAxisAngle</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>r</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>axis</em>, <em class="property">const</em> float <em>angle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv328ksl_mat3x3f_setFromAxisAngleP13ksl_mat3x3f_tPK11ksl_vec3f_tKf" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set a single precision rotation matrix from axis and angle representation. </p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: [out] rotation matrix will be set here </li>
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: [out] rotation matrix to set </li>
 <li><code class="docutils literal notranslate"><span class="pre">axis</span></code>: [in] axis of rotation </li>
 <li><code class="docutils literal notranslate"><span class="pre">angle</span></code>: [in] angle of rotation in radians </li>
 </ul>
@@ -608,7 +705,16 @@
 <dl class="function">
 <dt id="_CPPv323ksl_mat3x3f_determinantPK13ksl_mat3x3f_t">
 <span id="_CPPv223ksl_mat3x3f_determinantPK13ksl_mat3x3f_t"></span><span id="ksl_mat3x3f_determinant__ksl_mat3x3f_tCP"></span><span class="target" id="matrix_8h_1a19d646584d71bdbf25ec817c3bb10468"></span>float <code class="descname">ksl_mat3x3f_determinant</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv323ksl_mat3x3f_determinantPK13ksl_mat3x3f_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>Compute the determinant of a 3x3 single precision matrix. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">ri</span></code>: [in] input 3x3 matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">determinant</span></code>: </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 </div>

@@ -276,26 +276,69 @@
 
 <dl class="function">
 <dt id="_CPPv314ksl_mat4x4_setP12ksl_mat4x4_tKiKiKd">
-<span id="_CPPv214ksl_mat4x4_setP12ksl_mat4x4_tKiKiKd"></span><span id="ksl_mat4x4_set__ksl_mat4x4_tP.iC.iC.doubleC"></span><span class="target" id="matrix_8h_1a7e4178be19e7ab6820de2aed88a11f08"></span>void <code class="descname">ksl_mat4x4_set</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv312ksl_mat4x4_t" title="ksl_mat4x4_t">ksl_mat4x4_t</a> *<em>R</em>, <em class="property">const</em> int <em>row</em>, <em class="property">const</em> int <em>column</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv314ksl_mat4x4_setP12ksl_mat4x4_tKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<span id="_CPPv214ksl_mat4x4_setP12ksl_mat4x4_tKiKiKd"></span><span id="ksl_mat4x4_set__ksl_mat4x4_tP.iC.iC.doubleC"></span><span class="target" id="matrix_8h_1a2071bcbe3b181169db067ad5645b60b5"></span>void <code class="descname">ksl_mat4x4_set</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv312ksl_mat4x4_t" title="ksl_mat4x4_t">ksl_mat4x4_t</a> *<em>M</em>, <em class="property">const</em> int <em>row</em>, <em class="property">const</em> int <em>column</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv314ksl_mat4x4_setP12ksl_mat4x4_tKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set a value in a double precision 4x4 matrix at specified row and column index. </p>
+<p>Bounds checking are performed in debug mode. Bounds checking can be disabled by compiling in release mode using the compiler flag -DNDEBUG.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">M</span></code>: [in/out] </li>
+<li><code class="docutils literal notranslate"><span class="pre">row</span></code>: [in] row index, <span class="math notranslate nohighlight">\(0 \le row \lt 4\)</span> </li>
+<li><code class="docutils literal notranslate"><span class="pre">column</span></code>: [in] column index, <span class="math notranslate nohighlight">\(0 \le column \lt 4\)</span> </li>
+<li><code class="docutils literal notranslate"><span class="pre">value</span></code>: [in] value to set </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv322ksl_mat4x4_setIdentityP12ksl_mat4x4_t">
 <span id="_CPPv222ksl_mat4x4_setIdentityP12ksl_mat4x4_t"></span><span id="ksl_mat4x4_setIdentity__ksl_mat4x4_tP"></span><span class="target" id="matrix_8h_1a1e0dc7d0fc1151b7a90d1b2b25cf7cbc"></span>void <code class="descname">ksl_mat4x4_setIdentity</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv312ksl_mat4x4_t" title="ksl_mat4x4_t">ksl_mat4x4_t</a> *<em>M</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_mat4x4_setIdentityP12ksl_mat4x4_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>Set a double precision 4x4 matrix to identity. </p>
+<p><span class="math notranslate nohighlight">\( I \rightarrow M \)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">M</span></code>: [in/out] input 4x4 matrix </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv325ksl_mat4x4_getTranslationPK12ksl_mat4x4_tP10ksl_vec3_t">
 <span id="_CPPv225ksl_mat4x4_getTranslationPK12ksl_mat4x4_tP10ksl_vec3_t"></span><span id="ksl_mat4x4_getTranslation__ksl_mat4x4_tCP.ksl_vec3_tP"></span><span class="target" id="matrix_8h_1a655d343e8889959a198bd3055c8c0d7c"></span>void <code class="descname">ksl_mat4x4_getTranslation</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_mat4x4_t" title="ksl_mat4x4_t">ksl_mat4x4_t</a> *<em>Mi</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>to</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv325ksl_mat4x4_getTranslationPK12ksl_mat4x4_tP10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>Obtain the 3D translation component of a double precision 4x4 matrix. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">Mi</span></code>: [in] input 4x4 matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">to</span></code>: [out] translation vector returned in to </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv314ksl_mat4x4_getPK12ksl_mat4x4_tKiKi">
 <span id="_CPPv214ksl_mat4x4_getPK12ksl_mat4x4_tKiKi"></span><span id="ksl_mat4x4_get__ksl_mat4x4_tCP.iC.iC"></span><span class="target" id="matrix_8h_1ab9d90e415397b467f5fbf24d63593913"></span>double <code class="descname">ksl_mat4x4_get</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv312ksl_mat4x4_t" title="ksl_mat4x4_t">ksl_mat4x4_t</a> *<em>Mi</em>, <em class="property">const</em> int <em>row</em>, <em class="property">const</em> int <em>column</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv314ksl_mat4x4_getPK12ksl_mat4x4_tKiKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>Basic get function for a double precision 4x4 matrix. </p>
+<p>Bounds checking are performed in debug mode. Bounds checking can be disabled by compiling in release mode using the compiler flag -DNDEBUG.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>value at specified row and column index </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">Mi</span></code>: [in] input 4x4 matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">row</span></code>: [in] row index </li>
+<li><code class="docutils literal notranslate"><span class="pre">column</span></code>: [in] column index </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 </div>
@@ -476,25 +519,68 @@
 <dl class="function">
 <dt id="_CPPv315ksl_mat4x4f_setP13ksl_mat4x4f_tiif">
 <span id="_CPPv215ksl_mat4x4f_setP13ksl_mat4x4f_tiif"></span><span id="ksl_mat4x4f_set__ksl_mat4x4f_tP.i.i.float"></span><span class="target" id="matrix_8h_1aca485e889183d9468d741f5a1f347ed4"></span>void <code class="descname">ksl_mat4x4f_set</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_mat4x4f_t" title="ksl_mat4x4f_t">ksl_mat4x4f_t</a> *<em>D</em>, int <em>row</em>, int <em>column</em>, float <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_mat4x4f_setP13ksl_mat4x4f_tiif" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>Set a value in a single precision 4x4 matrix at specified row and column index. </p>
+<p>Bounds checking are performed in debug mode. Bounds checking can be disabled by compiling in release mode using the compiler flag -DNDEBUG.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">M</span></code>: [in/out] </li>
+<li><code class="docutils literal notranslate"><span class="pre">row</span></code>: [in] row index, <span class="math notranslate nohighlight">\(0 \le row \lt 4\)</span> </li>
+<li><code class="docutils literal notranslate"><span class="pre">column</span></code>: [in] column index, <span class="math notranslate nohighlight">\(0 \le column \lt 4\)</span> </li>
+<li><code class="docutils literal notranslate"><span class="pre">value</span></code>: [in] value to set </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv323ksl_mat4x4f_setIdentityP13ksl_mat4x4f_t">
 <span id="_CPPv223ksl_mat4x4f_setIdentityP13ksl_mat4x4f_t"></span><span id="ksl_mat4x4f_setIdentity__ksl_mat4x4f_tP"></span><span class="target" id="matrix_8h_1afba7a831dd92d569b81b9a0cdcefda83"></span>void <code class="descname">ksl_mat4x4f_setIdentity</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_mat4x4f_t" title="ksl_mat4x4f_t">ksl_mat4x4f_t</a> *<em>M</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv323ksl_mat4x4f_setIdentityP13ksl_mat4x4f_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>Set a single precision 4x4 matrix to identity. </p>
+<p><span class="math notranslate nohighlight">\( I \rightarrow M \)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">M</span></code>: [in/out] input 4x4 matrix </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv326ksl_mat4x4f_getTranslationPK13ksl_mat4x4f_tP11ksl_vec3f_t">
 <span id="_CPPv226ksl_mat4x4f_getTranslationPK13ksl_mat4x4f_tP11ksl_vec3f_t"></span><span id="ksl_mat4x4f_getTranslation__ksl_mat4x4f_tCP.ksl_vec3f_tP"></span><span class="target" id="matrix_8h_1a2d6b59053e391cf62311fcb6bf71081d"></span>void <code class="descname">ksl_mat4x4f_getTranslation</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_mat4x4f_t" title="ksl_mat4x4f_t">ksl_mat4x4f_t</a> *<em>Mi</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>to</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv326ksl_mat4x4f_getTranslationPK13ksl_mat4x4f_tP11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>Obtain the 3D translation component of a single precision 4x4 matrix. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">Mi</span></code>: [in] input 4x4 matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">to</span></code>: [out] translation vector returned in to </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv315ksl_mat4x4f_getPK13ksl_mat4x4f_tKiKi">
 <span id="_CPPv215ksl_mat4x4f_getPK13ksl_mat4x4f_tKiKi"></span><span id="ksl_mat4x4f_get__ksl_mat4x4f_tCP.iC.iC"></span><span class="target" id="matrix_8h_1aaacb3f73b5db33f0259007ea185d6a22"></span>float <code class="descname">ksl_mat4x4f_get</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_mat4x4f_t" title="ksl_mat4x4f_t">ksl_mat4x4f_t</a> *<em>Mi</em>, <em class="property">const</em> int <em>row</em>, <em class="property">const</em> int <em>column</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_mat4x4f_getPK13ksl_mat4x4f_tKiKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>Basic get function for a single precision 4x4 matrix. </p>
+<p>Bounds checking are performed in debug mode. Bounds checking can be disabled by compiling in release mode using the compiler flag -DNDEBUG.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>value at specified row and column index </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">Mi</span></code>: [in] input 4x4 matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">row</span></code>: [in] row index </li>
+<li><code class="docutils literal notranslate"><span class="pre">column</span></code>: [in] column index </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 </div>

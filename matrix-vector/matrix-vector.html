@@ -104,14 +104,38 @@
 <h2>Double precision<a class="headerlink" href="#double-precision" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="_CPPv315ksl_product_drvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t">
-<span id="_CPPv215ksl_product_drvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t"></span><span id="ksl_product_drv__ksl_mat3x3_tCP.ksl_vec3_tCP.ksl_vec3_tP"></span><span class="target" id="matrix_8h_1a403d3115123b4f76a6f27ec5ca7ce274"></span>void <code class="descname">ksl_product_drv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vi</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_product_drvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<span id="_CPPv215ksl_product_drvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t"></span><span id="ksl_product_drv__ksl_mat3x3_tCP.ksl_vec3_tCP.ksl_vec3_tP"></span><span class="target" id="matrix_8h_1a8d3e0044ca796c969abc49638f552a52"></span>void <code class="descname">ksl_product_drv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>r_oi</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>v_i</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>v_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315ksl_product_drvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute the double precision matrix product of a 3x3 matrix <span class="math notranslate nohighlight">\(R^{oi}\)</span> and a 3x1 vector <span class="math notranslate nohighlight">\(\underline{v}^i_{oi}\)</span>. </p>
+<p><span class="math notranslate nohighlight">\(R^{oi} \underline{v}^i_{oi} \rightarrow \underline{v}^o_{oi} \)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r_oi</span></code>: [in] input 3x3 matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">v_i</span></code>: [in] input vector </li>
+<li><code class="docutils literal notranslate"><span class="pre">v_o</span></code>: [out] result returned in v_o </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv318ksl_product_drvinvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t">
 <span id="_CPPv218ksl_product_drvinvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t"></span><span id="ksl_product_drvinv__ksl_mat3x3_tCP.ksl_vec3_tCP.ksl_vec3_tP"></span><span class="target" id="matrix_8h_1a5b7eee293303e16c8231e8afefcbd264"></span>void <code class="descname">ksl_product_drvinv</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vi</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_product_drvinvPK12ksl_mat3x3_tPK10ksl_vec3_tP10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<dd><p>Compute the double precision matrix product of a 3x3 matrix <span class="math notranslate nohighlight">\(R^{oi}\)</span> and the inverse of a 3x1 input vector <span class="math notranslate nohighlight">\(\underline{v}^i_{oi}\)</span>. </p>
+<p><span class="math notranslate nohighlight">\(R^{oi} (-\underline{v}^i_{oi}) \rightarrow \underline{v}^o_{io} \)</span></p>
+<p><span class="math notranslate nohighlight">\(-R^{oi} \underline{v}^i_{oi} \rightarrow \underline{v}^o_{io} \)</span></p>
+<p><span class="math notranslate nohighlight">\(R^{oi} \underline{v}^i_{io} \rightarrow \underline{v}^o_{io} \)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r_oi</span></code>: [in] input 3x3 matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">v_i</span></code>: [in] input vector </li>
+<li><code class="docutils literal notranslate"><span class="pre">v_o</span></code>: [out] result returned in v_o </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
@@ -167,8 +191,19 @@
 <h2>Single precision<a class="headerlink" href="#single-precision" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="_CPPv316ksl_product_drvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t">
-<span id="_CPPv216ksl_product_drvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t"></span><span id="ksl_product_drvf__ksl_mat3x3f_tCP.ksl_vec3f_tCP.ksl_vec3f_tP"></span><span class="target" id="matrix_8h_1aecf5aac9412aa19ae834d319ebd98ea5"></span>void <code class="descname">ksl_product_drvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>ri</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vi</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>vo</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_product_drvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>TODO document this function. </p>
+<span id="_CPPv216ksl_product_drvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t"></span><span id="ksl_product_drvf__ksl_mat3x3f_tCP.ksl_vec3f_tCP.ksl_vec3f_tP"></span><span class="target" id="matrix_8h_1ae40cea8d3c8dbaeb18c31b17f3d3633f"></span>void <code class="descname">ksl_product_drvf</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>r_oi</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>v_i</em>, <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>v_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv316ksl_product_drvfPK13ksl_mat3x3f_tPK11ksl_vec3f_tP11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute the single precision matrix product of a 3x3 matrix <span class="math notranslate nohighlight">\(R^{oi}\)</span> and a 3x1 vector <span class="math notranslate nohighlight">\(\underline{v}^i_{oi}\)</span>. </p>
+<p><span class="math notranslate nohighlight">\(R^{oi} \underline{v}^i_{oi} \rightarrow \underline{v}^o_{oi} \)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r_oi</span></code>: [in] input 3x3 matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">v_i</span></code>: [in] input vector </li>
+<li><code class="docutils literal notranslate"><span class="pre">v_o</span></code>: [out] result returned in v_o </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
