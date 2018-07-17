@@ -265,6 +265,7 @@ indexing) of SE3 matrix `D`. The following access methods are equivalent.
 
   D.as_array[2 + 1 * 3];
   D.at[1][2];
+  D.m21;
   D.v1.z;
   D.v1.at[2];
   D.v[1].z;
@@ -285,6 +286,7 @@ indexing) of SE3 matrix `D`. The following access methods are equivalent.
 
   D.as_array[1 + 3 * 3];
   D.at[3][1];
+  D.m13;
   D.v3.y;
   D.v3.at[1];
   D.v[3].y;
@@ -347,6 +349,7 @@ indexing) of SE3 matrix `D`. The following access methods are equivalent.
 
   D.as_array[2 + 1 * 3];
   D.at[1][2];
+  D.m21;
   D.v1.z;
   D.v1.at[2];
   D.v[1].z;
@@ -367,6 +370,7 @@ indexing) of SE3 matrix `D`. The following access methods are equivalent.
 
   D.as_array[1 + 3 * 3];
   D.at[3][1];
+  D.m13;
   D.v3.y;
   D.v3.at[1];
   D.v[3].y;
