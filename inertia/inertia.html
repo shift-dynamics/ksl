@@ -321,49 +321,106 @@ result -= trace(result) * I
 <dl class="function">
 <dt id="_CPPv317ksl_inertia_alloci">
 <span id="_CPPv217ksl_inertia_alloci"></span><span id="ksl_inertia_alloc__i"></span><span class="target" id="inertia_8h_1a3bb757d9e15c170aeb46a78f8fea71e7"></span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<code class="descname">ksl_inertia_alloc</code><span class="sig-paren">(</span>int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv317ksl_inertia_alloci" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>allocate n <a class="reference internal" href="#unionksl__inertia__t"><span class="std std-ref">ksl_inertia_t</span></a> datastructures on the heap </p>
+<dd><p>Allocate n <a class="reference internal" href="#unionksl__inertia__t"><span class="std std-ref">ksl_inertia_t</span></a> datastructures on the heap. </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv319ksl_inertia_rotatedPK13ksl_inertia_tPK12ksl_mat3x3_tP13ksl_inertia_t">
 <span id="_CPPv219ksl_inertia_rotatedPK13ksl_inertia_tPK12ksl_mat3x3_tP13ksl_inertia_t"></span><span id="ksl_inertia_rotated__ksl_inertia_tCP.ksl_mat3x3_tCP.ksl_inertia_tP"></span><span class="target" id="inertia_8h_1a4a387d0c872abcabf269273ba58db901"></span>void <code class="descname">ksl_inertia_rotated</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>r</em>, <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_inertia_rotatedPK13ksl_inertia_tPK12ksl_mat3x3_tP13ksl_inertia_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>rotate a double precision centroidal inertia matrix </p>
-<p>I_ff = CoAd(D(R_{fc})) * Icc * Ad(D(R_{fc}^{-1})) </p>
+<dd><p>Rotate a double precision centroidal inertia matrix. </p>
+<p><span class="math notranslate nohighlight">\( [Ad]^*_{(\Phi(R^{fc}))} M_{cc} [Ad]_{(\Phi((R^{fc})^{-1}))} \rightarrow M_{ff}\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">inertia_i</span></code>: [in] input inertia matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: [in] orthonormal rotation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">inertia_o</span></code>: [out] output inertia matrix </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv318ksl_inertia_rotateP13ksl_inertia_tPK12ksl_mat3x3_t">
 <span id="_CPPv218ksl_inertia_rotateP13ksl_inertia_tPK12ksl_mat3x3_t"></span><span id="ksl_inertia_rotate__ksl_inertia_tP.ksl_mat3x3_tCP"></span><span class="target" id="inertia_8h_1a5143ef0a4aa1f7a701d28388aa8cf1e1"></span>void <code class="descname">ksl_inertia_rotate</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_inertia_rotateP13ksl_inertia_tPK12ksl_mat3x3_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>rotate a double precision centroidal inertia matrix in place </p>
-<p><span class="math notranslate nohighlight">\( I_{ff} = CoAd(D(R_{fc})) * I_{cc} * Ad(D(R_{fc}^{-1})) \)</span> </p>
+<dd><p>Rotate a double precision centroidal inertia matrix in place. </p>
+<p><span class="math notranslate nohighlight">\( [Ad]^*_{(\Phi(R^{fc}))} M_{cc} [Ad]_{(\Phi((R^{fc})^{-1}))} \rightarrow M_{ff}\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">inertia_i</span></code>: [in/out] input inertia matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: [in] orthonormal rotation matrix </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv322ksl_inertia_translatedPK13ksl_inertia_tPK10ksl_vec3_tP13ksl_inertia_t">
-<span id="_CPPv222ksl_inertia_translatedPK13ksl_inertia_tPK10ksl_vec3_tP13ksl_inertia_t"></span><span id="ksl_inertia_translated__ksl_inertia_tCP.ksl_vec3_tCP.ksl_inertia_tP"></span><span class="target" id="inertia_8h_1a0ffd6ef04f8f7abb2901d45fd22daf63"></span>void <code class="descname">ksl_inertia_translated</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>r</em>, <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_inertia_translatedPK13ksl_inertia_tPK10ksl_vec3_tP13ksl_inertia_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv222ksl_inertia_translatedPK13ksl_inertia_tPK10ksl_vec3_tP13ksl_inertia_t"></span><span id="ksl_inertia_translated__ksl_inertia_tCP.ksl_vec3_tCP.ksl_inertia_tP"></span><span class="target" id="inertia_8h_1a5066ba07b6165b6b958c45f6686834d8"></span>void <code class="descname">ksl_inertia_translated</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>t</em>, <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_inertia_translatedPK13ksl_inertia_tPK10ksl_vec3_tP13ksl_inertia_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>translate a double precision centroidal inertia matrix </p>
-<p><span class="math notranslate nohighlight">\( I_ff = CoAd(D(t_{fc})) * Icc * Ad(D(t_{fc}^{-1})) \)</span> </p>
+<p><span class="math notranslate nohighlight">\( [Ad]^*_{(\Phi(\underline{t}_{fc}^f))} M_{cc} [Ad]_{(\Phi((\underline{t}_{fc}^f)^{-1}))} \rightarrow M_{ff}\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">inertia_i</span></code>: [in] input inertia matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">t</span></code>: [in] translation vector </li>
+<li><code class="docutils literal notranslate"><span class="pre">inertia_o</span></code>: [out] output inertia matrix </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv321ksl_inertia_translateP13ksl_inertia_tPK10ksl_vec3_t">
-<span id="_CPPv221ksl_inertia_translateP13ksl_inertia_tPK10ksl_vec3_t"></span><span id="ksl_inertia_translate__ksl_inertia_tP.ksl_vec3_tCP"></span><span class="target" id="inertia_8h_1a05c6d53f909791b8796bbb4fe909a789"></span>void <code class="descname">ksl_inertia_translate</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv321ksl_inertia_translateP13ksl_inertia_tPK10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv221ksl_inertia_translateP13ksl_inertia_tPK10ksl_vec3_t"></span><span id="ksl_inertia_translate__ksl_inertia_tP.ksl_vec3_tCP"></span><span class="target" id="inertia_8h_1a59131c9f4d62bd6c94c45a783bede150"></span>void <code class="descname">ksl_inertia_translate</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv321ksl_inertia_translateP13ksl_inertia_tPK10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>translate a double precision centroidal inertia matrix in place </p>
-<p><span class="math notranslate nohighlight">\( I_ff = CoAd(D(t_{fc})) * Icc * Ad(D(t_{fc}^{-1})) \)</span> </p>
+<p><span class="math notranslate nohighlight">\( [Ad]^*_{(\Phi(\underline{t}_{fc}^f))} M_{cc} [Ad]_{(\Phi((\underline{t}_{fc}^f)^{-1}))} \rightarrow M_{ff}\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">inertia_i</span></code>: [in/out] input inertia matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">t</span></code>: [in] translation vector </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv323ksl_inertia_transformedPK13ksl_inertia_tPK9ksl_SE3_tP13ksl_inertia_t">
 <span id="_CPPv223ksl_inertia_transformedPK13ksl_inertia_tPK9ksl_SE3_tP13ksl_inertia_t"></span><span id="ksl_inertia_transformed__ksl_inertia_tCP.ksl_SE3_tCP.ksl_inertia_tP"></span><span class="target" id="inertia_8h_1a2e0ddd09114d6e78d0395419dac7d51d"></span>void <code class="descname">ksl_inertia_transformed</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>d</em>, <a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv323ksl_inertia_transformedPK13ksl_inertia_tPK9ksl_SE3_tP13ksl_inertia_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>spatial transform a double precision centroidal inertia matrix </p>
-<p><span class="math notranslate nohighlight">\( I_ff = CoAd(D_{fc}) * Icc * Ad(D_{fc}^{-1}) \)</span> </p>
+<p><span class="math notranslate nohighlight">\( [Ad]_{(\Phi_{fc})}^* M_{cc} [Ad]_{(\Phi_{fc}^{-1})} \rightarrow M_{ff}\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">inertia_i</span></code>: [in] input inertia matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">d</span></code>: [in] SE3 transformation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">inertia_o</span></code>: [out] output inertia matrix </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv321ksl_inertia_transformP13ksl_inertia_tPK9ksl_SE3_t">
 <span id="_CPPv221ksl_inertia_transformP13ksl_inertia_tPK9ksl_SE3_t"></span><span id="ksl_inertia_transform__ksl_inertia_tP.ksl_SE3_tCP"></span><span class="target" id="inertia_8h_1ad0490956ce03ec5eb1de20e11af52505"></span>void <code class="descname">ksl_inertia_transform</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_inertia_t" title="ksl_inertia_t">ksl_inertia_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a> *<em>d</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv321ksl_inertia_transformP13ksl_inertia_tPK9ksl_SE3_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>spatial transform a double precision centroidal inertia matrix in place </p>
-<p><span class="math notranslate nohighlight">\( I_ff = CoAd(D_{fc}) * Icc * Ad(D_{fc}^{-1}) \)</span> </p>
+<dd><p>Perform a spatial transformation of a double precision centroidal inertia matrix in place. </p>
+<p><span class="math notranslate nohighlight">\( [Ad]_{(\Phi_{fc})}^* M_{cc} [Ad]_{(\Phi_{fc}^{-1})} \rightarrow M_{ff}\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">inertia_i</span></code>: [in/out] inertia matrix to transform </li>
+<li><code class="docutils literal notranslate"><span class="pre">d</span></code>: [in] SE3 transformation </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
@@ -553,49 +610,106 @@ result -= trace(result) * I
 <dl class="function">
 <dt id="_CPPv318ksl_inertiaf_alloci">
 <span id="_CPPv218ksl_inertiaf_alloci"></span><span id="ksl_inertiaf_alloc__i"></span><span class="target" id="inertia_8h_1a4636dcf376b3d6cc02ccd5c9fa97a599"></span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<code class="descname">ksl_inertiaf_alloc</code><span class="sig-paren">(</span>int <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv318ksl_inertiaf_alloci" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>allocate n <a class="reference internal" href="#unionksl__inertiaf__t"><span class="std std-ref">ksl_inertiaf_t</span></a> datastructures on the heap </p>
+<dd><p>Allocate n <a class="reference internal" href="#unionksl__inertiaf__t"><span class="std std-ref">ksl_inertiaf_t</span></a> datastructures on the heap. </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv320ksl_inertiaf_rotatedPK14ksl_inertiaf_tPK13ksl_mat3x3f_tP14ksl_inertiaf_t">
 <span id="_CPPv220ksl_inertiaf_rotatedPK14ksl_inertiaf_tPK13ksl_mat3x3f_tP14ksl_inertiaf_t"></span><span id="ksl_inertiaf_rotated__ksl_inertiaf_tCP.ksl_mat3x3f_tCP.ksl_inertiaf_tP"></span><span class="target" id="inertia_8h_1a1a1e3f03ccf343e0bbae6cf5b5057bf9"></span>void <code class="descname">ksl_inertiaf_rotated</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>r</em>, <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv320ksl_inertiaf_rotatedPK14ksl_inertiaf_tPK13ksl_mat3x3f_tP14ksl_inertiaf_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>rotate a single precision centroidal inertia matrix </p>
-<p><span class="math notranslate nohighlight">\( I_{ff} = CoAd(D(R_{fc})) * I_{cc} * Ad(D(R_{fc}^{-1})) \)</span> </p>
+<dd><p>Rotate a single precision centroidal inertia matrix. </p>
+<p><span class="math notranslate nohighlight">\( [Ad]^*_{(\Phi(R^{fc}))} M_{cc} [Ad]_{(\Phi((R^{fc})^{-1}))} \rightarrow M_{ff}\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">inertia_i</span></code>: [in] input inertia matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: [in] orthonormal rotation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">inertia_o</span></code>: [out] output inertia matrix </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv319ksl_inertiaf_rotateP14ksl_inertiaf_tPK13ksl_mat3x3f_t">
 <span id="_CPPv219ksl_inertiaf_rotateP14ksl_inertiaf_tPK13ksl_mat3x3f_t"></span><span id="ksl_inertiaf_rotate__ksl_inertiaf_tP.ksl_mat3x3f_tCP"></span><span class="target" id="inertia_8h_1a095683dadc83becbf6160d84888bdbd8"></span>void <code class="descname">ksl_inertiaf_rotate</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../mat3x3/mat3x3.html#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319ksl_inertiaf_rotateP14ksl_inertiaf_tPK13ksl_mat3x3f_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>rotate a single precision centroidal inertia matrix in place </p>
-<p><span class="math notranslate nohighlight">\( I_{ff} = CoAd(D(R_{fc})) * I_{cc} * Ad(D(R_{fc}^{-1})) \)</span> </p>
+<dd><p>Rotate a single precision centroidal inertia matrix in place. </p>
+<p><span class="math notranslate nohighlight">\( [Ad]^*_{(\Phi(R^{fc}))} M_{cc} [Ad]_{(\Phi((R^{fc})^{-1}))} \rightarrow M_{ff}\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">inertia_i</span></code>: [in/out] input inertia matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: [in] orthonormal rotation matrix </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv323ksl_inertiaf_translatedPK14ksl_inertiaf_tPK11ksl_vec3f_tP14ksl_inertiaf_t">
-<span id="_CPPv223ksl_inertiaf_translatedPK14ksl_inertiaf_tPK11ksl_vec3f_tP14ksl_inertiaf_t"></span><span id="ksl_inertiaf_translated__ksl_inertiaf_tCP.ksl_vec3f_tCP.ksl_inertiaf_tP"></span><span class="target" id="inertia_8h_1a073ce8555bd68566833b2b7ef95e181e"></span>void <code class="descname">ksl_inertiaf_translated</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>r</em>, <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv323ksl_inertiaf_translatedPK14ksl_inertiaf_tPK11ksl_vec3f_tP14ksl_inertiaf_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv223ksl_inertiaf_translatedPK14ksl_inertiaf_tPK11ksl_vec3f_tP14ksl_inertiaf_t"></span><span id="ksl_inertiaf_translated__ksl_inertiaf_tCP.ksl_vec3f_tCP.ksl_inertiaf_tP"></span><span class="target" id="inertia_8h_1a08dd8507b1f1cce28b28d977437e3fc0"></span>void <code class="descname">ksl_inertiaf_translated</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>t</em>, <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv323ksl_inertiaf_translatedPK14ksl_inertiaf_tPK11ksl_vec3f_tP14ksl_inertiaf_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>translate a single precision centroidal inertia matrix </p>
-<p><span class="math notranslate nohighlight">\( I_{ff} = CoAd(D(t_{fc})) * I_{cc} * Ad(D(t_{fc}^{-1})) \)</span> </p>
+<p><span class="math notranslate nohighlight">\( [Ad]^*_{(\Phi(\underline{t}_{fc}^f))} M_{cc} [Ad]_{(\Phi((\underline{t}_{fc}^f)^{-1}))} \rightarrow M_{ff}\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">inertia_i</span></code>: [in] input inertia matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">t</span></code>: [in] translation vector </li>
+<li><code class="docutils literal notranslate"><span class="pre">inertia_o</span></code>: [out] output inertia matrix </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv322ksl_inertiaf_translateP14ksl_inertiaf_tPK11ksl_vec3f_t">
-<span id="_CPPv222ksl_inertiaf_translateP14ksl_inertiaf_tPK11ksl_vec3f_t"></span><span id="ksl_inertiaf_translate__ksl_inertiaf_tP.ksl_vec3f_tCP"></span><span class="target" id="inertia_8h_1a896b52736acad0b43b06d61fac55b99f"></span>void <code class="descname">ksl_inertiaf_translate</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_inertiaf_translateP14ksl_inertiaf_tPK11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv222ksl_inertiaf_translateP14ksl_inertiaf_tPK11ksl_vec3f_t"></span><span id="ksl_inertiaf_translate__ksl_inertiaf_tP.ksl_vec3f_tCP"></span><span class="target" id="inertia_8h_1a3e6fb8c2f4e6ad3be5b0eed37ecd7df2"></span>void <code class="descname">ksl_inertiaf_translate</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_inertiaf_translateP14ksl_inertiaf_tPK11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>translate a single precision centroidal inertia matrix in place </p>
-<p><span class="math notranslate nohighlight">\( I_{ff} = CoAd(D(t_{fc})) * I_{cc} * Ad(D(t_{fc}^{-1})) \)</span> </p>
+<p><span class="math notranslate nohighlight">\( [Ad]^*_{(\Phi(\underline{t}_{fc}^f))} M_{cc} [Ad]_{(\Phi((\underline{t}_{fc}^f)^{-1}))} \rightarrow M_{ff}\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">inertia_i</span></code>: [in/out] input inertia matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">t</span></code>: [in] translation vector </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv324ksl_inertiaf_transformedPK14ksl_inertiaf_tPK10ksl_SE3f_tP14ksl_inertiaf_t">
 <span id="_CPPv224ksl_inertiaf_transformedPK14ksl_inertiaf_tPK10ksl_SE3f_tP14ksl_inertiaf_t"></span><span id="ksl_inertiaf_transformed__ksl_inertiaf_tCP.ksl_SE3f_tCP.ksl_inertiaf_tP"></span><span class="target" id="inertia_8h_1adcaf2a48154f2ab93b1c88fb0a655992"></span>void <code class="descname">ksl_inertiaf_transformed</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>d</em>, <a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv324ksl_inertiaf_transformedPK14ksl_inertiaf_tPK10ksl_SE3f_tP14ksl_inertiaf_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>spatial transform a single precision centroidal inertia matrix </p>
-<p><span class="math notranslate nohighlight">\( I_{ff} = CoAd(D_{fc}) * Icc * Ad(D_{fc}^{-1}) \)</span> </p>
+<p><span class="math notranslate nohighlight">\( [Ad]_{(\Phi_{fc})}^* M_{cc} [Ad]_{(\Phi_{fc}^{-1})} \rightarrow M_{ff}\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">inertia_i</span></code>: [in] input inertia matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">d</span></code>: [in] SE3 transformation matrix </li>
+<li><code class="docutils literal notranslate"><span class="pre">inertia_o</span></code>: [out] output inertia matrix </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv322ksl_inertiaf_transformP14ksl_inertiaf_tPK10ksl_SE3f_t">
 <span id="_CPPv222ksl_inertiaf_transformP14ksl_inertiaf_tPK10ksl_SE3f_t"></span><span id="ksl_inertiaf_transform__ksl_inertiaf_tP.ksl_SE3f_tCP"></span><span class="target" id="inertia_8h_1a9e1b20d519877020a4fd52a447ba0d9c"></span>void <code class="descname">ksl_inertiaf_transform</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv314ksl_inertiaf_t" title="ksl_inertiaf_t">ksl_inertiaf_t</a> *<em>inertia_i</em>, <em class="property">const</em> <a class="reference internal" href="../SE3/SE3.html#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a> *<em>d</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322ksl_inertiaf_transformP14ksl_inertiaf_tPK10ksl_SE3f_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>spatial transform a single precision centroidal inertia matrix in place </p>
-<p><span class="math notranslate nohighlight">\( I_{ff} = CoAd(D_{fc}) * Icc * Ad(D_{fc}^{-1}) \)</span> </p>
+<dd><p>Perform a spatial transformation of a single precision centroidal inertia matrix in place. </p>
+<p><span class="math notranslate nohighlight">\( [Ad]_{(\Phi_{fc})}^* M_{cc} [Ad]_{(\Phi_{fc}^{-1})} \rightarrow M_{ff}\)</span></p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">inertia_i</span></code>: [in/out] inertia matrix to transform </li>
+<li><code class="docutils literal notranslate"><span class="pre">d</span></code>: [in] SE3 transformation </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
