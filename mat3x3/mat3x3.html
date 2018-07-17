@@ -105,20 +105,42 @@
 <dl class="type">
 <dt id="_CPPv312ksl_mat3x3_t">
 <span id="_CPPv212ksl_mat3x3_t"></span><span id="ksl_mat3x3_t"></span><span class="target" id="unionksl__mat3x3__t"></span><em class="property">union </em><code class="descname">ksl_mat3x3_t</code><a class="headerlink" href="#_CPPv312ksl_mat3x3_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><em>#include &lt;matrix.h&gt;</em><p>general 3x3 double precision matrix </p>
-<p>allow accessing mat3x3 quantities by field name or by using at / as_array operators. if using the at or as_array operators, quantities are accessed in column major order </p>
+<dd><em>#include &lt;matrix.h&gt;</em><p>A general 3x3 double precision matrix. </p>
+<p>This union allows accessing double precision mat3x3 quantities by field name, as a singly dimensioned array, as a doubly dimensioned array, or by accessing a specific column. If using the <code class="docutils literal notranslate"><span class="pre">at</span></code> or <code class="docutils literal notranslate"><span class="pre">as_array</span></code> operators, quantities are accessed in column major order.</p>
+<p>The following examples illustrate how to access row 2, column 1 (using 0 based indexing) of matrix <code class="docutils literal notranslate"><span class="pre">R</span></code>. The following access methods are equivalent.</p>
+<p><pre class="highlight literal-block">
+<span></span><span class="n">R</span><span class="p">.</span><span class="n">as_array</span><span class="p">[</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">3</span><span class="p">];</span>
+<span class="n">R</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
+<span class="n">R</span><span class="p">.</span><span class="n">m21</span><span class="p">;</span>
+<span class="n">R</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">z</span><span class="p">;</span>
+<span class="n">R</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="n">R</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">z</span><span class="p">;</span>
+<span class="n">R</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">at</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+</pre>
+</p>
+<p>See also the <code class="docutils literal notranslate"><span class="pre">ksl_mat3x3_get</span></code> and <code class="docutils literal notranslate"><span class="pre">ksl_mat3x3_set</span></code> functions. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Members</p>
 <dl class="member">
 <dt id="_CPPv3N12ksl_mat3x3_t8as_arrayE">
 <span id="_CPPv2N12ksl_mat3x3_t8as_arrayE"></span><span id="ksl_mat3x3_t::as_array__doubleA"></span><span class="target" id="unionksl__mat3x3__t_1af8a0577428c1f106f77e2d490f2045d7"></span>double <code class="descname">as_array</code>[9]<a class="headerlink" href="#_CPPv3N12ksl_mat3x3_t8as_arrayE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>allows accessing quantities at specified index in linear array, where entities are specified in column major order </p>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_tUt2_25E">
+<span class="target" id="unionksl__mat3x3__t_1ae5ad0f4796970884742f39a2454bd76f"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_tUt2_25E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing quantities at specified index in linear array, where entities are specified in column major order </p>
 </dd></dl>
 
 <dl class="member">
 <dt id="_CPPv3N12ksl_mat3x3_t2atE">
 <span id="_CPPv2N12ksl_mat3x3_t2atE"></span><span id="ksl_mat3x3_t::at__doubleAA"></span><span class="target" id="unionksl__mat3x3__t_1a6ce045febd1d090b69e3d90e75d3bb48"></span>double <code class="descname">at</code>[3][3]<a class="headerlink" href="#_CPPv3N12ksl_mat3x3_t2atE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>allows accessing mat3x3 quantities at specified index in a doubly dimensioned array, where entities are specified in column major order </p>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_tUt2_27E">
+<span class="target" id="unionksl__mat3x3__t_1a3f354a00d40d1cf4f96f49ac2b950f51"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_tUt2_27E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing quantities at specified index in a doubly dimensioned array, where entities are specified in column major order </p>
 </dd></dl>
 
 <dl class="member">
@@ -167,8 +189,8 @@
 <dd></dd></dl>
 
 <dl class="member">
-<dt id="_CPPv3N12ksl_mat3x3_tUt2_25E">
-<span class="target" id="unionksl__mat3x3__t_1ae5ad0f4796970884742f39a2454bd76f"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_tUt2_25E" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3N12ksl_mat3x3_tUt2_29E">
+<span class="target" id="unionksl__mat3x3__t_1a343133f8e90e13587b23c570df34c63e"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_tUt2_29E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>anonymous union allows accessing rotation matrix quantities by field name </p>
 </dd></dl>
 
@@ -188,14 +210,19 @@
 <dd></dd></dl>
 
 <dl class="member">
-<dt id="_CPPv3N12ksl_mat3x3_tUt2_27E">
-<span class="target" id="unionksl__mat3x3__t_1a3f354a00d40d1cf4f96f49ac2b950f51"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_tUt2_27E" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3N12ksl_mat3x3_tUt2_31E">
+<span class="target" id="unionksl__mat3x3__t_1a2f33f58808bb3b46539c6b6213633e39"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_tUt2_31E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>anonymous union allows accessing columns of rotation matrix quantities by field name </p>
 </dd></dl>
 
 <dl class="member">
 <dt id="_CPPv3N12ksl_mat3x3_t1vE">
 <span id="_CPPv2N12ksl_mat3x3_t1vE"></span><span id="ksl_mat3x3_t::v__ksl_vec3_tA"></span><span class="target" id="unionksl__mat3x3__t_1a08c00340cd3bcae96d6edf4479603a27"></span><a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">v</code>[3]<a class="headerlink" href="#_CPPv3N12ksl_mat3x3_t1vE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat3x3_tUt2_33E">
+<span class="target" id="unionksl__mat3x3__t_1a1032d41772930497efba9625eb41ee62"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N12ksl_mat3x3_tUt2_33E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>anonymous union allows accessing columns of rotation matrix quantities at specified index </p>
 </dd></dl>
 
@@ -258,7 +285,7 @@
 <dl class="function">
 <dt id="_CPPv325ksl_mat3x3_setFromVectorsP12ksl_mat3x3_tPK10ksl_vec3_tPK10ksl_vec3_tPK10ksl_vec3_t">
 <span id="_CPPv225ksl_mat3x3_setFromVectorsP12ksl_mat3x3_tPK10ksl_vec3_tPK10ksl_vec3_tPK10ksl_vec3_t"></span><span id="ksl_mat3x3_setFromVectors__ksl_mat3x3_tP.ksl_vec3_tCP.ksl_vec3_tCP.ksl_vec3_tCP"></span><span class="target" id="matrix_8h_1a2f0629a91c545f60a49380a74ce1bf46"></span>void <code class="descname">ksl_mat3x3_setFromVectors</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv312ksl_mat3x3_t" title="ksl_mat3x3_t">ksl_mat3x3_t</a> *<em>R</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>x</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>y</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> *<em>z</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv325ksl_mat3x3_setFromVectorsP12ksl_mat3x3_tPK10ksl_vec3_tPK10ksl_vec3_tPK10ksl_vec3_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Set a double precision 3x3 matrix from a 3 column vectors. </p>
+<dd><p>Set a double precision 3x3 matrix from 3 column vectors. </p>
 <p><span class="math notranslate nohighlight">\( \begin{bmatrix} \underline{v}_x &amp; \underline{v}_y &amp; \underline{v}_z \end{bmatrix} \rightarrow R \)</span></p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
@@ -414,20 +441,42 @@
 <dl class="type">
 <dt id="_CPPv313ksl_mat3x3f_t">
 <span id="_CPPv213ksl_mat3x3f_t"></span><span id="ksl_mat3x3f_t"></span><span class="target" id="unionksl__mat3x3f__t"></span><em class="property">union </em><code class="descname">ksl_mat3x3f_t</code><a class="headerlink" href="#_CPPv313ksl_mat3x3f_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><em>#include &lt;matrix.h&gt;</em><p>general 3x3 double precision matrix </p>
-<p>allow accessing mat3x3 quantities by field name or by using at / as_array operators. if using the at or as_array operators, quantities are accessed in column major order </p>
+<dd><em>#include &lt;matrix.h&gt;</em><p>A general 3x3 single precision matrix. </p>
+<p>This union allows accessing single precision mat3x3 quantities by field name, as a singly dimensioned array, as a doubly dimensioned array, or by accessing a specific column. If using the <code class="docutils literal notranslate"><span class="pre">at</span></code> or <code class="docutils literal notranslate"><span class="pre">as_array</span></code> operators, quantities are accessed in column major order.</p>
+<p>The following examples illustrate how to access row 2, column 1 (using 0 based indexing) of matrix <code class="docutils literal notranslate"><span class="pre">R</span></code>. The following access methods are equivalent.</p>
+<p><pre class="highlight literal-block">
+<span></span><span class="n">R</span><span class="p">.</span><span class="n">as_array</span><span class="p">[</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">3</span><span class="p">];</span>
+<span class="n">R</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
+<span class="n">R</span><span class="p">.</span><span class="n">m21</span><span class="p">;</span>
+<span class="n">R</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">z</span><span class="p">;</span>
+<span class="n">R</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="n">R</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">z</span><span class="p">;</span>
+<span class="n">R</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">at</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+</pre>
+</p>
+<p>See also the <code class="docutils literal notranslate"><span class="pre">ksl_mat3x3f_get</span></code> and <code class="docutils literal notranslate"><span class="pre">ksl_mat3x3f_set</span></code> functions. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Members</p>
 <dl class="member">
 <dt id="_CPPv3N13ksl_mat3x3f_t8as_arrayE">
 <span id="_CPPv2N13ksl_mat3x3f_t8as_arrayE"></span><span id="ksl_mat3x3f_t::as_array__floatA"></span><span class="target" id="unionksl__mat3x3f__t_1a233431ba494406a5eaa05e21cb0c61d8"></span>float <code class="descname">as_array</code>[9]<a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_t8as_arrayE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>allows accessing quantities at specified index in linear array, where entities are specified in column major order </p>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_tUt2_45E">
+<span class="target" id="unionksl__mat3x3f__t_1a41b323774a0dcd712a8c157fdde93f58"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_tUt2_45E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing quantities at specified index in linear array, where entities are specified in column major order </p>
 </dd></dl>
 
 <dl class="member">
 <dt id="_CPPv3N13ksl_mat3x3f_t2atE">
 <span id="_CPPv2N13ksl_mat3x3f_t2atE"></span><span id="ksl_mat3x3f_t::at__floatAA"></span><span class="target" id="unionksl__mat3x3f__t_1a53027ce9683d9d0b59b0464f9e3f0487"></span>float <code class="descname">at</code>[3][3]<a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_t2atE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>allows accessing mat3x3 quantities at specified index in a doubly dimensioned array, where entities are specified in column major order </p>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_tUt2_47E">
+<span class="target" id="unionksl__mat3x3f__t_1a741529322be94d1828ddeb862c2397b4"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_tUt2_47E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing mat3x3 quantities at specified index in a doubly dimensioned array, where entities are specified in column major order </p>
 </dd></dl>
 
 <dl class="member">
@@ -476,8 +525,8 @@
 <dd></dd></dl>
 
 <dl class="member">
-<dt id="_CPPv3N13ksl_mat3x3f_tUt2_29E">
-<span class="target" id="unionksl__mat3x3f__t_1a43ace3f3a6684e20ea83e7b6a90580f3"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_tUt2_29E" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3N13ksl_mat3x3f_tUt2_49E">
+<span class="target" id="unionksl__mat3x3f__t_1a12ce9408e192cff69ae132ef168511d4"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_tUt2_49E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>anonymous union allows accessing rotation matrix quantities by field name </p>
 </dd></dl>
 
@@ -497,15 +546,20 @@
 <dd></dd></dl>
 
 <dl class="member">
-<dt id="_CPPv3N13ksl_mat3x3f_tUt2_31E">
-<span class="target" id="unionksl__mat3x3f__t_1a2208c591bbd6af20148fc9ab41e23e97"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_tUt2_31E" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3N13ksl_mat3x3f_tUt2_51E">
+<span class="target" id="unionksl__mat3x3f__t_1af0386b3d97a0fe11a427a071e6889f64"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_tUt2_51E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>anonymous union allows accessing columns of rotation matrix quantities by field name </p>
 </dd></dl>
 
 <dl class="member">
 <dt id="_CPPv3N13ksl_mat3x3f_t1vE">
 <span id="_CPPv2N13ksl_mat3x3f_t1vE"></span><span id="ksl_mat3x3f_t::v__ksl_vec3f_tA"></span><span class="target" id="unionksl__mat3x3f__t_1ace1667287f6ab22d7f1027be1f82942f"></span><a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <code class="descname">v</code>[3]<a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_t1vE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>anonymous union allows accessing columns of rotation matrix quantities at specified index </p>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat3x3f_tUt2_53E">
+<span class="target" id="unionksl__mat3x3f__t_1a492ebf3a37bf9836e2e417078534af5c"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N13ksl_mat3x3f_tUt2_53E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing columns of rotation by index matrix quantities at specified index </p>
 </dd></dl>
 
 </div>
@@ -567,7 +621,7 @@
 <dl class="function">
 <dt id="_CPPv326ksl_mat3x3f_setFromVectorsP13ksl_mat3x3f_tPK11ksl_vec3f_tPK11ksl_vec3f_tPK11ksl_vec3f_t">
 <span id="_CPPv226ksl_mat3x3f_setFromVectorsP13ksl_mat3x3f_tPK11ksl_vec3f_tPK11ksl_vec3f_tPK11ksl_vec3f_t"></span><span id="ksl_mat3x3f_setFromVectors__ksl_mat3x3f_tP.ksl_vec3f_tCP.ksl_vec3f_tCP.ksl_vec3f_tCP"></span><span class="target" id="matrix_8h_1a340c64a953a994d665382361a29229f0"></span>void <code class="descname">ksl_mat3x3f_setFromVectors</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv313ksl_mat3x3f_t" title="ksl_mat3x3f_t">ksl_mat3x3f_t</a> *<em>R</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>x</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>y</em>, <em class="property">const</em> <a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> *<em>z</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv326ksl_mat3x3f_setFromVectorsP13ksl_mat3x3f_tPK11ksl_vec3f_tPK11ksl_vec3f_tPK11ksl_vec3f_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Set a single precision 3x3 matrix from a 3 column vectors. </p>
+<dd><p>Set a single precision 3x3 matrix from 3 column vectors. </p>
 <p><span class="math notranslate nohighlight">\( \begin{bmatrix} \underline{v}_x &amp; \underline{v}_y &amp; \underline{v}_z \end{bmatrix} \rightarrow R \)</span></p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>

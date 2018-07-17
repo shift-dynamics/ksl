@@ -113,7 +113,7 @@
 <p>SE(3) matrices have the property that:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\Phi^{-1} = \begin{bmatrix}R^T &amp; -R^T \underline{r} \\ 0 &amp; 1 \end{bmatrix}\end{split}\]</div>
-<p>Consider how the 3 dimensional vector <span class="math notranslate nohighlight">\(\underline{v}_b\)</span> is transformed to frame <span class="math notranslate nohighlight">\(b\)</span> using 4x4 transformation matrices. To transform a vector using 4x4 transformation matrices, a homogeneous coordinate is appended to <span class="math notranslate nohighlight">\(\underline{v}_b\)</span> and the transformation is performed as:</p>
+<p>Consider how the vector <span class="math notranslate nohighlight">\(\underline{v}_b\)</span> is transformed from frame <span class="math notranslate nohighlight">\(b\)</span> to frame <span class="math notranslate nohighlight">\(a\)</span> using 4x4 transformation matrices. To transform a 3D vector using 4x4 transformation matrices, a homogeneous coordinate is appended to <span class="math notranslate nohighlight">\(\underline{v}_b\)</span> and the transformation is performed as:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{Bmatrix} \underline{v}_a \\ 1 \end{Bmatrix} =
 \begin{Bmatrix} R^{ab} \underline{v}_b + \underline{r}_{ab}^a \\ 1 \end{Bmatrix} =
@@ -126,20 +126,58 @@
 <dl class="type">
 <dt id="_CPPv39ksl_SE3_t">
 <span id="_CPPv29ksl_SE3_t"></span><span id="ksl_SE3_t"></span><span class="target" id="unionksl___s_e3__t"></span><em class="property">union </em><code class="descname">ksl_SE3_t</code><a class="headerlink" href="#_CPPv39ksl_SE3_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><em>#include &lt;matrix.h&gt;</em><p>SE3 (3 Dimensional Special Euclidian group) consists of a SO3 (othonormalized 3x3 rotation matrix) and translation vector pair. </p>
-<p>if using the at/as_array operators, quantities are accessed in column major order with Rotation matrix quantities coming first, followed by translation vector </p>
+<dd><em>#include &lt;matrix.h&gt;</em><p>Double precision member of 3 Dimensional Special Euclidian group (SE3) consisting of a double precision SO3 (othonormalized 3x3 rotation matrix) and double precision translation vector pair. </p>
+<p>This union allows accessing double precision SE3 quantities by field name, as a singly dimensioned array, as a doubly dimensioned array, or by accessing a specific column. If using the <code class="docutils literal notranslate"><span class="pre">at</span></code> or <code class="docutils literal notranslate"><span class="pre">as_array</span></code> operators, quantities are accessed in column major order.</p>
+<p>The following examples illustrate how to access row 2, column 1 (using 0 based indexing) of SE3 matrix <code class="docutils literal notranslate"><span class="pre">D</span></code>. The following access methods are equivalent.</p>
+<p><pre class="highlight literal-block">
+<span></span><span class="n">D</span><span class="p">.</span><span class="n">as_array</span><span class="p">[</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">3</span><span class="p">];</span>
+<span class="n">D</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
+<span class="n">D</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">z</span><span class="p">;</span>
+<span class="n">D</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="n">D</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">z</span><span class="p">;</span>
+<span class="n">D</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">at</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="n">D</span><span class="p">.</span><span class="n">R</span><span class="p">.</span><span class="n">m21</span><span class="p">;</span>
+<span class="n">D</span><span class="p">.</span><span class="n">R</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">z</span><span class="p">;</span>
+<span class="n">D</span><span class="p">.</span><span class="n">R</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="n">D</span><span class="p">.</span><span class="n">R</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">z</span><span class="p">;</span>
+<span class="n">D</span><span class="p">.</span><span class="n">R</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">at</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+</pre>
+</p>
+<p>The following examples illustrate how to access row 1, column 3 (using 0 based indexing) of SE3 matrix <code class="docutils literal notranslate"><span class="pre">D</span></code>. The following access methods are equivalent.</p>
+<p><pre class="highlight literal-block">
+<span></span><span class="n">D</span><span class="p">.</span><span class="n">as_array</span><span class="p">[</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">3</span><span class="p">];</span>
+<span class="n">D</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
+<span class="n">D</span><span class="p">.</span><span class="n">v3</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+<span class="n">D</span><span class="p">.</span><span class="n">v3</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="n">D</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">3</span><span class="p">].</span><span class="n">y</span><span class="p">;</span>
+<span class="n">D</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">3</span><span class="p">].</span><span class="n">at</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="n">D</span><span class="p">.</span><span class="n">t</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+<span class="n">D</span><span class="p">.</span><span class="n">t</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</pre>
+</p>
+<p>See also the <code class="docutils literal notranslate"><span class="pre">ksl_SE3_get</span></code> and <code class="docutils literal notranslate"><span class="pre">ksl_SE3_set</span></code> functions. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Members</p>
 <dl class="member">
 <dt id="_CPPv3N9ksl_SE3_t8as_arrayE">
 <span id="_CPPv2N9ksl_SE3_t8as_arrayE"></span><span id="ksl_SE3_t::as_array__doubleA"></span><span class="target" id="unionksl___s_e3__t_1a5d6cd994a201ab7abe82456af34c28e1"></span>double <code class="descname">as_array</code>[12]<a class="headerlink" href="#_CPPv3N9ksl_SE3_t8as_arrayE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>allows accessing quantities at specified index in linear array, where entities are specified in column major order </p>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N9ksl_SE3_tUt2_65E">
+<span class="target" id="unionksl___s_e3__t_1aa72780323b4f4cdea5daf5afaae2f5ec"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N9ksl_SE3_tUt2_65E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing quantities at specified index in linear array, where entities are specified in column major order </p>
 </dd></dl>
 
 <dl class="member">
 <dt id="_CPPv3N9ksl_SE3_t2atE">
 <span id="_CPPv2N9ksl_SE3_t2atE"></span><span id="ksl_SE3_t::at__doubleAA"></span><span class="target" id="unionksl___s_e3__t_1aed3eb72a50870d02410f259e74917d3b"></span>double <code class="descname">at</code>[4][3]<a class="headerlink" href="#_CPPv3N9ksl_SE3_t2atE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>allows accessing SE3 quantities at specified index in a doubly dimensioned array, where entities are specified in column major order </p>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N9ksl_SE3_tUt2_67E">
+<span class="target" id="unionksl___s_e3__t_1aa9cb2043091ab83d312846dde6a87446"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N9ksl_SE3_tUt2_67E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing SE3 quantities at specified index in a doubly dimensioned array, where entities are specified in column major order </p>
 </dd></dl>
 
 <dl class="member">
@@ -155,8 +193,8 @@
 </dd></dl>
 
 <dl class="member">
-<dt id="_CPPv3N9ksl_SE3_tUt2_41E">
-<span class="target" id="unionksl___s_e3__t_1a04c8f15bd3689f5b96beeb023215f21c"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N9ksl_SE3_tUt2_41E" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3N9ksl_SE3_tUt2_69E">
+<span class="target" id="unionksl___s_e3__t_1aecbfb811f9ede1ea5dca3f13c8c3d523"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N9ksl_SE3_tUt2_69E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>anonymous union allows accessing rotation matrix and translation vector quantities by field name </p>
 </dd></dl>
 
@@ -221,8 +259,8 @@
 <dd></dd></dl>
 
 <dl class="member">
-<dt id="_CPPv3N9ksl_SE3_tUt2_43E">
-<span class="target" id="unionksl___s_e3__t_1ad8e8a258c56554728419360c740d7ca0"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N9ksl_SE3_tUt2_43E" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3N9ksl_SE3_tUt2_71E">
+<span class="target" id="unionksl___s_e3__t_1a82773549aa76f6e75c63fcbb7076ecf5"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N9ksl_SE3_tUt2_71E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>anonymous union allows accessing rotation matrix quantities by field name </p>
 </dd></dl>
 
@@ -247,14 +285,19 @@
 <dd></dd></dl>
 
 <dl class="member">
-<dt id="_CPPv3N9ksl_SE3_tUt2_45E">
-<span class="target" id="unionksl___s_e3__t_1a0ded945dfa5c298d14c9a422b4277b19"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N9ksl_SE3_tUt2_45E" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3N9ksl_SE3_tUt2_73E">
+<span class="target" id="unionksl___s_e3__t_1af7db0b7593d3a8e9cb1be37bd380875d"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N9ksl_SE3_tUt2_73E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>anonymous union allows accessing columns of rotation matrix quantities by field name </p>
 </dd></dl>
 
 <dl class="member">
 <dt id="_CPPv3N9ksl_SE3_t1vE">
 <span id="_CPPv2N9ksl_SE3_t1vE"></span><span id="ksl_SE3_t::v__ksl_vec3_tA"></span><span class="target" id="unionksl___s_e3__t_1a87b08ce43c441cc408ede7d20d5c7c27"></span><a class="reference internal" href="../vectors/vec3.html#_CPPv310ksl_vec3_t" title="ksl_vec3_t">ksl_vec3_t</a> <code class="descname">v</code>[4]<a class="headerlink" href="#_CPPv3N9ksl_SE3_t1vE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N9ksl_SE3_tUt2_75E">
+<span class="target" id="unionksl___s_e3__t_1a2b6102db076174b873b2cea2f681b7f7"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv39ksl_SE3_t" title="ksl_SE3_t">ksl_SE3_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N9ksl_SE3_tUt2_75E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>anonymous union allows accessing columns of rotation matrix quantities at specified index </p>
 </dd></dl>
 
@@ -388,19 +431,57 @@
 <dt id="_CPPv310ksl_SE3f_t">
 <span id="_CPPv210ksl_SE3f_t"></span><span id="ksl_SE3f_t"></span><span class="target" id="unionksl___s_e3f__t"></span><em class="property">union </em><code class="descname">ksl_SE3f_t</code><a class="headerlink" href="#_CPPv310ksl_SE3f_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><em>#include &lt;matrix.h&gt;</em><p>Single precision member of 3 Dimensional Special Euclidian group (SE3) consisting of a single precision SO3 (othonormalized 3x3 rotation matrix) and single precision translation vector pair. </p>
-<p>if using the at/as_array operators, quantities are accessed in column major order with Rotation matrix quantities coming first, followed by translation vector </p>
+<p>This union allows accessing single precision SE3 quantities by field name, as a singly dimensioned array, as a doubly dimensioned array, or by accessing a specific column. If using the <code class="docutils literal notranslate"><span class="pre">at</span></code> or <code class="docutils literal notranslate"><span class="pre">as_array</span></code> operators, quantities are accessed in column major order.</p>
+<p>The following examples illustrate how to access row 2, column 1 (using 0 based indexing) of SE3 matrix <code class="docutils literal notranslate"><span class="pre">D</span></code>. The following access methods are equivalent.</p>
+<p><pre class="highlight literal-block">
+<span></span><span class="n">D</span><span class="p">.</span><span class="n">as_array</span><span class="p">[</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">3</span><span class="p">];</span>
+<span class="n">D</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
+<span class="n">D</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">z</span><span class="p">;</span>
+<span class="n">D</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="n">D</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">z</span><span class="p">;</span>
+<span class="n">D</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">at</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="n">D</span><span class="p">.</span><span class="n">R</span><span class="p">.</span><span class="n">m21</span><span class="p">;</span>
+<span class="n">D</span><span class="p">.</span><span class="n">R</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">z</span><span class="p">;</span>
+<span class="n">D</span><span class="p">.</span><span class="n">R</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="n">D</span><span class="p">.</span><span class="n">R</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">z</span><span class="p">;</span>
+<span class="n">D</span><span class="p">.</span><span class="n">R</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">at</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+</pre>
+</p>
+<p>The following examples illustrate how to access row 1, column 3 (using 0 based indexing) of SE3 matrix <code class="docutils literal notranslate"><span class="pre">D</span></code>. The following access methods are equivalent.</p>
+<p><pre class="highlight literal-block">
+<span></span><span class="n">D</span><span class="p">.</span><span class="n">as_array</span><span class="p">[</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">3</span><span class="p">];</span>
+<span class="n">D</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
+<span class="n">D</span><span class="p">.</span><span class="n">v3</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+<span class="n">D</span><span class="p">.</span><span class="n">v3</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="n">D</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">3</span><span class="p">].</span><span class="n">y</span><span class="p">;</span>
+<span class="n">D</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">3</span><span class="p">].</span><span class="n">at</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="n">D</span><span class="p">.</span><span class="n">t</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+<span class="n">D</span><span class="p">.</span><span class="n">t</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</pre>
+</p>
+<p>See also the <code class="docutils literal notranslate"><span class="pre">ksl_SE3f_get</span></code> and <code class="docutils literal notranslate"><span class="pre">ksl_SE3f_set</span></code> functions. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Members</p>
 <dl class="member">
 <dt id="_CPPv3N10ksl_SE3f_t8as_arrayE">
 <span id="_CPPv2N10ksl_SE3f_t8as_arrayE"></span><span id="ksl_SE3f_t::as_array__floatA"></span><span class="target" id="unionksl___s_e3f__t_1aafad3204f63ca0be4168422f6718db02"></span>float <code class="descname">as_array</code>[12]<a class="headerlink" href="#_CPPv3N10ksl_SE3f_t8as_arrayE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>allows accessing quantities at specified index in linear array, with entities specified in column major order </p>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N10ksl_SE3f_tUt2_77E">
+<span class="target" id="unionksl___s_e3f__t_1a632e70f6169e4bc28a314337b95744ab"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N10ksl_SE3f_tUt2_77E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing quantities at specified index in linear array, with entities specified in column major order </p>
 </dd></dl>
 
 <dl class="member">
 <dt id="_CPPv3N10ksl_SE3f_t2atE">
 <span id="_CPPv2N10ksl_SE3f_t2atE"></span><span id="ksl_SE3f_t::at__floatAA"></span><span class="target" id="unionksl___s_e3f__t_1a48feafdac5471ea54ccd03ee5e4d7833"></span>float <code class="descname">at</code>[4][3]<a class="headerlink" href="#_CPPv3N10ksl_SE3f_t2atE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>allows accessing SE3 quantities at specified index in a doubly dimensioned array, with entities specified in column major order </p>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N10ksl_SE3f_tUt2_79E">
+<span class="target" id="unionksl___s_e3f__t_1a84a73008166b2dcbacc8b9ea94982e5b"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N10ksl_SE3f_tUt2_79E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing SE3 quantities at specified index in a doubly dimensioned array, with entities specified in column major order </p>
 </dd></dl>
 
 <dl class="member">
@@ -416,8 +497,8 @@
 </dd></dl>
 
 <dl class="member">
-<dt id="_CPPv3N10ksl_SE3f_tUt2_47E">
-<span class="target" id="unionksl___s_e3f__t_1adb238c774fc5ec8a9864c7e4f65890ca"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N10ksl_SE3f_tUt2_47E" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3N10ksl_SE3f_tUt2_81E">
+<span class="target" id="unionksl___s_e3f__t_1aa7959c7aaff5d1197ed436417860ce34"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N10ksl_SE3f_tUt2_81E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>anonymous union allows accessing rotation matrix and translation vector quantities by field name </p>
 </dd></dl>
 
@@ -482,8 +563,8 @@
 <dd></dd></dl>
 
 <dl class="member">
-<dt id="_CPPv3N10ksl_SE3f_tUt2_49E">
-<span class="target" id="unionksl___s_e3f__t_1a4a3ad88c790b7fe088fea5709f9d2e85"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N10ksl_SE3f_tUt2_49E" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3N10ksl_SE3f_tUt2_83E">
+<span class="target" id="unionksl___s_e3f__t_1ac7eefdd4609c97db5bf4eb274809f033"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N10ksl_SE3f_tUt2_83E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>anonymous union allows accessing rotation matrix quantities by field name </p>
 </dd></dl>
 
@@ -508,14 +589,19 @@
 <dd></dd></dl>
 
 <dl class="member">
-<dt id="_CPPv3N10ksl_SE3f_tUt2_51E">
-<span class="target" id="unionksl___s_e3f__t_1a0929ded897d0cc871b180c6fec9fcef8"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N10ksl_SE3f_tUt2_51E" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3N10ksl_SE3f_tUt2_85E">
+<span class="target" id="unionksl___s_e3f__t_1ae2b5f738e71dd16975bee2a9ef1fd430"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N10ksl_SE3f_tUt2_85E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>anonymous union allows accessing columns of rotation matrix quantities by field name </p>
 </dd></dl>
 
 <dl class="member">
 <dt id="_CPPv3N10ksl_SE3f_t1vE">
 <span id="_CPPv2N10ksl_SE3f_t1vE"></span><span id="ksl_SE3f_t::v__ksl_vec3f_tA"></span><span class="target" id="unionksl___s_e3f__t_1a25b357f06c92064dac04792d3e088568"></span><a class="reference internal" href="../vectors/vec3.html#_CPPv311ksl_vec3f_t" title="ksl_vec3f_t">ksl_vec3f_t</a> <code class="descname">v</code>[4]<a class="headerlink" href="#_CPPv3N10ksl_SE3f_t1vE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N10ksl_SE3f_tUt2_87E">
+<span class="target" id="unionksl___s_e3f__t_1aeaef2d2ef376bf5c40589f43b528d193"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv310ksl_SE3f_t" title="ksl_SE3f_t">ksl_SE3f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N10ksl_SE3f_tUt2_87E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>anonymous union allows accessing columns of rotation matrix quantities at specified index </p>
 </dd></dl>
 

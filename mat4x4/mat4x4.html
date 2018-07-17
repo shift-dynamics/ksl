@@ -105,20 +105,42 @@
 <dl class="type">
 <dt id="_CPPv312ksl_mat4x4_t">
 <span id="_CPPv212ksl_mat4x4_t"></span><span id="ksl_mat4x4_t"></span><span class="target" id="unionksl__mat4x4__t"></span><em class="property">union </em><code class="descname">ksl_mat4x4_t</code><a class="headerlink" href="#_CPPv312ksl_mat4x4_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><em>#include &lt;matrix.h&gt;</em><p>general 4x4 double precision matrix </p>
-<p>allow accessing mat4x4 quantities by field name or using at / as_array operators. if using the at / as_array operators, quantities are accessed in column major order </p>
+<dd><em>#include &lt;matrix.h&gt;</em><p>A general double precision 4x4 matrix. </p>
+<p>This union allows accessing double precision mat4x4 quantities by field name, as a singly dimensioned array, as a doubly dimensioned array, or by accessing a specific column. If using the <code class="docutils literal notranslate"><span class="pre">at</span></code> or <code class="docutils literal notranslate"><span class="pre">as_array</span></code> operators, quantities are accessed in column major order.</p>
+<p>The following examples illustrate how to access row 3, column 2 (using 0 based indexing) of matrix <code class="docutils literal notranslate"><span class="pre">M</span></code>. The following access methods are equivalent.</p>
+<p><pre class="highlight literal-block">
+<span></span><span class="n">M</span><span class="p">.</span><span class="n">as_array</span><span class="p">[</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">4</span><span class="p">];</span>
+<span class="n">M</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">3</span><span class="p">];</span>
+<span class="n">M</span><span class="p">.</span><span class="n">m32</span><span class="p">;</span>
+<span class="n">M</span><span class="p">.</span><span class="n">v2</span><span class="p">.</span><span class="n">w</span><span class="p">;</span>
+<span class="n">M</span><span class="p">.</span><span class="n">v2</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+<span class="n">M</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">w</span><span class="p">;</span>
+<span class="n">M</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">at</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+</pre>
+</p>
+<p>See also the <code class="docutils literal notranslate"><span class="pre">ksl_mat4x4_get</span></code> and <code class="docutils literal notranslate"><span class="pre">ksl_mat4x4_set</span></code> functions. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Members</p>
 <dl class="member">
 <dt id="_CPPv3N12ksl_mat4x4_t8as_arrayE">
 <span id="_CPPv2N12ksl_mat4x4_t8as_arrayE"></span><span id="ksl_mat4x4_t::as_array__doubleA"></span><span class="target" id="unionksl__mat4x4__t_1a192806c862763241fd677747204c3e27"></span>double <code class="descname">as_array</code>[16]<a class="headerlink" href="#_CPPv3N12ksl_mat4x4_t8as_arrayE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>allows accessing quantities at specified index in linear array, where entities are specified in column major order </p>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat4x4_tUt2_35E">
+<span class="target" id="unionksl__mat4x4__t_1a4e3386e97ecd155f2274206a5c7e1094"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv312ksl_mat4x4_t" title="ksl_mat4x4_t">ksl_mat4x4_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N12ksl_mat4x4_tUt2_35E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing quantities at specified index in linear array, where entities are specified in column major order </p>
 </dd></dl>
 
 <dl class="member">
 <dt id="_CPPv3N12ksl_mat4x4_t2atE">
 <span id="_CPPv2N12ksl_mat4x4_t2atE"></span><span id="ksl_mat4x4_t::at__doubleAA"></span><span class="target" id="unionksl__mat4x4__t_1a2003d53db98c45fe2d95f1d474a914dc"></span>double <code class="descname">at</code>[4][4]<a class="headerlink" href="#_CPPv3N12ksl_mat4x4_t2atE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>allows accessing mat3x3 quantities at specified index in a doubly dimensioned array, where entities are specified in column major order </p>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat4x4_tUt2_37E">
+<span class="target" id="unionksl__mat4x4__t_1a7b4f3c341ff0796b2018412a1fab8182"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv312ksl_mat4x4_t" title="ksl_mat4x4_t">ksl_mat4x4_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N12ksl_mat4x4_tUt2_37E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>anonymous union allows accessing mat3x3 quantities at specified index in a doubly dimensioned array, where entities are specified in column major order </p>
 </dd></dl>
 
 <dl class="member">
@@ -202,8 +224,8 @@
 <dd></dd></dl>
 
 <dl class="member">
-<dt id="_CPPv3N12ksl_mat4x4_tUt2_33E">
-<span class="target" id="unionksl__mat4x4__t_1ac4f82699c71444bc7524a462a695aa2a"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv312ksl_mat4x4_t" title="ksl_mat4x4_t">ksl_mat4x4_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N12ksl_mat4x4_tUt2_33E" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3N12ksl_mat4x4_tUt2_39E">
+<span class="target" id="unionksl__mat4x4__t_1a024398af66bb072b80de5ebf14d5a0de"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv312ksl_mat4x4_t" title="ksl_mat4x4_t">ksl_mat4x4_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N12ksl_mat4x4_tUt2_39E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>anonymous union allows accessing rotation matrix quantities by field name </p>
 </dd></dl>
 
@@ -228,14 +250,19 @@
 <dd></dd></dl>
 
 <dl class="member">
-<dt id="_CPPv3N12ksl_mat4x4_tUt2_35E">
-<span class="target" id="unionksl__mat4x4__t_1a4e3386e97ecd155f2274206a5c7e1094"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv312ksl_mat4x4_t" title="ksl_mat4x4_t">ksl_mat4x4_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N12ksl_mat4x4_tUt2_35E" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3N12ksl_mat4x4_tUt2_41E">
+<span class="target" id="unionksl__mat4x4__t_1a32c096d6846f09fac6e9cf2137509b8d"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv312ksl_mat4x4_t" title="ksl_mat4x4_t">ksl_mat4x4_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N12ksl_mat4x4_tUt2_41E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>anonymous union allows accessing columns of rotation matrix quantities by field name </p>
 </dd></dl>
 
 <dl class="member">
 <dt id="_CPPv3N12ksl_mat4x4_t1vE">
 <span id="_CPPv2N12ksl_mat4x4_t1vE"></span><span id="ksl_mat4x4_t::v__ksl_vec4_tA"></span><span class="target" id="unionksl__mat4x4__t_1a183ee20137dc9033a57a954e518c0f76"></span><a class="reference internal" href="../vectors/vec4.html#_CPPv310ksl_vec4_t" title="ksl_vec4_t">ksl_vec4_t</a> <code class="descname">v</code>[4]<a class="headerlink" href="#_CPPv3N12ksl_mat4x4_t1vE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N12ksl_mat4x4_tUt2_43E">
+<span class="target" id="unionksl__mat4x4__t_1a5c580c17cacd6cd33e43522143aab7a0"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv312ksl_mat4x4_t" title="ksl_mat4x4_t">ksl_mat4x4_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N12ksl_mat4x4_tUt2_43E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>anonymous union allows accessing columns of rotation matrix quantities at specified index </p>
 </dd></dl>
 
@@ -347,19 +374,41 @@
 <dl class="type">
 <dt id="_CPPv313ksl_mat4x4f_t">
 <span id="_CPPv213ksl_mat4x4f_t"></span><span id="ksl_mat4x4f_t"></span><span class="target" id="unionksl__mat4x4f__t"></span><em class="property">union </em><code class="descname">ksl_mat4x4f_t</code><a class="headerlink" href="#_CPPv313ksl_mat4x4f_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><em>#include &lt;matrix.h&gt;</em><p>general 4x4 double precision matrix </p>
-<p>allow accessing mat4x4 quantities by field name or using at / as_array operators. if using the at / as_array operators, quantities are accessed in column major order </p>
+<dd><em>#include &lt;matrix.h&gt;</em><p>A general single precision 4x4 matrix. </p>
+<p>This union allows accessing single precision mat4x4 quantities by field name, as a singly dimensioned array, as a doubly dimensioned array, or by accessing a specific column. If using the <code class="docutils literal notranslate"><span class="pre">at</span></code> or <code class="docutils literal notranslate"><span class="pre">as_array</span></code> operators, quantities are accessed in column major order.</p>
+<p>The following examples illustrate how to access row 3, column 2 (using 0 based indexing) of matrix <code class="docutils literal notranslate"><span class="pre">M</span></code>. The following access methods are equivalent.</p>
+<p><pre class="highlight literal-block">
+<span></span><span class="n">M</span><span class="p">.</span><span class="n">as_array</span><span class="p">[</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">4</span><span class="p">];</span>
+<span class="n">M</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">3</span><span class="p">];</span>
+<span class="n">M</span><span class="p">.</span><span class="n">m32</span><span class="p">;</span>
+<span class="n">M</span><span class="p">.</span><span class="n">v2</span><span class="p">.</span><span class="n">w</span><span class="p">;</span>
+<span class="n">M</span><span class="p">.</span><span class="n">v2</span><span class="p">.</span><span class="n">at</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+<span class="n">M</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">w</span><span class="p">;</span>
+<span class="n">M</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">at</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+</pre>
+</p>
+<p>See also the <code class="docutils literal notranslate"><span class="pre">ksl_mat4x4f_get</span></code> and <code class="docutils literal notranslate"><span class="pre">ksl_mat4x4f_set</span></code> functions. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Members</p>
 <dl class="member">
 <dt id="_CPPv3N13ksl_mat4x4f_t8as_arrayE">
 <span id="_CPPv2N13ksl_mat4x4f_t8as_arrayE"></span><span id="ksl_mat4x4f_t::as_array__floatA"></span><span class="target" id="unionksl__mat4x4f__t_1a66ec2458abc1baebddb173777bc0f9bc"></span>float <code class="descname">as_array</code>[16]<a class="headerlink" href="#_CPPv3N13ksl_mat4x4f_t8as_arrayE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat4x4f_tUt2_55E">
+<span class="target" id="unionksl__mat4x4f__t_1aebac6187a2e097d5b1f025e2a6168c09"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv313ksl_mat4x4f_t" title="ksl_mat4x4f_t">ksl_mat4x4f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N13ksl_mat4x4f_tUt2_55E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>allows accessing quantities at specified index in linear array, where entities are specified in column major order </p>
 </dd></dl>
 
 <dl class="member">
 <dt id="_CPPv3N13ksl_mat4x4f_t2atE">
 <span id="_CPPv2N13ksl_mat4x4f_t2atE"></span><span id="ksl_mat4x4f_t::at__floatAA"></span><span class="target" id="unionksl__mat4x4f__t_1a03347fcead1c4018a0b7a1157c08f82b"></span>float <code class="descname">at</code>[4][4]<a class="headerlink" href="#_CPPv3N13ksl_mat4x4f_t2atE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat4x4f_tUt2_57E">
+<span class="target" id="unionksl__mat4x4f__t_1a3b1fe5bf31995f6d0fbeadcb9093b6d3"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv313ksl_mat4x4f_t" title="ksl_mat4x4f_t">ksl_mat4x4f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N13ksl_mat4x4f_tUt2_57E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>allows accessing mat3x3 quantities at specified index in a doubly dimensioned array, where entities are specified in column major order </p>
 </dd></dl>
 
@@ -444,8 +493,8 @@
 <dd></dd></dl>
 
 <dl class="member">
-<dt id="_CPPv3N13ksl_mat4x4f_tUt2_37E">
-<span class="target" id="unionksl__mat4x4f__t_1a614c2d9c526d9f1c020ef819cf7ec69a"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv313ksl_mat4x4f_t" title="ksl_mat4x4f_t">ksl_mat4x4f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N13ksl_mat4x4f_tUt2_37E" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3N13ksl_mat4x4f_tUt2_59E">
+<span class="target" id="unionksl__mat4x4f__t_1a3821b573970977e377fb78372c39c43b"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv313ksl_mat4x4f_t" title="ksl_mat4x4f_t">ksl_mat4x4f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N13ksl_mat4x4f_tUt2_59E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>anonymous union allows accessing rotation matrix quantities by field name </p>
 </dd></dl>
 
@@ -470,14 +519,19 @@
 <dd></dd></dl>
 
 <dl class="member">
-<dt id="_CPPv3N13ksl_mat4x4f_tUt2_39E">
-<span class="target" id="unionksl__mat4x4f__t_1ad4cf291da7f8b264ea905bbeb2c01bf9"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv313ksl_mat4x4f_t" title="ksl_mat4x4f_t">ksl_mat4x4f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N13ksl_mat4x4f_tUt2_39E" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3N13ksl_mat4x4f_tUt2_61E">
+<span class="target" id="unionksl__mat4x4f__t_1ada69980d5fbe1fea18f5ae7debc22f58"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv313ksl_mat4x4f_t" title="ksl_mat4x4f_t">ksl_mat4x4f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N13ksl_mat4x4f_tUt2_61E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>anonymous union allows accessing columns of rotation matrix quantities by field name </p>
 </dd></dl>
 
 <dl class="member">
 <dt id="_CPPv3N13ksl_mat4x4f_t1vE">
 <span id="_CPPv2N13ksl_mat4x4f_t1vE"></span><span id="ksl_mat4x4f_t::v__ksl_vec4f_tA"></span><span class="target" id="unionksl__mat4x4f__t_1a8088625c866b416c3bc54fcf3c4d11ea"></span><a class="reference internal" href="../vectors/vec4.html#_CPPv311ksl_vec4f_t" title="ksl_vec4f_t">ksl_vec4f_t</a> <code class="descname">v</code>[4]<a class="headerlink" href="#_CPPv3N13ksl_mat4x4f_t1vE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv3N13ksl_mat4x4f_tUt2_63E">
+<span class="target" id="unionksl__mat4x4f__t_1aee22f042669d6e1a51e1bd0ffd472233"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv313ksl_mat4x4f_t" title="ksl_mat4x4f_t">ksl_mat4x4f_t</a>::<strong>[anonymous]</strong> <strong>[anonymous]</strong><a class="headerlink" href="#_CPPv3N13ksl_mat4x4f_tUt2_63E" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>anonymous union allows accessing columns of rotation matrix quantities at specified index </p>
 </dd></dl>
 

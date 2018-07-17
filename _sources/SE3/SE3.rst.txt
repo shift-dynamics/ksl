@@ -29,7 +29,7 @@ SE(3) matrices have the property that:
     \Phi^{-1} = \begin{bmatrix}R^T & -R^T \underline{r} \\ 0 & 1 \end{bmatrix}
 
 
-Consider how the 3 dimensional vector :math:`\underline{v}_b` is transformed to frame :math:`b` using 4x4 transformation matrices. To transform a vector using 4x4 transformation matrices, a homogeneous coordinate is appended to :math:`\underline{v}_b` and the transformation is performed as:
+Consider how the vector :math:`\underline{v}_b` is transformed from frame :math:`b` to frame :math:`a` using 4x4 transformation matrices. To transform a 3D vector using 4x4 transformation matrices, a homogeneous coordinate is appended to :math:`\underline{v}_b` and the transformation is performed as:
 
 .. math::
 
