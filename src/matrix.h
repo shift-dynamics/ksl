@@ -26,28 +26,49 @@ SUCH DAMAGE.
 
 #include "axis.h"
 
-typedef union ksl_screw_t ksl_screw_t;
-typedef union ksl_screwf_t ksl_screwf_t;
-
 typedef enum ksl_matrix_enum_t {
   KSL_ROW_MAJOR,
   KSL_COLUMN_MAJOR
 } ksl_matrix_enum_t;
 
-/*!
-@brief general 3x3 double precision matrix
+typedef union ksl_screw_t ksl_screw_t;
+typedef union ksl_screwf_t ksl_screwf_t;
 
-allow accessing mat3x3 quantities by field name or by
-using at / as_array operators.  if using the at or as_array operators,
-quantities are accessed in column major order
-*/
+/*! @brief A general 3x3 double precision matrix
+
+This union allows accessing double precision mat3x3 quantities by field name, as
+a singly dimensioned array, as a doubly dimensioned array, or by accessing a
+specific column.  If using the `at` or `as_array` operators, quantities are
+accessed in column major order.
+
+The following examples illustrate how to access row 2, column 1 (using 0 based
+indexing) of matrix `R`. The following access methods are equivalent.
+
+\verbatim embed:rst
+.. code-block:: c
+
+  R.as_array[2 + 1 * 3];
+  R.at[1][2];
+  R.m21;
+  R.v1.z;
+  R.v1.at[2];
+  R.v[1].z;
+  R.v[1].at[2];
+
+\endverbatim
+
+See also the `ksl_mat3x3_get` and `ksl_mat3x3_set` functions. */
 typedef union ksl_mat3x3_t {
-  double as_array[9]; /*!< allows accessing quantities at specified index in
-                         linear array, where entities are specified in column
-                         major order */
-  double at[3][3]; /*!< allows accessing mat3x3 quantities at specified index in
-                      a doubly dimensioned array, where entities are specified
-                      in column major order */
+  struct {
+    double as_array[9];
+  }; /*!< anonymous union allows accessing quantities at specified index in
+          linear array, where entities are specified in column
+          major order */
+  struct {
+    double at[3][3];
+  }; /*!< anonymous union allows accessing quantities at specified index
+        in a doubly dimensioned array, where entities are specified in column
+        major order */
   struct {
     double m00, m10, m20;
     double m01, m11, m21;
@@ -58,52 +79,50 @@ typedef union ksl_mat3x3_t {
     ksl_vec3_t v0, v1, v2;
   }; /*!< anonymous union allows accessing columns of rotation matrix quantities
         by field name */
-  ksl_vec3_t v[3]; /*!< anonymous union allows accessing columns of rotation
-        matrix quantities at specified index */
+  struct {
+    ksl_vec3_t v[3];
+  }; /*!< anonymous union allows accessing columns of rotation
+          matrix quantities at specified index */
 } ksl_mat3x3_t;
 
-/*!
-@brief general 3x3 double precision matrix
+/*! @brief A general double precision 4x4 matrix.
 
-allow accessing mat3x3 quantities by field name or by
-using at / as_array operators.  if using the at or as_array operators,
-quantities are accessed in column major order
-*/
-typedef union ksl_mat3x3f_t {
-  float as_array[9]; /*!< allows accessing quantities at specified index in
-                         linear array, where entities are specified in column
-                         major order */
-  float at[3][3]; /*!< allows accessing mat3x3 quantities at specified index in
-                      a doubly dimensioned array, where entities are specified
-                      in column major order */
-  struct {
-    float m00, m10, m20;
-    float m01, m11, m21;
-    float m02, m12, m22;
-  }; /*!< anonymous union allows accessing rotation matrix quantities by field
-        name */
-  struct {
-    ksl_vec3f_t v0, v1, v2;
-  }; /*!< anonymous union allows accessing columns of rotation matrix quantities
-        by field name */
-  ksl_vec3f_t v[3]; /*!< anonymous union allows accessing columns of rotation
-        matrix quantities at specified index */
-} ksl_mat3x3f_t;
+This union allows accessing double precision mat4x4 quantities by field name, as
+a singly dimensioned array, as a doubly dimensioned array, or by accessing a
+specific column.  If using the `at` or `as_array` operators, quantities are
+accessed in column major order.
 
-/*!
-@brief general 4x4 double precision matrix
+The following examples illustrate how to access row 3, column 2 (using 0 based
+indexing) of matrix `M`. The following access methods are equivalent.
 
-allow accessing mat4x4 quantities by field name or
-using at / as_array operators.  if using the at / as_array operators,
-quantities are accessed in column major order
+\verbatim embed:rst
+.. code-block:: c
+
+  M.as_array[3 + 2 * 4];
+  M.at[2][3];
+  M.m32;
+  M.v2.w;
+  M.v2.at[3];
+  M.v[2].w;
+  M.v[2].at[3];
+
+\endverbatim
+
+
+See also the `ksl_mat4x4_get` and `ksl_mat4x4_set` functions.
+
 */
 typedef union ksl_mat4x4_t {
-  double as_array[16]; /*!< allows accessing quantities at specified index in
-                         linear array, where entities are specified in column
-                         major order */
-  double at[4][4]; /*!< allows accessing mat3x3 quantities at specified index in
-                      a doubly dimensioned array, where entities are specified
-                      in column major order */
+  struct {
+    double as_array[16];
+  }; /*!< anonymous union allows accessing quantities at specified index in
+          linear array, where entities are specified in column
+          major order */
+  struct {
+    double at[4][4];
+  }; /*!< anonymous union allows accessing mat3x3 quantities at specified index
+        in a doubly dimensioned array, where entities are specified in column
+        major order */
   struct {
     double m00, m10, m20, m30;
     double m01, m11, m21, m31;
@@ -115,24 +134,102 @@ typedef union ksl_mat4x4_t {
     ksl_vec4_t v0, v1, v2, v3;
   }; /*!< anonymous union allows accessing columns of rotation matrix quantities
         by field name */
-  ksl_vec4_t v[4]; /*!< anonymous union allows accessing columns of rotation
-        matrix quantities at specified index */
+  struct {
+    ksl_vec4_t v[4];
+  }; /*!< anonymous union allows accessing columns of rotation
+          matrix quantities at specified index */
 } ksl_mat4x4_t;
 
 /*!
-@brief general 4x4 double precision matrix
+@brief A general 3x3 single precision matrix.
 
-allow accessing mat4x4 quantities by field name or
-using at / as_array operators.  if using the at / as_array operators,
-quantities are accessed in column major order
+This union allows accessing single precision mat3x3 quantities by field name, as
+a singly dimensioned array, as a doubly dimensioned array, or by accessing a
+specific column.  If using the `at` or `as_array` operators, quantities are
+accessed in column major order.
+
+The following examples illustrate how to access row 2, column 1 (using 0 based
+indexing) of matrix `R`. The following access methods are equivalent.
+
+\verbatim embed:rst
+.. code-block:: c
+
+  R.as_array[2 + 1 * 3];
+  R.at[1][2];
+  R.m21;
+  R.v1.z;
+  R.v1.at[2];
+  R.v[1].z;
+  R.v[1].at[2];
+
+\endverbatim
+
+See also the `ksl_mat3x3f_get` and `ksl_mat3x3f_set` functions.
+*/
+typedef union ksl_mat3x3f_t {
+  struct {
+    float as_array[9];
+  }; /*!< anonymous union allows accessing quantities at specified index in
+                           linear array, where entities are specified in column
+                           major order */
+  struct {
+    float at[3][3];
+  }; /*!< anonymous union allows accessing mat3x3 quantities at specified index
+       in a doubly dimensioned array, where entities are specified in column
+       major order */
+  struct {
+    float m00, m10, m20;
+    float m01, m11, m21;
+    float m02, m12, m22;
+  }; /*!< anonymous union allows accessing rotation matrix quantities by field
+        name */
+  struct {
+    ksl_vec3f_t v0, v1, v2;
+  }; /*!< anonymous union allows accessing columns of rotation matrix quantities
+        by field name */
+  struct {
+    ksl_vec3f_t v[3];
+  }; /*!< anonymous union allows accessing columns of rotation by index
+          matrix quantities at specified index */
+} ksl_mat3x3f_t;
+
+/*!
+@brief A general single precision 4x4 matrix.
+
+This union allows accessing single precision mat4x4 quantities by field name, as
+a singly dimensioned array, as a doubly dimensioned array, or by accessing a
+specific column.  If using the `at` or `as_array` operators, quantities are
+accessed in column major order.
+
+The following examples illustrate how to access row 3, column 2 (using 0 based
+indexing) of matrix `M`. The following access methods are equivalent.
+
+\verbatim embed:rst
+.. code-block:: c
+
+  M.as_array[3 + 2 * 4];
+  M.at[2][3];
+  M.m32;
+  M.v2.w;
+  M.v2.at[3];
+  M.v[2].w;
+  M.v[2].at[3];
+
+\endverbatim
+
+See also the `ksl_mat4x4f_get` and `ksl_mat4x4f_set` functions.
 */
 typedef union ksl_mat4x4f_t {
-  float as_array[16]; /*!< allows accessing quantities at specified index in
-                         linear array, where entities are specified in column
-                         major order */
-  float at[4][4]; /*!< allows accessing mat3x3 quantities at specified index in
-                      a doubly dimensioned array, where entities are specified
-                      in column major order */
+  struct {
+    float as_array[16];
+  }; /*!< allows accessing quantities at specified index in
+          linear array, where entities are specified in column
+          major order */
+  struct {
+    float at[4][4];
+  }; /*!< allows accessing mat3x3 quantities at specified index in
+          a doubly dimensioned array, where entities are specified
+          in column major order */
   struct {
     float m00, m10, m20, m30;
     float m01, m11, m21, m31;
@@ -144,25 +241,72 @@ typedef union ksl_mat4x4f_t {
     ksl_vec4f_t v0, v1, v2, v3;
   }; /*!< anonymous union allows accessing columns of rotation matrix quantities
         by field name */
-  ksl_vec4f_t v[4]; /*!< anonymous union allows accessing columns of rotation
-        matrix quantities at specified index */
+  struct {
+    ksl_vec4f_t v[4];
+  }; /*!< anonymous union allows accessing columns of rotation
+          matrix quantities at specified index */
 } ksl_mat4x4f_t;
 
 /*!
-@brief SE3 (3 Dimensional Special Euclidian group) consists of a
-SO3 (othonormalized 3x3 rotation matrix) and translation vector pair
+@brief Double precision member of 3 Dimensional Special Euclidian group (SE3)
+consisting of a double precision SO3 (othonormalized 3x3 rotation matrix) and
+double precision translation vector pair.
 
-if using the at/as_array operators,
-quantities are accessed in column major order with Rotation matrix
-quantities coming first, followed by translation vector
+This union allows accessing double precision SE3 quantities by field name, as
+a singly dimensioned array, as a doubly dimensioned array, or by accessing a
+specific column.  If using the `at` or `as_array` operators, quantities are
+accessed in column major order.
+
+The following examples illustrate how to access row 2, column 1 (using 0 based
+indexing) of SE3 matrix `D`. The following access methods are equivalent.
+
+\verbatim embed:rst
+.. code-block:: c
+
+  D.as_array[2 + 1 * 3];
+  D.at[1][2];
+  D.v1.z;
+  D.v1.at[2];
+  D.v[1].z;
+  D.v[1].at[2];
+  D.R.m21;
+  D.R.v1.z;
+  D.R.v1.at[2];
+  D.R.v[1].z;
+  D.R.v[1].at[2];
+
+\endverbatim
+
+The following examples illustrate how to access row 1, column 3 (using 0 based
+indexing) of SE3 matrix `D`. The following access methods are equivalent.
+
+\verbatim embed:rst
+.. code-block:: c
+
+  D.as_array[1 + 3 * 3];
+  D.at[3][1];
+  D.v3.y;
+  D.v3.at[1];
+  D.v[3].y;
+  D.v[3].at[1];
+  D.t.y;
+  D.t.at[1];
+
+\endverbatim
+
+See also the `ksl_SE3_get` and `ksl_SE3_set` functions.
 */
 typedef union ksl_SE3_t {
-  double as_array[12]; /*!< allows accessing quantities at specified index in
-                        linear array, where entities are specified in column
-                        major order */
-  double at[4][3]; /*!< allows accessing SE3 quantities at specified index in
-                      a doubly dimensioned array, where entities are specified
-                      in column major order */
+  struct {
+    double as_array[12];
+  }; /*!< anonymous union allows accessing quantities at specified index in
+          linear array, where entities are specified in column
+          major order */
+  struct {
+    double at[4][3];
+  }; /*!< anonymous union allows accessing SE3 quantities at specified index in
+          a doubly dimensioned array, where entities are specified
+          in column major order */
   struct {
     ksl_mat3x3_t R; /*!< rotation component of SE3 transformation */
     ksl_vec3_t t;   /*!< translation component of SE3 transformation */
@@ -179,26 +323,71 @@ typedef union ksl_SE3_t {
     ksl_vec3_t v0, v1, v2, v3;
   }; /*!< anonymous union allows accessing columns of rotation matrix quantities
         by field name */
-  ksl_vec3_t v[4]; /*!< anonymous union allows accessing columns of rotation
-        matrix quantities at specified index */
+  struct {
+    ksl_vec3_t v[4];
+  }; /*!< anonymous union allows accessing columns of rotation
+          matrix quantities at specified index */
 } ksl_SE3_t;
 
 /*!
 @brief Single precision member of 3 Dimensional Special Euclidian group (SE3)
 consisting of a single precision SO3 (othonormalized 3x3 rotation matrix) and
-single precision translation vector pair
+single precision translation vector pair.
 
-if using the at/as_array operators,
-quantities are accessed in column major order with Rotation matrix
-quantities coming first, followed by translation vector
+This union allows accessing single precision SE3 quantities by field name, as
+a singly dimensioned array, as a doubly dimensioned array, or by accessing a
+specific column.  If using the `at` or `as_array` operators, quantities are
+accessed in column major order.
+
+The following examples illustrate how to access row 2, column 1 (using 0 based
+indexing) of SE3 matrix `D`. The following access methods are equivalent.
+
+\verbatim embed:rst
+.. code-block:: c
+
+  D.as_array[2 + 1 * 3];
+  D.at[1][2];
+  D.v1.z;
+  D.v1.at[2];
+  D.v[1].z;
+  D.v[1].at[2];
+  D.R.m21;
+  D.R.v1.z;
+  D.R.v1.at[2];
+  D.R.v[1].z;
+  D.R.v[1].at[2];
+
+\endverbatim
+
+The following examples illustrate how to access row 1, column 3 (using 0 based
+indexing) of SE3 matrix `D`. The following access methods are equivalent.
+
+\verbatim embed:rst
+.. code-block:: c
+
+  D.as_array[1 + 3 * 3];
+  D.at[3][1];
+  D.v3.y;
+  D.v3.at[1];
+  D.v[3].y;
+  D.v[3].at[1];
+  D.t.y;
+  D.t.at[1];
+
+\endverbatim
+
+See also the `ksl_SE3f_get` and `ksl_SE3f_set` functions.
 */
 typedef union ksl_SE3f_t {
-  float as_array[12]; /*!< allows accessing quantities at specified index in
-                        linear array, with entities specified in column
-                        major order */
-  float at[4][3];     /*!< allows accessing SE3 quantities at specified index in
-                          a doubly dimensioned array, with entities specified
-                          in column major order */
+  struct {
+    float as_array[12];
+  }; /*!< anonymous union allows accessing quantities at specified index in
+          linear array, with entities specified in column major order */
+  struct {
+    float at[4][3];
+  }; /*!< anonymous union allows accessing SE3 quantities at specified index in
+          a doubly dimensioned array, with entities specified
+          in column major order */
   struct {
     ksl_mat3x3f_t R; /*!< rotation component of SE3 transformation */
     ksl_vec3f_t t;   /*!< translation component of SE3 transformation */
@@ -215,8 +404,10 @@ typedef union ksl_SE3f_t {
     ksl_vec3f_t v0, v1, v2, v3;
   }; /*!< anonymous union allows accessing columns of rotation matrix quantities
         by field name */
-  ksl_vec3f_t v[4]; /*!< anonymous union allows accessing columns of rotation
-        matrix quantities at specified index */
+  struct {
+    ksl_vec3f_t v[4];
+  }; /*!< anonymous union allows accessing columns of rotation
+      matrix quantities at specified index */
 } ksl_SE3f_t;
 
 /*!
@@ -584,7 +775,7 @@ void ksl_SE3f_set(ksl_SE3f_t* D, const int row, const int column,
                   const float value);
 
 /*!
-@brief Set a double precision 3x3 matrix from a 3 column vectors
+@brief Set a double precision 3x3 matrix from 3 column vectors
 
 \f$ \begin{bmatrix} \underline{v}_x & \underline{v}_y & \underline{v}_z
 \end{bmatrix} \rightarrow R \f$
@@ -598,7 +789,7 @@ void ksl_mat3x3_setFromVectors(ksl_mat3x3_t* R, const ksl_vec3_t* x,
                                const ksl_vec3_t* y, const ksl_vec3_t* z);
 
 /*!
-@brief Set a single precision 3x3 matrix from a 3 column vectors
+@brief Set a single precision 3x3 matrix from 3 column vectors
 
 \f$ \begin{bmatrix} \underline{v}_x & \underline{v}_y & \underline{v}_z
 \end{bmatrix} \rightarrow R \f$
