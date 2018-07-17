@@ -154,83 +154,119 @@ ksl_inertiaf_t ksl_inertiaf(const float m, const ksl_vec3f_t t, const float Ixx,
                             const float Iyz, const float Izx);
 
 /*!
-@brief allocate n ksl_inertia_t datastructures on the heap
+@brief Allocate n ksl_inertia_t datastructures on the heap
 */
 ksl_inertia_t* ksl_inertia_alloc(int n);
 
 /*!
-@brief allocate n ksl_inertiaf_t datastructures on the heap
+@brief Allocate n ksl_inertiaf_t datastructures on the heap
 */
 ksl_inertiaf_t* ksl_inertiaf_alloc(int n);
 
 /*!
-@brief rotate a double precision centroidal inertia matrix
+@brief Rotate a double precision centroidal inertia matrix
 
-  I_ff = CoAd(D(R_{fc})) * Icc * Ad(D(R_{fc}^{-1}))
+  \f$ [Ad]^*_{(\Phi(R^{fc}))} M_{cc} [Ad]_{(\Phi((R^{fc})^{-1}))} \rightarrow
+M_{ff}\f$
 
+@param inertia_i [in] input inertia matrix
+@param r [in] orthonormal rotation matrix
+@param inertia_o [out] output inertia matrix
 */
 void ksl_inertia_rotated(const ksl_inertia_t* inertia_i, const ksl_mat3x3_t* r,
                          ksl_inertia_t* inertia_o);
 
 /*!
-@brief rotate a single precision centroidal inertia matrix
+@brief Rotate a single precision centroidal inertia matrix
 
-  \f$ I_{ff} = CoAd(D(R_{fc})) * I_{cc} * Ad(D(R_{fc}^{-1})) \f$
+\f$ [Ad]^*_{(\Phi(R^{fc}))} M_{cc} [Ad]_{(\Phi((R^{fc})^{-1}))} \rightarrow
+M_{ff}\f$
 
+@param inertia_i [in] input inertia matrix
+@param r [in] orthonormal rotation matrix
+@param inertia_o [out] output inertia matrix
 */
 void ksl_inertiaf_rotated(const ksl_inertiaf_t* inertia_i,
                           const ksl_mat3x3f_t* r, ksl_inertiaf_t* inertia_o);
 
 /*!
-@brief rotate a double precision centroidal inertia matrix in place
+@brief Rotate a double precision centroidal inertia matrix in place
 
-  \f$ I_{ff} = CoAd(D(R_{fc})) * I_{cc} * Ad(D(R_{fc}^{-1})) \f$
+\f$ [Ad]^*_{(\Phi(R^{fc}))} M_{cc} [Ad]_{(\Phi((R^{fc})^{-1}))} \rightarrow
+M_{ff}\f$
 
+@param inertia_i [in/out] input inertia matrix
+@param r [in] orthonormal rotation matrix
 */
 void ksl_inertia_rotate(ksl_inertia_t* inertia_i, const ksl_mat3x3_t* r);
 
 /*!
-@brief rotate a single precision centroidal inertia matrix in place
+@brief Rotate a single precision centroidal inertia matrix in place
 
-  \f$ I_{ff} = CoAd(D(R_{fc})) * I_{cc} * Ad(D(R_{fc}^{-1})) \f$
+\f$ [Ad]^*_{(\Phi(R^{fc}))} M_{cc} [Ad]_{(\Phi((R^{fc})^{-1}))} \rightarrow
+M_{ff}\f$
 
+@param inertia_i [in/out] input inertia matrix
+@param r [in] orthonormal rotation matrix
 */
 void ksl_inertiaf_rotate(ksl_inertiaf_t* inertia_i, const ksl_mat3x3f_t* r);
 
 /*!
 @brief translate a double precision centroidal inertia matrix
 
-  \f$ I_ff = CoAd(D(t_{fc})) * Icc * Ad(D(t_{fc}^{-1})) \f$
+  \f$ [Ad]^*_{(\Phi(\underline{t}_{fc}^f))} M_{cc}
+[Ad]_{(\Phi((\underline{t}_{fc}^f)^{-1}))} \rightarrow M_{ff}\f$
+
+@param inertia_i [in] input inertia matrix
+@param t [in] translation vector
+@param inertia_o [out] output inertia matrix
 */
-void ksl_inertia_translated(const ksl_inertia_t* inertia_i, const ksl_vec3_t* r,
+void ksl_inertia_translated(const ksl_inertia_t* inertia_i, const ksl_vec3_t* t,
                             ksl_inertia_t* inertia_o);
 
 /*!
 @brief translate a single precision centroidal inertia matrix
 
-  \f$ I_{ff} = CoAd(D(t_{fc})) * I_{cc} * Ad(D(t_{fc}^{-1})) \f$
+\f$ [Ad]^*_{(\Phi(\underline{t}_{fc}^f))} M_{cc}
+[Ad]_{(\Phi((\underline{t}_{fc}^f)^{-1}))} \rightarrow M_{ff}\f$
+
+@param inertia_i [in] input inertia matrix
+@param t [in] translation vector
+@param inertia_o [out] output inertia matrix
 */
 void ksl_inertiaf_translated(const ksl_inertiaf_t* inertia_i,
-                             const ksl_vec3f_t* r, ksl_inertiaf_t* inertia_o);
+                             const ksl_vec3f_t* t, ksl_inertiaf_t* inertia_o);
 
 /*!
 @brief translate a double precision centroidal inertia matrix in place
 
-  \f$ I_ff = CoAd(D(t_{fc})) * Icc * Ad(D(t_{fc}^{-1})) \f$
+\f$ [Ad]^*_{(\Phi(\underline{t}_{fc}^f))} M_{cc}
+[Ad]_{(\Phi((\underline{t}_{fc}^f)^{-1}))} \rightarrow M_{ff}\f$
+
+@param inertia_i [in/out] input inertia matrix
+@param t [in] translation vector
 */
-void ksl_inertia_translate(ksl_inertia_t* inertia_i, const ksl_vec3_t* r);
+void ksl_inertia_translate(ksl_inertia_t* inertia_i, const ksl_vec3_t* t);
 
 /*!
 @brief translate a single precision centroidal inertia matrix in place
 
-  \f$ I_{ff} = CoAd(D(t_{fc})) * I_{cc} * Ad(D(t_{fc}^{-1})) \f$
+\f$ [Ad]^*_{(\Phi(\underline{t}_{fc}^f))} M_{cc}
+[Ad]_{(\Phi((\underline{t}_{fc}^f)^{-1}))} \rightarrow M_{ff}\f$
+
+@param inertia_i [in/out] input inertia matrix
+@param t [in] translation vector
 */
-void ksl_inertiaf_translate(ksl_inertiaf_t* inertia_i, const ksl_vec3f_t* r);
+void ksl_inertiaf_translate(ksl_inertiaf_t* inertia_i, const ksl_vec3f_t* t);
 
 /*!
 @brief spatial transform a double precision centroidal inertia matrix
 
-  \f$ I_ff = CoAd(D_{fc}) * Icc * Ad(D_{fc}^{-1}) \f$
+  \f$ [Ad]_{(\Phi_{fc})}^* M_{cc} [Ad]_{(\Phi_{fc}^{-1})} \rightarrow M_{ff}\f$
+
+@param inertia_i [in] input inertia matrix
+@param d [in] SE3 transformation matrix
+@param inertia_o [out] output inertia matrix
 */
 void ksl_inertia_transformed(const ksl_inertia_t* inertia_i, const ksl_SE3_t* d,
                              ksl_inertia_t* inertia_o);
@@ -238,22 +274,34 @@ void ksl_inertia_transformed(const ksl_inertia_t* inertia_i, const ksl_SE3_t* d,
 /*!
 @brief spatial transform a single precision centroidal inertia matrix
 
-  \f$ I_{ff} = CoAd(D_{fc}) * Icc * Ad(D_{fc}^{-1}) \f$
+  \f$ [Ad]_{(\Phi_{fc})}^* M_{cc} [Ad]_{(\Phi_{fc}^{-1})} \rightarrow M_{ff}\f$
+
+@param inertia_i [in] input inertia matrix
+@param d [in] SE3 transformation matrix
+@param inertia_o [out] output inertia matrix
 */
 void ksl_inertiaf_transformed(const ksl_inertiaf_t* inertia_i,
                               const ksl_SE3f_t* d, ksl_inertiaf_t* inertia_o);
 
 /*!
-@brief spatial transform a double precision centroidal inertia matrix in place
+@brief Perform a spatial transformation of a double precision centroidal inertia
+matrix in place.
 
-  \f$ I_ff = CoAd(D_{fc}) * Icc * Ad(D_{fc}^{-1}) \f$
+  \f$ [Ad]_{(\Phi_{fc})}^* M_{cc} [Ad]_{(\Phi_{fc}^{-1})} \rightarrow M_{ff}\f$
+
+@param inertia_i [in/out] inertia matrix to transform
+@param d [in] SE3 transformation
 */
 void ksl_inertia_transform(ksl_inertia_t* inertia_i, const ksl_SE3_t* d);
 
 /*!
-@brief spatial transform a single precision centroidal inertia matrix in place
+@brief Perform a spatial transformation of a single precision centroidal inertia
+matrix in place.
 
-  \f$ I_{ff} = CoAd(D_{fc}) * Icc * Ad(D_{fc}^{-1}) \f$
+  \f$ [Ad]_{(\Phi_{fc})}^* M_{cc} [Ad]_{(\Phi_{fc}^{-1})} \rightarrow M_{ff}\f$
+
+@param inertia_i [in/out] inertia matrix to transform
+@param d [in] SE3 transformation
 */
 void ksl_inertiaf_transform(ksl_inertiaf_t* inertia_i, const ksl_SE3f_t* d);
 
