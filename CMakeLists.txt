@@ -29,16 +29,16 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # build ksl static library
 add_library(ksl STATIC
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/axis.c
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/coscrew.c
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/inertia.c
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/linalg.c
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/matrix.c
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/print.c
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/quaternion.c
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/screw.c
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/util.c
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/vector.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/ksl_axis.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/ksl_coscrew.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/ksl_inertia.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/ksl_linalg.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/ksl_matrix.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/ksl_print.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/ksl_quaternion.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/ksl_screw.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/ksl_util.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/ksl_vector.c
 )
 
 find_library(M_LIB m REQUIRED)

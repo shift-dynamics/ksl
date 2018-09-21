@@ -3,7 +3,7 @@
 #include <check.h>
 #include <stdlib.h>
 
-#include "inertia.h"
+#include "ksl_inertia.h"
 
 START_TEST(test_inertia_create) {
   ksl_inertia_t inertia =

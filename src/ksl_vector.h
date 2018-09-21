@@ -151,6 +151,10 @@ typedef union ksl_vec4i_t {
         descriptive name or 3d vector component */
 } ksl_vec4i_t;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 ksl_vec3_t ksl_vec3(const double x, const double y, const double z);
 
 ksl_vec3f_t ksl_vec3f(const float x, const float y, const float z);
@@ -320,5 +324,9 @@ void ksl_add_vvzf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
 void ksl_add_vvzinv(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
 
 void ksl_add_vvzinvf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

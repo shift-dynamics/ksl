@@ -22,7 +22,7 @@ SUCH DAMAGE.
 #ifndef _KSL_AXIS_H_
 #define _KSL_AXIS_H_
 
-#include "vector.h"
+#include "ksl_vector.h"
 
 typedef enum {
   KSL_AXIS_XYZ = 0, // 012
@@ -40,8 +40,16 @@ typedef enum {
   KSL_AXIS_INVALID
 } ksl_axis_enum_t;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 ksl_vec3i_t ksl_axis_getVector(ksl_axis_enum_t axisType);
 
 ksl_axis_enum_t ksl_axis_enumFromChar(const char*);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

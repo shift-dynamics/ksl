@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "coscrew.h"
-#include "screw.h"
+#include "ksl_coscrew.h"
+#include "ksl_screw.h"
 
 START_TEST(test_screw_create) {
   ksl_screw_t s = ksl_screw(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);

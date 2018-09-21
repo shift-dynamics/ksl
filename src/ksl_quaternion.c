@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "quaternion.h"
-#include "util.h"
+#include "ksl_quaternion.h"
+#include "ksl_util.h"
 
 /*!
 @brief allocate memory for n quaternions and set to identity

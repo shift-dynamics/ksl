@@ -34,8 +34,8 @@ SUCH DAMAGE.
 #endif
 #endif
 
-#include "linalg.h"
-#include "util.h"
+#include "ksl_linalg.h"
+#include "ksl_util.h"
 
 /*
 n: Number of entries in two arrays to swap.

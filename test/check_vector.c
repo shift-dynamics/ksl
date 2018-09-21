@@ -7,8 +7,8 @@
 #include <stdio.h>
 #include <time.h>
 
-#include "util.h"
-#include "vector.h"
+#include "ksl_util.h"
+#include "ksl_vector.h"
 
 START_TEST(test_vec3_create) {
   ksl_vec3_t v = ksl_vec3(1.0, 2.0, 3.0);

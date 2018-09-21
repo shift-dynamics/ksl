@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "coscrew.h"
-#include "matrix.h"
-#include "screw.h"
-#include "vector.h"
+#include "ksl_coscrew.h"
+#include "ksl_matrix.h"
+#include "ksl_screw.h"
+#include "ksl_vector.h"
 
 ksl_coscrew_t ksl_coscrew(const double m0, const double m1, const double m2,
                           const double m3, const double m4, const double m5) {

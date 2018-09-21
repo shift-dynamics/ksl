@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "linalg.h"
-#include "util.h"
+#include "ksl_linalg.h"
+#include "ksl_util.h"
 
 static FILE* dbg;
 

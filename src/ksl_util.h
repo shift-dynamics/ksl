@@ -27,6 +27,10 @@ SUCH DAMAGE.
 #include <stdio.h>
 #include <string.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void ksl_swap(double* a, double* b);
 
 void ksl_swapf(float* a, float* b);
@@ -64,5 +68,9 @@ void ksl_arraylerp(const int count, const double p, const double* y1i,
 
 void ksl_arraylerpf(const int count, const float p, const float* y1i,
                     const float* y2i, float* yo);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

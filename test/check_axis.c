@@ -3,7 +3,7 @@
 #include <check.h>
 #include <stdlib.h>
 
-#include "axis.h"
+#include "ksl_axis.h"
 
 START_TEST(test_axis_create) {
   ksl_vec3i_t axis = ksl_axis_getVector(KSL_AXIS_XYZ);

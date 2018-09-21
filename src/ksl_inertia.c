@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "inertia.h"
-#include "util.h"
+#include "ksl_inertia.h"
+#include "ksl_util.h"
 
 ksl_inertia_t ksl_inertia(const double m, const ksl_vec3_t t, const double Ixx,
                           const double Iyy, const double Izz, const double Ixy,

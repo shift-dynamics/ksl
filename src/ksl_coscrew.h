@@ -22,7 +22,7 @@ SUCH DAMAGE.
 #ifndef _KSL_COSCREW_H_
 #define _KSL_COSCREW_H_
 
-#include "matrix.h"
+#include "ksl_matrix.h"
 
 /*!
 @brief double precision coscrew (i.e. a linear operator on a screw), consisting
@@ -65,6 +65,10 @@ typedef union ksl_coscrewf_t {
     float m0, m1, m2, m3, m4, m5;
   }; /*!< anonymous union allows accessing coscrew quantities by field name */
 } ksl_coscrewf_t;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*!
 @brief double precision screw constructor
@@ -672,5 +676,9 @@ void ksl_product_CoAdcinv(const ksl_SE3_t* Di, const ksl_coscrew_t* ci,
 
 void ksl_product_CoAdcinvf(const ksl_SE3f_t* Di, const ksl_coscrewf_t* ci,
                            ksl_coscrewf_t* co);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -22,8 +22,12 @@ SUCH DAMAGE.
 #ifndef _KSL_LINALG_H_
 #define _KSL_LINALG_H_
 
-#include "matrix.h"
-#include "vector.h"
+#include "ksl_matrix.h"
+#include "ksl_vector.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void ksl_linalg_gramSchmidt(double* A, int m, int n);
 
@@ -113,5 +117,9 @@ void ksl_linalg_cholesky_solve_cmo(const double* A, const double* b, double* x,
                                    const int n);
 
 int ksl_linalg_symmetricMatrixInverse_cmo(double* A, const int n);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -26,11 +26,11 @@ SUCH DAMAGE.
 #include <stdbool.h>
 #include <stdio.h>
 
-#include "inertia.h"
-#include "matrix.h"
-#include "quaternion.h"
-#include "screw.h"
-#include "vector.h"
+#include "ksl_inertia.h"
+#include "ksl_matrix.h"
+#include "ksl_quaternion.h"
+#include "ksl_screw.h"
+#include "ksl_vector.h"
 
 typedef enum ksl_print_breakBetweenLines_enum_t {
   KSL_NO_BREAK_BETWEEN_LINES = 0,
@@ -55,6 +55,10 @@ typedef struct ksl_print_options_t {
   /*!< default: KSL_BREAK_BETWEEN_LINES */
   ksl_matrix_enum_t print_row_column_major; /*!< default: KSL_ROW_MAJOR */
 } ksl_print_options_t;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void ksl_print_setDefaultOptions();
 
@@ -887,5 +891,9 @@ global print options.
   { ksl_inertia_printWithOptions(f, m, ##__VA_ARGS__, NULL, NULL); }
 
 void ksl_inertia_printWithOptions(FILE* f, const ksl_inertia_t* m, ...);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

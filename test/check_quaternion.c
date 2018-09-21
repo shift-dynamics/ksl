@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <time.h>
 
-#include "quaternion.h"
+#include "ksl_quaternion.h"
 
 START_TEST(test_quaternion_create) {
   ksl_quaternion_t q = {{1.0, 2.0, 3.0, 4.0}};

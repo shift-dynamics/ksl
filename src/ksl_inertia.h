@@ -20,8 +20,8 @@ SUCH DAMAGE.
 #ifndef _KSL_INERTIA_H_
 #define _KSL_INERTIA_H_
 
-#include "matrix.h"
-#include "vector.h"
+#include "ksl_matrix.h"
+#include "ksl_vector.h"
 
 /*!
 @brief double precision mass and inertia properties
@@ -110,6 +110,10 @@ typedef union ksl_inertiaf_t {
   }; /*!< anonymous union allows accessing inertial quantities by alternative
         field name */
 } ksl_inertiaf_t;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*!
 @brief double precision spatial inertia matrix constructor
@@ -366,4 +370,9 @@ inertia matrix is overwritten with its factors
   @return rank of inertia matrix
 */
 int ksl_inertiaf_factor(ksl_inertiaf_t*);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif

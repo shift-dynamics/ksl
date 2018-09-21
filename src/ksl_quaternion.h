@@ -22,8 +22,8 @@ SUCH DAMAGE.
 #ifndef _KSL_QUATERNION_H_
 #define _KSL_QUATERNION_H_
 
-#include "matrix.h"
-#include "vector.h"
+#include "ksl_matrix.h"
+#include "ksl_vector.h"
 
 /*!
 @brief double precision quaternion data structure
@@ -60,6 +60,10 @@ typedef union ksl_quaternionf_t {
     float w;
   };
 } ksl_quaternionf_t;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 ksl_quaternion_t* ksl_quaternion_alloc(int);
 
@@ -332,5 +336,9 @@ void ksl_product_vqconjf(const ksl_vec3f_t* vi, const ksl_quaternionf_t* qi,
 void ksl_quaternion_product_uqinverseq(ksl_quaternion_t* q1i,
                                        ksl_quaternion_t* q2i,
                                        ksl_quaternion_t* qo);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

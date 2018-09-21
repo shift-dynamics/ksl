@@ -24,7 +24,7 @@ SUCH DAMAGE.
 
 #include <stdarg.h>
 
-#include "axis.h"
+#include "ksl_axis.h"
 
 typedef enum ksl_matrix_enum_t {
   KSL_ROW_MAJOR,
@@ -413,6 +413,10 @@ typedef union ksl_SE3f_t {
   }; /*!< anonymous union allows accessing columns of rotation
       matrix quantities at specified index */
 } ksl_SE3f_t;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*!
 @brief ksl_SE3_t constructor.
@@ -1707,5 +1711,9 @@ void ksl_product_ddinv(const ksl_SE3_t* D1i, const ksl_SE3_t* D2i,
 */
 void ksl_product_ddinvf(const ksl_SE3f_t* D1i, const ksl_SE3f_t* D2i,
                         ksl_SE3f_t* Do);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

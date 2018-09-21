@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "matrix.h"
-#include "util.h"
+#include "ksl_matrix.h"
+#include "ksl_util.h"
 
 inline ksl_SE3_t ksl_SE3(const double m00, const double m01, const double m02,
                          const double m03, const double m10, const double m11,

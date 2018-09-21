@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "matrix.h"
-#include "print.h"
+#include "ksl_matrix.h"
+#include "ksl_print.h"
 
 START_TEST(test_matrix_SE3) {
   ksl_SE3_t* D = ksl_SE3_alloc(3);
