@@ -19,6 +19,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef _KSL_COSCREW_H_
 #define _KSL_COSCREW_H_
 
@@ -672,5 +676,9 @@ void ksl_product_CoAdcinv(const ksl_SE3_t* Di, const ksl_coscrew_t* ci,
 
 void ksl_product_CoAdcinvf(const ksl_SE3f_t* Di, const ksl_coscrewf_t* ci,
                            ksl_coscrewf_t* co);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

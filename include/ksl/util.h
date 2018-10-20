@@ -18,6 +18,9 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
 */
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifndef _KSL_UTIL_H_
 #define _KSL_UTIL_H_
@@ -64,5 +67,9 @@ void ksl_arraylerp(const int count, const double p, const double* y1i,
 
 void ksl_arraylerpf(const int count, const float p, const float* y1i,
                     const float* y2i, float* yo);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

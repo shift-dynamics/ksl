@@ -19,6 +19,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef _KSL_AXIS_H_
 #define _KSL_AXIS_H_
 
@@ -43,5 +47,9 @@ typedef enum {
 ksl_vec3i_t ksl_axis_getVector(ksl_axis_enum_t axisType);
 
 ksl_axis_enum_t ksl_axis_enumFromChar(const char*);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

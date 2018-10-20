@@ -18,6 +18,9 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
 */
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifndef _KSL_LINALG_H_
 #define _KSL_LINALG_H_
@@ -113,5 +116,9 @@ void ksl_linalg_cholesky_solve_cmo(const double* A, const double* b, double* x,
                                    const int n);
 
 int ksl_linalg_symmetricMatrixInverse_cmo(double* A, const int n);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

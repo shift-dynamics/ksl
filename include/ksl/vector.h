@@ -19,6 +19,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef _KSL_VECTOR_H_
 #define _KSL_VECTOR_H_
 
@@ -320,5 +324,9 @@ void ksl_add_vvzf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
 void ksl_add_vvzinv(const ksl_vec3_t* t1i, const double t2i, ksl_vec3_t* to);
 
 void ksl_add_vvzinvf(const ksl_vec3f_t* t1i, const float t2i, ksl_vec3f_t* to);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

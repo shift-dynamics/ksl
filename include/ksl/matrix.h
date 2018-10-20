@@ -18,6 +18,9 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
 */
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifndef _KSL_MATRIX_H_
 #define _KSL_MATRIX_H_
@@ -1707,5 +1710,9 @@ void ksl_product_ddinv(const ksl_SE3_t* D1i, const ksl_SE3_t* D2i,
 */
 void ksl_product_ddinvf(const ksl_SE3f_t* D1i, const ksl_SE3f_t* D2i,
                         ksl_SE3f_t* Do);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

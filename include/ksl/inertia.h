@@ -17,6 +17,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef _KSL_INERTIA_H_
 #define _KSL_INERTIA_H_
 
@@ -366,4 +370,9 @@ inertia matrix is overwritten with its factors
   @return rank of inertia matrix
 */
 int ksl_inertiaf_factor(ksl_inertiaf_t*);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif

@@ -19,6 +19,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef _KSL_PRINT_H_
 #define _KSL_PRINT_H_
 
@@ -887,5 +891,9 @@ global print options.
   { ksl_inertia_printWithOptions(f, m, ##__VA_ARGS__, NULL, NULL); }
 
 void ksl_inertia_printWithOptions(FILE* f, const ksl_inertia_t* m, ...);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

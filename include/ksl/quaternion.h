@@ -18,6 +18,9 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
 */
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifndef _KSL_QUATERNION_H_
 #define _KSL_QUATERNION_H_
@@ -332,5 +335,9 @@ void ksl_product_vqconjf(const ksl_vec3f_t* vi, const ksl_quaternionf_t* qi,
 void ksl_quaternion_product_uqinverseq(ksl_quaternion_t* q1i,
                                        ksl_quaternion_t* q2i,
                                        ksl_quaternion_t* qo);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
