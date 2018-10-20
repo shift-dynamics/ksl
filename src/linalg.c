@@ -19,6 +19,7 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
 */
+
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -34,8 +35,8 @@ SUCH DAMAGE.
 #endif
 #endif
 
-#include "linalg.h"
-#include "util.h"
+#include "ksl/linalg.h"
+#include "ksl/util.h"
 
 /*
 n: Number of entries in two arrays to swap.

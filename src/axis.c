@@ -1,5 +1,5 @@
-#include "axis.h"
-#include "vector.h"
+#include "ksl/axis.h"
+#include "ksl/vector.h"
 
 /*!
 @brief convert ksl_axis_enum_t to a vector of ints

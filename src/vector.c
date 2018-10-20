@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "vector.h"
+#include "ksl/vector.h"
 
 /*!
 @brief vec3 constructor

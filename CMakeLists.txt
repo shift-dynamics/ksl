@@ -25,7 +25,7 @@ add_definitions(-ftree-vectorizer-verbose=7)
 add_definitions(-fopt-info)
 add_definitions(-Wextra)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # build ksl static library
 add_library(ksl STATIC

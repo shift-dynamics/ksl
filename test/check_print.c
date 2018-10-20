@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "ksl.h"
+#include "ksl/ksl.h"
 
 static FILE* f;
 

@@ -1,7 +1,8 @@
-#include "coscrew.h"
-#include "matrix.h"
-#include "screw.h"
-#include <print.h>
+#include "ksl/coscrew.h"
+#include "ksl/matrix.h"
+#include "ksl/screw.h"
+#include "ksl/print.h"
+
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stdlib.h>
