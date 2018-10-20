@@ -13,16 +13,16 @@ extern "C" {
 
 #include <assert.h>
 
-#include "axis.h"
-#include "coscrew.h"
-#include "inertia.h"
-#include "linalg.h"
-#include "matrix.h"
-#include "print.h"
-#include "quaternion.h"
-#include "screw.h"
-#include "util.h"
-#include "vector.h"
+#include "ksl/axis.h"
+#include "ksl/coscrew.h"
+#include "ksl/inertia.h"
+#include "ksl/linalg.h"
+#include "ksl/matrix.h"
+#include "ksl/print.h"
+#include "ksl/quaternion.h"
+#include "ksl/screw.h"
+#include "ksl/util.h"
+#include "ksl/vector.h"
 
 #endif
 
