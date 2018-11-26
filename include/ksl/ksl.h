@@ -4,12 +4,12 @@ KSL: Kinematics Subroutine Library
 @copyright Kristopher Wehage, Roger Wehage
 */
 
+#ifndef _KSL_H_
+#define _KSL_H_
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#ifndef _KSL_H_
-#define _KSL_H_
 
 #include <assert.h>
 
@@ -24,8 +24,8 @@ extern "C" {
 #include "ksl/util.h"
 #include "ksl/vector.h"
 
-#endif
-
 #ifdef __cplusplus
 }
+#endif
+
 #endif

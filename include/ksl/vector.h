@@ -18,13 +18,12 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
 */
+#ifndef _KSL_VECTOR_H_
+#define _KSL_VECTOR_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#ifndef _KSL_VECTOR_H_
-#define _KSL_VECTOR_H_
 
 /*!
 @brief 3 dimensional double precision vector
