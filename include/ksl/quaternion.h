@@ -21,12 +21,12 @@ SUCH DAMAGE.
 #ifndef _KSL_QUATERNION_H_
 #define _KSL_QUATERNION_H_
 
+#include "matrix.h"
+#include "vector.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#include "matrix.h"
-#include "vector.h"
 
 /*!
 @brief double precision quaternion data structure

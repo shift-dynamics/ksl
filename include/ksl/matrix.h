@@ -22,13 +22,13 @@ SUCH DAMAGE.
 #ifndef _KSL_MATRIX_H_
 #define _KSL_MATRIX_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include <stdarg.h>
 
 #include "axis.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef enum ksl_matrix_enum_t {
   KSL_ROW_MAJOR,

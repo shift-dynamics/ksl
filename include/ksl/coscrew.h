@@ -21,11 +21,11 @@ SUCH DAMAGE.
 #ifndef _KSL_COSCREW_H_
 #define _KSL_COSCREW_H_
 
+#include "matrix.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#include "matrix.h"
 
 /*!
 @brief double precision coscrew (i.e. a linear operator on a screw), consisting

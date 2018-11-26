@@ -21,11 +21,11 @@ SUCH DAMAGE.
 #ifndef _KSL_AXIS_H_
 #define _KSL_AXIS_H_
 
+#include "vector.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#include "vector.h"
 
 typedef enum {
   KSL_AXIS_XYZ = 0, // 012

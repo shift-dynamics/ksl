@@ -21,11 +21,11 @@ SUCH DAMAGE.
 #ifndef _KSL_SCREW_H_
 #define _KSL_SCREW_H_
 
+#include "matrix.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#include "matrix.h"
 
 typedef union ksl_coscrew_t ksl_coscrew_t;
 typedef union ksl_coscrewf_t ksl_coscrewf_t;
