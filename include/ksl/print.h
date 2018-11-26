@@ -21,10 +21,6 @@ SUCH DAMAGE.
 #ifndef _KSL_PRINT_H_
 #define _KSL_PRINT_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -34,6 +30,10 @@ extern "C" {
 #include "quaternion.h"
 #include "screw.h"
 #include "vector.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef enum ksl_print_breakBetweenLines_enum_t {
   KSL_NO_BREAK_BETWEEN_LINES = 0,

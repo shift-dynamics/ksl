@@ -21,12 +21,12 @@ SUCH DAMAGE.
 #ifndef _KSL_LINALG_H_
 #define _KSL_LINALG_H_
 
+#include "matrix.h"
+#include "vector.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#include "matrix.h"
-#include "vector.h"
 
 void ksl_linalg_gramSchmidt(double* A, int m, int n);
 

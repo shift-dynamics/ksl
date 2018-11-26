@@ -7,10 +7,6 @@ KSL: Kinematics Subroutine Library
 #ifndef _KSL_H_
 #define _KSL_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include <assert.h>
 
 #include "ksl/axis.h"
@@ -23,9 +19,5 @@ extern "C" {
 #include "ksl/screw.h"
 #include "ksl/util.h"
 #include "ksl/vector.h"
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif

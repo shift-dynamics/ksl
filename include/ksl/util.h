@@ -21,14 +21,14 @@ SUCH DAMAGE.
 #ifndef _KSL_UTIL_H_
 #define _KSL_UTIL_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void ksl_swap(double* a, double* b);
 
