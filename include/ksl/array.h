@@ -18,8 +18,8 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
 */
-#ifndef _KSL_UTIL_H_
-#define _KSL_UTIL_H_
+#ifndef _KSL_ARRAY_H_
+#define _KSL_ARRAY_H_
 
 #include <math.h>
 #include <stdbool.h>
@@ -36,22 +36,6 @@ void ksl_swapf(float* a, float* b);
 
 void ksl_swapi(int* a, int* b);
 
-double ksl_normalizeDegrees(double angle);
-
-float ksl_normalizeDegreesf(float angle);
-
-double ksl_normalizeRadians(double angle);
-
-float ksl_normalizeRadiansf(float angle);
-
-double catan2pi(const double y, const double x, double theta);
-
-float catan2pif(const float y, const float x, float theta);
-
-double catan1pi(const double y, const double x, double theta);
-
-float catan1pif(const float y, const float x, float theta);
-
 void ksl_axpy(const int, const double, const double*, double*);
 
 void ksl_axpyf(const int, const float, const float*, float*);
@@ -67,6 +51,11 @@ void ksl_arraylerp(const int count, const double p, const double* y1i,
 
 void ksl_arraylerpf(const int count, const float p, const float* y1i,
                     const float* y2i, float* yo);
+
+int ksl_maxIndex(const int n, const double* a);
+
+void ksl_swapArray(const int n, double* a, const int a_stride, double* b,
+                   const int b_stride);
 
 #ifdef __cplusplus
 }

@@ -3,7 +3,7 @@
 #include <check.h>
 #include <stdlib.h>
 
-#include "ksl/util.h"
+#include "ksl/array.h"
 
 START_TEST(test_util_swap) {
   double a = 4.0;

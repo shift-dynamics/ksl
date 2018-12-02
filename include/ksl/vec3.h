@@ -18,8 +18,8 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
 */
-#ifndef _KSL_VECTOR_H_
-#define _KSL_VECTOR_H_
+#ifndef _KSL_VEC3_H_
+#define _KSL_VEC3_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -73,100 +73,11 @@ typedef union ksl_vec3i_t {
       */
 } ksl_vec3i_t;
 
-/*!
-@brief double precision 4x1 vector representing a 3x1 vector
-with a homogeneous coordinate (w) appended.
-
-Typically used for nonlinear transformations such as camera projections.
-*/
-typedef union ksl_vec4_t {
-  struct {
-    double at[4];
-  }; /*!< anonymous union allows accessing vector quantities at specified index
-      */
-  struct {
-    union {
-      struct {
-        ksl_vec3_t r;
-      }; /*!< anonymous union allows accessing 3d vector component of 4d vector
-          */
-      struct {
-        double x;
-        double y;
-        double z;
-      }; /*!< anonymous union allows x, y, z vector component of 4d vector by
-            descriptive name*/
-    };
-    double w; /*!< homogeneous coordinate of 4d vector */
-  }; /*!< anonymous union allows x, y, z, w vector components of 4d vector by
-        descriptive name or 3d vector component */
-} ksl_vec4_t;
-
-/*!
-@brief single precision 4x1 vector representing a 3x1 vector
-with a homogeneous coordinate (w) appended.
-
-Typically used for nonlinear transformations such as camera projections.
-*/
-typedef union ksl_vec4f_t {
-  struct {
-    float at[4];
-  }; /*!< anonymous union allows accessing vector quantities at specified index
-      */
-  struct {
-    union {
-      struct {
-        ksl_vec3f_t r;
-      }; /*!< anonymous union allows accessing 3d vector component of 4d vector
-          */
-      struct {
-        float x;
-        float y;
-        float z;
-      }; /*!< anonymous union allows x, y, z vector component of 4d vector by
-           descriptive name*/
-    };
-    float w; /*!< homogeneous coordinate of 4d vector */
-  }; /*!< anonymous union allows x, y, z, w vector components of 4d vector by
-        descriptive name or 3d vector component */
-} ksl_vec4f_t;
-
-typedef union ksl_vec4i_t {
-  struct {
-    int at[4];
-  }; /*!< anonymous union allows accessing vector quantities at specified index
-      */
-  struct {
-    union {
-      struct {
-        ksl_vec3i_t r;
-      }; /*!< anonymous union allows accessing 3d vector component of 4d vector
-          */
-      struct {
-        int x;
-        int y;
-        int z;
-      }; /*!< anonymous union allows x, y, z vector component of 4d vector by
-           descriptive name*/
-    };
-    int w; /*!< homogeneous coordinate of 4d vector */
-  }; /*!< anonymous union allows x, y, z, w vector components of 4d vector by
-        descriptive name or 3d vector component */
-} ksl_vec4i_t;
-
 ksl_vec3_t ksl_vec3(const double x, const double y, const double z);
 
 ksl_vec3f_t ksl_vec3f(const float x, const float y, const float z);
 
 ksl_vec3i_t ksl_vec3i(const int x, const int y, const int z);
-
-ksl_vec4i_t ksl_vec4i(const int x, const int y, const int z, const int w);
-
-ksl_vec4_t ksl_vec4(const double x, const double y, const double z,
-                    const double w);
-
-ksl_vec4f_t ksl_vec4f(const float x, const float y, const float z,
-                      const float w);
 
 ksl_vec3_t* ksl_vec3_alloc(int);
 
@@ -174,67 +85,33 @@ ksl_vec3f_t* ksl_vec3f_alloc(int);
 
 ksl_vec3i_t* ksl_vec3i_alloc(int);
 
-ksl_vec4_t* ksl_vec4_alloc(int);
-
-ksl_vec4f_t* ksl_vec4f_alloc(int);
-
-ksl_vec4i_t* ksl_vec4i_alloc(int);
-
 double ksl_vec3_l2norm(const ksl_vec3_t* v);
 
 float ksl_vec3f_l2norm(const ksl_vec3f_t* v);
-
-double ksl_vec4_l2norm(const ksl_vec4_t* v);
-
-float ksl_vec4f_l2norm(const ksl_vec4f_t* v);
 
 void ksl_vec3_normalize(ksl_vec3_t* v);
 
 void ksl_vec3f_normalize(ksl_vec3f_t* v);
 
-void ksl_vec4_normalize(ksl_vec4_t* v);
-
-void ksl_vec4f_normalize(ksl_vec4f_t* v);
-
 void ksl_vec3_normalized(const ksl_vec3_t* v, ksl_vec3_t* vo);
 
 void ksl_vec3f_normalized(const ksl_vec3f_t* v, ksl_vec3f_t* vo);
-
-void ksl_vec4_normalized(const ksl_vec4_t* v, ksl_vec4_t* vo);
-
-void ksl_vec4f_normalized(const ksl_vec4f_t* v, ksl_vec4f_t* vo);
 
 void ksl_vec3_scale(ksl_vec3_t* v, const double);
 
 void ksl_vec3f_scale(ksl_vec3f_t* v, const float);
 
-void ksl_vec4_scale(ksl_vec4_t* v, const double);
-
-void ksl_vec4f_scale(ksl_vec4f_t* v, const float);
-
 void ksl_vec3_scaled(const ksl_vec3_t* v, const double, ksl_vec3_t* vo);
 
 void ksl_vec3f_scaled(const ksl_vec3f_t* v, const float, ksl_vec3f_t* vo);
-
-void ksl_vec4_scaled(const ksl_vec4_t* v, const double, ksl_vec4_t* vo);
-
-void ksl_vec4f_scaled(const ksl_vec4f_t* v, const float, ksl_vec4f_t* vo);
 
 void ksl_vec3_copy(const ksl_vec3_t* vi, ksl_vec3_t* vo);
 
 void ksl_vec3f_copy(const ksl_vec3f_t* vi, ksl_vec3f_t* vo);
 
-void ksl_vec4_copy(const ksl_vec4_t* vi, ksl_vec4_t* vo);
-
-void ksl_vec4f_copy(const ksl_vec4f_t* vi, ksl_vec4f_t* vo);
-
 void ksl_vec3_swap(ksl_vec3_t* v1, ksl_vec3_t* v2);
 
 void ksl_vec3f_swap(ksl_vec3f_t* v1, ksl_vec3f_t* v2);
-
-void ksl_vec4_swap(ksl_vec4_t* v1, ksl_vec4_t* v2);
-
-void ksl_vec4f_swap(ksl_vec4f_t* v1, ksl_vec4f_t* v2);
 
 void ksl_vec3_inverted(const ksl_vec3_t* vi, ksl_vec3_t* vo);
 
@@ -243,14 +120,6 @@ void ksl_vec3_invert(ksl_vec3_t* vi);
 void ksl_vec3f_inverted(const ksl_vec3f_t* vi, ksl_vec3f_t* vo);
 
 void ksl_vec3f_invert(ksl_vec3f_t* vi);
-
-void ksl_vec4_inverted(const ksl_vec4_t* vi, ksl_vec4_t* vo);
-
-void ksl_vec4_invert(ksl_vec4_t* vi);
-
-void ksl_vec4f_inverted(const ksl_vec4f_t* vi, ksl_vec4f_t* vo);
-
-void ksl_vec4f_invert(ksl_vec4f_t* vi);
 
 double ksl_dot_vv(const ksl_vec3_t* vi0, const ksl_vec3_t* vi1);
 

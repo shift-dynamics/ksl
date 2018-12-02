@@ -8,3 +8,5 @@
 -Isrc
 -Ibuild
 -Iinclude/ksl
+-Iinclude
+-Iexternal/ksl/include

@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "ksl/SE3.h"
 #include "ksl/coscrew.h"
 #include "ksl/matrix.h"
 #include "ksl/screw.h"
-#include "ksl/vector.h"
+#include "ksl/vec3.h"
 
 ksl_screw_t ksl_screw(const double m0, const double m1, const double m2,
                       const double m3, const double m4, const double m5) {

@@ -9,15 +9,19 @@ KSL: Kinematics Subroutine Library
 
 #include <assert.h>
 
+#include "ksl/SE3.h"
+#include "ksl/array.h"
 #include "ksl/axis.h"
 #include "ksl/coscrew.h"
 #include "ksl/inertia.h"
 #include "ksl/linalg.h"
+#include "ksl/mat3x3.h"
+#include "ksl/mat4x4.h"
 #include "ksl/matrix.h"
 #include "ksl/print.h"
 #include "ksl/quaternion.h"
 #include "ksl/screw.h"
-#include "ksl/util.h"
-#include "ksl/vector.h"
+#include "ksl/vec3.h"
+#include "ksl/vec4.h"
 
 #endif

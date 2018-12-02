@@ -35,41 +35,8 @@ SUCH DAMAGE.
 #endif
 #endif
 
+#include "ksl/array.h"
 #include "ksl/linalg.h"
-#include "ksl/util.h"
-
-/*
-n: Number of entries in two arrays to swap.
-a: First array to swap.
-a_stride: Stride in array a for swap.
-b: Second array to swap.
-b_stride: Stride in array b for swap.
-*/
-
-inline void ksl_swapArray(const int n, double* restrict a, const int a_stride,
-                          double* restrict b, const int b_stride) {
-  for(int i = 0; i < n; i++) {
-    ksl_swap(a + i * a_stride, b + i * b_stride);
-  }
-}
-
-/*
-n: Number of entries in array a.
-a: Array in which to locate index of absolutely largest entry.
-Return index of absolutely largest entry in a.
-*/
-inline int ksl_maxIndex(const int n, const double* restrict a) {
-  register double max = fabs(a[0]);
-  int max_index = 0;
-  for(int i = 1; i < n; i++) {
-    double a_abs = fabs(a[i]);
-    if(a_abs > max) {
-      max_index = i;
-      max = a_abs;
-    }
-  }
-  return max_index;
-}
 
 /*!
 @brief Row Major Order LU Decomposition with complete row and column pivoting

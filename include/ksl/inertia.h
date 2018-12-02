@@ -20,11 +20,16 @@ SUCH DAMAGE.
 #define _KSL_INERTIA_H_
 
 #include "matrix.h"
-#include "vector.h"
+#include "vec3.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+typedef union ksl_mat3x3_t ksl_mat3x3_t;
+typedef union ksl_mat3x3f_t ksl_mat3x3f_t;
+typedef union ksl_SE3_t ksl_SE3_t;
+typedef union ksl_SE3f_t ksl_SE3f_t;
 
 /*!
 @brief double precision mass and inertia properties

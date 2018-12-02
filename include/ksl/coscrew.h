@@ -27,6 +27,9 @@ SUCH DAMAGE.
 extern "C" {
 #endif
 
+typedef union ksl_screw_t ksl_screw_t;
+typedef union ksl_screwf_t ksl_screwf_t;
+
 /*!
 @brief double precision coscrew (i.e. a linear operator on a screw), consisting
 of a linear and angular vector pair in function space.

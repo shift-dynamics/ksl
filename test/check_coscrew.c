@@ -4,8 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "ksl/SE3.h"
 #include "ksl/coscrew.h"
+#include "ksl/mat3x3.h"
 #include "ksl/screw.h"
+#include "ksl/trig.h"
 
 START_TEST(test_coscrew_create) {
   ksl_coscrew_t c = ksl_coscrew(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);

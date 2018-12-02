@@ -21,16 +21,13 @@ SUCH DAMAGE.
 #ifndef _KSL_LINALG_H_
 #define _KSL_LINALG_H_
 
-#include "matrix.h"
-#include "vector.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void ksl_linalg_gramSchmidt(double* A, int m, int n);
+typedef union ksl_mat3x3_t ksl_mat3x3_t;
 
-void ksl_linalg_pca(ksl_mat3x3_t* A, ksl_mat3x3_t* v);
+void ksl_linalg_gramSchmidt(double* A, int m, int n);
 
 void ksl_swapArray(const int n, double* a, const int a_stride, double* b,
                    const int b_stride);

@@ -3,7 +3,6 @@
 #include <string.h>
 
 #include "ksl/quaternion.h"
-#include "ksl/util.h"
 
 /*!
 @brief allocate memory for n quaternions and set to identity

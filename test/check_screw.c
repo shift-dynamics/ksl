@@ -4,7 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "ksl/SE3.h"
 #include "ksl/coscrew.h"
+#include "ksl/mat3x3.h"
+#include "ksl/mat4x4.h"
+#include "ksl/matrix.h"
 #include "ksl/screw.h"
 
 START_TEST(test_screw_create) {

@@ -25,11 +25,13 @@ SUCH DAMAGE.
 #include <stdbool.h>
 #include <stdio.h>
 
+#include "SE3.h"
 #include "inertia.h"
-#include "matrix.h"
+#include "mat3x3.h"
+#include "mat4x4.h"
 #include "quaternion.h"
 #include "screw.h"
-#include "vector.h"
+#include "vec3.h"
 
 #ifdef __cplusplus
 extern "C" {

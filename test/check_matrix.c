@@ -4,8 +4,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "ksl/SE3.h"
+#include "ksl/mat3x3.h"
+#include "ksl/mat4x4.h"
 #include "ksl/matrix.h"
 #include "ksl/print.h"
+#include "ksl/trig.h"
 
 START_TEST(test_matrix_SE3) {
   ksl_SE3_t* D = ksl_SE3_alloc(3);

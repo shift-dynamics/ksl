@@ -19,7 +19,7 @@ target_link_libraries(check_quaternion ksl ${LIBS} ${CHECK_LIBRARIES})
 add_executable(check_screw ${CMAKE_CURRENT_LIST_DIR}/check_screw.c)
 target_link_libraries(check_screw ksl ${LIBS} ${CHECK_LIBRARIES})
 
-add_executable(check_util ${CMAKE_CURRENT_LIST_DIR}/check_util.c)
+add_executable(check_util ${CMAKE_CURRENT_LIST_DIR}/check_array.c)
 target_link_libraries(check_util ksl ${LIBS} ${CHECK_LIBRARIES})
 
 add_executable(check_vector ${CMAKE_CURRENT_LIST_DIR}/check_vector.c)

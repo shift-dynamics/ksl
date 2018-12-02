@@ -30,15 +30,20 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 # build ksl static library
 add_library(ksl STATIC
   ${CMAKE_CURRENT_SOURCE_DIR}/src/axis.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/array.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/coscrew.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/inertia.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/linalg.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/mat3x3.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/mat4x4.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/matrix.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/print.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/quaternion.c
   ${CMAKE_CURRENT_SOURCE_DIR}/src/screw.c
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/util.c
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/vector.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/SE3.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/trig.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/vec3.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/vec4.c
 )
 
 find_library(M_LIB m REQUIRED)
