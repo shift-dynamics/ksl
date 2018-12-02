@@ -4,6 +4,25 @@
 
 #include "ksl/quaternion.h"
 
+/*! constructor for quaternion data structure */
+ksl_quaternion_t ksl_quaternion(double x, double y, double z, double w) {
+  ksl_quaternion_t quaternion;
+  quaternion.x = x;
+  quaternion.y = y;
+  quaternion.z = z;
+  quaternion.w = w;
+  return quaternion;
+}
+
+ksl_quaternionf_t ksl_quaternionf(float x, float y, float z, float w) {
+  ksl_quaternionf_t quaternion;
+  quaternion.x = x;
+  quaternion.y = y;
+  quaternion.z = z;
+  quaternion.w = w;
+  return quaternion;
+}
+
 /*!
 @brief allocate memory for n quaternions and set to identity
 */

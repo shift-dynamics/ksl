@@ -64,6 +64,10 @@ typedef union ksl_quaternionf_t {
   };
 } ksl_quaternionf_t;
 
+ksl_quaternion_t ksl_quaternion(double, double, double, double);
+
+ksl_quaternionf_t ksl_quaternionf(float, float, float, float);
+
 ksl_quaternion_t* ksl_quaternion_alloc(int);
 
 ksl_quaternionf_t* ksl_quaternionf_alloc(int);
