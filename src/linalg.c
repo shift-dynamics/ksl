@@ -39,6 +39,92 @@ SUCH DAMAGE.
 #include "ksl/linalg.h"
 
 /*!
+@brief Function for performing modified double precision Gram-Schmidt
+orthonormalization
+
+This function implements a compact version of the Gram-Schmidt
+algorithm to orthonormalize the columns of a matrix which has
+full column rank. The matrix, whose columns are to be
+orthonormalized, is passed in as A[m][n] where m and n are the
+respective row and column dimensions of A[][]. The
+orthonormalized columns are passed back in A[][].
+
+@param m row dimension
+@param n column dimension
+@param A[m][n] a rectangular matrix to be orthonormalized, the orthonormalized
+               matrix is returned in A
+*/
+void ksl_linalg_gramSchmidt(double* restrict A, const int m, const int n) {
+  for(int k = 0; k < n; k++) {
+#ifdef KSL_WITH_BLAS
+    double R = 1.0 / cblas_dnrm2(m, A + k, n);
+    cblas_dscal(m, R, A + k, n);
+#else
+    double R = 0.0;
+    for(int i = 0; i < m; i++) {
+      R += A[i * n + k] * A[i * n + k];
+    }
+    R = 1.0 / sqrt(R);
+    for(int i = 0; i < m; i++) {
+      A[i * n + k] *= R;
+    }
+#endif
+    for(int j = k + 1; j < n; j++) {
+      R = 0;
+      for(int i = 0; i < m; i++) {
+        R += A[i * n + k] * A[i * n + j];
+      }
+      for(int i = 0; i < m; i++) {
+        A[i * n + j] -= A[i * n + k] * R;
+      }
+    }
+  }
+}
+
+/*!
+@brief Function for performing single precision modified Gram-Schmidt
+orthonormalization
+
+This function implements a compact version of the Gram-Schmidt
+algorithm to orthonormalize the columns of a matrix which has
+full column rank. The matrix, whose columns are to be
+orthonormalized, is passed in as A[m][n] where m and n are the
+respective row and column dimensions of A[][]. The
+orthonormalized columns are passed back in A[][].
+
+@param m row dimension
+@param n column dimension
+@param A[m][n] a rectangular matrix to be orthonormalized, the orthonormalized
+               matrix is returned in A
+*/
+void ksl_linalg_gramSchmidtf(float* restrict A, const int m, const int n) {
+  for(int k = 0; k < n; k++) {
+#ifdef KSL_WITH_BLAS
+    double R = 1.0 / cblas_snrm2(m, A + k, n);
+    cblas_sscal(m, R, A + k, n);
+#else
+    double R = 0.0;
+    for(int i = 0; i < m; i++) {
+      R += A[i * n + k] * A[i * n + k];
+    }
+    R = 1.0 / sqrt(R);
+    for(int i = 0; i < m; i++) {
+      A[i * n + k] *= R;
+    }
+#endif
+    for(int j = k + 1; j < n; j++) {
+      R = 0;
+      for(int i = 0; i < m; i++) {
+        R += A[i * n + k] * A[i * n + j];
+      }
+      for(int i = 0; i < m; i++) {
+        A[i * n + j] -= A[i * n + k] * R;
+      }
+    }
+  }
+}
+
+/*!
 @brief Row Major Order LU Decomposition with complete row and column pivoting
 
 ksl_linalg_lu_full_rmo factors a double precision matrix, A[rowDim * colDim],

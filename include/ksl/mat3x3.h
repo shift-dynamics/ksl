@@ -265,6 +265,14 @@ compiling in release mode using the compiler flag -DNDEBUG.
 */
 void ksl_mat3x3f_set(ksl_mat3x3f_t* R, int row, int column, float value);
 
+void ksl_mat3x3_normalize(ksl_mat3x3_t* R);
+
+void ksl_mat3x3_normalized(const ksl_mat3x3_t* Ri, ksl_mat3x3_t* Ro);
+
+void ksl_mat3x3f_normalize(ksl_mat3x3f_t* R);
+
+void ksl_mat3x3f_normalized(const ksl_mat3x3f_t* Ri, ksl_mat3x3f_t* Ro);
+
 /*!
 @brief TODO document this function
 */

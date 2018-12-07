@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "ksl/linalg.h"
 #include "ksl/mat3x3.h"
 #include "ksl/trig.h"
 
@@ -119,6 +120,26 @@ inline void ksl_mat3x3f_set(ksl_mat3x3f_t* restrict R, int row, int column,
                             float value) {
   assert(row < 3 && column < 3);
   R->at[column][row] = value;
+}
+
+inline void ksl_mat3x3_normalize(ksl_mat3x3_t* restrict R) {
+  ksl_linalg_gramSchmidt(&(R->as_array), 3, 3);
+}
+
+inline void ksl_mat3x3_normalized(const ksl_mat3x3_t* restrict Ri,
+                                  ksl_mat3x3_t* restrict Ro) {
+  ksl_mat3x3_copy(Ri, Ro);
+  ksl_linalg_gramSchmidt(&(Ro->as_array), 3, 3);
+}
+
+inline void ksl_mat3x3f_normalize(ksl_mat3x3f_t* restrict R) {
+  ksl_linalg_gramSchmidtf(&(R->as_array), 3, 3);
+}
+
+inline void ksl_mat3x3f_normalized(const ksl_mat3x3f_t* restrict Ri,
+                                   ksl_mat3x3f_t* restrict Ro) {
+  ksl_mat3x3f_copy(Ri, Ro);
+  ksl_linalg_gramSchmidtf(&(Ro->as_array), 3, 3);
 }
 
 inline void ksl_mat3x3_setFromVectors(ksl_mat3x3_t* restrict R,

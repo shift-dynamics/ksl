@@ -27,7 +27,9 @@ extern "C" {
 
 typedef union ksl_mat3x3_t ksl_mat3x3_t;
 
-void ksl_linalg_gramSchmidt(double* A, int m, int n);
+void ksl_linalg_gramSchmidt(double* A, const int m, const int n);
+
+void ksl_linalg_gramSchmidtf(float* A, const int m, const int n);
 
 void ksl_swapArray(const int n, double* a, const int a_stride, double* b,
                    const int b_stride);
