@@ -21,6 +21,8 @@ SUCH DAMAGE.
 #ifndef _KSL_VEC3_H_
 #define _KSL_VEC3_H_
 
+#include <stdbool.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -84,6 +86,8 @@ ksl_vec3_t* ksl_vec3_alloc(int);
 ksl_vec3f_t* ksl_vec3f_alloc(int);
 
 ksl_vec3i_t* ksl_vec3i_alloc(int);
+
+bool ksl_vec3i_isEqual(const ksl_vec3i_t* v1, const ksl_vec3i_t* v2);
 
 double ksl_vec3_l2norm(const ksl_vec3_t* v);
 

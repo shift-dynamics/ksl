@@ -104,7 +104,6 @@ bool ksl_allclosei(const int count, const int* restrict a1,
 
   for(int i = 0; i < count; i++) {
     if(a1[i] != a2[i]) {
-      fprintf(stdout, "match failed at index: %d\n", i);
       return false;
     }
   }

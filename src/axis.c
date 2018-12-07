@@ -1,3 +1,6 @@
+#include <stdbool.h>
+
+#include "ksl/array.h"
 #include "ksl/axis.h"
 
 /*!
@@ -43,5 +46,23 @@ ksl_vec3i_t ksl_axis_getVector(ksl_axis_enum_t axisType) {
       return ksl_vec3i(2, 1, 2);
     }
     default: { return ksl_vec3i(0, 1, 2); }
+  }
+}
+
+ksl_axis_enum_t ksl_axis_getEulerAngles(ksl_vec3i_t angles) {
+  int valid_angles[12][3] = {{0, 1, 2}, {1, 2, 0}, {2, 0, 1}, {0, 2, 1},
+                             {1, 0, 2}, {2, 1, 0}, {0, 1, 0}, {0, 2, 0},
+                             {1, 0, 1}, {1, 2, 1}, {2, 0, 2}, {2, 1, 2}};
+  int match = -1;
+  for(int i = 0; i < 12; i++) {
+    if(ksl_vec3i_isEqual(&angles, &valid_angles[i])) {
+      match = i;
+      break;
+    }
+  }
+  if(match > -1) {
+    return match;
+  } else {
+    return KSL_AXIS_INVALID;
   }
 }

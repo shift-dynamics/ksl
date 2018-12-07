@@ -60,6 +60,14 @@ inline ksl_vec3i_t* ksl_vec3i_alloc(int n) {
   return calloc(n, sizeof(ksl_vec3i_t));
 }
 
+bool ksl_vec3i_isEqual(const ksl_vec3i_t* v1, const ksl_vec3i_t* v2) {
+  if(v1->x == v2->x && v1->y == v2->y && v1->z == v2->z) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 /*!
 @brief compute the norm of a double precision vector
 */

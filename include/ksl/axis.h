@@ -45,7 +45,7 @@ typedef enum {
 
 ksl_vec3i_t ksl_axis_getVector(ksl_axis_enum_t axisType);
 
-ksl_axis_enum_t ksl_axis_enumFromChar(const char*);
+ksl_axis_enum_t ksl_axis_getEulerAngles(ksl_vec3i_t angles);
 
 #ifdef __cplusplus
 }

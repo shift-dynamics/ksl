@@ -4,8 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "ksl/array.h"
 #include "ksl/linalg.h"
 #include "ksl/mat3x3.h"
+#include "ksl/matrix.h"
 #include "ksl/trig.h"
 
 inline ksl_mat3x3_t ksl_mat3x3(const double m00, const double m01,
