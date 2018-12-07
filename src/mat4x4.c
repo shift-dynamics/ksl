@@ -173,6 +173,38 @@ inline ksl_mat4x4f_t ksl_mat4x4f_fromSE3f(const ksl_SE3f_t D) {
   return m;
 }
 
+inline void ksl_mat4x4f_toSE3(const ksl_mat4x4_t* restrict M,
+                              ksl_SE3_t* restrict D) {
+  D->m00 = M->m00;
+  D->m01 = M->m01;
+  D->m02 = M->m02;
+  D->m03 = M->m03;
+  D->m10 = M->m10;
+  D->m11 = M->m11;
+  D->m12 = M->m12;
+  D->m13 = M->m13;
+  D->m20 = M->m20;
+  D->m21 = M->m21;
+  D->m22 = M->m22;
+  D->m23 = M->m23;
+}
+
+inline void ksl_mat4x4f_toSE3f(const ksl_mat4x4f_t* restrict M,
+                               ksl_SE3f_t* restrict D) {
+  D->m00 = M->m00;
+  D->m01 = M->m01;
+  D->m02 = M->m02;
+  D->m03 = M->m03;
+  D->m10 = M->m10;
+  D->m11 = M->m11;
+  D->m12 = M->m12;
+  D->m13 = M->m13;
+  D->m20 = M->m20;
+  D->m21 = M->m21;
+  D->m22 = M->m22;
+  D->m23 = M->m23;
+}
+
 inline ksl_mat4x4f_t ksl_mat4x4f_fromRt(const ksl_mat3x3f_t R,
                                         const ksl_vec3f_t t) {
   ksl_mat4x4f_t m;

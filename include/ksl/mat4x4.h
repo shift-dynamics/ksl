@@ -180,6 +180,9 @@ datastructure from a ksl_SE3_t datastructure.
 */
 ksl_mat4x4_t ksl_mat4x4_fromSE3(const ksl_SE3_t D);
 
+void ksl_mat4x4f_toSE3(const ksl_mat4x4_t* M, ksl_SE3_t* D);
+
+void ksl_mat4x4f_toSE3f(const ksl_mat4x4f_t* M, ksl_SE3f_t* D);
 /*!
 @brief alternative ksl_mat4x4_t constructor that allows creating a ksl_mat4x4_t
 datastructure from ksl_mat3x3_t and ksl_vec3_t datastructures.
