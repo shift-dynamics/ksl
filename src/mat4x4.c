@@ -173,8 +173,8 @@ inline ksl_mat4x4f_t ksl_mat4x4f_fromSE3f(const ksl_SE3f_t D) {
   return m;
 }
 
-inline void ksl_mat4x4f_toSE3(const ksl_mat4x4_t* restrict M,
-                              ksl_SE3_t* restrict D) {
+inline void ksl_mat4x4_toSE3(const ksl_mat4x4_t* restrict M,
+                             ksl_SE3_t* restrict D) {
   D->m00 = M->m00;
   D->m01 = M->m01;
   D->m02 = M->m02;

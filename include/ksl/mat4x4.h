@@ -180,7 +180,7 @@ datastructure from a ksl_SE3_t datastructure.
 */
 ksl_mat4x4_t ksl_mat4x4_fromSE3(const ksl_SE3_t D);
 
-void ksl_mat4x4f_toSE3(const ksl_mat4x4_t* M, ksl_SE3_t* D);
+void ksl_mat4x4_toSE3(const ksl_mat4x4_t* M, ksl_SE3_t* D);
 
 void ksl_mat4x4f_toSE3f(const ksl_mat4x4f_t* M, ksl_SE3f_t* D);
 /*!
