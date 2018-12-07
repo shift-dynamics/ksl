@@ -88,8 +88,8 @@ Add assert(norm) > unit roundoff to avoid division by zero.
 
 @param qi quaternion to normalize.
 */
-inline void ksl_normalize(ksl_quaternion_t* restrict qi) {
-  register double norm = sqrt(ksl_quaternion_dot_qq(qi, qi));
+inline void ksl_quaternion_normalize(ksl_quaternion_t* restrict qi) {
+  register double norm = sqrt(ksl_dot_qq(qi, qi));
   for(int i = 0; i < 4; i++) {
     qi->at[i] /= norm;
   }
@@ -103,7 +103,7 @@ Add assert(norm) > unit roundoff to avoid division by zero.
 
 @param qi euler parameters to normalize
 */
-inline void ksl_normalizef(ksl_quaternionf_t* restrict qi) {
+inline void ksl_quaternionf_normalize(ksl_quaternionf_t* restrict qi) {
   register float norm = sqrt(ksl_dot_qqf(qi, qi));
   for(int i = 0; i < 4; i++) {
     qi->at[i] /= norm;
@@ -366,7 +366,7 @@ The Quaternion will be normalized during conversion.
 inline void ksl_quaternion_toMat3x3(ksl_quaternion_t* restrict qi,
                                     ksl_mat3x3_t* restrict ro) {
 
-  ksl_normalize(qi);
+  ksl_quaternion_normalize(qi);
 
   double w2 = qi->w * qi->w;
   double x2 = qi->x * qi->x;
@@ -412,7 +412,7 @@ The Quaternion will be normalized during conversion.
 */
 inline void ksl_quaternionf_toMat3x3f(ksl_quaternionf_t* restrict qi,
                                       ksl_mat3x3f_t* restrict ro) {
-  ksl_normalizef(qi);
+  ksl_quaternionf_normalize(qi);
 
   float w2 = qi->w * qi->w;
   float x2 = qi->x * qi->x;
