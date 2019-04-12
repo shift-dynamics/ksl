@@ -20,6 +20,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
 */
 
+#include <assert.h>
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -82,8 +83,8 @@ void ksl_linalg_gramSchmidt(double* restrict A, const int m, const int n) {
 }
 
 /*!
-@brief Function for performing single precision modified Gram-Schmidt
-orthonormalization
+@brief Perform modified Gram-Schmidt
+orthonormalization on a single precision matrix
 
 This function implements a compact version of the Gram-Schmidt
 algorithm to orthonormalize the columns of a matrix which has
@@ -659,9 +660,7 @@ A[0:rank-1][0:colDim-1]:
 inline void ksl_linalg_lu_rmo(const int rank, const int colDim,
                               double* restrict A) {
 
-  if(rank > colDim) {
-    // Error message & exit
-  }
+  assert(rank > 0 && rank <= colDim);
 
   /*
     Major loop to factor the matrix.
@@ -698,25 +697,34 @@ k is the column number in UR.
 @param rowDim [in] row dimension of matrix A.
 @param colDim [in] column dimension of matrix A.
 @param rank [in] rank of matrix A.
-@param *A [in/out] matrix with dimensions A[0:rowDim-1][0:colDim-1]:
+@param *A [in/out] row-major ordered matrix with dimensions
+A[0:rowDim-1][0:colDim-1]:
 
 */
-inline void ksl_linalg_lu_setBMatrix_rmo(const int rowDim, const int colDim,
-                                         const int rank, double* restrict A) {
+inline void ksl_linalg_lu_setBMatrix_rmo(const int rank, const int colDim,
+                                         double* restrict A) {
 
-  if(rank > 0 && rank < colDim) {
-    for(int i = rank - 1; i > -1; i--) {   /* rows of B */
-      for(int k = rank; k < colDim; k++) { /* columns of B */
-        double save = 0;
-        for(int j = rank - 1; j > i; j--) { /* columns of Ur */
-          save += A[i * colDim + j] * A[j * colDim + k];
-        }
-        A[i * colDim + k] = (A[i * colDim + k] - save) / A[i * colDim + i];
+  assert(rank > 0 && rank < colDim);
+  for(int i = rank - 1; i > -1; i--) {   /* rows of B */
+    for(int k = rank; k < colDim; k++) { /* columns of B */
+      double save = 0;
+      for(int j = rank - 1; j > i; j--) { /* columns of Ur */
+        save += A[i * colDim + j] * A[j * colDim + k];
       }
+      A[i * colDim + k] = (A[i * colDim + k] - save) / A[i * colDim + i];
     }
-  } else {
-    // Error & do something.
   }
+}
+
+inline double ksl_linalg_lu_infinityNormB_rmo(int rank, int colDim,
+                                              double* restrict A) {
+  double max = 0;
+  for(int i = 0; i < rank; i++) {
+    for(int j = rank; j < colDim; j++) {
+      max = fmax(max, fabs(A[i * colDim + j]));
+    }
+  }
+  return max;
 }
 
 /*!
@@ -939,7 +947,7 @@ ksl_linalg_cholesky_backwardSubstitution_rmo(const double* restrict L,
 }
 
 /*!
-@brief solve the system of equations A * x = b where A is Row Major Order and
+@brief Solve the system of equations A * x = b where A is Row Major Order and
 a symmetric positive definite matrix A
 
 ksl_linalg_ldlt must be called on A prior to calling this function
@@ -963,8 +971,8 @@ inline void ksl_linalg_ldlt_solve_rmo(const double* restrict A,
 }
 
 /*!
-@brief solve the system of equations A * x = b where A is Row Major Order and
-a symmetric positive definite matrix A
+@brief Solve the system of equations A * x = b where A is Row Major Order and
+ symmetric positive definite
 
 ksl_linalg_cholesky must be called on A prior to calling this function
 
@@ -983,8 +991,8 @@ inline void ksl_linalg_cholesky_solve_rmo(const double* restrict A,
 }
 
 /*!
-@brief compute inverse of a symmetric positive definite matrix A
-where A and A_inverse are in Row Major Order.
+@brief Compute inverse of a symmetric positive definite matrix A
+where A is in Row Major Order.
 */
 
 inline int ksl_linalg_symmetricMatrixInverse_rmo(double* restrict A,
@@ -1024,26 +1032,6 @@ inline int ksl_linalg_symmetricMatrixInverse_rmo(double* restrict A,
   }
   return 0;
 }
-
-// inline int ksl_linalg_symmetricMatrixInverse_rmo(double* restrict A, const
-// int n) {
-//   double A_inverse[n * n];
-//   double a[n];
-//
-//   int status = ksl_linalg_ldlt_rmo(A, n);
-//   if(status > 0) {
-//     return status;
-//   }
-//   for(int i = 0; i < n; i++) {
-//     memset(a, 0, n * sizeof(double));
-//     a[i] = 1.0;
-//     ksl_linalg_ldlt_solve_rmo(A, a, &A_inverse[i * n + 0], n);
-//   }
-//   memcpy(A, A_inverse, n * n * sizeof(double));
-//   return 0;
-// }
-
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 /*!
 @brief Column Major Order LU Decomposition with complete row and column pivoting
@@ -1348,10 +1336,9 @@ int ksl_linalg_lu_full_specified_cmo(const int rowDim, const int colDim,
   int pivotCol; /* column with current pivotal element */
   double pivot = 0.0;
   /* current pivotal element, holds the current pivotal element */
-  double tol;                    /* tolerance for checking residual matrix
-                                               infinity norm against */
-  double save;                   /* variable for holding intermediate results*/
-  double size = rowDim * colDim; /*overall size of matrix */
+  double tol;  /* tolerance for checking residual matrix
+                             infinity norm against */
+  double save; /* variable for holding intermediate results*/
 
   /*
     Return failure if a bad row or column dimension was found.
@@ -1960,21 +1947,3 @@ inline int ksl_linalg_symmetricMatrixInverse_cmo(double* restrict A,
   }
   return 0;
 }
-
-// inline int ksl_linalg_symmetricMatrixInverse_cmo(double* restrict A, const
-// int n) {
-//   double A_inverse[n * n];
-//   double a[n];
-//
-//   int status = ksl_linalg_ldlt_cmo(A, n);
-//   if(status > 0) {
-//     return status;
-//   }
-//   for(int i = 0; i < n; i++) {
-//     memset(a, 0, n * sizeof(double));
-//     a[i] = 1.0;
-//     ksl_linalg_ldlt_solve_cmo(A, a, &A_inverse[i * n + 0], n);
-//   }
-//   memcpy(A, A_inverse, n * n * sizeof(double));
-//   return 0;
-// }

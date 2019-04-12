@@ -324,8 +324,8 @@ mass frame c, expressed in body frame j
 @param D_ij [in] transformation from parent reference frame i to child reference
 frame j
 */
-void ksl_inertia_merge(ksl_inertia_t* inertia_i, ksl_vec3_t* t_ic_i,
-                       ksl_inertia_t* inertia_j, const ksl_vec3_t* t_jc_j,
+void ksl_inertia_merge(ksl_inertia_t* inertia_i, const ksl_vec3_t* t_ic_i,
+                       const ksl_inertia_t* inertia_j, const ksl_vec3_t* t_jc_j,
                        const ksl_SE3_t* D_ij);
 
 /*!
@@ -339,9 +339,9 @@ mass frame c, expressed in body frame j
 @param D_ij [in] transformation from parent reference frame i to child reference
 frame j
 */
-void ksl_inertiaf_merge(ksl_inertiaf_t* inertia_i, ksl_vec3f_t* t_ic_i,
-                        ksl_inertiaf_t* inertia_j, const ksl_vec3f_t* t_jc_j,
-                        const ksl_SE3f_t* D_ij);
+void ksl_inertiaf_merge(ksl_inertiaf_t* inertia_i, const ksl_vec3f_t* t_ic_i,
+                        const ksl_inertiaf_t* inertia_j,
+                        const ksl_vec3f_t* t_jc_j, const ksl_SE3f_t* D_ij);
 
 /*!
 @brief factor double precision inertia matrix
