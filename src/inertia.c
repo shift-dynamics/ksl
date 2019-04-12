@@ -300,8 +300,8 @@ inline void ksl_inertiaf_transform(ksl_inertiaf_t* restrict inertia_i,
 }
 
 void ksl_inertia_merge(ksl_inertia_t* restrict inertia_i,
-                       ksl_vec3_t* restrict t_ic_i,
-                       ksl_inertia_t* restrict inertia_j,
+                       const ksl_vec3_t* restrict t_ic_i,
+                       const ksl_inertia_t* restrict inertia_j,
                        const ksl_vec3_t* restrict t_jc_j,
                        const ksl_SE3_t* restrict D_ij) {
 
@@ -352,7 +352,7 @@ void ksl_inertia_merge(ksl_inertia_t* restrict inertia_i,
 
   /* c. transform child body centroidal moment of inertia to new centroid
   (eq. 1.12 (a)) */
-  ksl_inertia_t* M_j_cc_jj = inertia_j;
+  const ksl_inertia_t* M_j_cc_jj = inertia_j;
   ksl_inertia_t M_j_ccbar_temp;
   ksl_inertia_rotated(M_j_cc_jj, &D_ij->R, &M_j_ccbar_temp);
 
@@ -365,8 +365,6 @@ void ksl_inertia_merge(ksl_inertia_t* restrict inertia_i,
   ksl_inertia_t M_j_ccbar;
   ksl_inertia_translated(&M_j_ccbar_temp, &t_ccbar, &M_j_ccbar);
 
-  memset(inertia_j, 0, sizeof(ksl_inertia_t));
-
   inertia_i->m = m_ij;
   inertia_i->Ixx = M_i_ccbar.Ixx + M_j_ccbar.Ixx;
   inertia_i->Iyy = M_i_ccbar.Iyy + M_j_ccbar.Iyy;
@@ -378,8 +376,8 @@ void ksl_inertia_merge(ksl_inertia_t* restrict inertia_i,
 }
 
 void ksl_inertiaf_merge(ksl_inertiaf_t* restrict inertia_i,
-                        ksl_vec3f_t* restrict t_ic_i,
-                        ksl_inertiaf_t* restrict inertia_j,
+                        const ksl_vec3f_t* restrict t_ic_i,
+                        const ksl_inertiaf_t* restrict inertia_j,
                         const ksl_vec3f_t* restrict t_jc_j,
                         const ksl_SE3f_t* restrict D_ij) {
 
@@ -430,7 +428,7 @@ void ksl_inertiaf_merge(ksl_inertiaf_t* restrict inertia_i,
 
   /* c. transform child body centroidal moment of inertia to new centroid
   (eq. 1.12 (a)) */
-  ksl_inertiaf_t* M_j_cc_jj = inertia_j;
+  const ksl_inertiaf_t* M_j_cc_jj = inertia_j;
   ksl_inertiaf_t M_j_ccbar_temp;
   ksl_inertiaf_rotated(M_j_cc_jj, &D_ij->R, &M_j_ccbar_temp);
 
@@ -442,8 +440,6 @@ void ksl_inertiaf_merge(ksl_inertiaf_t* restrict inertia_i,
 
   ksl_inertiaf_t M_j_ccbar;
   ksl_inertiaf_translated(&M_j_ccbar_temp, &t_ccbar, &M_j_ccbar);
-
-  memset(inertia_j, 0, sizeof(ksl_inertiaf_t));
 
   inertia_i->m = m_ij;
   inertia_i->Ixx = M_i_ccbar.Ixx + M_j_ccbar.Ixx;

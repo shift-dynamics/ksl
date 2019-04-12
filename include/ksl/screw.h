@@ -163,6 +163,36 @@ void ksl_screwf_scale(ksl_screwf_t* s, const float a);
 void ksl_screw_copy(const ksl_screw_t* si, ksl_screw_t* so);
 
 /*!
+@brief Copy a double precision screw into a row-major ordered double precision
+array at specified row and column index as a column vector
+*/
+void ksl_screw_copy_rmo(const ksl_screw_t* si, double* A, int rowIndex,
+                        int columnIndex, int stride);
+
+/*!
+@brief Copy a double precision screw into a column-major ordered double
+precision array at specified row and column index as a column vector
+*/
+void ksl_screw_copy_cmo(const ksl_screw_t* si, double* A, int rowIndex,
+                        int columnIndex, int stride);
+
+/*!
+@brief Copy the negative (i.e. inverse) of a double precision screw into a
+row-major ordered double precision array at specified row and column index as a
+column vector
+*/
+void ksl_screw_ncopy_rmo(const ksl_screw_t* si, double* A, int rowIndex,
+                         int columnIndex, int stride);
+
+/*!
+@brief Copy the negative (i..e inverse) of a double precision screw into a
+column-major ordered double precision array at specified row and column index as
+a column vector
+*/
+void ksl_screw_ncopy_cmo(const ksl_screw_t* si, double* A, int rowIndex,
+                         int columnIndex, int stride);
+
+/*!
 @brief Copy single precision ksl_screwf_t si to so.
 
 \f$S_i \rightarrow S_o\f$
@@ -172,6 +202,35 @@ void ksl_screw_copy(const ksl_screw_t* si, ksl_screw_t* so);
 */
 void ksl_screwf_copy(const ksl_screwf_t* si, ksl_screwf_t* so);
 
+/*!
+@brief Copy a single precision screw into a row-major ordered double precision
+array at specified row and column index as a column vector
+*/
+void ksl_screwf_copy_rmo(const ksl_screwf_t* si, float* A, int rowIndex,
+                         int columnIndex, int stride);
+
+/*!
+@brief Copy a single precision screw into a column-major ordered double
+precision array at specified row and column index as a column vector
+*/
+void ksl_screwf_copy_cmo(const ksl_screwf_t* si, float* A, int rowIndex,
+                         int columnIndex, int stride);
+
+/*!
+@brief Copy the negative (i.e. inverse) of a single precision screw into a
+row-major ordered double precision array at specified row and column index as a
+column vector
+*/
+void ksl_screwf_ncopy_rmo(const ksl_screwf_t* si, float* A, int rowIndex,
+                          int columnIndex, int stride);
+
+/*!
+@brief Copy the negative (i.e. inverse) of a single precision screw into a
+column-major ordered double precision array at specified row and column index as
+a column vector
+*/
+void ksl_screwf_ncopy_cmo(const ksl_screwf_t* si, float* A, int rowIndex,
+                          int columnIndex, int stride);
 /*!
 @brief Invert (i.e. negate) a ksl_screw_t in place.
 
