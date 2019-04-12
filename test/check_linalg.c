@@ -126,7 +126,7 @@ START_TEST(test_linalg_lu_full_rmo) {
   /* tol = eps*|A|_infinity */
   double eps = 1e-12;
 
-  ksl_linalg_lu_full_rmo(6, A, eps, pr, pc);
+  ksl_linalg_lu_full_rmo(5, 6, A, eps, pr, pc);
 
   ck_assert(ksl_allclose(30, A, LU));
 }
@@ -271,7 +271,7 @@ START_TEST(test_linalg_lu_setBMatrix_rmo) {
                     0.25,  -1.0 / 3.0, -1,   -6, 1.0 / 3.0,   -1.0 / 3.0,
                     -0.25, 1.0 / 3.0,  -0.5, 0,  0,           0};
 
-  ksl_linalg_lu_setBMatrix_rmo(5, 6, 4, LU);
+  ksl_linalg_lu_setBMatrix_rmo(6, 4, LU);
 
   ck_assert(ksl_allclose(30, LU, LUB));
 }
