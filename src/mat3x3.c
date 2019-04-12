@@ -1151,10 +1151,34 @@ inline void ksl_mat3x3_setFromAxisAngle(ksl_mat3x3_t* restrict r,
   r->m12 = tmp1 - tmp2;
 }
 
+
+inline void ksl_mat3x3_setFromAxisDC(ksl_mat3x3_t* restrict r,
+                                     const ksl_vec3_t* restrict axis,
+                                     const double* dc) {
+  double t = 1.0 - dc[1];
+
+  r->m00 = dc[1] + axis->x * axis->x * t;
+  r->m11 = dc[1] + axis->y * axis->y * t;
+  r->m22 = dc[1] + axis->z * axis->z * t;
+
+  double tmp1 = axis->x * axis->y * t;
+  double tmp2 = axis->z * dc[0];
+  r->m10 = tmp1 + tmp2;
+  r->m01 = tmp1 - tmp2;
+  tmp1 = axis->x * axis->z * t;
+  tmp2 = axis->y * dc[0];
+  r->m20 = tmp1 - tmp2;
+  r->m02 = tmp1 + tmp2;
+  tmp1 = axis->y * axis->z * t;
+  tmp2 = axis->x * dc[0];
+  r->m21 = tmp1 + tmp2;
+  r->m12 = tmp1 - tmp2;
+}
+
+
 inline void ksl_mat3x3f_getAxisAngle(const ksl_mat3x3f_t* restrict r,
                                      ksl_vec3f_t* restrict axis,
                                      float* restrict angle) {
-
   *angle = acos(0.5 * (r->m00 + r->m11 + r->m22 - 1.0));
   if(fabs(sin(*angle)) < 1e-9) {
     /* if m22 == -1, return {1, 0, 0} */
@@ -1176,6 +1200,7 @@ inline void ksl_mat3x3f_getAxisAngle(const ksl_mat3x3f_t* restrict r,
   axis->z = r->m10 - r->m01;
   ksl_vec3f_scale(axis, 1 / (2 * sin(*angle)));
 }
+
 
 inline void ksl_mat3x3f_setFromAxisAngle(ksl_mat3x3f_t* restrict r,
                                          const ksl_vec3f_t* restrict axis,

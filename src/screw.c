@@ -474,6 +474,54 @@ inline void ksl_hsrzinvf(const ksl_SE3f_t* restrict Di,
   ksl_cross_vvf(&Di->t, &hso->ang, &hso->lin);
 }
 
+inline void ksl_hsra(const ksl_SE3_t* restrict Di, const ksl_vec3_t* axis,
+                     ksl_screw_t* restrict hso) {
+  ksl_product_drv(&Di->R, axis, &hso->ang);
+  ksl_cross_vv(&Di->t, &hso->ang, &hso->lin);
+}
+
+inline void ksl_hsrainv(const ksl_SE3_t* restrict Di, const ksl_vec3_t* axis,
+                        ksl_screw_t* restrict hso) {
+  ksl_product_drvinv(&Di->R, axis, &hso->ang);
+  ksl_cross_vv(&Di->t, &hso->ang, &hso->lin);
+}
+
+inline void ksl_hsraf(const ksl_SE3f_t* restrict Di, const ksl_vec3f_t* axis,
+                      ksl_screwf_t* restrict hso) {
+  ksl_product_drvf(&Di->R, axis, &hso->ang);
+  ksl_cross_vvf(&Di->t, &hso->ang, &hso->lin);
+}
+
+inline void ksl_hsrainvf(const ksl_SE3f_t* restrict Di, const ksl_vec3f_t* axis,
+                         ksl_screwf_t* restrict hso) {
+  ksl_product_drvinvf(&Di->R, axis, &hso->ang);
+  ksl_cross_vvf(&Di->t, &hso->ang, &hso->lin);
+}
+
+inline void ksl_hsta(const ksl_SE3_t* restrict Di, const ksl_vec3_t* axis,
+                     ksl_screw_t* restrict hso) {
+  ksl_product_drv(&Di->R, axis, &hso->lin);
+  memset(&hso->ang, 0, 3 * sizeof(double));
+}
+
+inline void ksl_hstainv(const ksl_SE3_t* restrict Di, const ksl_vec3_t* axis,
+                        ksl_screw_t* restrict hso) {
+  ksl_product_drvinv(&Di->R, axis, &hso->lin);
+  memset(&hso->ang, 0, 3 * sizeof(double));
+}
+
+inline void ksl_hstaf(const ksl_SE3f_t* restrict Di, const ksl_vec3f_t* axis,
+                      ksl_screwf_t* restrict hso) {
+  ksl_product_drvf(&Di->R, axis, &hso->lin);
+  memset(&hso->ang, 0, 3 * sizeof(float));
+}
+
+inline void ksl_hstainvf(const ksl_SE3f_t* restrict Di, const ksl_vec3f_t* axis,
+                         ksl_screwf_t* restrict hso) {
+  ksl_product_drvinvf(&Di->R, axis, &hso->lin);
+  memset(&hso->ang, 0, 3 * sizeof(float));
+}
+
 inline void ksl_cross_ss(const ksl_screw_t* restrict s1i,
                          const ksl_screw_t* restrict s2i,
                          ksl_screw_t* restrict so) {

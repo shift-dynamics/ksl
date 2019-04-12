@@ -425,6 +425,18 @@ void ksl_hsryinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 */
 void ksl_hsrz(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
+void ksl_hsra(const ksl_SE3_t* Di, const ksl_vec3_t* axis, ksl_screw_t* ho);
+void ksl_hsrainv(const ksl_SE3_t* Di, const ksl_vec3_t* axis, ksl_screw_t* ho);
+void ksl_hsraf(const ksl_SE3f_t* Di, const ksl_vec3f_t* axis, ksl_screwf_t* ho);
+void ksl_hsrainvf(const ksl_SE3f_t* Di, const ksl_vec3f_t* axis,
+                  ksl_screwf_t* ho);
+void ksl_hsta(const ksl_SE3_t* Di, const ksl_vec3_t* axis, ksl_screw_t* ho);
+void ksl_hstainv(const ksl_SE3_t* Di, const ksl_vec3_t* axis, ksl_screw_t* ho);
+void ksl_hstaf(const ksl_SE3f_t* Di, const ksl_vec3f_t* axis, ksl_screwf_t* ho);
+void ksl_hstainvf(const ksl_SE3f_t* Di, const ksl_vec3f_t* axis,
+                  ksl_screwf_t* ho);
+
+
 /*!
 @brief TODO document this function
 */

@@ -527,11 +527,17 @@ void ksl_product_ddinv(const ksl_SE3_t* D1i, const ksl_SE3_t* D2i,
 void ksl_product_ddinvf(const ksl_SE3f_t* D1i, const ksl_SE3f_t* D2i,
                         ksl_SE3f_t* Do);
 
-inline void ksl_product_dinvd(const ksl_SE3_t* D1i,
+/*!
+@brief TODO document this function
+*/
+void ksl_product_dinvd(const ksl_SE3_t* D1i,
                               const ksl_SE3_t* D2i,
                               ksl_SE3_t* Do);
 
-inline void ksl_product_dinvdf(const ksl_SE3f_t* D1i, const ksl_SE3f_t* D2i,
+/*!
+@brief TODO document this function
+*/
+void ksl_product_dinvdf(const ksl_SE3f_t* D1i, const ksl_SE3f_t* D2i,
                                ksl_SE3f_t* Do);
 
 
