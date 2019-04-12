@@ -645,3 +645,23 @@ inline void ksl_product_ddinvf(const ksl_SE3f_t* D1i, const ksl_SE3f_t* D2i,
   ksl_product_drvinvf(&Do->R, &D2i->t, &Do->t);
   ksl_xpy_vvf(&D1i->t, &Do->t);
 }
+
+inline void ksl_product_dinvd(const ksl_SE3_t* restrict D1i,
+                              const ksl_SE3_t* restrict D2i,
+                              ksl_SE3_t* restrict Do) {
+  ksl_product_drinvdr(&D1i->R, &D2i->R, &Do->R);
+  ksl_vec3_t temp;
+  ksl_product_drinvv(&D1i->R, &D1i->t, &temp);
+  ksl_product_drv(&D1i->R, &D2i->t, &Do->t);
+  ksl_nxpy_vv(&temp, &Do->t);
+}
+
+inline void ksl_product_dinvdf(const ksl_SE3f_t* D1i, const ksl_SE3f_t* D2i,
+                               ksl_SE3f_t* Do) {
+  ksl_product_drinvdrf(&D1i->R, &D2i->R, &Do->R);
+  ksl_vec3f_t temp;
+  ksl_product_drinvvf(&D1i->R, &D1i->t, &temp);
+  ksl_product_drvf(&D1i->R, &D2i->t, &Do->t);
+  ksl_nxpy_vvf(&temp, &Do->t);
+}
+
