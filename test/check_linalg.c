@@ -126,7 +126,7 @@ START_TEST(test_linalg_lu_full_rmo) {
   /* tol = eps*|A|_infinity */
   double eps = 1e-12;
 
-  ksl_linalg_lu_full_rmo(5, 6, A, eps, pr, pc);
+  ksl_linalg_lu_full_rmo(6, A, eps, pr, pc);
 
   ck_assert(ksl_allclose(30, A, LU));
 }
