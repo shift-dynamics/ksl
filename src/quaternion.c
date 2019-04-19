@@ -742,12 +742,10 @@ inline void ksl_omega_to_dquaternion(const ksl_vec3_t* restrict w,
   double alpha = 1.0 - ksl_dot_qq(qi, qi);
 
   /*
-    if tau is not 0.5
-
+    if tau is not 0.5, then
     let coeff = 0.5 / tau
   */
-  // double alpha =
-  //   coeff * (1 - cblas_ddot(4, (double*)qi, 1, (double*)qi, 1));
+  // double alpha = coeff * (1 - ksl_dot_qq(qi, qi));
 
   ksl_axpy_qq(alpha, qi, dqo);
 }
