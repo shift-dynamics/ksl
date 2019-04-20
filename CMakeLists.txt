@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 2.8.11)
 project(ksl)
 
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif(NOT CMAKE_BUILD_TYPE)
+
 set(VERSION_MAJOR 1 CACHE STRING "Project major version number.")
 set(VERSION_MINOR 0 CACHE STRING "Project minor version number.")
 set(VERSION_PATCH 0 CACHE STRING "Project patch version number.")
@@ -8,22 +12,26 @@ mark_as_advanced(VERSION_MAJOR VERSION_MINOR VERSION_PATCH)
 
 list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-add_definitions(-g3)
-add_definitions(-ggdb)
-add_definitions(-std=c11)
-add_definitions(-O3)
-add_definitions(-Wall)
-add_definitions(-D_GNU_SOURCE=1)
-add_definitions(-pipe)
-add_definitions(-fPIC)
-add_definitions(-msse)
-add_definitions(-msse2)
-add_definitions(-msse3)
-add_definitions(-ffast-math)
-add_definitions(-fassociative-math)
-add_definitions(-ftree-vectorizer-verbose=7)
-add_definitions(-fopt-info)
-add_definitions(-Wextra)
+if(CMAKE_BUILD_TYPE MATCHES Release)
+  add_compile_options(-g3)
+  add_compile_options(-msse)
+  add_compile_options(-msse2)
+  add_compile_options(-msse3)
+  add_compile_options(-ffast-math)
+  add_compile_options(-fassociative-math)
+  add_definitions(-O3)
+else(CMAKE_BUILD_TYPE MATCHES Release)
+  add_compile_options(-ggdb)
+  add_compile_options(-ftree-vectorizer-verbose=7)
+  add_compile_options(-fopt-info)
+  add_compile_options(-Wextra)
+endif()
+
+add_compile_options(-std=c11)
+add_compile_options(-Wall)
+add_compile_options(-D_GNU_SOURCE=1)
+add_compile_options(-pipe)
+add_compile_options(-fPIC)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
@@ -47,6 +55,12 @@ add_library(ksl STATIC
   ${CMAKE_CURRENT_SOURCE_DIR}/src/vec4.c
 )
 
+get_target_property(KSL_COMPILE_OPTIONS ksl COMPILE_OPTIONS)
+
+message(STATUS "Build type: " ${CMAKE_BUILD_TYPE})
+message(STATUS "Compile options: " "${KSL_COMPILE_OPTIONS}")
+
+
 find_library(M_LIB m REQUIRED)
 
 if(DEFINED WITH_BLAS)
@@ -57,7 +71,8 @@ set(LIBS
   ${M_LIB}
   ${CBLAS_LIBRARIES})
 
-if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
+if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR} AND
+   CMAKE_BUILD_TYPE MATCHES Debug)
 
   find_package(Check)
   if(CHECK_FOUND)
@@ -92,6 +107,9 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
     include_directories(${CHECK_INCLUDE_DIRS})
     link_directories(${CHECK_LIBRARY_DIRS})
 
+    include(CodeCoverage)
+    append_coverage_compiler_flags()
+
     add_subdirectory(test)
 
     enable_testing()
@@ -105,6 +123,22 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
     add_test(NAME check_util COMMAND check_util)
     add_test(NAME check_vector COMMAND check_vector)
     add_test(NAME check_print COMMAND check_print)
+
+    setup_target_for_coverage_lcov(
+      NAME coverage
+      EXECUTABLE ctest -j ${n_cores}
+      DEPENDENCIES
+        check_axis
+        check_coscrew
+        check_inertia
+        check_linalg
+        check_matrix
+        check_quaternion
+        check_screw
+        check_util
+        check_vector
+        check_print
+    )
 
   else()
 

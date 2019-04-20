@@ -1065,6 +1065,8 @@ qo = L(dci) qi = |   0     dci[0] -dci[1]    0   | |qiy|
   qo->w = dci[0] * qi->w - dci[1] * qi->x;
 }
 
+#if 0
+
 void ksl_product_qqx(const ksl_quaternion_t* restrict qi, const double dci[2],
                      ksl_quaternion_t* restrict qo) {
   //
@@ -1318,6 +1320,8 @@ void ksl_product_qconjqzconjf(const ksl_quaternionf_t* restrict qi,
                               ksl_quaternionf_t* restrict qo) {
   //
 }
+
+#endif
 
 /*!
 @brief Double precision function to multiply double precision quaternion qi
