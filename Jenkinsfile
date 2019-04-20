@@ -4,7 +4,7 @@ pipeline {
     stage('Build') {
       steps {
         echo 'Building..'
-        sh 'touch build && rm -r build && mkdir -p build && cd build && cmake .. && make'
+        sh 'touch build && rm -r build && mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug .. && make'
       }
     }
     stage('Test') {
