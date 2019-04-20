@@ -13,5 +13,11 @@ pipeline {
         sh 'cd build && make test'
       }
     }
+    stage('Coverage') {
+      steps {
+        echo 'Performing coverage analysis..'
+        sh 'cd build && make coverage'
+      }
+    }
   }
 }
