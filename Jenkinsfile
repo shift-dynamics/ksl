@@ -18,6 +18,11 @@ pipeline {
         echo 'Performing coverage analysis..'
         sh 'cd build && make coverage'
       }
+      post {
+        always {
+          cobertura coberturaReportFile: '*.xml'
+        }
+      }
     }
   }
 }

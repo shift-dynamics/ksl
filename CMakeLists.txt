@@ -124,7 +124,7 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR} AND
     add_test(NAME check_vector COMMAND check_vector)
     add_test(NAME check_print COMMAND check_print)
 
-    setup_target_for_coverage_lcov(
+    setup_target_for_coverage_gcovr_xml(
       NAME coverage
       EXECUTABLE ctest -j ${n_cores}
       DEPENDENCIES
