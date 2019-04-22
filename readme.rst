@@ -8,7 +8,7 @@
    </embed>
 
 
-.. image:: http://http://104.35.187.125:5000/coverage/ksl
+.. image:: http://104.35.187.125:5000/coverage/ksl
 
 
 overview
