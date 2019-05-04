@@ -72,7 +72,7 @@ ksl_quaternion_t* ksl_quaternion_alloc(int);
 
 ksl_quaternionf_t* ksl_quaternionf_alloc(int);
 
-double ksl_quaternion_dot_qq(const ksl_quaternion_t*, const ksl_quaternion_t*);
+double ksl_dot_qq(const ksl_quaternion_t*, const ksl_quaternion_t*);
 
 float ksl_dot_qqf(const ksl_quaternionf_t*, const ksl_quaternionf_t*);
 
