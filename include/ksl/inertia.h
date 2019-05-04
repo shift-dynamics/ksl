@@ -375,11 +375,11 @@ inertia matrix is overwritten with its factors
 */
 int ksl_inertiaf_factor(ksl_inertiaf_t*);
 
-void ksl_inertia_copy(const ksl_inertia_t* restrict inertia_i,
-                      ksl_inertia_t* restrict inertia_o);
+void ksl_inertia_copy(const ksl_inertia_t* inertia_i,
+                      ksl_inertia_t* inertia_o);
 
-void ksl_inertiaf_copy(const ksl_inertiaf_t* restrict inertia_i,
-                       ksl_inertiaf_t* restrict inertia_o);
+void ksl_inertiaf_copy(const ksl_inertiaf_t* inertia_i,
+                       ksl_inertiaf_t* inertia_o);
 
 #ifdef __cplusplus
 }
