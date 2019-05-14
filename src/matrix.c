@@ -298,6 +298,34 @@ inline void ksl_product_drdrinv(const ksl_mat3x3_t* restrict r1i,
                                 ksl_mat3x3_t* restrict ro) {
 
   ro->m00 = ksl_dot_vv(&r1i->v0, &r2i->v0);
+  ro->m10 = ksl_dot_vv(&r1i->v0, &r2i->v1);
+  ro->m20 = ksl_dot_vv(&r1i->v0, &r2i->v2);
+  ro->m01 = ksl_dot_vv(&r1i->v1, &r2i->v0);
+  ro->m11 = ksl_dot_vv(&r1i->v1, &r2i->v1);
+  ro->m21 = ksl_dot_vv(&r1i->v1, &r2i->v2);
+  ro->m02 = ksl_dot_vv(&r1i->v2, &r2i->v0);
+  ro->m12 = ksl_dot_vv(&r1i->v2, &r2i->v1);
+  ro->m22 = ksl_dot_vv(&r1i->v2, &r2i->v2);
+}
+
+inline void ksl_product_drdrinvf(const ksl_mat3x3f_t* restrict r1i,
+                                 const ksl_mat3x3f_t* restrict r2i,
+                                 ksl_mat3x3f_t* restrict ro) {
+  ro->m00 = ksl_dot_vvf(&r1i->v0, &r2i->v0);
+  ro->m10 = ksl_dot_vvf(&r1i->v0, &r2i->v1);
+  ro->m20 = ksl_dot_vvf(&r1i->v0, &r2i->v2);
+  ro->m01 = ksl_dot_vvf(&r1i->v1, &r2i->v0);
+  ro->m11 = ksl_dot_vvf(&r1i->v1, &r2i->v1);
+  ro->m21 = ksl_dot_vvf(&r1i->v1, &r2i->v2);
+  ro->m02 = ksl_dot_vvf(&r1i->v2, &r2i->v0);
+  ro->m12 = ksl_dot_vvf(&r1i->v2, &r2i->v1);
+  ro->m22 = ksl_dot_vvf(&r1i->v2, &r2i->v2);
+}
+
+inline void ksl_product_drinvdr(const ksl_mat3x3_t* restrict r1i,
+                                const ksl_mat3x3_t* restrict r2i,
+                                ksl_mat3x3_t* restrict ro) {
+  ro->m00 = ksl_dot_vv(&r1i->v0, &r2i->v0);
   ro->m01 = ksl_dot_vv(&r1i->v0, &r2i->v1);
   ro->m02 = ksl_dot_vv(&r1i->v0, &r2i->v2);
   ro->m10 = ksl_dot_vv(&r1i->v1, &r2i->v0);
@@ -306,11 +334,9 @@ inline void ksl_product_drdrinv(const ksl_mat3x3_t* restrict r1i,
   ro->m20 = ksl_dot_vv(&r1i->v2, &r2i->v0);
   ro->m21 = ksl_dot_vv(&r1i->v2, &r2i->v1);
   ro->m22 = ksl_dot_vv(&r1i->v2, &r2i->v2);
-
-  ksl_mat3x3_transpose(ro);
 }
 
-inline void ksl_product_drdrinvf(const ksl_mat3x3f_t* restrict r1i,
+inline void ksl_product_drinvdrf(const ksl_mat3x3f_t* restrict r1i,
                                  const ksl_mat3x3f_t* restrict r2i,
                                  ksl_mat3x3f_t* restrict ro) {
   ro->m00 = ksl_dot_vvf(&r1i->v0, &r2i->v0);
@@ -322,36 +348,6 @@ inline void ksl_product_drdrinvf(const ksl_mat3x3f_t* restrict r1i,
   ro->m20 = ksl_dot_vvf(&r1i->v2, &r2i->v0);
   ro->m21 = ksl_dot_vvf(&r1i->v2, &r2i->v1);
   ro->m22 = ksl_dot_vvf(&r1i->v2, &r2i->v2);
-
-  ksl_mat3x3f_transpose(ro);
-}
-
-inline void ksl_product_drinvdr(const ksl_mat3x3_t* restrict r1i,
-                                const ksl_mat3x3_t* restrict r2i,
-                                ksl_mat3x3_t* restrict ro) {
-  ro->m00 = r1i->m00 * r2i->m00 + r1i->m10 * r2i->m10 + r1i->m20 * r2i->m20;
-  ro->m01 = r1i->m00 * r2i->m01 + r1i->m10 * r2i->m11 + r1i->m20 * r2i->m21;
-  ro->m02 = r1i->m00 * r2i->m02 + r1i->m10 * r2i->m12 + r1i->m20 * r2i->m22;
-  ro->m10 = r1i->m01 * r2i->m00 + r1i->m11 * r2i->m10 + r1i->m21 * r2i->m20;
-  ro->m11 = r1i->m01 * r2i->m01 + r1i->m11 * r2i->m11 + r1i->m21 * r2i->m21;
-  ro->m12 = r1i->m01 * r2i->m02 + r1i->m11 * r2i->m12 + r1i->m21 * r2i->m22;
-  ro->m20 = r1i->m02 * r2i->m00 + r1i->m12 * r2i->m10 + r1i->m22 * r2i->m20;
-  ro->m21 = r1i->m02 * r2i->m01 + r1i->m12 * r2i->m11 + r1i->m22 * r2i->m21;
-  ro->m22 = r1i->m02 * r2i->m02 + r1i->m12 * r2i->m12 + r1i->m22 * r2i->m22;
-}
-
-inline void ksl_product_drinvdrf(const ksl_mat3x3f_t* restrict r1i,
-                                 const ksl_mat3x3f_t* restrict r2i,
-                                 ksl_mat3x3f_t* restrict ro) {
-  ro->m00 = r1i->m00 * r2i->m00 + r1i->m10 * r2i->m10 + r1i->m20 * r2i->m20;
-  ro->m01 = r1i->m00 * r2i->m01 + r1i->m10 * r2i->m11 + r1i->m20 * r2i->m21;
-  ro->m02 = r1i->m00 * r2i->m02 + r1i->m10 * r2i->m12 + r1i->m20 * r2i->m22;
-  ro->m10 = r1i->m01 * r2i->m00 + r1i->m11 * r2i->m10 + r1i->m21 * r2i->m20;
-  ro->m11 = r1i->m01 * r2i->m01 + r1i->m11 * r2i->m11 + r1i->m21 * r2i->m21;
-  ro->m12 = r1i->m01 * r2i->m02 + r1i->m11 * r2i->m12 + r1i->m21 * r2i->m22;
-  ro->m20 = r1i->m02 * r2i->m00 + r1i->m12 * r2i->m10 + r1i->m22 * r2i->m20;
-  ro->m21 = r1i->m02 * r2i->m01 + r1i->m12 * r2i->m11 + r1i->m22 * r2i->m21;
-  ro->m22 = r1i->m02 * r2i->m02 + r1i->m12 * r2i->m12 + r1i->m22 * r2i->m22;
 }
 
 inline void ksl_product_dv(const ksl_SE3_t* restrict Di,
