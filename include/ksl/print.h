@@ -26,6 +26,7 @@ SUCH DAMAGE.
 #include <stdio.h>
 
 #include "SE3.h"
+#include "eulerangles.h"
 #include "inertia.h"
 #include "mat3x3.h"
 #include "mat4x4.h"
@@ -223,6 +224,150 @@ ksl_vec3f_print(f, v, NULL, options); or ksl_vec3f_print(f, v, "", options);
   { ksl_vec3f_printWithOptions(f, v, ##__VA_ARGS__, NULL, NULL); }
 
 void ksl_vec3f_printWithOptions(FILE* f, const ksl_vec3f_t* vi, ...);
+
+/*!
+@brief "debug" print a ksl_vec4_t data structure. If NDEBUG is defined, this
+function is converted to a no-op and nothing will be output. If it is desired
+to print a ksl_vec4_t in release mode, use the ksl_vec4_print function.
+@param f [in] a file pointer (e.g. stdout, stderr, etc.)
+@param v [in] a pointer to a ksl_vec4_t datastructure
+@param label [in] optional pointer to a const char* label
+@param options [in] a pointer to a ksl_print_options_t struct containing print
+options. If the pointer is NULL or not present, the options are set in the
+global print options.
+*/
+#ifdef NDEBUG
+#define ksl_vec4_debug(f, v, ...)                                              \
+  do {                                                                         \
+  } while(0)
+#else
+#define ksl_vec4_debug(f, v, ...)                                              \
+  { ksl_vec4_printWithOptions(f, v, ##__VA_ARGS__, NULL, NULL); }
+#endif
+
+/*!
+@brief print a ksl_vec4_t data structure.
+@param f [in] a file pointer (e.g. stdout, stderr, etc.)
+@param v [in] a pointer to a ksl_vec4_t datastructure
+@param label [in] optional pointer to a const char* label
+@param options [in] a pointer to a ksl_print_options_t struct containing print
+options. If the pointer is NULL or not present, the options are set in the
+global print options. To pass an options struct with no label, call
+ksl_vec4_print(f, v, NULL, options); or ksl_vec4_print(f, v, "", options);
+*/
+#define ksl_vec4_print(f, v, ...)                                              \
+  { ksl_vec4_printWithOptions(f, v, ##__VA_ARGS__, NULL, NULL); }
+
+void ksl_vec4_printWithOptions(FILE* f, const ksl_vec4_t* v, ...);
+
+/*!
+@brief "debug" print a ksl_vec4f_t data structure. If NDEBUG is defined, this
+function is converted to a no-op and nothing will be output. If it is desired
+to print a ksl_vec4f_t in release mode, use the ksl_vec4f_print function.
+@param f [in] a file pointer (e.g. stdout, stderr, etc.)
+@param v [in] a pointer to a ksl_vec4f_t datastructure
+@param label [in] optional pointer to a const char* label
+@param options [in] a pointer to a ksl_print_options_t struct containing print
+options. If the pointer is NULL or not present, the options are set in the
+global print options.
+*/
+#ifdef NDEBUG
+#define ksl_vec4f_debug(f, v, ...)                                             \
+  do {                                                                         \
+  } while(0)
+#else
+#define ksl_vec4f_debug(f, v, ...)                                             \
+  { ksl_vec4f_printWithOptions(f, v, ##__VA_ARGS__, NULL, NULL); }
+#endif
+
+/*!
+@brief print a ksl_vec4f_t data structure.
+@param f [in] a file pointer (e.g. stdout, stderr, etc.)
+@param v [in] a pointer to a ksl_vec4f_t datastructure
+@param label [in] optional pointer to a const char* label
+@param options [in] a pointer to a ksl_print_options_t struct containing print
+options. If the pointer is NULL or not present, the options are set in the
+global print options. To pass an options struct with no label, call
+ksl_vec4f_print(f, v, NULL, options); or ksl_vec4f_print(f, v, "", options);
+*/
+#define ksl_vec4f_print(f, v, ...)                                             \
+  { ksl_vec4f_printWithOptions(f, v, ##__VA_ARGS__, NULL, NULL); }
+
+void ksl_vec4f_printWithOptions(FILE* f, const ksl_vec4f_t* vi, ...);
+
+/*!
+@brief "debug" print a ksl_eulerangles_t data structure. If NDEBUG is defined,
+this function is converted to a no-op and nothing will be output. If it is
+desired to print a ksl_eulerangles_t in release mode, use the
+ksl_eulerangles_print function.
+@param f [in] a file pointer (e.g. stdout, stderr, etc.)
+@param v [in] a pointer to a ksl_eulerangles_t datastructure
+@param label [in] optional pointer to a const char* label
+@param options [in] a pointer to a ksl_print_options_t struct containing print
+options. If the pointer is NULL or not present, the options are set in the
+global print options.
+*/
+#ifdef NDEBUG
+#define ksl_eulerangles_debug(f, v, ...)                                       \
+  do {                                                                         \
+  } while(0)
+#else
+#define ksl_eulerangles_debug(f, v, ...)                                       \
+  { ksl_eulerangles_printWithOptions(f, v, ##__VA_ARGS__, NULL, NULL); }
+#endif
+
+/*!
+@brief print a ksl_eulerangles_t data structure.
+@param f [in] a file pointer (e.g. stdout, stderr, etc.)
+@param v [in] a pointer to a ksl_eulerangles_t datastructure
+@param label [in] optional pointer to a const char* label
+@param options [in] a pointer to a ksl_print_options_t struct containing print
+options. If the pointer is NULL or not present, the options are set in the
+global print options. To pass an options struct with no label, call
+ksl_eulerangles_print(f, v, NULL, options); or ksl_eulerangles_print(f, v, "",
+options);
+*/
+#define ksl_eulerangles_print(f, v, ...)                                       \
+  { ksl_eulerangles_printWithOptions(f, v, ##__VA_ARGS__, NULL, NULL); }
+
+void ksl_eulerangles_printWithOptions(FILE* f, const ksl_eulerangles_t* v, ...);
+
+/*!
+@brief "debug" print a ksl_euleranglesf_t data structure. If NDEBUG is defined,
+this function is converted to a no-op and nothing will be output. If it is
+desired to print a ksl_euleranglesf_t in release mode, use the
+ksl_euleranglesf_print function.
+@param f [in] a file pointer (e.g. stdout, stderr, etc.)
+@param v [in] a pointer to a ksl_euleranglesf_t datastructure
+@param label [in] optional pointer to a const char* label
+@param options [in] a pointer to a ksl_print_options_t struct containing print
+options. If the pointer is NULL or not present, the options are set in the
+global print options.
+*/
+#ifdef NDEBUG
+#define ksl_euleranglesf_debug(f, v, ...)                                      \
+  do {                                                                         \
+  } while(0)
+#else
+#define ksl_euleranglesf_debug(f, v, ...)                                      \
+  { ksl_euleranglesf_printWithOptions(f, v, ##__VA_ARGS__, NULL, NULL); }
+#endif
+
+/*!
+@brief print a ksl_vec3f_t data structure.
+@param f [in] a file pointer (e.g. stdout, stderr, etc.)
+@param v [in] a pointer to a ksl_vec3f_t datastructure
+@param label [in] optional pointer to a const char* label
+@param options [in] a pointer to a ksl_print_options_t struct containing print
+options. If the pointer is NULL or not present, the options are set in the
+global print options. To pass an options struct with no label, call
+ksl_vec3f_print(f, v, NULL, options); or ksl_vec3f_print(f, v, "", options);
+*/
+#define ksl_euleranglesf_print(f, v, ...)                                      \
+  { ksl_euleranglesf_printWithOptions(f, v, ##__VA_ARGS__, NULL, NULL); }
+
+void ksl_euleranglesf_printWithOptions(FILE* f, const ksl_euleranglesf_t* vi,
+                                       ...);
 
 /*!
 @brief "debug" print a ksl_mat3x3_t data structure. If NDEBUG is defined, this
