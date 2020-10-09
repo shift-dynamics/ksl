@@ -125,23 +125,23 @@ inline void ksl_mat3x3f_set(ksl_mat3x3f_t* restrict R, int row, int column,
 }
 
 inline void ksl_mat3x3_normalize(ksl_mat3x3_t* restrict R) {
-  ksl_linalg_gramSchmidt(&(R->as_array), 3, 3);
+  ksl_linalg_gramSchmidt((double*)&(R->as_array), 3, 3);
 }
 
 inline void ksl_mat3x3_normalized(const ksl_mat3x3_t* restrict Ri,
                                   ksl_mat3x3_t* restrict Ro) {
   ksl_mat3x3_copy(Ri, Ro);
-  ksl_linalg_gramSchmidt(&(Ro->as_array), 3, 3);
+  ksl_linalg_gramSchmidt((double*)&(Ro->as_array), 3, 3);
 }
 
 inline void ksl_mat3x3f_normalize(ksl_mat3x3f_t* restrict R) {
-  ksl_linalg_gramSchmidtf(&(R->as_array), 3, 3);
+  ksl_linalg_gramSchmidtf((float*)&(R->as_array), 3, 3);
 }
 
 inline void ksl_mat3x3f_normalized(const ksl_mat3x3f_t* restrict Ri,
                                    ksl_mat3x3f_t* restrict Ro) {
   ksl_mat3x3f_copy(Ri, Ro);
-  ksl_linalg_gramSchmidtf(&(Ro->as_array), 3, 3);
+  ksl_linalg_gramSchmidtf((float*)&(Ro->as_array), 3, 3);
 }
 
 inline void ksl_mat3x3_setFromVectors(ksl_mat3x3_t* restrict R,
@@ -1151,7 +1151,6 @@ inline void ksl_mat3x3_setFromAxisAngle(ksl_mat3x3_t* restrict r,
   r->m12 = tmp1 - tmp2;
 }
 
-
 inline void ksl_mat3x3_setFromAxisDC(ksl_mat3x3_t* restrict r,
                                      const ksl_vec3_t* restrict axis,
                                      const double* dc) {
@@ -1174,7 +1173,6 @@ inline void ksl_mat3x3_setFromAxisDC(ksl_mat3x3_t* restrict r,
   r->m21 = tmp1 + tmp2;
   r->m12 = tmp1 - tmp2;
 }
-
 
 inline void ksl_mat3x3f_getAxisAngle(const ksl_mat3x3f_t* restrict r,
                                      ksl_vec3f_t* restrict axis,
@@ -1200,7 +1198,6 @@ inline void ksl_mat3x3f_getAxisAngle(const ksl_mat3x3f_t* restrict r,
   axis->z = r->m10 - r->m01;
   ksl_vec3f_scale(axis, 1 / (2 * sin(*angle)));
 }
-
 
 inline void ksl_mat3x3f_setFromAxisAngle(ksl_mat3x3f_t* restrict r,
                                          const ksl_vec3f_t* restrict axis,

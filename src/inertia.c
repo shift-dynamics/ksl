@@ -589,5 +589,6 @@ int ksl_inertia_factor(ksl_inertia_t* restrict inertia) {
       return 1;
     }
   }
+  (void)indices;
   return 0;
 }

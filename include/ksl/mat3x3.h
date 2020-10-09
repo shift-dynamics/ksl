@@ -512,7 +512,6 @@ void ksl_mat3x3_getAxisAngle(const ksl_mat3x3_t* r, ksl_vec3_t* axis,
 void ksl_mat3x3_setFromAxisAngle(ksl_mat3x3_t*, const ksl_vec3_t*,
                                  const double);
 
-
 /*!
 @brief Get axis and angle from a single precision rotation matrix.
 
@@ -544,9 +543,8 @@ void ksl_mat3x3f_setFromAxisAngle(ksl_mat3x3f_t* r, const ksl_vec3f_t* axis,
 /*!
 @brief Set 3x3 rotation matrix from axis and direction cosines
 */
-void ksl_mat3x3_setFromAxisDC(ksl_mat3x3_t* r,
-                              const ksl_vec3_t* axis,
-                              const double* dc); 
+void ksl_mat3x3_setFromAxisDC(ksl_mat3x3_t* r, const ksl_vec3_t* axis,
+                              const double* dc);
 
 /*!
 @brief Compute the determinant of a 3x3 double precision matrix

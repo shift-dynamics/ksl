@@ -1656,6 +1656,7 @@ k is the column number in Lr
 */
 void ksl_linalg_lu_setCMatrix_cmo(int rowDim, int colDim, int rank, double* A) {
 
+  (void)colDim;
   if(rank > 1) {
     for(int j = rank - 1; j > 0; j--) {
       for(int i = rowDim - 1; i > rank - 1; i--) {

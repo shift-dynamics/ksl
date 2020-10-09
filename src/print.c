@@ -1,7 +1,7 @@
+#include "ksl/print.h"
 #include "ksl/coscrew.h"
 #include "ksl/matrix.h"
 #include "ksl/screw.h"
-#include "ksl/print.h"
 
 #include <stdarg.h>
 #include <stdbool.h>
@@ -287,6 +287,266 @@ void ksl_vec3f_printWithOptions(FILE* f, const ksl_vec3f_t* restrict v, ...) {
     fprintf(f, options->delimiter, v->at[i]);
   }
   fprintf(f, options->real_fmt, v->at[2]);
+  fprintf(f, "%s", options->outer_right_bracket);
+  fprintf(f, "\n");
+}
+
+/*!
+@brief print a ksl_vec3_t data structure with user defined label and options.
+This function intended to be called by the helper macros ksl_vec3_debug and
+ksl_vec3_print macros. In this function the label and options arguments are
+required.
+@param f [in] a file pointer (e.g. stdout, stderr, etc.)
+@param v [in] a pointer to a ksl_vec3_t datastructure
+@param label [in] pointer to a const char* label
+@param options [in] a pointer to a ksl_print_options_t struct containing print
+options. If the pointer is NULL, the options are set in the global
+print options. To pass an options struct with no label, call
+ksl_vec3_print(f, v, NULL, options); or ksl_vec3_print(f, v, "", options);
+*/
+void ksl_vec4_printWithOptions(FILE* f, const ksl_vec4_t* restrict v, ...) {
+
+  va_list arguments;
+  va_start(arguments, v);
+  const char* label = va_arg(arguments, const char*);
+  const ksl_print_options_t* options = va_arg(arguments, ksl_print_options_t*);
+  va_end(arguments);
+  if(!options) {
+    options = &__ksl_print_options;
+  }
+
+  if(label) {
+    fprintf(f, "%s", label);
+  }
+  fprintf(f, "%s", options->outer_left_bracket);
+  for(int i = 0; i < 3; i++) {
+    fprintf(f, options->real_fmt, v->at[i]);
+    fprintf(f, options->delimiter, v->at[i]);
+  }
+  fprintf(f, options->real_fmt, v->at[3]);
+  fprintf(f, "%s", options->outer_right_bracket);
+  fprintf(f, "\n");
+}
+
+/*!
+@brief print a ksl_vec3f_t data structure with user defined label and options.
+This function intended to be called by the helper macros ksl_vec3f_debug and
+ksl_vec3f_print macros. In this function the label and options arguments are
+required.
+@param f [in] a file pointer (e.g. stdout, stderr, etc.)
+@param v [in] a pointer to a ksl_vec3f_t datastructure
+@param label [in] pointer to a const char* label
+@param options [in] a pointer to a ksl_print_options_t struct containing print
+options. If the pointer is NULL, the options are set in the global
+print options. To pass an options struct with no label, call
+ksl_vec3f_print(f, v, NULL, options); or ksl_vec3f_print(f, v, "", options);
+*/
+void ksl_vec4f_printWithOptions(FILE* f, const ksl_vec4f_t* restrict v, ...) {
+
+  va_list arguments;
+  va_start(arguments, v);
+  const char* label = va_arg(arguments, const char*);
+  const ksl_print_options_t* options = va_arg(arguments, ksl_print_options_t*);
+  va_end(arguments);
+  if(!options) {
+    // printf("  using global print options\n");
+    options = &__ksl_print_options;
+  }
+  // else {
+  // printf("  using user specified print
+  // options\n");
+  // }
+  if(label) {
+    // printf("  using user specified label\n");
+    fprintf(f, "%s", label);
+  }
+  // else {
+  // printf("  no label specified\n");
+  // }
+  fprintf(f, "%s", options->outer_left_bracket);
+  for(int i = 0; i < 3; i++) {
+    fprintf(f, options->real_fmt, v->at[i]);
+    fprintf(f, options->delimiter, v->at[i]);
+  }
+  fprintf(f, options->real_fmt, v->at[3]);
+  fprintf(f, "%s", options->outer_right_bracket);
+  fprintf(f, "\n");
+}
+
+/*!
+@brief print a ksl_eulerangles_t data structure with user defined label and
+options. This function intended to be called by the helper macros
+ksl_eulerangles_debug and ksl_eulerangles_print macros. In this function the
+label and options arguments are required.
+@param f [in] a file pointer (e.g. stdout, stderr, etc.)
+@param v [in] a pointer to a ksl_eulerangles_t datastructure
+@param label [in] pointer to a const char* label
+@param options [in] a pointer to a ksl_print_options_t struct containing print
+options. If the pointer is NULL, the options are set in the global
+print options. To pass an options struct with no label, call
+ksl_eulerangles_print(f, v, NULL, options); or ksl_eulerangles_print(f, v, "",
+options);
+*/
+void ksl_eulerangles_printWithOptions(FILE* f,
+                                      const ksl_eulerangles_t* restrict v,
+                                      ...) {
+  va_list arguments;
+  va_start(arguments, v);
+  const char* label = va_arg(arguments, const char*);
+  const ksl_print_options_t* options = va_arg(arguments, ksl_print_options_t*);
+  va_end(arguments);
+  if(!options) {
+    options = &__ksl_print_options;
+  }
+
+  if(label) {
+    fprintf(f, "%s", label);
+  }
+  fprintf(f, "%s", options->outer_left_bracket);
+  for(int i = 0; i < 3; i++) {
+    fprintf(f, options->real_fmt, v->angles.at[i]);
+    fprintf(f, options->delimiter, v->angles.at[i]);
+  }
+  switch(v->axis) {
+    case KSL_AXIS_XYZ: {
+      fprintf(f, "%s", "xyz");
+      break;
+    }
+    case KSL_AXIS_YZX: {
+      fprintf(f, "%s", "yzx");
+      break;
+    }
+    case KSL_AXIS_ZXY: {
+      fprintf(f, "%s", "zxy");
+      break;
+    }
+    case KSL_AXIS_XZY: {
+      fprintf(f, "%s", "xzy");
+      break;
+    }
+    case KSL_AXIS_YXZ: {
+      fprintf(f, "%s", "yxz");
+      break;
+    }
+    case KSL_AXIS_ZYX: {
+      fprintf(f, "%s", "zyx");
+      break;
+    }
+    case KSL_AXIS_XYX: {
+      fprintf(f, "%s", "xyx");
+      break;
+    }
+    case KSL_AXIS_XZX: {
+      fprintf(f, "%s", "xzx");
+      break;
+    }
+    case KSL_AXIS_YXY: {
+      fprintf(f, "%s", "yxy");
+      break;
+    }
+    case KSL_AXIS_YZY: {
+      fprintf(f, "%s", "yzy");
+      break;
+    }
+    case KSL_AXIS_ZXZ: {
+      fprintf(f, "%s", "zxz");
+      break;
+    }
+    case KSL_AXIS_ZYZ: {
+      fprintf(f, "%s", "zyz");
+      break;
+    }
+    default: { break; }
+  }
+  fprintf(f, "%s", options->outer_right_bracket);
+  fprintf(f, "\n");
+}
+
+/*!
+@brief print a ksl_euleranglesf_t data structure with user defined label and
+options. This function intended to be called by the helper macros
+ksl_euleranglesf_debug and ksl_euleranglesf_print macros. In this function the
+label and options arguments are required.
+@param f [in] a file pointer (e.g. stdout, stderr, etc.)
+@param v [in] a pointer to a ksl_euleranglesf_t datastructure
+@param label [in] pointer to a const char* label
+@param options [in] a pointer to a ksl_print_options_t struct containing print
+options. If the pointer is NULL, the options are set in the global
+print options. To pass an options struct with no label, call
+ksl_euleranglesf_print(f, v, NULL, options); or ksl_euleranglesf_print(f, v, "",
+options);
+*/
+void ksl_euleranglesf_printWithOptions(FILE* f,
+                                       const ksl_euleranglesf_t* restrict v,
+                                       ...) {
+  va_list arguments;
+  va_start(arguments, v);
+  const char* label = va_arg(arguments, const char*);
+  const ksl_print_options_t* options = va_arg(arguments, ksl_print_options_t*);
+  va_end(arguments);
+  if(!options) {
+    options = &__ksl_print_options;
+  }
+
+  if(label) {
+    fprintf(f, "%s", label);
+  }
+  fprintf(f, "%s", options->outer_left_bracket);
+  for(int i = 0; i < 3; i++) {
+    fprintf(f, options->real_fmt, v->angles.at[i]);
+    fprintf(f, options->delimiter, v->angles.at[i]);
+  }
+  switch(v->axis) {
+    case KSL_AXIS_XYZ: {
+      fprintf(f, "%s", "xyz");
+      break;
+    }
+    case KSL_AXIS_YZX: {
+      fprintf(f, "%s", "yzx");
+      break;
+    }
+    case KSL_AXIS_ZXY: {
+      fprintf(f, "%s", "zxy");
+      break;
+    }
+    case KSL_AXIS_XZY: {
+      fprintf(f, "%s", "xzy");
+      break;
+    }
+    case KSL_AXIS_YXZ: {
+      fprintf(f, "%s", "yxz");
+      break;
+    }
+    case KSL_AXIS_ZYX: {
+      fprintf(f, "%s", "zyx");
+      break;
+    }
+    case KSL_AXIS_XYX: {
+      fprintf(f, "%s", "xyx");
+      break;
+    }
+    case KSL_AXIS_XZX: {
+      fprintf(f, "%s", "xzx");
+      break;
+    }
+    case KSL_AXIS_YXY: {
+      fprintf(f, "%s", "yxy");
+      break;
+    }
+    case KSL_AXIS_YZY: {
+      fprintf(f, "%s", "yzy");
+      break;
+    }
+    case KSL_AXIS_ZXZ: {
+      fprintf(f, "%s", "zxz");
+      break;
+    }
+    case KSL_AXIS_ZYZ: {
+      fprintf(f, "%s", "zyz");
+      break;
+    }
+    default: { break; }
+  }
   fprintf(f, "%s", options->outer_right_bracket);
   fprintf(f, "\n");
 }

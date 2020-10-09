@@ -5,7 +5,9 @@
 
    <embed>
     <a href='http://104.35.187.125:8090/job/shift-dynamics/job/ksl/job/master/'><img src='http://104.35.187.125:8090/buildStatus/icon?job=shift-dynamics/ksl/master' alt="Build Status"></a>
+    <a href='http://104.35.187.125:8090/job/shift-dynamics/job/ksl/job/master/'><img src='http://104.35.187.125:5000/coverage/ksl' alt="Coverage Status"></a>
    </embed>
+
 
 overview
 --------
