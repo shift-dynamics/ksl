@@ -5,10 +5,10 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif(NOT CMAKE_BUILD_TYPE)
 
-set(VERSION_MAJOR 1 CACHE STRING "Project major version number.")
-set(VERSION_MINOR 0 CACHE STRING "Project minor version number.")
-set(VERSION_PATCH 0 CACHE STRING "Project patch version number.")
-mark_as_advanced(VERSION_MAJOR VERSION_MINOR VERSION_PATCH)
+set(KSL_VERSION_MAJOR 1 CACHE STRING "Project major version number.")
+set(KSL_VERSION_MINOR 0 CACHE STRING "Project minor version number.")
+set(KSL_VERSION_PATCH 0 CACHE STRING "Project patch version number.")
+mark_as_advanced(KSL_VERSION_MAJOR KSL_VERSION_MINOR KSL_VERSION_PATCH)
 
 list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -33,7 +33,21 @@ add_compile_options(-D_GNU_SOURCE=1)
 add_compile_options(-pipe)
 add_compile_options(-fPIC)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+file(GLOB_RECURSE ksl_includes RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/src *.h)
+foreach(include ${ksl_includes})
+  configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/${include}"
+    "${CMAKE_BINARY_DIR}/include/ksl/${include}"
+    COPYONLY
+  )
+endforeach()
+
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/version.h.in"
+  "${CMAKE_BINARY_DIR}/include/ksl/version.h"
+)
+
+include_directories(${CMAKE_BINARY_DIR}/include)
 
 # build ksl static library
 add_library(ksl STATIC
@@ -59,7 +73,6 @@ get_target_property(KSL_COMPILE_OPTIONS ksl COMPILE_OPTIONS)
 
 message(STATUS "Build type: " ${CMAKE_BUILD_TYPE})
 message(STATUS "Compile options: " "${KSL_COMPILE_OPTIONS}")
-
 
 find_library(M_LIB m REQUIRED)
 
