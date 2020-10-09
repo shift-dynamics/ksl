@@ -153,6 +153,12 @@ inline void ksl_SE3_toMat4x4f(const ksl_SE3_t* d, ksl_mat4x4f_t* restrict m) {
   m->at[3][3] = 1.f;
 }
 
+inline ksl_SE3_t ksl_SE3_identity() {
+  ksl_SE3_t d;
+  ksl_SE3_setIdentity(&d);
+  return d;
+}
+
 inline void ksl_SE3_setIdentity(ksl_SE3_t* restrict d) {
   memset(d, 0, sizeof(ksl_SE3_t));
   for(int i = 0; i < 3; i++) {
