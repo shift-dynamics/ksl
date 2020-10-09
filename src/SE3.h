@@ -296,6 +296,13 @@ void ksl_SE3f_toMat4x4f(const ksl_SE3f_t* d, ksl_mat4x4f_t* m);
 */
 void ksl_SE3_toMat4x4f(const ksl_SE3_t* d, ksl_mat4x4f_t* m);
 
+
+/*!
+ * @brief return a `ksl_SE3_t` initialized to identity
+ @return ksl_SE3_t initialized to identity
+*/
+ksl_SE3_t ksl_SE3_identity();
+
 /*!
 @brief Set a double precision SE3 matrix to identity.
 
