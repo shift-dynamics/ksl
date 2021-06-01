@@ -1,7 +1,7 @@
 #include "ksl/trig.h"
 
 inline void ksl_dc(const double thetai, double dc[2]) {
-#if _GNU_SOURCE
+#ifdef _GNU_SOURCE
   sincos(thetai, &dc[0], &dc[1]);
 #else
   dc[0] = sin(thetai);
@@ -10,7 +10,7 @@ inline void ksl_dc(const double thetai, double dc[2]) {
 }
 
 inline void ksl_dcf(const float thetai, float dc[2]) {
-#if _GNU_SOURCE
+#ifdef _GNU_SOURCE
   sincosf(thetai, &dc[0], &dc[1]);
 #else
   dc[0] = sin(thetai);
