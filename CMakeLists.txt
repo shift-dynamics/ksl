@@ -1,14 +1,14 @@
-cmake_minimum_required(VERSION 2.8.11)
-project(ksl)
+cmake_minimum_required(VERSION 3.1)
+cmake_policy(SET CMP0048 NEW)
+project(ksl
+    VERSION 1.0.0
+    DESCRIPTION "Kinematics Subroutine Library"
+    LANGUAGES C CXX
+)
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif(NOT CMAKE_BUILD_TYPE)
-
-set(KSL_VERSION_MAJOR 1 CACHE STRING "Project major version number.")
-set(KSL_VERSION_MINOR 0 CACHE STRING "Project minor version number.")
-set(KSL_VERSION_PATCH 0 CACHE STRING "Project patch version number.")
-mark_as_advanced(KSL_VERSION_MAJOR KSL_VERSION_MINOR KSL_VERSION_PATCH)
 
 list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -22,9 +22,11 @@ if(CMAKE_BUILD_TYPE MATCHES Release)
   add_definitions(-O3)
 else(CMAKE_BUILD_TYPE MATCHES Release)
   add_compile_options(-ggdb)
-  add_compile_options(-ftree-vectorizer-verbose=7)
-  add_compile_options(-fopt-info)
   add_compile_options(-Wextra)
+  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    add_compile_options(-ftree-vectorizer-verbose=7)
+    add_compile_options(-fopt-info)
+  endif()
 endif()
 
 add_compile_options(-std=c11)
@@ -41,6 +43,20 @@ foreach(include ${ksl_includes})
     COPYONLY
   )
 endforeach()
+
+execute_process(
+  COMMAND git rev-parse --abbrev-ref HEAD
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  OUTPUT_VARIABLE KSL_GIT_BRANCH
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+execute_process(
+  COMMAND git log -1 --format=%h
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  OUTPUT_VARIABLE KSL_GIT_COMMIT
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
 
 configure_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/src/version.h.in"
