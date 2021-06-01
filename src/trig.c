@@ -2,7 +2,13 @@
 
 inline void ksl_dc(const double thetai, double dc[2]) {
 #ifdef _GNU_SOURCE
+
+#ifdef __APPLE__
+  __sincos(thetai, &dc[0], &dc[1]);
+#else
   sincos(thetai, &dc[0], &dc[1]);
+#endif
+
 #else
   dc[0] = sin(thetai);
   dc[1] = cos(thetai);
@@ -11,7 +17,13 @@ inline void ksl_dc(const double thetai, double dc[2]) {
 
 inline void ksl_dcf(const float thetai, float dc[2]) {
 #ifdef _GNU_SOURCE
+
+#ifdef __APPLE__
+  __sincosf(thetai, &dc[0], &dc[1]);
+#else
   sincosf(thetai, &dc[0], &dc[1]);
+#endif
+
 #else
   dc[0] = sin(thetai);
   dc[1] = cos(thetai);
