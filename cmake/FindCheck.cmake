@@ -7,7 +7,7 @@
 #
 #  This configuration file for finding libcheck is originally from
 #  the opensync project. The originally was downloaded from here:
-#  opensync.org/browser/branches/3rd-party-cmake-modules/modules/FindCheck.cmake
+#  opensync.org/browser/branches/3rd-party-cmake-modules/modules/FindCHECK.cmake
 #
 #  Copyright (c) 2007 Daniel Gollub <dgollub@suse.de>
 #  Copyright (c) 2007 Bjoern Ricks  <b.ricks@fh-osnabrueck.de>
@@ -31,17 +31,17 @@ IF( NOT CHECK_FOUND )
 
 	IF ( CHECK_INCLUDE_DIR AND CHECK_LIBRARIES )
 		SET( CHECK_FOUND 1 )
-		IF ( NOT Check_FIND_QUIETLY )
+		IF ( NOT CHECK_FIND_QUIETLY )
 			MESSAGE ( STATUS "Found CHECK: ${CHECK_LIBRARIES}" )
-		ENDIF ( NOT Check_FIND_QUIETLY )
+		ENDIF ( NOT CHECK_FIND_QUIETLY )
 	ELSE ( CHECK_INCLUDE_DIR AND CHECK_LIBRARIES )
-		IF ( Check_FIND_REQUIRED )
+		IF ( CHECK_FIND_REQUIRED )
 			MESSAGE( FATAL_ERROR "Could NOT find CHECK" )
-		ELSE ( Check_FIND_REQUIRED )
-			IF ( NOT Check_FIND_QUIETLY )
+		ELSE ( CHECK_FIND_REQUIRED )
+			IF ( NOT CHECK_FIND_QUIETLY )
 				MESSAGE( STATUS "Could NOT find CHECK" )
-			ENDIF ( NOT Check_FIND_QUIETLY )
-		ENDIF ( Check_FIND_REQUIRED )
+			ENDIF ( NOT CHECK_FIND_QUIETLY )
+		ENDIF ( CHECK_FIND_REQUIRED )
 	ENDIF ( CHECK_INCLUDE_DIR AND CHECK_LIBRARIES )
 ENDIF( NOT CHECK_FOUND )
 

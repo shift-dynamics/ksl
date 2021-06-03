@@ -71,11 +71,11 @@
 include(CMakeParseArguments)
 
 # Check prereqs
-find_program( GCOV_PATH gcov )
-find_program( LCOV_PATH  NAMES lcov lcov.bat lcov.exe lcov.perl)
-find_program( GENHTML_PATH NAMES genhtml genhtml.perl genhtml.bat )
-find_program( GCOVR_PATH gcovr PATHS ${CMAKE_SOURCE_DIR}/scripts/test)
-find_package(Python3 COMPONENTS Interpreter)
+find_program(GCOV_PATH gcov)
+find_program(LCOV_PATH  NAMES lcov lcov.bat lcov.exe lcov.perl)
+find_program(GENHTML_PATH NAMES genhtml genhtml.perl genhtml.bat)
+find_program(GCOVR_PATH gcovr PATHS ${CMAKE_SOURCE_DIR}/scripts/test)
+find_package(Python COMPONENTS Interpreter)
 
 if(NOT GCOV_PATH)
     message(FATAL_ERROR "gcov not found! Aborting...")

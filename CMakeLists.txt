@@ -1,40 +1,16 @@
 cmake_minimum_required(VERSION 3.1)
 cmake_policy(SET CMP0048 NEW)
 project(ksl
-    VERSION 1.0.0
+    VERSION 0.0.1
     DESCRIPTION "Kinematics Subroutine Library"
     LANGUAGES C CXX
 )
 
 if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Release)
+	set(CMAKE_BUILD_TYPE Debug)
 endif(NOT CMAKE_BUILD_TYPE)
 
 list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-
-if(CMAKE_BUILD_TYPE MATCHES Release)
-  add_compile_options(-g3)
-  add_compile_options(-msse)
-  add_compile_options(-msse2)
-  add_compile_options(-msse3)
-  add_compile_options(-ffast-math)
-  add_compile_options(-fassociative-math)
-  add_definitions(-O3)
-else(CMAKE_BUILD_TYPE MATCHES Release)
-  add_compile_options(-ggdb)
-  add_compile_options(-Wextra)
-  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    add_compile_options(-ftree-vectorizer-verbose=7)
-    add_compile_options(-fopt-info)
-  endif()
-endif()
-
-add_compile_options(-std=c11)
-add_compile_options(-Wall)
-add_compile_options(-D_GNU_SOURCE=1)
-add_compile_options(-pipe)
-add_compile_options(-fPIC)
-
 file(GLOB_RECURSE ksl_includes RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/src *.h)
 foreach(include ${ksl_includes})
   configure_file(
@@ -85,10 +61,49 @@ add_library(ksl STATIC
   ${CMAKE_CURRENT_SOURCE_DIR}/src/vec4.c
 )
 
+if(CMAKE_BUILD_TYPE MATCHES Release)
+  target_compile_options(
+    ksl
+    PRIVATE
+    -g3
+    -msse
+    -msse2
+    -msse3
+    -ffast-math
+    -fassociative-math
+    -O3
+  )
+else()
+  target_compile_options(
+    ksl
+    PRIVATE
+    -ggdb
+    -Wextra
+  )
+  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_compile_options(
+      ksl
+      PRIVATE
+      -ftree-vectorizer-verbose=7
+      -fopt-info
+    )
+  endif()
+endif()
+
+target_compile_options(
+  ksl
+  PRIVATE
+  -std=c11
+  -Wall
+  -D_GNU_SOURCE=1
+  -pipe
+  -fPIC
+)
+
 get_target_property(KSL_COMPILE_OPTIONS ksl COMPILE_OPTIONS)
 
-message(STATUS "Build type: " ${CMAKE_BUILD_TYPE})
-message(STATUS "Compile options: " "${KSL_COMPILE_OPTIONS}")
+message(STATUS "ksl build type: " ${CMAKE_BUILD_TYPE})
+message(STATUS "ksl compile options: " "${KSL_COMPILE_OPTIONS}")
 
 find_library(M_LIB m REQUIRED)
 
@@ -96,14 +111,18 @@ if(DEFINED WITH_BLAS)
   find_package(cblas REQUIRED)
 endif()
 
-set(LIBS
+target_link_libraries(
+  ksl
+  PUBLIC
   ${M_LIB}
-  ${CBLAS_LIBRARIES})
+  ${CBLAS_LIBRARIES}
+)
 
-if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR} AND
-   CMAKE_BUILD_TYPE MATCHES Debug)
+option(KSL_BUILD_TESTS "Build KSL test suite" OFF)
 
-  find_package(Check)
+if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR} AND KSL_BUILD_TEST)
+
+  find_package(CHECK)
   if(CHECK_FOUND)
     message(STATUS "Check library found. Building test suite. Run all tests by  issuing `make test`")
     include(CheckCSourceCompiles)
