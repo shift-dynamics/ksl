@@ -44,7 +44,6 @@ The below tables contain examples of the naming conventions used for *KSL* datas
 | **CoAdr**                | `ksl_mat3x3_t`     |  CoAdjoint matrix for transforming coscrews consisting of only an SO3 rotation |
 | **Adt**                  | `double`           |  Adjoint matrix for transforming screws consisting of only a translation |
 | **CoAdt**                | `double`           |  CoAdjoint matrix for transforming coscrews consisting of only a translation |
-========================== ========================= =============
 
 ## example usage
 
