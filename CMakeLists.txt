@@ -178,21 +178,25 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR} AND KSL_BUILD_TESTS)
     add_test(NAME check_vector COMMAND check_vector)
     add_test(NAME check_print COMMAND check_print)
 
-    setup_target_for_coverage_gcovr_xml(
-      NAME coverage
-      EXECUTABLE ctest -j ${n_cores}
-      DEPENDENCIES
-        check_axis
-        check_coscrew
-        check_inertia
-        check_linalg
-        check_matrix
-        check_quaternion
-        check_screw
-        check_util
-        check_vector
-        check_print
-    )
+    find_program(GCOVR_BIN gcovr)
+    if(GCOVR_BIN)
+      message(STATUS "Adding code coverage target using gcovr")
+      setup_target_for_coverage_gcovr_xml(
+        NAME coverage
+        EXECUTABLE ctest -j ${n_cores}
+        DEPENDENCIES
+          check_axis
+          check_coscrew
+          check_inertia
+          check_linalg
+          check_matrix
+          check_quaternion
+          check_screw
+          check_util
+          check_vector
+          check_print
+      )
+    endif()
 
   else()
 
