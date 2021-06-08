@@ -120,9 +120,9 @@ target_link_libraries(
 
 option(KSL_BUILD_TESTS "Build KSL test suite" OFF)
 
-if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR} AND KSL_BUILD_TEST)
+if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR} AND KSL_BUILD_TESTS)
 
-  find_package(CHECK)
+  find_package(Check REQUIRED)
   if(CHECK_FOUND)
     message(STATUS "Check library found. Building test suite. Run all tests by  issuing `make test`")
     include(CheckCSourceCompiles)
@@ -152,8 +152,14 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR} AND KSL_BUILD_TEST)
     add_definitions(-DHAVE_CONFIG_H)
     set(CONFIG_HEADER ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
-    include_directories(${CHECK_INCLUDE_DIRS})
-    link_directories(${CHECK_LIBRARY_DIRS})
+    # get_cmake_property(_variableNames VARIABLES)
+    # list (SORT _variableNames)
+    # foreach (_variableName ${_variableNames})
+    #     message(STATUS "${_variableName}=${${_variableName}}")
+    # endforeach()
+    message(STATUS "Check include directories: ${CHECK_INCLUDE_DIR}")
+    message(STATUS "Check library directories: ${CHECK_LIBRARIES}")
+    include_directories(${CHECK_INCLUDE_DIR})
 
     include(CodeCoverage)
     append_coverage_compiler_flags()

@@ -7,7 +7,7 @@
 #
 #  This configuration file for finding libcheck is originally from
 #  the opensync project. The originally was downloaded from here:
-#  opensync.org/browser/branches/3rd-party-cmake-modules/modules/FindCHECK.cmake
+#  opensync.org/browser/branches/3rd-party-cmake-modules/modules/FindCheck.cmake
 #
 #  Copyright (c) 2007 Daniel Gollub <dgollub@suse.de>
 #  Copyright (c) 2007 Bjoern Ricks  <b.ricks@fh-osnabrueck.de>
@@ -16,34 +16,48 @@
 #  BSD license.
 #  For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-
-INCLUDE( FindPkgConfig )
+if(NOT PKG_CONFIG_FOUND)
+  include(CMakeFindDependencyMacro)
+  find_dependency(PkgConfig)
+endif()
 
 # Take care about check.pc settings
-PKG_SEARCH_MODULE( CHECK check )
+PKG_SEARCH_MODULE( CHECK Check )
 
 # Look for CHECK include dir and libraries
 IF( NOT CHECK_FOUND )
-
-	FIND_PATH( CHECK_INCLUDE_DIR check.h )
-
-	FIND_LIBRARY( CHECK_LIBRARIES NAMES check )
+    IF ( CHECK_INSTALL_DIR )
+		MESSAGE ( STATUS "Using override CHECK_INSTALL_DIR to find Check" )
+		SET ( CHECK_INCLUDE_DIR  "${CHECK_INSTALL_DIR}/include" )
+		SET ( CHECK_INCLUDE_DIRS "${CHECK_INCLUDE_DIR}" )
+		FIND_LIBRARY( CHECK_LIBRARY NAMES check PATHS "${CHECK_INSTALL_DIR}/lib" )
+		FIND_LIBRARY( COMPAT_LIBRARY NAMES compat PATHS "${CHECK_INSTALL_DIR}/lib" )
+		SET ( CHECK_LIBRARIES "${CHECK_LIBRARY}" "${COMPAT_LIBRARY}" )
+	ELSE ( CHECK_INSTALL_DIR )
+        message(STATUS "Finding check")
+        FIND_PATH( CHECK_INCLUDE_DIR check.h )
+		FIND_LIBRARY( CHECK_LIBRARIES NAMES check )
+	ENDIF ( CHECK_INSTALL_DIR )
 
 	IF ( CHECK_INCLUDE_DIR AND CHECK_LIBRARIES )
 		SET( CHECK_FOUND 1 )
-		IF ( NOT CHECK_FIND_QUIETLY )
-			MESSAGE ( STATUS "Found CHECK: ${CHECK_LIBRARIES}" )
-		ENDIF ( NOT CHECK_FIND_QUIETLY )
+		IF ( NOT Check_FIND_QUIETLY )
+            MESSAGE ( STATUS "Found CHECK: ${CHECK_LIBRARIES}" )
+            MESSAGE ( STATUS "CHECK_INCLUDE_DIR: ${CHECK_INCLUDE_DIR}")
+            MESSAGE ( STATUS "CHECK_INCLUDE_DIR: ${CHECK_LIBRARIES}")
+		ENDIF ( NOT Check_FIND_QUIETLY )
 	ELSE ( CHECK_INCLUDE_DIR AND CHECK_LIBRARIES )
-		IF ( CHECK_FIND_REQUIRED )
+		IF ( Check_FIND_REQUIRED )
 			MESSAGE( FATAL_ERROR "Could NOT find CHECK" )
-		ELSE ( CHECK_FIND_REQUIRED )
-			IF ( NOT CHECK_FIND_QUIETLY )
-				MESSAGE( STATUS "Could NOT find CHECK" )
-			ENDIF ( NOT CHECK_FIND_QUIETLY )
-		ENDIF ( CHECK_FIND_REQUIRED )
+		ELSE ( Check_FIND_REQUIRED )
+			IF ( NOT Check_FIND_QUIETLY )
+				MESSAGE( STATUS "Could NOT find CHECK" )	
+			ENDIF ( NOT Check_FIND_QUIETLY )
+		ENDIF ( Check_FIND_REQUIRED )
 	ENDIF ( CHECK_INCLUDE_DIR AND CHECK_LIBRARIES )
-ENDIF( NOT CHECK_FOUND )
+ENDIF( NOT CHECK_FOUND)
 
 # Hide advanced variables from CMake GUIs
 MARK_AS_ADVANCED( CHECK_INCLUDE_DIR CHECK_LIBRARIES )
+
+
