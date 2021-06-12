@@ -657,29 +657,35 @@ B = inverse(Ur)*UR
 @param *A [in/out] matrix to be factored with dimensions
 A[0:rank-1][0:colDim-1]:
 */
-inline void ksl_linalg_lu_rmo(const int rank, const int colDim,
-                              double* restrict A) {
+inline double ksl_linalg_lu_rmo(const int rank, const int colDim,
+                                double* restrict A) {
 
   assert(rank > 0 && rank <= colDim);
 
-  /*
-    Major loop to factor the matrix.
-    Generate factors column by column
-  */
+  double pivot_min, pivot_max = fabs(A[0]);
+  
+  // Major loop to factor the matrix.
+  // Generate factors column by column
   for(int row = 0; row < rank; row++) {
 
-    /* i iterates over rows of A, up to rank-1 */
+    // i iterates over rows of A, up to rank-1
     for(int i = row + 1; i < rank; i++) {
 
-      /* Evaluate the current entry in the L matrix.*/
-      A[i * colDim + row] /= A[row * colDim + row];
+      // Evaluate the current entry in the L matrix.
+      double pivot = A[row * colDim + row];
+      A[i * colDim + row] /= pivot;
+      pivot_min = fmin(pivot_min, pivot);
+      pivot_max = fmax(pivot_max, pivot);
+      printf("processing pivot index: %d\n", row);
 
-      /* Compute U matrix */
+      // Compute U matrix
       for(int j = row + 1; j < colDim; j++) {
         A[i * colDim + j] -= A[i * colDim + row] * A[row * colDim + j];
       }
     }
   }
+
+  return pivot_min / pivot_max;
 }
 
 /*!

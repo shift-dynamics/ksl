@@ -43,7 +43,7 @@ int ksl_linalg_lu_full_specified_rmo(const int rowDim, const int colDim,
                                      double* A, double eps, int* pr, int* pc,
                                      const int specifiedIndex);
 
-void ksl_linalg_lu_rmo(const int rank, const int colDim, double* A);
+double ksl_linalg_lu_rmo(const int rank, const int colDim, double* A);
 
 void ksl_linalg_lu_setBMatrix_rmo(const int rank, const int colDim, double* A);
 
