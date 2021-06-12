@@ -687,7 +687,7 @@ inline double ksl_linalg_lu_rmo(const int rank, const int colDim,
     }
   }
 
-  printf("\n");
+  printf("%g\n\n", pivot_min / pivot_max);
   return pivot_min / pivot_max;
 }
 
