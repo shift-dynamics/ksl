@@ -669,20 +669,20 @@ inline double ksl_linalg_lu_rmo(const int rank, const int colDim,
   // Generate factors column by column
   for(int row = 0; row < rank; row++) {
 
-    double pivot = A[row * colDim + row];
-    pivot_min = fmin(pivot_min, fabs(pivot));
-    pivot_max = fmax(pivot_max, fabs(pivot));
-
     // i iterates over rows of A, up to rank-1
     for(int i = row + 1; i < rank; i++) {
       // Evaluate the current entry in the L matrix.
-      A[i * colDim + row] /= pivot;
+      A[i * colDim + row] /= A[row * colDim + row];
       
       // Compute U matrix
       for(int j = row + 1; j < colDim; j++) {
         A[i * colDim + j] -= A[i * colDim + row] * A[row * colDim + j];
       }
     }
+    double pivot = A[row * colDim + row];
+    pivot_min = fmin(pivot_min, fabs(pivot));
+    pivot_max = fmax(pivot_max, fabs(pivot));
+
   }
 
   return pivot_min / pivot_max;
