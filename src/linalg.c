@@ -656,6 +656,7 @@ B = inverse(Ur)*UR
 @param colDim [in] column dimension of matrix A.
 @param *A [in/out] matrix to be factored with dimensions
 A[0:rank-1][0:colDim-1]:
+@return pivot_ratio ratio of smallest pivot / largest pivot
 */
 inline double ksl_linalg_lu_rmo(const int rank, const int colDim,
                                 double* restrict A) {
@@ -672,14 +673,11 @@ inline double ksl_linalg_lu_rmo(const int rank, const int colDim,
     pivot_min = fmin(pivot_min, pivot);
     pivot_max = fmax(pivot_max, pivot);
 
-    printf("processing pivot index: %d\n", row);
-    
     // i iterates over rows of A, up to rank-1
     for(int i = row + 1; i < rank; i++) {
-
-      A[i * colDim + row] /= pivot;
       // Evaluate the current entry in the L matrix.
-
+      A[i * colDim + row] /= pivot;
+      
       // Compute U matrix
       for(int j = row + 1; j < colDim; j++) {
         A[i * colDim + j] -= A[i * colDim + row] * A[row * colDim + j];
@@ -687,7 +685,6 @@ inline double ksl_linalg_lu_rmo(const int rank, const int colDim,
     }
   }
 
-  printf("%g\n\n", pivot_min / pivot_max);
   return pivot_min / pivot_max;
 }
 
