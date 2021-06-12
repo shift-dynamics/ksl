@@ -658,13 +658,13 @@ B = inverse(Ur)*UR
 A[0:rank-1][0:colDim-1]:
 @return pivot_ratio ratio of smallest pivot / largest pivot
 */
-inline double ksl_linalg_lu_rmo(const int rank, const int colDim,
+inline void ksl_linalg_lu_rmo(const int rank, const int colDim,
                                 double* restrict A) {
 
   assert(rank > 0 && rank <= colDim);
 
-  double pivot_min = 1.e300;
-  double pivot_max = -1;
+  // double pivot_min = 1.e300;
+  // double pivot_max = -1;
   // Major loop to factor the matrix.
   // Generate factors column by column
   for(int row = 0; row < rank; row++) {
@@ -679,13 +679,7 @@ inline double ksl_linalg_lu_rmo(const int rank, const int colDim,
         A[i * colDim + j] -= A[i * colDim + row] * A[row * colDim + j];
       }
     }
-    double pivot = A[row * colDim + row];
-    pivot_min = fmin(pivot_min, fabs(pivot));
-    pivot_max = fmax(pivot_max, fabs(pivot));
-
   }
-
-  return pivot_min / pivot_max;
 }
 
 /*!
