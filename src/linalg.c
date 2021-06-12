@@ -663,8 +663,8 @@ inline double ksl_linalg_lu_rmo(const int rank, const int colDim,
 
   assert(rank > 0 && rank <= colDim);
 
-  double pivot_min = -1.0;
-  double pivot_max = 1.e300 ;
+  double pivot_min = 1.e300;
+  double pivot_max = -1;
   // Major loop to factor the matrix.
   // Generate factors column by column
   for(int row = 0; row < rank; row++) {
