@@ -16,7 +16,8 @@ KSL can be obtained by cloning the repository from the GitHub site:
 Required tools
 ---------------------
 
-*   `cmake <https://cmake.org>`_
+*   `meson <https://mesonbuild.com>`_ and `ninja <https://ninja-build.org>`_
+*   `check <https://libcheck.github.io/check/>`_ (for the test suite)
 
 Optional dependencies
 ---------------------
@@ -34,7 +35,7 @@ Arch Linux:
 
 .. code::
 
-   pacman -S cmake cblas
+   pacman -S meson ninja check cblas
 
 
 Ubuntu / Debian-based Linux Distributions:
@@ -42,7 +43,7 @@ Ubuntu / Debian-based Linux Distributions:
 
 .. code::
 
-   apt-get install cmake cblas
+   apt-get install meson ninja-build check libopenblas-dev
 
 
 Macintosh
@@ -52,10 +53,10 @@ On a Macintosh, the dependencies can be installed using the *brew* package manag
 
 .. code::
 
-  brew install cmake
+  brew install meson ninja check
 
 
-The cblas package is already available on a Macintosh using the *accelerate* framework, the CMakeLists.txt file may need to be modified to bring in this dependency correctly.
+The cblas package is already available on a Macintosh using the *accelerate* framework, the meson.build file may need to be modified to bring in this dependency correctly.
 
 
 Windows
@@ -71,24 +72,22 @@ To build the KSL library, from within the top directory of the repository, issue
 
 .. code::
 
-   mkdir build
-   cd build
-   cmake ..
-   make
+   meson setup build
+   meson compile -C build
 
 
-To enable BLAS, change the cmake argument above as:
+To enable BLAS, configure with:
 
 .. code::
 
-   cmake .. -DWITH_BLAS
+   meson setup build -Dblas=enabled
 
 
 To build in release mode (disables asserts and debug output)
 
 .. code::
 
-   cmake .. -DCMAKE_BUILD_TYPE=Release
+   meson setup build --buildtype=release
 
 
 Running Tests
@@ -98,21 +97,20 @@ After building as described above, then issue the command:
 
 .. code::
 
-    make test
+    meson test -C build
 
 
 Building documentation
 ----------------------
 
-Documentation can be built by issuing the command in the build directory:
+The doxygen API listing can be generated with:
 
 .. code::
 
-   make doc
+   meson compile -C build doxygen
 
-
-Optional - documentation can be copied to your /share/doc folder by issuing the command:
+The sphinx pages are then built from the ``doc`` directory with:
 
 .. code::
 
-   make install
+   make html

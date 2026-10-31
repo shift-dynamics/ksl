@@ -34,8 +34,5 @@ Running all tests
 
 .. code::
 
-    mkdir build
-    cd build
-    cmake ..
-    make
-    make test
+    meson setup build
+    meson test -C build

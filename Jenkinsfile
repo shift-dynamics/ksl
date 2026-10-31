@@ -4,19 +4,19 @@ pipeline {
     stage('Build') {
       steps {
         echo 'Building..'
-        sh 'touch build && rm -r build && mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug -DKSL_BUILD_TESTS=ON .. && make'
+        sh 'rm -rf build && meson setup build --buildtype=debug -Dtests=enabled -Db_coverage=true && meson compile -C build'
       }
     }
     stage('Test') {
       steps {
         echo 'Testing..'
-        sh 'cd build && make test'
+        sh 'meson test -C build'
       }
     }
     stage('Coverage') {
       steps {
         echo 'Performing coverage analysis..'
-        sh 'cd build && make coverage'
+        sh 'ninja -C build coverage-xml'
       }
       post {
         always {
