@@ -877,8 +877,7 @@ inline void ksl_linalg_ldlt_backwardSubstitution_rmo(const double* restrict L,
                                                      const double* restrict y,
                                                      double* restrict x,
                                                      const int n) {
-  x[n - 1] = y[n - 1];
-  for(int i = n - 2; i > -1; i--) {
+  for(int i = n - 1; i > -1; i--) {
     x[i] = y[i];
     for(int j = i + 1; j < n; j++) {
       x[i] -= L[j * n + i] * x[j];
@@ -935,8 +934,7 @@ inline void
 ksl_linalg_cholesky_backwardSubstitution_rmo(const double* restrict L,
                                              const double* restrict y,
                                              double* restrict x, const int n) {
-  x[n - 1] = y[n - 1] / L[(n - 1) * n + (n - 1)];
-  for(int i = n - 2; i > -1; i--) {
+  for(int i = n - 1; i > -1; i--) {
     double t = y[i];
     for(int j = i + 1; j < n; j++) {
       t -= L[j * n + i] * x[j];
