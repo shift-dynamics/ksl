@@ -1165,6 +1165,61 @@ START_TEST(test_product_CoAdinvcf) {
 }
 END_TEST
 
+/* Duality between screws and coscrews: transforming both with the same
+displacement leaves their power product unchanged, and the coscrew cross
+product is the negative adjoint of the screw cross product. */
+
+START_TEST(test_product_CoAdc_Ads_duality) {
+  ksl_SE3_t D;
+  ksl_vec3_t angles = ksl_vec3(0.2, -0.6, 1.1);
+  ksl_mat3x3_setFromEulerAngles(&D.R, KSL_AXIS_XYZ, &angles);
+  D.t = ksl_vec3(0.4, -0.7, 1.3);
+  ksl_screw_t s = ksl_screw(1.0, -2.0, 0.5, 0.3, 0.8, -1.2);
+  ksl_coscrew_t c = ksl_coscrew(-0.4, 1.5, 2.0, 0.7, -0.9, 0.25);
+
+  ksl_screw_t s2;
+  ksl_coscrew_t c2;
+  ksl_product_Ads(&D, &s, &s2);
+  ksl_product_CoAdc(&D, &c, &c2);
+  ck_assert_double_eq_tol(ksl_dot_cs(&c2, &s2), ksl_dot_cs(&c, &s), 1e-12);
+
+  ksl_product_Adinvs(&D, &s, &s2);
+  ksl_product_CoAdinvc(&D, &c, &c2);
+  ck_assert_double_eq_tol(ksl_dot_cs(&c2, &s2), ksl_dot_cs(&c, &s), 1e-12);
+
+  /* Ad^-1 * Ad = I */
+  ksl_screw_t s3;
+  ksl_product_Ads(&D, &s, &s2);
+  ksl_product_Adinvs(&D, &s2, &s3);
+  for(int i = 0; i < 6; i++) {
+    ck_assert_double_eq_tol(s3.at[i], s.at[i], 1e-12);
+  }
+
+  /* CoAd^-1 * CoAd = I */
+  ksl_coscrew_t c3;
+  ksl_product_CoAdc(&D, &c, &c2);
+  ksl_product_CoAdinvc(&D, &c2, &c3);
+  for(int i = 0; i < 6; i++) {
+    ck_assert_double_eq_tol(c3.at[i], c.at[i], 1e-12);
+  }
+}
+END_TEST
+
+START_TEST(test_cross_sc_duality) {
+  /* (s1 x* c) . s2 == -c . (s1 x s2) */
+  ksl_screw_t s1 = ksl_screw(1.0, -2.0, 0.5, 0.3, 0.8, -1.2);
+  ksl_screw_t s2 = ksl_screw(0.6, 0.1, -0.9, -1.4, 0.2, 0.75);
+  ksl_coscrew_t c = ksl_coscrew(-0.4, 1.5, 2.0, 0.7, -0.9, 0.25);
+
+  ksl_coscrew_t s1xc;
+  ksl_cross_sc(&s1, &c, &s1xc);
+  ksl_screw_t s1xs2;
+  ksl_cross_ss(&s1, &s2, &s1xs2);
+  ck_assert_double_eq_tol(ksl_dot_cs(&s1xc, &s2), -ksl_dot_cs(&c, &s1xs2),
+                          1e-12);
+}
+END_TEST
+
 Suite* coscrew_suite(void) {
   Suite* s = suite_create("coscrew");
   TCase* tc_core = tcase_create("core");
@@ -1245,6 +1300,8 @@ Suite* coscrew_suite(void) {
   tcase_add_test(tc_core, test_product_CoAdcinvf);
   tcase_add_test(tc_core, test_product_CoAdinvc);
   tcase_add_test(tc_core, test_product_CoAdinvcf);
+  tcase_add_test(tc_core, test_product_CoAdc_Ads_duality);
+  tcase_add_test(tc_core, test_cross_sc_duality);
 
   suite_add_tcase(s, tc_core);
   return s;

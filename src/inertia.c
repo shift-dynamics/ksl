@@ -178,6 +178,7 @@ inline void ksl_inertiaf_rotate(ksl_inertiaf_t* restrict inertia_i,
 void ksl_inertia_translated(const ksl_inertia_t* restrict inertia_i,
                             const ksl_vec3_t* restrict t,
                             ksl_inertia_t* restrict inertia_o) {
+  ksl_inertia_copy(inertia_i, inertia_o);
   ksl_axpy_vv(inertia_i->m, t, &inertia_o->mt);
 
   ksl_vec3_t temp;
@@ -202,6 +203,7 @@ void ksl_inertia_translated(const ksl_inertia_t* restrict inertia_i,
 void ksl_inertiaf_translated(const ksl_inertiaf_t* restrict inertia_i,
                              const ksl_vec3f_t* restrict t,
                              ksl_inertiaf_t* restrict inertia_o) {
+  ksl_inertiaf_copy(inertia_i, inertia_o);
   ksl_axpy_vvf(inertia_i->m, t, &inertia_o->mt);
 
   ksl_vec3f_t temp;
@@ -346,15 +348,20 @@ void ksl_inertia_merge(ksl_inertia_t* restrict inertia_i,
 
   /* b. transform centroidal inertia matrix of parent body to new centroid
   (eq. 1.11) */
-  ksl_inertia_t* M_i_cc_ii = inertia_i;
+  /* the parallel axis shift in ksl_inertia_translated is taken from the first
+  moment, which is zero for an inertia referenced to its own centroid */
+  ksl_inertia_t M_i_cc_ii;
+  ksl_inertia_copy(inertia_i, &M_i_cc_ii);
+  M_i_cc_ii.mt = ksl_vec3(0.0, 0.0, 0.0);
   ksl_inertia_t M_i_ccbar;
-  ksl_inertia_translated(M_i_cc_ii, &t_ccbar, &M_i_ccbar);
+  ksl_inertia_translated(&M_i_cc_ii, &t_ccbar, &M_i_ccbar);
 
   /* c. transform child body centroidal moment of inertia to new centroid
   (eq. 1.12 (a)) */
   const ksl_inertia_t* M_j_cc_jj = inertia_j;
   ksl_inertia_t M_j_ccbar_temp;
   ksl_inertia_rotated(M_j_cc_jj, &D_ij->R, &M_j_ccbar_temp);
+  M_j_ccbar_temp.mt = ksl_vec3(0.0, 0.0, 0.0);
 
   /* equation 1.13 */
   ksl_vec3_t temp = ksl_vec3(0.0, 0.0, 0.0);
@@ -422,15 +429,20 @@ void ksl_inertiaf_merge(ksl_inertiaf_t* restrict inertia_i,
 
   /* b. transform centroidal inertia matrix of parent body to new centroid
   (eq. 1.11) */
-  ksl_inertiaf_t* M_i_cc_ii = inertia_i;
+  /* the parallel axis shift in ksl_inertiaf_translated is taken from the first
+  moment, which is zero for an inertia referenced to its own centroid */
+  ksl_inertiaf_t M_i_cc_ii;
+  ksl_inertiaf_copy(inertia_i, &M_i_cc_ii);
+  M_i_cc_ii.mt = ksl_vec3f(0.0, 0.0, 0.0);
   ksl_inertiaf_t M_i_ccbar;
-  ksl_inertiaf_translated(M_i_cc_ii, &t_ccbar, &M_i_ccbar);
+  ksl_inertiaf_translated(&M_i_cc_ii, &t_ccbar, &M_i_ccbar);
 
   /* c. transform child body centroidal moment of inertia to new centroid
   (eq. 1.12 (a)) */
   const ksl_inertiaf_t* M_j_cc_jj = inertia_j;
   ksl_inertiaf_t M_j_ccbar_temp;
   ksl_inertiaf_rotated(M_j_cc_jj, &D_ij->R, &M_j_ccbar_temp);
+  M_j_ccbar_temp.mt = ksl_vec3f(0.0, 0.0, 0.0);
 
   /* equation 1.13 */
   ksl_vec3f_t temp = ksl_vec3f(.0, 0.0, 0.0);

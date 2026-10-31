@@ -1101,27 +1101,44 @@ inline float ksl_mat3x3f_determinant(const ksl_mat3x3f_t* restrict R) {
 inline void ksl_mat3x3_getAxisAngle(const ksl_mat3x3_t* restrict r,
                                     ksl_vec3_t* restrict axis,
                                     double* restrict angle) {
+  /* c = cos(theta), v = sin(theta) * u, from r = c I + (1 - c) u u^T + s u~ */
+  double c = 0.5 * (r->m00 + r->m11 + r->m22 - 1.0);
+  ksl_vec3_t v = ksl_vec3(0.5 * (r->m21 - r->m12), 0.5 * (r->m02 - r->m20),
+                          0.5 * (r->m10 - r->m01));
+  double s = ksl_vec3_l2norm(&v);
+  *angle = atan2(s, c);
 
-  *angle = acos(0.5 * (r->m00 + r->m11 + r->m22 - 1.0));
-  if(fabs(sin(*angle)) < 1e-9) {
-    /* if m22 == -1, return {1, 0, 0} */
-    if(fabs(r->m22 + 1) < 1e-9) {
-      axis->x = 1.0;
-      axis->y = 0.0;
-      axis->z = 0.0;
-      return;
-    } else {
+  if(c >= 0.0) {
+    if(s < 1e-9) {
+      /* identity: the axis is arbitrary, return {0, 0, 1} */
       axis->x = 0.0;
       axis->y = 0.0;
       axis->z = 1.0;
       return;
     }
+    /* u_tilde = (1 / 2 sin \theta) * (r - r^T) */
+    ksl_product_av(1.0 / s, &v, axis);
+    return;
   }
-  /* u_tilde = (1 / 2 sin \theta) * (r - r^T) */
-  axis->x = r->m21 - r->m12;
-  axis->y = r->m02 - r->m20;
-  axis->z = r->m10 - r->m01;
-  ksl_vec3_scale(axis, 1 / (2 * sin(*angle)));
+
+  /* theta > pi / 2: the skew-symmetric part vanishes as theta -> pi, so use
+  the symmetric part, (r + r^T) / 2 - c I = (1 - c) u u^T, and take the
+  column with the largest diagonal entry. */
+  int k = 0;
+  for(int i = 1; i < 3; i++) {
+    if(r->at[i][i] > r->at[k][k]) {
+      k = i;
+    }
+  }
+  double scale = 1.0 / sqrt((r->at[k][k] - c) * (1.0 - c));
+  for(int i = 0; i < 3; i++) {
+    double sym = 0.5 * (r->at[k][i] + r->at[i][k]) - (i == k ? c : 0.0);
+    axis->at[i] = sym * scale;
+  }
+  /* the symmetric part only determines u up to sign; match sin(theta) * u */
+  if(ksl_dot_vv(axis, &v) < 0.0) {
+    ksl_vec3_invert(axis);
+  }
 }
 
 inline void ksl_mat3x3_setFromAxisAngle(ksl_mat3x3_t* restrict r,
@@ -1177,26 +1194,44 @@ inline void ksl_mat3x3_setFromAxisDC(ksl_mat3x3_t* restrict r,
 inline void ksl_mat3x3f_getAxisAngle(const ksl_mat3x3f_t* restrict r,
                                      ksl_vec3f_t* restrict axis,
                                      float* restrict angle) {
-  *angle = acos(0.5 * (r->m00 + r->m11 + r->m22 - 1.0));
-  if(fabs(sin(*angle)) < 1e-9) {
-    /* if m22 == -1, return {1, 0, 0} */
-    if(fabs(r->m22 + 1) < 1e-9) {
-      axis->x = 1.0;
-      axis->y = 0.0;
-      axis->z = 0.0;
-      return;
-    } else {
-      axis->x = 0.0;
-      axis->y = 0.0;
-      axis->z = 1.0;
+  /* c = cos(theta), v = sin(theta) * u, from r = c I + (1 - c) u u^T + s u~ */
+  float c = 0.5f * (r->m00 + r->m11 + r->m22 - 1.0f);
+  ksl_vec3f_t v = ksl_vec3f(0.5f * (r->m21 - r->m12), 0.5f * (r->m02 - r->m20),
+                            0.5f * (r->m10 - r->m01));
+  float s = ksl_vec3f_l2norm(&v);
+  *angle = atan2f(s, c);
+
+  if(c >= 0.0f) {
+    if(s < 1e-6f) {
+      /* identity: the axis is arbitrary, return {0, 0, 1} */
+      axis->x = 0.0f;
+      axis->y = 0.0f;
+      axis->z = 1.0f;
       return;
     }
+    /* u_tilde = (1 / 2 sin \theta) * (r - r^T) */
+    ksl_product_avf(1.0f / s, &v, axis);
+    return;
   }
-  /* u_tilde = (1 / 2 sin \theta) * (r - r^T) */
-  axis->x = r->m21 - r->m12;
-  axis->y = r->m02 - r->m20;
-  axis->z = r->m10 - r->m01;
-  ksl_vec3f_scale(axis, 1 / (2 * sin(*angle)));
+
+  /* theta > pi / 2: the skew-symmetric part vanishes as theta -> pi, so use
+  the symmetric part, (r + r^T) / 2 - c I = (1 - c) u u^T, and take the
+  column with the largest diagonal entry. */
+  int k = 0;
+  for(int i = 1; i < 3; i++) {
+    if(r->at[i][i] > r->at[k][k]) {
+      k = i;
+    }
+  }
+  float scale = 1.0f / sqrtf((r->at[k][k] - c) * (1.0f - c));
+  for(int i = 0; i < 3; i++) {
+    float sym = 0.5f * (r->at[k][i] + r->at[i][k]) - (i == k ? c : 0.0f);
+    axis->at[i] = sym * scale;
+  }
+  /* the symmetric part only determines u up to sign; match sin(theta) * u */
+  if(ksl_dot_vvf(axis, &v) < 0.0f) {
+    ksl_vec3f_invert(axis);
+  }
 }
 
 inline void ksl_mat3x3f_setFromAxisAngle(ksl_mat3x3f_t* restrict r,

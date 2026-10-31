@@ -2292,6 +2292,169 @@ START_TEST(test_matrix_product_ddinvf) {
 }
 END_TEST
 
+/* The tests below use two distinct, non-trivial transformations. When both
+operands are the same orthonormal matrix, R1^T * R2 and R1 * R2^T are both the
+identity, so tests with identical operands cannot distinguish them. */
+
+static void make_test_SE3(ksl_SE3_t* d, const double a0, const double a1,
+                          const double a2, const double tx, const double ty,
+                          const double tz) {
+  ksl_vec3_t angles = ksl_vec3(a0, a1, a2);
+  ksl_mat3x3_setFromEulerAngles(&d->R, KSL_AXIS_XYZ, &angles);
+  d->t = ksl_vec3(tx, ty, tz);
+}
+
+static void make_test_SE3f(ksl_SE3f_t* d, const float a0, const float a1,
+                           const float a2, const float tx, const float ty,
+                           const float tz) {
+  ksl_vec3f_t angles = ksl_vec3f(a0, a1, a2);
+  ksl_mat3x3f_setFromEulerAngles(&d->R, KSL_AXIS_XYZ, &angles);
+  d->t = ksl_vec3f(tx, ty, tz);
+}
+
+START_TEST(test_matrix_product_drdrinv_distinct) {
+  ksl_SE3_t d1, d2;
+  make_test_SE3(&d1, 0.2, 0.3, 0.4, 0.0, 0.0, 0.0);
+  make_test_SE3(&d2, -0.5, 0.7, 1.1, 0.0, 0.0, 0.0);
+
+  /* expected: R1 * R2^T */
+  ksl_mat3x3_t r2t;
+  ksl_mat3x3_transposed(&d2.R, &r2t);
+  ksl_mat3x3_t expected;
+  ksl_product_drdr(&d1.R, &r2t, &expected);
+
+  ksl_mat3x3_t r3;
+  ksl_product_drdrinv(&d1.R, &d2.R, &r3);
+
+  for(int i = 0; i < 9; i++) {
+    ck_assert_double_eq_tol(r3.as_array[i], expected.as_array[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_drdrinvf_distinct) {
+  ksl_SE3f_t d1, d2;
+  make_test_SE3f(&d1, 0.2, 0.3, 0.4, 0.0, 0.0, 0.0);
+  make_test_SE3f(&d2, -0.5, 0.7, 1.1, 0.0, 0.0, 0.0);
+
+  ksl_mat3x3f_t r2t;
+  ksl_mat3x3f_transposed(&d2.R, &r2t);
+  ksl_mat3x3f_t expected;
+  ksl_product_drdrf(&d1.R, &r2t, &expected);
+
+  ksl_mat3x3f_t r3;
+  ksl_product_drdrinvf(&d1.R, &d2.R, &r3);
+
+  for(int i = 0; i < 9; i++) {
+    ck_assert_float_eq_tol(r3.as_array[i], expected.as_array[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddinv_distinct) {
+  ksl_SE3_t d1, d2;
+  make_test_SE3(&d1, 0.2, 0.3, 0.4, 1.0, 2.0, 3.0);
+  make_test_SE3(&d2, -0.5, 0.7, 1.1, -0.4, 0.6, 1.5);
+
+  /* expected: D1 * D2^-1 */
+  ksl_SE3_t d2inv;
+  ksl_SE3_inverted(&d2, &d2inv);
+  ksl_SE3_t expected;
+  ksl_product_dd(&d1, &d2inv, &expected);
+
+  ksl_SE3_t d3;
+  ksl_product_ddinv(&d1, &d2, &d3);
+
+  for(int i = 0; i < 12; i++) {
+    ck_assert_double_eq_tol(d3.as_array[i], expected.as_array[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_ddinvf_distinct) {
+  ksl_SE3f_t d1, d2;
+  make_test_SE3f(&d1, 0.2, 0.3, 0.4, 1.0, 2.0, 3.0);
+  make_test_SE3f(&d2, -0.5, 0.7, 1.1, -0.4, 0.6, 1.5);
+
+  ksl_SE3f_t d2inv;
+  ksl_SE3f_inverted(&d2, &d2inv);
+  ksl_SE3f_t expected;
+  ksl_product_ddf(&d1, &d2inv, &expected);
+
+  ksl_SE3f_t d3;
+  ksl_product_ddinvf(&d1, &d2, &d3);
+
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(d3.as_array[i], expected.as_array[i], 1e-5);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_dinvd) {
+  ksl_SE3_t d1, d2;
+  make_test_SE3(&d1, 0.2, 0.3, 0.4, 1.0, 2.0, 3.0);
+  make_test_SE3(&d2, -0.5, 0.7, 1.1, -0.4, 0.6, 1.5);
+
+  /* expected: D1^-1 * D2 */
+  ksl_SE3_t d1inv;
+  ksl_SE3_inverted(&d1, &d1inv);
+  ksl_SE3_t expected;
+  ksl_product_dd(&d1inv, &d2, &expected);
+
+  ksl_SE3_t d3;
+  ksl_product_dinvd(&d1, &d2, &d3);
+
+  for(int i = 0; i < 12; i++) {
+    ck_assert_double_eq_tol(d3.as_array[i], expected.as_array[i], 1e-9);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_product_dinvdf) {
+  ksl_SE3f_t d1, d2;
+  make_test_SE3f(&d1, 0.2, 0.3, 0.4, 1.0, 2.0, 3.0);
+  make_test_SE3f(&d2, -0.5, 0.7, 1.1, -0.4, 0.6, 1.5);
+
+  ksl_SE3f_t d1inv;
+  ksl_SE3f_inverted(&d1, &d1inv);
+  ksl_SE3f_t expected;
+  ksl_product_ddf(&d1inv, &d2, &expected);
+
+  ksl_SE3f_t d3;
+  ksl_product_dinvdf(&d1, &d2, &d3);
+
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(d3.as_array[i], expected.as_array[i], 1e-5);
+  }
+}
+END_TEST
+
+START_TEST(test_matrix_mat3x3_getAxisAngle_pi) {
+  /* A rotation of pi about u equals a rotation of pi about -u, so compare the
+  rotation matrix rebuilt from the returned axis/angle instead of the axis. */
+  ksl_vec3_t axes[4] = {ksl_vec3(1.0, 0.0, 0.0), ksl_vec3(0.0, 1.0, 0.0),
+                        ksl_vec3(1.0, 1.0, 0.0), ksl_vec3(1.0, 2.0, 3.0)};
+  for(int k = 0; k < 4; k++) {
+    ksl_mat3x3_t m;
+    ksl_mat3x3_setFromAxisAngle(&m, &axes[k], M_PI);
+
+    ksl_vec3_t axis_test;
+    double angle_test;
+    ksl_mat3x3_getAxisAngle(&m, &axis_test, &angle_test);
+
+    ksl_mat3x3_t m_test;
+    ksl_mat3x3_setFromAxisAngle(&m_test, &axis_test, angle_test);
+    for(int i = 0; i < 9; i++) {
+      ck_assert_msg(fabs(m.as_array[i] - m_test.as_array[i]) < 1e-6,
+                    "failed for axis %d: (%f, %f, %f), returned axis (%f, %f, "
+                    "%f), angle %f\n",
+                    k, axes[k].x, axes[k].y, axes[k].z, axis_test.x,
+                    axis_test.y, axis_test.z, angle_test);
+    }
+  }
+}
+END_TEST
+
 Suite* matrix_suite(void) {
   Suite* s = suite_create("matrix");
   TCase* tc_core = tcase_create("core");
@@ -2438,6 +2601,14 @@ Suite* matrix_suite(void) {
   tcase_add_test(tc_core, test_matrix_product_ddrf);
   tcase_add_test(tc_core, test_matrix_product_ddrinv);
   tcase_add_test(tc_core, test_matrix_product_ddrinvf);
+
+  tcase_add_test(tc_core, test_matrix_product_drdrinv_distinct);
+  tcase_add_test(tc_core, test_matrix_product_drdrinvf_distinct);
+  tcase_add_test(tc_core, test_matrix_product_ddinv_distinct);
+  tcase_add_test(tc_core, test_matrix_product_ddinvf_distinct);
+  tcase_add_test(tc_core, test_matrix_product_dinvd);
+  tcase_add_test(tc_core, test_matrix_product_dinvdf);
+  tcase_add_test(tc_core, test_matrix_mat3x3_getAxisAngle_pi);
 
   suite_add_tcase(s, tc_core);
   return s;

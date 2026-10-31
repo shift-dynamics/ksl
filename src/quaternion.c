@@ -451,7 +451,7 @@ No. 3, 1985] (http://run.usc.edu/cs520-s12/assign2/p245-shoemake.pdf)
 @param t fraction from q1i to q2i (0<t<1)
 @param qo the resulting quaternion is returned in qo
 */
-inline void ksl_slerp(const ksl_quaternion_t* restrict q1i,
+inline void ksl_quaternion_slerp(const ksl_quaternion_t* restrict q1i,
                       const ksl_quaternion_t* restrict q2i, double* restrict t,
                       ksl_quaternion_t* restrict qo) {
 
@@ -539,7 +539,7 @@ inline void ksl_quaternionf_slerp(const ksl_quaternionf_t* restrict q1i,
 /*!
 @brief Vectorized version of quaternion Linear Interpolation (Lerp)
 
-Less expensive numerically than Shoemake's Slerp algorithm (ksl_slerp)
+Less expensive numerically than Shoemake's Slerp algorithm (ksl_quaternion_slerp)
 but does not interpolate with constant velocity
 
 @param q1i a first quaternion in the form [x,y,z,w] to interpolate from
@@ -640,7 +640,7 @@ qij += 1/2*Lc(qij)*dpij += 1/2 | qz  qw -qx| |dpijy|
                                |-qx -qy -qz|
 
 */
-inline void kls_add_dpiToq(const ksl_vec3_t* restrict dpi,
+inline void ksl_add_dpiToq(const ksl_vec3_t* restrict dpi,
                            ksl_quaternion_t* restrict qi) {
   register ksl_quaternion_t dq;
   dq.x = qi->w * dpi->x - qi->z * dpi->y + qi->y * dpi->z;
@@ -955,21 +955,23 @@ void ksl_product_qconjqconj(const ksl_quaternion_t* restrict q1i,
                             const ksl_quaternion_t* restrict q2i,
                             ksl_quaternion_t* restrict qo) {
   /*
-                          | q1iw  q1iz -q1iy -q1ix| | q2ix|
+                          | q1iw  q1iz -q1iy -q1ix| |-q2ix|
   qo = L(q1i)^T*q2iconj = |-q1iz  q1iw  q1ix -q1iy| |-q2iy|
                           | q1iy -q1ix  q1iw -q1iz| |-q2iz|
-                          | q1ix  q1iy  q1iz  q1iw| |-q2iw|
+                          | q1ix  q1iy  q1iz  q1iw| | q2iw|
 
-                          | q1iw -q1iz  q1iy  q1ix| |q2ix|
-                        = |-q1iz -q1iw -q1ix  q1iy| |q2iy|
-                          | q1iy  q1ix -q1iw  q1iz| |q2iz|
-                          | q1ix -q1iy -q1iz -q1iw| |q2iw|
+                          |-q1iw -q1iz  q1iy -q1ix| |q2ix|
+                        = | q1iz -q1iw -q1ix -q1iy| |q2iy|
+                          |-q1iy  q1ix -q1iw -q1iz| |q2iz|
+                          |-q1ix -q1iy -q1iz  q1iw| |q2iw|
   */
-  qo->x = q1i->w * q2i->x - q1i->z * q2i->y + q1i->y * q2i->z + q1i->x * q2i->w;
-  qo->y =
-    -q1i->z * q2i->x - q1i->w * q2i->y - q1i->x * q2i->z + q1i->y * q2i->w;
-  qo->z = q1i->y * q2i->x + q1i->x * q2i->y - q1i->w * q2i->z + q1i->z * q2i->w;
-  qo->w = q1i->x * q2i->x - q1i->y * q2i->y - q1i->z * q2i->z - q1i->w * q2i->w;
+  qo->x =
+    -q1i->w * q2i->x - q1i->z * q2i->y + q1i->y * q2i->z - q1i->x * q2i->w;
+  qo->y = q1i->z * q2i->x - q1i->w * q2i->y - q1i->x * q2i->z - q1i->y * q2i->w;
+  qo->z =
+    -q1i->y * q2i->x + q1i->x * q2i->y - q1i->w * q2i->z - q1i->z * q2i->w;
+  qo->w =
+    -q1i->x * q2i->x - q1i->y * q2i->y - q1i->z * q2i->z + q1i->w * q2i->w;
 }
 
 /*!
@@ -990,21 +992,23 @@ void ksl_product_qconjqconjf(const ksl_quaternionf_t* restrict q1i,
                              const ksl_quaternionf_t* restrict q2i,
                              ksl_quaternionf_t* restrict qo) {
   /*
-                          | q1iw  q1iz -q1iy -q1ix| | q2ix|
+                          | q1iw  q1iz -q1iy -q1ix| |-q2ix|
   qo = L(q1i)^T*q2iconj = |-q1iz  q1iw  q1ix -q1iy| |-q2iy|
                           | q1iy -q1ix  q1iw -q1iz| |-q2iz|
-                          | q1ix  q1iy  q1iz  q1iw| |-q2iw|
+                          | q1ix  q1iy  q1iz  q1iw| | q2iw|
 
-                          | q1iw -q1iz  q1iy  q1ix| |q2ix|
-                        = |-q1iz -q1iw -q1ix  q1iy| |q2iy|
-                          | q1iy  q1ix -q1iw  q1iz| |q2iz|
-                          | q1ix -q1iy -q1iz -q1iw| |q2iw|
+                          |-q1iw -q1iz  q1iy -q1ix| |q2ix|
+                        = | q1iz -q1iw -q1ix -q1iy| |q2iy|
+                          |-q1iy  q1ix -q1iw -q1iz| |q2iz|
+                          |-q1ix -q1iy -q1iz  q1iw| |q2iw|
   */
-  qo->x = q1i->w * q2i->x - q1i->z * q2i->y + q1i->y * q2i->z + q1i->x * q2i->w;
-  qo->y =
-    -q1i->z * q2i->x - q1i->w * q2i->y - q1i->x * q2i->z + q1i->y * q2i->w;
-  qo->z = q1i->y * q2i->x + q1i->x * q2i->y - q1i->w * q2i->z + q1i->z * q2i->w;
-  qo->w = q1i->x * q2i->x - q1i->y * q2i->y - q1i->z * q2i->z - q1i->w * q2i->w;
+  qo->x =
+    -q1i->w * q2i->x - q1i->z * q2i->y + q1i->y * q2i->z - q1i->x * q2i->w;
+  qo->y = q1i->z * q2i->x - q1i->w * q2i->y - q1i->x * q2i->z - q1i->y * q2i->w;
+  qo->z =
+    -q1i->y * q2i->x + q1i->x * q2i->y - q1i->w * q2i->z - q1i->z * q2i->w;
+  qo->w =
+    -q1i->x * q2i->x - q1i->y * q2i->y - q1i->z * q2i->z + q1i->w * q2i->w;
 }
 
 /*!
