@@ -9,10 +9,11 @@ project(
 
 cc = meson.get_compiler('c')
 
-# headers are included as "ksl/<name>.h"; include/ksl is a symlink to src/
-ksl_inc = include_directories('include', 'generated')
+# headers are included as "ksl/<name>.h" relative to the project root (and
+# the build root, for the generated ksl/version.h)
+ksl_inc = include_directories('.')
 
-subdir('generated/ksl')
+subdir('ksl')
 
 ksl_args = ['-D_GNU_SOURCE=1', '-pipe']
 if get_option('buildtype') == 'release'
@@ -35,22 +36,22 @@ if blas_dep.found()
 endif
 
 ksl_src = files(
-  'src/SE3.c',
-  'src/array.c',
-  'src/axis.c',
-  'src/coscrew.c',
-  'src/inertia.c',
-  'src/linalg.c',
-  'src/mat3x3.c',
-  'src/mat4x4.c',
-  'src/matrix.c',
-  'src/memory.c',
-  'src/print.c',
-  'src/quaternion.c',
-  'src/screw.c',
-  'src/trig.c',
-  'src/vec3.c',
-  'src/vec4.c',
+  'ksl/SE3.c',
+  'ksl/array.c',
+  'ksl/axis.c',
+  'ksl/coscrew.c',
+  'ksl/inertia.c',
+  'ksl/linalg.c',
+  'ksl/mat3x3.c',
+  'ksl/mat4x4.c',
+  'ksl/matrix.c',
+  'ksl/memory.c',
+  'ksl/print.c',
+  'ksl/quaternion.c',
+  'ksl/screw.c',
+  'ksl/trig.c',
+  'ksl/vec3.c',
+  'ksl/vec4.c',
 )
 
 ksl_lib = static_library(
@@ -58,6 +59,7 @@ ksl_lib = static_library(
   ksl_src,
   ksl_version_h,
   include_directories: ksl_inc,
+  implicit_include_directories: false,
   c_args: ksl_args,
   dependencies: ksl_deps,
   pic: true,

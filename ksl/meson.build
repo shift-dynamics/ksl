@@ -1,4 +1,4 @@
-# generated headers, included as "ksl/<name>.h"
+# ksl/version.h is generated into the build tree at the same relative path
 git = find_program('git', required: false)
 git_commit = 'unknown'
 git_branch = 'unknown'

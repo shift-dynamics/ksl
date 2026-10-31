@@ -27,6 +27,8 @@ foreach name, src : tests
     src,
     c_args: ['-DHAVE_CONFIG_H', '-D_GNU_SOURCE=1'],
     dependencies: [ksl_dep, check_dep],
+    include_directories: include_directories('.'), # generated config.h
+    implicit_include_directories: false,
   )
   test(name, exe)
 endforeach
