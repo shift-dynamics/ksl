@@ -199,6 +199,70 @@ START_TEST(test_linalg_lu_full_specified_rmo) {
 }
 END_TEST
 
+START_TEST(test_linalg_lu_full_multiSpecified_rmo) {
+
+  /*
+  Function ksl_linalg_lu_full_multiSpecified_rmo() allows the user to specify
+  a set of variables as independent. The specified columns are moved, in the
+  order given, to the last columns of A[] and are never chosen as pivots.
+
+  The 5 by 6 rank 4 matrix of test_linalg_lu_full_specified_rmo is factored
+  with columns 4 and 1 specified. The factors must reproduce the permuted
+  matrix, A[pr[i]][pc[j]] = sum_k L[i][k] U[k][j], with the rank by rank Lr
+  (unit diagonal) and the rank rows of U stored in the returned array.
+  */
+  const double A0[30] = {3,  1, -3, 3, 0,  2,  2, 2, -6, 3, 1, 7, -4, 0,  0,
+                         -3, 1, 3,  8, -4, 12, 0, 4, 4,  6, 1, 3, -3, -2, -2};
+  double A[30];
+  memcpy(A, A0, sizeof(A));
+  int pr[5];
+  int pc[6];
+  const int specified[2] = {4, 1};
+  double eps = 1e-12;
+
+  int rank = ksl_linalg_lu_full_multiSpecified_rmo(5, 6, A, eps, pr, pc, 2,
+                                                   specified);
+  ck_assert_int_eq(rank, 4);
+  ck_assert_int_eq(pc[4], 4);
+  ck_assert_int_eq(pc[5], 1);
+
+  for(int i = 0; i < 5; i++) {
+    for(int j = 0; j < 6; j++) {
+      double sum = 0.0;
+      /* U is upper triangular in its first rank columns */
+      for(int k = 0; k < rank && k <= i && k <= j; k++) {
+        const double l = k == i ? 1.0 : A[i * 6 + k];
+        sum += l * A[k * 6 + j];
+      }
+      ck_assert(fabs(sum - A0[pr[i] * 6 + pc[j]]) < 1e-12);
+    }
+  }
+
+  /* the single specified wrapper matches the original function */
+  double B[30];
+  double C[30];
+  int pr_b[5], pc_b[6], pr_c[5], pc_c[6];
+  memcpy(B, A0, sizeof(B));
+  memcpy(C, A0, sizeof(C));
+  const int one[1] = {4};
+  ksl_linalg_lu_full_specified_rmo(5, 6, B, eps, pr_b, pc_b, 4);
+  ksl_linalg_lu_full_multiSpecified_rmo(5, 6, C, eps, pr_c, pc_c, 1, one);
+  ck_assert(ksl_allclose(30, B, C));
+
+  /* duplicate or out of range specified indices are rejected */
+  const int duplicate[2] = {4, 4};
+  const int out_of_range[2] = {4, 6};
+  memcpy(A, A0, sizeof(A));
+  ck_assert_int_eq(ksl_linalg_lu_full_multiSpecified_rmo(5, 6, A, eps, pr, pc,
+                                                         2, duplicate),
+                   -1);
+  memcpy(A, A0, sizeof(A));
+  ck_assert_int_eq(ksl_linalg_lu_full_multiSpecified_rmo(5, 6, A, eps, pr, pc,
+                                                         2, out_of_range),
+                   -1);
+}
+END_TEST
+
 START_TEST(test_linalg_lu_rmo) {
 
   /*
@@ -1053,6 +1117,7 @@ Suite* linalg_suite(void) {
   tcase_add_test(tc_core, test_maxIndex);
   tcase_add_test(tc_core, test_linalg_lu_full_rmo);
   tcase_add_test(tc_core, test_linalg_lu_full_specified_rmo);
+  tcase_add_test(tc_core, test_linalg_lu_full_multiSpecified_rmo);
   tcase_add_test(tc_core, test_linalg_lu_rmo);
   tcase_add_test(tc_core, test_linalg_lu_setBMatrix_rmo);
   tcase_add_test(tc_core, test_linalg_lu_setCMatrix_rmo);

@@ -365,9 +365,9 @@ int ksl_linalg_lu_full_rmo(const int rowDim, const int colDim,
 
 /*!
 @brief Row Major Order LU Decomposition with complete row and column pivoting
-with one specified coordinate
+with a set of specified coordinates
 
-ksl_linalg_lu_full_specified_rmo factors a double precision matrix, A[rowDim *
+ksl_linalg_lu_full_multiSpecified_rmo factors a double precision matrix, A[rowDim *
 colDim], stored in Row Major Order using full row and column pivoting. Matrix A
 need not have full row or column rank. The integer variable 'rank' represents
 the matrix rank and internally is always one less than the true rank to be
@@ -391,10 +391,13 @@ it back in A[rank+1:rowDim][0:rank].
 The remaining A[rank+1:rowDim][rank+1:colDim-1] submatrix contains numbers whose
 absolute values are all smaller than eps times the absolutely largest
 entry in the original matrix. This part of the matrix is not used.
-The remainig A[rank+1:rowDim][colDim] submatrix could contain numbers whose
-absolute values are greater than eps times the absolutely largest
+The specified columns are moved to the last specifiedCount columns of A and
+are excluded from the pivot search, so the specified coordinates are always
+independent (they never become pivotal, dependent coordinates). The remaining
+A[rank+1:rowDim][colDim-specifiedCount:colDim] submatrix could contain numbers
+whose absolute values are greater than eps times the absolutely largest
 entry in the original matrix. Adding a check here would be one way to
-assert that the specified variable has sufficient mobility.
+assert that the specified variables have sufficient mobility.
 
 @param rowDim input row dimension of matrix A.
 @param colDim input column dimension of matrix A.
@@ -403,12 +406,17 @@ A[0:rowDim-1][0:colDim-1]:
 @param eps input tolerance on the order of machine roundoff.
 @param pr output row permutation array with dimensions pr[0:rowDim-1]
 @param pc output column permutation array with dimensions pc[0:colDim-1]
-@return rank of matrix A
+@param specifiedCount input number of specified columns, 1 <= specifiedCount
+< colDim
+@param specifiedIndices input distinct column indices of the specified
+coordinates, specifiedIndices[0:specifiedCount-1]
+@return rank of matrix A, -1 on bad input
 */
-int ksl_linalg_lu_full_specified_rmo(const int rowDim, const int colDim,
-                                     double* restrict A, double eps,
-                                     int* restrict pr, int* restrict pc,
-                                     const int specifiedIndex) {
+int ksl_linalg_lu_full_multiSpecified_rmo(const int rowDim, const int colDim,
+                                          double* restrict A, double eps,
+                                          int* restrict pr, int* restrict pc,
+                                          const int specifiedCount,
+                                          const int* specifiedIndices) {
 
   // printf("Jacobian matrix in fullFactor_LU\n");
   // for(int i = 0; i < rowDim; i++) {
@@ -430,9 +438,12 @@ int ksl_linalg_lu_full_specified_rmo(const int rowDim, const int colDim,
   /*
     Return failure if a bad row or column dimension was found.
   */
-  if((rowDim <= 0) || (colDim <= 1)) {
+  if((rowDim <= 0) || (colDim <= 1) || (specifiedCount < 1) ||
+     (specifiedCount >= colDim)) {
     return (-1);
   }
+  /* last column that may hold a pivotal element, plus one */
+  const int pivotColDim = colDim - specifiedCount;
 
   /*
     Consistent with C-indexing, rank always has a value of
@@ -451,42 +462,50 @@ int ksl_linalg_lu_full_specified_rmo(const int rowDim, const int colDim,
   }
 
   /*
-    Swap the specified column to the last position in the input
-    matrix
-    Swap entire columns A[:][specifiedIndex] and A[:][colDim - 1].
+    Swap the specified columns to the last specifiedCount positions in the
+    input matrix, in the order given. Specified column k is found through pc
+    (earlier swaps may have moved it) and swapped with column
+    pivotColDim + k; the columns already placed are never swapped again.
     swap columns:
       N = rowDim
       stride = colDim
-      Start of specefied column is A + specifiedIndex & stride is colDim
-      Start of last column is A + colDim - 1 & stride is colDim
-
   */
-  if(specifiedIndex != colDim - 1) {
+  for(int k = 0; k < specifiedCount; k++) {
+    const int destination = pivotColDim + k;
+    int source = -1;
+    for(int col = 0; col < colDim; col++) {
+      if(pc[col] == specifiedIndices[k]) {
+        source = col;
+        break;
+      }
+    }
+    /* an index out of range, or one already placed (a duplicate) */
+    if(source < 0 || (source >= pivotColDim && source < destination)) {
+      return (-1);
+    }
+    if(source != destination) {
 #ifdef KSL_WITH_BLAS
-    cblas_dswap(rowDim, A + specifiedIndex, colDim, A + colDim - 1, colDim);
+      cblas_dswap(rowDim, A + source, colDim, A + destination, colDim);
 #else
-    ksl_swapArray(rowDim, A + specifiedIndex, colDim, A + colDim - 1, colDim);
+      ksl_swapArray(rowDim, A + source, colDim, A + destination, colDim);
 #endif
-    /*
-      Swap column permutation entries pc[] and
-      pc[pivotRow] to reflect row swaps in A.
-    */
-    ksl_swapi(pc + specifiedIndex, pc + colDim - 1);
+      ksl_swapi(pc + source, pc + destination);
+    }
   }
 
   /*
-    Search through matrix A except the last column to find the
+    Search through matrix A except the specified columns to find the
     absolutely largest element for assigning to pivot.
     Save that row and column number in pivotRow and
-    pivotCol. This could cause numerical problems if the last
-    column contains one or more entries substantially absolutely
+    pivotCol. This could cause numerical problems if the specified
+    columns contain one or more entries substantially absolutely
     larger than all other entries in A.
   */
   pivot = A[0];
   pivotRow = 0;
   pivotCol = 0;
   for(int row = 0; row < rowDim; row++) {
-    for(int col = 0; col < colDim - 1; col++) {
+    for(int col = 0; col < pivotColDim; col++) {
       if(fabs(A[row * colDim + col]) > fabs(pivot)) {
         pivot = A[row * colDim + col];
         pivotRow = row;
@@ -613,7 +632,7 @@ int ksl_linalg_lu_full_specified_rmo(const int rowDim, const int colDim,
             for(int j = rank + 1; j < colDim; j++) {
               A[i * colDim + j] -= A[i * colDim + rank] * A[rank * colDim + j];
             }
-            for(int j = rank + 1; j < colDim - 1; j++) {
+            for(int j = rank + 1; j < pivotColDim; j++) {
               if(fabs(A[i * colDim + j]) > fabs(pivot)) {
                 pivot = A[i * colDim + j];
                 pivotRow = i;
@@ -632,6 +651,32 @@ int ksl_linalg_lu_full_specified_rmo(const int rowDim, const int colDim,
     }
   } /*End for col*/
   return (rank + 1);
+}
+
+/*!
+@brief Row Major Order LU Decomposition with complete row and column pivoting
+with one specified coordinate
+
+Equivalent to ksl_linalg_lu_full_multiSpecified_rmo with a single specified
+column: the specified column is moved to the last column of A and is excluded
+from the pivot search, so the specified coordinate is always independent.
+
+@param rowDim input row dimension of matrix A.
+@param colDim input column dimension of matrix A.
+@param **A input/output matrix to be factored with dimensions
+A[0:rowDim-1][0:colDim-1]:
+@param eps input tolerance on the order of machine roundoff.
+@param pr output row permutation array with dimensions pr[0:rowDim-1]
+@param pc output column permutation array with dimensions pc[0:colDim-1]
+@param specifiedIndex input column index of the specified coordinate
+@return rank of matrix A
+*/
+int ksl_linalg_lu_full_specified_rmo(const int rowDim, const int colDim,
+                                     double* restrict A, double eps,
+                                     int* restrict pr, int* restrict pc,
+                                     const int specifiedIndex) {
+  return ksl_linalg_lu_full_multiSpecified_rmo(rowDim, colDim, A, eps, pr, pc,
+                                               1, &specifiedIndex);
 }
 
 /*!
