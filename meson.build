@@ -44,7 +44,6 @@ ksl_src = files(
   'ksl/linalg.c',
   'ksl/mat3x3.c',
   'ksl/mat4x4.c',
-  'ksl/matrix.c',
   'ksl/memory.c',
   'ksl/print.c',
   'ksl/quaternion.c',

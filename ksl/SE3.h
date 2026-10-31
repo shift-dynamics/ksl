@@ -22,6 +22,8 @@ SUCH DAMAGE.
 #ifndef _KSL_SE3_H_
 #define _KSL_SE3_H_
 
+#include "ksl/types.h"
+
 #include <stdarg.h>
 
 #include "axis.h"
@@ -32,188 +34,16 @@ extern "C" {
 
 #include "ksl/mat3x3.h"
 
-typedef union ksl_mat4x4_t ksl_mat4x4_t;
-typedef union ksl_mat4x4f_t ksl_mat4x4f_t;
-typedef union ksl_SE3_t ksl_SE3_t;
-typedef union ksl_SE3f_t ksl_SE3f_t;
-
-/*!
-@brief Double precision member of 3 Dimensional Special Euclidian group (SE3)
-consisting of a double precision SO3 (othonormalized 3x3 rotation matrix) and
-double precision translation vector pair.
-
-This union allows accessing double precision SE3 quantities by field name, as
-a singly dimensioned array, as a doubly dimensioned array, or by accessing a
-specific column.  If using the `at` or `as_array` operators, quantities are
-accessed in column major order.
-
-The following examples illustrate how to access row 2, column 1 (using 0 based
-indexing) of SE3 matrix `D`. The following access methods are equivalent.
-
-\verbatim embed:rst
-.. code-block:: c
-
-  D.as_array[2 + 1 * 3];
-  D.at[1][2];
-  D.m21;
-  D.v1.z;
-  D.v1.at[2];
-  D.v[1].z;
-  D.v[1].at[2];
-  D.R.m21;
-  D.R.v1.z;
-  D.R.v1.at[2];
-  D.R.v[1].z;
-  D.R.v[1].at[2];
-
-\endverbatim
-
-The following examples illustrate how to access row 1, column 3 (using 0 based
-indexing) of SE3 matrix `D`. The following access methods are equivalent.
-
-\verbatim embed:rst
-.. code-block:: c
-
-  D.as_array[1 + 3 * 3];
-  D.at[3][1];
-  D.m13;
-  D.v3.y;
-  D.v3.at[1];
-  D.v[3].y;
-  D.v[3].at[1];
-  D.t.y;
-  D.t.at[1];
-
-\endverbatim
-
-See also the `ksl_SE3_get` and `ksl_SE3_set` functions.
-*/
-typedef union ksl_SE3_t {
-  struct {
-    double as_array[12];
-  }; /*!< anonymous union allows accessing quantities at specified index in
-          linear array, where entities are specified in column
-          major order */
-  struct {
-    double at[4][3];
-  }; /*!< anonymous union allows accessing SE3 quantities at specified index in
-          a doubly dimensioned array, where entities are specified
-          in column major order */
-  struct {
-    ksl_mat3x3_t R; /*!< rotation component of SE3 transformation */
-    ksl_vec3_t t;   /*!< translation component of SE3 transformation */
-  }; /*!< anonymous union allows accessing rotation matrix and translation
-       vector quantities by field name */
-  struct {
-    double m00, m10, m20;
-    double m01, m11, m21;
-    double m02, m12, m22;
-    double m03, m13, m23;
-  }; /*!< anonymous union allows accessing rotation matrix quantities by field
-       name */
-  struct {
-    ksl_vec3_t v0, v1, v2, v3;
-  }; /*!< anonymous union allows accessing columns of rotation matrix quantities
-        by field name */
-  struct {
-    ksl_vec3_t v[4];
-  }; /*!< anonymous union allows accessing columns of rotation
-          matrix quantities at specified index */
-} ksl_SE3_t;
-
-/*!
-@brief Single precision member of 3 Dimensional Special Euclidian group (SE3)
-consisting of a single precision SO3 (othonormalized 3x3 rotation matrix) and
-single precision translation vector pair.
-
-This union allows accessing single precision SE3 quantities by field name, as
-a singly dimensioned array, as a doubly dimensioned array, or by accessing a
-specific column.  If using the `at` or `as_array` operators, quantities are
-accessed in column major order.
-
-The following examples illustrate how to access row 2, column 1 (using 0 based
-indexing) of SE3 matrix `D`. The following access methods are equivalent.
-
-\verbatim embed:rst
-.. code-block:: c
-
-  D.as_array[2 + 1 * 3];
-  D.at[1][2];
-  D.m21;
-  D.v1.z;
-  D.v1.at[2];
-  D.v[1].z;
-  D.v[1].at[2];
-  D.R.m21;
-  D.R.v1.z;
-  D.R.v1.at[2];
-  D.R.v[1].z;
-  D.R.v[1].at[2];
-
-\endverbatim
-
-The following examples illustrate how to access row 1, column 3 (using 0 based
-indexing) of SE3 matrix `D`. The following access methods are equivalent.
-
-\verbatim embed:rst
-.. code-block:: c
-
-  D.as_array[1 + 3 * 3];
-  D.at[3][1];
-  D.m13;
-  D.v3.y;
-  D.v3.at[1];
-  D.v[3].y;
-  D.v[3].at[1];
-  D.t.y;
-  D.t.at[1];
-
-\endverbatim
-
-See also the `ksl_SE3f_get` and `ksl_SE3f_set` functions.
-*/
-typedef union ksl_SE3f_t {
-  struct {
-    float as_array[12];
-  }; /*!< anonymous union allows accessing quantities at specified index in
-          linear array, with entities specified in column major order */
-  struct {
-    float at[4][3];
-  }; /*!< anonymous union allows accessing SE3 quantities at specified index in
-          a doubly dimensioned array, with entities specified
-          in column major order */
-  struct {
-    ksl_mat3x3f_t R; /*!< rotation component of SE3 transformation */
-    ksl_vec3f_t t;   /*!< translation component of SE3 transformation */
-  }; /*!< anonymous union allows accessing rotation matrix and translation
-       vector quantities by field name */
-  struct {
-    float m00, m10, m20;
-    float m01, m11, m21;
-    float m02, m12, m22;
-    float m03, m13, m23;
-  }; /*!< anonymous union allows accessing rotation matrix quantities by field
-       name */
-  struct {
-    ksl_vec3f_t v0, v1, v2, v3;
-  }; /*!< anonymous union allows accessing columns of rotation matrix quantities
-        by field name */
-  struct {
-    ksl_vec3f_t v[4];
-  }; /*!< anonymous union allows accessing columns of rotation
-      matrix quantities at specified index */
-} ksl_SE3f_t;
-
 /*!
 @brief ksl_SE3_t constructor.
 
 Note that in the constructor, fields are specified in row major order.
 Internally, ksl_SE3_t datastructures are stored in column major order.
 */
-ksl_SE3_t ksl_SE3(const double m00, const double m01, const double m02,
-                  const double m03, const double m10, const double m11,
-                  const double m12, const double m13, const double m20,
-                  const double m21, const double m22, const double m23);
+static inline ksl_SE3_t
+ksl_SE3(const double m00, const double m01, const double m02, const double m03,
+        const double m10, const double m11, const double m12, const double m13,
+        const double m20, const double m21, const double m22, const double m23);
 
 /*!
 @brief alternative ksl_SE3_t constructor.
@@ -221,16 +51,19 @@ ksl_SE3_t ksl_SE3(const double m00, const double m01, const double m02,
 In this alternate constructor, fields are specified in column major order to
 match the internal layout of ksl_SE3_t datastructures.
 */
-ksl_SE3_t ksl_SE3_cmo(const double m00, const double m10, const double m20,
-                      const double m01, const double m11, const double m21,
-                      const double m02, const double m12, const double m22,
-                      const double m03, const double m13, const double m23);
+static inline ksl_SE3_t ksl_SE3_cmo(const double m00, const double m10,
+                                    const double m20, const double m01,
+                                    const double m11, const double m21,
+                                    const double m02, const double m12,
+                                    const double m22, const double m03,
+                                    const double m13, const double m23);
 
 /*!
 @brief alternative ksl_SE3_t constructor that allows creating a ksl_SE3_t
 datastructure from a rotation matrix and translation vector.
 */
-ksl_SE3_t ksl_SE3_fromRt(const ksl_mat3x3_t R, const ksl_vec3_t t);
+static inline ksl_SE3_t ksl_SE3_fromRt(const ksl_mat3x3_t R,
+                                       const ksl_vec3_t t);
 
 /*!
 @brief ksl_SE3f_t constructor.
@@ -238,10 +71,10 @@ ksl_SE3_t ksl_SE3_fromRt(const ksl_mat3x3_t R, const ksl_vec3_t t);
 Note that in the constructor, fields are specified in row major order.
 Internally, ksl_SE3f_t datastructures are stored in column major order.
 */
-ksl_SE3f_t ksl_SE3f(const float m00, const float m01, const float m02,
-                    const float m03, const float m10, const float m11,
-                    const float m12, const float m13, const float m20,
-                    const float m21, const float m22, const float m23);
+static inline ksl_SE3f_t
+ksl_SE3f(const float m00, const float m01, const float m02, const float m03,
+         const float m10, const float m11, const float m12, const float m13,
+         const float m20, const float m21, const float m22, const float m23);
 
 /*!
 @brief alternative ksl_SE3f_t constructor.
@@ -249,16 +82,19 @@ ksl_SE3f_t ksl_SE3f(const float m00, const float m01, const float m02,
 In this alternate constructor, fields are specified in column major order to
 match the internal layout of ksl_SE3f_t datastructures.
 */
-ksl_SE3f_t ksl_SE3f_cmo(const float m00, const float m10, const float m20,
-                        const float m01, const float m11, const float m21,
-                        const float m02, const float m12, const float m22,
-                        const float m03, const float m13, const float m23);
+static inline ksl_SE3f_t ksl_SE3f_cmo(const float m00, const float m10,
+                                      const float m20, const float m01,
+                                      const float m11, const float m21,
+                                      const float m02, const float m12,
+                                      const float m22, const float m03,
+                                      const float m13, const float m23);
 
 /*!
 @brief alternative ksl_SE3f_t constructor that allows creating a ksl_SE3_t
 datastructure from a rotation matrix and translation vector.
 */
-ksl_SE3f_t ksl_SE3f_fromRt(const ksl_mat3x3f_t R, const ksl_vec3f_t t);
+static inline ksl_SE3f_t ksl_SE3f_fromRt(const ksl_mat3x3f_t R,
+                                         const ksl_vec3f_t t);
 
 /*!
 @brief allocates n ksl_SE3_t datastructures on the heap. Must be freed by the
@@ -278,7 +114,7 @@ ksl_SE3f_t* ksl_SE3f_alloc(int n);
 @param d [in] input SE3 datastructure
 @param m [out] output mat4x4 matrix
 */
-void ksl_SE3_toMat4x4(const ksl_SE3_t* d, ksl_mat4x4_t* m);
+static inline void ksl_SE3_toMat4x4(const ksl_SE3_t* d, ksl_mat4x4_t* m);
 
 /*!
 @brief convert a `ksl_SE3f_t` datastructure to a `ksl_mat4x4f_t` datastructure
@@ -286,7 +122,7 @@ void ksl_SE3_toMat4x4(const ksl_SE3_t* d, ksl_mat4x4_t* m);
 @param d [in] input SE3f datastructure
 @param m [out] output mat4x4f matrix
 */
-void ksl_SE3f_toMat4x4f(const ksl_SE3f_t* d, ksl_mat4x4f_t* m);
+static inline void ksl_SE3f_toMat4x4f(const ksl_SE3f_t* d, ksl_mat4x4f_t* m);
 
 /*!
 @brief convert a `ksl_SE3_t` datastructure to a `ksl_mat4x4f_t` datastructure
@@ -294,14 +130,13 @@ void ksl_SE3f_toMat4x4f(const ksl_SE3f_t* d, ksl_mat4x4f_t* m);
 @param d [in] input SE3 datastructure
 @param m [out] output mat4x4f matrix
 */
-void ksl_SE3_toMat4x4f(const ksl_SE3_t* d, ksl_mat4x4f_t* m);
-
+static inline void ksl_SE3_toMat4x4f(const ksl_SE3_t* d, ksl_mat4x4f_t* m);
 
 /*!
  * @brief return a `ksl_SE3_t` initialized to identity
  @return ksl_SE3_t initialized to identity
 */
-ksl_SE3_t ksl_SE3_identity();
+static inline ksl_SE3_t ksl_SE3_identity();
 
 /*!
 @brief Set a double precision SE3 matrix to identity.
@@ -310,7 +145,7 @@ ksl_SE3_t ksl_SE3_identity();
 
 @param d [in/out] input SE3 matrix
 */
-void ksl_SE3_setIdentity(ksl_SE3_t* d);
+static inline void ksl_SE3_setIdentity(ksl_SE3_t* d);
 
 /*!
 @brief Set a single precision SE3 matrix to identity.
@@ -319,7 +154,7 @@ void ksl_SE3_setIdentity(ksl_SE3_t* d);
 
 @param d [in/out] input SE3 matrix
 */
-void ksl_SE3f_setIdentity(ksl_SE3f_t* d);
+static inline void ksl_SE3f_setIdentity(ksl_SE3f_t* d);
 
 /*!
 @brief Set a value in a double precision SE3 matrix at specified row and
@@ -340,8 +175,8 @@ general `ksl_mat4x4_t` data structure.
 @param column [in] column index, \f$0 \le column \lt 4\f$
 @param value [in] value to set
 */
-void ksl_SE3_set(ksl_SE3_t* D, const int row, const int column,
-                 const double value);
+static inline void ksl_SE3_set(ksl_SE3_t* D, const int row, const int column,
+                               const double value);
 
 /*!
 @brief Set a value in a single precision SE3 matrix at specified row and
@@ -362,58 +197,299 @@ general `ksl_mat4x4_t` data structure.
 @param column [in] column index, \f$0 \le column \lt 4\f$
 @param value [in] value to set
 */
-void ksl_SE3f_set(ksl_SE3f_t* D, const int row, const int column,
-                  const float value);
+static inline void ksl_SE3f_set(ksl_SE3f_t* D, const int row, const int column,
+                                const float value);
 
 /*!
 @brief TODO document this function
 */
-double ksl_SE3_get(const ksl_SE3_t* D, const int row, const int column);
+static inline double ksl_SE3_get(const ksl_SE3_t* D, const int row,
+                                 const int column);
 
 /*!
 @brief TODO document this function
 */
-float ksl_SE3f_get(const ksl_SE3f_t* D, const int row, const int column);
+static inline float ksl_SE3f_get(const ksl_SE3f_t* D, const int row,
+                                 const int column);
 
 /*!
 @brief TODO document this function
 */
-void ksl_SE3_getTranslation(const ksl_SE3_t* D, ksl_vec3_t* t);
+static inline void ksl_SE3_getTranslation(const ksl_SE3_t* D, ksl_vec3_t* t);
 
 /*!
 @brief TODO document this function
 */
-void ksl_SE3f_getTranslation(const ksl_SE3f_t* D, ksl_vec3f_t* t);
+static inline void ksl_SE3f_getTranslation(const ksl_SE3f_t* D, ksl_vec3f_t* t);
 
 /*!
 @brief TODO document this function
 */
-void ksl_SE3_invert(ksl_SE3_t* D);
+static inline void ksl_SE3_invert(ksl_SE3_t* D);
 
 /*!
 @brief TODO document this function
 */
-void ksl_SE3f_invert(ksl_SE3f_t* D);
+static inline void ksl_SE3f_invert(ksl_SE3f_t* D);
 
 /*!
 @brief TODO document this function
 */
-void ksl_SE3_inverted(const ksl_SE3_t* Di, ksl_SE3_t* Do);
+static inline void ksl_SE3_inverted(const ksl_SE3_t* Di, ksl_SE3_t* Do);
 
 /*!
 @brief TODO document this function
 */
-void ksl_SE3f_inverted(const ksl_SE3f_t* Di, ksl_SE3f_t* Do);
+static inline void ksl_SE3f_inverted(const ksl_SE3f_t* Di, ksl_SE3f_t* Do);
 
 /*!
 @brief TODO document this function
 */
-void ksl_SE3_copy(const ksl_SE3_t* Di, ksl_SE3_t* Do);
+static inline void ksl_SE3_copy(const ksl_SE3_t* Di, ksl_SE3_t* Do);
 
 /*!
 @brief TODO document this function
 */
-void ksl_SE3f_copy(const ksl_SE3f_t* Di, ksl_SE3f_t* Do);
+static inline void ksl_SE3f_copy(const ksl_SE3f_t* Di, ksl_SE3f_t* Do);
+
+#ifdef __cplusplus
+}
+#endif
+
+/* -------- inline definitions -------- */
+
+#include <assert.h>
+#include <math.h>
+#include <string.h>
+
+#include "ksl/mat3x3.h"
+#include "ksl/matrix.h"
+#include "ksl/vec3.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+static inline ksl_SE3_t ksl_SE3(const double m00, const double m01,
+                                const double m02, const double m03,
+                                const double m10, const double m11,
+                                const double m12, const double m13,
+                                const double m20, const double m21,
+                                const double m22, const double m23) {
+  ksl_SE3_t d;
+  d.R.m00 = m00;
+  d.R.m01 = m01;
+  d.R.m02 = m02;
+  d.R.m10 = m10;
+  d.R.m11 = m11;
+  d.R.m12 = m12;
+  d.R.m20 = m20;
+  d.R.m21 = m21;
+  d.R.m22 = m22;
+  d.t.x = m03;
+  d.t.y = m13;
+  d.t.z = m23;
+  return d;
+}
+
+static inline ksl_SE3_t ksl_SE3_cmo(const double m00, const double m10,
+                                    const double m20, const double m01,
+                                    const double m11, const double m21,
+                                    const double m02, const double m12,
+                                    const double m22, const double m03,
+                                    const double m13, const double m23) {
+  ksl_SE3_t d;
+  d.R.m00 = m00;
+  d.R.m10 = m10;
+  d.R.m20 = m20;
+  d.R.m01 = m01;
+  d.R.m11 = m11;
+  d.R.m21 = m21;
+  d.R.m02 = m02;
+  d.R.m12 = m12;
+  d.R.m22 = m22;
+  d.t.x = m03;
+  d.t.y = m13;
+  d.t.z = m23;
+  return d;
+}
+
+static inline ksl_SE3_t ksl_SE3_fromRt(const ksl_mat3x3_t R,
+                                       const ksl_vec3_t t) {
+  ksl_SE3_t d;
+  d.R = R;
+  d.t = t;
+  return d;
+}
+
+static inline ksl_SE3f_t
+ksl_SE3f(const float m00, const float m01, const float m02, const float m03,
+         const float m10, const float m11, const float m12, const float m13,
+         const float m20, const float m21, const float m22, const float m23) {
+  ksl_SE3f_t d;
+  d.R.m00 = m00;
+  d.R.m01 = m01;
+  d.R.m02 = m02;
+  d.R.m10 = m10;
+  d.R.m11 = m11;
+  d.R.m12 = m12;
+  d.R.m20 = m20;
+  d.R.m21 = m21;
+  d.R.m22 = m22;
+  d.t.x = m03;
+  d.t.y = m13;
+  d.t.z = m23;
+  return d;
+}
+
+static inline ksl_SE3f_t ksl_SE3f_cmo(const float m00, const float m10,
+                                      const float m20, const float m01,
+                                      const float m11, const float m21,
+                                      const float m02, const float m12,
+                                      const float m22, const float m03,
+                                      const float m13, const float m23) {
+  ksl_SE3f_t d;
+  d.R.m00 = m00;
+  d.R.m10 = m10;
+  d.R.m20 = m20;
+  d.R.m01 = m01;
+  d.R.m11 = m11;
+  d.R.m21 = m21;
+  d.R.m02 = m02;
+  d.R.m12 = m12;
+  d.R.m22 = m22;
+  d.t.x = m03;
+  d.t.y = m13;
+  d.t.z = m23;
+  return d;
+}
+
+static inline ksl_SE3f_t ksl_SE3f_fromRt(const ksl_mat3x3f_t R,
+                                         const ksl_vec3f_t t) {
+  ksl_SE3f_t d;
+  d.R = R;
+  d.t = t;
+  return d;
+}
+
+static inline void ksl_SE3_toMat4x4(const ksl_SE3_t* KSL_RESTRICT d,
+                                    ksl_mat4x4_t* KSL_RESTRICT m) {
+  memset(m, 0, sizeof(ksl_mat4x4_t));
+  for(int i = 0; i < 4; i++) {   /* column index */
+    for(int j = 0; j < 3; j++) { /* row index */
+      m->at[i][j] = d->at[i][j];
+    }
+  }
+  m->at[3][3] = 1.0;
+}
+
+static inline void ksl_SE3f_toMat4x4f(const ksl_SE3f_t* KSL_RESTRICT d,
+                                      ksl_mat4x4f_t* KSL_RESTRICT m) {
+  memset(m, 0, sizeof(ksl_mat4x4f_t));
+  for(int i = 0; i < 4; i++) {   /* column index */
+    for(int j = 0; j < 3; j++) { /* row index */
+      m->at[i][j] = d->at[i][j];
+    }
+  }
+  m->at[3][3] = 1.0;
+}
+
+static inline void ksl_SE3_toMat4x4f(const ksl_SE3_t* d,
+                                     ksl_mat4x4f_t* KSL_RESTRICT m) {
+  memset(m, 0, sizeof(ksl_mat4x4f_t));
+  for(int i = 0; i < 4; i++) {   /* column index */
+    for(int j = 0; j < 3; j++) { /* row index */
+      m->at[i][j] = d->at[i][j];
+    }
+  }
+  m->at[3][3] = 1.f;
+}
+
+static inline ksl_SE3_t ksl_SE3_identity() {
+  ksl_SE3_t d;
+  ksl_SE3_setIdentity(&d);
+  return d;
+}
+
+static inline void ksl_SE3_setIdentity(ksl_SE3_t* KSL_RESTRICT d) {
+  memset(d, 0, sizeof(ksl_SE3_t));
+  for(int i = 0; i < 3; i++) {
+    d->at[i][i] = 1.0;
+  }
+}
+
+static inline void ksl_SE3f_setIdentity(ksl_SE3f_t* KSL_RESTRICT d) {
+  memset(d, 0, sizeof(ksl_SE3f_t));
+  for(int i = 0; i < 3; i++) {
+    d->at[i][i] = 1.f;
+  }
+}
+
+static inline void ksl_SE3_set(ksl_SE3_t* KSL_RESTRICT D, const int row,
+                               const int column, const double value) {
+  assert(row < 3 && column < 4);
+  D->at[column][row] = value;
+}
+
+static inline void ksl_SE3f_set(ksl_SE3f_t* D, int row, int column,
+                                float value) {
+  assert(row < 3 && column < 4);
+  D->at[column][row] = value;
+}
+
+static inline double ksl_SE3_get(const ksl_SE3_t* KSL_RESTRICT D, const int row,
+                                 const int column) {
+  assert(row < 3 && column < 4);
+  return D->at[column][row];
+}
+
+static inline float ksl_SE3f_get(const ksl_SE3f_t* KSL_RESTRICT D,
+                                 const int row, const int column) {
+  assert(row < 3 && column < 4);
+  return D->at[column][row];
+}
+
+static inline void ksl_SE3_getTranslation(const ksl_SE3_t* KSL_RESTRICT D,
+                                          ksl_vec3_t* KSL_RESTRICT t) {
+  memcpy(t, &D->t, sizeof(ksl_vec3_t));
+}
+
+static inline void ksl_SE3f_getTranslation(const ksl_SE3f_t* KSL_RESTRICT D,
+                                           ksl_vec3f_t* KSL_RESTRICT t) {
+  memcpy(t, &D->t, sizeof(ksl_vec3f_t));
+}
+
+static inline void ksl_SE3_copy(const ksl_SE3_t* Di, ksl_SE3_t* Do) {
+  memcpy(Do, Di, sizeof(ksl_SE3_t));
+}
+
+static inline void ksl_SE3f_copy(const ksl_SE3f_t* Di, ksl_SE3f_t* Do) {
+  memcpy(Do, Di, sizeof(ksl_SE3f_t));
+}
+
+static inline void ksl_SE3_inverted(const ksl_SE3_t* Di, ksl_SE3_t* Do) {
+  ksl_mat3x3_transposed(&Di->R, &Do->R);
+  ksl_product_drinvvinv(&Di->R, &Di->t, &Do->t);
+}
+
+static inline void ksl_SE3f_inverted(const ksl_SE3f_t* Di, ksl_SE3f_t* Do) {
+  ksl_mat3x3f_transposed(&Di->R, &Do->R);
+  ksl_product_drinvvinvf(&Di->R, &Di->t, &Do->t);
+}
+
+static inline void ksl_SE3_invert(ksl_SE3_t* D) {
+  ksl_vec3_t temp;
+  ksl_product_drinvvinv(&D->R, &D->t, &temp);
+  ksl_mat3x3_transpose(&D->R);
+  ksl_vec3_copy(&temp, &D->t);
+}
+
+static inline void ksl_SE3f_invert(ksl_SE3f_t* D) {
+  ksl_vec3f_t temp;
+  ksl_product_drinvvinvf(&D->R, &D->t, &temp);
+  ksl_mat3x3f_transpose(&D->R);
+  ksl_vec3f_copy(&temp, &D->t);
+}
 
 #ifdef __cplusplus
 }

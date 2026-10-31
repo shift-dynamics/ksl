@@ -21,6 +21,8 @@ SUCH DAMAGE.
 #ifndef _KSL_EULERANGLES_H_
 #define _KSL_EULERANGLES_H_
 
+#include "ksl/types.h"
+
 #include "axis.h"
 #include "vec3.h"
 

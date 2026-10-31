@@ -21,11 +21,11 @@ SUCH DAMAGE.
 #ifndef _KSL_LINALG_H_
 #define _KSL_LINALG_H_
 
+#include "ksl/types.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-typedef union ksl_mat3x3_t ksl_mat3x3_t;
 
 void ksl_linalg_gramSchmidt(double* A, const int m, const int n);
 

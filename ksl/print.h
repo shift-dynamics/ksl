@@ -21,6 +21,8 @@ SUCH DAMAGE.
 #ifndef _KSL_PRINT_H_
 #define _KSL_PRINT_H_
 
+#include "ksl/types.h"
+
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stdio.h>

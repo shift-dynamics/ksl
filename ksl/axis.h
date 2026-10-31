@@ -21,6 +21,8 @@ SUCH DAMAGE.
 #ifndef _KSL_AXIS_H_
 #define _KSL_AXIS_H_
 
+#include "ksl/types.h"
+
 #include "vec3.h"
 
 #ifdef __cplusplus
