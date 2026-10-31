@@ -102,10 +102,11 @@ START_TEST(test_quaternion_product_qconjqconj) {
 END_TEST
 
 START_TEST(test_quaternion_product_qxq) {
-  /* per the documentation of ksl_product_qxq, dci = {cos(theta/2),
-  sin(theta/2)}, i.e. qx = {dci[1], 0, 0, dci[0]} */
+  /* dci = {sin(theta/2), cos(theta/2)} as computed by ksl_dc, i.e.
+  qx = {dci[0], 0, 0, dci[1]} */
   double theta = 0.8;
-  double dc[2] = {cos(0.5 * theta), sin(0.5 * theta)};
+  double dc[2];
+  ksl_dc(0.5 * theta, dc);
   ksl_quaternion_t qx = make_test_quaternion(1.0, 0.0, 0.0, theta);
   ksl_quaternion_t q = make_test_quaternion(-0.5, 0.3, 0.9, 1.9);
   ksl_quaternion_t expected;
@@ -135,10 +136,12 @@ static void check_axial(int axis, int axial_first, int axial_conj, int q_conj,
                         axial_first_fn f1, axial_second_fn f2,
                         axial_first_fnf f1f, axial_second_fnf f2f) {
   double theta = 0.8;
-  double dc[2] = {cos(0.5 * theta), sin(0.5 * theta)};
-  float dcf[2] = {dc[0], dc[1]};
-  ksl_quaternion_t qa = ksl_quaternion(0.0, 0.0, 0.0, dc[0]);
-  qa.at[axis] = dc[1];
+  double dc[2];
+  ksl_dc(0.5 * theta, dc);
+  float dcf[2];
+  ksl_dcf(0.5f * (float)theta, dcf);
+  ksl_quaternion_t qa = ksl_quaternion(0.0, 0.0, 0.0, dc[1]);
+  qa.at[axis] = dc[0];
   ksl_quaternion_t q = make_test_quaternion(-0.5, 0.3, 0.9, 1.9);
   if(axial_conj)
     qa = quaternion_conj(&qa);

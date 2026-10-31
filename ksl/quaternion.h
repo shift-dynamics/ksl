@@ -128,8 +128,8 @@ static inline void ksl_product_qconjqconjf(const ksl_quaternionf_t* q1i,
 
 /*!
 @brief Double precision quaternion product qo = qx * qi, where qx is the
-rotation about the x axis qx = {dci[1], 0, 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the x axis qx = {dci[0], 0, 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qxq(const double dci[2],
                                    const ksl_quaternion_t* qi,
@@ -137,8 +137,8 @@ static inline void ksl_product_qxq(const double dci[2],
 
 /*!
 @brief Single precision quaternion product qo = qx * qi, where qx is the
-rotation about the x axis qx = {dci[1], 0, 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the x axis qx = {dci[0], 0, 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qxqf(const float dci[2],
                                     const ksl_quaternionf_t* qi,
@@ -146,24 +146,24 @@ static inline void ksl_product_qxqf(const float dci[2],
 
 /*!
 @brief Double precision quaternion product qo = qi * qx, where qx is the
-rotation about the x axis qx = {dci[1], 0, 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the x axis qx = {dci[0], 0, 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qqx(const ksl_quaternion_t* qi,
                                    const double dci[2], ksl_quaternion_t* qo);
 
 /*!
 @brief Single precision quaternion product qo = qi * qx, where qx is the
-rotation about the x axis qx = {dci[1], 0, 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the x axis qx = {dci[0], 0, 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qqxf(const ksl_quaternionf_t* qi,
                                     const float dci[2], ksl_quaternionf_t* qo);
 
 /*!
 @brief Double precision quaternion product qo = conj(qx) * qi, where qx is the
-rotation about the x axis qx = {dci[1], 0, 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the x axis qx = {dci[0], 0, 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qxconjq(const double dci[2],
                                        const ksl_quaternion_t* qi,
@@ -171,8 +171,8 @@ static inline void ksl_product_qxconjq(const double dci[2],
 
 /*!
 @brief Single precision quaternion product qo = conj(qx) * qi, where qx is the
-rotation about the x axis qx = {dci[1], 0, 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the x axis qx = {dci[0], 0, 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qxconjqf(const float dci[2],
                                         const ksl_quaternionf_t* qi,
@@ -180,8 +180,8 @@ static inline void ksl_product_qxconjqf(const float dci[2],
 
 /*!
 @brief Double precision quaternion product qo = qi * conj(qx), where qx is the
-rotation about the x axis qx = {dci[1], 0, 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the x axis qx = {dci[0], 0, 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qqxconj(const ksl_quaternion_t* qi,
                                        const double dci[2],
@@ -189,8 +189,8 @@ static inline void ksl_product_qqxconj(const ksl_quaternion_t* qi,
 
 /*!
 @brief Single precision quaternion product qo = qi * conj(qx), where qx is the
-rotation about the x axis qx = {dci[1], 0, 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the x axis qx = {dci[0], 0, 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qqxconjf(const ksl_quaternionf_t* qi,
                                         const float dci[2],
@@ -198,8 +198,8 @@ static inline void ksl_product_qqxconjf(const ksl_quaternionf_t* qi,
 
 /*!
 @brief Double precision quaternion product qo = qx * conj(qi), where qx is the
-rotation about the x axis qx = {dci[1], 0, 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the x axis qx = {dci[0], 0, 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qxqconj(const double dci[2],
                                        const ksl_quaternion_t* qi,
@@ -207,8 +207,8 @@ static inline void ksl_product_qxqconj(const double dci[2],
 
 /*!
 @brief Single precision quaternion product qo = qx * conj(qi), where qx is the
-rotation about the x axis qx = {dci[1], 0, 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the x axis qx = {dci[0], 0, 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qxqconjf(const float dci[2],
                                         const ksl_quaternionf_t* qi,
@@ -216,8 +216,8 @@ static inline void ksl_product_qxqconjf(const float dci[2],
 
 /*!
 @brief Double precision quaternion product qo = conj(qi) * qx, where qx is the
-rotation about the x axis qx = {dci[1], 0, 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the x axis qx = {dci[0], 0, 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qconjqx(const ksl_quaternion_t* qi,
                                        const double dci[2],
@@ -225,8 +225,8 @@ static inline void ksl_product_qconjqx(const ksl_quaternion_t* qi,
 
 /*!
 @brief Single precision quaternion product qo = conj(qi) * qx, where qx is the
-rotation about the x axis qx = {dci[1], 0, 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the x axis qx = {dci[0], 0, 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qconjqxf(const ksl_quaternionf_t* qi,
                                         const float dci[2],
@@ -234,8 +234,8 @@ static inline void ksl_product_qconjqxf(const ksl_quaternionf_t* qi,
 
 /*!
 @brief Double precision quaternion product qo = conj(qx) * conj(qi), where qx is
-the rotation about the x axis qx = {dci[1], 0, 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+the rotation about the x axis qx = {dci[0], 0, 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qxconjqconj(const double dci[2],
                                            const ksl_quaternion_t* qi,
@@ -243,8 +243,8 @@ static inline void ksl_product_qxconjqconj(const double dci[2],
 
 /*!
 @brief Single precision quaternion product qo = conj(qx) * conj(qi), where qx is
-the rotation about the x axis qx = {dci[1], 0, 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+the rotation about the x axis qx = {dci[0], 0, 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qxconjqconjf(const float dci[2],
                                             const ksl_quaternionf_t* qi,
@@ -252,8 +252,8 @@ static inline void ksl_product_qxconjqconjf(const float dci[2],
 
 /*!
 @brief Double precision quaternion product qo = conj(qi) * conj(qx), where qx is
-the rotation about the x axis qx = {dci[1], 0, 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+the rotation about the x axis qx = {dci[0], 0, 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qconjqxconj(const ksl_quaternion_t* qi,
                                            const double dci[2],
@@ -261,8 +261,8 @@ static inline void ksl_product_qconjqxconj(const ksl_quaternion_t* qi,
 
 /*!
 @brief Single precision quaternion product qo = conj(qi) * conj(qx), where qx is
-the rotation about the x axis qx = {dci[1], 0, 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+the rotation about the x axis qx = {dci[0], 0, 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qconjqxconjf(const ksl_quaternionf_t* qi,
                                             const float dci[2],
@@ -270,8 +270,8 @@ static inline void ksl_product_qconjqxconjf(const ksl_quaternionf_t* qi,
 
 /*!
 @brief Double precision quaternion product qo = qy * qi, where qy is the
-rotation about the y axis qy = {0, dci[1], 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the y axis qy = {0, dci[0], 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qyq(const double dci[2],
                                    const ksl_quaternion_t* qi,
@@ -279,8 +279,8 @@ static inline void ksl_product_qyq(const double dci[2],
 
 /*!
 @brief Single precision quaternion product qo = qy * qi, where qy is the
-rotation about the y axis qy = {0, dci[1], 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the y axis qy = {0, dci[0], 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qyqf(const float dci[2],
                                     const ksl_quaternionf_t* qi,
@@ -288,24 +288,24 @@ static inline void ksl_product_qyqf(const float dci[2],
 
 /*!
 @brief Double precision quaternion product qo = qi * qy, where qy is the
-rotation about the y axis qy = {0, dci[1], 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the y axis qy = {0, dci[0], 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qqy(const ksl_quaternion_t* qi,
                                    const double dci[2], ksl_quaternion_t* qo);
 
 /*!
 @brief Single precision quaternion product qo = qi * qy, where qy is the
-rotation about the y axis qy = {0, dci[1], 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the y axis qy = {0, dci[0], 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qqyf(const ksl_quaternionf_t* qi,
                                     const float dci[2], ksl_quaternionf_t* qo);
 
 /*!
 @brief Double precision quaternion product qo = conj(qy) * qi, where qy is the
-rotation about the y axis qy = {0, dci[1], 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the y axis qy = {0, dci[0], 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qyconjq(const double dci[2],
                                        const ksl_quaternion_t* qi,
@@ -313,8 +313,8 @@ static inline void ksl_product_qyconjq(const double dci[2],
 
 /*!
 @brief Single precision quaternion product qo = conj(qy) * qi, where qy is the
-rotation about the y axis qy = {0, dci[1], 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the y axis qy = {0, dci[0], 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qyconjqf(const float dci[2],
                                         const ksl_quaternionf_t* qi,
@@ -322,8 +322,8 @@ static inline void ksl_product_qyconjqf(const float dci[2],
 
 /*!
 @brief Double precision quaternion product qo = qi * conj(qy), where qy is the
-rotation about the y axis qy = {0, dci[1], 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the y axis qy = {0, dci[0], 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qqyconj(const ksl_quaternion_t* qi,
                                        const double dci[2],
@@ -331,8 +331,8 @@ static inline void ksl_product_qqyconj(const ksl_quaternion_t* qi,
 
 /*!
 @brief Single precision quaternion product qo = qi * conj(qy), where qy is the
-rotation about the y axis qy = {0, dci[1], 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the y axis qy = {0, dci[0], 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qqyconjf(const ksl_quaternionf_t* qi,
                                         const float dci[2],
@@ -340,8 +340,8 @@ static inline void ksl_product_qqyconjf(const ksl_quaternionf_t* qi,
 
 /*!
 @brief Double precision quaternion product qo = qy * conj(qi), where qy is the
-rotation about the y axis qy = {0, dci[1], 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the y axis qy = {0, dci[0], 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qyqconj(const double dci[2],
                                        const ksl_quaternion_t* qi,
@@ -349,8 +349,8 @@ static inline void ksl_product_qyqconj(const double dci[2],
 
 /*!
 @brief Single precision quaternion product qo = qy * conj(qi), where qy is the
-rotation about the y axis qy = {0, dci[1], 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the y axis qy = {0, dci[0], 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qyqconjf(const float dci[2],
                                         const ksl_quaternionf_t* qi,
@@ -358,8 +358,8 @@ static inline void ksl_product_qyqconjf(const float dci[2],
 
 /*!
 @brief Double precision quaternion product qo = conj(qi) * qy, where qy is the
-rotation about the y axis qy = {0, dci[1], 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the y axis qy = {0, dci[0], 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qconjqy(const ksl_quaternion_t* qi,
                                        const double dci[2],
@@ -367,8 +367,8 @@ static inline void ksl_product_qconjqy(const ksl_quaternion_t* qi,
 
 /*!
 @brief Single precision quaternion product qo = conj(qi) * qy, where qy is the
-rotation about the y axis qy = {0, dci[1], 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the y axis qy = {0, dci[0], 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qconjqyf(const ksl_quaternionf_t* qi,
                                         const float dci[2],
@@ -376,8 +376,8 @@ static inline void ksl_product_qconjqyf(const ksl_quaternionf_t* qi,
 
 /*!
 @brief Double precision quaternion product qo = conj(qy) * conj(qi), where qy is
-the rotation about the y axis qy = {0, dci[1], 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+the rotation about the y axis qy = {0, dci[0], 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qyconjqconj(const double dci[2],
                                            const ksl_quaternion_t* qi,
@@ -385,8 +385,8 @@ static inline void ksl_product_qyconjqconj(const double dci[2],
 
 /*!
 @brief Single precision quaternion product qo = conj(qy) * conj(qi), where qy is
-the rotation about the y axis qy = {0, dci[1], 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+the rotation about the y axis qy = {0, dci[0], 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qyconjqconjf(const float dci[2],
                                             const ksl_quaternionf_t* qi,
@@ -394,8 +394,8 @@ static inline void ksl_product_qyconjqconjf(const float dci[2],
 
 /*!
 @brief Double precision quaternion product qo = conj(qi) * conj(qy), where qy is
-the rotation about the y axis qy = {0, dci[1], 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+the rotation about the y axis qy = {0, dci[0], 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qconjqyconj(const ksl_quaternion_t* qi,
                                            const double dci[2],
@@ -403,8 +403,8 @@ static inline void ksl_product_qconjqyconj(const ksl_quaternion_t* qi,
 
 /*!
 @brief Single precision quaternion product qo = conj(qi) * conj(qy), where qy is
-the rotation about the y axis qy = {0, dci[1], 0, dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+the rotation about the y axis qy = {0, dci[0], 0, dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qconjqyconjf(const ksl_quaternionf_t* qi,
                                             const float dci[2],
@@ -412,8 +412,8 @@ static inline void ksl_product_qconjqyconjf(const ksl_quaternionf_t* qi,
 
 /*!
 @brief Double precision quaternion product qo = qz * qi, where qz is the
-rotation about the z axis qz = {0, 0, dci[1], dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the z axis qz = {0, 0, dci[0], dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qzq(const double dci[2],
                                    const ksl_quaternion_t* qi,
@@ -421,8 +421,8 @@ static inline void ksl_product_qzq(const double dci[2],
 
 /*!
 @brief Single precision quaternion product qo = qz * qi, where qz is the
-rotation about the z axis qz = {0, 0, dci[1], dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the z axis qz = {0, 0, dci[0], dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qzqf(const float dci[2],
                                     const ksl_quaternionf_t* qi,
@@ -430,24 +430,24 @@ static inline void ksl_product_qzqf(const float dci[2],
 
 /*!
 @brief Double precision quaternion product qo = qi * qz, where qz is the
-rotation about the z axis qz = {0, 0, dci[1], dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the z axis qz = {0, 0, dci[0], dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qqz(const ksl_quaternion_t* qi,
                                    const double dci[2], ksl_quaternion_t* qo);
 
 /*!
 @brief Single precision quaternion product qo = qi * qz, where qz is the
-rotation about the z axis qz = {0, 0, dci[1], dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the z axis qz = {0, 0, dci[0], dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qqzf(const ksl_quaternionf_t* qi,
                                     const float dci[2], ksl_quaternionf_t* qo);
 
 /*!
 @brief Double precision quaternion product qo = conj(qz) * qi, where qz is the
-rotation about the z axis qz = {0, 0, dci[1], dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the z axis qz = {0, 0, dci[0], dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qzconjq(const double dci[2],
                                        const ksl_quaternion_t* qi,
@@ -455,8 +455,8 @@ static inline void ksl_product_qzconjq(const double dci[2],
 
 /*!
 @brief Single precision quaternion product qo = conj(qz) * qi, where qz is the
-rotation about the z axis qz = {0, 0, dci[1], dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the z axis qz = {0, 0, dci[0], dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qzconjqf(const float dci[2],
                                         const ksl_quaternionf_t* qi,
@@ -464,8 +464,8 @@ static inline void ksl_product_qzconjqf(const float dci[2],
 
 /*!
 @brief Double precision quaternion product qo = qi * conj(qz), where qz is the
-rotation about the z axis qz = {0, 0, dci[1], dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the z axis qz = {0, 0, dci[0], dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qqzconj(const ksl_quaternion_t* qi,
                                        const double dci[2],
@@ -473,8 +473,8 @@ static inline void ksl_product_qqzconj(const ksl_quaternion_t* qi,
 
 /*!
 @brief Single precision quaternion product qo = qi * conj(qz), where qz is the
-rotation about the z axis qz = {0, 0, dci[1], dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the z axis qz = {0, 0, dci[0], dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qqzconjf(const ksl_quaternionf_t* qi,
                                         const float dci[2],
@@ -482,8 +482,8 @@ static inline void ksl_product_qqzconjf(const ksl_quaternionf_t* qi,
 
 /*!
 @brief Double precision quaternion product qo = qz * conj(qi), where qz is the
-rotation about the z axis qz = {0, 0, dci[1], dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the z axis qz = {0, 0, dci[0], dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qzqconj(const double dci[2],
                                        const ksl_quaternion_t* qi,
@@ -491,8 +491,8 @@ static inline void ksl_product_qzqconj(const double dci[2],
 
 /*!
 @brief Single precision quaternion product qo = qz * conj(qi), where qz is the
-rotation about the z axis qz = {0, 0, dci[1], dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the z axis qz = {0, 0, dci[0], dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qzqconjf(const float dci[2],
                                         const ksl_quaternionf_t* qi,
@@ -500,8 +500,8 @@ static inline void ksl_product_qzqconjf(const float dci[2],
 
 /*!
 @brief Double precision quaternion product qo = conj(qi) * qz, where qz is the
-rotation about the z axis qz = {0, 0, dci[1], dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the z axis qz = {0, 0, dci[0], dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qconjqz(const ksl_quaternion_t* qi,
                                        const double dci[2],
@@ -509,8 +509,8 @@ static inline void ksl_product_qconjqz(const ksl_quaternion_t* qi,
 
 /*!
 @brief Single precision quaternion product qo = conj(qi) * qz, where qz is the
-rotation about the z axis qz = {0, 0, dci[1], dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+rotation about the z axis qz = {0, 0, dci[0], dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qconjqzf(const ksl_quaternionf_t* qi,
                                         const float dci[2],
@@ -518,8 +518,8 @@ static inline void ksl_product_qconjqzf(const ksl_quaternionf_t* qi,
 
 /*!
 @brief Double precision quaternion product qo = conj(qz) * conj(qi), where qz is
-the rotation about the z axis qz = {0, 0, dci[1], dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+the rotation about the z axis qz = {0, 0, dci[0], dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qzconjqconj(const double dci[2],
                                            const ksl_quaternion_t* qi,
@@ -527,8 +527,8 @@ static inline void ksl_product_qzconjqconj(const double dci[2],
 
 /*!
 @brief Single precision quaternion product qo = conj(qz) * conj(qi), where qz is
-the rotation about the z axis qz = {0, 0, dci[1], dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+the rotation about the z axis qz = {0, 0, dci[0], dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qzconjqconjf(const float dci[2],
                                             const ksl_quaternionf_t* qi,
@@ -536,8 +536,8 @@ static inline void ksl_product_qzconjqconjf(const float dci[2],
 
 /*!
 @brief Double precision quaternion product qo = conj(qi) * conj(qz), where qz is
-the rotation about the z axis qz = {0, 0, dci[1], dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+the rotation about the z axis qz = {0, 0, dci[0], dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qconjqzconj(const ksl_quaternion_t* qi,
                                            const double dci[2],
@@ -545,8 +545,8 @@ static inline void ksl_product_qconjqzconj(const ksl_quaternion_t* qi,
 
 /*!
 @brief Single precision quaternion product qo = conj(qi) * conj(qz), where qz is
-the rotation about the z axis qz = {0, 0, dci[1], dci[0]} given by dci =
-{cos(theta/2), sin(theta/2)}.
+the rotation about the z axis qz = {0, 0, dci[0], dci[1]} given by dci =
+{sin(theta/2), cos(theta/2)}.
 */
 static inline void ksl_product_qconjqzconjf(const ksl_quaternionf_t* qi,
                                             const float dci[2],
@@ -1390,15 +1390,15 @@ static inline void ksl_product_qxq(const double dci[2],
                                    const ksl_quaternion_t* KSL_RESTRICT qi,
                                    ksl_quaternion_t* KSL_RESTRICT qo) {
   /*
-       | qiw  qiz -qiy  qix| |dci[1]|
+       | qiw  qiz -qiy  qix| |dci[0]|
   qo = |-qiz  qiw  qix  qiy| |  0   |
        | qiy -qix  qiw  qiz| |  0   |
-       |-qix -qiy -qiz  qiw| |dci[0]|
+       |-qix -qiy -qiz  qiw| |dci[1]|
   */
-  qo->x = qi->x * dci[0] + qi->w * dci[1];
-  qo->y = qi->y * dci[0] - qi->z * dci[1];
-  qo->z = qi->z * dci[0] + qi->y * dci[1];
-  qo->w = qi->w * dci[0] - qi->x * dci[1];
+  qo->x = qi->x * dci[1] + qi->w * dci[0];
+  qo->y = qi->y * dci[1] - qi->z * dci[0];
+  qo->z = qi->z * dci[1] + qi->y * dci[0];
+  qo->w = qi->w * dci[1] - qi->x * dci[0];
 }
 
 /*!
@@ -1406,10 +1406,10 @@ static inline void ksl_product_qxq(const double dci[2],
 with single precision quaternion qi and return results in single precision
 quaternion qo.
 
-         | dci[0]    0       0     dci[1]|
-L(dci) = |   0     dci[0] -dci[1]    0   |
-         |   0     dci[1]  dci[0]    0   |
-         |-dci[1]    0       0     dci[0]|
+         | dci[1]    0       0     dci[0]|
+L(dci) = |   0     dci[1] -dci[0]    0   |
+         |   0     dci[0]  dci[1]    0   |
+         |-dci[0]    0       0     dci[1]|
 
  @param dci[2] a quaternion in the form [w,x,0,0]
  @param qi a quaternion in the form [x,y,z,w]
@@ -1419,447 +1419,447 @@ static inline void ksl_product_qxqf(const float dci[2],
                                     const ksl_quaternionf_t* KSL_RESTRICT qi,
                                     ksl_quaternionf_t* KSL_RESTRICT qo) {
   /*
-                 | dci[0]    0       0     dci[1]| |qix|
-qo = L(dci) qi = |   0     dci[0] -dci[1]    0   | |qiy|
-                 |   0     dci[1]  dci[0]    0   | |qiz|
-                 |-dci[1]    0       0     dci[0]| |qiw|
+                 | dci[1]    0       0     dci[0]| |qix|
+qo = L(dci) qi = |   0     dci[1] -dci[0]    0   | |qiy|
+                 |   0     dci[0]  dci[1]    0   | |qiz|
+                 |-dci[0]    0       0     dci[1]| |qiw|
   */
-  qo->x = dci[0] * qi->x + dci[1] * qi->w;
-  qo->y = dci[0] * qi->y - dci[1] * qi->z;
-  qo->z = dci[0] * qi->z + dci[1] * qi->y;
-  qo->w = dci[0] * qi->w - dci[1] * qi->x;
+  qo->x = dci[1] * qi->x + dci[0] * qi->w;
+  qo->y = dci[1] * qi->y - dci[0] * qi->z;
+  qo->z = dci[1] * qi->z + dci[0] * qi->y;
+  qo->w = dci[1] * qi->w - dci[0] * qi->x;
 }
 
 static inline void ksl_product_qqx(const ksl_quaternion_t* KSL_RESTRICT qi,
                                    const double dci[2],
                                    ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] + qi->w * dci[1];
-  qo->y = qi->y * dci[0] + qi->z * dci[1];
-  qo->z = qi->z * dci[0] - qi->y * dci[1];
-  qo->w = qi->w * dci[0] - qi->x * dci[1];
+  qo->x = qi->x * dci[1] + qi->w * dci[0];
+  qo->y = qi->y * dci[1] + qi->z * dci[0];
+  qo->z = qi->z * dci[1] - qi->y * dci[0];
+  qo->w = qi->w * dci[1] - qi->x * dci[0];
 }
 
 static inline void ksl_product_qqxf(const ksl_quaternionf_t* KSL_RESTRICT qi,
                                     const float dci[2],
                                     ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] + qi->w * dci[1];
-  qo->y = qi->y * dci[0] + qi->z * dci[1];
-  qo->z = qi->z * dci[0] - qi->y * dci[1];
-  qo->w = qi->w * dci[0] - qi->x * dci[1];
+  qo->x = qi->x * dci[1] + qi->w * dci[0];
+  qo->y = qi->y * dci[1] + qi->z * dci[0];
+  qo->z = qi->z * dci[1] - qi->y * dci[0];
+  qo->w = qi->w * dci[1] - qi->x * dci[0];
 }
 
 static inline void ksl_product_qxconjq(const double dci[2],
                                        const ksl_quaternion_t* KSL_RESTRICT qi,
                                        ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] - qi->w * dci[1];
-  qo->y = qi->y * dci[0] + qi->z * dci[1];
-  qo->z = qi->z * dci[0] - qi->y * dci[1];
-  qo->w = qi->w * dci[0] + qi->x * dci[1];
+  qo->x = qi->x * dci[1] - qi->w * dci[0];
+  qo->y = qi->y * dci[1] + qi->z * dci[0];
+  qo->z = qi->z * dci[1] - qi->y * dci[0];
+  qo->w = qi->w * dci[1] + qi->x * dci[0];
 }
 
 static inline void
 ksl_product_qxconjqf(const float dci[2],
                      const ksl_quaternionf_t* KSL_RESTRICT qi,
                      ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] - qi->w * dci[1];
-  qo->y = qi->y * dci[0] + qi->z * dci[1];
-  qo->z = qi->z * dci[0] - qi->y * dci[1];
-  qo->w = qi->w * dci[0] + qi->x * dci[1];
+  qo->x = qi->x * dci[1] - qi->w * dci[0];
+  qo->y = qi->y * dci[1] + qi->z * dci[0];
+  qo->z = qi->z * dci[1] - qi->y * dci[0];
+  qo->w = qi->w * dci[1] + qi->x * dci[0];
 }
 
 static inline void ksl_product_qqxconj(const ksl_quaternion_t* KSL_RESTRICT qi,
                                        const double dci[2],
                                        ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] - qi->w * dci[1];
-  qo->y = qi->y * dci[0] - qi->z * dci[1];
-  qo->z = qi->z * dci[0] + qi->y * dci[1];
-  qo->w = qi->w * dci[0] + qi->x * dci[1];
+  qo->x = qi->x * dci[1] - qi->w * dci[0];
+  qo->y = qi->y * dci[1] - qi->z * dci[0];
+  qo->z = qi->z * dci[1] + qi->y * dci[0];
+  qo->w = qi->w * dci[1] + qi->x * dci[0];
 }
 
 static inline void
 ksl_product_qqxconjf(const ksl_quaternionf_t* KSL_RESTRICT qi,
                      const float dci[2], ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] - qi->w * dci[1];
-  qo->y = qi->y * dci[0] - qi->z * dci[1];
-  qo->z = qi->z * dci[0] + qi->y * dci[1];
-  qo->w = qi->w * dci[0] + qi->x * dci[1];
+  qo->x = qi->x * dci[1] - qi->w * dci[0];
+  qo->y = qi->y * dci[1] - qi->z * dci[0];
+  qo->z = qi->z * dci[1] + qi->y * dci[0];
+  qo->w = qi->w * dci[1] + qi->x * dci[0];
 }
 
 static inline void ksl_product_qxqconj(const double dci[2],
                                        const ksl_quaternion_t* KSL_RESTRICT qi,
                                        ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] + qi->w * dci[1];
-  qo->y = -qi->y * dci[0] + qi->z * dci[1];
-  qo->z = -qi->z * dci[0] - qi->y * dci[1];
-  qo->w = qi->w * dci[0] + qi->x * dci[1];
+  qo->x = -qi->x * dci[1] + qi->w * dci[0];
+  qo->y = -qi->y * dci[1] + qi->z * dci[0];
+  qo->z = -qi->z * dci[1] - qi->y * dci[0];
+  qo->w = qi->w * dci[1] + qi->x * dci[0];
 }
 
 static inline void
 ksl_product_qxqconjf(const float dci[2],
                      const ksl_quaternionf_t* KSL_RESTRICT qi,
                      ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] + qi->w * dci[1];
-  qo->y = -qi->y * dci[0] + qi->z * dci[1];
-  qo->z = -qi->z * dci[0] - qi->y * dci[1];
-  qo->w = qi->w * dci[0] + qi->x * dci[1];
+  qo->x = -qi->x * dci[1] + qi->w * dci[0];
+  qo->y = -qi->y * dci[1] + qi->z * dci[0];
+  qo->z = -qi->z * dci[1] - qi->y * dci[0];
+  qo->w = qi->w * dci[1] + qi->x * dci[0];
 }
 
 static inline void ksl_product_qconjqx(const ksl_quaternion_t* KSL_RESTRICT qi,
                                        const double dci[2],
                                        ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] + qi->w * dci[1];
-  qo->y = -qi->y * dci[0] - qi->z * dci[1];
-  qo->z = -qi->z * dci[0] + qi->y * dci[1];
-  qo->w = qi->w * dci[0] + qi->x * dci[1];
+  qo->x = -qi->x * dci[1] + qi->w * dci[0];
+  qo->y = -qi->y * dci[1] - qi->z * dci[0];
+  qo->z = -qi->z * dci[1] + qi->y * dci[0];
+  qo->w = qi->w * dci[1] + qi->x * dci[0];
 }
 
 static inline void
 ksl_product_qconjqxf(const ksl_quaternionf_t* KSL_RESTRICT qi,
                      const float dci[2], ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] + qi->w * dci[1];
-  qo->y = -qi->y * dci[0] - qi->z * dci[1];
-  qo->z = -qi->z * dci[0] + qi->y * dci[1];
-  qo->w = qi->w * dci[0] + qi->x * dci[1];
+  qo->x = -qi->x * dci[1] + qi->w * dci[0];
+  qo->y = -qi->y * dci[1] - qi->z * dci[0];
+  qo->z = -qi->z * dci[1] + qi->y * dci[0];
+  qo->w = qi->w * dci[1] + qi->x * dci[0];
 }
 
 static inline void
 ksl_product_qxconjqconj(const double dci[2],
                         const ksl_quaternion_t* KSL_RESTRICT qi,
                         ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] - qi->w * dci[1];
-  qo->y = -qi->y * dci[0] - qi->z * dci[1];
-  qo->z = -qi->z * dci[0] + qi->y * dci[1];
-  qo->w = qi->w * dci[0] - qi->x * dci[1];
+  qo->x = -qi->x * dci[1] - qi->w * dci[0];
+  qo->y = -qi->y * dci[1] - qi->z * dci[0];
+  qo->z = -qi->z * dci[1] + qi->y * dci[0];
+  qo->w = qi->w * dci[1] - qi->x * dci[0];
 }
 
 static inline void
 ksl_product_qxconjqconjf(const float dci[2],
                          const ksl_quaternionf_t* KSL_RESTRICT qi,
                          ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] - qi->w * dci[1];
-  qo->y = -qi->y * dci[0] - qi->z * dci[1];
-  qo->z = -qi->z * dci[0] + qi->y * dci[1];
-  qo->w = qi->w * dci[0] - qi->x * dci[1];
+  qo->x = -qi->x * dci[1] - qi->w * dci[0];
+  qo->y = -qi->y * dci[1] - qi->z * dci[0];
+  qo->z = -qi->z * dci[1] + qi->y * dci[0];
+  qo->w = qi->w * dci[1] - qi->x * dci[0];
 }
 
 static inline void
 ksl_product_qconjqxconj(const ksl_quaternion_t* KSL_RESTRICT qi,
                         const double dci[2],
                         ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] - qi->w * dci[1];
-  qo->y = -qi->y * dci[0] + qi->z * dci[1];
-  qo->z = -qi->z * dci[0] - qi->y * dci[1];
-  qo->w = qi->w * dci[0] - qi->x * dci[1];
+  qo->x = -qi->x * dci[1] - qi->w * dci[0];
+  qo->y = -qi->y * dci[1] + qi->z * dci[0];
+  qo->z = -qi->z * dci[1] - qi->y * dci[0];
+  qo->w = qi->w * dci[1] - qi->x * dci[0];
 }
 
 static inline void
 ksl_product_qconjqxconjf(const ksl_quaternionf_t* KSL_RESTRICT qi,
                          const float dci[2],
                          ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] - qi->w * dci[1];
-  qo->y = -qi->y * dci[0] + qi->z * dci[1];
-  qo->z = -qi->z * dci[0] - qi->y * dci[1];
-  qo->w = qi->w * dci[0] - qi->x * dci[1];
+  qo->x = -qi->x * dci[1] - qi->w * dci[0];
+  qo->y = -qi->y * dci[1] + qi->z * dci[0];
+  qo->z = -qi->z * dci[1] - qi->y * dci[0];
+  qo->w = qi->w * dci[1] - qi->x * dci[0];
 }
 
 static inline void ksl_product_qyq(const double dci[2],
                                    const ksl_quaternion_t* KSL_RESTRICT qi,
                                    ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] + qi->z * dci[1];
-  qo->y = qi->y * dci[0] + qi->w * dci[1];
-  qo->z = qi->z * dci[0] - qi->x * dci[1];
-  qo->w = qi->w * dci[0] - qi->y * dci[1];
+  qo->x = qi->x * dci[1] + qi->z * dci[0];
+  qo->y = qi->y * dci[1] + qi->w * dci[0];
+  qo->z = qi->z * dci[1] - qi->x * dci[0];
+  qo->w = qi->w * dci[1] - qi->y * dci[0];
 }
 
 static inline void ksl_product_qyqf(const float dci[2],
                                     const ksl_quaternionf_t* KSL_RESTRICT qi,
                                     ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] + qi->z * dci[1];
-  qo->y = qi->y * dci[0] + qi->w * dci[1];
-  qo->z = qi->z * dci[0] - qi->x * dci[1];
-  qo->w = qi->w * dci[0] - qi->y * dci[1];
+  qo->x = qi->x * dci[1] + qi->z * dci[0];
+  qo->y = qi->y * dci[1] + qi->w * dci[0];
+  qo->z = qi->z * dci[1] - qi->x * dci[0];
+  qo->w = qi->w * dci[1] - qi->y * dci[0];
 }
 
 static inline void ksl_product_qqy(const ksl_quaternion_t* KSL_RESTRICT qi,
                                    const double dci[2],
                                    ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] - qi->z * dci[1];
-  qo->y = qi->y * dci[0] + qi->w * dci[1];
-  qo->z = qi->z * dci[0] + qi->x * dci[1];
-  qo->w = qi->w * dci[0] - qi->y * dci[1];
+  qo->x = qi->x * dci[1] - qi->z * dci[0];
+  qo->y = qi->y * dci[1] + qi->w * dci[0];
+  qo->z = qi->z * dci[1] + qi->x * dci[0];
+  qo->w = qi->w * dci[1] - qi->y * dci[0];
 }
 
 static inline void ksl_product_qqyf(const ksl_quaternionf_t* KSL_RESTRICT qi,
                                     const float dci[2],
                                     ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] - qi->z * dci[1];
-  qo->y = qi->y * dci[0] + qi->w * dci[1];
-  qo->z = qi->z * dci[0] + qi->x * dci[1];
-  qo->w = qi->w * dci[0] - qi->y * dci[1];
+  qo->x = qi->x * dci[1] - qi->z * dci[0];
+  qo->y = qi->y * dci[1] + qi->w * dci[0];
+  qo->z = qi->z * dci[1] + qi->x * dci[0];
+  qo->w = qi->w * dci[1] - qi->y * dci[0];
 }
 
 static inline void ksl_product_qyconjq(const double dci[2],
                                        const ksl_quaternion_t* KSL_RESTRICT qi,
                                        ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] - qi->z * dci[1];
-  qo->y = qi->y * dci[0] - qi->w * dci[1];
-  qo->z = qi->z * dci[0] + qi->x * dci[1];
-  qo->w = qi->w * dci[0] + qi->y * dci[1];
+  qo->x = qi->x * dci[1] - qi->z * dci[0];
+  qo->y = qi->y * dci[1] - qi->w * dci[0];
+  qo->z = qi->z * dci[1] + qi->x * dci[0];
+  qo->w = qi->w * dci[1] + qi->y * dci[0];
 }
 
 static inline void
 ksl_product_qyconjqf(const float dci[2],
                      const ksl_quaternionf_t* KSL_RESTRICT qi,
                      ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] - qi->z * dci[1];
-  qo->y = qi->y * dci[0] - qi->w * dci[1];
-  qo->z = qi->z * dci[0] + qi->x * dci[1];
-  qo->w = qi->w * dci[0] + qi->y * dci[1];
+  qo->x = qi->x * dci[1] - qi->z * dci[0];
+  qo->y = qi->y * dci[1] - qi->w * dci[0];
+  qo->z = qi->z * dci[1] + qi->x * dci[0];
+  qo->w = qi->w * dci[1] + qi->y * dci[0];
 }
 
 static inline void ksl_product_qqyconj(const ksl_quaternion_t* KSL_RESTRICT qi,
                                        const double dci[2],
                                        ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] + qi->z * dci[1];
-  qo->y = qi->y * dci[0] - qi->w * dci[1];
-  qo->z = qi->z * dci[0] - qi->x * dci[1];
-  qo->w = qi->w * dci[0] + qi->y * dci[1];
+  qo->x = qi->x * dci[1] + qi->z * dci[0];
+  qo->y = qi->y * dci[1] - qi->w * dci[0];
+  qo->z = qi->z * dci[1] - qi->x * dci[0];
+  qo->w = qi->w * dci[1] + qi->y * dci[0];
 }
 
 static inline void
 ksl_product_qqyconjf(const ksl_quaternionf_t* KSL_RESTRICT qi,
                      const float dci[2], ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] + qi->z * dci[1];
-  qo->y = qi->y * dci[0] - qi->w * dci[1];
-  qo->z = qi->z * dci[0] - qi->x * dci[1];
-  qo->w = qi->w * dci[0] + qi->y * dci[1];
+  qo->x = qi->x * dci[1] + qi->z * dci[0];
+  qo->y = qi->y * dci[1] - qi->w * dci[0];
+  qo->z = qi->z * dci[1] - qi->x * dci[0];
+  qo->w = qi->w * dci[1] + qi->y * dci[0];
 }
 
 static inline void ksl_product_qyqconj(const double dci[2],
                                        const ksl_quaternion_t* KSL_RESTRICT qi,
                                        ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] - qi->z * dci[1];
-  qo->y = -qi->y * dci[0] + qi->w * dci[1];
-  qo->z = -qi->z * dci[0] + qi->x * dci[1];
-  qo->w = qi->w * dci[0] + qi->y * dci[1];
+  qo->x = -qi->x * dci[1] - qi->z * dci[0];
+  qo->y = -qi->y * dci[1] + qi->w * dci[0];
+  qo->z = -qi->z * dci[1] + qi->x * dci[0];
+  qo->w = qi->w * dci[1] + qi->y * dci[0];
 }
 
 static inline void
 ksl_product_qyqconjf(const float dci[2],
                      const ksl_quaternionf_t* KSL_RESTRICT qi,
                      ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] - qi->z * dci[1];
-  qo->y = -qi->y * dci[0] + qi->w * dci[1];
-  qo->z = -qi->z * dci[0] + qi->x * dci[1];
-  qo->w = qi->w * dci[0] + qi->y * dci[1];
+  qo->x = -qi->x * dci[1] - qi->z * dci[0];
+  qo->y = -qi->y * dci[1] + qi->w * dci[0];
+  qo->z = -qi->z * dci[1] + qi->x * dci[0];
+  qo->w = qi->w * dci[1] + qi->y * dci[0];
 }
 
 static inline void ksl_product_qconjqy(const ksl_quaternion_t* KSL_RESTRICT qi,
                                        const double dci[2],
                                        ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] + qi->z * dci[1];
-  qo->y = -qi->y * dci[0] + qi->w * dci[1];
-  qo->z = -qi->z * dci[0] - qi->x * dci[1];
-  qo->w = qi->w * dci[0] + qi->y * dci[1];
+  qo->x = -qi->x * dci[1] + qi->z * dci[0];
+  qo->y = -qi->y * dci[1] + qi->w * dci[0];
+  qo->z = -qi->z * dci[1] - qi->x * dci[0];
+  qo->w = qi->w * dci[1] + qi->y * dci[0];
 }
 
 static inline void
 ksl_product_qconjqyf(const ksl_quaternionf_t* KSL_RESTRICT qi,
                      const float dci[2], ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] + qi->z * dci[1];
-  qo->y = -qi->y * dci[0] + qi->w * dci[1];
-  qo->z = -qi->z * dci[0] - qi->x * dci[1];
-  qo->w = qi->w * dci[0] + qi->y * dci[1];
+  qo->x = -qi->x * dci[1] + qi->z * dci[0];
+  qo->y = -qi->y * dci[1] + qi->w * dci[0];
+  qo->z = -qi->z * dci[1] - qi->x * dci[0];
+  qo->w = qi->w * dci[1] + qi->y * dci[0];
 }
 
 static inline void
 ksl_product_qyconjqconj(const double dci[2],
                         const ksl_quaternion_t* KSL_RESTRICT qi,
                         ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] + qi->z * dci[1];
-  qo->y = -qi->y * dci[0] - qi->w * dci[1];
-  qo->z = -qi->z * dci[0] - qi->x * dci[1];
-  qo->w = qi->w * dci[0] - qi->y * dci[1];
+  qo->x = -qi->x * dci[1] + qi->z * dci[0];
+  qo->y = -qi->y * dci[1] - qi->w * dci[0];
+  qo->z = -qi->z * dci[1] - qi->x * dci[0];
+  qo->w = qi->w * dci[1] - qi->y * dci[0];
 }
 
 static inline void
 ksl_product_qyconjqconjf(const float dci[2],
                          const ksl_quaternionf_t* KSL_RESTRICT qi,
                          ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] + qi->z * dci[1];
-  qo->y = -qi->y * dci[0] - qi->w * dci[1];
-  qo->z = -qi->z * dci[0] - qi->x * dci[1];
-  qo->w = qi->w * dci[0] - qi->y * dci[1];
+  qo->x = -qi->x * dci[1] + qi->z * dci[0];
+  qo->y = -qi->y * dci[1] - qi->w * dci[0];
+  qo->z = -qi->z * dci[1] - qi->x * dci[0];
+  qo->w = qi->w * dci[1] - qi->y * dci[0];
 }
 
 static inline void
 ksl_product_qconjqyconj(const ksl_quaternion_t* KSL_RESTRICT qi,
                         const double dci[2],
                         ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] - qi->z * dci[1];
-  qo->y = -qi->y * dci[0] - qi->w * dci[1];
-  qo->z = -qi->z * dci[0] + qi->x * dci[1];
-  qo->w = qi->w * dci[0] - qi->y * dci[1];
+  qo->x = -qi->x * dci[1] - qi->z * dci[0];
+  qo->y = -qi->y * dci[1] - qi->w * dci[0];
+  qo->z = -qi->z * dci[1] + qi->x * dci[0];
+  qo->w = qi->w * dci[1] - qi->y * dci[0];
 }
 
 static inline void
 ksl_product_qconjqyconjf(const ksl_quaternionf_t* KSL_RESTRICT qi,
                          const float dci[2],
                          ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] - qi->z * dci[1];
-  qo->y = -qi->y * dci[0] - qi->w * dci[1];
-  qo->z = -qi->z * dci[0] + qi->x * dci[1];
-  qo->w = qi->w * dci[0] - qi->y * dci[1];
+  qo->x = -qi->x * dci[1] - qi->z * dci[0];
+  qo->y = -qi->y * dci[1] - qi->w * dci[0];
+  qo->z = -qi->z * dci[1] + qi->x * dci[0];
+  qo->w = qi->w * dci[1] - qi->y * dci[0];
 }
 
 static inline void ksl_product_qzq(const double dci[2],
                                    const ksl_quaternion_t* KSL_RESTRICT qi,
                                    ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] - qi->y * dci[1];
-  qo->y = qi->y * dci[0] + qi->x * dci[1];
-  qo->z = qi->z * dci[0] + qi->w * dci[1];
-  qo->w = qi->w * dci[0] - qi->z * dci[1];
+  qo->x = qi->x * dci[1] - qi->y * dci[0];
+  qo->y = qi->y * dci[1] + qi->x * dci[0];
+  qo->z = qi->z * dci[1] + qi->w * dci[0];
+  qo->w = qi->w * dci[1] - qi->z * dci[0];
 }
 
 static inline void ksl_product_qzqf(const float dci[2],
                                     const ksl_quaternionf_t* KSL_RESTRICT qi,
                                     ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] - qi->y * dci[1];
-  qo->y = qi->y * dci[0] + qi->x * dci[1];
-  qo->z = qi->z * dci[0] + qi->w * dci[1];
-  qo->w = qi->w * dci[0] - qi->z * dci[1];
+  qo->x = qi->x * dci[1] - qi->y * dci[0];
+  qo->y = qi->y * dci[1] + qi->x * dci[0];
+  qo->z = qi->z * dci[1] + qi->w * dci[0];
+  qo->w = qi->w * dci[1] - qi->z * dci[0];
 }
 
 static inline void ksl_product_qqz(const ksl_quaternion_t* KSL_RESTRICT qi,
                                    const double dci[2],
                                    ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] + qi->y * dci[1];
-  qo->y = qi->y * dci[0] - qi->x * dci[1];
-  qo->z = qi->z * dci[0] + qi->w * dci[1];
-  qo->w = qi->w * dci[0] - qi->z * dci[1];
+  qo->x = qi->x * dci[1] + qi->y * dci[0];
+  qo->y = qi->y * dci[1] - qi->x * dci[0];
+  qo->z = qi->z * dci[1] + qi->w * dci[0];
+  qo->w = qi->w * dci[1] - qi->z * dci[0];
 }
 
 static inline void ksl_product_qqzf(const ksl_quaternionf_t* KSL_RESTRICT qi,
                                     const float dci[2],
                                     ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] + qi->y * dci[1];
-  qo->y = qi->y * dci[0] - qi->x * dci[1];
-  qo->z = qi->z * dci[0] + qi->w * dci[1];
-  qo->w = qi->w * dci[0] - qi->z * dci[1];
+  qo->x = qi->x * dci[1] + qi->y * dci[0];
+  qo->y = qi->y * dci[1] - qi->x * dci[0];
+  qo->z = qi->z * dci[1] + qi->w * dci[0];
+  qo->w = qi->w * dci[1] - qi->z * dci[0];
 }
 
 static inline void ksl_product_qzconjq(const double dci[2],
                                        const ksl_quaternion_t* KSL_RESTRICT qi,
                                        ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] + qi->y * dci[1];
-  qo->y = qi->y * dci[0] - qi->x * dci[1];
-  qo->z = qi->z * dci[0] - qi->w * dci[1];
-  qo->w = qi->w * dci[0] + qi->z * dci[1];
+  qo->x = qi->x * dci[1] + qi->y * dci[0];
+  qo->y = qi->y * dci[1] - qi->x * dci[0];
+  qo->z = qi->z * dci[1] - qi->w * dci[0];
+  qo->w = qi->w * dci[1] + qi->z * dci[0];
 }
 
 static inline void
 ksl_product_qzconjqf(const float dci[2],
                      const ksl_quaternionf_t* KSL_RESTRICT qi,
                      ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] + qi->y * dci[1];
-  qo->y = qi->y * dci[0] - qi->x * dci[1];
-  qo->z = qi->z * dci[0] - qi->w * dci[1];
-  qo->w = qi->w * dci[0] + qi->z * dci[1];
+  qo->x = qi->x * dci[1] + qi->y * dci[0];
+  qo->y = qi->y * dci[1] - qi->x * dci[0];
+  qo->z = qi->z * dci[1] - qi->w * dci[0];
+  qo->w = qi->w * dci[1] + qi->z * dci[0];
 }
 
 static inline void ksl_product_qqzconj(const ksl_quaternion_t* KSL_RESTRICT qi,
                                        const double dci[2],
                                        ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] - qi->y * dci[1];
-  qo->y = qi->y * dci[0] + qi->x * dci[1];
-  qo->z = qi->z * dci[0] - qi->w * dci[1];
-  qo->w = qi->w * dci[0] + qi->z * dci[1];
+  qo->x = qi->x * dci[1] - qi->y * dci[0];
+  qo->y = qi->y * dci[1] + qi->x * dci[0];
+  qo->z = qi->z * dci[1] - qi->w * dci[0];
+  qo->w = qi->w * dci[1] + qi->z * dci[0];
 }
 
 static inline void
 ksl_product_qqzconjf(const ksl_quaternionf_t* KSL_RESTRICT qi,
                      const float dci[2], ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = qi->x * dci[0] - qi->y * dci[1];
-  qo->y = qi->y * dci[0] + qi->x * dci[1];
-  qo->z = qi->z * dci[0] - qi->w * dci[1];
-  qo->w = qi->w * dci[0] + qi->z * dci[1];
+  qo->x = qi->x * dci[1] - qi->y * dci[0];
+  qo->y = qi->y * dci[1] + qi->x * dci[0];
+  qo->z = qi->z * dci[1] - qi->w * dci[0];
+  qo->w = qi->w * dci[1] + qi->z * dci[0];
 }
 
 static inline void ksl_product_qzqconj(const double dci[2],
                                        const ksl_quaternion_t* KSL_RESTRICT qi,
                                        ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] + qi->y * dci[1];
-  qo->y = -qi->y * dci[0] - qi->x * dci[1];
-  qo->z = -qi->z * dci[0] + qi->w * dci[1];
-  qo->w = qi->w * dci[0] + qi->z * dci[1];
+  qo->x = -qi->x * dci[1] + qi->y * dci[0];
+  qo->y = -qi->y * dci[1] - qi->x * dci[0];
+  qo->z = -qi->z * dci[1] + qi->w * dci[0];
+  qo->w = qi->w * dci[1] + qi->z * dci[0];
 }
 
 static inline void
 ksl_product_qzqconjf(const float dci[2],
                      const ksl_quaternionf_t* KSL_RESTRICT qi,
                      ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] + qi->y * dci[1];
-  qo->y = -qi->y * dci[0] - qi->x * dci[1];
-  qo->z = -qi->z * dci[0] + qi->w * dci[1];
-  qo->w = qi->w * dci[0] + qi->z * dci[1];
+  qo->x = -qi->x * dci[1] + qi->y * dci[0];
+  qo->y = -qi->y * dci[1] - qi->x * dci[0];
+  qo->z = -qi->z * dci[1] + qi->w * dci[0];
+  qo->w = qi->w * dci[1] + qi->z * dci[0];
 }
 
 static inline void ksl_product_qconjqz(const ksl_quaternion_t* KSL_RESTRICT qi,
                                        const double dci[2],
                                        ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] - qi->y * dci[1];
-  qo->y = -qi->y * dci[0] + qi->x * dci[1];
-  qo->z = -qi->z * dci[0] + qi->w * dci[1];
-  qo->w = qi->w * dci[0] + qi->z * dci[1];
+  qo->x = -qi->x * dci[1] - qi->y * dci[0];
+  qo->y = -qi->y * dci[1] + qi->x * dci[0];
+  qo->z = -qi->z * dci[1] + qi->w * dci[0];
+  qo->w = qi->w * dci[1] + qi->z * dci[0];
 }
 
 static inline void
 ksl_product_qconjqzf(const ksl_quaternionf_t* KSL_RESTRICT qi,
                      const float dci[2], ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] - qi->y * dci[1];
-  qo->y = -qi->y * dci[0] + qi->x * dci[1];
-  qo->z = -qi->z * dci[0] + qi->w * dci[1];
-  qo->w = qi->w * dci[0] + qi->z * dci[1];
+  qo->x = -qi->x * dci[1] - qi->y * dci[0];
+  qo->y = -qi->y * dci[1] + qi->x * dci[0];
+  qo->z = -qi->z * dci[1] + qi->w * dci[0];
+  qo->w = qi->w * dci[1] + qi->z * dci[0];
 }
 
 static inline void
 ksl_product_qzconjqconj(const double dci[2],
                         const ksl_quaternion_t* KSL_RESTRICT qi,
                         ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] - qi->y * dci[1];
-  qo->y = -qi->y * dci[0] + qi->x * dci[1];
-  qo->z = -qi->z * dci[0] - qi->w * dci[1];
-  qo->w = qi->w * dci[0] - qi->z * dci[1];
+  qo->x = -qi->x * dci[1] - qi->y * dci[0];
+  qo->y = -qi->y * dci[1] + qi->x * dci[0];
+  qo->z = -qi->z * dci[1] - qi->w * dci[0];
+  qo->w = qi->w * dci[1] - qi->z * dci[0];
 }
 
 static inline void
 ksl_product_qzconjqconjf(const float dci[2],
                          const ksl_quaternionf_t* KSL_RESTRICT qi,
                          ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] - qi->y * dci[1];
-  qo->y = -qi->y * dci[0] + qi->x * dci[1];
-  qo->z = -qi->z * dci[0] - qi->w * dci[1];
-  qo->w = qi->w * dci[0] - qi->z * dci[1];
+  qo->x = -qi->x * dci[1] - qi->y * dci[0];
+  qo->y = -qi->y * dci[1] + qi->x * dci[0];
+  qo->z = -qi->z * dci[1] - qi->w * dci[0];
+  qo->w = qi->w * dci[1] - qi->z * dci[0];
 }
 
 static inline void
 ksl_product_qconjqzconj(const ksl_quaternion_t* KSL_RESTRICT qi,
                         const double dci[2],
                         ksl_quaternion_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] + qi->y * dci[1];
-  qo->y = -qi->y * dci[0] - qi->x * dci[1];
-  qo->z = -qi->z * dci[0] - qi->w * dci[1];
-  qo->w = qi->w * dci[0] - qi->z * dci[1];
+  qo->x = -qi->x * dci[1] + qi->y * dci[0];
+  qo->y = -qi->y * dci[1] - qi->x * dci[0];
+  qo->z = -qi->z * dci[1] - qi->w * dci[0];
+  qo->w = qi->w * dci[1] - qi->z * dci[0];
 }
 
 static inline void
 ksl_product_qconjqzconjf(const ksl_quaternionf_t* KSL_RESTRICT qi,
                          const float dci[2],
                          ksl_quaternionf_t* KSL_RESTRICT qo) {
-  qo->x = -qi->x * dci[0] + qi->y * dci[1];
-  qo->y = -qi->y * dci[0] - qi->x * dci[1];
-  qo->z = -qi->z * dci[0] - qi->w * dci[1];
-  qo->w = qi->w * dci[0] - qi->z * dci[1];
+  qo->x = -qi->x * dci[1] + qi->y * dci[0];
+  qo->y = -qi->y * dci[1] - qi->x * dci[0];
+  qo->z = -qi->z * dci[1] - qi->w * dci[0];
+  qo->w = qi->w * dci[1] - qi->z * dci[0];
 }
 
 /*!
