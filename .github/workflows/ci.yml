@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.cc }} ${{ matrix.buildtype }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        cc: [gcc, clang]
+        buildtype: [debug, release]
+    env:
+      CC: ${{ matrix.cc }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            meson ninja-build pkg-config check clang
+
+      - name: Configure
+        run: meson setup build --buildtype=${{ matrix.buildtype }} -Dtests=enabled -Ddocs=disabled
+
+      - name: Build
+        run: meson compile -C build
+
+      - name: Test
+        run: meson test -C build --print-errorlogs
+
+  coverage:
+    name: coverage
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            meson ninja-build pkg-config check gcovr
+
+      - name: Configure
+        run: meson setup build --buildtype=debug -Dtests=enabled -Ddocs=disabled -Db_coverage=true
+
+      - name: Build and test
+        run: |
+          meson compile -C build
+          meson test -C build --print-errorlogs
+
+      - name: Coverage report
+        run: |
+          ninja -C build coverage-xml coverage-text
+          cat build/meson-logs/coverage.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: |
+            build/meson-logs/coverage.xml
+            build/meson-logs/coverage.txt
