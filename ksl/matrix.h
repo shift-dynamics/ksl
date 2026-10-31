@@ -722,157 +722,157 @@ static inline void ksl_product_drvtzinvf(const ksl_mat3x3f_t* KSL_RESTRICT ri,
 static inline void ksl_product_drdrx(const ksl_mat3x3_t* KSL_RESTRICT ri,
                                      const double dc[2],
                                      ksl_mat3x3_t* KSL_RESTRICT ro) {
-  const ksl_mat3x3_t r = *ri;
-  ro->v1.x = dc[1] * r.v1.x + r.v2.x * dc[0];
-  ro->v1.y = dc[1] * r.v1.y + r.v2.y * dc[0];
-  ro->v1.z = dc[1] * r.v1.z + r.v2.z * dc[0];
-  ro->v2.x = -dc[0] * r.v1.x + r.v2.x * dc[1];
-  ro->v2.y = -dc[0] * r.v1.y + r.v2.y * dc[1];
-  ro->v2.z = -dc[0] * r.v1.z + r.v2.z * dc[1];
-  ro->v0 = r.v0;
+  const ksl_vec3_t v1 = ri->v1, v2 = ri->v2;
+  ro->v1.x = dc[1] * v1.x + v2.x * dc[0];
+  ro->v1.y = dc[1] * v1.y + v2.y * dc[0];
+  ro->v1.z = dc[1] * v1.z + v2.z * dc[0];
+  ro->v2.x = -dc[0] * v1.x + v2.x * dc[1];
+  ro->v2.y = -dc[0] * v1.y + v2.y * dc[1];
+  ro->v2.z = -dc[0] * v1.z + v2.z * dc[1];
+  ro->v0 = ri->v0;
 }
 
 static inline void ksl_product_drdrxf(const ksl_mat3x3f_t* KSL_RESTRICT ri,
                                       const float dc[2],
                                       ksl_mat3x3f_t* KSL_RESTRICT ro) {
-  const ksl_mat3x3f_t r = *ri;
-  ro->v1.x = dc[1] * r.v1.x + r.v2.x * dc[0];
-  ro->v1.y = dc[1] * r.v1.y + r.v2.y * dc[0];
-  ro->v1.z = dc[1] * r.v1.z + r.v2.z * dc[0];
-  ro->v2.x = -dc[0] * r.v1.x + r.v2.x * dc[1];
-  ro->v2.y = -dc[0] * r.v1.y + r.v2.y * dc[1];
-  ro->v2.z = -dc[0] * r.v1.z + r.v2.z * dc[1];
-  ro->v0 = r.v0;
+  const ksl_vec3f_t v1 = ri->v1, v2 = ri->v2;
+  ro->v1.x = dc[1] * v1.x + v2.x * dc[0];
+  ro->v1.y = dc[1] * v1.y + v2.y * dc[0];
+  ro->v1.z = dc[1] * v1.z + v2.z * dc[0];
+  ro->v2.x = -dc[0] * v1.x + v2.x * dc[1];
+  ro->v2.y = -dc[0] * v1.y + v2.y * dc[1];
+  ro->v2.z = -dc[0] * v1.z + v2.z * dc[1];
+  ro->v0 = ri->v0;
 }
 
 static inline void ksl_product_drdrxinv(const ksl_mat3x3_t* KSL_RESTRICT ri,
                                         const double dc[2],
                                         ksl_mat3x3_t* KSL_RESTRICT ro) {
-  const ksl_mat3x3_t r = *ri;
-  ro->v1.x = dc[1] * r.v1.x + r.v2.x * -dc[0];
-  ro->v1.y = dc[1] * r.v1.y + r.v2.y * -dc[0];
-  ro->v1.z = dc[1] * r.v1.z + r.v2.z * -dc[0];
-  ro->v2.x = dc[0] * r.v1.x + r.v2.x * dc[1];
-  ro->v2.y = dc[0] * r.v1.y + r.v2.y * dc[1];
-  ro->v2.z = dc[0] * r.v1.z + r.v2.z * dc[1];
-  ro->v0 = r.v0;
+  const ksl_vec3_t v1 = ri->v1, v2 = ri->v2;
+  ro->v1.x = dc[1] * v1.x + v2.x * -dc[0];
+  ro->v1.y = dc[1] * v1.y + v2.y * -dc[0];
+  ro->v1.z = dc[1] * v1.z + v2.z * -dc[0];
+  ro->v2.x = dc[0] * v1.x + v2.x * dc[1];
+  ro->v2.y = dc[0] * v1.y + v2.y * dc[1];
+  ro->v2.z = dc[0] * v1.z + v2.z * dc[1];
+  ro->v0 = ri->v0;
 }
 
 static inline void ksl_product_drdrxinvf(const ksl_mat3x3f_t* KSL_RESTRICT ri,
                                          const float dc[2],
                                          ksl_mat3x3f_t* KSL_RESTRICT ro) {
-  const ksl_mat3x3f_t r = *ri;
-  ro->v1.x = dc[1] * r.v1.x + r.v2.x * -dc[0];
-  ro->v1.y = dc[1] * r.v1.y + r.v2.y * -dc[0];
-  ro->v1.z = dc[1] * r.v1.z + r.v2.z * -dc[0];
-  ro->v2.x = dc[0] * r.v1.x + r.v2.x * dc[1];
-  ro->v2.y = dc[0] * r.v1.y + r.v2.y * dc[1];
-  ro->v2.z = dc[0] * r.v1.z + r.v2.z * dc[1];
-  ro->v0 = r.v0;
+  const ksl_vec3f_t v1 = ri->v1, v2 = ri->v2;
+  ro->v1.x = dc[1] * v1.x + v2.x * -dc[0];
+  ro->v1.y = dc[1] * v1.y + v2.y * -dc[0];
+  ro->v1.z = dc[1] * v1.z + v2.z * -dc[0];
+  ro->v2.x = dc[0] * v1.x + v2.x * dc[1];
+  ro->v2.y = dc[0] * v1.y + v2.y * dc[1];
+  ro->v2.z = dc[0] * v1.z + v2.z * dc[1];
+  ro->v0 = ri->v0;
 }
 
 static inline void ksl_product_drdry(const ksl_mat3x3_t* KSL_RESTRICT ri,
                                      const double dc[2],
                                      ksl_mat3x3_t* KSL_RESTRICT ro) {
-  const ksl_mat3x3_t r = *ri;
-  ro->v0.x = dc[1] * r.v0.x + r.v2.x * -dc[0];
-  ro->v0.y = dc[1] * r.v0.y + r.v2.y * -dc[0];
-  ro->v0.z = dc[1] * r.v0.z + r.v2.z * -dc[0];
-  ro->v2.x = dc[0] * r.v0.x + r.v2.x * dc[1];
-  ro->v2.y = dc[0] * r.v0.y + r.v2.y * dc[1];
-  ro->v2.z = dc[0] * r.v0.z + r.v2.z * dc[1];
-  ro->v1 = r.v1;
+  const ksl_vec3_t v0 = ri->v0, v2 = ri->v2;
+  ro->v0.x = dc[1] * v0.x + v2.x * -dc[0];
+  ro->v0.y = dc[1] * v0.y + v2.y * -dc[0];
+  ro->v0.z = dc[1] * v0.z + v2.z * -dc[0];
+  ro->v2.x = dc[0] * v0.x + v2.x * dc[1];
+  ro->v2.y = dc[0] * v0.y + v2.y * dc[1];
+  ro->v2.z = dc[0] * v0.z + v2.z * dc[1];
+  ro->v1 = ri->v1;
 }
 
 static inline void ksl_product_drdryf(const ksl_mat3x3f_t* KSL_RESTRICT ri,
                                       const float dc[2],
                                       ksl_mat3x3f_t* KSL_RESTRICT ro) {
-  const ksl_mat3x3f_t r = *ri;
-  ro->v0.x = dc[1] * r.v0.x + r.v2.x * -dc[0];
-  ro->v0.y = dc[1] * r.v0.y + r.v2.y * -dc[0];
-  ro->v0.z = dc[1] * r.v0.z + r.v2.z * -dc[0];
-  ro->v2.x = dc[0] * r.v0.x + r.v2.x * dc[1];
-  ro->v2.y = dc[0] * r.v0.y + r.v2.y * dc[1];
-  ro->v2.z = dc[0] * r.v0.z + r.v2.z * dc[1];
-  ro->v1 = r.v1;
+  const ksl_vec3f_t v0 = ri->v0, v2 = ri->v2;
+  ro->v0.x = dc[1] * v0.x + v2.x * -dc[0];
+  ro->v0.y = dc[1] * v0.y + v2.y * -dc[0];
+  ro->v0.z = dc[1] * v0.z + v2.z * -dc[0];
+  ro->v2.x = dc[0] * v0.x + v2.x * dc[1];
+  ro->v2.y = dc[0] * v0.y + v2.y * dc[1];
+  ro->v2.z = dc[0] * v0.z + v2.z * dc[1];
+  ro->v1 = ri->v1;
 }
 
 static inline void ksl_product_drdryinv(const ksl_mat3x3_t* KSL_RESTRICT ri,
                                         const double dc[2],
                                         ksl_mat3x3_t* KSL_RESTRICT ro) {
-  const ksl_mat3x3_t r = *ri;
-  ro->v0.x = dc[1] * r.v0.x + r.v2.x * dc[0];
-  ro->v0.y = dc[1] * r.v0.y + r.v2.y * dc[0];
-  ro->v0.z = dc[1] * r.v0.z + r.v2.z * dc[0];
-  ro->v2.x = -dc[0] * r.v0.x + r.v2.x * dc[1];
-  ro->v2.y = -dc[0] * r.v0.y + r.v2.y * dc[1];
-  ro->v2.z = -dc[0] * r.v0.z + r.v2.z * dc[1];
-  ro->v1 = r.v1;
+  const ksl_vec3_t v0 = ri->v0, v2 = ri->v2;
+  ro->v0.x = dc[1] * v0.x + v2.x * dc[0];
+  ro->v0.y = dc[1] * v0.y + v2.y * dc[0];
+  ro->v0.z = dc[1] * v0.z + v2.z * dc[0];
+  ro->v2.x = -dc[0] * v0.x + v2.x * dc[1];
+  ro->v2.y = -dc[0] * v0.y + v2.y * dc[1];
+  ro->v2.z = -dc[0] * v0.z + v2.z * dc[1];
+  ro->v1 = ri->v1;
 }
 
 static inline void ksl_product_drdryinvf(const ksl_mat3x3f_t* KSL_RESTRICT ri,
                                          const float dc[2],
                                          ksl_mat3x3f_t* KSL_RESTRICT ro) {
-  const ksl_mat3x3f_t r = *ri;
-  ro->v0.x = dc[1] * r.v0.x + r.v2.x * dc[0];
-  ro->v0.y = dc[1] * r.v0.y + r.v2.y * dc[0];
-  ro->v0.z = dc[1] * r.v0.z + r.v2.z * dc[0];
-  ro->v2.x = -dc[0] * r.v0.x + r.v2.x * dc[1];
-  ro->v2.y = -dc[0] * r.v0.y + r.v2.y * dc[1];
-  ro->v2.z = -dc[0] * r.v0.z + r.v2.z * dc[1];
-  ro->v1 = r.v1;
+  const ksl_vec3f_t v0 = ri->v0, v2 = ri->v2;
+  ro->v0.x = dc[1] * v0.x + v2.x * dc[0];
+  ro->v0.y = dc[1] * v0.y + v2.y * dc[0];
+  ro->v0.z = dc[1] * v0.z + v2.z * dc[0];
+  ro->v2.x = -dc[0] * v0.x + v2.x * dc[1];
+  ro->v2.y = -dc[0] * v0.y + v2.y * dc[1];
+  ro->v2.z = -dc[0] * v0.z + v2.z * dc[1];
+  ro->v1 = ri->v1;
 }
 
 static inline void ksl_product_drdrz(const ksl_mat3x3_t* KSL_RESTRICT ri,
                                      const double dc[2],
                                      ksl_mat3x3_t* KSL_RESTRICT ro) {
-  const ksl_mat3x3_t r = *ri;
-  ro->v0.x = dc[1] * r.v0.x + r.v1.x * dc[0];
-  ro->v0.y = dc[1] * r.v0.y + r.v1.y * dc[0];
-  ro->v0.z = dc[1] * r.v0.z + r.v1.z * dc[0];
-  ro->v1.x = -dc[0] * r.v0.x + r.v1.x * dc[1];
-  ro->v1.y = -dc[0] * r.v0.y + r.v1.y * dc[1];
-  ro->v1.z = -dc[0] * r.v0.z + r.v1.z * dc[1];
-  ro->v2 = r.v2;
+  const ksl_vec3_t v0 = ri->v0, v1 = ri->v1;
+  ro->v0.x = dc[1] * v0.x + v1.x * dc[0];
+  ro->v0.y = dc[1] * v0.y + v1.y * dc[0];
+  ro->v0.z = dc[1] * v0.z + v1.z * dc[0];
+  ro->v1.x = -dc[0] * v0.x + v1.x * dc[1];
+  ro->v1.y = -dc[0] * v0.y + v1.y * dc[1];
+  ro->v1.z = -dc[0] * v0.z + v1.z * dc[1];
+  ro->v2 = ri->v2;
 }
 
 static inline void ksl_product_drdrzf(const ksl_mat3x3f_t* KSL_RESTRICT ri,
                                       const float dc[2],
                                       ksl_mat3x3f_t* KSL_RESTRICT ro) {
-  const ksl_mat3x3f_t r = *ri;
-  ro->v0.x = dc[1] * r.v0.x + r.v1.x * dc[0];
-  ro->v0.y = dc[1] * r.v0.y + r.v1.y * dc[0];
-  ro->v0.z = dc[1] * r.v0.z + r.v1.z * dc[0];
-  ro->v1.x = -dc[0] * r.v0.x + r.v1.x * dc[1];
-  ro->v1.y = -dc[0] * r.v0.y + r.v1.y * dc[1];
-  ro->v1.z = -dc[0] * r.v0.z + r.v1.z * dc[1];
-  ro->v2 = r.v2;
+  const ksl_vec3f_t v0 = ri->v0, v1 = ri->v1;
+  ro->v0.x = dc[1] * v0.x + v1.x * dc[0];
+  ro->v0.y = dc[1] * v0.y + v1.y * dc[0];
+  ro->v0.z = dc[1] * v0.z + v1.z * dc[0];
+  ro->v1.x = -dc[0] * v0.x + v1.x * dc[1];
+  ro->v1.y = -dc[0] * v0.y + v1.y * dc[1];
+  ro->v1.z = -dc[0] * v0.z + v1.z * dc[1];
+  ro->v2 = ri->v2;
 }
 
 static inline void ksl_product_drdrzinv(const ksl_mat3x3_t* KSL_RESTRICT ri,
                                         const double dc[2],
                                         ksl_mat3x3_t* KSL_RESTRICT ro) {
-  const ksl_mat3x3_t r = *ri;
-  ro->v0.x = dc[1] * r.v0.x + r.v1.x * -dc[0];
-  ro->v0.y = dc[1] * r.v0.y + r.v1.y * -dc[0];
-  ro->v0.z = dc[1] * r.v0.z + r.v1.z * -dc[0];
-  ro->v1.x = dc[0] * r.v0.x + r.v1.x * dc[1];
-  ro->v1.y = dc[0] * r.v0.y + r.v1.y * dc[1];
-  ro->v1.z = dc[0] * r.v0.z + r.v1.z * dc[1];
-  ro->v2 = r.v2;
+  const ksl_vec3_t v0 = ri->v0, v1 = ri->v1;
+  ro->v0.x = dc[1] * v0.x + v1.x * -dc[0];
+  ro->v0.y = dc[1] * v0.y + v1.y * -dc[0];
+  ro->v0.z = dc[1] * v0.z + v1.z * -dc[0];
+  ro->v1.x = dc[0] * v0.x + v1.x * dc[1];
+  ro->v1.y = dc[0] * v0.y + v1.y * dc[1];
+  ro->v1.z = dc[0] * v0.z + v1.z * dc[1];
+  ro->v2 = ri->v2;
 }
 
 static inline void ksl_product_drdrzinvf(const ksl_mat3x3f_t* KSL_RESTRICT ri,
                                          const float dc[2],
                                          ksl_mat3x3f_t* KSL_RESTRICT ro) {
-  const ksl_mat3x3f_t r = *ri;
-  ro->v0.x = dc[1] * r.v0.x + r.v1.x * -dc[0];
-  ro->v0.y = dc[1] * r.v0.y + r.v1.y * -dc[0];
-  ro->v0.z = dc[1] * r.v0.z + r.v1.z * -dc[0];
-  ro->v1.x = dc[0] * r.v0.x + r.v1.x * dc[1];
-  ro->v1.y = dc[0] * r.v0.y + r.v1.y * dc[1];
-  ro->v1.z = dc[0] * r.v0.z + r.v1.z * dc[1];
-  ro->v2 = r.v2;
+  const ksl_vec3f_t v0 = ri->v0, v1 = ri->v1;
+  ro->v0.x = dc[1] * v0.x + v1.x * -dc[0];
+  ro->v0.y = dc[1] * v0.y + v1.y * -dc[0];
+  ro->v0.z = dc[1] * v0.z + v1.z * -dc[0];
+  ro->v1.x = dc[0] * v0.x + v1.x * dc[1];
+  ro->v1.y = dc[0] * v0.y + v1.y * dc[1];
+  ro->v1.z = dc[0] * v0.z + v1.z * dc[1];
+  ro->v2 = ri->v2;
 }
 
 static inline void ksl_product_drdr(const ksl_mat3x3_t* KSL_RESTRICT r1i,
