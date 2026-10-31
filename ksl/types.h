@@ -2,7 +2,7 @@
 @file
 @author Kristopher Wehage, Roger Wehage
 @brief KSL datastructures
-@copyright Kristopher Wehage 2018
+@copyright Kristopher Wehage 2018-2026
 */
 #ifndef _KSL_TYPES_H_
 #define _KSL_TYPES_H_

@@ -14,7 +14,7 @@ Double precision
 .. doxygenfunction:: ksl_quaternion_alloc
 
 
-.. doxygenfunction:: ksl_quaternion_dot_qq
+.. doxygenfunction:: ksl_dot_qq
 
 
 .. doxygenfunction:: ksl_quaternion_normalize
@@ -47,103 +47,103 @@ Double precision
 .. doxygenfunction:: ksl_omega_to_dquaternion
 
 
-.. doxygenfunction:: ksl_quaternion_product_qq
+.. doxygenfunction:: ksl_product_qq
 
 
-.. doxygenfunction:: ksl_quaternion_product_qconjq
+.. doxygenfunction:: ksl_product_qconjq
 
 
-.. doxygenfunction:: ksl_quaternion_product_qqconj
+.. doxygenfunction:: ksl_product_qqconj
 
 
-.. doxygenfunction:: ksl_quaternion_product_qconjqconj
+.. doxygenfunction:: ksl_product_qconjqconj
 
 
-.. doxygenfunction:: ksl_quaternion_product_qxq
+.. doxygenfunction:: ksl_product_qxq
 
 
-.. doxygenfunction:: ksl_quaternion_product_qqx
+.. doxygenfunction:: ksl_product_qqx
 
 
-.. doxygenfunction:: ksl_quaternion_product_qxconjq
+.. doxygenfunction:: ksl_product_qxconjq
 
 
-.. doxygenfunction:: ksl_quaternion_product_qconjqx
+.. doxygenfunction:: ksl_product_qconjqx
 
 
-.. doxygenfunction:: ksl_quaternion_product_qxqconj
+.. doxygenfunction:: ksl_product_qxqconj
 
 
-.. doxygenfunction:: ksl_quaternion_product_qqxconj
+.. doxygenfunction:: ksl_product_qqxconj
 
 
-.. doxygenfunction:: ksl_quaternion_product_qxconjqconj
+.. doxygenfunction:: ksl_product_qxconjqconj
 
 
-.. doxygenfunction:: ksl_quaternion_product_qconjqxconj
+.. doxygenfunction:: ksl_product_qconjqxconj
 
 
-.. doxygenfunction:: ksl_quaternion_product_qyq
+.. doxygenfunction:: ksl_product_qyq
 
 
-.. doxygenfunction:: ksl_quaternion_product_qqy
+.. doxygenfunction:: ksl_product_qqy
 
 
-.. doxygenfunction:: ksl_quaternion_product_qyconjq
+.. doxygenfunction:: ksl_product_qyconjq
 
 
-.. doxygenfunction:: ksl_quaternion_product_qconjqy
+.. doxygenfunction:: ksl_product_qconjqy
 
 
-.. doxygenfunction:: ksl_quaternion_product_qyqconj
+.. doxygenfunction:: ksl_product_qyqconj
 
 
-.. doxygenfunction:: ksl_quaternion_product_qqyconj
+.. doxygenfunction:: ksl_product_qqyconj
 
 
-.. doxygenfunction:: ksl_quaternion_product_qyconjqconj
+.. doxygenfunction:: ksl_product_qyconjqconj
 
 
-.. doxygenfunction:: ksl_quaternion_product_qconjqyconj
+.. doxygenfunction:: ksl_product_qconjqyconj
 
 
-.. doxygenfunction:: ksl_quaternion_product_qzq
+.. doxygenfunction:: ksl_product_qzq
 
 
-.. doxygenfunction:: ksl_quaternion_product_qqz
+.. doxygenfunction:: ksl_product_qqz
 
 
-.. doxygenfunction:: ksl_quaternion_product_qzconjq
+.. doxygenfunction:: ksl_product_qzconjq
 
 
-.. doxygenfunction:: ksl_quaternion_product_qconjqz
+.. doxygenfunction:: ksl_product_qconjqz
 
 
-.. doxygenfunction:: ksl_quaternion_product_qzqconj
+.. doxygenfunction:: ksl_product_qzqconj
 
 
-.. doxygenfunction:: ksl_quaternion_product_qqzconj
+.. doxygenfunction:: ksl_product_qqzconj
 
 
-.. doxygenfunction:: ksl_quaternion_product_qzconjqconj
+.. doxygenfunction:: ksl_product_qzconjqconj
 
 
-.. doxygenfunction:: ksl_quaternion_product_qconjqzconj
+.. doxygenfunction:: ksl_product_qconjqzconj
 
 
-.. doxygenfunction:: ksl_quaternion_product_qv
+.. doxygenfunction:: ksl_product_qv
 
 
-.. doxygenfunction:: ksl_quaternion_product_qconjv
+.. doxygenfunction:: ksl_product_qconjv
 
 
-.. doxygenfunction:: ksl_quaternion_product_vq
+.. doxygenfunction:: ksl_product_vq
 
 
-.. doxygenfunction:: ksl_quaternion_product_vqconj
+.. doxygenfunction:: ksl_product_vqconj
 
 
-.. doxygenfunction:: ksl_quaternion_product_uqinverseq
+.. doxygenfunction:: ksl_product_uqinverseq
 
 
 
@@ -173,13 +173,13 @@ Single precision
 .. doxygenfunction:: ksl_quaternionf_toMat3x3f
 
 
-.. doxygenfunction:: ksl_slerpf
+.. doxygenfunction:: ksl_quaternionf_slerp
 
 
 .. doxygenfunction:: ksl_squadf
 
 
-.. doxygenfunction:: ksl_nlerpf
+.. doxygenfunction:: ksl_quaternionf_nlerp
 
 
 .. doxygenfunction:: ksl_product_qqf

@@ -22,7 +22,7 @@ Gram Schmidt Decomposition
 Principal Component Analysis
 ----------------------------
 
-.. doxygenfunction:: ksl_linalg_pca
+.. doxygenfunction:: ksl_mat3x3_pca
 
 
 LU Decomposition

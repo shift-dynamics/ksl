@@ -20,7 +20,7 @@ Setting print options
 .. doxygendefine:: ksl_print_setDelimiter
 
 
-.. doxgenfunction:: ksl_print_setDelimiterOption
+.. doxygenfunction:: ksl_print_setDelimiterOption
 
 
 .. doxygendefine:: ksl_print_setRealFormat

@@ -1,7 +1,7 @@
 /*!
 KSL: Kinematics Subroutine Library
 @author Kristopher Wehage, Roger Wehage
-@copyright Kristopher Wehage, Roger Wehage
+@copyright 2018-2026 Kristopher Wehage, Roger Wehage
 */
 
 #ifndef _KSL_H_

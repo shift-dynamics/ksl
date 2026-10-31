@@ -3,7 +3,7 @@
 License
 =======
 
-Copyright (c) 2018, Kristopher Wehage, Roger Wehage
+Copyright (c) 2018-2026, Kristopher Wehage, Roger Wehage
 All rights reserved.
 
 BSD 3-CLAUSE LICENSE

@@ -13,7 +13,6 @@
 
 import sys
 import os
-import trac3
 import alabaster
 
 
@@ -21,9 +20,6 @@ import alabaster
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.insert(0, os.path.abspath('.'))
-sys.path.insert(
-    1,
-    os.path.abspath('/home/kristopher/src/doxyrest_b/doxyrest/sphinx'))
 
 
 
@@ -44,12 +40,24 @@ extensions = [
     'breathe',
     'numfig',
     'sphinxcontrib.bibtex',
-    'doxyrest',
-    'cpplexer'
 ]
 
-breathe_projects = {"ksl": "/home/kristopher/Projects/ksl/build/doc/doc/xml"}
+# Doxygen XML consumed by breathe. `meson compile -C build docs` sets
+# KSL_DOXYGEN_XML; the default matches `meson compile -C build doxygen` run
+# from a build directory named build/ at the repository root.
+breathe_projects = {
+    "ksl": os.environ.get(
+        "KSL_DOXYGEN_XML",
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..',
+                     'build', 'doc', 'xml'))
+}
 breathe_default_project = "ksl"
+
+# sphinxcontrib-bibtex 2.x reads the bibliography from here rather than from
+# the bibliography directive
+bibtex_bibfiles = ['../bibliography.bib']
+bibtex_default_style = 'plain'
+breathe_domain_by_extension = {"h": "c", "c": "c"}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -65,7 +73,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'KSL'
-copyright = '2018, Kristopher Wehage, Roger Wehage'
+copyright = '2018-2026, Kristopher Wehage, Roger Wehage'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -89,7 +97,6 @@ today_fmt = '%B %d, %Y'
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 exclude_patterns = []
-exclude_patterns += ['page_index.rst']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
@@ -324,7 +331,7 @@ texinfo_documents = [
 epub_title = 'KSL'
 epub_author = 'Kristopher Wehage, Roger Wehage'
 epub_publisher = 'Kristopher Wehage, Roger Wehage'
-epub_copyright = '2018, Kristopher Wehage, Roger Wehage'
+epub_copyright = '2018-2026, Kristopher Wehage, Roger Wehage'
 
 # The basename for the epub file. It defaults to the project name.
 #epub_basename = 'phd'

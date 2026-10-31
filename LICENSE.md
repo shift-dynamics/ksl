@@ -1,6 +1,6 @@
 # License
 
-Kristopher Wehage, PhD
+Copyright (c) 2018-2026, Kristopher Wehage, PhD
 All rights reserved.
 
 ## BSD 3-CLAUSE LICENSE

@@ -14,6 +14,5 @@
     ==========
 
 
-.. bibliography:: ../bibliography.bib
+.. bibliography::
     :cited:
-    :style: plain

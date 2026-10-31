@@ -3,4 +3,4 @@ option('tests', type: 'feature', value: 'auto',
 option('blas', type: 'feature', value: 'disabled',
        description: 'Link against a CBLAS implementation')
 option('docs', type: 'feature', value: 'auto',
-       description: 'Add the doxygen documentation target (top-level builds only)')
+       description: 'Add the doxygen and sphinx (docs) documentation targets (top-level builds only)')

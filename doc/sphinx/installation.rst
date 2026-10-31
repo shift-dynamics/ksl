@@ -103,14 +103,13 @@ After building as described above, then issue the command:
 Building documentation
 ----------------------
 
-The doxygen API listing can be generated with:
+The documentation is built with doxygen, sphinx, breathe and
+sphinxcontrib-bibtex. Doxygen extracts the API as XML, and sphinx renders it
+with breathe:
 
 .. code::
 
-   meson compile -C build doxygen
+   meson compile -C build docs
 
-The sphinx pages are then built from the ``doc`` directory with:
-
-.. code::
-
-   make html
+The HTML pages are written to ``build/doc/html``. The site is published to
+GitHub Pages from ``master`` by the CI workflow.

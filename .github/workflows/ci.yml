@@ -66,3 +66,47 @@ jobs:
           path: |
             build/meson-logs/coverage.xml
             build/meson-logs/coverage.txt
+
+  docs:
+    name: docs
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends meson ninja-build doxygen
+          pip install sphinx breathe sphinxcontrib-bibtex
+
+      - name: Build
+        run: |
+          meson setup build -Dtests=disabled -Ddocs=enabled
+          meson compile -C build docs
+          touch build/doc/html/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/doc/html
+
+  deploy-pages:
+    name: deploy pages
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: [build, docs]
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

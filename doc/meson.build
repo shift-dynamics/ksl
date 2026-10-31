@@ -19,5 +19,27 @@ doxyfile = configure_file(
   },
 )
 
-# `ninja -C build doxygen`, then `make html` in doc/ for the sphinx pages
-run_target('doxygen', command: [doxygen, doxyfile])
+# Doxygen XML only; the HTML site is built by sphinx + breathe from it
+doxygen_xml = custom_target(
+  'doxygen',
+  input: doxyfile,
+  output: 'xml',
+  command: [doxygen, '@INPUT@'],
+  build_always_stale: true,
+  build_by_default: false,
+)
+
+sphinx_build = find_program('sphinx-build', required: false)
+if sphinx_build.found()
+  # `meson compile -C build docs` -> build/doc/html/index.html
+  run_target(
+    'docs',
+    command: [
+      sphinx_build, '-b', 'html', '-q',
+      meson.current_source_dir() / 'sphinx',
+      meson.current_build_dir() / 'html',
+    ],
+    depends: doxygen_xml,
+    env: {'KSL_DOXYGEN_XML': meson.current_build_dir() / 'xml'},
+  )
+endif
