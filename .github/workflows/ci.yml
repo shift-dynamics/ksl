@@ -91,13 +91,14 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.13'
 
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends meson ninja-build doxygen
-          pip install sphinx breathe sphinxcontrib-bibtex
+          # pinned to the versions the docs were last built and checked with
+          pip install sphinx==9.1.0 breathe==5.1.0 sphinxcontrib-bibtex==2.7.0
 
       - name: Build
         run: |
