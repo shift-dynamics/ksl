@@ -18,7 +18,7 @@ linear algebra libraries express these operations as products of dense 4x4 or
 6x6 matrices. That stores entries that are always zero or one and spends
 floating point operations multiplying them.
 
-*KSL* instead provides a kernel for each operation, written to use as little
+*KSL* instead provides a separate function for each operation, written to use as little
 data and as few floating point operations as possible:
 
 * **Compact data structures.** A rigid-body displacement is stored as a 3x3
@@ -26,15 +26,15 @@ data and as few floating point operations as possible:
   properties as the mass, first moment and 6 unique inertia terms (10 values)
   rather than a 6x6 spatial inertia matrix. Screws, coscrews and quaternions
   are plain 6- and 4-element unions.
-* **Specialized kernels instead of matrices.** Adjoint and coadjoint
+* **Specialized functions instead of matrices.** Adjoint and coadjoint
   transformations of screws and coscrews work directly from the rotation and
   translation without forming a 6x6 matrix. Inverse transformations
   (``dinv``) are applied without computing an inverse. Rotations about a
   coordinate axis (``drx``, ``dry``, ``drz``, ``qx``, ``qy``, ``qz``) take the
   direction cosines ``[sin, cos]`` of the angle and update only the terms that
   change. Pure translations (``dtx``, ``dty``, ``dtz``, ``Adt``) and pure
-  rotations (``dr``, ``Adr``) have their own kernels as well.
-* **Inlined and allocation free.** The kernels are ``static inline``
+  rotations (``dr``, ``Adr``) have their own functions as well.
+* **Inlined and allocation free.** The functions are ``static inline``
   functions in the headers, so the compiler can inline them into the calling
   code and keep intermediate values in registers. They write into
   caller-provided outputs and never allocate memory.
@@ -42,7 +42,7 @@ data and as few floating point operations as possible:
   double precision functions alongside single precision versions with an
   ``f`` suffix.
 
-:ref:`performance` compares these kernels with equivalent code written using
+:ref:`performance` compares these functions with equivalent code written using
 Eigen.
 
 Availability

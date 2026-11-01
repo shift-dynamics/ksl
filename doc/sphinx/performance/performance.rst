@@ -7,7 +7,7 @@ Performance compared to Eigen
 `Eigen <https://eigen.tuxfamily.org>`_ is the most widely used C++ library for
 small fixed-size linear algebra, and its ``Isometry3d``, ``Quaterniond`` and
 fixed-size matrix types are a common way to write kinematics code. This page
-compares *KSL* kernels with the equivalent Eigen code.
+compares *KSL* functions with the equivalent Eigen code.
 
 For each operation, Eigen is timed in up to two forms:
 
@@ -25,6 +25,16 @@ Results
 
 Times are nanoseconds per operation; lower is better. *Speedup* is the fastest
 Eigen variant divided by *KSL*, so values above 1 mean *KSL* is faster.
+
+Results are given for two builds:
+
+* The **portable build** (``-march=x86-64``) runs on any 64-bit x86 processor,
+  so the compiler can only use instructions that every such processor has.
+  This is the default for most compilers and Linux distributions.
+* The **native build** (``-march=native``) lets the compiler use every
+  instruction the test machine supports, including AVX, which can operate on
+  four double precision numbers at once. The program may then not run on older
+  processors.
 
 Portable build (``-O3 -march=x86-64``)
 **************************************
@@ -166,30 +176,30 @@ Observations
 ------------
 
 * **KSL matches or beats Eigen's general-purpose types.** Against
-  ``Isometry3d`` and 6x6 matrices, every *KSL* kernel is as fast or faster.
+  ``Isometry3d`` and 6x6 matrices, every *KSL* function is as fast or faster.
   The quaternion product ties ``Quaterniond`` in the portable build, and
   ``Quaterniond`` is about 10% faster with ``-march=native``.
 * **The largest gain is the inertia transform:** 3.4x in the portable build
   and 5.1x with ``-march=native``. *KSL* transforms the 10 independent mass
   and inertia terms directly instead of forming :math:`R I R^T` or a 6x6
   product.
-* **With** ``-march=native``, **KSL is faster on every kernel except the
+* **With** ``-march=native``, **KSL is faster on every operation except the
   quaternion product.** The gains range from 1.1x (adjoint) to 5.1x
   (inertia transform).
 * **In the portable build, hand-written Eigen code is faster on four
-  kernels.** Eigen code written directly on ``R`` and ``t`` takes about
+  operations.** Eigen code written directly on ``R`` and ``t`` takes about
   15-20% less time for the inverse product, the adjoint, the coadjoint and the dependent
   kinematic chain. *KSL* is faster for the SE3 product (1.2x), point transform
   (1.3x), axis rotation (1.3x) and inertia transform.
-* **The quaternion product matches Eigen.** The general quaternion products
-  are hand-vectorized with SSE2, using SSE3's ``addsub`` when available, as
-  Eigen's are. They tie Eigen in the portable build and are within 10% with
-  ``-march=native``. Define ``KSL_NO_SIMD`` to use the portable scalar code
-  instead.
+* **The quaternion product matches Eigen.** Like Eigen, *KSL* writes the
+  general quaternion products directly with the processor's SSE2 and SSE3
+  instructions, which operate on two double precision numbers at once. They tie Eigen in the portable build and are within 10% with
+  ``-march=native``. On other processors, or when ``KSL_NO_SIMD`` is defined,
+  they use plain C code instead.
 * **Eigen's fixed-size code does not always benefit from** ``-march=native``.
-  With AVX enabled, the ``Isometry3d`` products, the point transform and the
+  With AVX instructions enabled, the ``Isometry3d`` products, the point transform and the
   hand-written adjoint became roughly 2-6x slower than in the portable build.
-  The *KSL* kernels changed by about 10% or less, or became faster.
+  The *KSL* functions changed by about 10% or less, or became faster.
 * **Data size.** ``ksl_SE3_t`` is 96 bytes, against 128 bytes for
   ``Isometry3d``. ``ksl_inertia_t`` is 80 bytes, against 288 bytes for a 6x6
   spatial inertia matrix.
@@ -200,13 +210,18 @@ Method
 All results were measured on 2026-10-31 on an Intel Core i9-14900K with GCC
 16.2.1 and Eigen 5.0.1, using double precision.
 
-* The *KSL* kernels are ``static inline`` functions in its headers, so both
-  libraries are compiled in the same translation unit with the same flags.
-* Every operation is applied to an array of 512 independent inputs, a working
-  set that fits in cache, so the timings measure throughput. Each timing is the
-  minimum of 9 samples of 4000 passes over the array.
-* The kinematic chain row instead multiplies 512 transforms in sequence, with
-  each product depending on the previous result, so it measures latency.
+* Like Eigen, *KSL* defines its functions in its header files, so the
+  benchmark compiles the code of both libraries together with the same
+  compiler settings.
+* Every operation is applied to an array of 512 independent inputs, small
+  enough to stay in the processor's cache. Because the inputs are independent,
+  the processor can overlap consecutive operations, so these timings measure
+  how many operations it can complete per second (throughput). Each timing is
+  the minimum of 9 samples of 4000 passes over the array.
+* The kinematic chain row instead multiplies 512 transforms in sequence. Each
+  product needs the previous result, so the operations cannot overlap, and the
+  timing measures how long one operation takes from start to finish
+  (latency).
 * The benchmark checks *KSL* against Eigen before timing. Results agree to
   within :math:`2 \times 10^{-15}`.
 * Each configuration was run 7 times, pinned to a single core of an otherwise
