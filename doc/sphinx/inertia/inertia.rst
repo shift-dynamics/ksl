@@ -132,9 +132,11 @@ Therefore, :math:`\tilde{a} \tilde{b}` is found as:
 .. math::
   :label: eq:identity_simplify2
 
-  \begin{array} \text{result} \leftarrow \begin{Bmatrix}b_0 \\ b_1 \\ b_2\end{Bmatrix} \begin{Bmatrix}a_0&a_1&a_2\end{Bmatrix}\\
-  result -= trace(result) * I
-  \end{array}
+  \begin{aligned}
+  \text{result} &\leftarrow \begin{Bmatrix}b_0 \\ b_1 \\ b_2\end{Bmatrix}
+  \begin{bmatrix}a_0 & a_1 & a_2\end{bmatrix} \\
+  \text{result} &\leftarrow \text{result} - \operatorname{tr}(\text{result})\, I
+  \end{aligned}
 
 
 .. math::
@@ -146,7 +148,7 @@ Therefore, :math:`\tilde{a} \tilde{b}` is found as:
 .. math::
   :label: eq:result2
 
-  \bar{I}^{ff}_{ff} = \bar{I}^{ff}_{cc} - result
+  \bar{I}^{ff}_{ff} = \bar{I}^{ff}_{cc} - \text{result}
 
 
 Double precision

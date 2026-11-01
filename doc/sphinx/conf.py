@@ -186,7 +186,8 @@ html_short_title = "Home"
 #html_static_path = []
 html_static_path = ['_static']
 
-html_style = 'custom.css'
+# Alabaster loads basic.css and alabaster.css, then _static/custom.css on its
+# own; setting html_style would replace the first two and drop basic.css.
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
 # directly to the root of the documentation.

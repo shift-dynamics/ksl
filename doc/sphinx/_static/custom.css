@@ -1,5 +1,3 @@
-@import url("alabaster.css");
-
 .wy-side-nav-search {
     z-index: 200;
     background-color: #002b36;
@@ -190,7 +188,8 @@ dl.c dl.c.var > dt.sig {
 }
 
 /* Summary table at the top of each API section */
-table.ksl-summary {
+div.body table.ksl-summary {
+    display: table;
     width: 100%;
     margin: 1em 0 2em 0;
     border-collapse: collapse;
