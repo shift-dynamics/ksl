@@ -41,7 +41,16 @@ precision. Define KSL_NO_SIMD to use the portable scalar code instead. */
 extern "C" {
 #endif
 
-static inline ksl_quaternion_t ksl_quaternion(double, double, double, double);
+/*!
+@brief Construct a double precision quaternion from its components.
+@param x [in] first vector component
+@param y [in] second vector component
+@param z [in] third vector component
+@param w [in] scalar component
+@return the quaternion {x, y, z, w}
+*/
+static inline ksl_quaternion_t ksl_quaternion(double x, double y, double z,
+                                              double w);
 
 /*!
 @brief Single precision version of ksl_quaternion().
@@ -659,7 +668,6 @@ static inline void ksl_product_qqf_sse_(const float ax, const float ay,
 extern "C" {
 #endif
 
-/*! constructor for quaternion data structure */
 static inline ksl_quaternion_t ksl_quaternion(double x, double y, double z,
                                               double w) {
   ksl_quaternion_t quaternion;

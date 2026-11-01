@@ -40,6 +40,7 @@ extensions = [
     'breathe',
     'numfig',
     'sphinxcontrib.bibtex',
+    'ksl_summary',
 ]
 
 # Doxygen XML consumed by breathe. `meson compile -C build docs` sets

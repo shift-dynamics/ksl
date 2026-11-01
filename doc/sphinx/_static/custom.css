@@ -158,3 +158,76 @@ div.body table.docutils {
         padding: 0;
     }
 }
+
+/* ---- API reference (breathe) ----
+   Give each function, macro and type a heading bar so entries are easy to
+   tell apart, and space them out. Only top-level entries get the bar; the
+   fields of a union or struct stay plain. */
+section > dl.c:not(.var) > dt.sig {
+    font-family: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 0.9em;
+    background-color: #f3f6fa;
+    border-top: 3px solid #c4cfe5;
+    border-radius: 0 0 3px 3px;
+    padding: 6px 10px;
+    margin-top: 2.2em;
+    line-height: 1.5;
+}
+
+section > dl.c:not(.var) > dt.sig .sig-name {
+    font-weight: bold;
+    color: #1d3c5a;
+}
+
+dl.c > dd {
+    margin-left: 1.5em;
+    margin-bottom: 1em;
+}
+
+dl.c dl.c.var > dt.sig {
+    font-family: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 0.85em;
+}
+
+/* Summary table at the top of each API section */
+table.ksl-summary {
+    width: 100%;
+    margin: 1em 0 2em 0;
+    border-collapse: collapse;
+    font-size: 0.95em;
+}
+
+table.ksl-summary td {
+    padding: 4px 10px;
+    border: none;
+    border-bottom: 1px solid #e3e8f0;
+    vertical-align: top;
+}
+
+table.ksl-summary tr:nth-child(odd) td {
+    background-color: #fafbfd;
+}
+
+table.ksl-summary td:first-child {
+    white-space: nowrap;
+}
+
+table.ksl-summary td:first-child code {
+    background: none;
+    font-size: 0.95em;
+}
+
+table.ksl-summary,
+table.ksl-summary td {
+    border-left: none;
+    border-right: none;
+}
+
+table.ksl-summary {
+    border-top: 1px solid #e3e8f0;
+}
+
+table.ksl-summary td p {
+    margin: 0;
+    line-height: 1.4;
+}
