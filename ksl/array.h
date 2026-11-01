@@ -123,7 +123,7 @@ static inline void ksl_swapf(float* KSL_RESTRICT a, float* KSL_RESTRICT b) {
 }
 
 /*!
-@brief a non-blas implementation of daxpy for unit stride only
+@brief y += a * x for double precision arrays with unit stride
 */
 static inline void ksl_axpy(const int n, const double a,
                             const double* KSL_RESTRICT x,
@@ -134,7 +134,7 @@ static inline void ksl_axpy(const int n, const double a,
 }
 
 /*!
-@brief a non-blas implementation of saxpy for unit stride only
+@brief y += a * x for single precision arrays with unit stride
 */
 static inline void ksl_axpyf(const int n, const float a,
                              const float* KSL_RESTRICT x,

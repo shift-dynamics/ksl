@@ -28,14 +28,6 @@ SUCH DAMAGE.
 #include <string.h>
 #include <unistd.h>
 
-#ifdef KSL_WITH_BLAS_
-#ifdef __APPLE__
-#include <Accelerate/Accelerate.h>
-#else
-#include <cblas.h>
-#endif
-#endif
-
 #include "ksl/array.h"
 #include "ksl/linalg.h"
 
@@ -57,10 +49,6 @@ in place
 */
 void ksl_linalg_gramSchmidt(double* restrict A, const int m, const int n) {
   for(int k = 0; k < n; k++) {
-#ifdef KSL_WITH_BLAS
-    double R = 1.0 / cblas_dnrm2(m, A + k, n);
-    cblas_dscal(m, R, A + k, n);
-#else
     double R = 0.0;
     for(int i = 0; i < m; i++) {
       R += A[i * n + k] * A[i * n + k];
@@ -69,7 +57,6 @@ void ksl_linalg_gramSchmidt(double* restrict A, const int m, const int n) {
     for(int i = 0; i < m; i++) {
       A[i * n + k] *= R;
     }
-#endif
     for(int j = k + 1; j < n; j++) {
       R = 0;
       for(int i = 0; i < m; i++) {
@@ -100,10 +87,6 @@ in place
 */
 void ksl_linalg_gramSchmidtf(float* restrict A, const int m, const int n) {
   for(int k = 0; k < n; k++) {
-#ifdef KSL_WITH_BLAS
-    double R = 1.0 / cblas_snrm2(m, A + k, n);
-    cblas_sscal(m, R, A + k, n);
-#else
     double R = 0.0;
     for(int i = 0; i < m; i++) {
       R += A[i * n + k] * A[i * n + k];
@@ -112,7 +95,6 @@ void ksl_linalg_gramSchmidtf(float* restrict A, const int m, const int n) {
     for(int i = 0; i < m; i++) {
       A[i * n + k] *= R;
     }
-#endif
     for(int j = k + 1; j < n; j++) {
       R = 0;
       for(int i = 0; i < m; i++) {
@@ -206,11 +188,7 @@ int ksl_linalg_lu_full_rmo(const int rowDim, const int colDim,
     Save that row and column number in pivotRow and
     pivotCol. Also intialize the row permutation array pr.
   */
-#ifdef KSL_WITH_BLAS_
-  int index = cblas_idamax(size, A, 1);
-#else
   int index = ksl_maxIndex(size, A);
-#endif
   // div_t result = div(index, colDim);
   // pivotRow = result.quot;
   // pivotCol = result.rem;
@@ -265,11 +243,7 @@ int ksl_linalg_lu_full_rmo(const int rowDim, const int colDim,
           Start of replaced row is A + colDim * rank & stride is 1
           Start of pivot row is A + colDim * pivotRow & stride is 1
         */
-#ifdef KSL_WITH_BLAS_
-        cblas_dswap(colDim, A + colDim * rank, 1, A + colDim * pivotRow, 1);
-#else
         ksl_swapArray(colDim, A + colDim * rank, 1, A + colDim * pivotRow, 1);
-#endif
         /*
           Swap row permutation entries pr[rank] and
           pr[pivotRow] to reflect row swaps in A.
@@ -292,11 +266,7 @@ int ksl_linalg_lu_full_rmo(const int rowDim, const int colDim,
           Start of replaced column is A + rank & stride is colDim
           Start of pivot column is A + pivotCol & stride is colDim
             */
-#ifdef KSL_WITH_BLAS_
-        cblas_dswap(rowDim, A + rank, colDim, A + pivotCol, colDim);
-#else
         ksl_swapArray(rowDim, A + rank, colDim, A + pivotCol, colDim);
-#endif
         /*
           Swap column permutation entries pc[rank] and
           pr[pivotCol] to reflect column swaps.
@@ -484,11 +454,7 @@ int ksl_linalg_lu_full_multiSpecified_rmo(const int rowDim, const int colDim,
       return (-1);
     }
     if(source != destination) {
-#ifdef KSL_WITH_BLAS
-      cblas_dswap(rowDim, A + source, colDim, A + destination, colDim);
-#else
       ksl_swapArray(rowDim, A + source, colDim, A + destination, colDim);
-#endif
       ksl_swapi(pc + source, pc + destination);
     }
   }
@@ -552,11 +518,7 @@ int ksl_linalg_lu_full_multiSpecified_rmo(const int rowDim, const int colDim,
           Start of replaced row is A + colDim * rank & stride is 1
           Start of pivot row is A + colDim * pivotRow & stride is 1
         */
-#ifdef KSL_WITH_BLAS_
-        cblas_dswap(colDim, A + colDim * rank, 1, A + colDim * pivotRow, 1);
-#else
         ksl_swapArray(colDim, A + colDim * rank, 1, A + colDim * pivotRow, 1);
-#endif
         /*
           Swap row permutation entries pr[rank] and
           pr[pivotRow] to reflect row swaps in A.
@@ -581,11 +543,7 @@ int ksl_linalg_lu_full_multiSpecified_rmo(const int rowDim, const int colDim,
           Start of replaced column is A + rank & stride is colDim
           Start of pivot column is A + pivotCol & stride is colDim
         */
-#ifdef KSL_WITH_BLAS_
-        cblas_dswap(rowDim, A + rank, colDim, A + pivotCol, colDim);
-#else
         ksl_swapArray(rowDim, A + rank, colDim, A + pivotCol, colDim);
-#endif
         /*
           Swap column permutation entries pc[rank] and
           pr[pivotCol] to reflect column swaps.
@@ -1152,11 +1110,7 @@ int ksl_linalg_lu_full_cmo(const int rowDim, const int colDim,
     Save that row and column number in pivotRow and
     pivotCol. Also intialize the row permutation array pr.
   */
-#ifdef KSL_WITH_BLAS_
-  int index = cblas_idamax(size, A, 1);
-#else
   int index = ksl_maxIndex(size, A);
-#endif
   // div_t result = div(index, colDim);
   // pivotRow = result.quot;
   // pivotCol = result.rem;
@@ -1211,11 +1165,7 @@ int ksl_linalg_lu_full_cmo(const int rowDim, const int colDim,
           Start of replaced row is A + rank & stride is rowDim
           Start of pivot row is A + pivotRow & stride is rowDim
         */
-#ifdef KSL_WITH_BLAS_
-        cblas_dswap(colDim, A + rank, rowDim, A + pivotRow, rowDim);
-#else
         ksl_swapArray(colDim, A + rank, rowDim, A + pivotRow, rowDim);
-#endif
         /*
           Swap row permutation entries pr[rank] and
           pr[pivotRow] to reflect row swaps in A.
@@ -1238,11 +1188,7 @@ int ksl_linalg_lu_full_cmo(const int rowDim, const int colDim,
           Start of replaced column is A + rowDim * rank & stride is 1
           Start of pivot column is A + rowDim * pivotCol & stride is 1
             */
-#ifdef KSL_WITH_BLAS_
-        cblas_dswap(rowDim, A + rowDim * rank, 1, A + rowDim * pivotCol, 1);
-#else
         ksl_swapArray(rowDim, A + rowDim * rank, 1, A + rowDim * pivotCol, 1);
-#endif
         /*
           Swap column permutation entries pc[rank] and
           pr[pivotCol] to reflect column swaps.
@@ -1413,13 +1359,8 @@ int ksl_linalg_lu_full_specified_cmo(const int rowDim, const int colDim,
       Start of last column is A + rowDim * (colDim - 1) & stride is 1
   */
   if(specifiedIndex != colDim - 1) {
-#ifdef KSL_WITH_BLAS
-    cblas_dswap(rowDim, A + rowDim * specifiedIndex, 1,
-                A + rowDim * (colDim - 1), 1);
-#else
     ksl_swapArray(rowDim, A + rowDim * specifiedIndex, 1,
                   A + rowDim * (colDim - 1), 1);
-#endif
     /*
       Swap column permutation entries pc[] and
       pc[pivotRow] to reflect row swaps in A.
@@ -1486,11 +1427,7 @@ int ksl_linalg_lu_full_specified_cmo(const int rowDim, const int colDim,
           Start of replaced row is A + rank & stride is rowDim
           Start of pivot row is A + pivotRow & stride is rowDim
         */
-#ifdef KSL_WITH_BLAS_
-        cblas_dswap(colDim, A + rank, rowDim, A + pivotRow, rowDim);
-#else
         ksl_swapArray(colDim, A + rank, rowDim, A + pivotRow, rowDim);
-#endif
         /*
           Swap row permutation entries pr[rank] and
           pr[pivotRow] to reflect row swaps in A.
@@ -1515,11 +1452,7 @@ int ksl_linalg_lu_full_specified_cmo(const int rowDim, const int colDim,
           Start of replaced column is A + rowDim * rank & stride is 1
           Start of pivot column is A + rowDim * pivotCol & stride is 1
         */
-#ifdef KSL_WITH_BLAS_
-        cblas_dswap(rowDim, A + rowDim * rank, 1, A + rowDim * pivotCol, 1);
-#else
         ksl_swapArray(rowDim, A + rowDim * rank, 1, A + rowDim * pivotCol, 1);
-#endif
         /*
           Swap column permutation entries pc[rank] and
           pr[pivotCol] to reflect column swaps.

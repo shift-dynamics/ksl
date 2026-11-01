@@ -1,7 +1,5 @@
 option('tests', type: 'feature', value: 'auto',
        description: 'Build the Check-based test suite (top-level builds only)')
-option('blas', type: 'feature', value: 'disabled',
-       description: 'Link against a CBLAS implementation')
 option('docs', type: 'feature', value: 'auto',
        description: 'Add the doxygen and sphinx (docs) documentation targets (top-level builds only)')
 option('bench', type: 'feature', value: 'disabled',

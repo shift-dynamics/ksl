@@ -23,9 +23,6 @@ Required tools
 Optional dependencies
 ---------------------
 
-*   `CBLAS <http://www.netlib.org/blas/>`_, used by the functions that
-    copy screws into larger matrices when the ``blas`` option is enabled (off
-    by default)
 *   `Eigen <https://eigen.tuxfamily.org>`_ and a C++ compiler, for the
     benchmark in :ref:`performance`
 *   doxygen, sphinx, breathe and sphinxcontrib-bibtex, to build this
@@ -43,8 +40,8 @@ Arch Linux:
 .. code::
 
    pacman -S meson ninja check
-   # optional: CBLAS, Eigen, and the documentation tools
-   pacman -S cblas eigen doxygen python-sphinx python-breathe python-sphinxcontrib-bibtex
+   # optional: Eigen and the documentation tools
+   pacman -S eigen doxygen python-sphinx python-breathe python-sphinxcontrib-bibtex
 
 
 Ubuntu / Debian-based Linux Distributions:
@@ -53,8 +50,8 @@ Ubuntu / Debian-based Linux Distributions:
 .. code::
 
    apt-get install meson ninja-build check
-   # optional: CBLAS, Eigen, and the documentation tools
-   apt-get install libopenblas-dev libeigen3-dev doxygen
+   # optional: Eigen and the documentation tools
+   apt-get install libeigen3-dev doxygen
    pip install sphinx breathe sphinxcontrib-bibtex
 
 
@@ -66,9 +63,6 @@ On a Macintosh, the dependencies can be installed using the *brew* package manag
 .. code::
 
   brew install meson ninja check
-
-
-The cblas package is already available on a Macintosh using the *accelerate* framework, the meson.build file may need to be modified to bring in this dependency correctly.
 
 
 Windows
@@ -88,13 +82,6 @@ To build the KSL library, from within the top directory of the repository, issue
    meson compile -C build
 
 
-To enable BLAS, configure with:
-
-.. code::
-
-   meson setup build -Dblas=enabled
-
-
 To build in release mode (disables asserts and debug output)
 
 .. code::
@@ -111,7 +98,6 @@ Options are passed to ``meson setup`` or changed later with
 option    default    purpose
 ========= ========== ==========================================================
 tests     auto       build the test suite (needs check)
-blas      disabled   link against a CBLAS implementation
 docs      auto       add the ``doxygen`` and ``docs`` documentation targets
 bench     disabled   build the comparison with Eigen described in
                      :ref:`performance`
