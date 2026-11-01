@@ -26,10 +26,10 @@ wrap an angle into :math:`[0, 2\pi)` or :math:`[0, 360)`.
 
 **Continuous angles.** The standard ``atan2(y, x)`` returns an angle in
 :math:`(-\pi, \pi]`, so an angle that keeps increasing, such as a wheel or a
-motor shaft, jumps by :math:`2\pi` every revolution. ``catan2pi()`` returns the
+motor shaft, jumps by :math:`2\pi` every revolution. ``ksl_catan2pi()`` returns the
 angle that matches ``atan2(y, x)`` and is closest to a previous value, so the
 result stays continuous through any number of turns, as long as the angle
-changes by less than :math:`\pi/4` between calls. ``catan1pi()`` is the
+changes by less than :math:`\pi/4` between calls. ``ksl_catan1pi()`` is the
 version for when the signs of ``x`` and ``y`` are not known and the angle is
 only defined up to a multiple of :math:`\pi`. The Euler angle functions use
 them to keep angles continuous (see :ref:`axis`).
@@ -58,13 +58,13 @@ Functions
 .. doxygenfunction:: ksl_normalizeRadiansf
 
 
-.. doxygenfunction:: catan2pi
+.. doxygenfunction:: ksl_catan2pi
 
 
-.. doxygenfunction:: catan2pif
+.. doxygenfunction:: ksl_catan2pif
 
 
-.. doxygenfunction:: catan1pi
+.. doxygenfunction:: ksl_catan1pi
 
 
-.. doxygenfunction:: catan1pif
+.. doxygenfunction:: ksl_catan1pif

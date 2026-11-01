@@ -78,20 +78,20 @@ float ksl_normalizeRadiansf(float angle) {
 Caution: atan2(y,x) will return an angle with +-2m*pi accuracy only if the
 sign on x and y are both correct. If x and y are both off by (-1) then
 atan2 will return an angle with accuracy of only +-m*pi. If the sign of
-x and y are uncertain, use the alternate function, catan1pi.
+x and y are uncertain, use the alternate function, ksl_catan1pi.
 
 This function returns a continuous angle obtained from the standard math
 atan2(y,x) function. On input, the argument theta contains the
 previous value associated with the angle that is being computed.
-catan2() adjusts the value returned from atan2(), so it will be as close to
-theta as possible. The assumption is that the current value to be returned
-by catan2() is not more than (+-)pi/4 from the previous value. This should
-be a valid assumption, because angles generally don't change very fast over
-the course of a simulation. Both input arguments x and y must have the
-correct sign for catan2pi to work correctly.
+ksl_catan2pi() adjusts the value returned from atan2(), so it will be as close
+to theta as possible. The assumption is that the current value to be returned by
+ksl_catan2pi() is not more than (+-)pi/4 from the previous value. This should be
+a valid assumption, because angles generally don't change very fast over the
+course of a simulation. Both input arguments x and y must have the correct sign
+for ksl_catan2pi to work correctly.
 
 */
-double catan2pi(const double y, const double x, double theta) {
+double ksl_catan2pi(const double y, const double x, double theta) {
 
   double temp;
   double a;
@@ -132,20 +132,20 @@ double catan2pi(const double y, const double x, double theta) {
 Caution: atan2(y,x) will return an angle with +-2m*pi accuracy only if the
 sign on x and y are both correct. If x and y are both off by (-1) then
 atan2 will return an angle with accuracy of only +-m*pi. If the sign of
-x and y are uncertain, use the alternate function, catan1pi.
+x and y are uncertain, use the alternate function, ksl_catan1pi.
 
 This function returns a continuous angle obtained from the standard math
 atan2(y,x) function. On input, the argument theta contains the
 previous value associated with the angle that is being computed.
-catan2() adjusts the value returned from atan2(), so it will be as close to
-theta as possible. The assumption is that the current value to be returned
-by catan2() is not more than (+-)pi/4 from the previous value. This should
-be a valid assumption, because angles generally don't change very fast over
-the course of a simulation. Both input arguments x and y must have the
-correct sign for catan2pi to work correctly.
+ksl_catan2pi() adjusts the value returned from atan2(), so it will be as close
+to theta as possible. The assumption is that the current value to be returned by
+ksl_catan2pi() is not more than (+-)pi/4 from the previous value. This should be
+a valid assumption, because angles generally don't change very fast over the
+course of a simulation. Both input arguments x and y must have the correct sign
+for ksl_catan2pi to work correctly.
 
 */
-float catan2pif(const float y, const float x, float theta) {
+float ksl_catan2pif(const float y, const float x, float theta) {
   float temp;
   float a;
 
@@ -185,20 +185,19 @@ float catan2pif(const float y, const float x, float theta) {
 Caution: atan2(y,x) will return an angle with +-2m*pi accuracy only if the
 sign on x and y are both correct. If x and y are both off by (-1) then
 atan2 will return an angle with accuracy of only +-m*pi. If the sign of
-x and y are certain, this or the alternate function, catan2pi will work.
-If the sign of x and y are uncertain, do not use catan2pi.
+x and y are certain, this or the alternate function, ksl_catan2pi will work.
+If the sign of x and y are uncertain, do not use ksl_catan2pi.
 This function returns a continuous angle from the standard
 math atan2(y,x) function. On input, the argument theta contains
 the previous value associated with the angle that is being computed.
-catan2() adjusts the value returned from atan2(), so it will be as close to
-theta as possible. The assumption is that the current value to be returned
-by catan2() is not more than (+-)pi/4 from the previous value. This should
-be a valid assumption, because angles generally don't change very fast over
-the course of a simulation. Both input arguments x and y must either
-have the correct sign or be off by the same sign for catan1pia() to work
-correctly.
+ksl_catan2pi() adjusts the value returned from atan2(), so it will be as close
+to theta as possible. The assumption is that the current value to be returned by
+ksl_catan2pi() is not more than (+-)pi/4 from the previous value. This should be
+a valid assumption, because angles generally don't change very fast over the
+course of a simulation. Both input arguments x and y must either have the
+correct sign or be off by the same sign for ksl_catan1pi() to work correctly.
 */
-double catan1pi(const double y, const double x, double theta) {
+double ksl_catan1pi(const double y, const double x, double theta) {
 
   double temp;
   double a;
@@ -238,20 +237,19 @@ double catan1pi(const double y, const double x, double theta) {
 Caution: atan2(y,x) will return an angle with +-2m*pi accuracy only if the
 sign on x and y are both correct. If x and y are both off by (-1) then
 atan2 will return an angle with accuracy of only +-m*pi. If the sign of
-x and y are certain, this or the alternate function, catan2pi will work.
-If the sign of x and y are uncertain, do not use catan2pi.
+x and y are certain, this or the alternate function, ksl_catan2pi will work.
+If the sign of x and y are uncertain, do not use ksl_catan2pi.
 This function returns a continuous angle from the standard
 math atan2(y,x) function. On input, the argument theta contains
 the previous value associated with the angle that is being computed.
-catan2() adjusts the value returned from atan2(), so it will be as close to
-theta as possible. The assumption is that the current value to be returned
-by catan2() is not more than (+-)pi/4 from the previous value. This should
-be a valid assumption, because angles generally don't change very fast over
-the course of a simulation. Both input arguments x and y must either
-have the correct sign or be off by the same sign for catan1pia() to work
-correctly.
+ksl_catan2pi() adjusts the value returned from atan2(), so it will be as close
+to theta as possible. The assumption is that the current value to be returned by
+ksl_catan2pi() is not more than (+-)pi/4 from the previous value. This should be
+a valid assumption, because angles generally don't change very fast over the
+course of a simulation. Both input arguments x and y must either have the
+correct sign or be off by the same sign for ksl_catan1pi() to work correctly.
 */
-float catan1pif(const float y, const float x, float theta) {
+float ksl_catan1pif(const float y, const float x, float theta) {
 
   float temp;
   float a;

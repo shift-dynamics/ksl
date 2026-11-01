@@ -58,13 +58,13 @@ double ksl_normalizeRadians(double angle);
 
 float ksl_normalizeRadiansf(float angle);
 
-double catan2pi(const double y, const double x, double theta);
+double ksl_catan2pi(const double y, const double x, double theta);
 
-float catan2pif(const float y, const float x, float theta);
+float ksl_catan2pif(const float y, const float x, float theta);
 
-double catan1pi(const double y, const double x, double theta);
+double ksl_catan1pi(const double y, const double x, double theta);
 
-float catan1pif(const float y, const float x, float theta);
+float ksl_catan1pif(const float y, const float x, float theta);
 
 #ifdef __cplusplus
 }
