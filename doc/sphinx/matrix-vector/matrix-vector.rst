@@ -12,8 +12,9 @@ The operand abbreviations are explained in :ref:`getting-started`: ``dr`` is a
 rotation matrix, ``d`` a full transformation :math:`D = (R, \underline{t})`,
 and ``inv`` after either one means its inverse.
 
-**Points and free vectors transform differently.** A *point*, such as the
-location of a marker on a body, changes frame with both the rotation and the
+**Points and free vectors transform differently.** The coordinates of a
+*point*, such as the location of a marker on a body, are transformed from
+frame :math:`b` to frame :math:`a` with both the rotation and the
 translation:
 
 .. math::
@@ -22,7 +23,7 @@ translation:
    \qquad \text{(}\texttt{ksl\_product\_dv}\text{)}
 
 A *free vector*, such as a velocity, a force or the direction of an axis, has
-no location, so it is only rotated:
+no location, so its components are transformed by the rotation alone:
 
 .. math::
 
@@ -31,8 +32,8 @@ no location, so it is only rotated:
 
 Using the wrong one is a common source of errors.
 
-**Inverse transformations** go the other way, from frame :math:`a` to frame
-:math:`b`. They are applied directly from :math:`R` and :math:`\underline{t}`,
+**Inverse transformations** go the other way, transforming coordinates from
+frame :math:`a` to frame :math:`b`. They are applied directly from :math:`R` and :math:`\underline{t}`,
 without computing and storing the inverse:
 
 .. math::

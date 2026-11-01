@@ -12,8 +12,9 @@ Purpose and design
 
 Multibody dynamics, robotics and contact detection codes spend much of their
 run time applying many small rigid-body transformations: composing joint
-displacements down a kinematic chain, moving velocity screws and force
-coscrews between frames, and transforming mass properties. General-purpose
+displacements down a kinematic chain, transforming velocity screws and force
+coscrews from one coordinate system to another, and transforming mass
+properties. General-purpose
 linear algebra libraries express these operations as products of dense 4x4 or
 6x6 matrices. That stores entries that are always zero or one and spends
 floating point operations multiplying them.

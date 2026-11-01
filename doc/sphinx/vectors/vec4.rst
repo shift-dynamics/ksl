@@ -29,8 +29,9 @@ appended, called the *homogeneous coordinate*:
    \begin{Bmatrix} \underline{d} \\ 0 \end{Bmatrix} =
    \begin{Bmatrix} R \underline{d} \\ 0 \end{Bmatrix}
 
-so a point is rotated and translated, while a direction is only rotated, as it
-should be.
+so the coordinates of a point are transformed with both the rotation and the
+translation, while those of a direction are transformed by the rotation
+alone, as they should be.
 
 **Camera projection.** The homogeneous coordinate is what makes perspective
 projection possible with matrices. A pinhole camera maps a point with
