@@ -33,6 +33,7 @@ ksl_deps = [cc.find_library('m', required: false)]
 blas_dep = dependency('cblas', required: get_option('blas'))
 if blas_dep.found()
   ksl_deps += blas_dep
+  ksl_args += '-DKSL_WITH_BLAS_'
 endif
 
 ksl_src = files(

@@ -64,6 +64,16 @@ Double precision
 .. doxygenfunction:: ksl_mat3x3_determinant
 
 
+.. doxygenfunction:: ksl_mat3x3_normalize
+
+
+.. doxygenfunction:: ksl_mat3x3_normalized
+
+
+.. doxygenfunction:: ksl_mat3x3_setFromAxisDC
+
+
+
 Single precision
 ----------------
 
@@ -122,3 +132,9 @@ Single precision
 
 
 .. doxygenfunction:: ksl_mat3x3f_determinant
+
+
+.. doxygenfunction:: ksl_mat3x3f_normalize
+
+
+.. doxygenfunction:: ksl_mat3x3f_normalized

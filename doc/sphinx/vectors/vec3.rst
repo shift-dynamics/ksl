@@ -194,3 +194,6 @@ Integer
 
 
 .. doxygenfunction:: ksl_vec3i_alloc
+
+
+.. doxygenfunction:: ksl_vec3i_isEqual

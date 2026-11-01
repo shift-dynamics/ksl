@@ -518,12 +518,6 @@ Double precision
 .. doxygenfunction:: ksl_add_sst
 
 
-.. doxygenfunction:: ksl_hstxf
-
-
-.. doxygenfunction:: ksl_hstyf
-
-
 .. doxygenfunction:: ksl_hstz
 
 
@@ -587,6 +581,36 @@ Double precision
 .. doxygenfunction:: ksl_product_Adinvs
 
 
+.. doxygenfunction:: ksl_hsra
+
+
+.. doxygenfunction:: ksl_hsrainv
+
+
+.. doxygenfunction:: ksl_hsta
+
+
+.. doxygenfunction:: ksl_hstainv
+
+
+.. doxygenfunction:: ksl_hstx
+
+
+.. doxygenfunction:: ksl_hsty
+
+
+.. doxygenfunction:: ksl_screw_copy_cmo
+
+
+.. doxygenfunction:: ksl_screw_copy_rmo
+
+
+.. doxygenfunction:: ksl_screw_ncopy_cmo
+
+
+.. doxygenfunction:: ksl_screw_ncopy_rmo
+
+
 
 Single precision
 ----------------
@@ -604,9 +628,6 @@ Single precision
 
 
 .. doxygenfunction:: ksl_screwf_normalize
-
-
-.. doxygenfunction:: ksl_screw_normalized
 
 
 .. doxygenfunction:: ksl_dot_csf
@@ -643,12 +664,6 @@ Single precision
 
 
 .. doxygenfunction:: ksl_add_sstf
-
-
-.. doxygenfunction:: ksl_hstxf
-
-
-.. doxygenfunction:: ksl_hstyf
 
 
 .. doxygenfunction:: ksl_hstzf
@@ -712,3 +727,36 @@ Single precision
 
 
 .. doxygenfunction:: ksl_product_Adinvsf
+
+
+.. doxygenfunction:: ksl_hsraf
+
+
+.. doxygenfunction:: ksl_hsrainvf
+
+
+.. doxygenfunction:: ksl_hstaf
+
+
+.. doxygenfunction:: ksl_hstainvf
+
+
+.. doxygenfunction:: ksl_screwf_copy_cmo
+
+
+.. doxygenfunction:: ksl_screwf_copy_rmo
+
+
+.. doxygenfunction:: ksl_screwf_ncopy_cmo
+
+
+.. doxygenfunction:: ksl_screwf_ncopy_rmo
+
+
+.. doxygenfunction:: ksl_screwf_normalized
+
+
+.. doxygenfunction:: ksl_hstxf
+
+
+.. doxygenfunction:: ksl_hstyf

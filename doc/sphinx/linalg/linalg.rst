@@ -1,17 +1,11 @@
-.. _notation:
-.. title:: linalg
+.. _linalg:
+.. title:: Linear Algebra
 
 Linear Algebra
 ==============
 
-Utilities
----------
-
-.. doxygenfunction:: ksl_swapArray
-
-
-.. doxygenfunction:: ksl_maxIndex
-
+The array utilities ``ksl_swapArray()`` and ``ksl_maxIndex()`` used by these
+functions are described in :ref:`arrays`.
 
 Gram Schmidt Decomposition
 --------------------------
@@ -19,8 +13,8 @@ Gram Schmidt Decomposition
 .. doxygenfunction:: ksl_linalg_gramSchmidt
 
 
-Principal Component Analysis
-----------------------------
+.. doxygenfunction:: ksl_linalg_gramSchmidtf
+
 
 LU Decomposition
 ----------------
@@ -41,6 +35,13 @@ row major order
 
 
 .. doxygenfunction:: ksl_linalg_lu_setCMatrix_rmo
+
+
+.. doxygenfunction:: ksl_linalg_lu_full_multiSpecified_rmo
+
+
+.. doxygenfunction:: ksl_linalg_lu_infinityNormB_rmo
+
 
 
 column major order
@@ -82,9 +83,6 @@ row major order
 
 column major order
 ******************
-
-.. doxygenfunction:: ksl_linalg_ldlt_cmo
-
 
 .. doxygenfunction:: ksl_linalg_cholesky_cmo
 

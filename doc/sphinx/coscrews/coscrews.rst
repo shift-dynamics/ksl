@@ -212,7 +212,7 @@ Derivative operator matrices: :math:`[ad]^*`
 The left derivative operator for :math:`[Ad]^*` matrices is:
 
 .. math::
-    :label: eq:adjoint_dual_rep
+    :label: eq:coadjoint_dual_rep
 
     [ad]^* = \dot{[Ad]^*}[Ad]^{*-1} =
     \begin{bmatrix}
@@ -292,6 +292,63 @@ Double precision
 .. doxygenfunction:: ksl_product_CoAdinvc
 
 
+.. doxygenfunction:: ksl_add_cct
+
+
+.. doxygenfunction:: ksl_coscrew_norm
+
+
+.. doxygenfunction:: ksl_coscrew_normalize
+
+
+.. doxygenfunction:: ksl_cross_sca
+
+
+.. doxygenfunction:: ksl_hcrx
+
+
+.. doxygenfunction:: ksl_hcrxinv
+
+
+.. doxygenfunction:: ksl_hcry
+
+
+.. doxygenfunction:: ksl_hcryinv
+
+
+.. doxygenfunction:: ksl_hcrz
+
+
+.. doxygenfunction:: ksl_hcrzinv
+
+
+.. doxygenfunction:: ksl_hctx
+
+
+.. doxygenfunction:: ksl_hctxinv
+
+
+.. doxygenfunction:: ksl_hcty
+
+
+.. doxygenfunction:: ksl_hctyinv
+
+
+.. doxygenfunction:: ksl_hctz
+
+
+.. doxygenfunction:: ksl_hctzinv
+
+
+.. doxygenfunction:: ksl_product_CoAdcinv
+
+
+.. doxygenfunction:: ksl_product_CoAdrcinv
+
+
+.. doxygenfunction:: ksl_product_CoAdtinvc
+
+
 
 Single precision
 ----------------
@@ -350,7 +407,64 @@ Single precision
 .. doxygenfunction:: ksl_product_CoAdrinvcf
 
 
-.. doxygenfunction:: ksl_product_CoAdrcf
+.. doxygenfunction:: ksl_product_CoAdcf
 
 
 .. doxygenfunction:: ksl_product_CoAdinvcf
+
+
+.. doxygenfunction:: ksl_add_cctf
+
+
+.. doxygenfunction:: ksl_coscrewf_norm
+
+
+.. doxygenfunction:: ksl_coscrewf_normalize
+
+
+.. doxygenfunction:: ksl_cross_scaf
+
+
+.. doxygenfunction:: ksl_hcrxf
+
+
+.. doxygenfunction:: ksl_hcrxinvf
+
+
+.. doxygenfunction:: ksl_hcryf
+
+
+.. doxygenfunction:: ksl_hcryinvf
+
+
+.. doxygenfunction:: ksl_hcrzf
+
+
+.. doxygenfunction:: ksl_hcrzinvf
+
+
+.. doxygenfunction:: ksl_hctxf
+
+
+.. doxygenfunction:: ksl_hctxinvf
+
+
+.. doxygenfunction:: ksl_hctyf
+
+
+.. doxygenfunction:: ksl_hctyinvf
+
+
+.. doxygenfunction:: ksl_hctzf
+
+
+.. doxygenfunction:: ksl_hctzinvf
+
+
+.. doxygenfunction:: ksl_product_CoAdcinvf
+
+
+.. doxygenfunction:: ksl_product_CoAdrcinvf
+
+
+.. doxygenfunction:: ksl_product_CoAdtinvcf

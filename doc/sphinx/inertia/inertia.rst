@@ -185,6 +185,10 @@ Double precision
 .. doxygenfunction:: ksl_inertia_factor
 
 
+.. doxygenfunction:: ksl_inertia_copy
+
+
+
 Single precision
 ----------------
 
@@ -219,3 +223,6 @@ Single precision
 
 
 .. doxygenfunction:: ksl_inertiaf_factor
+
+
+.. doxygenfunction:: ksl_inertiaf_copy

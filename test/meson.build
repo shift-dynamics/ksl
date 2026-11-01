@@ -33,3 +33,9 @@ foreach name, src : tests
   )
   test(name, exe)
 endforeach
+
+# The Getting Started example; it exits non-zero if KSL disagrees with the
+# closed-form result.
+test('getting_started_example',
+     executable('two_link', '../doc/sphinx/getting-started/two_link.c',
+                dependencies: ksl_dep))

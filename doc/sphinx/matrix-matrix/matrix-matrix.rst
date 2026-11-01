@@ -97,6 +97,10 @@ Double precision
 .. doxygenfunction:: ksl_product_ddinv
 
 
+.. doxygenfunction:: ksl_product_dinvd
+
+
+
 Single precision
 ----------------
 
@@ -188,3 +192,6 @@ Single precision
 
 
 .. doxygenfunction:: ksl_product_ddinvf
+
+
+.. doxygenfunction:: ksl_product_dinvdf

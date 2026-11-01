@@ -37,6 +37,10 @@ Double precision
 .. doxygenfunction:: ksl_mat4x4_get
 
 
+.. doxygenfunction:: ksl_mat4x4_toSE3
+
+
+
 Single precision
 ----------------
 
@@ -68,3 +72,6 @@ Single precision
 
 
 .. doxygenfunction:: ksl_mat4x4f_get
+
+
+.. doxygenfunction:: ksl_mat4x4f_toSE3f

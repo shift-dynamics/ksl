@@ -9,8 +9,9 @@ overview
    :maxdepth: 2
 
    about
-   performance/performance
    installation
+   getting-started/getting-started
+   performance/performance
    notation/notation
    vectors/vec3
    vectors/vec4
@@ -25,6 +26,8 @@ overview
    coscrews/coscrews
    inertia/inertia
    linalg/linalg
+   arrays/arrays
+   axis/axis
    print-debug/print-debug
    license
    contributing/contributing

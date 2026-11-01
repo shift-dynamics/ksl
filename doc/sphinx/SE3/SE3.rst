@@ -87,6 +87,10 @@ Double precision
 .. doxygenfunction:: ksl_SE3_copy
 
 
+.. doxygenfunction:: ksl_SE3_identity
+
+
+
 Single precision
 ----------------
 

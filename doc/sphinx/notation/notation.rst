@@ -21,30 +21,6 @@ example                               description                     reserved f
 :math:`\mathbf{\underline{f}}^*`      bold face, underlined, asterisk :math:`6 \times 1` *coscrew* quantities, such as forces.
 ===================================== =============================== =========================
 
-Symbols
-*******
-
-================================ ===============    ===========
-symbol                           name in program    description
-================================ ===============    ===========
-:math:`\ddot{q}`                 *ddq*              second time derivative of generalized coordinates
-:math:`\dot{q}`                  *dq*               first time derivative of generalized coordinates
-PC                               *PC*               parent child list
-:math:`\lambda_p`                *lambda_p*         lagrange multipliers
-:math:`Q`                        *Q*                working forces applied in the joints
-:math:`\gamma^p`                 *gamma_p*          quadratic velocity terms
-:math:`M^{\ell}`                 *M_l*              generalized mass matrix
-:math:`\lambda^d`                *lambda_d*         *preconditioned* lagrange multipliers
-:math:`\gamma^d`                 *gamma_d*          *preconditioned* quadratic velocity terms
-:math:`f^{\ell}`                 *f_l*              generalized forces
-:math:`J`                        *J*                Jacobian matrix, :math:`J(q)`, a mapping of body velocities to generalized velocities
-:math:`\underline{\mathbf{p}}^*`                    momentum
-:math:`\underline{\mathbf{h}}`   h                  influence coefficient matrix
-:math:`\underline{\mathbf{v}}`   v                  velocity screw :math:`\left(\underline{\mathbf{v}} = \begin{Bmatrix}\underline{v}\\\underline{\omega}\end{Bmatrix}\right)`
-:math:`\underline{\mathbf{g}}^*` g                  externally applied forces, such as from gravity
-================================ ===============    ===========
-
-
 Transformations
 ***************
 
@@ -59,7 +35,7 @@ symbol                     operation                                            
 :math:`\Phi`                  :math:`\begin{bmatrix}R&\underline{r}\\0 & 1\end{bmatrix}`                      :math:`\Phi(R,r) \in SE(3)`, a general rigid body displacement consisting of rotation (:math:`R`) and translation (:math:`r`).
 :math:`\Phi^{-1}`             :math:`\begin{bmatrix}R^T&-R^T\underline{r}\\0&1\end{bmatrix}`
 :math:`[Ad]`               :math:`\begin{bmatrix}R & \tilde{r}R\\0&R\end{bmatrix}`                         adjoint operator for transforming screws
-:math:`[Ad]^{-1}`          :math:`\begin{bmatrix}R^T&-\tilde{r}R^T\\0&R^T\end{bmatrix}`                         inverse of adjoint operator for transforming screws
+:math:`[Ad]^{-1}`          :math:`\begin{bmatrix}R^T&-R^T\tilde{r}\\0&R^T\end{bmatrix}`                         inverse of adjoint operator for transforming screws
 :math:`[Ad]^*`             :math:`\begin{bmatrix}R & 0\\\tilde{r}R&R\end{bmatrix}`                         coadjoint operator for transforming coscrews
 :math:`[ad]`               :math:`\begin{bmatrix}\tilde{\omega}&\tilde{v}\\0&\tilde{\omega}\end{bmatrix}`  time derivative of :math:`[Ad]`
 :math:`[ad]^*`             :math:`\begin{bmatrix}\tilde{\omega}&0\\\tilde{v}&\tilde{\omega}\end{bmatrix}`  time derivative of :math:`[Ad]^*`

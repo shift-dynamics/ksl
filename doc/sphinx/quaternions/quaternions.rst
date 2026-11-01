@@ -140,6 +140,10 @@ Double precision
 .. doxygenfunction:: ksl_product_vqconj
 
 
+.. doxygenfunction:: ksl_quaternion
+
+
+
 Single precision
 ----------------
 
@@ -264,3 +268,6 @@ Single precision
 
 
 .. doxygenfunction:: ksl_product_vqconjf
+
+
+.. doxygenfunction:: ksl_quaternionf

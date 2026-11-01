@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef KSL_WITH_BLAS_
+#include <cblas.h>
+#endif
+
 #include "ksl/SE3.h"
 #include "ksl/coscrew.h"
 #include "ksl/matrix.h"

@@ -165,6 +165,25 @@ Double precision
 .. doxygenfunction:: ksl_triang_printWithOptions
 
 
+.. doxygendefine:: ksl_vec4_debug
+
+
+.. doxygendefine:: ksl_vec4_print
+
+
+.. doxygenfunction:: ksl_vec4_printWithOptions
+
+
+.. doxygendefine:: ksl_eulerangles_debug
+
+
+.. doxygendefine:: ksl_eulerangles_print
+
+
+.. doxygenfunction:: ksl_eulerangles_printWithOptions
+
+
+
 Single precision
 ----------------
 
@@ -238,6 +257,25 @@ Single precision
 
 
 .. .. doxygenfunction:: ksl_inertiaf_printWithOptions
+
+
+.. doxygendefine:: ksl_vec4f_debug
+
+
+.. doxygendefine:: ksl_vec4f_print
+
+
+.. doxygenfunction:: ksl_vec4f_printWithOptions
+
+
+.. doxygendefine:: ksl_euleranglesf_debug
+
+
+.. doxygendefine:: ksl_euleranglesf_print
+
+
+.. doxygenfunction:: ksl_euleranglesf_printWithOptions
+
 
 
 Integers
