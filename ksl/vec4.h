@@ -254,7 +254,7 @@ static inline void ksl_vec4f_scaled(const ksl_vec4f_t* KSL_RESTRICT v,
 }
 
 /*!
-@brief Copy a double precision ksl_vec3_t vi into ksl_vec3_t vo.
+@brief Copy a double precision ksl_vec4_t vi into ksl_vec4_t vo.
 
 \f$V_i \rightarrow V_o\f$
 
@@ -267,7 +267,7 @@ static inline void ksl_vec4_copy(const ksl_vec4_t* KSL_RESTRICT vi,
 }
 
 /*!
-@brief Copy a single precision ksl_vec3f_t vi into ksl_vec3f_t vo.
+@brief Copy a single precision ksl_vec4f_t vi into ksl_vec4f_t vo.
 
 \f$V_i \rightarrow V_o\f$
 

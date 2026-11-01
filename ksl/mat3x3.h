@@ -325,9 +325,9 @@ the last argument.
 type as angles) from a nearby pose, used to obtain continuity in angles
 between poses
 */
-#define ksl_mat3x3_getEulerAngles(r, angles, axisType, ...)                    \
+#define ksl_mat3x3_getEulerAngles(r, axisType, angles, ...)                    \
   {                                                                            \
-    ksl_mat3x3_getEulerAnglesWithReference(r, angles, axisType, ##__VA_ARGS__, \
+    ksl_mat3x3_getEulerAnglesWithReference(r, axisType, angles, ##__VA_ARGS__, \
                                            NULL);                              \
   }
 
@@ -385,9 +385,9 @@ the last argument.
 type as angles) from a nearby pose, used to obtain continuity in angles
 between poses
 */
-#define ksl_mat3x3f_getEulerAngles(r, angles, axisType, ...)                   \
+#define ksl_mat3x3f_getEulerAngles(r, axisType, angles, ...)                   \
   {                                                                            \
-    ksl_mat3x3f_getEulerAnglesWithReference(r, angles, axisType,               \
+    ksl_mat3x3f_getEulerAnglesWithReference(r, axisType, angles,               \
                                             ##__VA_ARGS__, NULL);              \
   }
 

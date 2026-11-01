@@ -4,6 +4,35 @@
 Printing and debugging
 ======================
 
+Overview
+--------
+
+Every *KSL* type can be printed to a ``FILE*`` such as ``stdout`` or a log
+file. Each type has three forms:
+
+* ``ksl_<type>_print(f, x)`` always prints.
+* ``ksl_<type>_debug(f, x)`` prints like ``print`` in a debug build, and
+  compiles to nothing when ``NDEBUG`` is defined, as in a release build. It
+  can be left in code that runs every time step at no cost to the release
+  build.
+* ``ksl_<type>_printWithOptions(f, x, label, options)`` is the function that
+  the two macros above call.
+
+The macros take two optional arguments after the value: a label printed before
+it, and a pointer to a ``ksl_print_options_t`` that controls the format:
+
+.. code-block:: c
+
+   ksl_SE3_print(stdout, &D);                  /* default format */
+   ksl_SE3_print(stdout, &D, "D");             /* with a label */
+   ksl_SE3_print(stdout, &D, "D", &options);   /* with custom options */
+
+The options set the number format (a ``printf`` format such as ``"%0.6g"``),
+the delimiter between values, the brackets, whether each matrix row starts on
+a new line, and whether matrices print row by row or column by column. The
+``ksl_print_set...`` functions change the global defaults when no options
+pointer is given, or the fields of an options struct when one is.
+
 Setting print options
 ---------------------
 

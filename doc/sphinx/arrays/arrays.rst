@@ -4,10 +4,30 @@
 Arrays and Memory
 =================
 
-Utilities for plain C arrays, and for allocating two-dimensional arrays.
-The array utilities are in ``ksl/array.h``, which ``ksl/ksl.h`` includes. The
-allocation functions are in ``ksl/memory.h``, which must be included
-separately.
+Overview
+--------
+
+These are utilities for plain C arrays of numbers: swapping, finding the
+largest entry, scaled addition (``axpy``, :math:`\underline{y} \leftarrow a
+\underline{x} + \underline{y}`), linear interpolation, and comparing two arrays
+within a tolerance (``allclose``, useful in tests). They are in
+``ksl/array.h``, which ``ksl/ksl.h`` includes.
+
+**Two-dimensional arrays.** ``ksl/memory.h``, which must be included
+separately, allocates matrices whose entries can be written ``A[i][j]``. Each
+array is an array of row pointers into **one contiguous block** of
+``rows * columns`` values stored row by row:
+
+.. code-block:: c
+
+   double** A = ksl_array2D_alloc(3, 4);  /* 3 rows, 4 columns, zeroed */
+   A[1][2] = 5.0;
+   /* A[0] is the whole matrix in row major order, so it can be passed to
+      the _rmo linear algebra functions: A[0][1 * 4 + 2] == 5.0 */
+   ksl_array2D_free(A);
+
+Free each array with the ``free`` function for its type, which releases both
+the row pointers and the data block.
 
 Array utilities
 ---------------
