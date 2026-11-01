@@ -86,4 +86,7 @@ if not meson.is_subproject()
     subdir('test')
   endif
   subdir('doc')
+  if get_option('bench').enabled()
+    subdir('bench')
+  endif
 endif

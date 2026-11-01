@@ -9,6 +9,7 @@ overview
    :maxdepth: 2
 
    about
+   performance/performance
    installation
    notation/notation
    vectors/vec3

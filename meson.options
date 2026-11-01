@@ -4,3 +4,5 @@ option('blas', type: 'feature', value: 'disabled',
        description: 'Link against a CBLAS implementation')
 option('docs', type: 'feature', value: 'auto',
        description: 'Add the doxygen and sphinx (docs) documentation targets (top-level builds only)')
+option('bench', type: 'feature', value: 'disabled',
+       description: 'Build the KSL vs Eigen benchmark (needs a C++ compiler and eigen3)')
