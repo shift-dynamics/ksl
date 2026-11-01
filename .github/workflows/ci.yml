@@ -73,7 +73,10 @@ jobs:
 
       - name: Coverage report
         run: |
-          ninja -C build coverage-xml coverage-text
+          # one at a time: each report runs gcov in build/, and in parallel
+          # they delete each other's intermediate .gcov files
+          ninja -C build coverage-xml
+          ninja -C build coverage-text
           cat build/meson-logs/coverage.txt
 
       - uses: actions/upload-artifact@v4
