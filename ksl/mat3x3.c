@@ -28,7 +28,7 @@ ksl_mat3x3f_t* ksl_mat3x3f_alloc(const int n) {
 
 /*!@brief Performs the general matrix inverse for a ksl_mat3x3_t matrix in-place
 with no pivoting. If the matrix is an orthonormal rotation matrix with a
-determinant of one, (i.e. it is \in SO3), then the less expensive matrix
+determinant of one, (i.e. it is in SO3), then the less expensive matrix
 transpose function can be used for performing the inverse */
 inline int ksl_mat3x3_invert(ksl_mat3x3_t* restrict R) {
   ksl_mat3x3_t a;
@@ -87,7 +87,7 @@ inline int ksl_mat3x3_invert(ksl_mat3x3_t* restrict R) {
 
 /*!@brief Performs the general matrix inverse for a ksl_mat3x3f_t matrix
 in-place with no pivoting. If the matrix is an orthonormal rotation matrix with
-a determinant of one, (i.e. it is \in SO3), then the less expensive matrix
+a determinant of one, (i.e. it is in SO3), then the less expensive matrix
 transpose function can be used for performing the inverse */
 inline int ksl_mat3x3f_invert(ksl_mat3x3f_t* restrict R) {
   ksl_mat3x3f_t a;
@@ -145,7 +145,7 @@ inline int ksl_mat3x3f_invert(ksl_mat3x3f_t* restrict R) {
 
 /*!@brief Performs the general matrix inverse for a ksl_mat3x3_t matrix
 with no pivoting. If the matrix is an orthonormal rotation matrix with a
-determinant of one, (i.e. it is \in SO3), then the less expensive matrix
+determinant of one, (i.e. it is in SO3), then the less expensive matrix
 transpose function can be used for performing the inverse */
 inline int ksl_mat3x3_inverted(const ksl_mat3x3_t* restrict ri,
                                ksl_mat3x3_t* restrict ro) {
@@ -204,7 +204,7 @@ inline int ksl_mat3x3_inverted(const ksl_mat3x3_t* restrict ri,
 
 /*!@brief Performs the general matrix inverse for a ksl_mat3x3f_t matrix
 with no pivoting. If the matrix is an orthonormal rotation matrix with a
-determinant of one, (i.e. it is \in SO3), then the less expensive matrix
+determinant of one, (i.e. it is in SO3), then the less expensive matrix
 transpose function can be used for performing the inverse */
 inline int ksl_mat3x3f_inverted(const ksl_mat3x3f_t* restrict ri,
                                 ksl_mat3x3f_t* restrict ro) {

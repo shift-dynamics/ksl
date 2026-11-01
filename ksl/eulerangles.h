@@ -30,14 +30,21 @@ SUCH DAMAGE.
 extern "C" {
 #endif
 
+/*!
+@brief A sequence of three double precision Euler angles and the axis order
+they are applied in.
+*/
 typedef struct {
-  ksl_vec3_t angles;
-  ksl_axis_enum_t axis;
+  ksl_vec3_t angles;    /*!< the three angles, in radians */
+  ksl_axis_enum_t axis; /*!< rotation sequence, e.g. KSL_AXIS_ZYX */
 } ksl_eulerangles_t;
 
+/*!
+@brief Single precision version of ksl_eulerangles_t.
+*/
 typedef struct {
-  ksl_vec3f_t angles;
-  ksl_axis_enum_t axis;
+  ksl_vec3f_t angles;   /*!< the three angles, in radians */
+  ksl_axis_enum_t axis; /*!< rotation sequence, e.g. KSL_AXIS_ZYX */
 } ksl_euleranglesf_t;
 
 #ifdef __cplusplus

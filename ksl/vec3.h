@@ -43,6 +43,13 @@ ksl_vec3f_t* ksl_vec3f_alloc(int);
 
 ksl_vec3i_t* ksl_vec3i_alloc(int);
 
+/*!
+@brief Test whether two integer 3-vectors are equal.
+
+@param v1 [in] first vector
+@param v2 [in] second vector
+@return true if all three components are equal
+*/
 static inline bool ksl_vec3i_isEqual(const ksl_vec3i_t* v1,
                                      const ksl_vec3i_t* v2);
 
@@ -125,9 +132,9 @@ static inline void ksl_nxpy_vv(const ksl_vec3_t* v1x, ksl_vec3_t* v2y);
 
 static inline void ksl_nxpy_vvf(const ksl_vec3f_t* v1x, ksl_vec3f_t* v2y);
 
-static inline void ksl_xpy_vv(const ksl_vec3_t* v1x, ksl_vec3_t* v2y);
+static inline void ksl_xpy_vv(const ksl_vec3_t* v1i, ksl_vec3_t* v2i);
 
-static inline void ksl_xpy_vvf(const ksl_vec3f_t* v1x, ksl_vec3f_t* v2y);
+static inline void ksl_xpy_vvf(const ksl_vec3f_t* v1i, ksl_vec3f_t* v2i);
 
 static inline void ksl_cross_vv(const ksl_vec3_t* v1i, const ksl_vec3_t* v2i,
                                 ksl_vec3_t* vo);
@@ -273,7 +280,8 @@ static inline void ksl_vec3f_normalize(ksl_vec3f_t* KSL_RESTRICT v) {
 @brief Normalize a double precision vector leaving original datastructure
 unmodified; results are returned in second datastructure.
 
-@param v [in/out] vector to normalize
+@param v [in] vector to normalize
+@param vo [out] unit vector in the direction of v
 */
 static inline void ksl_vec3_normalized(const ksl_vec3_t* KSL_RESTRICT v,
                                        ksl_vec3_t* KSL_RESTRICT vo) {
@@ -285,7 +293,8 @@ static inline void ksl_vec3_normalized(const ksl_vec3_t* KSL_RESTRICT v,
 @brief Normalize a single precision vector leaving original datastructure
 unmodified; results are returned in second datastructure.
 
-@param v [in/out] vector to normalize
+@param v [in] vector to normalize
+@param vo [out] unit vector in the direction of v
 */
 static inline void ksl_vec3f_normalized(const ksl_vec3f_t* KSL_RESTRICT v,
                                         ksl_vec3f_t* KSL_RESTRICT vo) {
@@ -296,7 +305,8 @@ static inline void ksl_vec3f_normalized(const ksl_vec3f_t* KSL_RESTRICT v,
 /*!
 @brief Scale a double precision vector
 
-@param v [in/out] vector to scale
+@param v [in,out] vector to scale in place
+@param k [in] scale factor
 */
 static inline void ksl_vec3_scale(ksl_vec3_t* KSL_RESTRICT v, const double k) {
   v->x *= k;
@@ -307,7 +317,8 @@ static inline void ksl_vec3_scale(ksl_vec3_t* KSL_RESTRICT v, const double k) {
 /*!
 @brief Scale a single precision vector
 
-@param v [in/out] vector to scale
+@param v [in,out] vector to scale in place
+@param k [in] scale factor
 */
 static inline void ksl_vec3f_scale(ksl_vec3f_t* KSL_RESTRICT v, const float k) {
   v->x *= k;
@@ -318,7 +329,9 @@ static inline void ksl_vec3f_scale(ksl_vec3f_t* KSL_RESTRICT v, const float k) {
 /*!
 @brief Scale a double precision vector, returning results in second vector.
 
-@param v [in/out] vector to scale
+@param v [in] vector to scale
+@param k [in] scale factor
+@param vo [out] scaled vector, k * v
 */
 static inline void ksl_vec3_scaled(const ksl_vec3_t* KSL_RESTRICT v,
                                    const double k,
@@ -329,7 +342,9 @@ static inline void ksl_vec3_scaled(const ksl_vec3_t* KSL_RESTRICT v,
 /*!
 @brief Scale a single precision vector, returning results in second vector.
 
-@param v [in/out] vector to scale
+@param v [in] vector to scale
+@param k [in] scale factor
+@param vo [out] scaled vector, k * v
 */
 static inline void ksl_vec3f_scaled(const ksl_vec3f_t* KSL_RESTRICT v,
                                     const float k,
@@ -484,9 +499,9 @@ static inline float ksl_dot_vvf(const ksl_vec3f_t* KSL_RESTRICT vi0,
 
 \f$V_i * k_i \rightarrow V_o\f$
 
-@param vi[3] A 3x1 input vector
-@param *ki a pointer to a scalar
-@param vo[3] the results are stored in vo[3]
+@param ki [in] scalar
+@param vi [in] vector
+@param vo [out] product ki * vi
 */
 static inline void ksl_product_av(const double ki,
                                   const ksl_vec3_t* KSL_RESTRICT vi,
@@ -557,9 +572,9 @@ static inline void ksl_product_avinvf(const float ki,
 
 \f$V_i * k_i \rightarrow V_o\f$
 
-@param vi[3] A 3x1 input vector
-@param *ki a pointer to a scalar
-@param vo[3] the results are stored in vo[3]
+@param ki [in] scalar
+@param vi [in] vector
+@param vo [out] product ki * vi
 */
 static inline void ksl_product_avf(const float ki,
                                    const ksl_vec3f_t* KSL_RESTRICT vi,
@@ -653,8 +668,8 @@ Add 3 by 1 column matrix v1i to v2i
 
 \f$V_{2i} += V_{1i} \f$
 
-@param v1i a first column vector input
-@param v2i second column vector
+@param v1i [in] vector to add
+@param v2i [in,out] vector that v1i is added to
 */
 static inline void ksl_xpy_vv(const ksl_vec3_t* KSL_RESTRICT v1i,
                               ksl_vec3_t* KSL_RESTRICT v2i) {
@@ -671,8 +686,8 @@ Add 3 by 1 column matrix v1i to v2i
 
 \f$V_{2i} += V_{1i} \f$
 
-@param v1i a first column vector input
-@param v2i second column vector
+@param v1i [in] vector to add
+@param v2i [in,out] vector that v1i is added to
 */
 static inline void ksl_xpy_vvf(const ksl_vec3f_t* KSL_RESTRICT v1i,
                                ksl_vec3f_t* KSL_RESTRICT v2i) {
@@ -716,12 +731,13 @@ static inline void ksl_nxpy_vvf(const ksl_vec3f_t* KSL_RESTRICT v1i,
 /*!
 @brief axpy (ax plus y stored in y) for double precision vectors
 
-add 3 by 1 column matrix v1i scaled by k to v2i
+Add 3 by 1 column matrix v1x scaled by k to v2y.
 
-\f$V_{2i} += k * V_{1i} \f$
+\f$V_{2y} += k V_{1x} \f$
 
-@param v1i a first column vector input
-@param v2i second column vector
+@param k [in] scale factor
+@param v1x [in] vector to scale and add
+@param v2y [in,out] vector that k * v1x is added to
 */
 static inline void ksl_axpy_vv(const double k,
                                const ksl_vec3_t* KSL_RESTRICT v1x,
@@ -734,12 +750,13 @@ static inline void ksl_axpy_vv(const double k,
 /*!
 @brief axpy (ax plus y stored in y) for single precision vectors
 
-add 3 by 1 column matrix v1i scaled by k to v2i
+Add 3 by 1 column matrix v1x scaled by k to v2y.
 
-\f$V_{2i} += k * V_{1i} \f$
+\f$V_{2y} += k V_{1x} \f$
 
-@param v1i a first column vector input
-@param v2i second column vector
+@param k [in] scale factor
+@param v1x [in] vector to scale and add
+@param v2y [in,out] vector that k * v1x is added to
 */
 static inline void ksl_axpy_vvf(const float k,
                                 const ksl_vec3f_t* KSL_RESTRICT v1x,

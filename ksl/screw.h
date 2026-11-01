@@ -72,24 +72,36 @@ static inline double ksl_screw_norm(const ksl_screw_t* s);
 static inline float ksl_screwf_norm(const ksl_screwf_t* s);
 
 /*!
-@brief TODO document this function
+@brief Normalize a screw in place.
+
+Divides the screw by the length of its angular part, so a rotation axis screw
+gets a unit angular part. If the angular part is zero (below 1e-9), the screw is
+a pure translation and its linear part is normalized instead.
+
+@param s [in,out] screw
 */
 static inline void ksl_screw_normalize(ksl_screw_t* s);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_screw_normalize().
 */
 static inline void ksl_screwf_normalize(ksl_screwf_t* s);
 
 /*!
-@brief TODO document this function
+@brief Compute a normalized copy of a screw.
+
+See ksl_screw_normalize().
+
+@param si [in] screw
+@param so [out] normalized copy of si
 */
-void ksl_screw_normalized(const ksl_screw_t* si, ksl_screw_t* so);
+static inline void ksl_screw_normalized(const ksl_screw_t* si, ksl_screw_t* so);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_screw_normalized().
 */
-void ksl_screwf_normalized(const ksl_screwf_t* si, ksl_screwf_t* so);
+static inline void ksl_screwf_normalized(const ksl_screwf_t* si,
+                                         ksl_screwf_t* so);
 
 /*!
 @brief compute double precision dot product between a coscrew and screw
@@ -103,12 +115,15 @@ static inline float ksl_dot_csf(const ksl_coscrewf_t* ci,
                                 const ksl_screwf_t* si);
 
 /*!
-@brief TODO document this function
+@brief Scale a screw in place: s = a * s.
+
+@param s [in,out] screw
+@param a [in] scale factor
 */
 static inline void ksl_screw_scale(ksl_screw_t* s, const double a);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_screw_scale().
 */
 static inline void ksl_screwf_scale(ksl_screwf_t* s, const float a);
 
@@ -237,251 +252,341 @@ static inline void ksl_screwf_inverted(const ksl_screwf_t* si,
                                        ksl_screwf_t* so);
 
 /*!
-@brief TODO document this function
+@brief Scale a screw: so = k * si.
+
+@param k [in] scale factor
+@param si [in] screw
+@param so [out] scaled screw
 */
 static inline void ksl_product_as(const double k, const ksl_screw_t* si,
                                   ksl_screw_t* so);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_product_as().
 */
 static inline void ksl_product_asf(const float k, const ksl_screwf_t* si,
                                    ksl_screwf_t* so);
 
 /*!
-@brief compute axpy (a * x + y \rightarrow y) operation for double precision
+@brief compute axpy (y = a * x + y) operation for double precision
 screws
 */
 static inline void ksl_axpy_ss(const double, const ksl_screw_t*, ksl_screw_t*);
 
 /*!
-@brief compute axpy (a * x + y \rightarrow y) operation for single precision
+@brief compute axpy (y = a * x + y) operation for single precision
 screws
 */
 static inline void ksl_axpy_ssf(const float, const ksl_screwf_t*,
                                 ksl_screwf_t*);
 
 /*!
-@brief TODO document this function
+@brief Add a screw to another in place: so = so + s1i.
 */
 static inline void ksl_xpy_ss(const ksl_screw_t*, ksl_screw_t*);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_xpy_ss().
 */
 static inline void ksl_xpy_ssf(const ksl_screwf_t*, ksl_screwf_t*);
 
 /*!
-@brief TODO document this function
+@brief Subtract a screw from another in place: so = so - s1i.
 */
 static inline void ksl_nxpy_ss(const ksl_screw_t*, ksl_screw_t*);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_nxpy_ss().
 */
 static inline void ksl_nxpy_ssf(const ksl_screwf_t*, ksl_screwf_t*);
 
 /*!
-@brief TODO document this function
+@brief Add two screws: so = s1i + s2i.
+
+@param s1i [in] first screw
+@param s2i [in] second screw
+@param so [out] sum
 */
 static inline void ksl_add_ss(const ksl_screw_t* s1i, const ksl_screw_t* s2i,
                               ksl_screw_t* so);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_add_ss().
 */
 static inline void ksl_add_ssf(const ksl_screwf_t* s1i, const ksl_screwf_t* s2i,
                                ksl_screwf_t* so);
 
 /*!
-@brief TODO document this function
+@brief Subtract two screws: so = s1i - s2i.
+
+@param s1i [in] first screw
+@param s2i [in] screw to subtract
+@param so [out] difference
 */
 static inline void ksl_subtract_ss(const ksl_screw_t* s1i,
                                    const ksl_screw_t* s2i, ksl_screw_t* so);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_subtract_ss().
 */
 static inline void ksl_subtract_ssf(const ksl_screwf_t* s1i,
                                     const ksl_screwf_t* s2i, ksl_screwf_t* so);
 
 /*!
-@brief TODO document this function
+@brief Add a pure translation screw to a screw: so = si1 + {si2.lin, 0}.
+
+@param si1 [in] screw
+@param si2 [in] screw whose linear part is added; its angular part is ignored
+@param so [out] sum
 */
 static inline void ksl_add_sst(const ksl_screw_t* si1, const ksl_screw_t* si2,
                                ksl_screw_t* so);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_add_sst().
 */
 static inline void ksl_add_sstf(const ksl_screwf_t* si1,
                                 const ksl_screwf_t* si2, ksl_screwf_t* so);
 
 /*!
-@brief TODO document this function
+@brief Compute the screw of a prismatic joint along the x axis of a frame: ho =
+Ad(Di) * {ex, 0}.
+
+This is the column of the Jacobian (influence coefficient) of a prismatic joint.
+
+@param Di [in] pose of the joint frame
+@param ho [out] {rx, 0}, where rx is the x column of the rotation of Di
 */
 static inline void ksl_hstx(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_hstx().
 */
 static inline void ksl_hstxf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Compute the screw of a prismatic joint along the y axis of a frame: ho =
+Ad(Di) * {ey, 0}.
+
+This is the column of the Jacobian (influence coefficient) of a prismatic joint.
+
+@param Di [in] pose of the joint frame
+@param ho [out] {ry, 0}, where ry is the y column of the rotation of Di
 */
 static inline void ksl_hsty(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_hsty().
 */
 static inline void ksl_hstyf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Compute the screw of a prismatic joint along the z axis of a frame: ho =
+Ad(Di) * {ez, 0}.
+
+This is the column of the Jacobian (influence coefficient) of a prismatic joint.
+
+@param Di [in] pose of the joint frame
+@param ho [out] {rz, 0}, where rz is the z column of the rotation of Di
 */
-static inline void ksl_hstz(const ksl_SE3_t* ri, ksl_screw_t* ho);
+static inline void ksl_hstz(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_hstz().
 */
-static inline void ksl_hstzf(const ksl_SE3f_t* ri, ksl_screwf_t* ho);
+static inline void ksl_hstzf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Compute the screw of a revolute joint about the x axis of a frame: ho =
+Ad(Di) * {0, ex}.
+
+This is the column of the Jacobian (influence coefficient) of a revolute joint.
+
+@param Di [in] pose of the joint frame
+@param ho [out] {t x rx, rx}, where rx is the x column of the rotation of Di
 */
 static inline void ksl_hsrx(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_hsrx().
 */
 static inline void ksl_hsrxf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Compute the screw of a revolute joint about the negative x axis of a
+frame: ho = Ad(Di) * {0, -ex}.
+
+@param Di [in] pose of the joint frame
+@param ho [out] {-t x rx, -rx}, where rx is the x column of the rotation of Di
 */
 static inline void ksl_hsrxinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_hsrxinv().
 */
 static inline void ksl_hsrxinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Compute the screw of a revolute joint about the y axis of a frame: ho =
+Ad(Di) * {0, ey}.
+
+This is the column of the Jacobian (influence coefficient) of a revolute joint.
+
+@param Di [in] pose of the joint frame
+@param ho [out] {t x ry, ry}, where ry is the y column of the rotation of Di
 */
 static inline void ksl_hsry(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_hsry().
 */
 static inline void ksl_hsryf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Compute the screw of a revolute joint about the negative y axis of a
+frame: ho = Ad(Di) * {0, -ey}.
+
+@param Di [in] pose of the joint frame
+@param ho [out] {-t x ry, -ry}, where ry is the y column of the rotation of Di
 */
 static inline void ksl_hsryinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_hsryinv().
 */
 static inline void ksl_hsryinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 /*!
-@brief TODO document this function
+@brief Compute the screw of a revolute joint about the z axis of a frame: ho =
+Ad(Di) * {0, ez}.
+
+This is the column of the Jacobian (influence coefficient) of a revolute joint.
+
+@param Di [in] pose of the joint frame
+@param ho [out] {t x rz, rz}, where rz is the z column of the rotation of Di
 */
 static inline void ksl_hsrz(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
+/*!
+@brief Compute the screw of a revolute joint about an arbitrary axis of a frame:
+ho = Ad(Di) * {0, axis}.
+
+@param Di [in] pose of the joint frame
+@param axis [in] joint axis, expressed in the frame of Di
+@param ho [out] joint screw in the reference frame
+*/
 static inline void ksl_hsra(const ksl_SE3_t* Di, const ksl_vec3_t* axis,
                             ksl_screw_t* ho);
+/*!
+@brief Compute the screw of a revolute joint about a negated arbitrary axis of a
+frame: ho = Ad(Di) * {0, -axis}.
+
+@param Di [in] pose of the joint frame
+@param axis [in] joint axis, expressed in the frame of Di
+@param ho [out] joint screw in the reference frame
+*/
 static inline void ksl_hsrainv(const ksl_SE3_t* Di, const ksl_vec3_t* axis,
                                ksl_screw_t* ho);
+/*!
+@brief Single precision version of ksl_hsra().
+*/
 static inline void ksl_hsraf(const ksl_SE3f_t* Di, const ksl_vec3f_t* axis,
                              ksl_screwf_t* ho);
+/*!
+@brief Single precision version of ksl_hsrainv().
+*/
 static inline void ksl_hsrainvf(const ksl_SE3f_t* Di, const ksl_vec3f_t* axis,
                                 ksl_screwf_t* ho);
+/*!
+@brief Compute the screw of a prismatic joint along an arbitrary axis of a
+frame: ho = Ad(Di) * {axis, 0}.
+
+@param Di [in] pose of the joint frame
+@param axis [in] joint axis, expressed in the frame of Di
+@param ho [out] joint screw in the reference frame
+*/
 static inline void ksl_hsta(const ksl_SE3_t* Di, const ksl_vec3_t* axis,
                             ksl_screw_t* ho);
+/*!
+@brief Compute the screw of a prismatic joint along a negated arbitrary axis of
+a frame: ho = Ad(Di) * {-axis, 0}.
+
+@param Di [in] pose of the joint frame
+@param axis [in] joint axis, expressed in the frame of Di
+@param ho [out] joint screw in the reference frame
+*/
 static inline void ksl_hstainv(const ksl_SE3_t* Di, const ksl_vec3_t* axis,
                                ksl_screw_t* ho);
+/*!
+@brief Single precision version of ksl_hsta().
+*/
 static inline void ksl_hstaf(const ksl_SE3f_t* Di, const ksl_vec3f_t* axis,
                              ksl_screwf_t* ho);
+/*!
+@brief Single precision version of ksl_hstainv().
+*/
 static inline void ksl_hstainvf(const ksl_SE3f_t* Di, const ksl_vec3f_t* axis,
                                 ksl_screwf_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_hsrz().
 */
 static inline void ksl_hsrzf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Compute the screw of a revolute joint about the negative z axis of a
+frame: ho = Ad(Di) * {0, -ez}.
+
+@param Di [in] pose of the joint frame
+@param ho [out] {-t x rz, -rz}, where rz is the z column of the rotation of Di
 */
 static inline void ksl_hsrzinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_hsrzinv().
 */
 static inline void ksl_hsrzinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Compute the screw of a prismatic joint along the negative x axis of a
+frame: ho = Ad(Di) * {-ex, 0}.
+
+@param Di [in] pose of the joint frame
+@param ho [out] {-rx, 0}, where rx is the x column of the rotation of Di
 */
 static inline void ksl_hstxinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_hstxinv().
 */
 static inline void ksl_hstxinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Compute the screw of a prismatic joint along the negative y axis of a
+frame: ho = Ad(Di) * {-ey, 0}.
+
+@param Di [in] pose of the joint frame
+@param ho [out] {-ry, 0}, where ry is the y column of the rotation of Di
 */
 static inline void ksl_hstyinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_hstyinv().
 */
 static inline void ksl_hstyinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Compute the screw of a prismatic joint along the negative z axis of a
+frame: ho = Ad(Di) * {-ez, 0}.
+
+@param Di [in] pose of the joint frame
+@param ho [out] {-rz, 0}, where rz is the z column of the rotation of Di
 */
 static inline void ksl_hstzinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_hstzinv().
 */
 static inline void ksl_hstzinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
-
-/*!
-@brief TODO document this function
-*/
-static inline void ksl_hsrxinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
-
-/*!
-@brief TODO document this function
-*/
-void ksl_hrxinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
-
-/*!
-@brief TODO document this function
-*/
-static inline void ksl_hsryinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
-
-/*!
-@brief TODO document this function
-*/
-static inline void ksl_hsryinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
-
-/*!
-@brief TODO document this function
-*/
-static inline void ksl_hsrzinv(const ksl_SE3_t* Di, ksl_screw_t* ho);
-
-/*!
-@brief TODO document this function
-*/
-static inline void ksl_hsrzinvf(const ksl_SE3f_t* Di, ksl_screwf_t* ho);
 
 /*!
 @brief double precision screw cross product
@@ -498,13 +603,18 @@ static inline void ksl_cross_ssf(const ksl_screwf_t* s1i,
                                  const ksl_screwf_t* s2i, ksl_screwf_t* so);
 
 /*!
-@brief TODO document this function
+@brief Screw cross product with a pure translation screw: so = s1i x {s2i.lin,
+0} = {s1i.ang x s2i.lin, 0}.
+
+@param s1i [in] first screw
+@param s2i [in] screw whose linear part is used; its angular part is ignored
+@param so [out] cross product
 */
 static inline void ksl_cross_sst(const ksl_screw_t* s1i, const ksl_screw_t* s2i,
                                  ksl_screw_t* so);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_cross_sst().
 */
 static inline void ksl_cross_sstf(const ksl_screwf_t* s1i,
                                   const ksl_screwf_t* s2i, ksl_screwf_t* so);
@@ -753,84 +863,108 @@ static inline void ksl_product_Adtsf(const ksl_vec3f_t* ti,
                                      const ksl_screwf_t* si, ksl_screwf_t* so);
 
 /*!
-@brief TODO document this function
+@brief Transform a screw by the adjoint of an inverse translation: so =
+Ad(T(ti)^-1) * si.
+
+@param ti [in] translation
+@param si [in] screw
+@param so [out] {si.lin - ti x si.ang, si.ang}
 */
 static inline void ksl_product_Adtinvs(const ksl_vec3_t* ti,
                                        const ksl_screw_t* si, ksl_screw_t* so);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_product_Adtinvs().
 */
 static inline void ksl_product_Adtinvsf(const ksl_vec3f_t* ti,
                                         const ksl_screwf_t* si,
                                         ksl_screwf_t* so);
 
 /*!
-@brief TODO document this function
+@brief Transform a negated screw by the adjoint of a translation: so = Ad(T(ti))
+* (-si).
+
+@param ti [in] translation
+@param si [in] screw
+@param so [out] -{si.lin + ti x si.ang, si.ang}
 */
 static inline void ksl_product_Adtsinv(const ksl_vec3_t* ti,
                                        const ksl_screw_t* si, ksl_screw_t* so);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_product_Adtsinv().
 */
 static inline void ksl_product_Adtsinvf(const ksl_vec3f_t* ti,
                                         const ksl_screwf_t* si,
                                         ksl_screwf_t* so);
 
 /*!
-@brief General spatial transformation a double precision screw
+@brief Transform a double precision screw by the adjoint of an SE3
+transformation.
 
-Store product of direction cosine matrix ri with spatial vector si in so.
+Computes so = Ad(Di) si, where Di = {R, t}:
 
-\f$ R_i * S_i[0:2] \rightarrow S_o[0:2]\f$
+\f$ s_o = \{R v + t \times R \omega,\; R \omega\}\f$
 
-\f$ R_i * S_i[3:5] \rightarrow S_o[3:5]\f$
+with \f$ v \f$ the linear part and \f$ \omega \f$ the angular part of si.
 
-@param ri a SO3 rotation matrix
-@param si a 1x6 screw
-@param so the output of ri * si is returned in so
+@param Di [in] SE3 transformation
+@param si [in] screw
+@param so [out] transformed screw
 */
 static inline void ksl_product_Ads(const ksl_SE3_t* Di, const ksl_screw_t* si,
                                    ksl_screw_t* so);
 
 /*!
-@brief TODO document this function
+@brief Transform a negated screw by the adjoint of an SE3 transformation: so =
+Ad(Di) * (-si).
+
+@param Di [in] SE3 transformation
+@param si [in] screw
+@param so [out] transformed, negated screw
 */
 static inline void ksl_product_Adsinv(const ksl_SE3_t* Di,
                                       const ksl_screw_t* si, ksl_screw_t* so);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_product_Adsinv().
 */
 static inline void ksl_product_Adsinvf(const ksl_SE3f_t* Di,
                                        const ksl_screwf_t* si,
                                        ksl_screwf_t* so);
 
 /*!
-@brief General spatial transformation a single precision screw
+@brief Transform a single precision screw by the adjoint of an SE3
+transformation.
 
-Store product of direction cosine matrix ri with spatial vector si in so.
+Computes so = Ad(Di) si, where Di = {R, t}:
 
-\f$ R_i * S_i[0:2] \rightarrow S_o[0:2]\f$
+\f$ s_o = \{R v + t \times R \omega,\; R \omega\}\f$
 
-\f$ R_i * S_i[3:5] \rightarrow S_o[3:5]\f$
+with \f$ v \f$ the linear part and \f$ \omega \f$ the angular part of si.
 
-@param ri a SO3 rotation matrix
-@param si a 1x6 screw
-@param so the output of ri * si is returned in so
+@param Di [in] SE3 transformation
+@param si [in] screw
+@param so [out] transformed screw
 */
 static inline void ksl_product_Adsf(const ksl_SE3f_t* Di,
                                     const ksl_screwf_t* si, ksl_screwf_t* so);
 
 /*!
-@brief TODO document this function
+@brief Transform a screw by the adjoint of an inverse SE3 transformation: so =
+Ad(Di^-1) * si.
+
+Expresses a screw given in the reference frame in the frame of Di.
+
+@param Di [in] SE3 transformation to invert
+@param si [in] screw
+@param so [out] transformed screw
 */
 static inline void ksl_product_Adinvs(const ksl_SE3_t* Di,
                                       const ksl_screw_t* si, ksl_screw_t* so);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_product_Adinvs().
 */
 static inline void ksl_product_Adinvsf(const ksl_SE3f_t* Di,
                                        const ksl_screwf_t* si,
@@ -921,6 +1055,18 @@ static inline void ksl_screwf_normalize(ksl_screwf_t* s) {
     ksl_vec3f_scale(&s->lin, ang_inv_norm);
     ksl_vec3f_scale(&s->ang, ang_inv_norm);
   }
+}
+
+static inline void ksl_screw_normalized(const ksl_screw_t* KSL_RESTRICT si,
+                                        ksl_screw_t* KSL_RESTRICT so) {
+  *so = *si;
+  ksl_screw_normalize(so);
+}
+
+static inline void ksl_screwf_normalized(const ksl_screwf_t* KSL_RESTRICT si,
+                                         ksl_screwf_t* KSL_RESTRICT so) {
+  *so = *si;
+  ksl_screwf_normalize(so);
 }
 
 static inline double ksl_dot_cs(const ksl_coscrew_t* KSL_RESTRICT ci,

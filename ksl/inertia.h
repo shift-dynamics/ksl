@@ -238,10 +238,10 @@ static inline void ksl_inertiaf_transform(ksl_inertiaf_t* inertia_i,
 
 /*!
 @brief merge double precision child inertia (j) with parent inertia (i)
-@param parent inertia [in/out] parent inertia to be merged
+@param inertia_i [in,out] parent inertia, replaced by the merged inertia
 @param t_ic_i [in/out] vector from parent body reference frame i to body center
 of mass frame c, expressed in body frame i
-@param child inertia [in]
+@param inertia_j [in] child inertia to merge into the parent
 @param t_jc_j [in] vector from child body reference frame j to body center of
 mass frame c, expressed in body frame j
 @param D_ij [in] transformation from parent reference frame i to child reference
@@ -253,10 +253,10 @@ void ksl_inertia_merge(ksl_inertia_t* inertia_i, const ksl_vec3_t* t_ic_i,
 
 /*!
 @brief merge single precision child inertia (j) with parent inertia (i)
-@param parent inertia [in/out] parent inertia to be merged
+@param inertia_i [in,out] parent inertia, replaced by the merged inertia
 @param t_ic_i [in/out] vector from parent body reference frame i to body center
 of mass frame c, expressed in body frame i
-@param child inertia [in]
+@param inertia_j [in] child inertia to merge into the parent
 @param t_jc_j [in] vector from child body reference frame j to body center of
 mass frame c, expressed in body frame j
 @param D_ij [in] transformation from parent reference frame i to child reference
@@ -298,9 +298,18 @@ inertia matrix is overwritten with its factors
 */
 int ksl_inertiaf_factor(ksl_inertiaf_t*);
 
+/*!
+@brief Copy mass and inertia properties: inertia_o = inertia_i.
+
+@param inertia_i [in] properties to copy
+@param inertia_o [out] copy of inertia_i
+*/
 static inline void ksl_inertia_copy(const ksl_inertia_t* inertia_i,
                                     ksl_inertia_t* inertia_o);
 
+/*!
+@brief Single precision version of ksl_inertia_copy().
+*/
 static inline void ksl_inertiaf_copy(const ksl_inertiaf_t* inertia_i,
                                      ksl_inertiaf_t* inertia_o);
 

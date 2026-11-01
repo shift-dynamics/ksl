@@ -56,8 +56,28 @@ static inline void ksl_arraylerpf(const int count, const float p,
                                   const float* y1i, const float* y2i,
                                   float* yo);
 
+/*!
+@brief Return the index of the entry with the largest absolute value in an
+array.
+
+@param n [in] number of entries, at least 1
+@param a [in] array of n entries
+@return index of the first entry with the largest absolute value
+*/
 static inline int ksl_maxIndex(const int n, const double* a);
 
+/*!
+@brief Swap the entries of two strided arrays.
+
+Swaps a[i * a_stride] with b[i * b_stride] for i = 0 to n-1, so it can swap rows
+or columns of a matrix.
+
+@param n [in] number of entries to swap
+@param a [in,out] first array
+@param a_stride [in] distance between consecutive entries of a
+@param b [in,out] second array
+@param b_stride [in] distance between consecutive entries of b
+*/
 static inline void ksl_swapArray(const int n, double* a, const int a_stride,
                                  double* b, const int b_stride);
 

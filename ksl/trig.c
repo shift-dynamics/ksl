@@ -33,7 +33,8 @@ inline void ksl_dcf(const float thetai, float dc[2]) {
 /*!
 @brief Normalize double precision angle in degrees
 
-@param normalizes degrees to be between 0 and 360 degrees
+@param angle [in] angle in degrees
+@return the angle wrapped to the range [0, 360)
 */
 inline double ksl_normalizeDegrees(double angle) {
   return (angle - floor(angle / 360.0) * 360.0);
@@ -42,7 +43,8 @@ inline double ksl_normalizeDegrees(double angle) {
 /*!
 @brief Normalize single precision angle in degrees
 
-@param normalizes degrees to be between 0 and 360 degrees
+@param angle [in] angle in degrees
+@return the angle wrapped to the range [0, 360)
 */
 inline float ksl_normalizeDegreesf(float angle) {
   return (angle - floor(angle / 360.0) * 360.0);
@@ -51,7 +53,8 @@ inline float ksl_normalizeDegreesf(float angle) {
 /*!
 @brief Normalize angle in radians
 
-@param normalizes double precision radians to be between 0 and 2 * PI radians
+@param angle [in] angle in radians
+@return the angle wrapped to the range [0, 2 pi)
 */
 double ksl_normalizeRadians(double angle) {
   const double twopi = 2.0 * M_PI;
@@ -61,7 +64,8 @@ double ksl_normalizeRadians(double angle) {
 /*!
 @brief Normalize angle in radians
 
-@param normalizes single precision radians to be between 0 and 2 * PI radians
+@param angle [in] angle in radians
+@return the angle wrapped to the range [0, 2 pi)
 */
 float ksl_normalizeRadiansf(float angle) {
   const float twopi = 2.0 * M_PI;

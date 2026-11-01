@@ -173,7 +173,8 @@ static inline void ksl_vec4f_normalize(ksl_vec4f_t* KSL_RESTRICT v) {
 @brief Normalize a double precision vector leaving original datastructure
 unmodified; results are returned in second datastructure.
 
-@param v [in/out] vector to normalize
+@param v [in] vector to normalize
+@param vo [out] unit vector in the direction of v
 */
 static inline void ksl_vec4_normalized(const ksl_vec4_t* KSL_RESTRICT v,
                                        ksl_vec4_t* KSL_RESTRICT vo) {
@@ -185,7 +186,8 @@ static inline void ksl_vec4_normalized(const ksl_vec4_t* KSL_RESTRICT v,
 @brief Normalize a single precision vector leaving original datastructure
 unmodified; results are returned in second datastructure.
 
-@param v [in/out] vector to normalize
+@param v [in] vector to normalize
+@param vo [out] unit vector in the direction of v
 */
 static inline void ksl_vec4f_normalized(const ksl_vec4f_t* KSL_RESTRICT v,
                                         ksl_vec4f_t* KSL_RESTRICT vo) {
@@ -196,7 +198,8 @@ static inline void ksl_vec4f_normalized(const ksl_vec4f_t* KSL_RESTRICT v,
 /*!
 @brief Scale a double precision vector
 
-@param v [in/out] vector to scale
+@param v [in,out] vector to scale in place
+@param k [in] scale factor
 */
 static inline void ksl_vec4_scale(ksl_vec4_t* KSL_RESTRICT v, const double k) {
   v->x *= k;
@@ -208,7 +211,8 @@ static inline void ksl_vec4_scale(ksl_vec4_t* KSL_RESTRICT v, const double k) {
 /*!
 @brief Scale a single precision vector
 
-@param v [in/out] vector to scale
+@param v [in,out] vector to scale in place
+@param k [in] scale factor
 */
 static inline void ksl_vec4f_scale(ksl_vec4f_t* KSL_RESTRICT v, const float k) {
   v->x *= k;
@@ -220,7 +224,9 @@ static inline void ksl_vec4f_scale(ksl_vec4f_t* KSL_RESTRICT v, const float k) {
 /*!
 @brief Scale a double precision vector, returning results in second vector.
 
-@param v [in/out] vector to scale
+@param v [in] vector to scale
+@param k [in] scale factor
+@param vo [out] scaled vector, k * v
 */
 static inline void ksl_vec4_scaled(const ksl_vec4_t* KSL_RESTRICT v,
                                    const double k,
@@ -234,7 +240,9 @@ static inline void ksl_vec4_scaled(const ksl_vec4_t* KSL_RESTRICT v,
 /*!
 @brief Scale a single precision vector, returning results in second vector.
 
-@param v [in/out] vector to scale
+@param v [in] vector to scale
+@param k [in] scale factor
+@param vo [out] scaled vector, k * v
 */
 static inline void ksl_vec4f_scaled(const ksl_vec4f_t* KSL_RESTRICT v,
                                     const float k,

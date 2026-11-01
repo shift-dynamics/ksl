@@ -3,7 +3,6 @@
 @author Kristopher Wehage
 @date 2016
 @copyright Kristopher Wehage 2018-2026
-@section DESCRIPTION
 This file includes utility routines to dynamically allocate and free memory for
 two dimensional arrays
 

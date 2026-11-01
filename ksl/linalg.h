@@ -21,6 +21,7 @@ SUCH DAMAGE.
 #ifndef _KSL_LINALG_H_
 #define _KSL_LINALG_H_
 
+#include "ksl/array.h"
 #include "ksl/types.h"
 
 #ifdef __cplusplus
@@ -30,11 +31,6 @@ extern "C" {
 void ksl_linalg_gramSchmidt(double* A, const int m, const int n);
 
 void ksl_linalg_gramSchmidtf(float* A, const int m, const int n);
-
-void ksl_swapArray(const int n, double* a, const int a_stride, double* b,
-                   const int b_stride);
-
-int ksl_maxIndex(const int n, const double* a);
 
 int ksl_linalg_lu_full_rmo(const int rowDim, const int colDim, double* A,
                            const double eps, int* pr, int* pc);
@@ -52,6 +48,19 @@ void ksl_linalg_lu_rmo(const int rank, const int colDim, double* A);
 
 void ksl_linalg_lu_setBMatrix_rmo(const int rank, const int colDim, double* A);
 
+/*!
+@brief Return the largest absolute value in the B matrix of a factored row major
+matrix.
+
+B is stored in A[0:rank-1][rank:colDim-1]. A large value indicates that the
+partition into dependent and independent columns is poorly conditioned.
+
+@param rank [in] rank of A, as returned by ksl_linalg_lu_full_rmo()
+@param colDim [in] column dimension of A
+@param A [in] matrix factored by ksl_linalg_lu_full_rmo(), after
+ksl_linalg_lu_setBMatrix_rmo()
+@return maximum absolute entry of B
+*/
 double ksl_linalg_lu_infinityNormB_rmo(int rank, int colDim, double* A);
 
 void ksl_linalg_lu_setCMatrix_rmo(int rowDim, int colDim, int rank, double* A);

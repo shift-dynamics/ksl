@@ -50,10 +50,10 @@ orthonormalized, is passed in as A[m][n] where m and n are the
 respective row and column dimensions of A[][]. The
 orthonormalized columns are passed back in A[][].
 
-@param m row dimension
-@param n column dimension
-@param A[m][n] a rectangular matrix to be orthonormalized, the orthonormalized
-               matrix is returned in A
+@param A [in,out] row major m by n matrix whose columns are orthonormalized
+in place
+@param m [in] row dimension
+@param n [in] column dimension
 */
 void ksl_linalg_gramSchmidt(double* restrict A, const int m, const int n) {
   for(int k = 0; k < n; k++) {
@@ -93,10 +93,10 @@ orthonormalized, is passed in as A[m][n] where m and n are the
 respective row and column dimensions of A[][]. The
 orthonormalized columns are passed back in A[][].
 
-@param m row dimension
-@param n column dimension
-@param A[m][n] a rectangular matrix to be orthonormalized, the orthonormalized
-               matrix is returned in A
+@param A [in,out] row major m by n matrix whose columns are orthonormalized
+in place
+@param m [in] row dimension
+@param n [in] column dimension
 */
 void ksl_linalg_gramSchmidtf(float* restrict A, const int m, const int n) {
   for(int k = 0; k < n; k++) {
@@ -701,7 +701,6 @@ B = inverse(Ur)*UR
 @param colDim [in] column dimension of matrix A.
 @param *A [in/out] matrix to be factored with dimensions
 A[0:rank-1][0:colDim-1]:
-@return pivot_ratio ratio of smallest pivot / largest pivot
 */
 inline void ksl_linalg_lu_rmo(const int rank, const int colDim,
                                 double* restrict A) {
@@ -738,12 +737,9 @@ i is the row number in Ur.
 j is the column number in Ur & row number in UR.
 k is the column number in UR.
 
-@param rowDim [in] row dimension of matrix A.
-@param colDim [in] column dimension of matrix A.
-@param rank [in] rank of matrix A.
-@param *A [in/out] row-major ordered matrix with dimensions
-A[0:rowDim-1][0:colDim-1]:
-
+@param rank [in] rank of matrix A
+@param colDim [in] column dimension of matrix A
+@param A [in,out] row major matrix factored by ksl_linalg_lu_full_rmo()
 */
 inline void ksl_linalg_lu_setBMatrix_rmo(const int rank, const int colDim,
                                          double* restrict A) {
@@ -1018,11 +1014,11 @@ inline void ksl_linalg_ldlt_solve_rmo(const double* restrict A,
 
 ksl_linalg_cholesky must be called on A prior to calling this function
 
-@param *L [in] n by n matrix L[0:n-1][0:n-1]:
-@param *b [in] n by 1 column of right-hand side y[0:n-1].
-@param *y [out] n by 1 column of unknowns.
-@param n [in] dimension of L[][], b[], y[]:
-
+@param A [in] n by n matrix A[0:n-1][0:n-1], factored by
+ksl_linalg_cholesky_rmo()
+@param b [in] n by 1 right-hand side b[0:n-1]
+@param x [out] n by 1 solution x[0:n-1]
+@param n [in] dimension of A, b and x
 */
 inline void ksl_linalg_cholesky_solve_rmo(const double* restrict A,
                                           const double* restrict b,
@@ -1359,6 +1355,7 @@ A[0:rowDim-1][0:colDim-1]:
 @param eps input tolerance on the order of machine roundoff.
 @param pr output row permutation array with dimensions pr[0:rowDim-1]
 @param pc output column permutation array with dimensions pc[0:colDim-1]
+@param specifiedIndex input column index of the specified coordinate
 @return rank of matrix A
 */
 int ksl_linalg_lu_full_specified_cmo(const int rowDim, const int colDim,

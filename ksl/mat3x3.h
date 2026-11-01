@@ -173,76 +173,129 @@ compiling in release mode using the compiler flag -DNDEBUG.
 static inline void ksl_mat3x3f_set(ksl_mat3x3f_t* R, int row, int column,
                                    float value);
 
+/*!
+@brief Re-orthonormalize a rotation matrix in place.
+
+Applies Gram-Schmidt orthonormalization (ksl_linalg_gramSchmidt()) to the
+columns, which removes the drift that accumulates when rotations are composed
+many times.
+
+@param R [in,out] nearly orthonormal matrix, replaced by an orthonormal one
+*/
 static inline void ksl_mat3x3_normalize(ksl_mat3x3_t* R);
 
+/*!
+@brief Compute a re-orthonormalized copy of a rotation matrix.
+
+See ksl_mat3x3_normalize().
+
+@param Ri [in] nearly orthonormal matrix
+@param Ro [out] orthonormalized copy of Ri
+*/
 static inline void ksl_mat3x3_normalized(const ksl_mat3x3_t* Ri,
                                          ksl_mat3x3_t* Ro);
 
+/*!
+@brief Single precision version of ksl_mat3x3_normalize().
+*/
 static inline void ksl_mat3x3f_normalize(ksl_mat3x3f_t* R);
 
+/*!
+@brief Single precision version of ksl_mat3x3_normalized().
+*/
 static inline void ksl_mat3x3f_normalized(const ksl_mat3x3f_t* Ri,
                                           ksl_mat3x3f_t* Ro);
 
 /*!
-@brief TODO document this function
+@brief Return the entry of a 3x3 matrix at (row, column).
+
+@param R [in] 3x3 matrix
+@param row [in] row index, 0 to 2
+@param column [in] column index, 0 to 2
+@return the requested entry
 */
 static inline double ksl_mat3x3_get(const ksl_mat3x3_t* R, const int row,
                                     const int column);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_mat3x3_get().
 */
 static inline float ksl_mat3x3f_get(const ksl_mat3x3f_t* R, const int row,
                                     const int column);
 
 /*!
-@brief TODO document this function
+@brief Copy a 3x3 matrix: ro = ri.
+
+@param ri [in] matrix to copy
+@param ro [out] copy of ri
 */
 static inline void ksl_mat3x3_copy(const ksl_mat3x3_t* ri, ksl_mat3x3_t* ro);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_mat3x3_copy().
 */
 static inline void ksl_mat3x3f_copy(const ksl_mat3x3f_t* ri, ksl_mat3x3f_t* ro);
 
 /*!
-@brief TODO document this function
+@brief Invert a general 3x3 matrix in place.
+
+Uses an LU factorization without pivoting. For a rotation matrix,
+ksl_mat3x3_transpose() gives the same result with far fewer operations.
+
+@param R [in,out] matrix, replaced by its inverse
+@return 0 on success, or a negative value if a pivot is smaller than 1e-12 (the
+matrix is singular or needs pivoting); R is then left partly overwritten
 */
 int ksl_mat3x3_invert(ksl_mat3x3_t* R);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_mat3x3_invert().
 */
 int ksl_mat3x3f_invert(ksl_mat3x3f_t* R);
 
 /*!
-@brief TODO document this function
+@brief Compute the inverse of a general 3x3 matrix: ro = ri^-1.
+
+Uses an LU factorization without pivoting. For a rotation matrix,
+ksl_mat3x3_transposed() gives the same result with far fewer operations.
+
+@param ri [in] matrix to invert
+@param ro [out] inverse of ri
+@return 0 on success, or a negative value if a pivot is smaller than 1e-12 (the
+matrix is singular or needs pivoting)
 */
 int ksl_mat3x3_inverted(const ksl_mat3x3_t* ri, ksl_mat3x3_t* ro);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_mat3x3_inverted().
 */
 int ksl_mat3x3f_inverted(const ksl_mat3x3f_t* ri, ksl_mat3x3f_t* ro);
 
 /*!
-@brief TODO document this function
+@brief Transpose a 3x3 matrix in place. For a rotation matrix this is its
+inverse.
+
+@param R [in,out] matrix, replaced by its transpose
 */
 static inline void ksl_mat3x3_transpose(ksl_mat3x3_t* R);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_mat3x3_transpose().
 */
 static inline void ksl_mat3x3f_transpose(ksl_mat3x3f_t* R);
 
 /*!
-@brief TODO document this function
+@brief Compute the transpose of a 3x3 matrix: ro = ri^T. For a rotation matrix
+this is its inverse.
+
+@param ri [in] matrix
+@param ro [out] transpose of ri
 */
 static inline void ksl_mat3x3_transposed(const ksl_mat3x3_t* ri,
                                          ksl_mat3x3_t* ro);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_mat3x3_transposed().
 */
 static inline void ksl_mat3x3f_transposed(const ksl_mat3x3f_t* ri,
                                           ksl_mat3x3f_t* ro);
@@ -268,8 +321,9 @@ the last argument.
 @param r [in] direction cosine matrix
 @param axisType [in] an enum specifying angle sequence
 @param angles [out] sequence of euler angles
-@param referenceAngles [in/optional] a sequence of reference angles from a
-nearby pose, used to obtain continuity in angles between poses.
+@param ... [in] optional reference angles (a pointer to a vector of the same
+type as angles) from a nearby pose, used to obtain continuity in angles
+between poses
 */
 #define ksl_mat3x3_getEulerAngles(r, angles, axisType, ...)                    \
   {                                                                            \
@@ -298,8 +352,9 @@ the last argument.
 @param r [in] direction cosine matrix
 @param axisType [in] an enum specifying angle sequence
 @param angles [out] sequence of euler angles
-@param referenceAngles [in/optional] a sequence of reference angles from a
-nearby pose, used to obtain continuity in angles between poses.
+@param ... [in] optional reference angles (a pointer to a vector of the same
+type as angles) from a nearby pose, used to obtain continuity in angles
+between poses
 */
 void ksl_mat3x3_getEulerAnglesWithReference(const ksl_mat3x3_t* r,
                                             const ksl_axis_enum_t axisType,
@@ -326,8 +381,9 @@ the last argument.
 @param r [in] direction cosine matrix
 @param axisType [in] an enum specifying angle sequence
 @param angles [out] sequence of euler angles
-@param referenceAngles [in/optional] a sequence of reference angles from a
-nearby pose, used to obtain continuity in angles between poses.
+@param ... [in] optional reference angles (a pointer to a vector of the same
+type as angles) from a nearby pose, used to obtain continuity in angles
+between poses
 */
 #define ksl_mat3x3f_getEulerAngles(r, angles, axisType, ...)                   \
   {                                                                            \
@@ -356,8 +412,9 @@ the last argument.
 @param r [in] direction cosine matrix
 @param axisType [in] an enum specifying angle sequence
 @param angles [out] sequence of euler angles
-@param referenceAngles [in/optional] a sequence of reference angles from a
-nearby pose, used to obtain continuity in angles between poses.
+@param ... [in] optional reference angles (a pointer to a vector of the same
+type as angles) from a nearby pose, used to obtain continuity in angles
+between poses
 */
 void ksl_mat3x3f_getEulerAnglesWithReference(const ksl_mat3x3f_t* r,
                                              const ksl_axis_enum_t axisType,
@@ -464,19 +521,17 @@ static inline void ksl_mat3x3_setFromAxisDC(ksl_mat3x3_t* r,
 
 /*!
 @brief Compute the determinant of a 3x3 double precision matrix
-@param ri [in] input 3x3 matrix
-@param determinant
+@param r_i [in] input 3x3 matrix
+@return the determinant of r_i
 */
 static inline double ksl_mat3x3_determinant(const ksl_mat3x3_t* r_i);
 
 /*!
 @brief Compute the determinant of a 3x3 single precision matrix
-@param ri [in] input 3x3 matrix
-@param determinant
+@param R [in] input 3x3 matrix
+@return the determinant of R
 */
-static inline float ksl_mat3x3f_determinant(const ksl_mat3x3f_t*);
-
-void ksl_mat3x3_pca(ksl_mat3x3_t* A, ksl_mat3x3_t* v);
+static inline float ksl_mat3x3f_determinant(const ksl_mat3x3f_t* R);
 
 #ifdef __cplusplus
 }

@@ -29,6 +29,10 @@ SUCH DAMAGE.
 extern "C" {
 #endif
 
+/*!
+@brief Order of the three rotation axes in an Euler angle sequence. The
+comment after each value gives the axis indices (0 = x, 1 = y, 2 = z).
+*/
 typedef enum {
   KSL_AXIS_XYZ = 0, // 012
   KSL_AXIS_YZX,     // 120
@@ -47,6 +51,14 @@ typedef enum {
 
 ksl_vec3i_t ksl_axis_getVector(ksl_axis_enum_t axisType);
 
+/*!
+@brief Look up the Euler angle sequence for a triple of axis indices.
+
+@param angles [in] the axes of the three rotations, 0 = x, 1 = y, 2 = z; for
+example {2, 1, 0} for z-y-x
+@return the matching ksl_axis_enum_t value, or KSL_AXIS_INVALID if the triple is
+not one of the 12 valid sequences
+*/
 ksl_axis_enum_t ksl_axis_getEulerAngles(ksl_vec3i_t angles);
 
 #ifdef __cplusplus

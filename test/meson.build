@@ -19,6 +19,7 @@ tests = {
   'check_util': 'check_array.c',
   'check_vector': 'check_vector.c',
   'check_print': 'check_print.c',
+  'check_conventions': 'check_conventions.c',
 }
 
 foreach name, src : tests

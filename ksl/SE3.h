@@ -201,54 +201,75 @@ static inline void ksl_SE3f_set(ksl_SE3f_t* D, const int row, const int column,
                                 const float value);
 
 /*!
-@brief TODO document this function
+@brief Return the entry of the 3x4 matrix [R t] of an SE3 transformation at
+(row, column).
+
+@param D [in] SE3 transformation
+@param row [in] row index, 0 to 2
+@param column [in] column index, 0 to 3; column 3 is the translation
+@return the requested entry
 */
 static inline double ksl_SE3_get(const ksl_SE3_t* D, const int row,
                                  const int column);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_SE3_get().
 */
 static inline float ksl_SE3f_get(const ksl_SE3f_t* D, const int row,
                                  const int column);
 
 /*!
-@brief TODO document this function
+@brief Copy the translation part of an SE3 transformation.
+
+@param D [in] SE3 transformation
+@param t [out] translation of D
 */
 static inline void ksl_SE3_getTranslation(const ksl_SE3_t* D, ksl_vec3_t* t);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_SE3_getTranslation().
 */
 static inline void ksl_SE3f_getTranslation(const ksl_SE3f_t* D, ksl_vec3f_t* t);
 
 /*!
-@brief TODO document this function
+@brief Invert an SE3 transformation in place: D = D^-1.
+
+For D = (R, t) the inverse is (R^T, -R^T t).
+
+@param D [in,out] SE3 transformation, replaced by its inverse
 */
 static inline void ksl_SE3_invert(ksl_SE3_t* D);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_SE3_invert().
 */
 static inline void ksl_SE3f_invert(ksl_SE3f_t* D);
 
 /*!
-@brief TODO document this function
+@brief Compute the inverse of an SE3 transformation: Do = Di^-1.
+
+For Di = (R, t) the inverse is (R^T, -R^T t). Di and Do must not overlap.
+
+@param Di [in] SE3 transformation
+@param Do [out] inverse of Di
 */
 static inline void ksl_SE3_inverted(const ksl_SE3_t* Di, ksl_SE3_t* Do);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_SE3_inverted().
 */
 static inline void ksl_SE3f_inverted(const ksl_SE3f_t* Di, ksl_SE3f_t* Do);
 
 /*!
-@brief TODO document this function
+@brief Copy an SE3 transformation: Do = Di.
+
+@param Di [in] transformation to copy
+@param Do [out] copy of Di
 */
 static inline void ksl_SE3_copy(const ksl_SE3_t* Di, ksl_SE3_t* Do);
 
 /*!
-@brief TODO document this function
+@brief Single precision version of ksl_SE3_copy().
 */
 static inline void ksl_SE3f_copy(const ksl_SE3f_t* Di, ksl_SE3f_t* Do);
 

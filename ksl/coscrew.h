@@ -144,12 +144,34 @@ static inline void ksl_coscrew_invert(ksl_coscrew_t* self);
 */
 static inline void ksl_coscrewf_invert(ksl_coscrewf_t* self);
 
+/*!
+@brief Return the magnitude of a coscrew.
+
+@param v [in] coscrew
+@return the length of the linear (force) part, or of the angular (moment) part
+if the force is zero (below 1e-9)
+*/
 static inline double ksl_coscrew_norm(const ksl_coscrew_t* v);
 
+/*!
+@brief Single precision version of ksl_coscrew_norm().
+*/
 static inline float ksl_coscrewf_norm(const ksl_coscrewf_t* v);
 
+/*!
+@brief Normalize a coscrew in place.
+
+Divides the coscrew by the length of its linear (force) part. If the force is
+zero (below 1e-9), the coscrew is a pure moment and its angular part is
+normalized instead.
+
+@param v [in,out] coscrew
+*/
 static inline void ksl_coscrew_normalize(ksl_coscrew_t* v);
 
+/*!
+@brief Single precision version of ksl_coscrew_normalize().
+*/
 static inline void ksl_coscrewf_normalize(ksl_coscrewf_t* v);
 
 /*!
@@ -187,8 +209,8 @@ variant of axpy where the scalar term a is 1.
 \f$ \mathbf{\underline{c}}_{x}^* + \mathbf{\underline{c}}_y^* \rightarrow
 \mathbf{\underline{c}}_y^*\f$
 
-@param c [in/out]
-@param ci [in] coscrew to add
+@param x [in] coscrew to add
+@param y [in,out] coscrew that x is added to
 */
 static inline void ksl_xpy_cc(const ksl_coscrew_t* x, ksl_coscrew_t* y);
 
@@ -199,8 +221,8 @@ variant of axpy where there the scalar term is 1.
 \f$ \mathbf{\underline{c}}_{x}^* + \mathbf{\underline{c}}_y^* \rightarrow
 \mathbf{\underline{c}}_y^*\f$
 
-@param co [in/out] sum of c1i and co
-@param c1i [in] first coscrew to add
+@param x [in] coscrew to add
+@param y [in,out] coscrew that x is added to
 */
 static inline void ksl_xpy_ccf(const ksl_coscrewf_t* x, ksl_coscrewf_t* y);
 
@@ -211,8 +233,8 @@ is a variant of axpy where the scalar term is -1.
 \f$ -\mathbf{\underline{c}}_{x}^* + \mathbf{\underline{c}}_y^* \rightarrow
 \mathbf{\underline{c}}_y^*\f$
 
-@param self [in/out]
-@param ci [in] first coscrew to subtract
+@param x [in] coscrew to subtract
+@param y [in,out] coscrew that x is subtracted from
 */
 static inline void ksl_nxpy_cc(const ksl_coscrew_t* x, ksl_coscrew_t* y);
 
@@ -223,8 +245,8 @@ This is a variant of axpy where the scalar term is -1.
 \f$ -\mathbf{\underline{c}}_{x}^* + \mathbf{\underline{c}}_y^* \rightarrow
 \mathbf{\underline{c}}_y^*\f$
 
-@param self [in/out]
-@param ci [in] first coscrew to subtract
+@param x [in] coscrew to subtract
+@param y [in,out] coscrew that x is subtracted from
 */
 static inline void ksl_nxpy_ccf(const ksl_coscrewf_t* x, ksl_coscrewf_t* y);
 
@@ -233,7 +255,9 @@ static inline void ksl_nxpy_ccf(const ksl_coscrewf_t* x, ksl_coscrewf_t* y);
 
 \f$ \mathbf{\underline{c}}_i^* * a \rightarrow \mathbf{\underline{c}}_o^*\f$
 
-@param co [in/out] coscrew to scale
+@param a [in] scale factor
+@param ci [in] coscrew to scale
+@param co [out] scaled coscrew
 */
 static inline void ksl_product_ac(const double a, const ksl_coscrew_t* ci,
                                   ksl_coscrew_t* co);
@@ -243,7 +267,9 @@ static inline void ksl_product_ac(const double a, const ksl_coscrew_t* ci,
 
 \f$ \mathbf{\underline{c}}_i^* * a \rightarrow \mathbf{\underline{c}}_o^*\f$
 
-@param co [in/out] coscrew to scale
+@param a [in] scale factor
+@param ci [in] coscrew to scale
+@param co [out] scaled coscrew
 */
 static inline void ksl_product_acf(const float a, const ksl_coscrewf_t* ci,
                                    ksl_coscrewf_t* co);
@@ -255,7 +281,7 @@ static inline void ksl_product_acf(const float a, const ksl_coscrewf_t* ci,
 \mathbf{\underline{c}}_o^*\f$
 
 @param c1i [in] first coscrew to add
-@param c1i [in] second coscrew to add
+@param c2i [in] second coscrew to add
 @param co [out] sum of c1i and c2i
 */
 static inline void ksl_add_cc(const ksl_coscrew_t* c1i,
@@ -301,69 +327,233 @@ static inline void ksl_subtract_ccf(const ksl_coscrewf_t* c1i,
                                     const ksl_coscrewf_t* c2i,
                                     ksl_coscrewf_t* co);
 
+/*!
+@brief Add the linear part of a coscrew to a coscrew: co = ci1 + {ci2.lin, 0}.
+
+@param ci1 [in] coscrew
+@param ci2 [in] coscrew whose linear part is added; its angular part is ignored
+@param co [out] sum
+*/
 static inline void ksl_add_cct(const ksl_coscrew_t* ci1,
                                const ksl_coscrew_t* ci2, ksl_coscrew_t* co);
 
+/*!
+@brief Single precision version of ksl_add_cct().
+*/
 static inline void ksl_add_cctf(const ksl_coscrewf_t* ci1,
                                 const ksl_coscrewf_t* ci2, ksl_coscrewf_t* co);
 
+/*!
+@brief Compute the unit force coscrew along the x axis of a frame: co = CoAd(Di)
+* {ex, 0}.
+
+This is the constraint force direction of a joint that resists translation along
+the axis.
+
+@param Di [in] pose of the frame
+@param co [out] {rx, t x rx}, where rx is the x column of the rotation
+*/
 static inline void ksl_hctx(const ksl_SE3_t* Di, ksl_coscrew_t* co);
 
+/*!
+@brief Single precision version of ksl_hctx().
+*/
 static inline void ksl_hctxf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
 
+/*!
+@brief Compute the unit force coscrew along the y axis of a frame: co = CoAd(Di)
+* {ey, 0}.
+
+This is the constraint force direction of a joint that resists translation along
+the axis.
+
+@param Di [in] pose of the frame
+@param co [out] {ry, t x ry}, where ry is the y column of the rotation
+*/
 static inline void ksl_hcty(const ksl_SE3_t* Di, ksl_coscrew_t* co);
 
+/*!
+@brief Single precision version of ksl_hcty().
+*/
 static inline void ksl_hctyf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
 
-static inline void ksl_hctz(const ksl_SE3_t* ri, ksl_coscrew_t* co);
+/*!
+@brief Compute the unit force coscrew along the z axis of a frame: co = CoAd(Di)
+* {ez, 0}.
 
-static inline void ksl_hctzf(const ksl_SE3f_t* ri, ksl_coscrewf_t* co);
+This is the constraint force direction of a joint that resists translation along
+the axis.
 
+@param Di [in] pose of the frame
+@param co [out] {rz, t x rz}, where rz is the z column of the rotation
+*/
+static inline void ksl_hctz(const ksl_SE3_t* Di, ksl_coscrew_t* co);
+
+/*!
+@brief Single precision version of ksl_hctz().
+*/
+static inline void ksl_hctzf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
+
+/*!
+@brief Compute the unit moment coscrew about the x axis of a frame: co =
+CoAd(Di) * {0, ex}.
+
+@param Di [in] pose of the frame
+@param co [out] {0, rx}, where rx is the x column of the rotation
+*/
 static inline void ksl_hcrx(const ksl_SE3_t* Di, ksl_coscrew_t* co);
 
+/*!
+@brief Single precision version of ksl_hcrx().
+*/
 static inline void ksl_hcrxf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
 
+/*!
+@brief Compute the unit moment coscrew about the y axis of a frame: co =
+CoAd(Di) * {0, ey}.
+
+@param Di [in] pose of the frame
+@param co [out] {0, ry}, where ry is the y column of the rotation
+*/
 static inline void ksl_hcry(const ksl_SE3_t* Di, ksl_coscrew_t* co);
 
+/*!
+@brief Single precision version of ksl_hcry().
+*/
 static inline void ksl_hcryf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
 
+/*!
+@brief Compute the unit moment coscrew about the z axis of a frame: co =
+CoAd(Di) * {0, ez}.
+
+@param Di [in] pose of the frame
+@param co [out] {0, rz}, where rz is the z column of the rotation
+*/
 static inline void ksl_hcrz(const ksl_SE3_t* Di, ksl_coscrew_t* co);
 
+/*!
+@brief Single precision version of ksl_hcrz().
+*/
 static inline void ksl_hcrzf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
 
+/*!
+@brief Compute the unit force coscrew along the negative x axis of a frame: co =
+CoAd(Di) * {-ex, 0}.
+
+@param Di [in] pose of the frame
+@param co [out] {-rx, -t x rx}, where rx is the x column of the rotation
+*/
 static inline void ksl_hctxinv(const ksl_SE3_t* Di, ksl_coscrew_t* co);
 
+/*!
+@brief Single precision version of ksl_hctxinv().
+*/
 static inline void ksl_hctxinvf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
 
+/*!
+@brief Compute the unit force coscrew along the negative y axis of a frame: co =
+CoAd(Di) * {-ey, 0}.
+
+@param Di [in] pose of the frame
+@param co [out] {-ry, -t x ry}, where ry is the y column of the rotation
+*/
 static inline void ksl_hctyinv(const ksl_SE3_t* Di, ksl_coscrew_t* co);
 
+/*!
+@brief Single precision version of ksl_hctyinv().
+*/
 static inline void ksl_hctyinvf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
 
+/*!
+@brief Compute the unit force coscrew along the negative z axis of a frame: co =
+CoAd(Di) * {-ez, 0}.
+
+@param Di [in] pose of the frame
+@param co [out] {-rz, -t x rz}, where rz is the z column of the rotation
+*/
 static inline void ksl_hctzinv(const ksl_SE3_t* Di, ksl_coscrew_t* co);
 
+/*!
+@brief Single precision version of ksl_hctzinv().
+*/
 static inline void ksl_hctzinvf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
 
+/*!
+@brief Compute the unit moment coscrew about the negative x axis of a frame: co
+= CoAd(Di) * {0, -ex}.
+
+@param Di [in] pose of the frame
+@param co [out] {0, -rx}, where rx is the x column of the rotation
+*/
 static inline void ksl_hcrxinv(const ksl_SE3_t* Di, ksl_coscrew_t* co);
 
+/*!
+@brief Single precision version of ksl_hcrxinv().
+*/
 static inline void ksl_hcrxinvf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
 
+/*!
+@brief Compute the unit moment coscrew about the negative y axis of a frame: co
+= CoAd(Di) * {0, -ey}.
+
+@param Di [in] pose of the frame
+@param co [out] {0, -ry}, where ry is the y column of the rotation
+*/
 static inline void ksl_hcryinv(const ksl_SE3_t* Di, ksl_coscrew_t* co);
 
+/*!
+@brief Single precision version of ksl_hcryinv().
+*/
 static inline void ksl_hcryinvf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
 
+/*!
+@brief Compute the unit moment coscrew about the negative z axis of a frame: co
+= CoAd(Di) * {0, -ez}.
+
+@param Di [in] pose of the frame
+@param co [out] {0, -rz}, where rz is the z column of the rotation
+*/
 static inline void ksl_hcrzinv(const ksl_SE3_t* Di, ksl_coscrew_t* co);
 
+/*!
+@brief Single precision version of ksl_hcrzinv().
+*/
 static inline void ksl_hcrzinvf(const ksl_SE3f_t* Di, ksl_coscrewf_t* co);
 
+/*!
+@brief Cross product of a screw and a coscrew: co = si x* ci = {w x f, w x n + v
+x f}.
+
+This is the dual (force) cross product used to compute the rate of change of a
+coscrew, such as momentum, in a moving frame.
+
+@param s1i [in] screw {v, w}
+@param c2i [in] coscrew {f, n}
+@param co [out] cross product
+*/
 static inline void ksl_cross_sc(const ksl_screw_t* s1i,
                                 const ksl_coscrew_t* c2i, ksl_coscrew_t* co);
 
+/*!
+@brief Single precision version of ksl_cross_sc().
+*/
 static inline void ksl_cross_scf(const ksl_screwf_t* s1i,
                                  const ksl_coscrewf_t* c2i, ksl_coscrewf_t* co);
 
+/*!
+@brief Cross product of a screw with the angular part of a coscrew: co = {0,
+s1i.ang x c2i.ang}.
+
+@param s1i [in] screw
+@param c2i [in] coscrew whose angular part is used; its linear part is ignored
+@param co [out] cross product
+*/
 static inline void ksl_cross_sca(const ksl_screw_t* s1i,
                                  const ksl_coscrew_t* c2i, ksl_coscrew_t* co);
 
+/*!
+@brief Single precision version of ksl_cross_sca().
+*/
 static inline void ksl_cross_scaf(const ksl_screwf_t* s1i,
                                   const ksl_coscrewf_t* c2i,
                                   ksl_coscrewf_t* co);
@@ -548,7 +738,7 @@ consists of a rotation and translation component.
 \f$\ \begin{bmatrix} R_i & 0\\ \tilde{\underline{t}}_i R_i & R_i \end{bmatrix}
 \mathbf{\underline{c}}_{i}^* \rightarrow \mathbf{\underline{c}}_o^*\f$
 
-@param Ri [in] input rotation matrix
+@param Di [in] SE3 transformation
 @param ci [in] input coscrew
 @param co [out] output coscrew
 */
@@ -640,26 +830,61 @@ static inline void ksl_product_CoAdrcf(const ksl_mat3x3f_t* ri,
                                        const ksl_coscrewf_t* ci,
                                        ksl_coscrewf_t* co);
 
+/*!
+@brief Rotate a negated coscrew: co = CoAd(ri) * (-ci) = {-ri * ci.lin, -ri *
+ci.ang}.
+
+@param ri [in] rotation matrix
+@param ci [in] coscrew
+@param co [out] rotated, negated coscrew
+*/
 static inline void ksl_product_CoAdrcinv(const ksl_mat3x3_t* ri,
                                          const ksl_coscrew_t* ci,
                                          ksl_coscrew_t* co);
 
+/*!
+@brief Single precision version of ksl_product_CoAdrcinv().
+*/
 static inline void ksl_product_CoAdrcinvf(const ksl_mat3x3f_t* ri,
                                           const ksl_coscrewf_t* ci,
                                           ksl_coscrewf_t* co);
 
+/*!
+@brief Transform a coscrew by the coadjoint of an inverse translation: co =
+CoAd(T(ti)^-1) * ci.
+
+Moves the reference point of a force from the origin to ti.
+
+@param ti [in] translation
+@param ci [in] coscrew
+@param co [out] {ci.lin, ci.ang - ti x ci.lin}
+*/
 static inline void ksl_product_CoAdtinvc(const ksl_vec3_t* ti,
                                          const ksl_coscrew_t* ci,
                                          ksl_coscrew_t* co);
 
+/*!
+@brief Single precision version of ksl_product_CoAdtinvc().
+*/
 static inline void ksl_product_CoAdtinvcf(const ksl_vec3f_t* ti,
                                           const ksl_coscrewf_t* ci,
                                           ksl_coscrewf_t* co);
 
+/*!
+@brief Transform a negated coscrew by the coadjoint of an SE3 transformation: co
+= CoAd(Di) * (-ci).
+
+@param Di [in] SE3 transformation
+@param ci [in] coscrew
+@param co [out] transformed, negated coscrew
+*/
 static inline void ksl_product_CoAdcinv(const ksl_SE3_t* Di,
                                         const ksl_coscrew_t* ci,
                                         ksl_coscrew_t* co);
 
+/*!
+@brief Single precision version of ksl_product_CoAdcinv().
+*/
 static inline void ksl_product_CoAdcinvf(const ksl_SE3f_t* Di,
                                          const ksl_coscrewf_t* ci,
                                          ksl_coscrewf_t* co);

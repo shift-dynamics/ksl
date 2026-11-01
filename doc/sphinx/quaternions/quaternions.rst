@@ -32,9 +32,6 @@ Double precision
 .. doxygenfunction:: ksl_quaternion_slerp
 
 
-.. doxygenfunction:: ksl_quaternion_squad
-
-
 .. doxygenfunction:: ksl_quaternion_nlerp
 
 
@@ -143,12 +140,6 @@ Double precision
 .. doxygenfunction:: ksl_product_vqconj
 
 
-.. doxygenfunction:: ksl_product_uqinverseq
-
-
-
-
-
 Single precision
 ----------------
 
@@ -174,9 +165,6 @@ Single precision
 
 
 .. doxygenfunction:: ksl_quaternionf_slerp
-
-
-.. doxygenfunction:: ksl_squadf
 
 
 .. doxygenfunction:: ksl_quaternionf_nlerp

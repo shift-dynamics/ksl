@@ -66,8 +66,20 @@ datastructure from a ksl_SE3_t datastructure.
 */
 static inline ksl_mat4x4_t ksl_mat4x4_fromSE3(const ksl_SE3_t D);
 
+/*!
+@brief Convert a 4x4 homogeneous transformation matrix to an SE3 transformation.
+
+Copies the rotation and translation (the top three rows); the bottom row of M is
+ignored.
+
+@param M [in] 4x4 homogeneous transformation matrix
+@param D [out] the same transformation as an SE3
+*/
 static inline void ksl_mat4x4_toSE3(const ksl_mat4x4_t* M, ksl_SE3_t* D);
 
+/*!
+@brief Single precision version of ksl_mat4x4_toSE3().
+*/
 static inline void ksl_mat4x4f_toSE3f(const ksl_mat4x4f_t* M, ksl_SE3f_t* D);
 /*!
 @brief alternative ksl_mat4x4_t constructor that allows creating a ksl_mat4x4_t
@@ -147,7 +159,7 @@ column index.
 Bounds checking are performed in debug mode. Bounds checking can be disabled by
 compiling in release mode using the compiler flag -DNDEBUG.
 
-@param M [in/out]
+@param D [in,out] matrix to modify
 @param row [in] row index, \f$0 \le row \lt 4\f$
 @param column [in] column index, \f$0 \le column \lt 4\f$
 @param value [in] value to set

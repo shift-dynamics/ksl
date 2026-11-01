@@ -43,6 +43,9 @@ extern "C" {
 
 static inline ksl_quaternion_t ksl_quaternion(double, double, double, double);
 
+/*!
+@brief Single precision version of ksl_quaternion().
+*/
 static inline ksl_quaternionf_t ksl_quaternionf(float, float, float, float);
 
 ksl_quaternion_t* ksl_quaternion_alloc(int);
@@ -82,11 +85,6 @@ static inline void ksl_quaternion_slerp(const ksl_quaternion_t* q1i,
 static inline void ksl_quaternionf_slerp(const ksl_quaternionf_t* q1i,
                                          const ksl_quaternionf_t* q2i, float* t,
                                          ksl_quaternionf_t* qo);
-
-void ksl_quaternion_squad(const ksl_quaternion_t qi[4], double* t,
-                          ksl_quaternion_t* qo);
-
-void ksl_squadf(const ksl_quaternionf_t qi[4], float* t, ksl_quaternionf_t* qo);
 
 static inline void ksl_quaternion_nlerp(const ksl_quaternion_t* q1i,
                                         const ksl_quaternion_t* q2i,
@@ -594,9 +592,6 @@ static inline void ksl_product_vqconjf(const ksl_vec3f_t* vi,
                                        const ksl_quaternionf_t* qi,
                                        ksl_quaternionf_t* qo);
 
-void ksl_product_uqinverseq(ksl_quaternion_t* q1i, ksl_quaternion_t* q2i,
-                            ksl_quaternion_t* qo);
-
 #ifdef __cplusplus
 }
 #endif
@@ -691,7 +686,9 @@ quaternions
 
 Return the dot product between two quaternions.
 
-@param qi and q2i quaternions to form dot product.
+@param q1i [in] first quaternion
+@param q2i [in] second quaternion
+@return the dot product of q1i and q2i
 */
 static inline double ksl_dot_qq(const ksl_quaternion_t* KSL_RESTRICT q1i,
                                 const ksl_quaternion_t* KSL_RESTRICT q2i) {
@@ -704,7 +701,9 @@ quaternions
 
 Return the dot product between two quaternions.
 
-@param q1i and q2i quaternions to form dot product.
+@param q1i [in] first quaternion
+@param q2i [in] second quaternion
+@return the dot product of q1i and q2i
 */
 static inline float ksl_dot_qqf(const ksl_quaternionf_t* KSL_RESTRICT q1i,
                                 const ksl_quaternionf_t* KSL_RESTRICT q2i) {
@@ -746,9 +745,11 @@ ksl_quaternionf_normalize(ksl_quaternionf_t* KSL_RESTRICT qi) {
 @brief Multiply double precision quaternion x by double precison scalar a and
 add to double precision quaternion y.
 
-Scale quaternion x by a and add to quaternion y
+Scale quaternion x by a and add to quaternion y: y += a * x.
 
-@param y += a*x
+@param a [in] scale factor
+@param x [in] quaternion to scale and add
+@param y [in,out] quaternion that a * x is added to
 */
 static inline void ksl_axpy_qq(const double a,
                                const ksl_quaternion_t* KSL_RESTRICT x,
@@ -762,9 +763,11 @@ static inline void ksl_axpy_qq(const double a,
 @brief Multiply float quaternion x by float scalar a and
 add to float quaternion y.
 
-Scale quaternion x by a and add to quaternion y
+Scale quaternion x by a and add to quaternion y: y += a * x.
 
-@param y += a*x
+@param a [in] scale factor
+@param x [in] quaternion to scale and add
+@param y [in,out] quaternion that a * x is added to
 */
 static inline void ksl_axpy_qqf(const float a,
                                 const ksl_quaternionf_t* KSL_RESTRICT x,
@@ -1048,7 +1051,7 @@ ksl_quaternionf_nlerp(const ksl_quaternionf_t* KSL_RESTRICT q1i,
 /*!
 @brief utility to convert dpi, an array of length 3, to deltaq (an incremental
 change in quaternion), add incremental change to an input quaternion
-q^{ij} += 1/2 * L_c(q^{ij}) d\underline{\pi}_{ij}^j)
+q_ij += 1/2 * Lc(q_ij) * dpi_ij
 
        | qw -qz  qy : qx|                    | qw  qz -qy : qx|
 L(q) = | qz  qw -qx : qy| = |Lc(q):q| R(q) = |-qz  qw  qx : qy| = |Rc(q):q|
@@ -1494,7 +1497,8 @@ R(q) = |-qz  qw  qx  qy|
        | qy -qx  qw  qz|
        |-qx -qy -qz  qw|
 
-@param dci[2] a quaternion in the form [w,x,0,0]
+@param dci [in] {sin, cos} pair (for a rotation by theta about x, the sine
+and cosine of theta / 2), representing the quaternion [sin, 0, 0, cos]
 @param qi a quaternion in the form [x,y,z,w]
 @param qo the returned quaternion in the form [x,y,z,w]
 */
@@ -1523,9 +1527,10 @@ L(dci) = |   0     dci[1] -dci[0]    0   |
          |   0     dci[0]  dci[1]    0   |
          |-dci[0]    0       0     dci[1]|
 
- @param dci[2] a quaternion in the form [w,x,0,0]
- @param qi a quaternion in the form [x,y,z,w]
- @param qo the returned quaternion in the form [x,y,z,w]
+@param dci [in] {sin, cos} pair (for a rotation by theta about x, the sine
+and cosine of theta / 2), representing the quaternion [sin, 0, 0, cos]
+@param qi a quaternion in the form [x,y,z,w]
+@param qo the returned quaternion in the form [x,y,z,w]
 */
 static inline void ksl_product_qxqf(const float dci[2],
                                     const ksl_quaternionf_t* KSL_RESTRICT qi,

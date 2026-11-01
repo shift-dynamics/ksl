@@ -36,8 +36,8 @@ extern "C" {
 /*!
 @brief Allocates memory for a two dimensional double array
 
-@param int rows in two dimensional array to allocate
-@param int columns in two dimensional array to allocate
+@param rows [in] number of rows to allocate
+@param columns [in] number of columns to allocate
 @return two dimensional double array
 */
 double** ksl_array2D_alloc(int rows, int columns);
@@ -51,8 +51,8 @@ void ksl_array2D_free(double** x);
 /*!
 @brief Allocates memory for a two dimensional single precision array
 
-@param int rows in two dimensional array to allocate
-@param int columns in two dimensional array to allocate
+@param rows [in] number of rows to allocate
+@param columns [in] number of columns to allocate
 @return two dimensional double array
 */
 float** ksl_array2Df_alloc(int rows, int columns);
@@ -66,8 +66,8 @@ void ksl_array2Df_free(float** x);
 /*!
 @brief Allocates memory for a two dimensional integer array
 
-@param int rows in two dimensional array to allocate
-@param int columns in two dimensional array to allocate
+@param rows [in] number of rows to allocate
+@param columns [in] number of columns to allocate
 @return two dimensional integer array
 */
 int** ksl_array2Di_alloc(int rows, int columns);
@@ -81,8 +81,8 @@ void ksl_array2Di_free(int** x);
 /*!
 @brief Allocates memory for a two dimensional integer array
 
-@param int rows in two dimensional array to allocate
-@param int columns in two dimensional array to allocate
+@param rows [in] number of rows to allocate
+@param columns [in] number of columns to allocate
 @return two dimensional integer array
 */
 unsigned int** ksl_array2Dui_alloc(int rows, int columns);
@@ -96,8 +96,8 @@ void ksl_array2Dui_free(unsigned int** x);
 /*!
 @brief Allocates memory for a two dimensional char array
 
-@param int rows in two dimensional array to allocate
-@param int columns in two dimensional array to allocate
+@param rows [in] number of rows to allocate
+@param columns [in] number of columns to allocate
 @return two dimensional char array
 */
 char** ksl_array2Dc_alloc(int rows, int columns);
@@ -111,8 +111,8 @@ void ksl_array2Dc_free(char** x);
 /*!
 @brief Allocates memory for a two dimensional array of booleans
 
-@param int rows in two dimensional array to allocate
-@param int columns in two dimensional array to allocate
+@param rows [in] number of rows to allocate
+@param columns [in] number of columns to allocate
 @return two dimensional char array
 */
 bool** ksl_array2Db_alloc(int rows, int columns);

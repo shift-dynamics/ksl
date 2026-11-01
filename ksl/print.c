@@ -9,7 +9,6 @@
 #include <string.h>
 
 /*!
-@}
 @name Functions to set print options
 @{
 */
@@ -21,10 +20,10 @@ static ksl_print_options_t __ksl_print_options = {
 
 /*!
 @brief used to set delimiter used in display of matrices, vectors, etc.
-@param delimiter [in] a
-@param options [in] a pointer to a ksl_print_options_t struct containing print
-options. If the pointer is NULL, the options are set in the global print
-options. This second argument is required in this function.
+@param delimiter [in] string printed between elements
+@param ... [in] optional pointer to a ksl_print_options_t struct containing
+print options. If it is NULL or not present, the option is set in the global
+print options.
 */
 void ksl_print_setDelimiterOption(const char* delimiter, ...) {
   va_list arguments;
@@ -40,9 +39,9 @@ void ksl_print_setDelimiterOption(const char* delimiter, ...) {
 /*!
 @brief used to set format for display of float and double values
 @param fmt [in]
-@param options [in] a pointer to a ksl_print_options_t struct containing print
-options. If the pointer is NULL, the options are set in the global print
-options. This second argument is required in this function.
+@param ... [in] optional pointer to a ksl_print_options_t struct containing
+print options. If it is NULL or not present, the option is set in the global
+print options.
 */
 void ksl_print_setRealFormatOption(const char* fmt, ...) {
   va_list arguments;
@@ -59,9 +58,9 @@ void ksl_print_setRealFormatOption(const char* fmt, ...) {
 @brief used to set inner brackets in dispay of matrices
 @param left [in] left bracket
 @param right [in] right bracket
-@param options [in] a pointer to a ksl_print_options_t struct containing print
-options. If the pointer is NULL, the options are set in the global print
-options. This second argument is required in this function.
+@param ... [in] optional pointer to a ksl_print_options_t struct containing
+print options. If it is NULL or not present, the option is set in the global
+print options.
 */
 void ksl_print_setInnerBracketsOption(const char* left, const char* right,
                                       ...) {
@@ -80,9 +79,9 @@ void ksl_print_setInnerBracketsOption(const char* left, const char* right,
 @brief used to set outer brackets in dispay of matrices
 @param left [in] left bracket
 @param right [in] right bracket
-@param options [in] a pointer to a ksl_print_options_t struct containing print
-options. If the pointer is NULL, the options are set in the global print
-options. This second argument is required in this function.
+@param ... [in] optional pointer to a ksl_print_options_t struct containing
+print options. If it is NULL or not present, the option is set in the global
+print options.
 */
 void ksl_print_setOuterBracketsOption(const char* left, const char* right,
                                       ...) {
@@ -99,11 +98,11 @@ void ksl_print_setOuterBracketsOption(const char* left, const char* right,
 
 /*!
 @brief used to set display of boolean values
-@param left [in] string to display true values
-@param right [in] string to display false values
-@param options [in] a pointer to a ksl_print_options_t struct containing print
-options. If the pointer is NULL, the options are set in the global print
-options. This second argument is required in this function.
+@param True [in] string to display true values
+@param False [in] string to display false values
+@param ... [in] optional pointer to a ksl_print_options_t struct containing
+print options. If it is NULL or not present, the option is set in the global
+print options.
 */
 void ksl_print_setBooleanOption(const char* True, const char* False, ...) {
   va_list arguments;
@@ -121,9 +120,9 @@ void ksl_print_setBooleanOption(const char* True, const char* False, ...) {
 @brief used to set "BreakBetweenLinesInMatrix" option for dispay of matrices
 @param val [in] valid inputs are KSL_BREAK_BETWEEN_LINES or
 KSL_NO_BREAK_BETWEEN_LINES
-@param options [in] a pointer to a ksl_print_options_t struct containing print
-options. If the pointer is NULL, the options are set in the global print
-options. This second argument is required in this function.
+@param ... [in] optional pointer to a ksl_print_options_t struct containing
+print options. If it is NULL or not present, the option is set in the global
+print options.
 */
 void ksl_print_setBreakBetweenLinesInMatrixOption(
   ksl_print_breakBetweenLines_enum_t val, ...) {
@@ -139,10 +138,11 @@ void ksl_print_setBreakBetweenLinesInMatrixOption(
 
 /*!
 @brief used to set "RowColumnMajorPrinting" option for dispay of matrices
-@param val [in] valid inputs are KSL_ROW_MAJOR or KSL_COLUMN_MAJOR
-@param options [in] a pointer to a ksl_print_options_t struct containing print
-options. If the pointer is NULL, the options are set in the global print
-options. This second argument is required in this function.
+@param print_row_column_major [in] valid inputs are KSL_ROW_MAJOR or
+KSL_COLUMN_MAJOR
+@param ... [in] optional pointer to a ksl_print_options_t struct containing
+print options. If it is NULL or not present, the option is set in the global
+print options.
 */
 void ksl_print_setRowColumnMajorPrintingOption(
   ksl_matrix_enum_t print_row_column_major, ...) {
@@ -208,11 +208,12 @@ ksl_vec3_print macros. In this function the label and options arguments are
 required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
 @param v [in] a pointer to a ksl_vec3_t datastructure
-@param label [in] pointer to a const char* label
-@param options [in] a pointer to a ksl_print_options_t struct containing print
-options. If the pointer is NULL, the options are set in the global
-print options. To pass an options struct with no label, call
-ksl_vec3_print(f, v, NULL, options); or ksl_vec3_print(f, v, "", options);
+@param ... [in] optional arguments, in order:
+- label: pointer to a const char* label
+- options: a pointer to a ksl_print_options_t struct containing print options.
+If the pointer is NULL, the options are set in the global print options. To pass
+an options struct with no label, call ksl_vec3_print(f, v, NULL, options); or
+ksl_vec3_print(f, v, "", options);
 */
 void ksl_vec3_printWithOptions(FILE* f, const ksl_vec3_t* restrict v, ...) {
 
@@ -253,11 +254,12 @@ ksl_vec3f_print macros. In this function the label and options arguments are
 required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
 @param v [in] a pointer to a ksl_vec3f_t datastructure
-@param label [in] pointer to a const char* label
-@param options [in] a pointer to a ksl_print_options_t struct containing print
-options. If the pointer is NULL, the options are set in the global
-print options. To pass an options struct with no label, call
-ksl_vec3f_print(f, v, NULL, options); or ksl_vec3f_print(f, v, "", options);
+@param ... [in] optional arguments, in order:
+- label: pointer to a const char* label
+- options: a pointer to a ksl_print_options_t struct containing print options.
+If the pointer is NULL, the options are set in the global print options. To pass
+an options struct with no label, call ksl_vec3f_print(f, v, NULL, options); or
+ksl_vec3f_print(f, v, "", options);
 */
 void ksl_vec3f_printWithOptions(FILE* f, const ksl_vec3f_t* restrict v, ...) {
 
@@ -298,11 +300,12 @@ ksl_vec3_print macros. In this function the label and options arguments are
 required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
 @param v [in] a pointer to a ksl_vec3_t datastructure
-@param label [in] pointer to a const char* label
-@param options [in] a pointer to a ksl_print_options_t struct containing print
-options. If the pointer is NULL, the options are set in the global
-print options. To pass an options struct with no label, call
-ksl_vec3_print(f, v, NULL, options); or ksl_vec3_print(f, v, "", options);
+@param ... [in] optional arguments, in order:
+- label: pointer to a const char* label
+- options: a pointer to a ksl_print_options_t struct containing print options.
+If the pointer is NULL, the options are set in the global print options. To pass
+an options struct with no label, call ksl_vec3_print(f, v, NULL, options); or
+ksl_vec3_print(f, v, "", options);
 */
 void ksl_vec4_printWithOptions(FILE* f, const ksl_vec4_t* restrict v, ...) {
 
@@ -335,11 +338,12 @@ ksl_vec3f_print macros. In this function the label and options arguments are
 required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
 @param v [in] a pointer to a ksl_vec3f_t datastructure
-@param label [in] pointer to a const char* label
-@param options [in] a pointer to a ksl_print_options_t struct containing print
-options. If the pointer is NULL, the options are set in the global
-print options. To pass an options struct with no label, call
-ksl_vec3f_print(f, v, NULL, options); or ksl_vec3f_print(f, v, "", options);
+@param ... [in] optional arguments, in order:
+- label: pointer to a const char* label
+- options: a pointer to a ksl_print_options_t struct containing print options.
+If the pointer is NULL, the options are set in the global print options. To pass
+an options struct with no label, call ksl_vec3f_print(f, v, NULL, options); or
+ksl_vec3f_print(f, v, "", options);
 */
 void ksl_vec4f_printWithOptions(FILE* f, const ksl_vec4f_t* restrict v, ...) {
 
@@ -380,12 +384,12 @@ ksl_eulerangles_debug and ksl_eulerangles_print macros. In this function the
 label and options arguments are required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
 @param v [in] a pointer to a ksl_eulerangles_t datastructure
-@param label [in] pointer to a const char* label
-@param options [in] a pointer to a ksl_print_options_t struct containing print
-options. If the pointer is NULL, the options are set in the global
-print options. To pass an options struct with no label, call
-ksl_eulerangles_print(f, v, NULL, options); or ksl_eulerangles_print(f, v, "",
-options);
+@param ... [in] optional arguments, in order:
+- label: pointer to a const char* label
+- options: a pointer to a ksl_print_options_t struct containing print options.
+If the pointer is NULL, the options are set in the global print options. To pass
+an options struct with no label, call ksl_eulerangles_print(f, v, NULL,
+options); or ksl_eulerangles_print(f, v, "", options);
 */
 void ksl_eulerangles_printWithOptions(FILE* f,
                                       const ksl_eulerangles_t* restrict v,
@@ -469,12 +473,12 @@ ksl_euleranglesf_debug and ksl_euleranglesf_print macros. In this function the
 label and options arguments are required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
 @param v [in] a pointer to a ksl_euleranglesf_t datastructure
-@param label [in] pointer to a const char* label
-@param options [in] a pointer to a ksl_print_options_t struct containing print
-options. If the pointer is NULL, the options are set in the global
-print options. To pass an options struct with no label, call
-ksl_euleranglesf_print(f, v, NULL, options); or ksl_euleranglesf_print(f, v, "",
-options);
+@param ... [in] optional arguments, in order:
+- label: pointer to a const char* label
+- options: a pointer to a ksl_print_options_t struct containing print options.
+If the pointer is NULL, the options are set in the global print options. To pass
+an options struct with no label, call ksl_euleranglesf_print(f, v, NULL,
+options); or ksl_euleranglesf_print(f, v, "", options);
 */
 void ksl_euleranglesf_printWithOptions(FILE* f,
                                        const ksl_euleranglesf_t* restrict v,
@@ -557,11 +561,12 @@ called by the helper macros ksl_mat3x3_debug and
 ksl_mat3x3_print macros. In this function the label and options arguments are
 required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
-@param v [in] a pointer to a ksl_mat3x3_t datastructure
-@param label [in] optional pointer to a const char* label
-@param options [in] an optional pointer to a ksl_print_options_t struct
-containing print options. If the pointer is NULL or not present, the options
-are set in the global print options.
+@param r [in] a pointer to a ksl_mat3x3_t datastructure
+@param ... [in] optional arguments, in order:
+- label: optional pointer to a const char* label
+- options: an optional pointer to a ksl_print_options_t struct containing print
+options. If the pointer is NULL or not present, the options are set in the
+global print options.
 */
 void ksl_mat3x3_printWithOptions(FILE* f, const ksl_mat3x3_t* restrict r, ...) {
   va_list arguments;
@@ -631,11 +636,12 @@ This function is intended to be called by the helper macros ksl_mat3x3f_debug
 and ksl_mat3x3f_print macros. In this function the label and options arguments
 are required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
-@param v [in] a pointer to a ksl_mat3x3f_t datastructure
-@param label [in] optional pointer to a const char* label
-@param options [in] an optional pointer to a ksl_print_options_t struct
-containing print options. If the pointer is NULL or not present, the options
-are set in the global print options.
+@param r [in] a pointer to a ksl_mat3x3f_t datastructure
+@param ... [in] optional arguments, in order:
+- label: optional pointer to a const char* label
+- options: an optional pointer to a ksl_print_options_t struct containing print
+options. If the pointer is NULL or not present, the options are set in the
+global print options.
 */
 void ksl_mat3x3f_printWithOptions(FILE* f, const ksl_mat3x3f_t* restrict r,
                                   ...) {
@@ -703,10 +709,11 @@ ksl_quaternion_print macros. In this function the label and options arguments
 are required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
 @param v [in] a pointer to a ksl_quaternion_t datastructure
-@param label [in] optional pointer to a const char* label
-@param options [in] an optional pointer to a ksl_print_options_t struct
-containing print options. If the pointer is NULL or not present, the options
-are set in the global print options.
+@param ... [in] optional arguments, in order:
+- label: optional pointer to a const char* label
+- options: an optional pointer to a ksl_print_options_t struct containing print
+options. If the pointer is NULL or not present, the options are set in the
+global print options.
 */
 void ksl_quaternion_printWithOptions(FILE* f,
                                      const ksl_quaternion_t* restrict v, ...) {
@@ -748,10 +755,10 @@ ksl_quaternionf_print macros. In this function the label and options arguments
 are required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
 @param v [in] a pointer to a ksl_quaternionf_t datastructure
-@param label [in] pointer to a const char* label
-@param options [in] a pointer to a ksl_print_options_t struct
-containing print options. If the pointer is NULL, the options
-are set in the global print options.
+@param ... [in] optional arguments, in order:
+- label: pointer to a const char* label
+- options: a pointer to a ksl_print_options_t struct containing print options.
+If the pointer is NULL, the options are set in the global print options.
 */
 void ksl_quaternionf_printWithOptions(FILE* f,
                                       const ksl_quaternionf_t* restrict v,
@@ -793,10 +800,10 @@ ksl_screw_print macros. In this function the label and options arguments are
 required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
 @param v [in] a pointer to a ksl_screw_t datastructure
-@param label [in] pointer to a const char* label
-@param options [in] a pointer to a ksl_print_options_t struct
-containing print options. If the pointer is NULL, the options
-are set in the global print options.
+@param ... [in] optional arguments, in order:
+- label: pointer to a const char* label
+- options: a pointer to a ksl_print_options_t struct containing print options.
+If the pointer is NULL, the options are set in the global print options.
 */
 void ksl_screw_printWithOptions(FILE* f, const ksl_screw_t* restrict v, ...) {
 
@@ -837,10 +844,10 @@ ksl_screwf_print macros. In this function the label and options arguments are
 required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
 @param v [in] a pointer to a ksl_screwf_t datastructure
-@param label [in] pointer to a const char* label
-@param options [in] a pointer to a ksl_print_options_t struct
-containing print options. If the pointer is NULL, the options
-are set in the global print options.
+@param ... [in] optional arguments, in order:
+- label: pointer to a const char* label
+- options: a pointer to a ksl_print_options_t struct containing print options.
+If the pointer is NULL, the options are set in the global print options.
 */
 void ksl_screwf_printWithOptions(FILE* f, const ksl_screwf_t* restrict v, ...) {
 
@@ -881,10 +888,10 @@ ksl_coscrewf_print macros. In this function the label and options arguments are
 required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
 @param v [in] a pointer to a ksl_coscrew_t datastructure
-@param label [in] pointer to a const char* label
-@param options [in] a pointer to a ksl_print_options_t struct
-containing print options. If the pointer is NULL, the options
-are set in the global print options.
+@param ... [in] optional arguments, in order:
+- label: pointer to a const char* label
+- options: a pointer to a ksl_print_options_t struct containing print options.
+If the pointer is NULL, the options are set in the global print options.
 */
 void ksl_coscrew_printWithOptions(FILE* f, const ksl_coscrew_t* restrict v,
                                   ...) {
@@ -926,10 +933,10 @@ ksl_coscrewf_print macros. In this function the label and options arguments are
 required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
 @param v [in] a pointer to a ksl_coscrew_t datastructure
-@param label [in] pointer to a const char* label
-@param options [in] a pointer to a ksl_print_options_t struct
-containing print options. If the pointer is NULL, the options
-are set in the global print options.
+@param ... [in] optional arguments, in order:
+- label: pointer to a const char* label
+- options: a pointer to a ksl_print_options_t struct containing print options.
+If the pointer is NULL, the options are set in the global print options.
 */
 void ksl_coscrewf_printWithOptions(FILE* f, const ksl_coscrewf_t* restrict v,
                                    ...) {
@@ -969,11 +976,11 @@ This function is intended to be called by the ksl_SE3_debug and
 ksl_SE3_print macros. In this function the label and options arguments are
 required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
-@param v [in] a pointer to a ksl_SE3_t datastructure
-@param label [in] pointer to a const char* label
-@param options [in] a pointer to a ksl_print_options_t struct
-containing print options. If the pointer is NULL, the options
-are set globally.
+@param m [in] a pointer to a ksl_SE3_t datastructure
+@param ... [in] optional arguments, in order:
+- label: pointer to a const char* label
+- options: a pointer to a ksl_print_options_t struct containing print options.
+If the pointer is NULL, the options are set globally.
 */
 void ksl_SE3_printWithOptions(FILE* f, const ksl_SE3_t* restrict m, ...) {
   va_list arguments;
@@ -1057,11 +1064,11 @@ This function is intended to be called by the ksl_SE3f_debug and
 ksl_SE3f_print macros. In this function the label and options arguments are
 required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
-@param v [in] a pointer to a ksl_SE3f_t datastructure
-@param label [in] pointer to a const char* label
-@param options [in] a pointer to a ksl_print_options_t struct
-containing print options. If the pointer is NULL, the options
-are set globally.
+@param m [in] a pointer to a ksl_SE3f_t datastructure
+@param ... [in] optional arguments, in order:
+- label: pointer to a const char* label
+- options: a pointer to a ksl_print_options_t struct containing print options.
+If the pointer is NULL, the options are set globally.
 */
 void ksl_SE3f_printWithOptions(FILE* f, const ksl_SE3f_t* restrict m, ...) {
   va_list arguments;
@@ -1145,11 +1152,11 @@ This function is intended to be called by the ksl_mat4x4_debug and
 ksl_mat4x4_print macros. In this function the label and options arguments are
 required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
-@param v [in] a pointer to a ksl_mat4x4_t datastructure
-@param label [in] pointer to a const char* label
-@param options [in] a pointer to a ksl_print_options_t struct
-containing print options. If the pointer is NULL, the options
-are set globally.
+@param r [in] a pointer to a ksl_mat4x4_t datastructure
+@param ... [in] optional arguments, in order:
+- label: pointer to a const char* label
+- options: a pointer to a ksl_print_options_t struct containing print options.
+If the pointer is NULL, the options are set globally.
 */
 void ksl_mat4x4_printWithOptions(FILE* f, const ksl_mat4x4_t* restrict r, ...) {
   va_list arguments;
@@ -1219,11 +1226,11 @@ This function is intended to be called by the ksl_mat4x4f_debug and
 ksl_mat4x4f_print macros. In this function the label and options arguments are
 required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
-@param v [in] a pointer to a ksl_mat4x4f_t datastructure
-@param label [in] pointer to a const char* label
-@param options [in] a pointer to a ksl_print_options_t struct
-containing print options. If the pointer is NULL, the options
-are set are set globally.
+@param r [in] a pointer to a ksl_mat4x4f_t datastructure
+@param ... [in] optional arguments, in order:
+- label: pointer to a const char* label
+- options: a pointer to a ksl_print_options_t struct containing print options.
+If the pointer is NULL, the options are set are set globally.
 */
 void ksl_mat4x4f_printWithOptions(FILE* f, const ksl_mat4x4f_t* restrict r,
                                   ...) {
@@ -1296,10 +1303,10 @@ required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
 @param n [in] number of values to print
 @param a [in] a double precision poiinter
-@param label [in] pointer to a const char* label
-@param options [in] a pointer to a ksl_print_options_t struct
-containing print options. If the pointer is NULL, the options
-are set globally.
+@param ... [in] optional arguments, in order:
+- label: pointer to a const char* label
+- options: a pointer to a ksl_print_options_t struct containing print options.
+If the pointer is NULL, the options are set globally.
 */
 void ksl_array_printWithOptions(FILE* f, const int n, const double* restrict a,
                                 ...) {
@@ -1334,10 +1341,10 @@ required.
 @param rowDim [in] row dimension
 @param colDim [in] column dimension
 @param A [in] a double precision poiinter
-@param label [in] pointer to a const char* label
-@param options [in] a pointer to a ksl_print_options_t struct
-containing print options. If the pointer is NULL, the options
-are set globally.
+@param ... [in] optional arguments, in order:
+- label: pointer to a const char* label
+- options: a pointer to a ksl_print_options_t struct containing print options.
+If the pointer is NULL, the options are set globally.
 */
 void ksl_array2D_printWithOptions(FILE* f, const int rowDim, const int colDim,
                                   const double* restrict A, ...) {
@@ -1421,10 +1428,10 @@ required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
 @param n [in] number of values to print
 @param a [in] array of integers
-@param label [in] pointer to a const char* label
-@param options [in] a pointer to a ksl_print_options_t struct
-containing print options. If the pointer is NULL, the options
-are set globally.
+@param ... [in] optional arguments, in order:
+- label: pointer to a const char* label
+- options: a pointer to a ksl_print_options_t struct containing print options.
+If the pointer is NULL, the options are set globally.
 */
 void ksl_arrayi_printWithOptions(FILE* f, const int n, const int* restrict a,
                                  ...) {
@@ -1459,10 +1466,10 @@ required.
 @param f [in] a file pointer (e.g. stdout, stderr, etc.)
 @param n [in] row/column dimension of nxn matrix
 @param a [in] array of double precision values
-@param label [in] pointer to a const char* label
-@param options [in] a pointer to a ksl_print_options_t struct
-containing print options. If the pointer is NULL, the options
-are set globally.
+@param ... [in] optional arguments, in order:
+- label: pointer to a const char* label
+- options: a pointer to a ksl_print_options_t struct containing print options.
+If the pointer is NULL, the options are set globally.
 */
 void ksl_triang_printWithOptions(FILE* f, const int n, const double* restrict a,
                                  ...) {

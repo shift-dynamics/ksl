@@ -7,7 +7,10 @@
 #ifndef _KSL_TYPES_H_
 #define _KSL_TYPES_H_
 
-/* restrict-qualified pointers in inline definitions; C++ has no `restrict` */
+/*!
+@brief Expands to the C99 restrict qualifier, or to __restrict when compiled
+as C++, which has no restrict keyword.
+*/
 #ifdef __cplusplus
 #define KSL_RESTRICT __restrict
 #else
@@ -120,6 +123,9 @@ typedef union ksl_vec4f_t {
         descriptive name or 3d vector component */
 } ksl_vec4f_t;
 
+/*!
+@brief A 4 element integer vector.
+*/
 typedef union ksl_vec4i_t {
   struct {
     int at[4];
@@ -557,7 +563,7 @@ typedef union ksl_screwf_t {
     ksl_vec3f_t lin; /*!< free linear vector, e.g. linear velocity or
                             acceleration */
     ksl_vec3f_t ang; /*!< bound angular vector, e.g. angular velocity or
-                             angular acceleration (\omega, or \dot{\omega}) */
+                             angular acceleration */
   }; /*!< anonymous union allows accessing screw quantities by linear or angular
         vector components */
   struct {
