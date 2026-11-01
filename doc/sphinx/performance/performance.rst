@@ -41,58 +41,58 @@ Portable build (``-O3 -march=x86-64``)
      - Speedup
    * - SE3 product
      - ``ksl_product_dd``
-     - 6.2
-     - 8.9
-     - 8.1 (Isometry3d)
-     - 1.3x
+     - 4.08
+     - 4.94
+     - 6.05 (Isometry3d)
+     - 1.2x
    * - Inverse SE3 product
      - ``ksl_product_dinvd``
-     - 7.5
-     - 8.0
-     - 9.4 (Isometry3d)
-     - 1.1x
+     - 4.85
+     - 3.87
+     - 6.62 (Isometry3d)
+     - 0.8x
    * - Transform a point
      - ``ksl_product_dv``
-     - 1.7
-     - 2.1
-     - 2.2 (Isometry3d)
-     - 1.2x
+     - 1.12
+     - 1.41
+     - 1.61 (Isometry3d)
+     - 1.3x
    * - Rotation about z
      - ``ksl_product_ddrz``
-     - 3.2
-     - 4.8
-     - 5.4 (R * Rz)
-     - 1.5x
+     - 2.68
+     - 3.44
+     - 3.93 (R * Rz)
+     - 1.3x
    * - Adjoint of a screw
      - ``ksl_product_Ads``
-     - 4.5
-     - 4.3
-     - 5.3 (6x6)
-     - 1.0x
+     - 3.05
+     - 2.56
+     - 3.64 (6x6)
+     - 0.8x
    * - CoAdjoint of a coscrew
      - ``ksl_product_CoAdc``
-     - 4.5
-     - 4.0
-     - 4.7 (6x6)
-     - 0.9x
+     - 3.05
+     - 2.57
+     - 3.14 (6x6)
+     - 0.8x
    * - Quaternion product
      - ``ksl_product_qq``
-     - 2.7
+     - 1.48
      -
-     - 2.2 (Quaterniond)
-     - 0.8x
+     - 1.48 (Quaterniond)
+     - 1.0x
    * - Inertia transform
      - ``ksl_inertia_transformed``
-     - 11.9
-     - 44.1
-     - 55.2 (6x6)
-     - 3.7x
+     - 7.67
+     - 25.78
+     - 37.41 (6x6)
+     - 3.4x
    * - Kinematic chain (latency)
      - ``ksl_product_dd``
-     - 6.9
-     - 7.5
-     - 7.4 (Isometry3d)
-     - 1.1x
+     - 5.98
+     - 4.95
+     - 6.75 (Isometry3d)
+     - 0.8x
 
 Native build (``-O3 -march=native``)
 ************************************
@@ -109,85 +109,90 @@ Native build (``-O3 -march=native``)
      - Speedup
    * - SE3 product
      - ``ksl_product_dd``
-     - 5.5
-     - 9.2
-     - 14.9 (Isometry3d)
-     - 1.7x
+     - 4.49
+     - 6.32
+     - 13.37 (Isometry3d)
+     - 1.4x
    * - Inverse SE3 product
      - ``ksl_product_dinvd``
-     - 6.1
-     - 8.4
-     - 27.1 (Isometry3d)
+     - 4.65
+     - 6.46
+     - 24.89 (Isometry3d)
      - 1.4x
    * - Transform a point
      - ``ksl_product_dv``
-     - 1.4
-     - 5.3
-     - 10.7 (Isometry3d)
-     - 3.8x
+     - 0.97
+     - 4.62
+     - 9.54 (Isometry3d)
+     - 4.8x
    * - Rotation about z
      - ``ksl_product_ddrz``
-     - 3.3
-     - 5.4
-     - 5.7 (R * Rz)
-     - 1.6x
+     - 2.34
+     - 3.25
+     - 4.07 (R * Rz)
+     - 1.4x
    * - Adjoint of a screw
      - ``ksl_product_Ads``
-     - 3.7
-     - 11.3
-     - 4.9 (6x6)
-     - 1.3x
+     - 3.18
+     - 9.71
+     - 3.48 (6x6)
+     - 1.1x
    * - CoAdjoint of a coscrew
      - ``ksl_product_CoAdc``
-     - 3.4
-     - 11.1
-     - 4.5 (6x6)
-     - 1.3x
+     - 2.66
+     - 9.81
+     - 3.11 (6x6)
+     - 1.2x
    * - Quaternion product
      - ``ksl_product_qq``
-     - 2.7
+     - 0.90
      -
-     - 1.1 (Quaterniond)
-     - 0.4x
+     - 0.81 (Quaterniond)
+     - 0.9x
    * - Inertia transform
      - ``ksl_inertia_transformed``
-     - 7.5
-     - 57.7
-     - 50.6 (6x6)
-     - 6.7x
+     - 6.18
+     - 36.70
+     - 31.59 (6x6)
+     - 5.1x
    * - Kinematic chain (latency)
      - ``ksl_product_dd``
-     - 7.6
-     - 10.6
-     - 17.0 (Isometry3d)
-     - 1.4x
+     - 6.65
+     - 8.97
+     - 15.24 (Isometry3d)
+     - 1.3x
 
 Observations
 ------------
 
-* **Most kernels are faster in KSL.** The largest gain is the inertia
-  transform, 3.7-6.7x, because *KSL* transforms the 10 independent mass and
-  inertia terms directly instead of forming :math:`R I R^T` or a 6x6 product.
-  Axis rotations (``ddrz``) touch only the two columns that change, a 1.5x
-  gain over the equivalent Eigen column code.
-* **Eigen wins the quaternion product.** Eigen has a hand-vectorized
-  quaternion product that works on pairs of doubles with SSE2, and it gains
-  further from the newer instructions enabled by ``-march=native``.
-  ``ksl_product_qq`` is scalar code.
-* **The adjoint and coadjoint tie in the portable build.** There, they are
-  within run-to-run noise of hand-written Eigen code on ``R`` and ``t``.
-  With ``-march=native``, *KSL* is 1.3x faster than the best Eigen variant.
+* **KSL matches or beats Eigen's general-purpose types.** Against
+  ``Isometry3d`` and 6x6 matrices, every *KSL* kernel is as fast or faster.
+  The quaternion product ties ``Quaterniond`` in the portable build, and
+  ``Quaterniond`` is about 10% faster with ``-march=native``.
+* **The largest gain is the inertia transform:** 3.4x in the portable build
+  and 5.1x with ``-march=native``. *KSL* transforms the 10 independent mass
+  and inertia terms directly instead of forming :math:`R I R^T` or a 6x6
+  product.
+* **With** ``-march=native``, **KSL is faster on every kernel except the
+  quaternion product.** The gains range from 1.1x (adjoint) to 5.1x
+  (inertia transform).
+* **In the portable build, hand-written Eigen code is faster on four
+  kernels.** Eigen code written directly on ``R`` and ``t`` takes about
+  15-20% less time for the inverse product, the adjoint, the coadjoint and the dependent
+  kinematic chain. *KSL* is faster for the SE3 product (1.2x), point transform
+  (1.3x), axis rotation (1.3x) and inertia transform.
+* **The quaternion product matches Eigen.** The general quaternion products
+  are hand-vectorized with SSE2, using SSE3's ``addsub`` when available, as
+  Eigen's are. They tie Eigen in the portable build and are within 10% with
+  ``-march=native``. Define ``KSL_NO_SIMD`` to use the portable scalar code
+  instead.
 * **Eigen's fixed-size code does not always benefit from** ``-march=native``.
-  With AVX enabled, several Eigen variants became roughly 2-5x slower than
-  in the portable build (``Isometry3d`` products, the point transform, and
-  the hand-written adjoint). The *KSL* kernels changed by less than 10% or
-  became faster.
+  With AVX enabled, the ``Isometry3d`` products, the point transform and the
+  hand-written adjoint became roughly 2-6x slower than in the portable build.
+  The *KSL* kernels changed by about 10% or less, or became faster.
 * **Data size.** ``ksl_SE3_t`` is 96 bytes, against 128 bytes for
   ``Isometry3d``. ``ksl_inertia_t`` is 80 bytes, against 288 bytes for a 6x6
   spatial inertia matrix.
-* **Results are noisy at this scale.** The tables report medians; individual
-  runs varied by 10-20% for some kernels, so differences under about 15%
-  should be read as a tie.
 
 Method
 ------
@@ -204,8 +209,11 @@ All results were measured on 2026-10-31 on an Intel Core i9-14900K with GCC
   each product depending on the previous result, so it measures latency.
 * The benchmark checks *KSL* against Eigen before timing. Results agree to
   within :math:`2 \times 10^{-15}`.
-* Each configuration was run 7 times, pinned to a single core. The tables show
-  the median of those runs.
+* Each configuration was run 7 times, pinned to a single core of an otherwise
+  idle machine. The tables show the median of those runs, which agreed within
+  a few percent apart from occasional single-run outliers. Measurements taken
+  while the machine was busy varied by 10-20% and are not reliable for
+  comparisons at this scale.
 
 The benchmark is ``bench/bench_eigen.cpp`` in the *KSL* repository. To
 reproduce the results, install Eigen and run:

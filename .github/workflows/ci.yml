@@ -8,13 +8,25 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.cc }} ${{ matrix.buildtype }}
+    name: ${{ matrix.cc }} ${{ matrix.buildtype }} ${{ matrix.variant }}
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         cc: [gcc, clang]
         buildtype: [debug, release]
+        variant: ['']
+        include:
+          # the default x86-64 target exercises the SSE2 quaternion code;
+          # these cover the SSE3 path and the scalar fallback
+          - cc: gcc
+            buildtype: release
+            variant: sse3
+            cflags: -march=x86-64-v2
+          - cc: gcc
+            buildtype: debug
+            variant: scalar
+            cflags: -DKSL_NO_SIMD
     env:
       CC: ${{ matrix.cc }}
       CXX: ${{ matrix.cc == 'clang' && 'clang++' || 'g++' }}
@@ -28,7 +40,10 @@ jobs:
             meson ninja-build pkg-config check clang libeigen3-dev
 
       - name: Configure
-        run: meson setup build --buildtype=${{ matrix.buildtype }} -Dtests=enabled -Ddocs=disabled -Dbench=enabled
+        run: >
+          meson setup build --buildtype=${{ matrix.buildtype }}
+          -Dtests=enabled -Ddocs=disabled -Dbench=enabled
+          "-Dc_args=${{ matrix.cflags }}" "-Dcpp_args=${{ matrix.cflags }}"
 
       - name: Build
         run: meson compile -C build

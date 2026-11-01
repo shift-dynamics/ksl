@@ -101,6 +101,59 @@ START_TEST(test_quaternion_product_qconjqconj) {
 }
 END_TEST
 
+/* Hamilton product written out component by component, independent of the
+library, as the reference for the SIMD and scalar implementations */
+static void reference_qq(const double a[4], const double b[4], double o[4]) {
+  o[0] = a[3] * b[0] + a[0] * b[3] + a[1] * b[2] - a[2] * b[1];
+  o[1] = a[3] * b[1] - a[0] * b[2] + a[1] * b[3] + a[2] * b[0];
+  o[2] = a[3] * b[2] + a[0] * b[1] - a[1] * b[0] + a[2] * b[3];
+  o[3] = a[3] * b[3] - a[0] * b[0] - a[1] * b[1] - a[2] * b[2];
+}
+
+START_TEST(test_quaternion_product_reference) {
+  /* non-unit quaternions with distinct components, so a wrong sign or lane
+  in any of the products shows up */
+  const double a[4] = {0.3, -1.7, 2.9, 0.45};
+  const double b[4] = {-2.2, 0.8, 1.3, -0.6};
+  for(int conj1 = 0; conj1 < 2; conj1++) {
+    for(int conj2 = 0; conj2 < 2; conj2++) {
+      double ac[4], bc[4], expected[4];
+      for(int i = 0; i < 4; i++) {
+        ac[i] = (conj1 && i < 3) ? -a[i] : a[i];
+        bc[i] = (conj2 && i < 3) ? -b[i] : b[i];
+      }
+      reference_qq(ac, bc, expected);
+
+      ksl_quaternion_t q1 = {{a[0], a[1], a[2], a[3]}};
+      ksl_quaternion_t q2 = {{b[0], b[1], b[2], b[3]}};
+      ksl_quaternionf_t q1f = {{a[0], a[1], a[2], a[3]}};
+      ksl_quaternionf_t q2f = {{b[0], b[1], b[2], b[3]}};
+      ksl_quaternion_t qo;
+      ksl_quaternionf_t qof;
+      if(!conj1 && !conj2) {
+        ksl_product_qq(&q1, &q2, &qo);
+        ksl_product_qqf(&q1f, &q2f, &qof);
+      } else if(conj1 && !conj2) {
+        ksl_product_qconjq(&q1, &q2, &qo);
+        ksl_product_qconjqf(&q1f, &q2f, &qof);
+      } else if(!conj1 && conj2) {
+        ksl_product_qqconj(&q1, &q2, &qo);
+        ksl_product_qqconjf(&q1f, &q2f, &qof);
+      } else {
+        ksl_product_qconjqconj(&q1, &q2, &qo);
+        ksl_product_qconjqconjf(&q1f, &q2f, &qof);
+      }
+      for(int i = 0; i < 4; i++) {
+        ck_assert_msg(fabs(qo.at[i] - expected[i]) < 1e-12,
+                      "conj1 %d conj2 %d: component %d", conj1, conj2, i);
+        ck_assert_msg(fabs(qof.at[i] - expected[i]) < 1e-5,
+                      "float conj1 %d conj2 %d: component %d", conj1, conj2, i);
+      }
+    }
+  }
+}
+END_TEST
+
 START_TEST(test_quaternion_product_qxq) {
   /* dci = {sin(theta/2), cos(theta/2)} as computed by ksl_dc, i.e.
   qx = {dci[0], 0, 0, dci[1]} */
@@ -230,6 +283,7 @@ Suite* quaternion_suite(void) {
   tcase_add_test(tc_core, test_quaternion_product_qconjq);
   tcase_add_test(tc_core, test_quaternion_product_qqconj);
   tcase_add_test(tc_core, test_quaternion_product_qconjqconj);
+  tcase_add_test(tc_core, test_quaternion_product_reference);
   tcase_add_test(tc_core, test_quaternion_product_qxq);
   tcase_add_test(tc_core, test_quaternion_product_axial);
   tcase_add_test(tc_core, test_quaternion_mat3x3_toQuaternion);

@@ -26,6 +26,17 @@ SUCH DAMAGE.
 #include "mat3x3.h"
 #include "vec3.h"
 
+/* The general quaternion products use SSE when the target supports it: SSE2
+for double precision (with SSE3's addsub when available) and SSE for single
+precision. Define KSL_NO_SIMD to use the portable scalar code instead. */
+#if !defined(KSL_NO_SIMD) && defined(__SSE2__)
+#define KSL_QUATERNION_SSE 1
+#include <emmintrin.h>
+#ifdef __SSE3__
+#include <pmmintrin.h>
+#endif
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -592,6 +603,59 @@ void ksl_product_uqinverseq(ksl_quaternion_t* q1i, ksl_quaternion_t* q2i,
 
 /* -------- inline definitions -------- */
 
+#ifdef KSL_QUATERNION_SSE
+/*! @cond KSL_INTERNAL */
+/* {a0 - b0, a1 + b1} */
+static inline __m128d ksl_addsub_pd_(const __m128d a, const __m128d b) {
+#ifdef __SSE3__
+  return _mm_addsub_pd(a, b);
+#else
+  return _mm_add_pd(a, _mm_xor_pd(b, _mm_set_pd(0.0, -0.0)));
+#endif
+}
+
+/* qo = a * b for a = {ax, ay, az, aw} and b = {b_xy, b_zw}, two components per
+register. Callers apply conjugates by negating a's vector part or flipping the
+signs of b's. */
+static inline void ksl_product_qq_sse2_(const double ax, const double ay,
+                                        const double az, const double aw,
+                                        const __m128d b_xy, const __m128d b_zw,
+                                        double* KSL_RESTRICT qo) {
+  const __m128d xx = _mm_set1_pd(ax), yy = _mm_set1_pd(ay);
+  const __m128d zz = _mm_set1_pd(az), ww = _mm_set1_pd(aw);
+  /* xy = t1 + {-t2.y, t2.x} with t1 = ww*xy + yy*zw, t2 = zz*xy - xx*zw */
+  __m128d t1 = _mm_add_pd(_mm_mul_pd(ww, b_xy), _mm_mul_pd(yy, b_zw));
+  __m128d t2 = _mm_sub_pd(_mm_mul_pd(zz, b_xy), _mm_mul_pd(xx, b_zw));
+  _mm_storeu_pd(qo, ksl_addsub_pd_(t1, _mm_shuffle_pd(t2, t2, 1)));
+  /* zw = {t1.z + t2.w, t1.w - t2.z} with t1 = ww*zw - yy*xy,
+     t2 = zz*zw + xx*xy */
+  t1 = _mm_sub_pd(_mm_mul_pd(ww, b_zw), _mm_mul_pd(yy, b_xy));
+  t2 = _mm_add_pd(_mm_mul_pd(zz, b_zw), _mm_mul_pd(xx, b_xy));
+  const __m128d r = ksl_addsub_pd_(_mm_shuffle_pd(t1, t1, 1), t2);
+  _mm_storeu_pd(qo + 2, _mm_shuffle_pd(r, r, 1));
+}
+
+/* single precision qo = a * b with the whole quaternion b in one register:
+qo = aw*b + ax*{bw,-bz,by,-bx} + ay*{bz,bw,-bx,-by} + az*{-by,bx,bw,-bz} */
+static inline void ksl_product_qqf_sse_(const float ax, const float ay,
+                                        const float az, const float aw,
+                                        const __m128 b,
+                                        float* KSL_RESTRICT qo) {
+  __m128 r = _mm_mul_ps(_mm_set1_ps(aw), b);
+  __m128 p = _mm_shuffle_ps(b, b, _MM_SHUFFLE(0, 1, 2, 3));
+  p = _mm_xor_ps(p, _mm_set_ps(-0.0f, 0.0f, -0.0f, 0.0f));
+  r = _mm_add_ps(r, _mm_mul_ps(_mm_set1_ps(ax), p));
+  p = _mm_shuffle_ps(b, b, _MM_SHUFFLE(1, 0, 3, 2));
+  p = _mm_xor_ps(p, _mm_set_ps(-0.0f, -0.0f, 0.0f, 0.0f));
+  r = _mm_add_ps(r, _mm_mul_ps(_mm_set1_ps(ay), p));
+  p = _mm_shuffle_ps(b, b, _MM_SHUFFLE(2, 3, 0, 1));
+  p = _mm_xor_ps(p, _mm_set_ps(-0.0f, 0.0f, 0.0f, -0.0f));
+  r = _mm_add_ps(r, _mm_mul_ps(_mm_set1_ps(az), p));
+  _mm_storeu_ps(qo, r);
+}
+/*! @endcond */
+#endif
+
 #include <assert.h>
 #include <math.h>
 #include <string.h>
@@ -1124,6 +1188,10 @@ L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
 static inline void ksl_product_qq(const ksl_quaternion_t* KSL_RESTRICT q1i,
                                   const ksl_quaternion_t* KSL_RESTRICT q2i,
                                   ksl_quaternion_t* KSL_RESTRICT qo) {
+#ifdef KSL_QUATERNION_SSE
+  ksl_product_qq_sse2_(q1i->x, q1i->y, q1i->z, q1i->w, _mm_loadu_pd(q2i->at),
+                       _mm_loadu_pd(q2i->at + 2), qo->at);
+#else
   /*
                     | q1iw -q1iz  q1iy  q1ix| |q2ix|
   qo = L(q1i)*q2i = | q1iz  q1iw -q1ix  q1iy| |q2iy| = R(q2i)*q1i
@@ -1136,6 +1204,7 @@ static inline void ksl_product_qq(const ksl_quaternion_t* KSL_RESTRICT q1i,
     -q1i->y * q2i->x + q1i->x * q2i->y + q1i->w * q2i->z + q1i->z * q2i->w;
   qo->w =
     -q1i->x * q2i->x - q1i->y * q2i->y - q1i->z * q2i->z + q1i->w * q2i->w;
+#endif
 }
 
 /*!
@@ -1155,6 +1224,10 @@ L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
 static inline void ksl_product_qqf(const ksl_quaternionf_t* KSL_RESTRICT q1i,
                                    const ksl_quaternionf_t* KSL_RESTRICT q2i,
                                    ksl_quaternionf_t* KSL_RESTRICT qo) {
+#ifdef KSL_QUATERNION_SSE
+  ksl_product_qqf_sse_(q1i->x, q1i->y, q1i->z, q1i->w, _mm_loadu_ps(q2i->at),
+                       qo->at);
+#else
   /*
                     | q1iw -q1iz  q1iy  q1ix| |q2ix|
   qo = L(q1i)*q2i = | q1iz  q1iw -q1ix  q1iy| |q2iy| = R(q2i)*q1i
@@ -1168,6 +1241,7 @@ static inline void ksl_product_qqf(const ksl_quaternionf_t* KSL_RESTRICT q1i,
     -q1i->y * q2i->x + q1i->x * q2i->y + q1i->w * q2i->z + q1i->z * q2i->w;
   qo->w =
     -q1i->x * q2i->x - q1i->y * q2i->y - q1i->z * q2i->z + q1i->w * q2i->w;
+#endif
 }
 
 /*!
@@ -1187,6 +1261,10 @@ L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
 static inline void ksl_product_qconjq(const ksl_quaternion_t* KSL_RESTRICT q1i,
                                       const ksl_quaternion_t* KSL_RESTRICT q2i,
                                       ksl_quaternion_t* KSL_RESTRICT qo) {
+#ifdef KSL_QUATERNION_SSE
+  ksl_product_qq_sse2_(-q1i->x, -q1i->y, -q1i->z, q1i->w, _mm_loadu_pd(q2i->at),
+                       _mm_loadu_pd(q2i->at + 2), qo->at);
+#else
   /*
                       | q1iw  q1iz -q1iy -q1ix| |q2ix|
   qo = L(q1i)^T*q2i = |-q1iz  q1iw  q1ix -q1iy| |q2iy|
@@ -1199,6 +1277,7 @@ static inline void ksl_product_qconjq(const ksl_quaternion_t* KSL_RESTRICT q1i,
     -q1i->z * q2i->x + q1i->w * q2i->y + q1i->x * q2i->z - q1i->y * q2i->w;
   qo->z = q1i->y * q2i->x - q1i->x * q2i->y + q1i->w * q2i->z - q1i->z * q2i->w;
   qo->w = q1i->x * q2i->x + q1i->y * q2i->y + q1i->z * q2i->z + q1i->w * q2i->w;
+#endif
 }
 
 /*!
@@ -1219,6 +1298,10 @@ static inline void
 ksl_product_qconjqf(const ksl_quaternionf_t* KSL_RESTRICT q1i,
                     const ksl_quaternionf_t* KSL_RESTRICT q2i,
                     ksl_quaternionf_t* KSL_RESTRICT qo) {
+#ifdef KSL_QUATERNION_SSE
+  ksl_product_qqf_sse_(-q1i->x, -q1i->y, -q1i->z, q1i->w, _mm_loadu_ps(q2i->at),
+                       qo->at);
+#else
   /*
                       | q1iw  q1iz -q1iy -q1ix| |q2ix|
   qo = L(q1i)^T*q2i = |-q1iz  q1iw  q1ix -q1iy| |q2iy|
@@ -1231,6 +1314,7 @@ ksl_product_qconjqf(const ksl_quaternionf_t* KSL_RESTRICT q1i,
     -q1i->z * q2i->x + q1i->w * q2i->y + q1i->x * q2i->z - q1i->y * q2i->w;
   qo->z = q1i->y * q2i->x - q1i->x * q2i->y + q1i->w * q2i->z - q1i->z * q2i->w;
   qo->w = q1i->x * q2i->x + q1i->y * q2i->y + q1i->z * q2i->z + q1i->w * q2i->w;
+#endif
 }
 
 /*!
@@ -1250,6 +1334,12 @@ L(q) = | qz  qw -qx  qy|  R(q) = |-qz  qw  qx  qy|
 static inline void ksl_product_qqconj(const ksl_quaternion_t* KSL_RESTRICT q1i,
                                       const ksl_quaternion_t* KSL_RESTRICT q2i,
                                       ksl_quaternion_t* KSL_RESTRICT qo) {
+#ifdef KSL_QUATERNION_SSE
+  ksl_product_qq_sse2_(
+    q1i->x, q1i->y, q1i->z, q1i->w,
+    _mm_xor_pd(_mm_loadu_pd(q2i->at), _mm_set1_pd(-0.0)),
+    _mm_xor_pd(_mm_loadu_pd(q2i->at + 2), _mm_set_pd(0.0, -0.0)), qo->at);
+#else
   /*
                       | q2iw -q2iz  q2iy -q2ix| |q1ix|
   qo = R(q2i)^T*q1i = | q2iz  q2iw -q2ix -q2iy| |q1iy|
@@ -1262,6 +1352,7 @@ static inline void ksl_product_qqconj(const ksl_quaternion_t* KSL_RESTRICT q1i,
   qo->z =
     -q2i->y * q1i->x + q2i->x * q1i->y + q2i->w * q1i->z - q2i->z * q1i->w;
   qo->w = q2i->x * q1i->x + q2i->y * q1i->y + q2i->z * q1i->z + q2i->w * q1i->w;
+#endif
 }
 
 /*!
@@ -1282,6 +1373,12 @@ static inline void
 ksl_product_qqconjf(const ksl_quaternionf_t* KSL_RESTRICT q1i,
                     const ksl_quaternionf_t* KSL_RESTRICT q2i,
                     ksl_quaternionf_t* KSL_RESTRICT qo) {
+#ifdef KSL_QUATERNION_SSE
+  ksl_product_qqf_sse_(
+    q1i->x, q1i->y, q1i->z, q1i->w,
+    _mm_xor_ps(_mm_loadu_ps(q2i->at), _mm_set_ps(0.0f, -0.0f, -0.0f, -0.0f)),
+    qo->at);
+#else
   /*
                       | q2iw -q2iz  q2iy -q2ix| |q1ix|
   qo = R(q2i)^T*q1i = | q2iz  q2iw -q2ix -q2iy| |q1iy|
@@ -1294,6 +1391,7 @@ ksl_product_qqconjf(const ksl_quaternionf_t* KSL_RESTRICT q1i,
   qo->z =
     -q2i->y * q1i->x + q2i->x * q1i->y + q2i->w * q1i->z - q2i->z * q1i->w;
   qo->w = q2i->x * q1i->x + q2i->y * q1i->y + q2i->z * q1i->z + q2i->w * q1i->w;
+#endif
 }
 
 /*!
@@ -1314,6 +1412,12 @@ static inline void
 ksl_product_qconjqconj(const ksl_quaternion_t* KSL_RESTRICT q1i,
                        const ksl_quaternion_t* KSL_RESTRICT q2i,
                        ksl_quaternion_t* KSL_RESTRICT qo) {
+#ifdef KSL_QUATERNION_SSE
+  ksl_product_qq_sse2_(
+    -q1i->x, -q1i->y, -q1i->z, q1i->w,
+    _mm_xor_pd(_mm_loadu_pd(q2i->at), _mm_set1_pd(-0.0)),
+    _mm_xor_pd(_mm_loadu_pd(q2i->at + 2), _mm_set_pd(0.0, -0.0)), qo->at);
+#else
   /*
                           | q1iw  q1iz -q1iy -q1ix| |-q2ix|
   qo = L(q1i)^T*q2iconj = |-q1iz  q1iw  q1ix -q1iy| |-q2iy|
@@ -1332,6 +1436,7 @@ ksl_product_qconjqconj(const ksl_quaternion_t* KSL_RESTRICT q1i,
     -q1i->y * q2i->x + q1i->x * q2i->y - q1i->w * q2i->z - q1i->z * q2i->w;
   qo->w =
     -q1i->x * q2i->x - q1i->y * q2i->y - q1i->z * q2i->z + q1i->w * q2i->w;
+#endif
 }
 
 /*!
@@ -1352,6 +1457,12 @@ static inline void
 ksl_product_qconjqconjf(const ksl_quaternionf_t* KSL_RESTRICT q1i,
                         const ksl_quaternionf_t* KSL_RESTRICT q2i,
                         ksl_quaternionf_t* KSL_RESTRICT qo) {
+#ifdef KSL_QUATERNION_SSE
+  ksl_product_qqf_sse_(
+    -q1i->x, -q1i->y, -q1i->z, q1i->w,
+    _mm_xor_ps(_mm_loadu_ps(q2i->at), _mm_set_ps(0.0f, -0.0f, -0.0f, -0.0f)),
+    qo->at);
+#else
   /*
                           | q1iw  q1iz -q1iy -q1ix| |-q2ix|
   qo = L(q1i)^T*q2iconj = |-q1iz  q1iw  q1ix -q1iy| |-q2iy|
@@ -1370,6 +1481,7 @@ ksl_product_qconjqconjf(const ksl_quaternionf_t* KSL_RESTRICT q1i,
     -q1i->y * q2i->x + q1i->x * q2i->y - q1i->w * q2i->z - q1i->z * q2i->w;
   qo->w =
     -q1i->x * q2i->x - q1i->y * q2i->y - q1i->z * q2i->z + q1i->w * q2i->w;
+#endif
 }
 
 /*!
