@@ -112,3 +112,49 @@ div.document a {
   word-wrap: break-word;
     color: #e73b3b;
 }
+
+/* ---- Layout: use the width of the window ----
+   Alabaster fixes the page at 940px and the body at 800px, which leaves wide
+   empty margins and is too narrow for 80-column code. */
+div.document,
+div.footer {
+    width: auto;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 24px;
+}
+
+div.body {
+    max-width: none;
+    min-width: 0;
+    padding: 0 0 0 30px;
+}
+
+/* Code and long API signatures scroll inside their box instead of
+   running past its edge. */
+div.highlight pre,
+pre {
+    overflow-x: auto;
+}
+
+dl.c dt.sig,
+dl.cpp dt.sig {
+    overflow-wrap: anywhere;
+}
+
+div.body table.docutils {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+@media screen and (max-width: 940px) {
+    div.document,
+    div.footer {
+        padding: 0 12px;
+    }
+    div.body {
+        padding: 0;
+    }
+}
