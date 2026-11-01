@@ -853,7 +853,8 @@ static inline void ksl_product_CoAdrcinvf(const ksl_mat3x3f_t* ri,
 @brief Transform a coscrew by the coadjoint of an inverse translation: co =
 CoAd(T(ti)^-1) * ci.
 
-Moves the reference point of a force from the origin to ti.
+Transforms the coordinates of a force coscrew so its moment is expressed about
+the point ti instead of the origin.
 
 @param ti [in] translation
 @param ci [in] coscrew
