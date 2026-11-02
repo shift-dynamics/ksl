@@ -26,29 +26,22 @@ ksl_quaternionf_t* ksl_quaternionf_alloc(const int n) {
   return q;
 }
 
-/*!
-@todo: add ksl_xpy_qq/qqf, ksl_nxpy_qq/qqf, variants of axpy where a is +/-1
-*/
+/* TODO: add ksl_xpy_qq/qqf and ksl_nxpy_qq/qqf, variants of axpy where a is
++/-1 */
 
 /*!
-@brief Double precision function to convert ksl_mat3x3_t rotation matrix to
-quaternion representation
+@brief Convert a rotation matrix to a quaternion.
 
-\f$R = \begin{bmatrix}
-q3q3+q0q0 - q1q1-q2q2 & q0q1+q0q1 - q3q2+q3q2 & q2q0+q2q0 + q3q1+q3q1 \\
-q0q1+q0q1 + q3q2+q3q2 & q3q3-q0q0 + q1q1-q2q2 & q1q2+q1q2 - q3q0-q3q0 \\
-q2q0+q2q0 - q3q1-q3q1 & q1q2+q1q2 + q3q0+q3q0 & q3q3-q0q0 - q1q1+q2q2 \\
-\end{bmatrix}\f$
+The inverse of ksl_quaternion_toMat3x3(). A rotation matrix determines its
+quaternion only up to sign, since q and -q give the same matrix. When the
+trace of the matrix is positive, the returned quaternion has w > 0.
 
-@todo Supply qr, a reference quaternion. If necessary, flip the sign of
-qo so that each qo[i] is the closest match to qr[i]. For this algorithm to
-work, qo must be a close follow-on to qr. This function would then prove more
-useful when continuous quaternions are desired for interpolation purposes.
-Matrix ri is quadratic in qo so qo and -qo give the same ri.
-
-@param ri a rotation matrix in a 9x1 column format
-@param qo the resulting euler parameters are stored in the 4x1 array, qo
+@param ri [in] rotation matrix
+@param qo [out] quaternion
 */
+/* TODO: accept a reference quaternion qr and flip the sign of qo so that it
+is the closer of qo and -qo to qr, to give continuous quaternions for
+interpolation. */
 void ksl_mat3x3_toQuaternion(const ksl_mat3x3_t* restrict ri,
                              ksl_quaternion_t* restrict qo) {
 
@@ -132,23 +125,7 @@ void ksl_mat3x3_toQuaternion(const ksl_mat3x3_t* restrict ri,
 }
 
 /*!
-@brief single precision function to convert ksl_mat3x3_t rotation matrix to
-single precision quaternion representation
-
-\f$R = \begin{bmatrix}
-q3q3+q0q0 - q1q1-q2q2 & q0q1+q0q1 - q3q2+q3q2 & q2q0+q2q0 + q3q1+q3q1 \\
-q0q1+q0q1 + q3q2+q3q2 & q3q3-q0q0 + q1q1-q2q2 & q1q2+q1q2 - q3q0-q3q0 \\
-q2q0+q2q0 - q3q1-q3q1 & q1q2+q1q2 + q3q0+q3q0 & q3q3-q0q0 - q1q1+q2q2 \\
-\end{bmatrix}\f$
-
-@todo Supply qr, a reference quaterniohn. If necessary, flip the sign of
-qo so that each qo[i] is the closest match to qr[i]. For this algorithm to
-work, qo must be a close follow-on to qr. This function would then prove more
-useful when continuous quaternions are desired for interpolation purposes.
-Matrix ri is quadratic in qo so qo and -qo give the same ri.
-
-@param ri [in] a rotation matrix in a 9x1 column format
-@param qo [out] resulting euler parameters
+@brief Single precision version of ksl_mat3x3_toQuaternion().
 */
 inline void ksl_mat3x3f_toQuaternion(const ksl_mat3x3f_t* restrict ri,
                                      ksl_quaternionf_t* restrict qo) {
