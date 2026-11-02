@@ -32,6 +32,8 @@ precision. Define KSL_NO_SIMD to use the portable scalar code instead. */
 #if !defined(KSL_NO_SIMD) && defined(__SSE2__)
 #define KSL_QUATERNION_SSE 1
 #include <emmintrin.h>
+
+#include "ksl/simd.h"
 #ifdef __SSE3__
 #include <pmmintrin.h>
 #endif
@@ -630,13 +632,13 @@ static inline void ksl_product_qq_sse2_(const double ax, const double ay,
   /* xy = t1 + {-t2.y, t2.x} with t1 = ww*xy + yy*zw, t2 = zz*xy - xx*zw */
   __m128d t1 = _mm_add_pd(_mm_mul_pd(ww, b_xy), _mm_mul_pd(yy, b_zw));
   __m128d t2 = _mm_sub_pd(_mm_mul_pd(zz, b_xy), _mm_mul_pd(xx, b_zw));
-  _mm_storeu_pd(qo, ksl_addsub_pd_(t1, _mm_shuffle_pd(t2, t2, 1)));
+  ksl_storeu_pd_(qo, ksl_addsub_pd_(t1, _mm_shuffle_pd(t2, t2, 1)));
   /* zw = {t1.z + t2.w, t1.w - t2.z} with t1 = ww*zw - yy*xy,
      t2 = zz*zw + xx*xy */
   t1 = _mm_sub_pd(_mm_mul_pd(ww, b_zw), _mm_mul_pd(yy, b_xy));
   t2 = _mm_add_pd(_mm_mul_pd(zz, b_zw), _mm_mul_pd(xx, b_xy));
   const __m128d r = ksl_addsub_pd_(_mm_shuffle_pd(t1, t1, 1), t2);
-  _mm_storeu_pd(qo + 2, _mm_shuffle_pd(r, r, 1));
+  ksl_storeu_pd_(qo + 2, _mm_shuffle_pd(r, r, 1));
 }
 
 /* single precision qo = a * b with the whole quaternion b in one register:
@@ -655,7 +657,7 @@ static inline void ksl_product_qqf_sse_(const float ax, const float ay,
   p = _mm_shuffle_ps(b, b, _MM_SHUFFLE(2, 3, 0, 1));
   p = _mm_xor_ps(p, _mm_set_ps(-0.0f, 0.0f, 0.0f, -0.0f));
   r = _mm_add_ps(r, _mm_mul_ps(_mm_set1_ps(az), p));
-  _mm_storeu_ps(qo, r);
+  ksl_storeu_ps_(qo, r);
 }
 /*! @endcond */
 #endif

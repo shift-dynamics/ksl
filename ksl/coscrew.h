@@ -1489,6 +1489,17 @@ static inline void ksl_product_CoAdtcinvf(const ksl_vec3f_t* KSL_RESTRICT ti,
 static inline void ksl_product_CoAdc(const ksl_SE3_t* KSL_RESTRICT Di,
                                      const ksl_coscrew_t* KSL_RESTRICT ci,
                                      ksl_coscrew_t* KSL_RESTRICT co) {
+#ifdef KSL_SSE2
+  const ksl_sse2_vec3_t r0 = ksl_sse2_load_(&Di->R.v0);
+  const ksl_sse2_vec3_t r1 = ksl_sse2_load_(&Di->R.v1);
+  const ksl_sse2_vec3_t r2 = ksl_sse2_load_(&Di->R.v2);
+  const ksl_sse2_vec3_t f = ksl_sse2_product_mv_(r0, r1, r2, &ci->lin);
+  const ksl_sse2_vec3_t n =
+    ksl_sse2_add_(ksl_sse2_product_mv_(r0, r1, r2, &ci->ang),
+                  ksl_sse2_cross_(&Di->t, f));
+  ksl_sse2_store_(&co->lin, f);
+  ksl_sse2_store_(&co->ang, n);
+#else
   const ksl_mat3x3_t* r = &Di->R;
   const double c0 = ci->m0, c1 = ci->m1, c2 = ci->m2;
   const double c3 = ci->m3, c4 = ci->m4, c5 = ci->m5;
@@ -1504,6 +1515,7 @@ static inline void ksl_product_CoAdc(const ksl_SE3_t* KSL_RESTRICT Di,
   co->m3 = nx + (Di->t.y * fz - Di->t.z * fy);
   co->m4 = ny + (Di->t.z * fx - Di->t.x * fz);
   co->m5 = nz + (Di->t.x * fy - Di->t.y * fx);
+#endif
 }
 
 static inline void ksl_product_CoAdcf(const ksl_SE3f_t* KSL_RESTRICT Di,

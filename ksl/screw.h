@@ -1635,6 +1635,17 @@ static inline void ksl_product_Adtsinvf(const ksl_vec3f_t* KSL_RESTRICT ti,
 static inline void ksl_product_Ads(const ksl_SE3_t* KSL_RESTRICT Di,
                                    const ksl_screw_t* KSL_RESTRICT si,
                                    ksl_screw_t* KSL_RESTRICT so) {
+#ifdef KSL_SSE2
+  const ksl_sse2_vec3_t c0 = ksl_sse2_load_(&Di->R.v0);
+  const ksl_sse2_vec3_t c1 = ksl_sse2_load_(&Di->R.v1);
+  const ksl_sse2_vec3_t c2 = ksl_sse2_load_(&Di->R.v2);
+  const ksl_sse2_vec3_t w = ksl_sse2_product_mv_(c0, c1, c2, &si->ang);
+  const ksl_sse2_vec3_t v =
+    ksl_sse2_add_(ksl_sse2_product_mv_(c0, c1, c2, &si->lin),
+                  ksl_sse2_cross_(&Di->t, w));
+  ksl_sse2_store_(&so->lin, v);
+  ksl_sse2_store_(&so->ang, w);
+#else
   const ksl_mat3x3_t* r = &Di->R;
   const double s0 = si->m0, s1 = si->m1, s2 = si->m2;
   const double s3 = si->m3, s4 = si->m4, s5 = si->m5;
@@ -1650,6 +1661,7 @@ static inline void ksl_product_Ads(const ksl_SE3_t* KSL_RESTRICT Di,
   so->m3 = wx;
   so->m4 = wy;
   so->m5 = wz;
+#endif
 }
 
 static inline void ksl_product_Adsf(const ksl_SE3f_t* KSL_RESTRICT Di,

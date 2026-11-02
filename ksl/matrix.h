@@ -811,6 +811,7 @@ static inline void ksl_product_dinvdf(const ksl_SE3f_t* D1i,
 #include <string.h>
 
 #include "ksl/mat3x3.h"
+#include "ksl/simd.h"
 #include "ksl/vec3.h"
 
 #ifdef __cplusplus
@@ -1582,6 +1583,20 @@ static inline void ksl_product_ddrinvf(const ksl_SE3f_t* KSL_RESTRICT Di,
 static inline void ksl_product_dd(const ksl_SE3_t* KSL_RESTRICT D1i,
                                   const ksl_SE3_t* KSL_RESTRICT D2i,
                                   ksl_SE3_t* KSL_RESTRICT Do) {
+#ifdef KSL_SSE2
+  /* Each column is written as soon as it is computed, which keeps the
+  intermediate values in registers. D1i is read first, and each column of D2i
+  is read before the same column of Do is written. */
+  const ksl_sse2_vec3_t c0 = ksl_sse2_load_(&D1i->R.v0);
+  const ksl_sse2_vec3_t c1 = ksl_sse2_load_(&D1i->R.v1);
+  const ksl_sse2_vec3_t c2 = ksl_sse2_load_(&D1i->R.v2);
+  const ksl_sse2_vec3_t t1 = ksl_sse2_load_(&D1i->t);
+  ksl_sse2_store_(&Do->R.v0, ksl_sse2_product_mv_(c0, c1, c2, &D2i->R.v0));
+  ksl_sse2_store_(&Do->R.v1, ksl_sse2_product_mv_(c0, c1, c2, &D2i->R.v1));
+  ksl_sse2_store_(&Do->R.v2, ksl_sse2_product_mv_(c0, c1, c2, &D2i->R.v2));
+  ksl_sse2_store_(&Do->t,
+                  ksl_sse2_add_(ksl_sse2_product_mv_(c0, c1, c2, &D2i->t), t1));
+#else
   const double x = D2i->t.x, y = D2i->t.y, z = D2i->t.z;
   const ksl_mat3x3_t* r = &D1i->R;
   ksl_vec3_t to;
@@ -1592,6 +1607,7 @@ static inline void ksl_product_dd(const ksl_SE3_t* KSL_RESTRICT D1i,
   ksl_product_drdr(&D1i->R, &D2i->R, &ro);
   Do->R = ro;
   Do->t = to;
+#endif
 }
 
 static inline void ksl_product_ddf(const ksl_SE3f_t* KSL_RESTRICT D1i,
@@ -1639,6 +1655,22 @@ static inline void ksl_product_ddinvf(const ksl_SE3f_t* D1i,
 static inline void ksl_product_dinvd(const ksl_SE3_t* KSL_RESTRICT D1i,
                                      const ksl_SE3_t* KSL_RESTRICT D2i,
                                      ksl_SE3_t* KSL_RESTRICT Do) {
+#ifdef KSL_SSE2
+  /* the columns of R1^T are the rows of R1 */
+  ksl_sse2_vec3_t r0, r1, r2;
+  ksl_sse2_transpose_(ksl_sse2_load_(&D1i->R.v0), ksl_sse2_load_(&D1i->R.v1),
+                      ksl_sse2_load_(&D1i->R.v2), &r0, &r1, &r2);
+  const ksl_sse2_vec3_t t1 = ksl_sse2_load_(&D1i->t);
+  const ksl_sse2_vec3_t t2 = ksl_sse2_load_(&D2i->t);
+  ksl_sse2_vec3_t d;
+  d.xy = _mm_sub_pd(t2.xy, t1.xy);
+  d.z = _mm_sub_sd(t2.z, t1.z);
+  /* each column is written as soon as it is computed (see ksl_product_dd) */
+  ksl_sse2_store_(&Do->R.v0, ksl_sse2_product_mv_(r0, r1, r2, &D2i->R.v0));
+  ksl_sse2_store_(&Do->R.v1, ksl_sse2_product_mv_(r0, r1, r2, &D2i->R.v1));
+  ksl_sse2_store_(&Do->R.v2, ksl_sse2_product_mv_(r0, r1, r2, &D2i->R.v2));
+  ksl_sse2_store_(&Do->t, ksl_sse2_product_mb_(r0, r1, r2, d));
+#else
   const ksl_mat3x3_t* r = &D1i->R;
   const double x = D2i->t.x - D1i->t.x, y = D2i->t.y - D1i->t.y,
                z = D2i->t.z - D1i->t.z;
@@ -1650,6 +1682,7 @@ static inline void ksl_product_dinvd(const ksl_SE3_t* KSL_RESTRICT D1i,
   ksl_product_drinvdr(&D1i->R, &D2i->R, &ro);
   Do->R = ro;
   Do->t = to;
+#endif
 }
 
 static inline void ksl_product_dinvdf(const ksl_SE3f_t* KSL_RESTRICT D1i,
