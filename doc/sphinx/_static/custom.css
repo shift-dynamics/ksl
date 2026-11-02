@@ -141,10 +141,14 @@ dl.cpp dt.sig {
     overflow-wrap: anywhere;
 }
 
+/* display: block lets a wide table scroll instead of overflowing the page;
+   fit-content keeps its border around the columns instead of the full width */
 div.body table.docutils {
     display: block;
+    width: fit-content;
     max-width: 100%;
     overflow-x: auto;
+    margin-left: 0;
 }
 
 @media screen and (max-width: 940px) {
