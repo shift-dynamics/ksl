@@ -154,6 +154,89 @@ START_TEST(test_quaternion_product_reference) {
 }
 END_TEST
 
+START_TEST(test_quaternion_product_vector) {
+  /* products of a quaternion with a vector v, treated as the quaternion
+  {v, 0}, checked against the reference Hamilton product */
+  const double a[4] = {0.3, -1.7, 2.9, 0.45};
+  const double v[3] = {-2.2, 0.8, 1.3};
+  const double vq[4] = {v[0], v[1], v[2], 0.0};
+  const double ac[4] = {-a[0], -a[1], -a[2], a[3]};
+  double expected[4][4];
+  reference_qq(a, vq, expected[0]);  /* q v */
+  reference_qq(ac, vq, expected[1]); /* q* v */
+  reference_qq(vq, a, expected[2]);  /* v q */
+  reference_qq(vq, ac, expected[3]); /* v q* */
+
+  ksl_quaternion_t q = {{a[0], a[1], a[2], a[3]}};
+  ksl_quaternionf_t qf = {{a[0], a[1], a[2], a[3]}};
+  ksl_vec3_t vi = ksl_vec3(v[0], v[1], v[2]);
+  ksl_vec3f_t vif = ksl_vec3f(v[0], v[1], v[2]);
+  ksl_quaternion_t qo[4];
+  ksl_quaternionf_t qof[4];
+  ksl_product_qv(&q, &vi, &qo[0]);
+  ksl_product_qconjv(&q, &vi, &qo[1]);
+  ksl_product_vq(&vi, &q, &qo[2]);
+  ksl_product_vqconj(&vi, &q, &qo[3]);
+  ksl_product_qvf(&qf, &vif, &qof[0]);
+  ksl_product_qconjvf(&qf, &vif, &qof[1]);
+  ksl_product_vqf(&vif, &qf, &qof[2]);
+  ksl_product_vqconjf(&vif, &qf, &qof[3]);
+  for(int k = 0; k < 4; k++) {
+    for(int i = 0; i < 4; i++) {
+      ck_assert_msg(fabs(qo[k].at[i] - expected[k][i]) < 1e-12,
+                    "product %d: component %d", k, i);
+      ck_assert_msg(fabs(qof[k].at[i] - expected[k][i]) < 1e-5,
+                    "float product %d: component %d", k, i);
+    }
+  }
+}
+END_TEST
+
+/* largest component difference between a and b, or a and -b, whichever is
+smaller: a quaternion and its negative are the same rotation */
+static double rotation_difference(const double a[4], const double b[4]) {
+  double plus = 0, minus = 0;
+  for(int i = 0; i < 4; i++) {
+    plus = fmax(plus, fabs(a[i] - b[i]));
+    minus = fmax(minus, fabs(a[i] + b[i]));
+  }
+  return fmin(plus, minus);
+}
+
+START_TEST(test_quaternion_slerp) {
+  /* rotations about z by 0.3 and 1.3 radians. q2 is negated, so the dot
+  product is negative: slerp must still take the shorter path, through the
+  rotations about z by 0.3 + t, at a constant rate. The second pair differs
+  by 1e-4 radians, which takes the linear branch. */
+  const double start[2] = {0.3, 0.3};
+  const double span[2] = {1.0, 1e-4};
+  for(int pair = 0; pair < 2; pair++) {
+    ksl_quaternion_t q1 = make_test_quaternion(0, 0, 1, start[pair]);
+    ksl_quaternion_t q2 = make_test_quaternion(0, 0, 1, start[pair] + span[pair]);
+    for(int i = 0; i < 4; i++) {
+      q2.at[i] = -q2.at[i];
+    }
+    ksl_quaternionf_t q1f = {{q1.x, q1.y, q1.z, q1.w}};
+    ksl_quaternionf_t q2f = {{q2.x, q2.y, q2.z, q2.w}};
+    for(int k = 0; k <= 4; k++) {
+      double t = 0.25 * k;
+      float tf = t;
+      ksl_quaternion_t qo;
+      ksl_quaternionf_t qof;
+      ksl_quaternion_slerp(&q1, &q2, &t, &qo);
+      ksl_quaternionf_slerp(&q1f, &q2f, &tf, &qof);
+      ksl_quaternion_t expected =
+        make_test_quaternion(0, 0, 1, start[pair] + t * span[pair]);
+      double of[4] = {qof.x, qof.y, qof.z, qof.w};
+      ck_assert_msg(rotation_difference(qo.at, expected.at) < 1e-12,
+                    "pair %d, t = %g", pair, t);
+      ck_assert_msg(rotation_difference(of, expected.at) < 1e-6,
+                    "float pair %d, t = %g", pair, t);
+    }
+  }
+}
+END_TEST
+
 START_TEST(test_quaternion_product_qxq) {
   /* dci = {sin(theta/2), cos(theta/2)} as computed by ksl_dc, i.e.
   qx = {dci[0], 0, 0, dci[1]} */
@@ -284,6 +367,8 @@ Suite* quaternion_suite(void) {
   tcase_add_test(tc_core, test_quaternion_product_qqconj);
   tcase_add_test(tc_core, test_quaternion_product_qconjqconj);
   tcase_add_test(tc_core, test_quaternion_product_reference);
+  tcase_add_test(tc_core, test_quaternion_product_vector);
+  tcase_add_test(tc_core, test_quaternion_slerp);
   tcase_add_test(tc_core, test_quaternion_product_qxq);
   tcase_add_test(tc_core, test_quaternion_product_axial);
   tcase_add_test(tc_core, test_quaternion_mat3x3_toQuaternion);

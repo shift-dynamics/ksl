@@ -884,6 +884,9 @@ static inline void ksl_quaternionf_toMat3x3f(ksl_quaternionf_t* KSL_RESTRICT qi,
 @brief Double precision version of Shoemake's Spherical
 Linear Interpolation algorithm
 
+Takes the shorter path: of q2i and -q2i, which are the same rotation, the one
+closer to q1i is used.
+
 [Shoemake, Animating rotation with Quaternion Curves, SIGGRAPH, vol 19,
 No. 3, 1985] (http://run.usc.edu/cs520-s12/assign2/p245-shoemake.pdf)
 
@@ -898,34 +901,29 @@ ksl_quaternion_slerp(const ksl_quaternion_t* KSL_RESTRICT q1i,
                      double* KSL_RESTRICT t,
                      ksl_quaternion_t* KSL_RESTRICT qo) {
 
+  /* q2i and -q2i are the same rotation: use the one closer to q1i, so that
+  the interpolation takes the shorter path */
   double cosHalfTheta = ksl_dot_qq(q1i, q2i);
-
-  /*
-    if q1i=q2i or q1i=-q2i then theta = 0 and we can return q1i
-  */
-  if(fabs(cosHalfTheta) >= 1.0) {
-    memcpy(qo, q1i, sizeof(ksl_quaternion_t));
-    return;
+  double sign = 1.0;
+  if(cosHalfTheta < 0.0) {
+    sign = -1.0;
+    cosHalfTheta = -cosHalfTheta;
   }
 
-  double halfTheta = acos(cosHalfTheta);
-  double sinHalfTheta = sqrt(1.0 - cosHalfTheta * cosHalfTheta);
-
-  /* if theta = 180 degrees then result is not defined
-    we could rotate around any axis normal to q1i or q2i
-  */
   memset(qo, 0, sizeof(ksl_quaternion_t));
-  if(fabs(sinHalfTheta) < 0.001) {
-    ksl_axpy_qq(0.5, q1i, qo);
-    ksl_axpy_qq(0.5, q2i, qo);
+  if(cosHalfTheta > 0.9995) {
+    /* nearly the same rotation: sin(halfTheta) is close to zero, so
+    interpolate linearly and normalize */
+    ksl_axpy_qq(1.0 - *t, q1i, qo);
+    ksl_axpy_qq(sign * *t, q2i, qo);
+    ksl_quaternion_normalize(qo);
     return;
   }
-  double ratioA = sin((1 - *t) * halfTheta) / sinHalfTheta;
-  double ratioB = sin(*t * halfTheta) / sinHalfTheta;
 
-  /* calculate quaternion. */
-  ksl_axpy_qq(ratioA, q1i, qo);
-  ksl_axpy_qq(ratioB, q2i, qo);
+  const double halfTheta = acos(cosHalfTheta);
+  const double sinHalfTheta = sqrt(1.0 - cosHalfTheta * cosHalfTheta);
+  ksl_axpy_qq(sin((1.0 - *t) * halfTheta) / sinHalfTheta, q1i, qo);
+  ksl_axpy_qq(sign * sin(*t * halfTheta) / sinHalfTheta, q2i, qo);
 }
 
 /*!
@@ -946,32 +944,29 @@ ksl_quaternionf_slerp(const ksl_quaternionf_t* KSL_RESTRICT q1i,
                       float* KSL_RESTRICT t,
                       ksl_quaternionf_t* KSL_RESTRICT qo) {
 
+  /* q2i and -q2i are the same rotation: use the one closer to q1i, so that
+  the interpolation takes the shorter path */
   float cosHalfTheta = ksl_dot_qqf(q1i, q2i);
+  float sign = 1.0f;
+  if(cosHalfTheta < 0.0f) {
+    sign = -1.0f;
+    cosHalfTheta = -cosHalfTheta;
+  }
 
-  /* if q1i=q2i or q1i=-q2i then theta = 0 and we can return q1i */
-  if(fabs(cosHalfTheta) >= 1.0) {
-    memcpy(qo, q1i, sizeof(ksl_quaternionf_t));
+  memset(qo, 0, sizeof(ksl_quaternionf_t));
+  if(cosHalfTheta > 0.9995f) {
+    /* nearly the same rotation: sin(halfTheta) is close to zero, so
+    interpolate linearly and normalize */
+    ksl_axpy_qqf(1.0f - *t, q1i, qo);
+    ksl_axpy_qqf(sign * *t, q2i, qo);
+    ksl_quaternionf_normalize(qo);
     return;
   }
-  float halfTheta = acos(cosHalfTheta);
-  float sinHalfTheta = sqrt(1.0 - cosHalfTheta * cosHalfTheta);
 
-  /*
-    if theta = 180 degrees then result is not defined
-    we could rotate around any axis normal to q1i or q2i
-  */
-  memset(qo, 0, 4 * sizeof(double));
-  if(fabs(sinHalfTheta) < 0.001) { // fabs is floating point absolute
-    ksl_axpy_qqf(0.5, q1i, qo);
-    ksl_axpy_qqf(0.5, q2i, qo);
-    return;
-  }
-  float ratioA = sin((1 - *t) * halfTheta) / sinHalfTheta;
-  float ratioB = sin(*t * halfTheta) / sinHalfTheta;
-
-  /* calculate quaternion. */
-  ksl_axpy_qqf(ratioA, q1i, qo);
-  ksl_axpy_qqf(ratioB, q2i, qo);
+  const float halfTheta = acosf(cosHalfTheta);
+  const float sinHalfTheta = sqrtf(1.0f - cosHalfTheta * cosHalfTheta);
+  ksl_axpy_qqf(sinf((1.0f - *t) * halfTheta) / sinHalfTheta, q1i, qo);
+  ksl_axpy_qqf(sign * sinf(*t * halfTheta) / sinHalfTheta, q2i, qo);
 }
 
 /*!
@@ -2097,16 +2092,15 @@ static inline void ksl_product_qconjvf(const ksl_quaternionf_t* KSL_RESTRICT qi,
                                        const ksl_vec3f_t* KSL_RESTRICT vi,
                                        ksl_quaternionf_t* KSL_RESTRICT qo) {
   /*
-                  | qiw  qiz -qiy -qix| |vix|
-  qo = L(qi)*vi = |-qiz  qiw  qix -qiy| |viy|
-                  | qiy -qix  qiw -qiz| |viz|
-                  | qix  qiy  qiz  qiw| | 0 |
+                    | qiw  qiz -qiy -qix| |vix|
+  qo = L(qi)^T*vi = |-qiz  qiw  qix -qiy| |viy|
+                    | qiy -qix  qiw -qiz| |viz|
+                    | qix  qiy  qiz  qiw| | 0 |
   */
-
-  qo->x = qi->w * vi->x - qi->z * vi->y + qi->y * vi->z;
-  qo->y = qi->z * vi->x + qi->w * vi->y - qi->x * vi->z;
-  qo->z = -qi->y * vi->x + qi->x * vi->y + qi->w * vi->z;
-  qo->w = -qi->x * vi->x - qi->y * vi->y - qi->z * vi->z;
+  qo->x = qi->w * vi->x + qi->z * vi->y - qi->y * vi->z;
+  qo->y = -qi->z * vi->x + qi->w * vi->y + qi->x * vi->z;
+  qo->z = qi->y * vi->x - qi->x * vi->y + qi->w * vi->z;
+  qo->w = qi->x * vi->x + qi->y * vi->y + qi->z * vi->z;
 }
 
 /*!
