@@ -43,12 +43,19 @@ struct EInertia {
   Matrix3d I;
 };
 
-static constexpr int N = 512;      // working set fits in L1/L2
-static constexpr int REPS = 4000;  // inner repetitions per sample
-static constexpr int SAMPLES = 9;  // take min
+// Larger than the 32-48 KB L1 data cache, as the data of most simulations is,
+// but small enough for every operation's inputs and outputs to fit in a 2 MB
+// L2 cache (the largest, Eigen's 6x6 inertia transform, uses 1.15 MB).
+static constexpr int N = 2048;
+static constexpr int REPS = 1000;  // inner repetitions per sample
+// Writes to memory that is not in L1 run at one of two rates on some
+// processors, and a process can take from a few milliseconds to seconds to
+// reach the faster one. 50 samples (about 0.4 s per operation) usually reach
+// it, and the minimum is the rate a long simulation sees.
+static constexpr int SAMPLES = 50;  // take min
 
 template <class F>
-__attribute__((noinline)) static double TimeNs(F f) {
+__attribute__((noinline)) static double TimeNs(F f, int ops = N) {
   double best = 1e30;
   for(int s = 0; s < SAMPLES; s++) {
     auto t0 = std::chrono::steady_clock::now();
@@ -58,7 +65,7 @@ __attribute__((noinline)) static double TimeNs(F f) {
     }
     auto t1 = std::chrono::steady_clock::now();
     double ns = std::chrono::duration<double, std::nano>(t1 - t0).count() /
-                (double(REPS) * N);
+                (double(REPS) * ops);
     if(ns < best) best = ns;
   }
   return best;
@@ -221,7 +228,7 @@ int main() {
   Row("inertia transform", a, "Eigen 3x3", b, "Eigen 6x6 XtMX", c);
 
   // ---------------- latency: dependent FK chain ----------------
-  auto chain = [&](auto step) { return TimeNs(step); };
+  auto chain = [&](auto step) { return TimeNs(step, N - 1); };
   a = chain([&] { for(int i = 1; i < N; i++) ksl_product_dd(&kdo[i - 1], &kd2[i], &kdo[i]); });
   b = chain([&] { for(int i = 1; i < N; i++) { edo[i].R.noalias() = edo[i - 1].R * ed2[i].R; edo[i].t.noalias() = edo[i - 1].R * ed2[i].t; edo[i].t += edo[i - 1].t; } });
   c = chain([&] { for(int i = 1; i < N; i++) ido[i] = ido[i - 1] * id2[i]; });

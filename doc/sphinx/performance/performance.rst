@@ -51,58 +51,58 @@ Portable build (``-O3 -march=x86-64``)
      - Speedup
    * - SE3 product
      - ``ksl_product_dd``
-     - 4.08
-     - 4.94
-     - 6.05 (Isometry3d)
-     - 1.2x
+     - 3.50
+     - 4.83
+     - 5.85 (Isometry3d)
+     - 1.4x
    * - Inverse SE3 product
      - ``ksl_product_dinvd``
-     - 4.85
-     - 3.87
-     - 6.62 (Isometry3d)
-     - 0.8x
+     - 3.86
+     - 3.77
+     - 7.19 (Isometry3d)
+     - 1.0x
    * - Transform a point
      - ``ksl_product_dv``
-     - 1.12
+     - 1.10
      - 1.41
-     - 1.61 (Isometry3d)
+     - 1.50 (Isometry3d)
      - 1.3x
    * - Rotation about z
      - ``ksl_product_ddrz``
-     - 2.68
-     - 3.44
-     - 3.93 (R * Rz)
-     - 1.3x
+     - 2.72
+     - 2.79
+     - 3.67 (R * Rz)
+     - 1.0x
    * - Adjoint of a screw
      - ``ksl_product_Ads``
-     - 3.05
-     - 2.56
-     - 3.64 (6x6)
-     - 0.8x
+     - 2.41
+     - 2.55
+     - 3.62 (6x6)
+     - 1.1x
    * - CoAdjoint of a coscrew
      - ``ksl_product_CoAdc``
-     - 3.05
-     - 2.57
-     - 3.14 (6x6)
-     - 0.8x
+     - 2.42
+     - 2.54
+     - 3.12 (6x6)
+     - 1.0x
    * - Quaternion product
      - ``ksl_product_qq``
-     - 1.48
+     - 1.45
      -
-     - 1.48 (Quaterniond)
+     - 1.47 (Quaterniond)
      - 1.0x
    * - Inertia transform
      - ``ksl_inertia_transformed``
-     - 7.67
-     - 25.78
-     - 37.41 (6x6)
-     - 3.4x
-   * - Kinematic chain (latency)
+     - 7.63
+     - 25.56
+     - 37.38 (6x6)
+     - 3.3x
+   * - Kinematic chain
      - ``ksl_product_dd``
-     - 5.98
-     - 4.95
-     - 6.75 (Isometry3d)
-     - 0.8x
+     - 3.58
+     - 4.86
+     - 6.76 (Isometry3d)
+     - 1.4x
 
 Native build (``-O3 -march=native``)
 ************************************
@@ -119,87 +119,96 @@ Native build (``-O3 -march=native``)
      - Speedup
    * - SE3 product
      - ``ksl_product_dd``
-     - 4.49
-     - 6.32
-     - 13.37 (Isometry3d)
-     - 1.4x
+     - 2.79
+     - 6.18
+     - 12.23 (Isometry3d)
+     - 2.2x
    * - Inverse SE3 product
      - ``ksl_product_dinvd``
-     - 4.65
-     - 6.46
-     - 24.89 (Isometry3d)
-     - 1.4x
+     - 2.94
+     - 6.81
+     - 23.69 (Isometry3d)
+     - 2.3x
    * - Transform a point
      - ``ksl_product_dv``
-     - 0.97
-     - 4.62
-     - 9.54 (Isometry3d)
+     - 0.96
+     - 4.63
+     - 9.52 (Isometry3d)
      - 4.8x
    * - Rotation about z
      - ``ksl_product_ddrz``
-     - 2.34
-     - 3.25
-     - 4.07 (R * Rz)
-     - 1.4x
+     - 2.72
+     - 3.05
+     - 3.94 (R * Rz)
+     - 1.1x
    * - Adjoint of a screw
      - ``ksl_product_Ads``
-     - 3.18
-     - 9.71
-     - 3.48 (6x6)
-     - 1.1x
+     - 1.79
+     - 9.70
+     - 3.47 (6x6)
+     - 1.9x
    * - CoAdjoint of a coscrew
      - ``ksl_product_CoAdc``
-     - 2.66
-     - 9.81
-     - 3.11 (6x6)
-     - 1.2x
+     - 1.83
+     - 9.75
+     - 3.07 (6x6)
+     - 1.7x
    * - Quaternion product
      - ``ksl_product_qq``
-     - 0.90
+     - 0.80
      -
-     - 0.81 (Quaterniond)
-     - 0.9x
+     - 0.80 (Quaterniond)
+     - 1.0x
    * - Inertia transform
      - ``ksl_inertia_transformed``
-     - 6.18
-     - 36.70
-     - 31.59 (6x6)
-     - 5.1x
-   * - Kinematic chain (latency)
+     - 6.15
+     - 36.75
+     - 31.97 (6x6)
+     - 5.2x
+   * - Kinematic chain
      - ``ksl_product_dd``
-     - 6.65
-     - 8.97
-     - 15.24 (Isometry3d)
-     - 1.3x
+     - 3.12
+     - 8.98
+     - 16.38 (Isometry3d)
+     - 2.9x
 
 Observations
 ------------
 
-* **KSL matches or beats Eigen's general-purpose types.** Against
-  ``Isometry3d`` and 6x6 matrices, every *KSL* function is as fast or faster.
-  The quaternion product ties ``Quaterniond`` in the portable build, and
-  ``Quaterniond`` is about 10% faster with ``-march=native``.
-* **The largest gain is the inertia transform:** 3.4x in the portable build
-  and 5.1x with ``-march=native``. *KSL* transforms the 10 independent mass
+* **With** ``-march=native``, **KSL is faster on every operation except the
+  quaternion product, which ties** ``Quaterniond``. The gains range from 1.1x
+  (rotation about z) to 5.2x (inertia transform).
+* **In the portable build, KSL is faster or ties on every operation except
+  the inverse SE3 product,** where hand-written Eigen code takes 2% less
+  time. The gains range from 1.0x to 3.3x (inertia transform).
+* **The largest gain is the inertia transform:** 3.3x in the portable build
+  and 5.2x with ``-march=native``. *KSL* transforms the 10 independent mass
   and inertia terms directly instead of forming :math:`R I R^T` or a 6x6
   product.
-* **With** ``-march=native``, **KSL is faster on every operation except the
-  quaternion product.** The gains range from 1.1x (adjoint) to 5.1x
-  (inertia transform).
-* **In the portable build, hand-written Eigen code is faster on four
-  operations.** Eigen code written directly on ``R`` and ``t`` takes about
-  15-20% less time for the inverse product, the adjoint, the coadjoint and the dependent
-  kinematic chain. *KSL* is faster for the SE3 product (1.2x), point transform
-  (1.3x), axis rotation (1.3x) and inertia transform.
-* **The quaternion product matches Eigen.** Like Eigen, *KSL* writes the
-  general quaternion products directly with the processor's SSE2 and SSE3
-  instructions, which operate on two double precision numbers at once. They tie Eigen in the portable build and are within 10% with
-  ``-march=native``. On other processors, or when ``KSL_NO_SIMD`` is defined,
-  they use plain C code instead.
+* **The SE3 products, adjoint, coadjoint and quaternion products are written
+  with SSE2 instructions,** which operate on two double precision numbers at
+  once and are available on every 64-bit x86 processor. Each 3-element column
+  is handled as one pair plus one single number, and results are written to
+  memory in the same pieces, so a following operation, such as the next
+  product in a kinematic chain, can read them as soon as they are written.
+  From plain C code, the compiler forms the pairs itself, and because a
+  column has three numbers its pairs straddle columns, which takes extra
+  instructions to rearrange values. On other processors, or when
+  ``KSL_NO_SIMD`` is defined, these functions use plain C code instead.
+* **How results are stored matters in a loop.** The SSE functions that store
+  a register to memory are allowed to write to memory of any type, so after
+  one the compiler has to assume that any pointer held in memory, such as the
+  data pointer of a ``std::vector``, may have changed, and it reloads those
+  pointers on every pass through the loop. In a loop as short as a quaternion
+  product, that costs about 10%. With GCC, *KSL* stores through a
+  vector-of-doubles type instead, which the compiler knows can only write
+  doubles, so the pointers are loaded once before the loop. Clang treats both
+  kinds of store the same way, so there *KSL* uses the SSE store functions.
 * **Eigen's fixed-size code does not always benefit from** ``-march=native``.
-  With AVX instructions enabled, the ``Isometry3d`` products, the point transform and the
-  hand-written adjoint became roughly 2-6x slower than in the portable build.
-  The *KSL* functions changed by about 10% or less, or became faster.
+  With AVX instructions enabled, the ``Isometry3d`` products, the point
+  transform and the hand-written adjoint are roughly 2-6x slower than in the
+  portable build. The *KSL* functions are faster with ``-march=native``,
+  apart from the rotation about z, which takes the same time in both builds.
 * **Data size.** ``ksl_SE3_t`` is 96 bytes, against 128 bytes for
   ``Isometry3d``. ``ksl_inertia_t`` is 80 bytes, against 288 bytes for a 6x6
   spatial inertia matrix.
@@ -207,28 +216,39 @@ Observations
 Method
 ------
 
-All results were measured on 2026-10-31 on an Intel Core i9-14900K with GCC
+All results were measured on 2026-11-02 on an Intel Core i9-14900K with GCC
 16.2.1 and Eigen 5.0.1, using double precision.
 
 * Like Eigen, *KSL* defines its functions in its header files, so the
   benchmark compiles the code of both libraries together with the same
   compiler settings.
-* Every operation is applied to an array of 512 independent inputs, small
-  enough to stay in the processor's cache. Because the inputs are independent,
-  the processor can overlap consecutive operations, so these timings measure
-  how many operations it can complete per second (throughput). Each timing is
-  the minimum of 9 samples of 4000 passes over the array.
-* The kinematic chain row instead multiplies 512 transforms in sequence. Each
+* Every operation is applied to an array of 2048 independent inputs, for
+  example 192 KB of ``ksl_SE3_t`` per array. Like the data of most
+  simulations, that is larger than the processor's fastest cache (L1, 48 KB
+  per core on this processor), so the timings include moving data to and from
+  the next cache (L2, 2 MB per core), where every operation's inputs and
+  outputs fit. Because the inputs are independent, the processor can overlap
+  consecutive operations, so these timings measure how many operations it can
+  complete per second (throughput). Each timing is the minimum of 50 samples
+  of 1000 passes over the array, about 0.4 seconds per operation.
+* The kinematic chain row instead multiplies 2048 transforms in sequence. Each
   product needs the previous result, so the operations cannot overlap, and the
   timing measures how long one operation takes from start to finish
   (latency).
 * The benchmark checks *KSL* against Eigen before timing. Results agree to
   within :math:`2 \times 10^{-15}`.
-* Each configuration was run 7 times, pinned to a single core of an otherwise
-  idle machine. The tables show the median of those runs, which agreed within
-  a few percent apart from occasional single-run outliers. Measurements taken
-  while the machine was busy varied by 10-20% and are not reliable for
-  comparisons at this scale.
+* Each configuration was run 21 times, pinned to a single core of an
+  otherwise idle machine, and the tables show the median of those runs. Apart
+  from occasional single-run outliers, the runs agreed within about 1%.
+  Measurements taken while the machine was busy varied by 10-20% and are not
+  reliable for comparisons at this scale.
+* On this processor, writes to memory that is not already in the L1 cache
+  complete at one of two rates, and a newly started program can take from a
+  few milliseconds to a few seconds to reach the faster one. Until it does,
+  the SE3 products, which write the most data per operation, take 20-40%
+  longer, for both *KSL* and Eigen. Timing each operation for about 0.4
+  seconds and keeping the fastest sample measures the rate a long simulation
+  runs at.
 
 The benchmark is ``bench/bench_eigen.cpp`` in the *KSL* repository. To
 reproduce the results, install Eigen and run:
