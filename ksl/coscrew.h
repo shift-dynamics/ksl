@@ -145,11 +145,28 @@ static inline void ksl_coscrew_invert(ksl_coscrew_t* self);
 static inline void ksl_coscrewf_invert(ksl_coscrewf_t* self);
 
 /*!
-@brief Return the magnitude of a coscrew.
+@brief Amplitude of a coscrew: the length of its force, or of its moment if it
+is a pure couple.
+
+The dual of ksl_screw_norm(). A coscrew (wrench)
+\f$\{\underline{f}, \underline{n}\}\f$ (force first) is the product of a
+unit coscrew and an amplitude (Hunt, 1978; Davidson and Hunt, 2004; see the
+References); the length of all six components is not used, since force and
+moment have different units. Instead,
+
+- if \f$\underline{f} \neq 0\f$, the amplitude is
+  \f$\lVert\underline{f}\rVert\f$, the force along the line of action;
+- if \f$\underline{f} = 0\f$ (a pure couple, infinite pitch), it is
+  \f$\lVert\underline{n}\rVert\f$.
+
+The force is taken as zero when its length is at most \f$10^{-12}\f$ times
+that of the moment in double precision, or \f$10^{-5}\f$ times in single
+precision. Because the test compares the two parts with each other rather
+than with a fixed number, coscrews of any size are classified the same way. A zero coscrew has
+amplitude zero.
 
 @param v [in] coscrew
-@return the length of the linear (force) part, or of the angular (moment) part
-if the force is zero (below 1e-9)
+@return amplitude of v
 */
 static inline double ksl_coscrew_norm(const ksl_coscrew_t* v);
 
@@ -159,11 +176,13 @@ static inline double ksl_coscrew_norm(const ksl_coscrew_t* v);
 static inline float ksl_coscrewf_norm(const ksl_coscrewf_t* v);
 
 /*!
-@brief Normalize a coscrew in place.
+@brief Normalize a coscrew in place, to a unit coscrew.
 
-Divides the coscrew by the length of its linear (force) part. If the force is
-zero (below 1e-9), the coscrew is a pure moment and its angular part is
-normalized instead.
+Divides the coscrew by its amplitude, ksl_coscrew_norm(). If the force is not
+zero, the result has a unit force along the line of action, and the line of
+action and pitch are unchanged. A pure couple becomes \f$\{\underline{0},
+\underline{n} / \lVert\underline{n}\rVert\}\f$. A zero coscrew is left
+unchanged.
 
 @param v [in,out] coscrew
 */
@@ -934,46 +953,32 @@ static inline ksl_coscrewf_t ksl_coscrewf(const float m0, const float m1,
 }
 
 static inline double ksl_coscrew_norm(const ksl_coscrew_t* KSL_RESTRICT v) {
-  const double eps = 1e-9;
-  if((fabs(v->lin.x) < eps) && (fabs(v->lin.y) < eps) &&
-     (fabs(v->lin.z) < eps)) {
-    return (ksl_vec3_l2norm(&v->ang));
-  } else {
-    return (ksl_vec3_l2norm(&v->lin));
-  }
+  const double f = ksl_vec3_l2norm(&v->lin);
+  const double n = ksl_vec3_l2norm(&v->ang);
+  return f > 1e-12 * n ? f : n;
 }
 
 static inline float ksl_coscrewf_norm(const ksl_coscrewf_t* KSL_RESTRICT v) {
-  const float eps = 1e-6;
-  if((fabs(v->lin.x) < eps) && (fabs(v->lin.y) < eps) &&
-     (fabs(v->lin.z) < eps)) {
-    return (ksl_vec3f_l2norm(&v->ang));
-  } else {
-    return (ksl_vec3f_l2norm(&v->lin));
-  }
+  const float f = ksl_vec3f_l2norm(&v->lin);
+  const float n = ksl_vec3f_l2norm(&v->ang);
+  return f > 1e-5f * n ? f : n;
 }
 
 static inline void ksl_coscrew_normalize(ksl_coscrew_t* v) {
-  const double eps = 1e-9;
-  if((fabs(v->lin.x) < eps) && (fabs(v->lin.y) < eps) &&
-     (fabs(v->lin.z) < eps)) {
-    ksl_vec3_normalize(&v->ang);
-  } else {
-    double lin_inv_norm = 1.0 / ksl_vec3_l2norm(&v->lin);
-    ksl_vec3_scale(&v->ang, lin_inv_norm);
-    ksl_vec3_scale(&v->lin, lin_inv_norm);
+  const double a = ksl_coscrew_norm(v);
+  if(a > 0.0) {
+    const double inv_a = 1.0 / a;
+    ksl_vec3_scale(&v->lin, inv_a);
+    ksl_vec3_scale(&v->ang, inv_a);
   }
 }
 
 static inline void ksl_coscrewf_normalize(ksl_coscrewf_t* v) {
-  const float eps = 1e-6;
-  if((fabs(v->lin.x) < eps) && (fabs(v->lin.y) < eps) &&
-     (fabs(v->lin.z) < eps)) {
-    ksl_vec3f_normalize(&v->ang);
-  } else {
-    float lin_inv_norm = 1.0 / ksl_vec3f_l2norm(&v->lin);
-    ksl_vec3f_scale(&v->ang, lin_inv_norm);
-    ksl_vec3f_scale(&v->lin, lin_inv_norm);
+  const float a = ksl_coscrewf_norm(v);
+  if(a > 0.0f) {
+    const float inv_a = 1.0f / a;
+    ksl_vec3f_scale(&v->lin, inv_a);
+    ksl_vec3f_scale(&v->ang, inv_a);
   }
 }
 

@@ -27,9 +27,12 @@ is easily brought back to unit length after round-off
 singular orientations (no gimbal lock, see :ref:`axis`), and two orientations
 can be interpolated smoothly along the shortest path with spherical linear
 interpolation, *slerp* (``ksl_quaternion_slerp()``)
-:cite:`shoemake1985animating`. The time derivative of a quaternion is linear
-in the angular velocity, which makes quaternions convenient as orientation
-coordinates for integrating the equations of motion
+:cite:`shoemake1985animating`. A sequence of key orientations can be
+interpolated with *squad* (``ksl_quaternion_squad_keys()``)
+:cite:`shoemake1987quaternion`, which, unlike slerp between successive keys,
+gives an angular velocity that is continuous at the keys. The time derivative
+of a quaternion is linear in the angular velocity, which makes quaternions
+convenient as orientation coordinates for integrating the equations of motion
 (``ksl_omega_to_dquaternion()``). :cite:`kuipers1999quaternions` is a readable
 introduction.
 
@@ -89,6 +92,21 @@ Double precision
 
 
 .. doxygenfunction:: ksl_quaternion_nlerp
+
+
+.. doxygenfunction:: ksl_quaternion_log
+
+
+.. doxygenfunction:: ksl_quaternion_exp
+
+
+.. doxygenfunction:: ksl_quaternion_squad_control
+
+
+.. doxygenfunction:: ksl_quaternion_squad
+
+
+.. doxygenfunction:: ksl_quaternion_squad_keys
 
 
 .. doxygenfunction:: ksl_add_dpiToq
@@ -228,6 +246,21 @@ Single precision
 
 
 .. doxygenfunction:: ksl_quaternionf_nlerp
+
+
+.. doxygenfunction:: ksl_quaternionf_log
+
+
+.. doxygenfunction:: ksl_quaternionf_exp
+
+
+.. doxygenfunction:: ksl_quaternionf_squad_control
+
+
+.. doxygenfunction:: ksl_quaternionf_squad
+
+
+.. doxygenfunction:: ksl_quaternionf_squad_keys
 
 
 .. doxygenfunction:: ksl_product_qqf

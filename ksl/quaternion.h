@@ -105,6 +105,42 @@ static inline void ksl_quaternionf_nlerp(const ksl_quaternionf_t* q1i,
                                          const ksl_quaternionf_t* q2i,
                                          const float* t, ksl_quaternionf_t* qo);
 
+void ksl_quaternion_log(const ksl_quaternion_t* qi, ksl_vec3_t* vo);
+
+void ksl_quaternionf_log(const ksl_quaternionf_t* qi, ksl_vec3f_t* vo);
+
+void ksl_quaternion_exp(const ksl_vec3_t* vi, ksl_quaternion_t* qo);
+
+void ksl_quaternionf_exp(const ksl_vec3f_t* vi, ksl_quaternionf_t* qo);
+
+void ksl_quaternion_squad_control(const ksl_quaternion_t* qprevi,
+                                  const ksl_quaternion_t* qi,
+                                  const ksl_quaternion_t* qnexti,
+                                  ksl_quaternion_t* so);
+
+void ksl_quaternionf_squad_control(const ksl_quaternionf_t* qprevi,
+                                   const ksl_quaternionf_t* qi,
+                                   const ksl_quaternionf_t* qnexti,
+                                   ksl_quaternionf_t* so);
+
+void ksl_quaternion_squad(const ksl_quaternion_t* q1i,
+                          const ksl_quaternion_t* q2i,
+                          const ksl_quaternion_t* s1i,
+                          const ksl_quaternion_t* s2i, const double* t,
+                          ksl_quaternion_t* qo);
+
+void ksl_quaternionf_squad(const ksl_quaternionf_t* q1i,
+                           const ksl_quaternionf_t* q2i,
+                           const ksl_quaternionf_t* s1i,
+                           const ksl_quaternionf_t* s2i, const float* t,
+                           ksl_quaternionf_t* qo);
+
+void ksl_quaternion_squad_keys(int n, const ksl_quaternion_t* keys,
+                               const double* t, ksl_quaternion_t* qo);
+
+void ksl_quaternionf_squad_keys(int n, const ksl_quaternionf_t* keys,
+                                const float* t, ksl_quaternionf_t* qo);
+
 static inline void ksl_add_dpiToq(const ksl_vec3_t* dpi, ksl_quaternion_t* qi);
 
 static inline void ksl_subtract_dpiFromq(const ksl_vec3_t* dpi,

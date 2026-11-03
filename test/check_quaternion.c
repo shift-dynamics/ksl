@@ -212,7 +212,8 @@ START_TEST(test_quaternion_slerp) {
   const double span[2] = {1.0, 1e-4};
   for(int pair = 0; pair < 2; pair++) {
     ksl_quaternion_t q1 = make_test_quaternion(0, 0, 1, start[pair]);
-    ksl_quaternion_t q2 = make_test_quaternion(0, 0, 1, start[pair] + span[pair]);
+    ksl_quaternion_t q2 =
+      make_test_quaternion(0, 0, 1, start[pair] + span[pair]);
     for(int i = 0; i < 4; i++) {
       q2.at[i] = -q2.at[i];
     }
@@ -233,6 +234,148 @@ START_TEST(test_quaternion_slerp) {
       ck_assert_msg(rotation_difference(of, expected.at) < 1e-6,
                     "float pair %d, t = %g", pair, t);
     }
+  }
+}
+END_TEST
+
+START_TEST(test_quaternion_log_exp) {
+  /* log of a rotation by theta about e is e theta / 2, and exp inverts it,
+  including at small angles, where the series are used */
+  const double angles[4] = {2.5, 0.7, 1e-3, 1e-8};
+  for(int k = 0; k < 4; k++) {
+    ksl_quaternion_t q = make_test_quaternion(1.0, -2.0, 0.5, angles[k]);
+    ksl_vec3_t e = ksl_vec3(1.0, -2.0, 0.5);
+    ksl_vec3_normalize(&e);
+    ksl_vec3_t v;
+    ksl_quaternion_log(&q, &v);
+    for(int i = 0; i < 3; i++) {
+      ck_assert_double_eq_tol(v.at[i], 0.5 * angles[k] * e.at[i],
+                              1e-12 * angles[k]);
+    }
+    ksl_quaternion_t qe;
+    ksl_quaternion_exp(&v, &qe);
+    for(int i = 0; i < 4; i++) {
+      ck_assert_double_eq_tol(qe.at[i], q.at[i], 1e-14);
+    }
+
+    ksl_quaternionf_t qf = {{q.x, q.y, q.z, q.w}};
+    ksl_vec3f_t vf;
+    ksl_quaternionf_log(&qf, &vf);
+    ksl_quaternionf_t qef;
+    ksl_quaternionf_exp(&vf, &qef);
+    for(int i = 0; i < 3; i++) {
+      ck_assert_double_eq_tol(vf.at[i], v.at[i], 1e-6);
+    }
+    for(int i = 0; i < 4; i++) {
+      ck_assert_double_eq_tol(qef.at[i], q.at[i], 1e-6);
+    }
+  }
+}
+END_TEST
+
+/* angular velocity of the squad curve through keys, in the moving frame, by
+a one-sided difference of width dt to the right (dt > 0) or left (dt < 0)
+of t */
+static ksl_vec3_t squad_rate(const int n, const ksl_quaternion_t* keys,
+                             const double t, const double dt) {
+  double t1 = t, t2 = t + dt;
+  ksl_quaternion_t q1, q2, d;
+  ksl_quaternion_squad_keys(n, keys, &t1, &q1);
+  ksl_quaternion_squad_keys(n, keys, &t2, &q2);
+  ksl_product_qconjq(&q1, &q2, &d);
+  if(d.w < 0) {
+    for(int i = 0; i < 4; i++) {
+      d.at[i] = -d.at[i];
+    }
+  }
+  ksl_vec3_t v;
+  ksl_quaternion_log(&d, &v);
+  return ksl_vec3(2 * v.x / dt, 2 * v.y / dt, 2 * v.z / dt);
+}
+
+START_TEST(test_quaternion_squad_keys) {
+  /* keys at rotations about z by 0.4 k, with every other key negated: the
+  control points equal the keys, and squad reduces to rotation about z at a
+  constant rate, 0.4 t */
+  ksl_quaternion_t keys[5];
+  ksl_quaternionf_t keysf[5];
+  for(int k = 0; k < 5; k++) {
+    keys[k] = make_test_quaternion(0, 0, 1, 0.4 * k);
+    if(k % 2) {
+      for(int i = 0; i < 4; i++) {
+        keys[k].at[i] = -keys[k].at[i];
+      }
+    }
+    keysf[k] = ksl_quaternionf(keys[k].x, keys[k].y, keys[k].z, keys[k].w);
+  }
+  for(int j = -2; j <= 18; j++) {
+    double t = 0.25 * j;
+    float tf = t;
+    ksl_quaternion_t qo;
+    ksl_quaternionf_t qof;
+    ksl_quaternion_squad_keys(5, keys, &t, &qo);
+    ksl_quaternionf_squad_keys(5, keysf, &tf, &qof);
+    double tc = fmin(fmax(t, 0.0), 4.0);
+    ksl_quaternion_t expected = make_test_quaternion(0, 0, 1, 0.4 * tc);
+    double of[4] = {qof.x, qof.y, qof.z, qof.w};
+    ck_assert_msg(rotation_difference(qo.at, expected.at) < 1e-12, "t = %g", t);
+    ck_assert_msg(rotation_difference(of, expected.at) < 1e-6, "float t = %g",
+                  t);
+  }
+}
+END_TEST
+
+START_TEST(test_quaternion_squad_smooth) {
+  /* keys about different axes: the squad curve passes through every key,
+  and its angular velocity is continuous at the interior keys, where slerp's
+  jumps */
+  const double axes[5][3] = {
+    {0, 0, 1}, {1, 0, 0}, {0, 1, 1}, {1, -1, 0.5}, {-0.3, 1, 0}};
+  const double angles[5] = {0.2, 0.9, -0.6, 1.4, 0.5};
+  ksl_quaternion_t keys[5];
+  ksl_quaternionf_t keysf[5];
+  for(int k = 0; k < 5; k++) {
+    keys[k] =
+      make_test_quaternion(axes[k][0], axes[k][1], axes[k][2], angles[k]);
+    keysf[k] = ksl_quaternionf(keys[k].x, keys[k].y, keys[k].z, keys[k].w);
+  }
+
+  for(int k = 0; k < 5; k++) {
+    double t = k;
+    ksl_quaternion_t qo;
+    ksl_quaternion_squad_keys(5, keys, &t, &qo);
+    ck_assert_msg(rotation_difference(qo.at, keys[k].at) < 1e-14, "key %d", k);
+    /* the key reached from the left */
+    t = k - 1e-12;
+    if(k > 0) {
+      ksl_quaternion_squad_keys(5, keys, &t, &qo);
+      ck_assert_msg(rotation_difference(qo.at, keys[k].at) < 1e-10,
+                    "key %d from the left", k);
+    }
+  }
+
+  const double dt = 1e-6;
+  for(int k = 1; k < 4; k++) {
+    ksl_vec3_t left = squad_rate(5, keys, k, -dt);
+    ksl_vec3_t right = squad_rate(5, keys, k, dt);
+    for(int i = 0; i < 3; i++) {
+      ck_assert_msg(fabs(left.at[i] - right.at[i]) < 1e-4,
+                    "key %d: angular velocity %g from the left, %g from the "
+                    "right",
+                    k, left.at[i], right.at[i]);
+    }
+  }
+
+  /* single precision follows the double precision curve */
+  for(int j = 0; j <= 40; j++) {
+    double t = 0.1 * j;
+    float tf = t;
+    ksl_quaternion_t qo;
+    ksl_quaternionf_t qof;
+    ksl_quaternion_squad_keys(5, keys, &t, &qo);
+    ksl_quaternionf_squad_keys(5, keysf, &tf, &qof);
+    double of[4] = {qof.x, qof.y, qof.z, qof.w};
+    ck_assert_msg(rotation_difference(of, qo.at) < 1e-5, "float t = %g", t);
   }
 }
 END_TEST
@@ -369,6 +512,9 @@ Suite* quaternion_suite(void) {
   tcase_add_test(tc_core, test_quaternion_product_reference);
   tcase_add_test(tc_core, test_quaternion_product_vector);
   tcase_add_test(tc_core, test_quaternion_slerp);
+  tcase_add_test(tc_core, test_quaternion_log_exp);
+  tcase_add_test(tc_core, test_quaternion_squad_keys);
+  tcase_add_test(tc_core, test_quaternion_squad_smooth);
   tcase_add_test(tc_core, test_quaternion_product_qxq);
   tcase_add_test(tc_core, test_quaternion_product_axial);
   tcase_add_test(tc_core, test_quaternion_mat3x3_toQuaternion);

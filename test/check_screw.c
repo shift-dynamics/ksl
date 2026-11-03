@@ -127,6 +127,65 @@ START_TEST(test_screwf_normalize) {
 }
 END_TEST
 
+START_TEST(test_screw_normalize_scale) {
+  /* the amplitude and unit screw do not depend on the size of the screw: a
+  screw scaled by 1e-12 or 1e12 has the same unit screw (a fixed cutoff
+  would take the small one's angular part as zero) */
+  const ksl_screw_t s = ksl_screw(7.0, 8.0, -3.0, 2.0, 1.0, -2.0);
+  ksl_screw_t u;
+  ksl_screw_normalized(&s, &u);
+  /* the pitch is unchanged */
+  double h = ksl_dot_vv(&s.ang, &s.lin) / ksl_dot_vv(&s.ang, &s.ang);
+  double hn = ksl_dot_vv(&u.ang, &u.lin) / ksl_dot_vv(&u.ang, &u.ang);
+  ck_assert_double_eq_tol(hn, h, 1e-12);
+  ck_assert_double_eq_tol(ksl_vec3_l2norm(&u.ang), 1.0, 1e-15);
+  const double scales[2] = {1e-12, 1e12};
+  for(int j = 0; j < 2; j++) {
+    ksl_screw_t t = s;
+    ksl_screw_scale(&t, scales[j]);
+    ck_assert_double_eq_tol(ksl_screw_norm(&t), 3.0 * scales[j],
+                            1e-15 * scales[j]);
+    ksl_screw_normalize(&t);
+    for(int i = 0; i < 6; i++) {
+      ck_assert_double_eq_tol(t.at[i], u.at[i], 1e-14);
+    }
+  }
+  ksl_screwf_t sf = ksl_screwf(7.0, 8.0, -3.0, 2.0, 1.0, -2.0);
+  ksl_screwf_scale(&sf, 1e-12f);
+  ksl_screwf_normalize(&sf);
+  for(int i = 0; i < 6; i++) {
+    ck_assert_float_eq_tol(sf.at[i], u.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_screw_normalize_degenerate) {
+  /* a angular part at round-off level relative to the linear part: treated as
+  zero, so the linear part is normalized */
+  ksl_screw_t s = ksl_screw(3.0, 0.0, 4.0, 1e-16, 0.0, 0.0);
+  ck_assert_double_eq_tol(ksl_screw_norm(&s), 5.0, 1e-15);
+  ksl_screw_normalize(&s);
+  const double expected[6] = {0.6, 0.0, 0.8, 1e-16 / 5.0, 0.0, 0.0};
+  for(int i = 0; i < 6; i++) {
+    ck_assert_double_eq_tol(s.at[i], expected[i], 1e-15);
+  }
+  ksl_screwf_t sf = ksl_screwf(3.0, 0.0, 4.0, 1e-9, 0.0, 0.0);
+  ck_assert_float_eq_tol(ksl_screwf_norm(&sf), 5.0f, 1e-6);
+
+  /* a zero screw has amplitude zero and is left unchanged, not NaN */
+  ksl_screw_t z = ksl_screw(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+  ck_assert(ksl_screw_norm(&z) == 0.0);
+  ksl_screw_normalize(&z);
+  ksl_screwf_t zf = ksl_screwf(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+  ck_assert(ksl_screwf_norm(&zf) == 0.0f);
+  ksl_screwf_normalize(&zf);
+  for(int i = 0; i < 6; i++) {
+    ck_assert(z.at[i] == 0.0);
+    ck_assert(zf.at[i] == 0.0f);
+  }
+}
+END_TEST
+
 START_TEST(test_dot_cs) {
   ksl_screw_t s = ksl_screw(1.0, 2.0, 3.0, -3.0, -2.0, -1.0);
   ksl_coscrew_t c = ksl_coscrew(-1.0, -2.0, -3.0, 3.0, 2.0, 1.0);
@@ -1191,6 +1250,8 @@ Suite* screw_suite(void) {
   tcase_add_test(tc_core, test_screwf_norm);
   tcase_add_test(tc_core, test_screw_normalize);
   tcase_add_test(tc_core, test_screwf_normalize);
+  tcase_add_test(tc_core, test_screw_normalize_scale);
+  tcase_add_test(tc_core, test_screw_normalize_degenerate);
   tcase_add_test(tc_core, test_dot_cs);
   tcase_add_test(tc_core, test_dot_csf);
   tcase_add_test(tc_core, test_screw_scale);

@@ -56,27 +56,54 @@ by the user.
 ksl_screwf_t* ksl_screwf_alloc(int n);
 
 /*!
-@brief Compute the screw norm of a double precision spatial screw.
+@brief Amplitude of a screw: the length of its angular part, or of its linear
+part if it is a pure translation.
 
-@param s [in] input screw
-@return screw norm
+A screw \f$\{\underline{v}, \underline{\omega}\}\f$ (linear part first) is
+the product of a unit screw and an amplitude \f$\dot\theta\f$ (Hunt, 1978;
+Murray et al., 1994; Lynch and Park, 2017; see the References). The length of
+all six components is not used: the angular and linear parts have different
+units, and their relative size depends on the length unit and on the origin
+of the coordinate system. Instead,
+
+- if \f$\underline{\omega} \neq 0\f$, \f$\dot\theta =
+  \lVert\underline{\omega}\rVert\f$, the rate of rotation about the screw
+  axis;
+- if \f$\underline{\omega} = 0\f$ (a pure translation, infinite pitch),
+  \f$\dot\theta = \lVert\underline{v}\rVert\f$.
+
+The angular part is taken as zero when its length is at most \f$10^{-12}\f$
+times that of the linear part in double precision, or \f$10^{-5}\f$ times in
+single precision. Then \f$\lVert\underline{v}\rVert /
+\lVert\underline{\omega}\rVert\f$ is at least \f$10^{12}\f$ length units
+(in single precision, \f$10^5\f$): the screw axis lies that far from the
+origin or the pitch is that large, and the screw is a translation to within
+round-off. Because the test compares the
+two parts with each other rather than with a fixed number, screws of any size
+are classified the same way. A zero screw has amplitude zero.
+
+@param s [in] screw
+@return amplitude of s
 */
 static inline double ksl_screw_norm(const ksl_screw_t* s);
 
 /*!
-@brief Compute the screw norm of a single precision spatial screw.
-
-@param s [in] input screw
-@return screw norm
+@brief Single precision version of ksl_screw_norm().
 */
 static inline float ksl_screwf_norm(const ksl_screwf_t* s);
 
 /*!
-@brief Normalize a screw in place.
+@brief Normalize a screw in place, to a unit screw.
 
-Divides the screw by the length of its angular part, so a rotation axis screw
-gets a unit angular part. If the angular part is zero (below 1e-9), the screw is
-a pure translation and its linear part is normalized instead.
+Divides the screw by its amplitude, ksl_screw_norm(). If the angular part is
+not zero, the result has a unit angular part \f$\underline{s}\f$ along the
+screw axis and linear part \f$\underline{r} \times \underline{s} +
+h\,\underline{s}\f$, where \f$\underline{r}\f$ is a point on the axis and
+\f$h = \underline{\omega}\cdot\underline{v} /
+\lVert\underline{\omega}\rVert^2\f$ is the pitch; the axis and pitch are
+unchanged. A pure translation becomes \f$\{\underline{v} /
+\lVert\underline{v}\rVert, \underline{0}\}\f$. A zero screw is left
+unchanged.
 
 @param s [in,out] screw
 */
@@ -88,9 +115,9 @@ static inline void ksl_screw_normalize(ksl_screw_t* s);
 static inline void ksl_screwf_normalize(ksl_screwf_t* s);
 
 /*!
-@brief Compute a normalized copy of a screw.
+@brief Compute a unit screw from a screw.
 
-See ksl_screw_normalize().
+The copy is normalized with ksl_screw_normalize().
 
 @param si [in] screw
 @param so [out] normalized copy of si
@@ -1014,46 +1041,32 @@ static inline ksl_screwf_t ksl_screwf(const float m0, const float m1,
 }
 
 static inline double ksl_screw_norm(const ksl_screw_t* KSL_RESTRICT s) {
-  const double eps = 1e-9;
-  if((fabs(s->ang.x) < eps) && (fabs(s->ang.y) < eps) &&
-     (fabs(s->ang.z) < eps)) {
-    return (ksl_vec3_l2norm(&s->lin));
-  } else {
-    return (ksl_vec3_l2norm(&s->ang));
-  }
+  const double w = ksl_vec3_l2norm(&s->ang);
+  const double v = ksl_vec3_l2norm(&s->lin);
+  return w > 1e-12 * v ? w : v;
 }
 
 static inline float ksl_screwf_norm(const ksl_screwf_t* KSL_RESTRICT s) {
-  const float eps = 1e-6;
-  if((fabs(s->ang.x) < eps) && (fabs(s->ang.y) < eps) &&
-     (fabs(s->ang.z) < eps)) {
-    return (ksl_vec3f_l2norm(&s->lin));
-  } else {
-    return (ksl_vec3f_l2norm(&s->ang));
-  }
+  const float w = ksl_vec3f_l2norm(&s->ang);
+  const float v = ksl_vec3f_l2norm(&s->lin);
+  return w > 1e-5f * v ? w : v;
 }
 
 static inline void ksl_screw_normalize(ksl_screw_t* s) {
-  const double eps = 1e-9;
-  if((fabs(s->ang.x) < eps) && (fabs(s->ang.y) < eps) &&
-     (fabs(s->ang.z) < eps)) {
-    ksl_vec3_normalize(&s->lin);
-  } else {
-    double ang_inv_norm = 1.0 / ksl_vec3_l2norm(&s->ang);
-    ksl_vec3_scale(&s->lin, ang_inv_norm);
-    ksl_vec3_scale(&s->ang, ang_inv_norm);
+  const double n = ksl_screw_norm(s);
+  if(n > 0.0) {
+    const double inv_n = 1.0 / n;
+    ksl_vec3_scale(&s->lin, inv_n);
+    ksl_vec3_scale(&s->ang, inv_n);
   }
 }
 
 static inline void ksl_screwf_normalize(ksl_screwf_t* s) {
-  const float eps = 1e-6;
-  if((fabs(s->ang.x) < eps) && (fabs(s->ang.y) < eps) &&
-     (fabs(s->ang.z) < eps)) {
-    ksl_vec3f_normalize(&s->lin);
-  } else {
-    float ang_inv_norm = 1.0 / ksl_vec3f_l2norm(&s->ang);
-    ksl_vec3f_scale(&s->lin, ang_inv_norm);
-    ksl_vec3f_scale(&s->ang, ang_inv_norm);
+  const float n = ksl_screwf_norm(s);
+  if(n > 0.0f) {
+    const float inv_n = 1.0f / n;
+    ksl_vec3f_scale(&s->lin, inv_n);
+    ksl_vec3f_scale(&s->ang, inv_n);
   }
 }
 
@@ -1640,9 +1653,8 @@ static inline void ksl_product_Ads(const ksl_SE3_t* KSL_RESTRICT Di,
   const ksl_sse2_vec3_t c1 = ksl_sse2_load_(&Di->R.v1);
   const ksl_sse2_vec3_t c2 = ksl_sse2_load_(&Di->R.v2);
   const ksl_sse2_vec3_t w = ksl_sse2_product_mv_(c0, c1, c2, &si->ang);
-  const ksl_sse2_vec3_t v =
-    ksl_sse2_add_(ksl_sse2_product_mv_(c0, c1, c2, &si->lin),
-                  ksl_sse2_cross_(&Di->t, w));
+  const ksl_sse2_vec3_t v = ksl_sse2_add_(
+    ksl_sse2_product_mv_(c0, c1, c2, &si->lin), ksl_sse2_cross_(&Di->t, w));
   ksl_sse2_store_(&so->lin, v);
   ksl_sse2_store_(&so->ang, w);
 #else

@@ -229,6 +229,20 @@ The left derivative operator for :math:`[Ad]^*` matrices is:
     \end{bmatrix}
 
 
+Unit coscrews and amplitude
+***************************
+
+As with twists (see :ref:`screws`), a wrench
+:math:`\{\underline f, \underline n\}` is the product of a unit coscrew
+and an amplitude :cite:`hunt1978kinematic,davidson2004robots`, and the length
+of the :math:`6\times1` vector is not used, since force and moment have
+different units. If :math:`\underline f \neq 0`, the amplitude is
+:math:`\lVert\underline f\rVert`, and the unit coscrew has a unit force
+along the line of action; if :math:`\underline f = 0`, the wrench is a pure
+couple (infinite pitch) and the amplitude is :math:`\lVert\underline
+n\rVert`. ``ksl_coscrew_norm()`` returns the amplitude and
+``ksl_coscrew_normalize()`` divides by it.
+
 Double precision
 ----------------
 

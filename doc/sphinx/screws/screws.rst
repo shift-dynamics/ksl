@@ -461,6 +461,46 @@ These influence coefficient matrices taken with respect to the inertial referenc
 Once the position and orientation of each joint in a mechanism has been computed, the influence coefficient matrix can be computed simply by forming the corresponding column of :math:`[Ad]`, which requires only 9 additional FLOPs for revolute joints and no additional FLOPs for prismatic joints. Additionally, if SE(3) displacements and the Jacobian matrix are stored in column-major order, updating the influence coefficient matrices and elements Jacobian matrix can be vectorized with a stride of 1, which is optimal in terms of memory access.
 
 
+Unit screws and amplitude
+*************************
+
+A twist is the product of a *unit screw* and an *amplitude*,
+:math:`\underline{\mathbf{v}} = \hat{\underline{\mathbf{s}}}\,\dot\theta`
+:cite:`hunt1978kinematic,murray1994mathematical,lynch2017modern`. The
+amplitude is not the length of the :math:`6\times1` vector: the linear and
+angular parts have different units, and their relative size changes with the
+length unit and with the origin of the coordinate system, so that length has
+no physical meaning. Instead:
+
+- if :math:`\underline\omega \neq 0`, the amplitude is
+  :math:`\dot\theta = \lVert\underline\omega\rVert`, the rate of rotation
+  about the screw axis, and the unit screw is
+
+  .. math::
+
+     \hat{\underline{\mathbf{s}}} =
+     \frac{\underline{\mathbf{v}}}{\lVert\underline\omega\rVert} =
+     \begin{Bmatrix} \underline{r} \times \underline{s} + h\,\underline{s}
+     \\ \underline{s} \end{Bmatrix}
+
+  where :math:`\underline{s}` is the unit vector along the screw axis,
+  :math:`\underline{r}` is any point on the axis, and
+  :math:`h = \underline\omega \cdot \underline v /
+  \lVert\underline\omega\rVert^2` is the pitch;
+
+- if :math:`\underline\omega = 0`, the twist is a pure translation (infinite
+  pitch), :math:`\dot\theta = \lVert\underline v\rVert`, and
+  :math:`\hat{\underline{\mathbf{s}}} = \{\underline v / \lVert\underline
+  v\rVert, \underline 0\}`.
+
+Both give the same unit screw in any coordinate system and any length unit.
+``ksl_screw_norm()`` returns the amplitude and ``ksl_screw_normalize()``
+divides by it. Dividing instead by the dual magnitude
+:math:`\lVert\underline\omega\rVert + \varepsilon\,\underline\omega\cdot
+\underline v / \lVert\underline\omega\rVert` would also remove the pitch,
+leaving the Plücker coordinates of the screw axis, a line rather than a unit
+twist.
+
 Double precision
 ----------------
 

@@ -126,6 +126,65 @@ START_TEST(test_coscrewf_normalize) {
 }
 END_TEST
 
+START_TEST(test_coscrew_normalize_scale) {
+  /* the amplitude and unit coscrew do not depend on the size of the coscrew: a
+  coscrew scaled by 1e-12 or 1e12 has the same unit coscrew (a fixed cutoff
+  would take the small one's force as zero) */
+  const ksl_coscrew_t s = ksl_coscrew(2.0, 1.0, -2.0, 7.0, 8.0, -3.0);
+  ksl_coscrew_t u = s;
+  ksl_coscrew_normalize(&u);
+  /* the pitch is unchanged */
+  double h = ksl_dot_vv(&s.lin, &s.ang) / ksl_dot_vv(&s.lin, &s.lin);
+  double hn = ksl_dot_vv(&u.lin, &u.ang) / ksl_dot_vv(&u.lin, &u.lin);
+  ck_assert_double_eq_tol(hn, h, 1e-12);
+  ck_assert_double_eq_tol(ksl_vec3_l2norm(&u.lin), 1.0, 1e-15);
+  const double scales[2] = {1e-12, 1e12};
+  for(int j = 0; j < 2; j++) {
+    ksl_coscrew_t t = s;
+    ksl_coscrew_scale(&t, scales[j]);
+    ck_assert_double_eq_tol(ksl_coscrew_norm(&t), 3.0 * scales[j],
+                            1e-15 * scales[j]);
+    ksl_coscrew_normalize(&t);
+    for(int i = 0; i < 6; i++) {
+      ck_assert_double_eq_tol(t.at[i], u.at[i], 1e-14);
+    }
+  }
+  ksl_coscrewf_t sf = ksl_coscrewf(2.0, 1.0, -2.0, 7.0, 8.0, -3.0);
+  ksl_coscrewf_scale(&sf, 1e-12f);
+  ksl_coscrewf_normalize(&sf);
+  for(int i = 0; i < 6; i++) {
+    ck_assert_float_eq_tol(sf.at[i], u.at[i], 1e-6);
+  }
+}
+END_TEST
+
+START_TEST(test_coscrew_normalize_degenerate) {
+  /* a force at round-off level relative to the moment: treated as
+  zero, so the moment is normalized */
+  ksl_coscrew_t s = ksl_coscrew(1e-16, 0.0, 0.0, 3.0, 0.0, 4.0);
+  ck_assert_double_eq_tol(ksl_coscrew_norm(&s), 5.0, 1e-15);
+  ksl_coscrew_normalize(&s);
+  const double expected[6] = {1e-16 / 5.0, 0.0, 0.0, 0.6, 0.0, 0.8};
+  for(int i = 0; i < 6; i++) {
+    ck_assert_double_eq_tol(s.at[i], expected[i], 1e-15);
+  }
+  ksl_coscrewf_t sf = ksl_coscrewf(1e-9, 0.0, 0.0, 3.0, 0.0, 4.0);
+  ck_assert_float_eq_tol(ksl_coscrewf_norm(&sf), 5.0f, 1e-6);
+
+  /* a zero coscrew has amplitude zero and is left unchanged, not NaN */
+  ksl_coscrew_t z = ksl_coscrew(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+  ck_assert(ksl_coscrew_norm(&z) == 0.0);
+  ksl_coscrew_normalize(&z);
+  ksl_coscrewf_t zf = ksl_coscrewf(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+  ck_assert(ksl_coscrewf_norm(&zf) == 0.0f);
+  ksl_coscrewf_normalize(&zf);
+  for(int i = 0; i < 6; i++) {
+    ck_assert(z.at[i] == 0.0);
+    ck_assert(zf.at[i] == 0.0f);
+  }
+}
+END_TEST
+
 START_TEST(test_coscrew_scale) {
   ksl_coscrew_t c = ksl_coscrew(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
   ksl_coscrew_scale(&c, 2.0);
@@ -1232,6 +1291,8 @@ Suite* coscrew_suite(void) {
   tcase_add_test(tc_core, test_coscrewf_norm);
   tcase_add_test(tc_core, test_coscrew_normalize);
   tcase_add_test(tc_core, test_coscrewf_normalize);
+  tcase_add_test(tc_core, test_coscrew_normalize_scale);
+  tcase_add_test(tc_core, test_coscrew_normalize_degenerate);
   tcase_add_test(tc_core, test_coscrew_scale);
   tcase_add_test(tc_core, test_coscrewf_scale);
   tcase_add_test(tc_core, test_coscrew_copy);
