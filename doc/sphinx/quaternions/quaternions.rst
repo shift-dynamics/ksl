@@ -8,18 +8,21 @@ Overview
 --------
 
 A unit quaternion is a compact, well-behaved way to represent a rotation. A
-rotation by angle :math:`\theta` about the unit axis :math:`\underline{e}` is
+rotation by angle :math:`\theta` about the unit axis :math:`\underline{u}` is
 the quaternion
 
 .. math::
 
-   q = \begin{Bmatrix} \underline{e} \sin(\theta/2) \\ \cos(\theta/2)
-   \end{Bmatrix} = \begin{Bmatrix} x \\ y \\ z \\ w \end{Bmatrix},
-   \qquad x^2 + y^2 + z^2 + w^2 = 1
+   \hat{e} = \begin{Bmatrix} \underline{e} \\ e_3 \end{Bmatrix}
+   = \begin{Bmatrix} \underline{u} \sin(\theta/2) \\ \cos(\theta/2)
+   \end{Bmatrix} = \begin{Bmatrix} e_0 \\ e_1 \\ e_2 \\ e_3 \end{Bmatrix},
+   \qquad e_0^2 + e_1^2 + e_2^2 + e_3^2 = 1
 
-The first three components form the vector part and :math:`w` is the scalar
-part. Note the **half angle**: :math:`q` and :math:`-q` describe the same
-rotation.
+:math:`\underline{e} = \{e_0, e_1, e_2\}` is the vector part and :math:`e_3`
+is the scalar part, written :math:`\hat{e} = \{\underline{e};\ e_3\}`. The hat
+marks a unit quantity. A quaternion that is not of unit length, such as a pure
+quaternion :math:`\{\underline{v};\ 0\}`, has no hat. Note the **half angle**:
+:math:`\hat{e}` and :math:`-\hat{e}` describe the same rotation.
 
 Compared with a rotation matrix, a quaternion uses 4 numbers instead of 9 and
 is easily brought back to unit length after round-off
@@ -38,11 +41,13 @@ introduction.
 
 **Products.** Quaternions are multiplied with the Hamilton product, in which
 :math:`ij = k`. The product composes rotations in the same order as rotation
-matrices: if :math:`q_1` and :math:`q_2` correspond to :math:`R_1` and
-:math:`R_2`, then :math:`q_1 q_2` corresponds to :math:`R_1 R_2`. The
-conjugate :math:`q^* = \{-\underline{e}\sin(\theta/2), \cos(\theta/2)\}` is
+matrices: if :math:`\hat{e}_1` and :math:`\hat{e}_2` correspond to
+:math:`R_1` and :math:`R_2`, then :math:`\hat{e}_1 \hat{e}_2` corresponds to
+:math:`R_1 R_2`. The conjugate :math:`\hat{e}^* = \{-\underline{e};\ e_3\}` is
 the inverse rotation; ``conj`` in a function name means the conjugate of that
-operand, so ``ksl_product_qconjq`` computes :math:`q_1^* q_2`.
+operand, so ``ksl_product_qconjq`` computes :math:`\hat{e}_1^* \hat{e}_2`.
+The subscripts 1 and 2 number the operands; a subscript 0 to 3 without a hat
+is a component.
 ``ksl_mat3x3_toQuaternion()`` and ``ksl_quaternion_toMat3x3()`` convert to and
 from rotation matrices.
 
@@ -59,8 +64,9 @@ axis given as a ``{sin, cos}`` pair. For a quaternion that pair is
    ksl_product_qxq(dc_half, &q, &qo);  /* qo = qx(theta) * q */
 
 **Storage.** ``ksl_quaternion_t`` holds four ``double`` values, 32 bytes
-(``ksl_quaternionf_t``: 16 bytes), with the scalar part **last**: ``x``,
-``y``, ``z``, ``w``, or ``at[0]`` to ``at[3]``, or the vector part as a
+(``ksl_quaternionf_t``: 16 bytes), with the scalar part **last**:
+:math:`e_0` to :math:`e_3` are the fields ``x``, ``y``, ``z``, ``w``, or
+``at[0]`` to ``at[3]``, and the vector part :math:`\underline{e}` is also a
 ``ksl_vec3_t`` named ``r``. Some other libraries store the scalar first, so
 check the order when exchanging data.
 

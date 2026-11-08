@@ -15,6 +15,7 @@ example                               description                     reserved f
 :math:`\underline{a}`                 underlined symbols              Vector quantities, or a column matrix of stacked vector quantities
 :math:`\dot{v}`                       overhead dot                    First time derivative
 :math:`\ddot{v}`                      overhead double dot             Second time derivative
+:math:`\hat{e}`                       overhead hat                    Unit quantities, such as unit quaternions and unit screws
 :math:`\begin{bmatrix} \end{bmatrix}` square brackets                 :math:`m \times n` matrices where :math:`m` and :math:`n` are typically greater than 1
 :math:`\begin{Bmatrix} \end{Bmatrix}` *curly* brackets or braces      :math:`m \times 1` column matrix
 :math:`\mathbf{\underline{v}}`        bold face/underlined            :math:`6 \times 1` *screw* quantities, such as velocities and accelerations
@@ -29,6 +30,8 @@ symbol                     operation                                            
 ========================== =============================================================================== ======
 :math:`R`                                                                                                  :math:`R \in \mathbb{R}^{3x3}`, an SO(3) rotation matrix
 :math:`R^{-1}`             :math:`R^T`
+:math:`\hat{e}`            :math:`\{\underline{e};\ e_3\}`                                                 a unit quaternion, scalar part last (see :ref:`quaternions`)
+:math:`\hat{e}^{-1}`       :math:`\hat{e}^* = \{-\underline{e};\ e_3\}`
 :math:`\underline{r}`                                                                                      :math:`r \in \mathbb{R}^{3}`, a translation vector
 :math:`\underline{r}^{-1}` :math:`- \underline{r}`
 :math:`\tilde{r}`          :math:`\begin{bmatrix}0&-r_z&r_y&\\r_z&0&-r_x\\-r_y&r_x&0\end{bmatrix}`         :math:`\tilde{r} \in \mathbb{R}^{3x3}`, a skew-symmetric matrix

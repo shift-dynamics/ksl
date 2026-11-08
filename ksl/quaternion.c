@@ -212,11 +212,11 @@ inline void ksl_mat3x3f_toQuaternion(const ksl_mat3x3f_t* restrict ri,
 /*!
 @brief Logarithm of a unit quaternion.
 
-For the unit quaternion \f$q = \{\underline{e}\sin\phi, \cos\phi\}\f$, with
+For the unit quaternion \f$\hat{e} = \{\underline{u}\sin\phi;\ \cos\phi\}\f$, with
 \f$0 \le \phi \le \pi\f$, the logarithm is the pure quaternion
-\f$\log q = \{\underline{e}\,\phi, 0\}\f$; its vector part, half the rotation
-vector, is returned. If qi is a rotation of more than \f$\pi\f$ (w < 0), so is
-the result, \f$|\log q| > \pi/2\f$; negate qi first for the shorter rotation.
+\f$\log \hat{e} = \{\underline{u}\,\phi;\ 0\}\f$; its vector part, half the rotation
+vector, is returned. If qi is a rotation of more than \f$\pi\f$ (\f$e_3 < 0\f$), so is
+the result, \f$|\log \hat{e}| > \pi/2\f$; negate qi first for the shorter rotation.
 The inverse of ksl_quaternion_exp().
 
 @param qi [in] unit quaternion
@@ -243,9 +243,9 @@ void ksl_quaternion_log(const ksl_quaternion_t* restrict qi,
 /*!
 @brief Exponential of a pure quaternion.
 
-For the pure quaternion \f$\{\underline{v}, 0\}\f$ with
+For the pure quaternion \f$\{\underline{v};\ 0\}\f$ with
 \f$\phi = |\underline{v}|\f$,
-\f$\exp\{\underline{v}, 0\} = \{\underline{v}\sin(\phi)/\phi, \cos\phi\}\f$,
+\f$\exp\{\underline{v};\ 0\} = \{\underline{v}\sin(\phi)/\phi;\ \cos\phi\}\f$,
 the rotation by \f$2\phi\f$ about \f$\underline{v}\f$. The inverse of
 ksl_quaternion_log().
 
@@ -282,24 +282,24 @@ static void ksl_quaternion_log_difference(const ksl_quaternion_t* q1i,
 /*!
 @brief Control point of a key quaternion for ksl_quaternion_squad().
 
-Given the key \f$q_i\f$ and its neighbors \f$q_{i-1}\f$ and \f$q_{i+1}\f$,
+Given the key \f$\hat{e}_i\f$ and its neighbors \f$\hat{e}_{i-1}\f$ and \f$\hat{e}_{i+1}\f$,
 computes (Shoemake, 1987; see the References)
 
 \f[
-s_i = q_i \exp\left(-\frac{\log(q_i^* q_{i+1}) + \log(q_i^* q_{i-1})}{4}
+\hat{s}_i = \hat{e}_i \exp\left(-\frac{\log(\hat{e}_i^* \hat{e}_{i+1}) + \log(\hat{e}_i^* \hat{e}_{i-1})}{4}
 \right)
 \f]
 
 which makes the squad curve through the keys continuous in angular velocity
-at \f$q_i\f$. The differences \f$q_i^* q_{i\pm1}\f$ are taken as the shorter
-rotation, so the signs of the keys do not matter, and \f$s_i\f$ has the sign
-of \f$q_i\f$. At the first and last key there is only one neighbor; use the
+at \f$\hat{e}_i\f$. The differences \f$\hat{e}_i^* \hat{e}_{i\pm1}\f$ are taken as the shorter
+rotation, so the signs of the keys do not matter, and \f$\hat{s}_i\f$ has the sign
+of \f$\hat{e}_i\f$. At the first and last key there is only one neighbor; use the
 key itself as its control point, as ksl_quaternion_squad_keys() does.
 
-@param qprevi [in] previous key, \f$q_{i-1}\f$
-@param qi [in] key, \f$q_i\f$
-@param qnexti [in] next key, \f$q_{i+1}\f$
-@param so [out] control point, \f$s_i\f$
+@param qprevi [in] previous key, \f$\hat{e}_{i-1}\f$
+@param qi [in] key, \f$\hat{e}_i\f$
+@param qnexti [in] next key, \f$\hat{e}_{i+1}\f$
+@param so [out] control point, \f$\hat{s}_i\f$
 */
 void ksl_quaternion_squad_control(const ksl_quaternion_t* restrict qprevi,
                                   const ksl_quaternion_t* restrict qi,
@@ -319,13 +319,13 @@ void ksl_quaternion_squad_control(const ksl_quaternion_t* restrict qprevi,
 /*!
 @brief Spherical quadrangle interpolation (squad) between two key quaternions.
 
-Interpolates from the key \f$q_1\f$ to the next key \f$q_2\f$ along a smooth
-curve shaped by their control points \f$s_1\f$ and \f$s_2\f$ from
+Interpolates from the key \f$\hat{e}_1\f$ to the next key \f$\hat{e}_2\f$ along a smooth
+curve shaped by their control points \f$\hat{s}_1\f$ and \f$\hat{s}_2\f$ from
 ksl_quaternion_squad_control() (Shoemake, 1987; see the References):
 
 \f[
-\mathrm{squad}(q_1, q_2, s_1, s_2, t) = \mathrm{slerp}\big(
-\mathrm{slerp}(q_1, q_2, t), \mathrm{slerp}(s_1, s_2, t), 2t(1 - t)\big)
+\mathrm{squad}(\hat{e}_1, \hat{e}_2, \hat{s}_1, \hat{s}_2, t) = \mathrm{slerp}\big(
+\mathrm{slerp}(\hat{e}_1, \hat{e}_2, t), \mathrm{slerp}(\hat{s}_1, \hat{s}_2, t), 2t(1 - t)\big)
 \f]
 
 Joining the curves between successive keys gives an orientation path through

@@ -800,12 +800,12 @@ static inline void ksl_axpy_qqf(const float a,
 /*!
 @brief Convert a quaternion to a rotation matrix.
 
-qi is first normalized in place. For \f$q = \{x, y, z, w\}\f$,
+qi is first normalized in place. For \f$\hat{e} = \{e_0, e_1, e_2, e_3\}\f$,
 \f[
 R = \begin{bmatrix}
-w^2 + x^2 - y^2 - z^2 & 2(xy - wz) & 2(xz + wy) \\
-2(xy + wz) & w^2 - x^2 + y^2 - z^2 & 2(yz - wx) \\
-2(xz - wy) & 2(yz + wx) & w^2 - x^2 - y^2 + z^2
+e_3^2 + e_0^2 - e_1^2 - e_2^2 & 2(e_0 e_1 - e_3 e_2) & 2(e_0 e_2 + e_3 e_1) \\
+2(e_0 e_1 + e_3 e_2) & e_3^2 - e_0^2 + e_1^2 - e_2^2 & 2(e_1 e_2 - e_3 e_0) \\
+2(e_0 e_2 - e_3 e_1) & 2(e_1 e_2 + e_3 e_0) & e_3^2 - e_0^2 - e_1^2 + e_2^2
 \end{bmatrix}
 \f]
 
@@ -1033,11 +1033,11 @@ ksl_quaternionf_nlerp(const ksl_quaternionf_t* KSL_RESTRICT q1i,
 /*!
 @brief Apply a small rotation to a quaternion, to first order.
 
-Adds the change in q produced by a small rotation vector
+Adds the change in the quaternion produced by a small rotation vector
 \f$\Delta\underline{\pi}\f$ whose coordinates are expressed in the rotated
 (body) frame:
 \f[
-q \leftarrow q + \tfrac{1}{2}\, q
+\hat{e} \leftarrow \hat{e} + \tfrac{1}{2}\, \hat{e}
 \begin{Bmatrix} \Delta\underline{\pi} \\ 0 \end{Bmatrix}
 \f]
 The result is not normalized.
@@ -1063,7 +1063,7 @@ static inline void ksl_add_dpiToq(const ksl_vec3_t* KSL_RESTRICT dpi,
 
 The reverse of ksl_add_dpiToq():
 \f[
-q \leftarrow q - \tfrac{1}{2}\, q
+\hat{e} \leftarrow \hat{e} - \tfrac{1}{2}\, \hat{e}
 \begin{Bmatrix} \Delta\underline{\pi} \\ 0 \end{Bmatrix}
 \f]
 The result is not normalized.
@@ -1107,13 +1107,13 @@ static inline void ksl_subtract_dpiFromq(const ksl_vec3_t* KSL_RESTRICT dpi,
 @brief Time derivative of a quaternion from the angular velocity.
 
 \f[
-\dot{q} = \tfrac{1}{2}
-\begin{Bmatrix} \underline{\omega} \\ 0 \end{Bmatrix} q
-+ \frac{1}{2\tau}\left(1 - q^T q\right) q, \qquad \tau = 0.5
+\dot{\hat{e}} = \tfrac{1}{2}
+\begin{Bmatrix} \underline{\omega} \\ 0 \end{Bmatrix} \hat{e}
++ \frac{1}{2\tau}\left(1 - \hat{e}^T \hat{e}\right) \hat{e}, \qquad \tau = 0.5
 \f]
 where the coordinates of the angular velocity \f$\underline{\omega}\f$ are
-expressed in the fixed frame. The second term keeps q at unit length during
-numerical integration: it is zero when q has unit length and pulls the
+expressed in the fixed frame. The second term keeps the quaternion at unit
+length during numerical integration: it is zero at unit length and pulls the
 length back toward 1 otherwise.
 
 @param w [in] angular velocity, fixed frame coordinates
@@ -1163,20 +1163,20 @@ ksl_omega_to_dquaternion(const ksl_vec3_t* KSL_RESTRICT w,
 @brief Quaternion product qo = q1i * q2i.
 
 The Hamilton product of two quaternions. For a quaternion
-\f$q = \{x, y, z, w\}\f$ it can be written as a matrix product,
-\f$q_1 q_2 = L(q_1)\, q_2 = R(q_2)\, q_1\f$, with
+\f$\hat{e} = \{e_0, e_1, e_2, e_3\}\f$ it can be written as a matrix product,
+\f$\hat{e}_1 \hat{e}_2 = L(\hat{e}_1)\, \hat{e}_2 = R(\hat{e}_2)\, \hat{e}_1\f$, with
 \f[
-L(q) = \begin{bmatrix}
- w & -z &  y & x \\
- z &  w & -x & y \\
--y &  x &  w & z \\
--x & -y & -z & w
+L(\hat{e}) = \begin{bmatrix}
+ e_3 & -e_2 &  e_1 & e_0 \\
+ e_2 &  e_3 & -e_0 & e_1 \\
+-e_1 &  e_0 &  e_3 & e_2 \\
+-e_0 & -e_1 & -e_2 & e_3
 \end{bmatrix}, \qquad
-R(q) = \begin{bmatrix}
- w &  z & -y & x \\
--z &  w &  x & y \\
- y & -x &  w & z \\
--x & -y & -z & w
+R(\hat{e}) = \begin{bmatrix}
+ e_3 &  e_2 & -e_1 & e_0 \\
+-e_2 &  e_3 &  e_0 & e_1 \\
+ e_1 & -e_0 &  e_3 & e_2 \\
+-e_0 & -e_1 & -e_2 & e_3
 \end{bmatrix}
 \f]
 
@@ -1235,7 +1235,7 @@ static inline void ksl_product_qqf(const ksl_quaternionf_t* KSL_RESTRICT q1i,
 /*!
 @brief Quaternion product qo = conj(q1i) * q2i.
 
-Computes \f$q_o = q_1^* q_2\f$. See ksl_product_qq() for the matrix form of the product.
+Computes \f$\hat{e}_o = \hat{e}_1^* \hat{e}_2\f$. See ksl_product_qq() for the matrix form of the product.
 
 @param q1i [in] first quaternion
 @param q2i [in] second quaternion
@@ -1292,7 +1292,7 @@ ksl_product_qconjqf(const ksl_quaternionf_t* KSL_RESTRICT q1i,
 /*!
 @brief Quaternion product qo = q1i * conj(q2i).
 
-Computes \f$q_o = q_1 q_2^*\f$. See ksl_product_qq() for the matrix form of the product.
+Computes \f$\hat{e}_o = \hat{e}_1 \hat{e}_2^*\f$. See ksl_product_qq() for the matrix form of the product.
 
 @param q1i [in] first quaternion
 @param q2i [in] second quaternion
@@ -1353,7 +1353,7 @@ ksl_product_qqconjf(const ksl_quaternionf_t* KSL_RESTRICT q1i,
 /*!
 @brief Quaternion product qo = conj(q1i) * conj(q2i).
 
-Computes \f$q_o = q_1^* q_2^*\f$. See ksl_product_qq() for the matrix form of the product.
+Computes \f$\hat{e}_o = \hat{e}_1^* \hat{e}_2^*\f$. See ksl_product_qq() for the matrix form of the product.
 
 @param q1i [in] first quaternion
 @param q2i [in] second quaternion
@@ -1891,7 +1891,7 @@ ksl_product_qconjqzconjf(const ksl_quaternionf_t* KSL_RESTRICT qi,
 
 The vector is treated as a quaternion with zero scalar part:
 \f[
-q_o = q \begin{Bmatrix} \underline{v} \\ 0 \end{Bmatrix}
+\hat{e} \begin{Bmatrix} \underline{v} \\ 0 \end{Bmatrix}
 \f]
 
 @param qi [in] quaternion
@@ -1938,7 +1938,7 @@ static inline void ksl_product_qvf(const ksl_quaternionf_t* KSL_RESTRICT qi,
 
 The vector is treated as a quaternion with zero scalar part:
 \f[
-q_o = q^* \begin{Bmatrix} \underline{v} \\ 0 \end{Bmatrix}
+\hat{e}^* \begin{Bmatrix} \underline{v} \\ 0 \end{Bmatrix}
 \f]
 
 @param qi [in] quaternion
@@ -1984,7 +1984,7 @@ static inline void ksl_product_qconjvf(const ksl_quaternionf_t* KSL_RESTRICT qi,
 
 The vector is treated as a quaternion with zero scalar part:
 \f[
-q_o = \begin{Bmatrix} \underline{v} \\ 0 \end{Bmatrix} q
+\begin{Bmatrix} \underline{v} \\ 0 \end{Bmatrix} \hat{e}
 \f]
 
 @param vi [in] vector
@@ -2029,7 +2029,7 @@ static inline void ksl_product_vqf(const ksl_vec3f_t* KSL_RESTRICT vi,
 
 The vector is treated as a quaternion with zero scalar part:
 \f[
-q_o = \begin{Bmatrix} \underline{v} \\ 0 \end{Bmatrix} q^*
+\begin{Bmatrix} \underline{v} \\ 0 \end{Bmatrix} \hat{e}^*
 \f]
 
 @param vi [in] vector
