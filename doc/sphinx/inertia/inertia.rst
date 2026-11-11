@@ -151,6 +151,31 @@ Therefore, :math:`\tilde{a} \tilde{b}` is found as:
   \bar{I}^{ff}_{ff} = \bar{I}^{ff}_{cc} - \text{result}
 
 
+Product with a Screw
+--------------------
+
+The momentum coscrew of a body is the product of its spatial inertia and its velocity screw, :math:`\underline{\mathbf{p}}^*_f = M_{ff}\underline{\mathbf{v}}_f`, and the inertia wrench is the product of the spatial inertia and an acceleration screw. Writing the stored terms as :math:`m`, :math:`m\underline{t}` and :math:`\bar{I}`, the spatial inertia is
+
+.. math::
+  :label: eq:inertia_stored_terms
+
+  M = \begin{bmatrix}
+  mI & -\widetilde{m\underline{t}}\\
+  \widetilde{m\underline{t}} & \bar{I}
+  \end{bmatrix}
+
+and its product with a screw :math:`\underline{\mathbf{s}} = \{\underline{v}^T, \underline{\omega}^T\}^T` is formed from the ten terms with two cross products and the symmetric :math:`3 \times 3` product, without the dense :math:`6 \times 6` matrix:
+
+.. math::
+  :label: eq:inertia_screw_product
+
+  M\underline{\mathbf{s}} = \begin{Bmatrix}
+  m\underline{v} + \underline{\omega} \times m\underline{t}\\
+  m\underline{t} \times \underline{v} + \bar{I}\underline{\omega}
+  \end{Bmatrix}
+
+This takes 24 multiplications and 18 additions, compared with 36 multiplications and 30 additions for the dense matrix, and it reads 10 stored terms instead of 36. The inertia and the screw must be expressed in the same coordinates. :c:func:`ksl_product_is` and :c:func:`ksl_product_isf` carry out this product.
+
 Double precision
 ----------------
 
@@ -188,6 +213,9 @@ Double precision
 
 
 .. doxygenfunction:: ksl_inertia_copy
+
+
+.. doxygenfunction:: ksl_product_is
 
 
 
@@ -228,3 +256,6 @@ Single precision
 
 
 .. doxygenfunction:: ksl_inertiaf_copy
+
+
+.. doxygenfunction:: ksl_product_isf

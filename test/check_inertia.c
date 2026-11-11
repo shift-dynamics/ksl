@@ -4,9 +4,11 @@
 #include <stdlib.h>
 
 #include "ksl/SE3.h"
+#include "ksl/coscrew.h"
 #include "ksl/inertia.h"
 #include "ksl/mat3x3.h"
 #include "ksl/matrix.h"
+#include "ksl/screw.h"
 
 /* dense 3x3 inertia tensor from the inertia_t fields */
 static void inertia_to_mat3x3(const ksl_inertia_t* inertia, ksl_mat3x3_t* J) {
@@ -185,6 +187,50 @@ START_TEST(test_inertia_merge) {
 }
 END_TEST
 
+START_TEST(test_product_is) {
+  ksl_inertia_t inertia =
+    ksl_inertia(2.0, ksl_vec3(0.1, -0.2, 0.3), 3.0, 4.0, 5.0, 0.1, 0.2, 0.3);
+  const double m = inertia.m;
+  const double x = inertia.mt.x;
+  const double y = inertia.mt.y;
+  const double z = inertia.mt.z;
+
+  /* dense M = [m I, -[mt]~; [mt]~, I], row major */
+  const double M[36] = {
+    m,   0.0, 0.0, 0.0,         z,           -y,          //
+    0.0, m,   0.0, -z,          0.0,         x,           //
+    0.0, 0.0, m,   y,           -x,          0.0,         //
+    0.0, -z,  y,   inertia.Ixx, inertia.Ixy, inertia.Izx, //
+    z,   0.0, -x,  inertia.Ixy, inertia.Iyy, inertia.Iyz, //
+    -y,  x,   0.0, inertia.Izx, inertia.Iyz, inertia.Izz};
+  ksl_screw_t s = ksl_screw(0.7, -1.3, 0.4, 2.1, -0.6, 1.5);
+
+  ksl_coscrew_t c;
+  ksl_product_is(&inertia, &s, &c);
+  for(int r = 0; r < 6; r++) {
+    double expected = 0.0;
+    for(int k = 0; k < 6; k++) {
+      expected += M[r * 6 + k] * s.at[k];
+    }
+    ck_assert_double_eq_tol(c.at[r], expected, 1e-12);
+  }
+
+  ksl_inertiaf_t inertiaf;
+  for(int i = 0; i < 10; i++) {
+    inertiaf.at[i] = (float)inertia.at[i];
+  }
+  ksl_screwf_t sf;
+  for(int i = 0; i < 6; i++) {
+    sf.at[i] = (float)s.at[i];
+  }
+  ksl_coscrewf_t cf;
+  ksl_product_isf(&inertiaf, &sf, &cf);
+  for(int r = 0; r < 6; r++) {
+    ck_assert_float_eq_tol(cf.at[r], (float)c.at[r], 1e-5f);
+  }
+}
+END_TEST
+
 Suite* inertia_suite(void) {
   Suite* s = suite_create("inertia");
   TCase* tc_core = tcase_create("core");
@@ -194,6 +240,7 @@ Suite* inertia_suite(void) {
   tcase_add_test(tc_core, test_inertia_translate);
   tcase_add_test(tc_core, test_inertia_transformed);
   tcase_add_test(tc_core, test_inertia_merge);
+  tcase_add_test(tc_core, test_product_is);
   suite_add_tcase(s, tc_core);
   return s;
 }

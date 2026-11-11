@@ -313,6 +313,36 @@ static inline void ksl_inertia_copy(const ksl_inertia_t* inertia_i,
 static inline void ksl_inertiaf_copy(const ksl_inertiaf_t* inertia_i,
                                      ksl_inertiaf_t* inertia_o);
 
+/*!
+@brief Product of a spatial inertia and a screw: co = M si.
+
+With the inertia stored as its ten terms, \f$M = \begin{bmatrix} m I &
+-\widetilde{m\underline{t}} \\ \widetilde{m\underline{t}} & \bar{I}
+\end{bmatrix}\f$, the product is formed without the dense \f$6 \times 6\f$
+matrix:
+
+\f[ \underline{\mathbf{c}}^* = \begin{Bmatrix} m \underline{v} +
+\underline{\omega} \times m\underline{t} \\ m\underline{t} \times
+\underline{v} + \bar{I} \underline{\omega} \end{Bmatrix} \f]
+
+where \f$\underline{v}\f$ and \f$\underline{\omega}\f$ are the linear and
+angular parts of the screw. Both are expressed in the coordinates of the
+inertia; multiplying a velocity gives the momentum coscrew and multiplying an
+acceleration gives the inertia wrench.
+
+@param inertia [in] spatial inertia
+@param si [in] screw {v, w}
+@param co [out] coscrew M si
+*/
+static inline void ksl_product_is(const ksl_inertia_t* inertia,
+                                  const ksl_screw_t* si, ksl_coscrew_t* co);
+
+/*!
+@brief Single precision version of ksl_product_is().
+*/
+static inline void ksl_product_isf(const ksl_inertiaf_t* inertia,
+                                   const ksl_screwf_t* si, ksl_coscrewf_t* co);
+
 #ifdef __cplusplus
 }
 #endif
@@ -625,6 +655,48 @@ ksl_inertiaf_transform(ksl_inertiaf_t* KSL_RESTRICT inertia_i,
   ksl_inertiaf_t inertia_o;
   ksl_inertiaf_transformed(inertia_i, d, &inertia_o);
   ksl_inertiaf_copy(&inertia_o, inertia_i);
+}
+
+static inline void ksl_product_is(const ksl_inertia_t* KSL_RESTRICT inertia,
+                                  const ksl_screw_t* KSL_RESTRICT si,
+                                  ksl_coscrew_t* KSL_RESTRICT co) {
+  const ksl_vec3_t* mt = &inertia->mt;
+
+  /* co.lin <- m v + w x mt */
+  ksl_cross_vv(&si->ang, mt, &co->lin);
+  co->m0 += inertia->m * si->m0;
+  co->m1 += inertia->m * si->m1;
+  co->m2 += inertia->m * si->m2;
+
+  /* co.ang <- mt x v + I w */
+  ksl_cross_vv(mt, &si->lin, &co->ang);
+  co->m3 += inertia->Ixx * si->m3 + inertia->Ixy * si->m4 +
+            inertia->Izx * si->m5;
+  co->m4 += inertia->Ixy * si->m3 + inertia->Iyy * si->m4 +
+            inertia->Iyz * si->m5;
+  co->m5 += inertia->Izx * si->m3 + inertia->Iyz * si->m4 +
+            inertia->Izz * si->m5;
+}
+
+static inline void ksl_product_isf(const ksl_inertiaf_t* KSL_RESTRICT inertia,
+                                   const ksl_screwf_t* KSL_RESTRICT si,
+                                   ksl_coscrewf_t* KSL_RESTRICT co) {
+  const ksl_vec3f_t* mt = &inertia->mt;
+
+  /* co.lin <- m v + w x mt */
+  ksl_cross_vvf(&si->ang, mt, &co->lin);
+  co->m0 += inertia->m * si->m0;
+  co->m1 += inertia->m * si->m1;
+  co->m2 += inertia->m * si->m2;
+
+  /* co.ang <- mt x v + I w */
+  ksl_cross_vvf(mt, &si->lin, &co->ang);
+  co->m3 += inertia->Ixx * si->m3 + inertia->Ixy * si->m4 +
+            inertia->Izx * si->m5;
+  co->m4 += inertia->Ixy * si->m3 + inertia->Iyy * si->m4 +
+            inertia->Iyz * si->m5;
+  co->m5 += inertia->Izx * si->m3 + inertia->Iyz * si->m4 +
+            inertia->Izz * si->m5;
 }
 
 #ifdef __cplusplus
