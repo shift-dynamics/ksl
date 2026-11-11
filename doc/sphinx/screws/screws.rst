@@ -419,24 +419,24 @@ Usually it is desirable to express the influence coefficient matrix with respect
 .. math::
     :label: eq:influence_coefficient_matrix
 
-    \underline{\mathbf{v}}_0=
-    \underline{\mathbf{h}}_0\dot{q}=
-    [Ad]_{0a} \underline{\mathbf{h}}_a\dot{q}=
+    \underline{\mathbf{v}}_f=
+    \underline{\mathbf{h}}_f\dot{q}=
+    [Ad]_{fa} \underline{\mathbf{h}}_a\dot{q}=
     \begin{bmatrix}
-    R_{0a} &\tilde{r}_{0a}R_{0a}\\
-    0 & R_{0a}
+    R_{fa} &\tilde{r}_{fa}R_{fa}\\
+    0 & R_{fa}
     \end{bmatrix}
     \begin{Bmatrix}
     0\\0\\ 0 \\0 \\0 \\1
     \end{Bmatrix}\dot{q}
 
 
-These influence coefficient matrices taken with respect to the inertial reference frame form elements of the Jacobian matrix of a mechanism. As a mechanism moves through varying configurations, :math:`\underline{h}_0` changes, and may require updating many millions of times in the course of a simulation. Equation :eq:`eq:influence_coefficient_matrix` reveals important insight that allows one to reduce the number of floating point operations (FLOPs) required to update the influence coefficient matrix of primitive joints.
+These influence coefficient matrices taken with respect to the inertial reference frame form elements of the Jacobian matrix of a mechanism. As a mechanism moves through varying configurations, :math:`\underline{h}_f` changes, and may require updating many millions of times in the course of a simulation. Equation :eq:`eq:influence_coefficient_matrix` reveals important insight that allows one to reduce the number of floating point operations (FLOPs) required to update the influence coefficient matrix of primitive joints.
 
 .. math::
     :label: eq:screw_basis
 
-    \underline{\mathbf{h}}_0=
+    \underline{\mathbf{h}}_f=
     \begin{Bmatrix}
     r_yR_{33}-r_zR_{23}\\
     r_zR_{13}-r_xR_{33}\\

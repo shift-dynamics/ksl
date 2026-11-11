@@ -136,7 +136,7 @@ The coadjoint transformation matrix, :math:`[Ad]^*`, from Eq. :eq:`eq:coadjoint_
 .. math::
     :label: eq:h_bar_star
 
-    \bar{H}^*_0=[Ad]^*_{0a}\begin{bmatrix}
+    \bar{H}^*_f=[Ad]^*_{fa}\begin{bmatrix}
     1 & 0 & 0 & 0 & 0 & 0\\
     0 & 1 & 0 & 0 & 0 & 0\\
     0 & 0 & 1 & 0 & 0 & 0\\
@@ -145,8 +145,8 @@ The coadjoint transformation matrix, :math:`[Ad]^*`, from Eq. :eq:`eq:coadjoint_
     0 & 0 & 0 & 0 & 0 & 0\\
     \end{bmatrix}=
     \begin{bmatrix}
-    R_{0a} & 0\\
-    \tilde{r}_{0a}R_{0a} & R_{0a}
+    R_{fa} & 0\\
+    \tilde{r}_{fa}R_{fa} & R_{fa}
     \end{bmatrix}
     \begin{bmatrix}
     1 & 0 & 0 & 0 & 0 & 0\\
@@ -163,7 +163,7 @@ Second, consider the case where working forces may be applied in a joint, such a
 .. math::
     :label: eq:h_star
 
-    \bar{h}^*_0\underline{\mathbf{f}}_a^*=[Ad]^*\begin{bmatrix}
+    \bar{h}^*_f\underline{\mathbf{f}}_a^*=[Ad]^*\begin{bmatrix}
     0 & 0 & 0 & 0 & 0 & 0\\
     0 & 0 & 0 & 0 & 0 & 0\\
     0 & 0 & 0 & 0 & 0 & 0\\
@@ -172,8 +172,8 @@ Second, consider the case where working forces may be applied in a joint, such a
     0 & 0 & 0 & 0 & 0 & 1\\
     \end{bmatrix}\underline{\mathbf{f}}_a^*=
     \begin{bmatrix}
-    R_{0a} & 0\\
-    \tilde{r}_{0a}R_{0a} & R_{0a}
+    R_{fa} & 0\\
+    \tilde{r}_{fa}R_{fa} & R_{fa}
     \end{bmatrix}
     \begin{bmatrix}
     0 & 0 & 0 & 0 & 0 & 0\\
