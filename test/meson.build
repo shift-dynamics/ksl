@@ -20,6 +20,7 @@ tests = {
   'check_vector': 'check_vector.c',
   'check_print': 'check_print.c',
   'check_conventions': 'check_conventions.c',
+  'check_trig': 'check_trig.c',
 }
 
 foreach name, src : tests
