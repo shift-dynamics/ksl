@@ -181,6 +181,48 @@ static inline int ksl_screw_axisPoint(const ksl_screw_t* s, ksl_vec3_t* r);
 static inline int ksl_screwf_axisPoint(const ksl_screwf_t* s, ksl_vec3f_t* r);
 
 /*!
+@brief Classical acceleration of a body point from the spatial velocity and spatial
+acceleration of the body.
+
+The spatial velocity \f$\boldsymbol{\underline{v}} = \{\underline{v}, \underline{\omega}\}\f$
+and the spatial acceleration \f$\dot{\boldsymbol{\underline{v}}} = \{\dot{\underline{v}},
+\dot{\underline{\omega}}\}\f$ of a body are given at the origin of a frame \f$f\f$ fixed in
+space, in coordinates of \f$f\f$; \f$\dot{\boldsymbol{\underline{v}}}\f$ is the time
+derivative of \f$\boldsymbol{\underline{v}}\f$. The point \f$p\f$ is the origin of the frame
+\f$\Phi_{fp}\f$, given by D. Both screws are taken at \f$p\f$ in coordinates of \f$p\f$ by
+ksl_product_Adinvs(), and the acceleration of the material point of the body at \f$p\f$ is
+
+\f[
+\ddot{\underline{r}}_{fp}^{p} = \dot{\underline{v}}_{,p}^{p}
+  + \tilde{\omega}^{p}\underline{v}_{,p}^{p},
+\f]
+
+the linear part of the spatial acceleration at \f$p\f$ plus the cross product of the angular
+velocity with the velocity of the point. The second term vanishes only where the velocity of
+the point is zero or parallel to \f$\underline{\omega}\f$ (on the instantaneous screw axis), so
+the linear part of the spatial acceleration is not in general the acceleration of a point,
+not even at the origin of \f$f\f$. For the result in coordinates of \f$f\f$, give D the
+identity rotation and the position of \f$p\f$ in \f$f\f$ as its translation.
+
+@param D [in] frame of the point p in f, \f$\Phi_{fp}\f$
+@param v [in] spatial velocity of the body at the origin of f, in coordinates of f
+@param a [in] spatial acceleration of the body at the origin of f, in coordinates of f
+@param r_ddot [out] acceleration of the body point at p, in coordinates of p
+*/
+static inline void ksl_screw_pointAcceleration(const ksl_SE3_t* D,
+                                               const ksl_screw_t* v,
+                                               const ksl_screw_t* a,
+                                               ksl_vec3_t* r_ddot);
+
+/*!
+@brief Single precision version of ksl_screw_pointAcceleration().
+*/
+static inline void ksl_screwf_pointAcceleration(const ksl_SE3f_t* D,
+                                                const ksl_screwf_t* v,
+                                                const ksl_screwf_t* a,
+                                                ksl_vec3f_t* r_ddot);
+
+/*!
 @brief compute double precision dot product between a coscrew and screw
 */
 static inline double ksl_dot_cs(const ksl_coscrew_t* ci, const ksl_screw_t* si);
@@ -1240,6 +1282,29 @@ static inline int ksl_screwf_axisPoint(const ksl_screwf_t* KSL_RESTRICT s,
   ksl_cross_vvf(&s->ang, &s->lin, r);
   ksl_vec3f_scale(r, 1.0f / (w * w));
   return 0;
+}
+
+static inline void ksl_screw_pointAcceleration(const ksl_SE3_t* KSL_RESTRICT D,
+                                               const ksl_screw_t* KSL_RESTRICT v,
+                                               const ksl_screw_t* KSL_RESTRICT a,
+                                               ksl_vec3_t* KSL_RESTRICT r_ddot) {
+  ksl_screw_t v_p, a_p;
+  ksl_vec3_t w_cross_v;
+  ksl_product_Adinvs(D, v, &v_p);
+  ksl_product_Adinvs(D, a, &a_p);
+  ksl_cross_vv(&v_p.ang, &v_p.lin, &w_cross_v);
+  ksl_add_vv(&a_p.lin, &w_cross_v, r_ddot);
+}
+
+static inline void ksl_screwf_pointAcceleration(
+  const ksl_SE3f_t* KSL_RESTRICT D, const ksl_screwf_t* KSL_RESTRICT v,
+  const ksl_screwf_t* KSL_RESTRICT a, ksl_vec3f_t* KSL_RESTRICT r_ddot) {
+  ksl_screwf_t v_p, a_p;
+  ksl_vec3f_t w_cross_v;
+  ksl_product_Adinvsf(D, v, &v_p);
+  ksl_product_Adinvsf(D, a, &a_p);
+  ksl_cross_vvf(&v_p.ang, &v_p.lin, &w_cross_v);
+  ksl_add_vvf(&a_p.lin, &w_cross_v, r_ddot);
 }
 
 static inline double ksl_dot_cs(const ksl_coscrew_t* KSL_RESTRICT ci,

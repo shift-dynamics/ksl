@@ -205,6 +205,63 @@ START_TEST(test_screw_pitch_axisPoint) {
 }
 END_TEST
 
+/*
+ * A body spins at 2 rad/s about the z axis through c = {1; 0; 0} while that axis
+ * translates at u = {0; 3; 0}. At t = 0 the material point at x has acceleration
+ * omega x (omega x (x - c)) = -4 (x - c) in the xy plane. The spatial velocity at
+ * the origin is {u - omega x c, omega} = {0, 1, 0, 0, 0, 2} and the spatial
+ * acceleration its derivative, {-omega x u, 0} = {6, 0, 0, 0, 0, 0}.
+ */
+START_TEST(test_screw_pointAcceleration) {
+  const ksl_screw_t v = ksl_screw(0.0, 1.0, 0.0, 0.0, 0.0, 2.0);
+  const ksl_screw_t a = ksl_screw(6.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+  ksl_SE3_t D;
+  ksl_SE3_setIdentity(&D);
+  ksl_vec3_t r_ddot;
+
+  /* at the origin of f: {4; 0; 0}, not the linear part {6; 0; 0} */
+  ksl_screw_pointAcceleration(&D, &v, &a, &r_ddot);
+  ck_assert_double_eq_tol(r_ddot.x, 4.0, 1e-14);
+  ck_assert_double_eq_tol(r_ddot.y, 0.0, 1e-14);
+  ck_assert_double_eq_tol(r_ddot.z, 0.0, 1e-14);
+
+  /* on the instantaneous screw axis, x = {-0.5; 0; z}: the linear part, {6; 0; 0} */
+  D.t = ksl_vec3(-0.5, 0.0, 7.0);
+  ksl_screw_pointAcceleration(&D, &v, &a, &r_ddot);
+  ck_assert_double_eq_tol(r_ddot.x, 6.0, 1e-14);
+  ck_assert_double_eq_tol(r_ddot.y, 0.0, 1e-14);
+  ck_assert_double_eq_tol(r_ddot.z, 0.0, 1e-14);
+
+  /*
+   * at p = {1; 2; 0.5}, frame rotated 90 degrees about x: {0; -8; 0} in f, which is
+   * {0; 0; 8} in coordinates of p
+   */
+  const ksl_vec3_t x_axis = ksl_vec3(1.0, 0.0, 0.0);
+  ksl_mat3x3_setFromAxisAngle(&D.R, &x_axis, M_PI / 2.0);
+  D.t = ksl_vec3(1.0, 2.0, 0.5);
+  ksl_screw_pointAcceleration(&D, &v, &a, &r_ddot);
+  ck_assert_double_eq_tol(r_ddot.x, 0.0, 1e-14);
+  ck_assert_double_eq_tol(r_ddot.y, 0.0, 1e-14);
+  ck_assert_double_eq_tol(r_ddot.z, 8.0, 1e-14);
+}
+END_TEST
+
+START_TEST(test_screwf_pointAcceleration) {
+  const ksl_screwf_t v = ksl_screwf(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 2.0f);
+  const ksl_screwf_t a = ksl_screwf(6.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+  ksl_SE3f_t D;
+  ksl_SE3f_setIdentity(&D);
+  const ksl_vec3f_t x_axis = ksl_vec3f(1.0f, 0.0f, 0.0f);
+  ksl_mat3x3f_setFromAxisAngle(&D.R, &x_axis, (float)(M_PI / 2.0));
+  D.t = ksl_vec3f(1.0f, 2.0f, 0.5f);
+  ksl_vec3f_t r_ddot;
+  ksl_screwf_pointAcceleration(&D, &v, &a, &r_ddot);
+  ck_assert_float_eq_tol(r_ddot.x, 0.0f, 1e-5f);
+  ck_assert_float_eq_tol(r_ddot.y, 0.0f, 1e-5f);
+  ck_assert_float_eq_tol(r_ddot.z, 8.0f, 1e-5f);
+}
+END_TEST
+
 START_TEST(test_screwf_pitch_axisPoint) {
   /* pure rotation about the z axis through {1; 2; 0} plus 0.5 along it: v = r x w + h w */
   ksl_screwf_t s = ksl_screwf(4.0, -2.0, 1.0, 0.0, 0.0, 2.0);
@@ -1598,6 +1655,8 @@ Suite* screw_suite(void) {
   tcase_add_test(tc_core, test_screwf_normalize);
   tcase_add_test(tc_core, test_screw_pitch_axisPoint);
   tcase_add_test(tc_core, test_screwf_pitch_axisPoint);
+  tcase_add_test(tc_core, test_screw_pointAcceleration);
+  tcase_add_test(tc_core, test_screwf_pointAcceleration);
   tcase_add_test(tc_core, test_screw_normalize_scale);
   tcase_add_test(tc_core, test_screw_normalize_degenerate);
   tcase_add_test(tc_core, test_dot_cs);

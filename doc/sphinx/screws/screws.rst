@@ -395,6 +395,32 @@ Similarly, the left derivative operator for :math:`[Ad]^*` matrices is:
 
 Previously, it was discussed how the derivative operators form the Lie algebra of the SE(3) group. Similarly, the :math:`6\times6` :math:`[Ad]` matrices themselves fulfill the necessary requirements of a Lie group :cite:`selig2005geometric`. The :math:`[ad]` and :math:`[ad]^*` matrices comprise their respective Lie algebras.
 
+Acceleration of a body point
+****************************
+
+The spatial acceleration :math:`\dot{\boldsymbol{\underline{v}}} = \{\dot{\underline{v}};\
+\dot{\underline{\omega}}\}` of a body is the time derivative of its spatial velocity
+:math:`\boldsymbol{\underline{v}} = \{\underline{v};\ \underline{\omega}\}` taken at a point
+fixed in space, the origin of the reference frame. Its linear part is not the acceleration of
+a material point of the body. The velocity of the body point that is at :math:`\underline{r}`
+is :math:`\underline{v} + \underline{\omega}\times\underline{r}`, and differentiating it with
+:math:`\dot{\underline{r}}` equal to that velocity gives
+
+.. math::
+  :label: eq:point_acceleration
+
+  \ddot{\underline{r}} = \dot{\underline{v}} + \dot{\underline{\omega}}\times\underline{r}
+  + \underline{\omega}\times(\underline{v} + \underline{\omega}\times\underline{r})
+  = \dot{\underline{v}}_{,p} + \underline{\omega}\times\underline{v}_{,p},
+
+where :math:`\dot{\underline{v}}_{,p}` and :math:`\underline{v}_{,p}` are the linear parts of
+the two screws taken at the point by :math:`[Ad]`. At the origin itself the acceleration
+differs from :math:`\dot{\underline{v}}` by :math:`\underline{\omega}\times\underline{v}`; the
+two agree only where the velocity of the point is zero or parallel to
+:math:`\underline{\omega}`, on the instantaneous screw axis. ``ksl_screw_pointAcceleration()``
+evaluates Eq. :eq:`eq:point_acceleration` at the origin of a frame :math:`\Phi`, in the
+coordinates of that frame.
+
 Influence coefficient matrices
 ******************************
 
@@ -566,6 +592,9 @@ Double precision
 .. doxygenfunction:: ksl_screw_axisPoint
 
 
+.. doxygenfunction:: ksl_screw_pointAcceleration
+
+
 .. doxygenfunction:: ksl_dot_cs
 
 
@@ -724,6 +753,9 @@ Single precision
 
 
 .. doxygenfunction:: ksl_screwf_axisPoint
+
+
+.. doxygenfunction:: ksl_screwf_pointAcceleration
 
 
 .. doxygenfunction:: ksl_dot_csf
