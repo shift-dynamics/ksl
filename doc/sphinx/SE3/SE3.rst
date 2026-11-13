@@ -41,6 +41,8 @@ Consider how the vector :math:`\underline{v}_b` is transformed from frame :math:
 
 The notation provided by the SE(3) group is convenient for its compact notation in that it encapsulates general rigid body rotation and translation in one symbol. However, this example demonstrates that when composing rigid body transformations, there is no need to perform the full 4x4 matrix multiplication or store the 0s and 1s. *KSL* has a special datastructure for rigid body transformations called *ksl_SE3_t* and a collection of functions that perform only the minimum number of operations for composing rigid body transformations and transforming vectors.
 
+Two displacements are interpolated along the screw motion that carries one to the other, *sclerp* (``ksl_SE3_sclerp()``), :math:`\Phi_1\exp\bigl(t\log(\Phi_1^{-1}\Phi_2)\bigr)`, using the exponential and logarithm of :ref:`screws` (``ksl_screw_exp()``, ``ksl_screw_log()``) :cite:`kavan2008geometric`. The path does not depend on the choice of the fixed frame or of the point of the moving frame used as its origin. A sequence of key displacements is interpolated by ``ksl_SE3_squad_keys()``, the counterpart of quaternion squad :cite:`shoemake1987quaternion` :cite:`parkravani1995bezier`, whose velocity screw is continuous at the keys.
+
 
 Double precision
 ----------------
@@ -90,6 +92,27 @@ Double precision
 .. doxygenfunction:: ksl_SE3_identity
 
 
+.. doxygenfunction:: ksl_SE3_exp
+
+
+.. doxygenfunction:: ksl_SE3_log
+
+
+.. doxygenfunction:: ksl_SE3_lerp
+
+
+.. doxygenfunction:: ksl_SE3_sclerp
+
+
+.. doxygenfunction:: ksl_SE3_squad_control
+
+
+.. doxygenfunction:: ksl_SE3_squad
+
+
+.. doxygenfunction:: ksl_SE3_squad_keys
+
+
 
 Single precision
 ----------------
@@ -131,3 +154,24 @@ Single precision
 
 
 .. doxygenfunction:: ksl_SE3f_copy
+
+
+.. doxygenfunction:: ksl_SE3f_exp
+
+
+.. doxygenfunction:: ksl_SE3f_log
+
+
+.. doxygenfunction:: ksl_SE3f_lerp
+
+
+.. doxygenfunction:: ksl_SE3f_sclerp
+
+
+.. doxygenfunction:: ksl_SE3f_squad_control
+
+
+.. doxygenfunction:: ksl_SE3f_squad
+
+
+.. doxygenfunction:: ksl_SE3f_squad_keys

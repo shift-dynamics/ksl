@@ -1,7 +1,10 @@
+#include <math.h>
 #include <stdbool.h>
 
 #include "ksl/array.h"
 #include "ksl/axis.h"
+#include "ksl/mat3x3.h"
+#include "ksl/matrix.h"
 
 /*!
 @brief convert ksl_axis_enum_t to a vector of ints
@@ -67,4 +70,57 @@ ksl_axis_enum_t ksl_axis_getEulerAngles(ksl_vec3i_t angles) {
   } else {
     return KSL_AXIS_INVALID;
   }
+}
+
+void ksl_axis_getEulerRateMatrix(const ksl_axis_enum_t axisType,
+                                 const ksl_vec3_t* restrict angles,
+                                 ksl_mat3x3_t* restrict G) {
+  const ksl_vec3i_t axes = ksl_axis_getVector(axisType);
+  ksl_vec3_t ui = ksl_vec3(0.0, 0.0, 0.0), uj = ui, uk = ui;
+  ui.at[axes.at[0]] = 1.0;
+  uj.at[axes.at[1]] = 1.0;
+  uk.at[axes.at[2]] = 1.0;
+  ksl_mat3x3_t ri, rj;
+  ksl_mat3x3_setFromAxisAngle(&ri, &ui, angles->at[0]);
+  ksl_mat3x3_setFromAxisAngle(&rj, &uj, angles->at[1]);
+  ksl_vec3_t c1, t, c2;
+  ksl_product_drv(&ri, &uj, &c1);
+  ksl_product_drv(&rj, &uk, &t);
+  ksl_product_drv(&ri, &t, &c2);
+  for(int r = 0; r < 3; r++) {
+    G->at[0][r] = ui.at[r];
+    G->at[1][r] = c1.at[r];
+    G->at[2][r] = c2.at[r];
+  }
+}
+
+void ksl_axis_eulerRatesToOmega(const ksl_axis_enum_t axisType,
+                                const ksl_vec3_t* restrict angles,
+                                const ksl_vec3_t* restrict rates,
+                                ksl_vec3_t* restrict omega) {
+  ksl_mat3x3_t G;
+  ksl_axis_getEulerRateMatrix(axisType, angles, &G);
+  ksl_product_drv(&G, rates, omega);
+}
+
+int ksl_axis_omegaToEulerRates(const ksl_axis_enum_t axisType,
+                               const ksl_vec3_t* restrict angles,
+                               const ksl_vec3_t* restrict omega,
+                               ksl_vec3_t* restrict rates) {
+  /* with the columns g0, g1, g2 of G and d = g0 . (g1 x g2), the rows of
+  G^-1 are (g1 x g2) / d, (g2 x g0) / d and (g0 x g1) / d */
+  ksl_mat3x3_t G;
+  ksl_axis_getEulerRateMatrix(axisType, angles, &G);
+  ksl_vec3_t c12, c20, c01;
+  ksl_cross_vv(&G.v1, &G.v2, &c12);
+  ksl_cross_vv(&G.v2, &G.v0, &c20);
+  ksl_cross_vv(&G.v0, &G.v1, &c01);
+  const double d = ksl_dot_vv(&G.v0, &c12);
+  if(fabs(d) < 1e-12) {
+    return 1;
+  }
+  rates->at[0] = ksl_dot_vv(&c12, omega) / d;
+  rates->at[1] = ksl_dot_vv(&c20, omega) / d;
+  rates->at[2] = ksl_dot_vv(&c01, omega) / d;
+  return 0;
 }

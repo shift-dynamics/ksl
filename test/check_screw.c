@@ -1239,6 +1239,259 @@ START_TEST(test_product_Adinvsf) {
 }
 END_TEST
 
+/* -------- exponential, logarithm and interpolation -------- */
+
+/* 4x4 matrix exponential of [w~ rho; 0 0] by its Taylor series */
+static void exp_series(const ksl_screw_t* xi, ksl_SE3_t* D) {
+  double a[16] = {0.0, -xi->ang.z, xi->ang.y, xi->lin.x,
+                  xi->ang.z, 0.0, -xi->ang.x, xi->lin.y,
+                  -xi->ang.y, xi->ang.x, 0.0, xi->lin.z,
+                  0.0, 0.0, 0.0, 0.0};
+  double term[16], sum[16], next[16];
+  for(int i = 0; i < 16; i++) {
+    term[i] = (i % 5 == 0) ? 1.0 : 0.0;
+    sum[i] = term[i];
+  }
+  for(int n = 1; n < 40; n++) {
+    for(int i = 0; i < 4; i++) {
+      for(int j = 0; j < 4; j++) {
+        double v = 0.0;
+        for(int k = 0; k < 4; k++) {
+          v += term[4 * i + k] * a[4 * k + j];
+        }
+        next[4 * i + j] = v / n;
+      }
+    }
+    for(int i = 0; i < 16; i++) {
+      term[i] = next[i];
+      sum[i] += term[i];
+    }
+  }
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < 3; j++) {
+      D->R.at[j][i] = sum[4 * i + j];
+    }
+    D->t.at[i] = sum[4 * i + 3];
+  }
+}
+
+static double SE3_difference(const ksl_SE3_t* a, const ksl_SE3_t* b) {
+  double d = 0.0;
+  for(int i = 0; i < 12; i++) {
+    d = fmax(d, fabs(a->as_array[i] - b->as_array[i]));
+  }
+  return d;
+}
+
+static ksl_screw_t test_screw(const double theta) {
+  /* axis (2, -1, 2) / 3, angle theta, linear part (0.3, -0.7, 1.1) */
+  return ksl_screw(0.3, -0.7, 1.1, theta * 2.0 / 3.0, -theta / 3.0,
+                   theta * 2.0 / 3.0);
+}
+
+START_TEST(test_screw_exp) {
+  /* exp against the Taylor series of the 4x4 matrix exponential; the
+  single precision and ksl_SE3_exp versions agree */
+  const double angles[] = {0.0, 1e-7, 1e-3, 0.5, 2.0, 3.0};
+  for(int k = 0; k < 6; k++) {
+    ksl_screw_t xi = test_screw(angles[k]);
+    ksl_SE3_t D, Ds, De;
+    ksl_screw_exp(&xi, &D);
+    exp_series(&xi, &Ds);
+    ck_assert_msg(SE3_difference(&D, &Ds) < 1e-13, "theta = %g", angles[k]);
+    ksl_SE3_exp(&xi, &De);
+    ck_assert(SE3_difference(&D, &De) == 0.0);
+    ksl_screwf_t xif;
+    for(int i = 0; i < 6; i++) {
+      xif.at[i] = (float)xi.at[i];
+    }
+    ksl_SE3f_t Df;
+    ksl_screwf_exp(&xif, &Df);
+    for(int i = 0; i < 12; i++) {
+      ck_assert_float_eq_tol(Df.as_array[i], D.as_array[i], 1e-5);
+    }
+  }
+}
+END_TEST
+
+START_TEST(test_screw_log) {
+  /* log(exp(xi)) = xi for 0 <= theta < pi, and exp(log(D)) = D up to pi */
+  const double angles[] = {0.0, 1e-9, 1e-6, 1e-3, 0.5, 1.6, 3.0, M_PI - 1e-6};
+  for(int k = 0; k < 8; k++) {
+    ksl_screw_t xi = test_screw(angles[k]), lo, ls;
+    ksl_SE3_t D, E;
+    ksl_screw_exp(&xi, &D);
+    ksl_screw_log(&D, &lo);
+    for(int i = 0; i < 6; i++) {
+      ck_assert_msg(fabs(lo.at[i] - xi.at[i]) < 1e-9 * (1.0 + 1e-3 / (M_PI - angles[k])),
+                    "theta = %g, i = %d", angles[k], i);
+    }
+    ksl_screw_exp(&lo, &E);
+    ck_assert_msg(SE3_difference(&D, &E) < 1e-12, "theta = %g", angles[k]);
+    ksl_SE3_log(&D, &ls);
+    for(int i = 0; i < 6; i++) {
+      ck_assert(ls.at[i] == lo.at[i]);
+    }
+  }
+  /* theta = pi: either axis direction is a logarithm; exp(log(D)) = D */
+  ksl_screw_t xi = test_screw(M_PI), lo;
+  ksl_SE3_t D, E;
+  ksl_screw_exp(&xi, &D);
+  ksl_screw_log(&D, &lo);
+  ksl_screw_exp(&lo, &E);
+  ck_assert(SE3_difference(&D, &E) < 1e-12);
+  /* single precision */
+  ksl_SE3f_t Df;
+  ksl_screwf_t lf;
+  xi = test_screw(1.2);
+  ksl_screw_exp(&xi, &D);
+  for(int i = 0; i < 12; i++) {
+    Df.as_array[i] = (float)D.as_array[i];
+  }
+  ksl_screwf_log(&Df, &lf);
+  for(int i = 0; i < 6; i++) {
+    ck_assert_float_eq_tol(lf.at[i], xi.at[i], 1e-5);
+  }
+}
+END_TEST
+
+static ksl_SE3_t test_displacement(const double a, const double b,
+                                   const double c) {
+  ksl_screw_t xi = ksl_screw(a, -b, c, 0.4 * b, -0.9 * c, 0.6 * a);
+  ksl_SE3_t D;
+  ksl_screw_exp(&xi, &D);
+  return D;
+}
+
+START_TEST(test_SE3_sclerp) {
+  ksl_SE3_t D1 = test_displacement(0.5, 1.0, -0.7);
+  ksl_SE3_t D2 = test_displacement(-1.2, 0.3, 1.9);
+  ksl_SE3_t Do, Dh, Dhh;
+  double t = 0.0;
+  ksl_SE3_sclerp(&D1, &D2, &t, &Do);
+  ck_assert(SE3_difference(&Do, &D1) < 1e-14);
+  t = 1.0;
+  ksl_SE3_sclerp(&D1, &D2, &t, &Do);
+  ck_assert(SE3_difference(&Do, &D2) < 1e-13);
+  /* the half-way step applied twice reaches D2 */
+  t = 0.5;
+  ksl_SE3_sclerp(&D1, &D2, &t, &Dh);
+  ksl_SE3_sclerp(&D1, &Dh, &(double){2.0}, &Dhh);
+  ck_assert(SE3_difference(&Dhh, &D2) < 1e-13);
+  /* left and right invariance: sclerp(A D1 B, A D2 B) = A sclerp(D1, D2) B */
+  ksl_SE3_t A = test_displacement(2.0, -0.4, 0.8);
+  ksl_SE3_t B = test_displacement(-0.3, 1.1, 0.2);
+  ksl_SE3_t AD1, AD2, AD1B, AD2B, Dl, ADl, ADlB;
+  ksl_product_dd(&A, &D1, &AD1);
+  ksl_product_dd(&AD1, &B, &AD1B);
+  ksl_product_dd(&A, &D2, &AD2);
+  ksl_product_dd(&AD2, &B, &AD2B);
+  t = 0.3;
+  ksl_SE3_sclerp(&AD1B, &AD2B, &t, &Dl);
+  ksl_SE3_sclerp(&D1, &D2, &t, &Do);
+  ksl_product_dd(&A, &Do, &ADl);
+  ksl_product_dd(&ADl, &B, &ADlB);
+  ck_assert(SE3_difference(&Dl, &ADlB) < 1e-13);
+  /* single precision */
+  ksl_SE3f_t D1f, D2f, Dof;
+  for(int i = 0; i < 12; i++) {
+    D1f.as_array[i] = (float)D1.as_array[i];
+    D2f.as_array[i] = (float)D2.as_array[i];
+  }
+  float tf = 0.3f;
+  ksl_SE3f_sclerp(&D1f, &D2f, &tf, &Dof);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(Dof.as_array[i], Do.as_array[i], 1e-5);
+  }
+}
+END_TEST
+
+START_TEST(test_SE3_lerp) {
+  ksl_SE3_t D1 = test_displacement(0.5, 1.0, -0.7);
+  ksl_SE3_t D2 = test_displacement(-1.2, 0.3, 1.9);
+  ksl_SE3_t Dl, Ds;
+  for(int k = 0; k <= 4; k++) {
+    double t = 0.25 * k;
+    ksl_SE3_lerp(&D1, &D2, &t, &Dl);
+    ksl_SE3_sclerp(&D1, &D2, &t, &Ds);
+    /* the rotation is that of sclerp (slerp); the origin is on the line */
+    for(int i = 0; i < 9; i++) ck_assert(fabs(Dl.R.as_array[i] - Ds.R.as_array[i]) < 1e-14);
+    for(int i = 0; i < 3; i++) {
+      ck_assert(fabs(Dl.t.at[i] - ((1 - t) * D1.t.at[i] + t * D2.t.at[i])) < 1e-15);
+    }
+    if(k == 4) ck_assert(SE3_difference(&Dl, &D2) < 1e-14);
+  }
+  ksl_SE3f_t D1f, D2f, Dof;
+  for(int i = 0; i < 12; i++) {
+    D1f.as_array[i] = (float)D1.as_array[i];
+    D2f.as_array[i] = (float)D2.as_array[i];
+  }
+  float tf = 0.3f;
+  double t = 0.3;
+  ksl_SE3f_lerp(&D1f, &D2f, &tf, &Dof);
+  ksl_SE3_lerp(&D1, &D2, &t, &Dl);
+  for(int i = 0; i < 12; i++) ck_assert_float_eq_tol(Dof.as_array[i], Dl.as_array[i], 1e-5);
+}
+END_TEST
+
+/* velocity screw of the squad path in the moving frame, by a central
+difference of width 2 dt about t + side dt (side = -1 left, +1 right) */
+static ksl_screw_t SE3_squad_rate(const int n, const ksl_SE3_t* keys,
+                                  const double t, const double side) {
+  const double dt = 1e-5;
+  double t1 = t + side * dt - dt, t2 = t + side * dt + dt;
+  ksl_SE3_t D1, D2;
+  ksl_SE3_squad_keys(n, keys, &t1, &D1);
+  ksl_SE3_squad_keys(n, keys, &t2, &D2);
+  ksl_SE3_t rel;
+  ksl_product_dinvd(&D1, &D2, &rel);
+  ksl_screw_t xi;
+  ksl_screw_log(&rel, &xi);
+  for(int i = 0; i < 6; i++) {
+    xi.at[i] /= 2.0 * dt;
+  }
+  return xi;
+}
+
+START_TEST(test_SE3_squad_keys) {
+  ksl_SE3_t keys[4] = {test_displacement(0.0, 0.0, 0.0),
+                       test_displacement(1.0, 0.5, -0.4),
+                       test_displacement(1.5, 1.4, 0.3),
+                       test_displacement(0.4, 2.0, 1.2)};
+  /* passes through every key */
+  for(int k = 0; k < 4; k++) {
+    double t = k;
+    ksl_SE3_t D;
+    ksl_SE3_squad_keys(4, keys, &t, &D);
+    ck_assert_msg(SE3_difference(&D, &keys[k]) < 1e-12, "k = %d", k);
+  }
+  /* continuous velocity screw at the interior keys: left and right rates,
+  taken just off the key, differ by the change over 2 dt only */
+  for(int k = 1; k < 3; k++) {
+    ksl_screw_t l = SE3_squad_rate(4, keys, k, -1.0);
+    ksl_screw_t r = SE3_squad_rate(4, keys, k, 1.0);
+    for(int i = 0; i < 6; i++) {
+      ck_assert_msg(fabs(l.at[i] - r.at[i]) < 1e-3, "k = %d, i = %d", k, i);
+    }
+  }
+  /* single precision */
+  ksl_SE3f_t keysf[4], Df;
+  for(int k = 0; k < 4; k++) {
+    for(int i = 0; i < 12; i++) {
+      keysf[k].as_array[i] = (float)keys[k].as_array[i];
+    }
+  }
+  double t = 1.7;
+  float tf = 1.7f;
+  ksl_SE3_t D;
+  ksl_SE3_squad_keys(4, keys, &t, &D);
+  ksl_SE3f_squad_keys(4, keysf, &tf, &Df);
+  for(int i = 0; i < 12; i++) {
+    ck_assert_float_eq_tol(Df.as_array[i], D.as_array[i], 1e-4);
+  }
+}
+END_TEST
+
 Suite* screw_suite(void) {
   Suite* s = suite_create("screw");
   TCase* tc_core = tcase_create("core");
@@ -1322,6 +1575,11 @@ Suite* screw_suite(void) {
   tcase_add_test(tc_core, test_product_Adsinvf);
   tcase_add_test(tc_core, test_product_Adinvs);
   tcase_add_test(tc_core, test_product_Adinvsf);
+  tcase_add_test(tc_core, test_screw_exp);
+  tcase_add_test(tc_core, test_screw_log);
+  tcase_add_test(tc_core, test_SE3_sclerp);
+  tcase_add_test(tc_core, test_SE3_lerp);
+  tcase_add_test(tc_core, test_SE3_squad_keys);
 
   suite_add_tcase(s, tc_core);
   return s;

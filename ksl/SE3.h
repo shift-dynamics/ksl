@@ -273,6 +273,173 @@ static inline void ksl_SE3_copy(const ksl_SE3_t* Di, ksl_SE3_t* Do);
 */
 static inline void ksl_SE3f_copy(const ksl_SE3f_t* Di, ksl_SE3f_t* Do);
 
+/*!
+@brief Exponential of a screw, \f$\Phi = \exp\boldsymbol{\underline{\xi}}\f$: the same as
+ksl_screw_exp().
+
+@param si [in] screw \f$\boldsymbol{\underline{\xi}}\f$
+@param Do [out] displacement \f$\exp\boldsymbol{\underline{\xi}}\f$
+*/
+void ksl_SE3_exp(const ksl_screw_t* si, ksl_SE3_t* Do);
+
+/*!
+@brief Single precision version of ksl_SE3_exp().
+*/
+void ksl_SE3f_exp(const ksl_screwf_t* si, ksl_SE3f_t* Do);
+
+/*!
+@brief Logarithm of a displacement, \f$\boldsymbol{\underline{\xi}} = \log\Phi\f$: the
+same as ksl_screw_log().
+
+@param Di [in] displacement \f$\Phi\f$
+@param so [out] screw \f$\log\Phi\f$
+*/
+void ksl_SE3_log(const ksl_SE3_t* Di, ksl_screw_t* so);
+
+/*!
+@brief Single precision version of ksl_SE3_log().
+*/
+void ksl_SE3f_log(const ksl_SE3f_t* Di, ksl_screwf_t* so);
+
+/*!
+@brief Interpolation of a displacement with a straight path of the origin.
+
+\f[
+R(t) = R_1 R(\underline{u}, t\theta), \qquad \underline{r}(t) = (1 - t)\,\underline{r}_1 +
+t\,\underline{r}_2, \qquad 0 \le t \le 1,
+\f]
+
+where \f$\underline{u}\f$ and \f$0 \le \theta \le \pi\f$ are the axis and angle of
+\f$R_1^{T}R_2\f$ (ksl_mat3x3_getAxisAngle()): the rotation is the slerp of the rotations and the
+origin of the moving frame moves along the straight line between the two origins. Unlike
+ksl_SE3_sclerp(), the path depends on which point of the moving frame is taken as its origin.
+
+@param D1i [in] displacement at t = 0
+@param D2i [in] displacement at t = 1
+@param t [in] interpolation parameter, from 0 to 1
+@param Do [out] interpolated displacement
+*/
+void ksl_SE3_lerp(const ksl_SE3_t* D1i, const ksl_SE3_t* D2i, const double* t,
+                  ksl_SE3_t* Do);
+
+/*!
+@brief Single precision version of ksl_SE3_lerp(), computed in double precision.
+*/
+void ksl_SE3f_lerp(const ksl_SE3f_t* D1i, const ksl_SE3f_t* D2i, const float* t,
+                   ksl_SE3f_t* Do);
+
+/*!
+@brief Screw linear interpolation (sclerp) between two displacements.
+
+\f[
+\mathrm{sclerp}(\Phi_1, \Phi_2, t) = \Phi_1 \exp\bigl(t \log(\Phi_1^{-1}\Phi_2)\bigr),
+\qquad 0 \le t \le 1,
+\f]
+
+moves the frame from \f$\Phi_1\f$ to \f$\Phi_2\f$ along the screw axis of the relative
+displacement \f$\Phi_1^{-1}\Phi_2\f$, at a constant velocity screw. It is the counterpart for
+displacements of ksl_quaternion_slerp(); the rotation part is the slerp of the rotations, and
+the path does not depend on the choice of the fixed frame or of the point of the moving frame
+taken as its origin. The relative rotation is taken the shorter way.
+
+@param D1i [in] displacement at t = 0
+@param D2i [in] displacement at t = 1
+@param t [in] interpolation parameter, from 0 to 1
+@param Do [out] interpolated displacement
+*/
+void ksl_SE3_sclerp(const ksl_SE3_t* D1i, const ksl_SE3_t* D2i, const double* t,
+                    ksl_SE3_t* Do);
+
+/*!
+@brief Single precision version of ksl_SE3_sclerp(), computed in double precision.
+*/
+void ksl_SE3f_sclerp(const ksl_SE3f_t* D1i, const ksl_SE3f_t* D2i, const float* t,
+                     ksl_SE3f_t* Do);
+
+/*!
+@brief Control displacement of a key displacement for ksl_SE3_squad().
+
+Given the key \f$\Phi_k\f$ and its neighbors \f$\Phi_{k-1}\f$ and \f$\Phi_{k+1}\f$, computes
+
+\f[
+\Sigma_k = \Phi_k \exp\left(-\frac{\log(\Phi_k^{-1}\Phi_{k+1}) +
+\log(\Phi_k^{-1}\Phi_{k-1})}{4}\right),
+\f]
+
+the counterpart for displacements of ksl_quaternion_squad_control(), which makes the
+velocity screw of the path through the keys continuous at \f$\Phi_k\f$.
+
+@param Dprevi [in] previous key, \f$\Phi_{k-1}\f$
+@param Di [in] key, \f$\Phi_k\f$
+@param Dnexti [in] next key, \f$\Phi_{k+1}\f$
+@param So [out] control displacement, \f$\Sigma_k\f$
+*/
+void ksl_SE3_squad_control(const ksl_SE3_t* Dprevi, const ksl_SE3_t* Di,
+                           const ksl_SE3_t* Dnexti, ksl_SE3_t* So);
+
+/*!
+@brief Single precision version of ksl_SE3_squad_control(), computed in double
+precision.
+*/
+void ksl_SE3f_squad_control(const ksl_SE3f_t* Dprevi, const ksl_SE3f_t* Di,
+                            const ksl_SE3f_t* Dnexti, ksl_SE3f_t* So);
+
+/*!
+@brief Screw quadrangle interpolation between two key displacements.
+
+\f[
+\mathrm{squad}(\Phi_1, \Phi_2, \Sigma_1, \Sigma_2, t) = \mathrm{sclerp}\big(
+\mathrm{sclerp}(\Phi_1, \Phi_2, t), \mathrm{sclerp}(\Sigma_1, \Sigma_2, t), 2t(1 - t)\big),
+\f]
+
+with the control displacements \f$\Sigma_1\f$ and \f$\Sigma_2\f$ from ksl_SE3_squad_control():
+the counterpart for displacements of ksl_quaternion_squad(). Joining the segments between
+successive keys gives a path through all the keys whose velocity screw is continuous at the
+keys; its acceleration in general is not.
+
+@param D1i [in] key at t = 0
+@param D2i [in] key at t = 1
+@param S1i [in] control displacement of D1i
+@param S2i [in] control displacement of D2i
+@param t [in] interpolation parameter, from 0 to 1
+@param Do [out] interpolated displacement
+*/
+void ksl_SE3_squad(const ksl_SE3_t* D1i, const ksl_SE3_t* D2i,
+                   const ksl_SE3_t* S1i, const ksl_SE3_t* S2i, const double* t,
+                   ksl_SE3_t* Do);
+
+/*!
+@brief Single precision version of ksl_SE3_squad(), computed in double precision.
+*/
+void ksl_SE3f_squad(const ksl_SE3f_t* D1i, const ksl_SE3f_t* D2i,
+                    const ksl_SE3f_t* S1i, const ksl_SE3f_t* S2i, const float* t,
+                    ksl_SE3f_t* Do);
+
+/*!
+@brief Interpolate an array of key displacements with ksl_SE3_squad().
+
+Evaluates the path through the n keys at the parameter t, which runs from 0 at keys[0] to
+n - 1 at keys[n - 1]: key k is reached at t = k. Between keys k and k + 1 it calls
+ksl_SE3_squad() with t - k, computing the two control displacements with
+ksl_SE3_squad_control(); the first and last keys are their own control displacements.
+t outside [0, n - 1] is clamped. The counterpart for displacements of
+ksl_quaternion_squad_keys().
+
+@param n [in] number of keys, at least 1
+@param keys [in] key displacements
+@param t [in] key parameter, from 0 to n - 1
+@param Do [out] interpolated displacement
+*/
+void ksl_SE3_squad_keys(int n, const ksl_SE3_t* keys, const double* t,
+                        ksl_SE3_t* Do);
+
+/*!
+@brief Single precision version of ksl_SE3_squad_keys(), computed in double
+precision.
+*/
+void ksl_SE3f_squad_keys(int n, const ksl_SE3f_t* keys, const float* t,
+                         ksl_SE3f_t* Do);
+
 #ifdef __cplusplus
 }
 #endif

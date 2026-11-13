@@ -57,6 +57,18 @@ Axis sequences
 .. doxygenfunction:: ksl_axis_getEulerAngles
 
 
+Euler angle rates
+-----------------
+
+.. doxygenfunction:: ksl_axis_getEulerRateMatrix
+
+
+.. doxygenfunction:: ksl_axis_eulerRatesToOmega
+
+
+.. doxygenfunction:: ksl_axis_omegaToEulerRates
+
+
 Euler angle types
 -----------------
 

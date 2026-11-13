@@ -184,6 +184,88 @@ static inline void ksl_add_vvzinv(const ksl_vec3_t* t1i, const double t2i,
 static inline void ksl_add_vvzinvf(const ksl_vec3f_t* t1i, const float t2i,
                                    ksl_vec3f_t* to);
 
+/*!
+@brief Second derivatives of the natural cubic spline through n key points.
+
+The keys \f$p_0, \dots, p_{n-1}\f$ are reached at \f$t = 0, 1, \dots, n - 1\f$. On the segment
+from key k to key k + 1, with \f$u = t - k\f$, the spline is
+
+\f[
+p(t) = (1 - u)\,p_k + u\,p_{k+1} + \frac{(1 - u)^3 - (1 - u)}{6}\,\underline{m}_k +
+\frac{u^3 - u}{6}\,\underline{m}_{k+1},
+\f]
+
+and its first derivative is continuous at the interior keys when
+
+\f[
+\underline{m}_{k-1} + 4\,\underline{m}_k + \underline{m}_{k+1} =
+6\,(p_{k+1} - 2p_k + p_{k-1}), \qquad k = 1, \dots, n - 2.
+\f]
+
+The natural end conditions are \f$\underline{m}_0 = \underline{m}_{n-1} = \underline{0}\f$.
+The tridiagonal system is solved by its \f$LDL^{T}\f$ factors without pivoting (the matrix is
+strictly diagonally dominant), for the three coordinates at once. The spline is
+continuous in position, first and second derivative (\f$C^2\f$). Evaluate it with
+ksl_vec3_spline().
+
+@param n [in] number of keys, at least 2
+@param keys [in] key points
+@param m [out] n second derivatives \f$\underline{m}_k\f$
+@param work [out] scratch array of n doubles
+*/
+void ksl_vec3_spline_natural(const int n, const ksl_vec3_t* keys, ksl_vec3_t* m,
+                             double* work);
+
+/*!
+@brief Second derivatives of the clamped cubic spline through n key points.
+
+As ksl_vec3_spline_natural(), but with the first derivatives \f$\underline{v}_0\f$ at the
+first key and \f$\underline{v}_{n-1}\f$ at the last key prescribed, which replaces the natural
+end conditions by
+
+\f[
+2\,\underline{m}_0 + \underline{m}_1 = 6\,(p_1 - p_0 - \underline{v}_0), \qquad
+\underline{m}_{n-2} + 2\,\underline{m}_{n-1} = 6\,(\underline{v}_{n-1} - p_{n-1} + p_{n-2}).
+\f]
+
+@param n [in] number of keys, at least 2
+@param keys [in] key points
+@param v0 [in] first derivative at the first key
+@param vn [in] first derivative at the last key
+@param m [out] n second derivatives \f$\underline{m}_k\f$
+@param work [out] scratch array of n doubles
+*/
+void ksl_vec3_spline_clamped(const int n, const ksl_vec3_t* keys,
+                             const ksl_vec3_t* v0, const ksl_vec3_t* vn,
+                             ksl_vec3_t* m, double* work);
+
+/*!
+@brief Evaluate a cubic spline through n key points and its derivatives.
+
+Evaluates the spline of ksl_vec3_spline_natural() or ksl_vec3_spline_clamped() at t,
+which runs from 0 at keys[0] to n - 1 at keys[n - 1], together with
+
+\f[
+p'(t) = p_{k+1} - p_k - \frac{3(1 - u)^2 - 1}{6}\,\underline{m}_k +
+\frac{3u^2 - 1}{6}\,\underline{m}_{k+1}, \qquad
+p''(t) = (1 - u)\,\underline{m}_k + u\,\underline{m}_{k+1}.
+\f]
+
+t outside [0, n - 1] is clamped. dpo and ddpo may be NULL.
+
+@param n [in] number of keys, at least 2
+@param keys [in] key points
+@param m [in] second derivatives from ksl_vec3_spline_natural() or
+ksl_vec3_spline_clamped()
+@param t [in] key parameter
+@param po [out] point p(t)
+@param dpo [out] first derivative p'(t), or NULL
+@param ddpo [out] second derivative p''(t), or NULL
+*/
+void ksl_vec3_spline(const int n, const ksl_vec3_t* keys, const ksl_vec3_t* m,
+                     const double* t, ksl_vec3_t* po, ksl_vec3_t* dpo,
+                     ksl_vec3_t* ddpo);
+
 #ifdef __cplusplus
 }
 #endif

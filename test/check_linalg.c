@@ -1,6 +1,8 @@
 #include <config.h>
 
 #include <check.h>
+#include <math.h>
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -1109,6 +1111,198 @@ START_TEST(test_linalg_symmetricMatrixInverse_cmo) {
 }
 END_TEST
 
+/* -------- Householder QR, Jacobi SVD, null spaces, mobility numbers -------- */
+
+static unsigned long long linalg_seed = 20261112ULL;
+static double linalg_uniform(void) {
+  linalg_seed = linalg_seed * 6364136223846793005ULL + 1442695040888963407ULL;
+  return (double)(linalg_seed >> 11) / 9007199254740992.0 * 2.0 - 1.0;
+}
+
+/* row major m by n matrix of rank r, the product of m by r and r by n */
+static void random_of_rank(int m, int n, int r, double* a) {
+  double x[64], y[64];
+  for(int i = 0; i < m * r; i++) x[i] = linalg_uniform();
+  for(int i = 0; i < r * n; i++) y[i] = linalg_uniform();
+  for(int i = 0; i < m; i++) {
+    for(int j = 0; j < n; j++) {
+      double v = 0.0;
+      for(int k = 0; k < r; k++) v += x[i * r + k] * y[k * n + j];
+      a[i * n + j] = v;
+    }
+  }
+}
+
+static double max_abs_diff(int n, const double* a, const double* b) {
+  double d = 0.0;
+  for(int i = 0; i < n; i++) d = fmax(d, fabs(a[i] - b[i]));
+  return d;
+}
+
+/* c = a b, row major, a m by k, b k by n */
+static void mul(int m, int k, int n, const double* a, const double* b, double* c) {
+  for(int i = 0; i < m; i++) {
+    for(int j = 0; j < n; j++) {
+      double v = 0.0;
+      for(int l = 0; l < k; l++) v += a[i * k + l] * b[l * n + j];
+      c[i * n + j] = v;
+    }
+  }
+}
+
+static void transpose(int m, int n, const double* a, double* t) {
+  for(int i = 0; i < m; i++)
+    for(int j = 0; j < n; j++) t[j * m + i] = a[i * n + j];
+}
+
+START_TEST(test_linalg_qr_householder) {
+  const int shapes[3][3] = {{5, 7, 3}, {6, 4, 4}, {4, 4, 2}};
+  for(int c = 0; c < 3; c++) {
+    const int m = shapes[c][0], n = shapes[c][1], r = shapes[c][2];
+    double a[64], rr[64], q[64], qr[64], qt[64], qtq[64], id[64];
+    random_of_rank(m, n, r, a);
+    memcpy(rr, a, sizeof(double) * m * n);
+    ksl_linalg_qr_householder_rmo(m, n, rr, q);
+    mul(m, m, n, q, rr, qr);
+    ck_assert(max_abs_diff(m * n, qr, a) < 1e-13);
+    transpose(m, m, q, qt);
+    mul(m, m, m, qt, q, qtq);
+    for(int i = 0; i < m * m; i++) id[i] = (i % (m + 1) == 0) ? 1.0 : 0.0;
+    ck_assert(max_abs_diff(m * m, qtq, id) < 1e-14);
+    for(int i = 0; i < m; i++)
+      for(int j = 0; j < i && j < n; j++) ck_assert(rr[i * n + j] == 0.0);
+    /* column major: the same factors, transposed storage */
+    double ac[64], qc[64];
+    transpose(m, n, a, ac);
+    ksl_linalg_qr_householder_cmo(m, n, ac, qc);
+    double rt[64], qtt[64];
+    transpose(n, m, ac, rt);
+    transpose(m, m, qc, qtt);
+    ck_assert(max_abs_diff(m * n, rt, rr) < 1e-14);
+    ck_assert(max_abs_diff(m * m, qtt, q) < 1e-14);
+  }
+}
+END_TEST
+
+START_TEST(test_linalg_svd_jacobi) {
+  const int shapes[3][3] = {{4, 5, 3}, {6, 4, 4}, {5, 5, 2}};
+  for(int c = 0; c < 3; c++) {
+    const int m = shapes[c][0], n = shapes[c][1], r = shapes[c][2];
+    double a[64], w[64], v[64], sigma[8], vt[64], wvt[64], vtv[64], id[64];
+    random_of_rank(m, n, r, a);
+    memcpy(w, a, sizeof(double) * m * n);
+    int sweeps = ksl_linalg_svd_jacobi_rmo(m, n, w, sigma, v);
+    ck_assert(sweeps > 0);
+    transpose(n, n, v, vt);
+    mul(m, n, n, w, vt, wvt);
+    ck_assert(max_abs_diff(m * n, wvt, a) < 1e-13);
+    mul(n, n, n, vt, v, vtv);
+    for(int i = 0; i < n * n; i++) id[i] = (i % (n + 1) == 0) ? 1.0 : 0.0;
+    ck_assert(max_abs_diff(n * n, vtv, id) < 1e-14);
+    for(int i = 0; i < n; i++) {
+      if(i > 0) ck_assert(sigma[i] <= sigma[i - 1] + 1e-15);
+      for(int j = i + 1; j < n; j++) {
+        double d = 0.0;
+        for(int l = 0; l < m; l++) d += w[l * n + i] * w[l * n + j];
+        ck_assert(fabs(d) < 1e-13);
+      }
+    }
+    /* rank r: sigma_r and beyond vanish; the last columns of V are a null space */
+    for(int i = r; i < n; i++) ck_assert(sigma[i] < 1e-13);
+    double av[64];
+    mul(m, n, n, a, v, av);
+    for(int i = 0; i < m; i++)
+      for(int j = r; j < n; j++) ck_assert(fabs(av[i * n + j]) < 1e-13);
+    /* column major gives the same singular values */
+    double ac[64], vc[64], sc[8];
+    transpose(m, n, a, ac);
+    ck_assert(ksl_linalg_svd_jacobi_cmo(m, n, ac, sc, vc) > 0);
+    ck_assert(max_abs_diff(n, sc, sigma) < 1e-13);
+  }
+}
+END_TEST
+
+START_TEST(test_linalg_lu_nullSpaces) {
+  const int m = 4, n = 6, r = 3;
+  double a[24], lu[24], z[18], y[4], az[12], ya[6];
+  int pr[4], pc[6];
+  random_of_rank(m, n, r, a);
+  memcpy(lu, a, sizeof lu);
+  int rank = ksl_linalg_lu_full_rmo(m, n, lu, 1e-12, pr, pc);
+  ck_assert_int_eq(rank, r);
+  ksl_linalg_lu_setBMatrix_rmo(rank, n, lu);
+  ksl_linalg_lu_setCMatrix_rmo(m, n, rank, lu);
+  ksl_linalg_lu_nullSpace_rmo(rank, n, lu, pc, z);
+  mul(m, n, n - r, a, z, az);
+  for(int i = 0; i < m * (n - r); i++) ck_assert(fabs(az[i]) < 1e-13);
+  ksl_linalg_lu_leftNullSpace_rmo(m, n, rank, lu, pr, y);
+  mul(m - r, m, n, y, a, ya);
+  for(int i = 0; i < (m - r) * n; i++) ck_assert(fabs(ya[i]) < 1e-13);
+  /* the unit rows and columns are where the permutations put them */
+  for(int j = 0; j < n - r; j++) ck_assert(z[pc[r + j] * (n - r) + j] == 1.0);
+  ck_assert(y[pr[r]] == 1.0);
+}
+END_TEST
+
+START_TEST(test_linalg_lu_solve_rmo) {
+  const int m = 4, n = 6, r = 3;
+  double a[24], lu[24], ad[9], x[3], b[3], bx[3];
+  int pr[4], pc[6];
+  random_of_rank(m, n, r, a);
+  memcpy(lu, a, sizeof lu);
+  int rank = ksl_linalg_lu_full_rmo(m, n, lu, 1e-12, pr, pc);
+  ck_assert_int_eq(rank, r);
+  /* A^d: the primary rows and dependent columns of A, in pivoted order */
+  for(int i = 0; i < r; i++)
+    for(int j = 0; j < r; j++) ad[i * r + j] = a[pr[i] * n + pc[j]];
+  const double x0[3] = {0.5, -1.25, 2.0};
+  mul(r, r, 1, ad, x0, b);
+  ksl_linalg_lu_solve_rmo(rank, n, lu, b, x);
+  for(int i = 0; i < r; i++) ck_assert(fabs(x[i] - x0[i]) < 1e-12);
+  /* in place, and after the B and C matrices have been formed */
+  ksl_linalg_lu_setBMatrix_rmo(rank, n, lu);
+  ksl_linalg_lu_setCMatrix_rmo(m, n, rank, lu);
+  memcpy(bx, b, sizeof b);
+  ksl_linalg_lu_solve_rmo(rank, n, lu, bx, bx);
+  for(int i = 0; i < r; i++) ck_assert(fabs(bx[i] - x0[i]) < 1e-12);
+  /* the independent columns of A give the columns of B */
+  for(int k = 0; k < n - r; k++) {
+    for(int i = 0; i < r; i++) b[i] = a[pr[i] * n + pc[r + k]];
+    ksl_linalg_lu_solve_rmo(rank, n, lu, b, x);
+    for(int i = 0; i < r; i++) ck_assert(fabs(x[i] - lu[i * n + r + k]) < 1e-12);
+  }
+}
+END_TEST
+
+START_TEST(test_linalg_mobilityNumbers) {
+  const int m = 4, n = 6, r = 3, k = n - r;
+  double a[24], lu[24], z[18], z0[18], mu[6];
+  int pr[4], pc[6];
+  random_of_rank(m, n, r, a);
+  memcpy(lu, a, sizeof lu);
+  ksl_linalg_lu_full_rmo(m, n, lu, 1e-12, pr, pc);
+  ksl_linalg_lu_setBMatrix_rmo(r, n, lu);
+  ksl_linalg_lu_nullSpace_rmo(r, n, lu, pc, z);
+  memcpy(z0, z, sizeof z);
+  ksl_linalg_mobilityNumbers_rmo(n, k, z, mu);
+  /* against the diagonal of N (N^T N)^-1 N^T, with no orthonormalization */
+  double nt[18], ntn[9], ntni[9], t[18], proj[36];
+  transpose(n, k, z0, nt);
+  mul(k, n, k, nt, z0, ntn);
+  memcpy(ntni, ntn, sizeof ntn);
+  ksl_linalg_symmetricMatrixInverse_rmo(ntni, k);
+  mul(n, k, k, z0, ntni, t);
+  mul(n, k, n, t, nt, proj);
+  double sum = 0.0;
+  for(int i = 0; i < n; i++) {
+    ck_assert(fabs(mu[i] - proj[i * n + i]) < 1e-13);
+    ck_assert(mu[i] >= -1e-15 && mu[i] <= 1.0 + 1e-15);
+    sum += mu[i];
+  }
+  ck_assert(fabs(sum - k) < 1e-13);
+}
+END_TEST
+
 Suite* linalg_suite(void) {
   Suite* s = suite_create("linalg");
   TCase* tc_core = tcase_create("core");
@@ -1144,6 +1338,11 @@ Suite* linalg_suite(void) {
   tcase_add_test(tc_core, test_linalg_ldlt_solve_cmo);
   tcase_add_test(tc_core, test_linalg_cholesky_solve_cmo);
   tcase_add_test(tc_core, test_linalg_symmetricMatrixInverse_cmo);
+  tcase_add_test(tc_core, test_linalg_qr_householder);
+  tcase_add_test(tc_core, test_linalg_svd_jacobi);
+  tcase_add_test(tc_core, test_linalg_lu_nullSpaces);
+  tcase_add_test(tc_core, test_linalg_lu_solve_rmo);
+  tcase_add_test(tc_core, test_linalg_mobilityNumbers);
   suite_add_tcase(s, tc_core);
   return s;
 }

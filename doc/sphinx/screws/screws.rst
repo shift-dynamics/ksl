@@ -501,6 +501,42 @@ divides by it. Dividing instead by the dual magnitude
 leaving the Plücker coordinates of the screw axis, a line rather than a unit
 twist.
 
+Exponential and logarithm
+*************************
+
+A twist held constant for unit time carries a frame through a screw motion. With
+:math:`\boldsymbol{\underline{\xi}} = \{\underline{\rho};\ \theta\underline{u}\}`, where
+:math:`\underline{u}` is a unit vector, the displacement reached is the matrix exponential
+
+.. math::
+
+    \Phi = \exp\begin{bmatrix} \theta\tilde{u} & \underline{\rho} \\ 0 & 0 \end{bmatrix}
+    = \begin{bmatrix} R & V\underline{\rho} \\ 0 & 1 \end{bmatrix}, \qquad
+    \begin{aligned}
+    R &= I + \sin\theta\,\tilde{u} + (1 - \cos\theta)\,\tilde{u}\tilde{u}, \\
+    V &= I + \frac{1 - \cos\theta}{\theta}\,\tilde{u} +
+    \frac{\theta - \sin\theta}{\theta}\,\tilde{u}\tilde{u},
+    \end{aligned}
+
+computed by ``ksl_screw_exp()``. Its inverse, ``ksl_screw_log()``, takes the rotation vector
+:math:`\theta\underline{u}` of :math:`R` with :math:`0 \le \theta \le \pi` and
+
+.. math::
+
+    \underline{\rho} = V^{-1}\underline{r}, \qquad
+    V^{-1} = I - \frac{\theta}{2}\,\tilde{u} +
+    \left(1 - \frac{\theta}{2}\cot\frac{\theta}{2}\right)\tilde{u}\tilde{u}.
+
+The logarithm is the screw of the displacement (Chasles): its axis passes through
+:math:`\underline{u}\times\underline{\rho}/\theta` and its pitch is
+:math:`\underline{u}^{T}\underline{\rho}/\theta`. Scaling it by :math:`t` interpolates the
+screw motion, :math:`\Phi_1\exp\bigl(t\log(\Phi_1^{-1}\Phi_2)\bigr)`, which is
+``ksl_SE3_sclerp()`` :cite:`kavan2008geometric`; ``ksl_SE3_squad_keys()`` extends it to a
+sequence of key displacements in the way squad extends slerp
+:cite:`shoemake1987quaternion` :cite:`parkravani1995bezier`, with a velocity screw that is
+continuous at the keys. ``ksl_SE3_exp()`` and ``ksl_SE3_log()`` are the same functions as
+``ksl_screw_exp()`` and ``ksl_screw_log()``.
+
 Double precision
 ----------------
 
@@ -619,6 +655,12 @@ Double precision
 
 
 .. doxygenfunction:: ksl_product_Adinvs
+
+
+.. doxygenfunction:: ksl_screw_exp
+
+
+.. doxygenfunction:: ksl_screw_log
 
 
 .. doxygenfunction:: ksl_hsra
@@ -767,6 +809,12 @@ Single precision
 
 
 .. doxygenfunction:: ksl_product_Adinvsf
+
+
+.. doxygenfunction:: ksl_screwf_exp
+
+
+.. doxygenfunction:: ksl_screwf_log
 
 
 .. doxygenfunction:: ksl_hsraf

@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <check.h>
 #include <float.h>
+#include <math.h>
 #include <stdio.h>
 #include <time.h>
 
@@ -735,6 +736,86 @@ START_TEST(test_add_vvzinvf) {
 }
 END_TEST
 
+/* -------- cubic splines -------- */
+
+START_TEST(test_vec3_spline_natural) {
+  /* the corners of a unit square: m_1 = {-6/5; 2; 0}, m_2 = {-6/5; -2; 0},
+  and p(3/2) = {1.15; 0.5; 0} */
+  ksl_vec3_t sq[4] = {ksl_vec3(0, 0, 0), ksl_vec3(1, 0, 0), ksl_vec3(1, 1, 0),
+                      ksl_vec3(0, 1, 0)};
+  ksl_vec3_t m[4], p;
+  double work[4];
+  ksl_vec3_spline_natural(4, sq, m, work);
+  ck_assert(fabs(m[1].x + 1.2) < 1e-15 && fabs(m[1].y - 2.0) < 1e-15);
+  ck_assert(fabs(m[2].x + 1.2) < 1e-15 && fabs(m[2].y + 2.0) < 1e-15);
+  ck_assert(m[0].x == 0.0 && m[3].y == 0.0);
+  double t = 1.5;
+  ksl_vec3_spline(4, sq, m, &t, &p, NULL, NULL);
+  ck_assert(fabs(p.x - 1.15) < 1e-15 && fabs(p.y - 0.5) < 1e-15);
+
+  /* six keys in space: through the keys, the tridiagonal equations, and
+  continuous first and second derivatives at the interior keys */
+  ksl_vec3_t keys[6] = {ksl_vec3(0.1, -0.3, 0.7), ksl_vec3(1.2, 0.4, -0.2),
+                        ksl_vec3(0.8, 1.9, 0.5),  ksl_vec3(-0.6, 1.1, 1.3),
+                        ksl_vec3(-1.4, -0.2, 0.9), ksl_vec3(-0.5, -1.6, -0.4)};
+  ksl_vec3_t mk[6], d, dd, pl, dl, ddl, pr, dr, ddr;
+  double w6[6];
+  ksl_vec3_spline_natural(6, keys, mk, w6);
+  for(int k = 0; k < 6; k++) {
+    t = k;
+    ksl_vec3_spline(6, keys, mk, &t, &p, &d, &dd);
+    for(int c = 0; c < 3; c++) ck_assert(fabs(p.at[c] - keys[k].at[c]) < 1e-15);
+  }
+  for(int k = 1; k < 5; k++) {
+    for(int c = 0; c < 3; c++) {
+      double res = mk[k - 1].at[c] + 4 * mk[k].at[c] + mk[k + 1].at[c] -
+                   6 * (keys[k + 1].at[c] - 2 * keys[k].at[c] + keys[k - 1].at[c]);
+      ck_assert(fabs(res) < 1e-13);
+    }
+    double tl = k - 1e-9, tr = k + 1e-9;
+    ksl_vec3_spline(6, keys, mk, &tl, &pl, &dl, &ddl);
+    ksl_vec3_spline(6, keys, mk, &tr, &pr, &dr, &ddr);
+    for(int c = 0; c < 3; c++) {
+      ck_assert(fabs(dl.at[c] - dr.at[c]) < 1e-7);
+      ck_assert(fabs(ddl.at[c] - ddr.at[c]) < 1e-7);
+    }
+  }
+  /* equally spaced keys on a line: every m_k = 0 */
+  ksl_vec3_t line[5], ml[5];
+  for(int k = 0; k < 5; k++) line[k] = ksl_vec3(1 + 2 * k, -k, 0.5 * k);
+  ksl_vec3_spline_natural(5, line, ml, work);
+  for(int k = 0; k < 5; k++)
+    for(int c = 0; c < 3; c++) ck_assert(fabs(ml[k].at[c]) < 1e-14);
+  /* two keys: the straight line */
+  ksl_vec3_spline_natural(2, sq, m, work);
+  t = 0.25;
+  ksl_vec3_spline(2, sq, m, &t, &p, NULL, NULL);
+  ck_assert(fabs(p.x - 0.25) < 1e-15 && p.y == 0.0);
+}
+END_TEST
+
+START_TEST(test_vec3_spline_clamped) {
+  ksl_vec3_t keys[5] = {ksl_vec3(0, 0, 0), ksl_vec3(1, 2, 0), ksl_vec3(3, 1, 1),
+                        ksl_vec3(4, -1, 2), ksl_vec3(6, 0, 1)};
+  ksl_vec3_t v0 = ksl_vec3(1, 0, -1), vn = ksl_vec3(0, 2, 0.5), m[5], p, d, dd;
+  double work[5];
+  ksl_vec3_spline_clamped(5, keys, &v0, &vn, m, work);
+  double t = 0.0;
+  ksl_vec3_spline(5, keys, m, &t, &p, &d, &dd);
+  for(int c = 0; c < 3; c++) ck_assert(fabs(d.at[c] - v0.at[c]) < 1e-14);
+  t = 4.0;
+  ksl_vec3_spline(5, keys, m, &t, &p, &d, &dd);
+  for(int c = 0; c < 3; c++) ck_assert(fabs(d.at[c] - vn.at[c]) < 1e-14);
+  for(int k = 1; k < 4; k++) {
+    for(int c = 0; c < 3; c++) {
+      double res = m[k - 1].at[c] + 4 * m[k].at[c] + m[k + 1].at[c] -
+                   6 * (keys[k + 1].at[c] - 2 * keys[k].at[c] + keys[k - 1].at[c]);
+      ck_assert(fabs(res) < 1e-13);
+    }
+  }
+}
+END_TEST
+
 Suite* vector_suite(void) {
   Suite* s = suite_create("vector");
 
@@ -814,6 +895,8 @@ Suite* vector_suite(void) {
   tcase_add_test(tc_core, test_add_vvzf);
   tcase_add_test(tc_core, test_add_vvzinv);
   tcase_add_test(tc_core, test_add_vvzinvf);
+  tcase_add_test(tc_core, test_vec3_spline_natural);
+  tcase_add_test(tc_core, test_vec3_spline_clamped);
 
   suite_add_tcase(s, tc_core);
 

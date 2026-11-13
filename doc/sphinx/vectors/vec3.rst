@@ -151,6 +151,18 @@ Double precision
 
 
 
+Cubic splines
+*************
+
+.. doxygenfunction:: ksl_vec3_spline_natural
+
+
+.. doxygenfunction:: ksl_vec3_spline_clamped
+
+
+.. doxygenfunction:: ksl_vec3_spline
+
+
 Single precision
 ----------------
 

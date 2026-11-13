@@ -997,6 +997,74 @@ static inline void ksl_product_Adinvsf(const ksl_SE3f_t* Di,
                                        const ksl_screwf_t* si,
                                        ksl_screwf_t* so);
 
+/*!
+@brief Exponential of a screw: the displacement
+\f$\Phi = \exp\boldsymbol{\underline{\xi}}\f$.
+
+For the screw \f$\boldsymbol{\underline{\xi}} = \{\underline{\rho};\ \theta\underline{u}\}\f$
+(si->lin = \f$\underline{\rho}\f$, si->ang = \f$\theta\underline{u}\f$, with
+\f$\underline{u}\f$ a unit vector), computes
+
+\f[
+\Phi = \exp\begin{bmatrix} \theta\tilde{u} & \underline{\rho} \\ 0 & 0 \end{bmatrix}
+= \begin{bmatrix} R & V\underline{\rho} \\ 0 & 1 \end{bmatrix}, \qquad
+\begin{aligned}
+R &= I + \sin\theta\,\tilde{u} + (1 - \cos\theta)\,\tilde{u}\tilde{u}, \\
+V &= I + \frac{1 - \cos\theta}{\theta}\,\tilde{u} +
+\frac{\theta - \sin\theta}{\theta}\,\tilde{u}\tilde{u},
+\end{aligned}
+\f]
+
+the displacement reached by moving for unit time with the constant velocity screw
+\f$\boldsymbol{\underline{\xi}}\f$, taken at the origin of the moving frame in its own
+coordinates: a rotation by \f$\theta\f$ about a line parallel to \f$\underline{u}\f$ together
+with a translation along that line (Chasles). For \f$\theta = 0\f$ it is the translation by
+\f$\underline{\rho}\f$. Series are used for small \f$\theta\f$. The inverse of
+ksl_screw_log() for \f$0 \le \theta \le \pi\f$. Scaling the screw by \f$t\f$ before the
+exponential, \f$\exp(t\boldsymbol{\underline{\xi}})\f$, gives the displacement after the
+fraction \f$t\f$ of the screw motion, the basis of ksl_SE3_sclerp().
+
+@param si [in] screw \f$\boldsymbol{\underline{\xi}}\f$
+@param Do [out] displacement \f$\exp\boldsymbol{\underline{\xi}}\f$
+*/
+void ksl_screw_exp(const ksl_screw_t* si, ksl_SE3_t* Do);
+
+/*!
+@brief Single precision version of ksl_screw_exp(), computed in double precision.
+*/
+void ksl_screwf_exp(const ksl_screwf_t* si, ksl_SE3f_t* Do);
+
+/*!
+@brief Logarithm of a displacement: the screw
+\f$\boldsymbol{\underline{\xi}} = \log\Phi\f$.
+
+For \f$\Phi = [R\ \ \underline{r};\ 0\ \ 1]\f$, the angular part \f$\theta\underline{u}\f$ is the
+rotation vector of \f$R\f$ with \f$0 \le \theta \le \pi\f$ (the shorter rotation), and the linear
+part is \f$\underline{\rho} = V^{-1}\underline{r}\f$ with
+
+\f[
+V^{-1} = I - \frac{\theta}{2}\,\tilde{u} +
+\left(1 - \frac{\theta}{2}\cot\frac{\theta}{2}\right)\tilde{u}\tilde{u}.
+\f]
+
+so->lin = \f$\underline{\rho}\f$ and so->ang = \f$\theta\underline{u}\f$. The screw has the
+same coordinates in both frames of \f$\Phi\f$, since \f$\Phi\f$ commutes with its logarithm.
+Its axis is the screw axis of the displacement, through the point
+\f$\underline{u}\times\underline{\rho}/\theta\f$, and its pitch is
+\f$\underline{u}^{T}\underline{\rho}/\theta\f$. At \f$\theta = \pi\f$ the direction of
+\f$\underline{u}\f$ is a choice and either sign is a logarithm. The inverse of
+ksl_screw_exp().
+
+@param Di [in] displacement \f$\Phi\f$
+@param so [out] screw \f$\log\Phi\f$
+*/
+void ksl_screw_log(const ksl_SE3_t* Di, ksl_screw_t* so);
+
+/*!
+@brief Single precision version of ksl_screw_log(), computed in double precision.
+*/
+void ksl_screwf_log(const ksl_SE3f_t* Di, ksl_screwf_t* so);
+
 #ifdef __cplusplus
 }
 #endif

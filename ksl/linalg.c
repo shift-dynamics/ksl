@@ -759,6 +759,24 @@ void ksl_linalg_lu_setCMatrix_rmo(int rowDim, int colDim, int rank, double* A) {
   }
 }
 
+void ksl_linalg_lu_solve_rmo(const int rank, const int colDim,
+                             const double* A, const double* b, double* x) {
+  for(int i = 0; i < rank; i++) {
+    double s = b[i];
+    for(int j = 0; j < i; j++) {
+      s -= A[i * colDim + j] * x[j];
+    }
+    x[i] = s;
+  }
+  for(int i = rank - 1; i >= 0; i--) {
+    double s = x[i];
+    for(int j = i + 1; j < rank; j++) {
+      s -= A[i * colDim + j] * x[j];
+    }
+    x[i] = s / A[i * colDim + i];
+  }
+}
+
 /*!
 @brief computes the Row Major Order L D L^T decomposition of a symmetric
 positive definite matrix without pivoting
@@ -1919,4 +1937,193 @@ inline int ksl_linalg_symmetricMatrixInverse_cmo(double* restrict A,
     }
   }
   return 0;
+}
+
+/* -------- Householder QR, one-sided Jacobi SVD, null spaces -------- */
+
+/* A[i][j] = A[i * rs + j * cs]: rs = n, cs = 1 for row major and rs = 1,
+cs = m for column major */
+static void ksl_linalg_qr_householder(const int m, const int n, double* A,
+                                      const int ars, const int acs, double* Q,
+                                      const int qrs, const int qcs) {
+  for(int i = 0; i < m; i++) {
+    for(int j = 0; j < m; j++) {
+      Q[i * qrs + j * qcs] = (i == j) ? 1.0 : 0.0;
+    }
+  }
+  /* the Householder vector is column k of A below the diagonal with vk in
+  place of a_kk, so no work array is needed; columns before k are zero in
+  rows k and below, so H leaves them unchanged */
+  const int p = n < m - 1 ? n : m - 1;
+  for(int k = 0; k < p; k++) {
+    double norm = 0.0;
+    for(int i = k; i < m; i++) {
+      norm += A[i * ars + k * acs] * A[i * ars + k * acs];
+    }
+    norm = sqrt(norm);
+    if(norm == 0.0) {
+      continue;
+    }
+    const double akk = A[k * ars + k * acs];
+    const double signed_norm = akk >= 0.0 ? norm : -norm;
+    const double vk = akk + signed_norm;
+    double vtv = vk * vk;
+    for(int i = k + 1; i < m; i++) {
+      vtv += A[i * ars + k * acs] * A[i * ars + k * acs];
+    }
+    const double f = 2.0 / vtv;
+    for(int j = k + 1; j < n; j++) { /* A <- H A, columns after k */
+      double s = vk * A[k * ars + j * acs];
+      for(int i = k + 1; i < m; i++) {
+        s += A[i * ars + k * acs] * A[i * ars + j * acs];
+      }
+      s *= f;
+      A[k * ars + j * acs] -= s * vk;
+      for(int i = k + 1; i < m; i++) {
+        A[i * ars + j * acs] -= s * A[i * ars + k * acs];
+      }
+    }
+    for(int i = 0; i < m; i++) { /* Q <- Q H */
+      double s = Q[i * qrs + k * qcs] * vk;
+      for(int l = k + 1; l < m; l++) {
+        s += Q[i * qrs + l * qcs] * A[l * ars + k * acs];
+      }
+      s *= f;
+      Q[i * qrs + k * qcs] -= s * vk;
+      for(int l = k + 1; l < m; l++) {
+        Q[i * qrs + l * qcs] -= s * A[l * ars + k * acs];
+      }
+    }
+    /* H a_k = -sign(a_kk) |a_k| e_k */
+    A[k * ars + k * acs] = -signed_norm;
+    for(int i = k + 1; i < m; i++) {
+      A[i * ars + k * acs] = 0.0;
+    }
+  }
+}
+
+void ksl_linalg_qr_householder_rmo(const int m, const int n, double* A,
+                                   double* Q) {
+  ksl_linalg_qr_householder(m, n, A, n, 1, Q, m, 1);
+}
+
+void ksl_linalg_qr_householder_cmo(const int m, const int n, double* A,
+                                   double* Q) {
+  ksl_linalg_qr_householder(m, n, A, 1, m, Q, 1, m);
+}
+
+static int ksl_linalg_svd_jacobi(const int m, const int n, double* W,
+                                 const int wrs, const int wcs, double* sigma,
+                                 double* V, const int vrs, const int vcs) {
+  for(int i = 0; i < n; i++) {
+    for(int j = 0; j < n; j++) {
+      V[i * vrs + j * vcs] = (i == j) ? 1.0 : 0.0;
+    }
+  }
+  int sweeps = -1;
+  for(int sweep = 1; sweep <= 60; sweep++) {
+    int rotated = 0;
+    for(int i = 0; i < n - 1; i++) {
+      for(int j = i + 1; j < n; j++) {
+        double bii = 0.0, bjj = 0.0, bij = 0.0;
+        for(int l = 0; l < m; l++) {
+          const double wi = W[l * wrs + i * wcs], wj = W[l * wrs + j * wcs];
+          bii += wi * wi;
+          bjj += wj * wj;
+          bij += wi * wj;
+        }
+        if(bii < bjj) { /* keep the longer column first */
+          for(int l = 0; l < m; l++) {
+            ksl_swap(&W[l * wrs + i * wcs], &W[l * wrs + j * wcs]);
+          }
+          for(int l = 0; l < n; l++) {
+            ksl_swap(&V[l * vrs + i * vcs], &V[l * vrs + j * vcs]);
+          }
+          ksl_swap(&bii, &bjj);
+        }
+        if(bij == 0.0 || fabs(bij) <= 1e-15 * sqrt(bii * bjj)) {
+          continue;
+        }
+        rotated = 1;
+        const double alpha = 2.0 * bij, beta = bii - bjj;
+        const double g = sqrt(alpha * alpha + beta * beta);
+        const double gamma = beta >= 0.0 ? g : -g;
+        const double c = sqrt((beta + gamma) / (2.0 * gamma));
+        const double s = alpha / (2.0 * gamma * c);
+        for(int l = 0; l < m; l++) {
+          const double wi = W[l * wrs + i * wcs], wj = W[l * wrs + j * wcs];
+          W[l * wrs + i * wcs] = c * wi + s * wj;
+          W[l * wrs + j * wcs] = -s * wi + c * wj;
+        }
+        for(int l = 0; l < n; l++) {
+          const double vi = V[l * vrs + i * vcs], vj = V[l * vrs + j * vcs];
+          V[l * vrs + i * vcs] = c * vi + s * vj;
+          V[l * vrs + j * vcs] = -s * vi + c * vj;
+        }
+      }
+    }
+    if(!rotated) {
+      sweeps = sweep;
+      break;
+    }
+  }
+  for(int j = 0; j < n; j++) {
+    double s = 0.0;
+    for(int l = 0; l < m; l++) {
+      s += W[l * wrs + j * wcs] * W[l * wrs + j * wcs];
+    }
+    sigma[j] = sqrt(s);
+  }
+  return sweeps;
+}
+
+int ksl_linalg_svd_jacobi_rmo(const int m, const int n, double* A,
+                              double* sigma, double* V) {
+  return ksl_linalg_svd_jacobi(m, n, A, n, 1, sigma, V, n, 1);
+}
+
+int ksl_linalg_svd_jacobi_cmo(const int m, const int n, double* A,
+                              double* sigma, double* V) {
+  return ksl_linalg_svd_jacobi(m, n, A, 1, m, sigma, V, 1, n);
+}
+
+void ksl_linalg_lu_nullSpace_rmo(const int rank, const int colDim,
+                                 const double* restrict A,
+                                 const int* restrict pc, double* restrict Z) {
+  const int k = colDim - rank;
+  memset(Z, 0, sizeof(double) * colDim * k);
+  for(int i = 0; i < rank; i++) {
+    for(int j = 0; j < k; j++) {
+      Z[pc[i] * k + j] = -A[i * colDim + rank + j];
+    }
+  }
+  for(int j = 0; j < k; j++) {
+    Z[pc[rank + j] * k + j] = 1.0;
+  }
+}
+
+void ksl_linalg_lu_leftNullSpace_rmo(const int rowDim, const int colDim,
+                                     const int rank, const double* restrict A,
+                                     const int* restrict pr,
+                                     double* restrict Y) {
+  const int s = rowDim - rank;
+  memset(Y, 0, sizeof(double) * s * rowDim);
+  for(int i = 0; i < s; i++) {
+    for(int j = 0; j < rank; j++) {
+      Y[i * rowDim + pr[j]] = -A[(rank + i) * colDim + j];
+    }
+    Y[i * rowDim + pr[rank + i]] = 1.0;
+  }
+}
+
+void ksl_linalg_mobilityNumbers_rmo(const int n, const int k, double* Z,
+                                    double* mu) {
+  ksl_linalg_gramSchmidt(Z, n, k);
+  for(int i = 0; i < n; i++) {
+    double s = 0.0;
+    for(int j = 0; j < k; j++) {
+      s += Z[i * k + j] * Z[i * k + j];
+    }
+    mu[i] = s;
+  }
 }

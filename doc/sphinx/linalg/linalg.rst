@@ -83,6 +83,9 @@ row major order
 .. doxygenfunction:: ksl_linalg_lu_infinityNormB_rmo
 
 
+.. doxygenfunction:: ksl_linalg_lu_solve_rmo
+
+
 
 column major order
 ******************
@@ -182,3 +185,45 @@ column major order
 ******************
 
 .. doxygenfunction:: ksl_linalg_symmetricMatrixInverse_cmo
+
+
+Householder QR
+--------------
+
+row major order
+***************
+
+.. doxygenfunction:: ksl_linalg_qr_householder_rmo
+
+
+column major order
+******************
+
+.. doxygenfunction:: ksl_linalg_qr_householder_cmo
+
+
+Singular Value Decomposition (one-sided Jacobi)
+-----------------------------------------------
+
+row major order
+***************
+
+.. doxygenfunction:: ksl_linalg_svd_jacobi_rmo
+
+
+column major order
+******************
+
+.. doxygenfunction:: ksl_linalg_svd_jacobi_cmo
+
+
+Null Spaces and Mobility Numbers
+--------------------------------
+
+.. doxygenfunction:: ksl_linalg_lu_nullSpace_rmo
+
+
+.. doxygenfunction:: ksl_linalg_lu_leftNullSpace_rmo
+
+
+.. doxygenfunction:: ksl_linalg_mobilityNumbers_rmo
