@@ -176,9 +176,17 @@ static inline void ksl_mat3x3f_set(ksl_mat3x3f_t* R, int row, int column,
 /*!
 @brief Re-orthonormalize a rotation matrix in place.
 
-Applies Gram-Schmidt orthonormalization (ksl_linalg_gramSchmidt()) to the
-columns, which removes the drift that accumulates when rotations are composed
-many times.
+Applies Gram-Schmidt orthonormalization to the columns, which removes the
+drift that accumulates when rotations are composed many times. The columns are
+contiguous in memory (column-major storage):
+
+    c0 = c0 / |c0|
+    c1 = c1 - (c0 . c1) c0,  c1 = c1 / |c1|
+    c2 = c0 x c1
+
+The first column keeps its direction, and the result is a rotation (det R = +1)
+whatever the sign of the determinant of the input. The input must be close to a
+rotation, so that its first two columns are independent.
 
 @param R [in,out] nearly orthonormal matrix, replaced by an orthonormal one
 */
@@ -653,23 +661,51 @@ static inline void ksl_mat3x3f_set(ksl_mat3x3f_t* KSL_RESTRICT R, int row,
 }
 
 static inline void ksl_mat3x3_normalize(ksl_mat3x3_t* KSL_RESTRICT R) {
-  ksl_linalg_gramSchmidt((double*)&(R->as_array), 3, 3);
+  double n = 1 / sqrt(R->m00 * R->m00 + R->m10 * R->m10 + R->m20 * R->m20);
+  R->m00 *= n;
+  R->m10 *= n;
+  R->m20 *= n;
+  double d = R->m00 * R->m01 + R->m10 * R->m11 + R->m20 * R->m21;
+  R->m01 -= d * R->m00;
+  R->m11 -= d * R->m10;
+  R->m21 -= d * R->m20;
+  n = 1 / sqrt(R->m01 * R->m01 + R->m11 * R->m11 + R->m21 * R->m21);
+  R->m01 *= n;
+  R->m11 *= n;
+  R->m21 *= n;
+  R->m02 = R->m10 * R->m21 - R->m20 * R->m11;
+  R->m12 = R->m20 * R->m01 - R->m00 * R->m21;
+  R->m22 = R->m00 * R->m11 - R->m10 * R->m01;
 }
 
 static inline void ksl_mat3x3_normalized(const ksl_mat3x3_t* KSL_RESTRICT Ri,
                                          ksl_mat3x3_t* KSL_RESTRICT Ro) {
   ksl_mat3x3_copy(Ri, Ro);
-  ksl_linalg_gramSchmidt((double*)&(Ro->as_array), 3, 3);
+  ksl_mat3x3_normalize(Ro);
 }
 
 static inline void ksl_mat3x3f_normalize(ksl_mat3x3f_t* KSL_RESTRICT R) {
-  ksl_linalg_gramSchmidtf((float*)&(R->as_array), 3, 3);
+  float n = 1 / sqrtf(R->m00 * R->m00 + R->m10 * R->m10 + R->m20 * R->m20);
+  R->m00 *= n;
+  R->m10 *= n;
+  R->m20 *= n;
+  float d = R->m00 * R->m01 + R->m10 * R->m11 + R->m20 * R->m21;
+  R->m01 -= d * R->m00;
+  R->m11 -= d * R->m10;
+  R->m21 -= d * R->m20;
+  n = 1 / sqrtf(R->m01 * R->m01 + R->m11 * R->m11 + R->m21 * R->m21);
+  R->m01 *= n;
+  R->m11 *= n;
+  R->m21 *= n;
+  R->m02 = R->m10 * R->m21 - R->m20 * R->m11;
+  R->m12 = R->m20 * R->m01 - R->m00 * R->m21;
+  R->m22 = R->m00 * R->m11 - R->m10 * R->m01;
 }
 
 static inline void ksl_mat3x3f_normalized(const ksl_mat3x3f_t* KSL_RESTRICT Ri,
-                                          ksl_mat3x3f_t* KSL_RESTRICT Ro) {
+                                         ksl_mat3x3f_t* KSL_RESTRICT Ro) {
   ksl_mat3x3f_copy(Ri, Ro);
-  ksl_linalg_gramSchmidtf((float*)&(Ro->as_array), 3, 3);
+  ksl_mat3x3f_normalize(Ro);
 }
 
 static inline void ksl_mat3x3_setFromVectors(ksl_mat3x3_t* KSL_RESTRICT R,

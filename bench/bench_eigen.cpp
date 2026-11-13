@@ -20,6 +20,7 @@
 #include "ksl/SE3.h"
 #include "ksl/coscrew.h"
 #include "ksl/inertia.h"
+#include "ksl/linalg.h"
 #include "ksl/mat3x3.h"
 #include "ksl/matrix.h"
 #include "ksl/quaternion.h"
@@ -110,6 +111,8 @@ int main() {
   std::vector<Matrix6d> eM(N), eMo(N);
   std::vector<double> dc(2 * N);
   std::vector<Matrix3d> eRz(N);
+  std::vector<ksl_mat3x3_t> kn(N), kno(N);  // perturbed rotations to re-orthonormalize
+  std::vector<Matrix3d> en(N), eno(N);
 
   for(int i = 0; i < N; i++) {
     Quaterniond q1(U(rng), U(rng), U(rng), U(rng)), q2(U(rng), U(rng), U(rng), U(rng));
@@ -148,6 +151,11 @@ int main() {
     double th = U(rng) * M_PI;
     dc[2 * i] = std::sin(th); dc[2 * i + 1] = std::cos(th);
     eRz[i] = Eigen::AngleAxisd(th, Vector3d::UnitZ()).toRotationMatrix();
+    en[i] = ed1[i].R;
+    for(int cc = 0; cc < 3; cc++)
+      for(int r = 0; r < 3; r++) en[i](r, cc) += 1e-4 * U(rng);
+    for(int cc = 0; cc < 3; cc++)
+      for(int r = 0; r < 3; r++) kn[i].at[cc][r] = en[i](r, cc);
   }
 
   // ---------------- correctness cross-check ----------------
@@ -173,6 +181,15 @@ int main() {
     ksl_product_ddrz(&kd1[i], &dc[2 * i], &kdo[i]);
     Matrix3d Rz = ed1[i].R * eRz[i];
     for(int cc = 0; cc < 3; cc++) for(int r = 0; r < 3; r++) err = std::max(err, std::abs(kdo[i].at[cc][r] - Rz(r, cc)));
+  }
+  for(int i = 0; i < N; i++) {
+    ksl_mat3x3_normalized(&kn[i], &kno[i]);
+    Matrix3d R = en[i];
+    R.col(0).normalize();
+    R.col(1) -= R.col(0).dot(R.col(1)) * R.col(0);
+    R.col(1).normalize();
+    R.col(2) = R.col(0).cross(R.col(1));
+    for(int cc = 0; cc < 3; cc++) for(int r = 0; r < 3; r++) err = std::max(err, std::abs(kno[i].at[cc][r] - R(r, cc)));
   }
   std::printf("max |ksl - eigen| over checks: %.3g\n\n", err);
 
@@ -227,6 +244,16 @@ int main() {
   c = TimeNs([&] { for(int i = 0; i < N; i++) eMo[i].noalias() = eAd[i].transpose() * eM[i] * eAd[i]; });
   Row("inertia transform", a, "Eigen 3x3", b, "Eigen 6x6 XtMX", c);
 
+  // Re-orthonormalization of a 3x3 rotation: KSL by columns (2 square roots and
+  // a cross product, inline), the previous KSL version (ksl_linalg_gramSchmidt
+  // on the column-major storage, which works on the rows, 3 square roots, a
+  // call with run-time sizes), and the column algorithm written with Eigen.
+  a = TimeNs([&] { for(int i = 0; i < N; i++) ksl_mat3x3_normalized(&kn[i], &kno[i]); });
+  b = TimeNs([&] { for(int i = 0; i < N; i++) { kno[i] = kn[i]; ksl_linalg_gramSchmidt((double*)&kno[i].as_array, 3, 3); } });
+  c = TimeNs([&] { for(int i = 0; i < N; i++) { Matrix3d& R = eno[i]; R = en[i]; R.col(0).normalize();
+      R.col(1) -= R.col(0).dot(R.col(1)) * R.col(0); R.col(1).normalize(); R.col(2) = R.col(0).cross(R.col(1)); } });
+  Row("normalize R (mat3x3)", a, "KSL gramSchmidt", b, "Eigen columns", c);
+
   // ---------------- latency: dependent FK chain ----------------
   auto chain = [&](auto step) { return TimeNs(step, N - 1); };
   a = chain([&] { for(int i = 1; i < N; i++) ksl_product_dd(&kdo[i - 1], &kd2[i], &kdo[i]); });
@@ -235,7 +262,7 @@ int main() {
   Row("FK chain (dependent dd)", a, "Eigen R,t", b, "Eigen Isometry3d", c);
 
   double sink = 0;
-  for(int i = 0; i < N; i++) sink += kdo[i].at[3][0] + edo[i].t(0) + ido[i](0, 3) + kso[i].m0 + eso[i](0) + kqo[i].w + eqo[i].w() + kio[i].Ixx + eio[i].I(0, 0) + eMo[i](3, 3) + kvo[i].x + evo[i](0) + kco[i].m0;
+  for(int i = 0; i < N; i++) sink += kdo[i].at[3][0] + edo[i].t(0) + ido[i](0, 3) + kso[i].m0 + eso[i](0) + kqo[i].w + eqo[i].w() + kio[i].Ixx + eio[i].I(0, 0) + eMo[i](3, 3) + kvo[i].x + evo[i](0) + kco[i].m0 + kno[i].m00 + eno[i](0, 0);
   std::printf("\n(sink %g)\n", sink);
   std::printf("sizeof: ksl_SE3_t %zu, Rt %zu, Isometry3d %zu, ksl_inertia_t %zu, EInertia %zu, Matrix6d %zu\n",
               sizeof(ksl_SE3_t), sizeof(Rt), sizeof(Isometry3d), sizeof(ksl_inertia_t), sizeof(EInertia), sizeof(Matrix6d));

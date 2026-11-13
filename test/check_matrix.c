@@ -2455,6 +2455,140 @@ START_TEST(test_matrix_mat3x3_getAxisAngle_pi) {
 }
 END_TEST
 
+/* Re-orthonormalization of a perturbed rotation by columns: the result is a
+   rotation, its first column keeps its direction, its second column is the
+   second input column less its component along the first, and its third is
+   the cross product of the first two. The perturbation is a fixed pattern. */
+static void check_mat3x3_normalize_case(const ksl_mat3x3_t* Ri) {
+  ksl_mat3x3_t R;
+  ksl_mat3x3_normalized(Ri, &R);
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < 3; j++) {
+      double d = 0;
+      for(int k = 0; k < 3; k++) {
+        d += R.at[i][k] * R.at[j][k];
+      }
+      ck_assert(fabs(d - (i == j ? 1 : 0)) < 1e-14);
+    }
+  }
+  double det = R.m00 * (R.m11 * R.m22 - R.m21 * R.m12) -
+            R.m01 * (R.m10 * R.m22 - R.m20 * R.m12) +
+            R.m02 * (R.m10 * R.m21 - R.m20 * R.m11);
+  ck_assert(fabs(det - 1) < 1e-14);
+  double n0 = sqrt(Ri->m00 * Ri->m00 + Ri->m10 * Ri->m10 + Ri->m20 * Ri->m20);
+  for(int k = 0; k < 3; k++) {
+    ck_assert(fabs(R.at[0][k] - Ri->at[0][k] / n0) < 1e-14);
+  }
+  double c1[3], d = 0;
+  for(int k = 0; k < 3; k++) {
+    d += R.at[0][k] * Ri->at[1][k];
+  }
+  for(int k = 0; k < 3; k++) {
+    c1[k] = Ri->at[1][k] - d * R.at[0][k];
+  }
+  double n1 = sqrt(c1[0] * c1[0] + c1[1] * c1[1] + c1[2] * c1[2]);
+  for(int k = 0; k < 3; k++) {
+    ck_assert(fabs(R.at[1][k] - c1[k] / n1) < 1e-14);
+  }
+}
+
+START_TEST(test_mat3x3_normalize) {
+  ksl_mat3x3_t Q, Ri;
+  ksl_vec3_t axis = ksl_vec3(0.3, -0.5, 0.8);
+  ksl_vec3_normalize(&axis);
+  ksl_mat3x3_setFromAxisAngle(&Q, &axis, 1.1);
+  for(int i = 0; i < 9; i++) {
+    Ri.as_array[i] = Q.as_array[i] + 1e-4 * ((i * 7) % 5 - 2);
+  }
+  check_mat3x3_normalize_case(&Ri);
+  /* the result stays close to the rotation that was perturbed */
+  ksl_mat3x3_t R;
+  ksl_mat3x3_normalized(&Ri, &R);
+  for(int i = 0; i < 9; i++) {
+    ck_assert(fabs(R.as_array[i] - Q.as_array[i]) < 10 * 1e-4);
+  }
+  /* a reflection (third column negated) is replaced by a rotation */
+  for(int k = 0; k < 3; k++) {
+    Ri.at[2][k] = -Ri.at[2][k];
+  }
+  check_mat3x3_normalize_case(&Ri);
+  /* in place equals the copy */
+  ksl_mat3x3_t Rp = Ri;
+  ksl_mat3x3_normalize(&Rp);
+  ksl_mat3x3_normalized(&Ri, &R);
+  for(int i = 0; i < 9; i++) {
+    ck_assert(Rp.as_array[i] == R.as_array[i]);
+  }
+}
+END_TEST
+
+/* Re-orthonormalization of a perturbed rotation by columns: the result is a
+   rotation, its first column keeps its direction, its second column is the
+   second input column less its component along the first, and its third is
+   the cross product of the first two. The perturbation is a fixed pattern. */
+static void check_mat3x3f_normalize_case(const ksl_mat3x3f_t* Ri) {
+  ksl_mat3x3f_t R;
+  ksl_mat3x3f_normalized(Ri, &R);
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < 3; j++) {
+      float d = 0;
+      for(int k = 0; k < 3; k++) {
+        d += R.at[i][k] * R.at[j][k];
+      }
+      ck_assert(fabsf(d - (i == j ? 1 : 0)) < 1e-6f);
+    }
+  }
+  float det = R.m00 * (R.m11 * R.m22 - R.m21 * R.m12) -
+            R.m01 * (R.m10 * R.m22 - R.m20 * R.m12) +
+            R.m02 * (R.m10 * R.m21 - R.m20 * R.m11);
+  ck_assert(fabsf(det - 1) < 1e-6f);
+  float n0 = sqrtf(Ri->m00 * Ri->m00 + Ri->m10 * Ri->m10 + Ri->m20 * Ri->m20);
+  for(int k = 0; k < 3; k++) {
+    ck_assert(fabsf(R.at[0][k] - Ri->at[0][k] / n0) < 1e-6f);
+  }
+  float c1[3], d = 0;
+  for(int k = 0; k < 3; k++) {
+    d += R.at[0][k] * Ri->at[1][k];
+  }
+  for(int k = 0; k < 3; k++) {
+    c1[k] = Ri->at[1][k] - d * R.at[0][k];
+  }
+  float n1 = sqrtf(c1[0] * c1[0] + c1[1] * c1[1] + c1[2] * c1[2]);
+  for(int k = 0; k < 3; k++) {
+    ck_assert(fabsf(R.at[1][k] - c1[k] / n1) < 1e-6f);
+  }
+}
+
+START_TEST(test_mat3x3f_normalize) {
+  ksl_mat3x3f_t Q, Ri;
+  ksl_vec3f_t axis = ksl_vec3f(0.3, -0.5, 0.8);
+  ksl_vec3f_normalize(&axis);
+  ksl_mat3x3f_setFromAxisAngle(&Q, &axis, 1.1);
+  for(int i = 0; i < 9; i++) {
+    Ri.as_array[i] = Q.as_array[i] + 1e-3f * ((i * 7) % 5 - 2);
+  }
+  check_mat3x3f_normalize_case(&Ri);
+  /* the result stays close to the rotation that was perturbed */
+  ksl_mat3x3f_t R;
+  ksl_mat3x3f_normalized(&Ri, &R);
+  for(int i = 0; i < 9; i++) {
+    ck_assert(fabsf(R.as_array[i] - Q.as_array[i]) < 10 * 1e-3f);
+  }
+  /* a reflection (third column negated) is replaced by a rotation */
+  for(int k = 0; k < 3; k++) {
+    Ri.at[2][k] = -Ri.at[2][k];
+  }
+  check_mat3x3f_normalize_case(&Ri);
+  /* in place equals the copy */
+  ksl_mat3x3f_t Rp = Ri;
+  ksl_mat3x3f_normalize(&Rp);
+  ksl_mat3x3f_normalized(&Ri, &R);
+  for(int i = 0; i < 9; i++) {
+    ck_assert(Rp.as_array[i] == R.as_array[i]);
+  }
+}
+END_TEST
+
 Suite* matrix_suite(void) {
   Suite* s = suite_create("matrix");
   TCase* tc_core = tcase_create("core");
@@ -2468,6 +2602,8 @@ Suite* matrix_suite(void) {
   tcase_add_test(tc_core, test_matrix_SE3f_alloc);
   tcase_add_test(tc_core, test_matrix_mat3x3_alloc);
   tcase_add_test(tc_core, test_matrix_mat3x3f_alloc);
+  tcase_add_test(tc_core, test_mat3x3_normalize);
+  tcase_add_test(tc_core, test_mat3x3f_normalize);
   tcase_add_test(tc_core, test_matrix_mat4x4_alloc);
   tcase_add_test(tc_core, test_matrix_mat4x4f_alloc);
   tcase_add_test(tc_core, test_matrix_SE3toMat4x4);
