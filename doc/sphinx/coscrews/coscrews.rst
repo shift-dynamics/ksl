@@ -241,7 +241,10 @@ different units. If :math:`\underline f \neq 0`, the amplitude is
 along the line of action; if :math:`\underline f = 0`, the wrench is a pure
 couple (infinite pitch) and the amplitude is :math:`\lVert\underline
 n\rVert`. ``ksl_coscrew_norm()`` returns the amplitude and
-``ksl_coscrew_normalize()`` divides by it.
+``ksl_coscrew_normalize()`` divides by it. ``ksl_coscrew_pitch()`` returns the pitch
+:math:`h = \underline f \cdot \underline n / \lVert\underline f\rVert^2` and
+``ksl_coscrew_axisPoint()`` the point of the line of action nearest the reference point,
+:math:`\underline f \times \underline n / \lVert\underline f\rVert^2`.
 
 Double precision
 ----------------
@@ -313,6 +316,12 @@ Double precision
 
 
 .. doxygenfunction:: ksl_coscrew_normalize
+
+
+.. doxygenfunction:: ksl_coscrew_pitch
+
+
+.. doxygenfunction:: ksl_coscrew_axisPoint
 
 
 .. doxygenfunction:: ksl_cross_sca
@@ -434,6 +443,12 @@ Single precision
 
 
 .. doxygenfunction:: ksl_coscrewf_normalize
+
+
+.. doxygenfunction:: ksl_coscrewf_pitch
+
+
+.. doxygenfunction:: ksl_coscrewf_axisPoint
 
 
 .. doxygenfunction:: ksl_cross_scaf

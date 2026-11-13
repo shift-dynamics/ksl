@@ -1,6 +1,7 @@
 #include <config.h>
 
 #include <check.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -10,6 +11,7 @@
 #include "ksl/mat4x4.h"
 #include "ksl/matrix.h"
 #include "ksl/screw.h"
+#include "ksl/vec3.h"
 
 START_TEST(test_screw_create) {
   ksl_screw_t s = ksl_screw(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
@@ -124,6 +126,97 @@ START_TEST(test_screwf_normalize) {
   ck_assert_float_eq_tol(s2.m3, 0.0, 1.e-5);
   ck_assert_float_eq_tol(s2.m4, 0.0, 1.e-5);
   ck_assert_float_eq_tol(s2.m5, 0.0, 1.e-5);
+}
+END_TEST
+
+
+/* Unit direction u, a point r0 on the axis (not the nearest one), pitch h and amplitude a. */
+static const double kAxisU[3] = {1.0 / 3.0, 2.0 / 3.0, 2.0 / 3.0};
+static const double kAxisR0[3] = {2.0, 0.0, 2.5};
+static const double kPitch = 0.4;
+static const double kAmplitude = 2.5;
+
+/* r0 - u (u^T r0), the point of the axis nearest the reference point */
+static ksl_vec3_t NearestAxisPoint(void) {
+  ksl_vec3_t u = ksl_vec3(kAxisU[0], kAxisU[1], kAxisU[2]);
+  ksl_vec3_t r0 = ksl_vec3(kAxisR0[0], kAxisR0[1], kAxisR0[2]);
+  double d = ksl_dot_vv(&u, &r0);
+  return ksl_vec3(r0.x - d * u.x, r0.y - d * u.y, r0.z - d * u.z);
+}
+
+/* A displacement for the invariance checks: rotation about {2; -1; 2}/3 by 0.7 and a
+ * translation {0.3; -1.2; 2.0}. */
+static ksl_SE3_t InvarianceDisplacement(void) {
+  ksl_mat3x3_t R;
+  ksl_vec3_t axis = ksl_vec3(2.0 / 3.0, -1.0 / 3.0, 2.0 / 3.0);
+  ksl_mat3x3_setFromAxisAngle(&R, &axis, 0.7);
+  return ksl_SE3_fromRt(R, ksl_vec3(0.3, -1.2, 2.0));
+}
+
+/* |(p - q) x w| and |p^T w| for a point p claimed to be the point of the line through q along w
+ * nearest the origin */
+static void CheckNearestPoint(const ksl_vec3_t* p, const ksl_vec3_t* q, const ksl_vec3_t* w) {
+  ksl_vec3_t d = ksl_vec3(p->x - q->x, p->y - q->y, p->z - q->z);
+  ksl_vec3_t c;
+  ksl_cross_vv(&d, w, &c);
+  ck_assert(ksl_vec3_l2norm(&c) < 1e-12);
+  ck_assert(fabs(ksl_dot_vv(p, w)) < 1e-12);
+}
+
+START_TEST(test_screw_pitch_axisPoint) {
+  /* omega = a u, v = r0 x omega + h omega */
+  ksl_vec3_t u = ksl_vec3(kAxisU[0], kAxisU[1], kAxisU[2]);
+  ksl_vec3_t r0 = ksl_vec3(kAxisR0[0], kAxisR0[1], kAxisR0[2]);
+  ksl_screw_t s;
+  s.ang = ksl_vec3(kAmplitude * u.x, kAmplitude * u.y, kAmplitude * u.z);
+  ksl_cross_vv(&r0, &s.ang, &s.lin);
+  s.lin.x += kPitch * s.ang.x;
+  s.lin.y += kPitch * s.ang.y;
+  s.lin.z += kPitch * s.ang.z;
+  ck_assert_double_eq_tol(ksl_screw_pitch(&s), kPitch, 1e-12);
+  ksl_vec3_t p, expected = NearestAxisPoint();
+  ck_assert_int_eq(ksl_screw_axisPoint(&s, &p), 0);
+  ck_assert_double_eq_tol(p.x, expected.x, 1e-12);
+  ck_assert_double_eq_tol(p.y, expected.y, 1e-12);
+  ck_assert_double_eq_tol(p.z, expected.z, 1e-12);
+
+  /* the pitch does not depend on the frame; the axis point moves with the axis */
+  ksl_SE3_t D = InvarianceDisplacement();
+  ksl_screw_t sD;
+  ksl_product_Ads(&D, &s, &sD);
+  ck_assert_double_eq_tol(ksl_screw_pitch(&sD), kPitch, 1e-12);
+  ksl_vec3_t pD, q;
+  ck_assert_int_eq(ksl_screw_axisPoint(&sD, &pD), 0);
+  ksl_product_dv(&D, &r0, &q);
+  CheckNearestPoint(&pD, &q, &sD.ang);
+
+  /* nor on the amplitude */
+  ksl_screw_t s2;
+  ksl_screw_normalized(&s, &s2);
+  ck_assert_double_eq_tol(ksl_screw_pitch(&s2), kPitch, 1e-12);
+
+  /* a pure translation has infinite pitch and no axis; a zero screw has pitch 0 */
+  ksl_screw_t t = ksl_screw(1.0, -2.0, 0.5, 0.0, 0.0, 0.0);
+  ck_assert(isinf(ksl_screw_pitch(&t)));
+  ck_assert_int_eq(ksl_screw_axisPoint(&t, &p), 1);
+  ksl_screw_t z = ksl_screw(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+  ck_assert(ksl_screw_pitch(&z) == 0.0);
+  ck_assert_int_eq(ksl_screw_axisPoint(&z, &p), 1);
+}
+END_TEST
+
+START_TEST(test_screwf_pitch_axisPoint) {
+  /* pure rotation about the z axis through {1; 2; 0} plus 0.5 along it: v = r x w + h w */
+  ksl_screwf_t s = ksl_screwf(4.0, -2.0, 1.0, 0.0, 0.0, 2.0);
+  ck_assert_float_eq_tol(ksl_screwf_pitch(&s), 0.5f, 1e-6f);
+  ksl_vec3f_t p;
+  ck_assert_int_eq(ksl_screwf_axisPoint(&s, &p), 0);
+  ck_assert_float_eq_tol(p.x, 1.0f, 1e-6f);
+  ck_assert_float_eq_tol(p.y, 2.0f, 1e-6f);
+  ck_assert_float_eq_tol(p.z, 0.0f, 1e-6f);
+  ksl_screwf_t t = ksl_screwf(1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+  ck_assert(isinf(ksl_screwf_pitch(&t)));
+  ck_assert_int_eq(ksl_screwf_axisPoint(&t, &p), 1);
 }
 END_TEST
 
@@ -1503,6 +1596,8 @@ Suite* screw_suite(void) {
   tcase_add_test(tc_core, test_screwf_norm);
   tcase_add_test(tc_core, test_screw_normalize);
   tcase_add_test(tc_core, test_screwf_normalize);
+  tcase_add_test(tc_core, test_screw_pitch_axisPoint);
+  tcase_add_test(tc_core, test_screwf_pitch_axisPoint);
   tcase_add_test(tc_core, test_screw_normalize_scale);
   tcase_add_test(tc_core, test_screw_normalize_degenerate);
   tcase_add_test(tc_core, test_dot_cs);

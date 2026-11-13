@@ -194,6 +194,58 @@ static inline void ksl_coscrew_normalize(ksl_coscrew_t* v);
 static inline void ksl_coscrewf_normalize(ksl_coscrewf_t* v);
 
 /*!
+@brief Pitch of a coscrew.
+
+The dual of ksl_screw_pitch(). For a coscrew (wrench) \f$\{\underline{f}, \underline{n}\}\f$
+(force first),
+
+\f[
+h = \frac{\underline{f}^{T}\underline{n}}{\underline{f}^{T}\underline{f}},
+\f]
+
+the moment about the line of action per unit force along it. The pitch does not depend on the
+reference point or the coordinate system of the coscrew, nor on its amplitude. A pure couple
+(\f$\underline{f} = 0\f$, classified as in ksl_coscrew_norm()) has infinite pitch, and
+INFINITY is returned; a zero coscrew has pitch 0.
+
+@param c [in] coscrew
+@return pitch of c
+*/
+static inline double ksl_coscrew_pitch(const ksl_coscrew_t* c);
+
+/*!
+@brief Single precision version of ksl_coscrew_pitch().
+*/
+static inline float ksl_coscrewf_pitch(const ksl_coscrewf_t* c);
+
+/*!
+@brief Point of the line of action nearest the reference point of a coscrew.
+
+The dual of ksl_screw_axisPoint(). A coscrew \f$\{\underline{f}, \underline{n}\}\f$ at a
+reference point has moment \f$\underline{n} = \tilde{r}\underline{f} + h\underline{f}\f$,
+where \f$\underline{r}\f$ locates a point of its line of action (the central axis of
+Poinsot) relative to the reference point and \f$h\f$ is the pitch, ksl_coscrew_pitch(). The
+point of the line nearest the reference point is
+
+\f[
+\underline{r} = \frac{\tilde{f}\underline{n}}{\underline{f}^{T}\underline{f}},
+\f]
+
+in the coordinates of the coscrew. A pure couple or a zero coscrew has no line of action
+(classified as in ksl_coscrew_norm()); then r is not set and 1 is returned.
+
+@param c [in] coscrew
+@param r [out] point of the line of action nearest the reference point, relative to it
+@return 0, or 1 if c has no line of action
+*/
+static inline int ksl_coscrew_axisPoint(const ksl_coscrew_t* c, ksl_vec3_t* r);
+
+/*!
+@brief Single precision version of ksl_coscrew_axisPoint().
+*/
+static inline int ksl_coscrewf_axisPoint(const ksl_coscrewf_t* c, ksl_vec3f_t* r);
+
+/*!
 @brief In-place add a double precision coscrew multiplied with a scalar to an
 existing coscrew.
 
@@ -980,6 +1032,48 @@ static inline void ksl_coscrewf_normalize(ksl_coscrewf_t* v) {
     ksl_vec3f_scale(&v->lin, inv_a);
     ksl_vec3f_scale(&v->ang, inv_a);
   }
+}
+
+static inline double ksl_coscrew_pitch(const ksl_coscrew_t* KSL_RESTRICT c) {
+  const double f = ksl_vec3_l2norm(&c->lin);
+  const double n = ksl_vec3_l2norm(&c->ang);
+  if(f > 1e-12 * n) {
+    return ksl_dot_vv(&c->lin, &c->ang) / (f * f);
+  }
+  return n > 0.0 ? INFINITY : 0.0;
+}
+
+static inline float ksl_coscrewf_pitch(const ksl_coscrewf_t* KSL_RESTRICT c) {
+  const float f = ksl_vec3f_l2norm(&c->lin);
+  const float n = ksl_vec3f_l2norm(&c->ang);
+  if(f > 1e-5f * n) {
+    return ksl_dot_vvf(&c->lin, &c->ang) / (f * f);
+  }
+  return n > 0.0f ? INFINITY : 0.0f;
+}
+
+static inline int ksl_coscrew_axisPoint(const ksl_coscrew_t* KSL_RESTRICT c,
+                                        ksl_vec3_t* KSL_RESTRICT r) {
+  const double f = ksl_vec3_l2norm(&c->lin);
+  const double n = ksl_vec3_l2norm(&c->ang);
+  if(!(f > 1e-12 * n) || f == 0.0) {
+    return 1;
+  }
+  ksl_cross_vv(&c->lin, &c->ang, r);
+  ksl_vec3_scale(r, 1.0 / (f * f));
+  return 0;
+}
+
+static inline int ksl_coscrewf_axisPoint(const ksl_coscrewf_t* KSL_RESTRICT c,
+                                         ksl_vec3f_t* KSL_RESTRICT r) {
+  const float f = ksl_vec3f_l2norm(&c->lin);
+  const float n = ksl_vec3f_l2norm(&c->ang);
+  if(!(f > 1e-5f * n) || f == 0.0f) {
+    return 1;
+  }
+  ksl_cross_vvf(&c->lin, &c->ang, r);
+  ksl_vec3f_scale(r, 1.0f / (f * f));
+  return 0;
 }
 
 static inline void ksl_coscrew_scale(ksl_coscrew_t* KSL_RESTRICT c,

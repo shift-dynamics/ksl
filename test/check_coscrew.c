@@ -1,6 +1,7 @@
 #include <config.h>
 
 #include <check.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -8,6 +9,7 @@
 #include "ksl/coscrew.h"
 #include "ksl/mat3x3.h"
 #include "ksl/screw.h"
+#include "ksl/vec3.h"
 #include "ksl/trig.h"
 
 START_TEST(test_coscrew_create) {
@@ -1279,6 +1281,90 @@ START_TEST(test_cross_sc_duality) {
 }
 END_TEST
 
+/* Unit direction u, a point r0 on the axis (not the nearest one), pitch h and amplitude a. */
+static const double kAxisU[3] = {1.0 / 3.0, 2.0 / 3.0, 2.0 / 3.0};
+static const double kAxisR0[3] = {2.0, 0.0, 2.5};
+static const double kPitch = 0.4;
+static const double kAmplitude = 2.5;
+
+/* r0 - u (u^T r0), the point of the axis nearest the reference point */
+static ksl_vec3_t NearestAxisPoint(void) {
+  ksl_vec3_t u = ksl_vec3(kAxisU[0], kAxisU[1], kAxisU[2]);
+  ksl_vec3_t r0 = ksl_vec3(kAxisR0[0], kAxisR0[1], kAxisR0[2]);
+  double d = ksl_dot_vv(&u, &r0);
+  return ksl_vec3(r0.x - d * u.x, r0.y - d * u.y, r0.z - d * u.z);
+}
+
+/* A displacement for the invariance checks: rotation about {2; -1; 2}/3 by 0.7 and a
+ * translation {0.3; -1.2; 2.0}. */
+static ksl_SE3_t InvarianceDisplacement(void) {
+  ksl_mat3x3_t R;
+  ksl_vec3_t axis = ksl_vec3(2.0 / 3.0, -1.0 / 3.0, 2.0 / 3.0);
+  ksl_mat3x3_setFromAxisAngle(&R, &axis, 0.7);
+  return ksl_SE3_fromRt(R, ksl_vec3(0.3, -1.2, 2.0));
+}
+
+/* |(p - q) x w| and |p^T w| for a point p claimed to be the point of the line through q along w
+ * nearest the origin */
+static void CheckNearestPoint(const ksl_vec3_t* p, const ksl_vec3_t* q, const ksl_vec3_t* w) {
+  ksl_vec3_t d = ksl_vec3(p->x - q->x, p->y - q->y, p->z - q->z);
+  ksl_vec3_t c;
+  ksl_cross_vv(&d, w, &c);
+  ck_assert(ksl_vec3_l2norm(&c) < 1e-12);
+  ck_assert(fabs(ksl_dot_vv(p, w)) < 1e-12);
+}
+START_TEST(test_coscrew_pitch_axisPoint) {
+  /* f = a u along the line through r0, n = r0 x f + h f */
+  ksl_vec3_t u = ksl_vec3(kAxisU[0], kAxisU[1], kAxisU[2]);
+  ksl_vec3_t r0 = ksl_vec3(kAxisR0[0], kAxisR0[1], kAxisR0[2]);
+  ksl_coscrew_t c;
+  c.lin = ksl_vec3(kAmplitude * u.x, kAmplitude * u.y, kAmplitude * u.z);
+  ksl_cross_vv(&r0, &c.lin, &c.ang);
+  c.ang.x += kPitch * c.lin.x;
+  c.ang.y += kPitch * c.lin.y;
+  c.ang.z += kPitch * c.lin.z;
+  ck_assert_double_eq_tol(ksl_coscrew_pitch(&c), kPitch, 1e-12);
+  ksl_vec3_t p, expected = NearestAxisPoint();
+  ck_assert_int_eq(ksl_coscrew_axisPoint(&c, &p), 0);
+  ck_assert_double_eq_tol(p.x, expected.x, 1e-12);
+  ck_assert_double_eq_tol(p.y, expected.y, 1e-12);
+  ck_assert_double_eq_tol(p.z, expected.z, 1e-12);
+
+  /* the pitch does not depend on the frame; the line of action moves with the coscrew */
+  ksl_SE3_t D = InvarianceDisplacement();
+  ksl_coscrew_t cD;
+  ksl_product_CoAdc(&D, &c, &cD);
+  ck_assert_double_eq_tol(ksl_coscrew_pitch(&cD), kPitch, 1e-12);
+  ksl_vec3_t pD, q;
+  ck_assert_int_eq(ksl_coscrew_axisPoint(&cD, &pD), 0);
+  ksl_product_dv(&D, &r0, &q);
+  CheckNearestPoint(&pD, &q, &cD.lin);
+
+  /* a pure couple has infinite pitch and no line of action; a zero coscrew has pitch 0 */
+  ksl_coscrew_t m = ksl_coscrew(0.0, 0.0, 0.0, 1.0, -2.0, 0.5);
+  ck_assert(isinf(ksl_coscrew_pitch(&m)));
+  ck_assert_int_eq(ksl_coscrew_axisPoint(&m, &p), 1);
+  ksl_coscrew_t z = ksl_coscrew(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+  ck_assert(ksl_coscrew_pitch(&z) == 0.0);
+  ck_assert_int_eq(ksl_coscrew_axisPoint(&z, &p), 1);
+}
+END_TEST
+
+START_TEST(test_coscrewf_pitch_axisPoint) {
+  /* force 2 along z through {1; 2; 0}, moment 0.5 f added: n = r x f + h f */
+  ksl_coscrewf_t c = ksl_coscrewf(0.0, 0.0, 2.0, 4.0, -2.0, 1.0);
+  ck_assert_float_eq_tol(ksl_coscrewf_pitch(&c), 0.5f, 1e-6f);
+  ksl_vec3f_t p;
+  ck_assert_int_eq(ksl_coscrewf_axisPoint(&c, &p), 0);
+  ck_assert_float_eq_tol(p.x, 1.0f, 1e-6f);
+  ck_assert_float_eq_tol(p.y, 2.0f, 1e-6f);
+  ck_assert_float_eq_tol(p.z, 0.0f, 1e-6f);
+  ksl_coscrewf_t m = ksl_coscrewf(0.0, 0.0, 0.0, 1.0, 0.0, 0.0);
+  ck_assert(isinf(ksl_coscrewf_pitch(&m)));
+  ck_assert_int_eq(ksl_coscrewf_axisPoint(&m, &p), 1);
+}
+END_TEST
+
 Suite* coscrew_suite(void) {
   Suite* s = suite_create("coscrew");
   TCase* tc_core = tcase_create("core");
@@ -1363,6 +1449,8 @@ Suite* coscrew_suite(void) {
   tcase_add_test(tc_core, test_product_CoAdinvcf);
   tcase_add_test(tc_core, test_product_CoAdc_Ads_duality);
   tcase_add_test(tc_core, test_cross_sc_duality);
+  tcase_add_test(tc_core, test_coscrew_pitch_axisPoint);
+  tcase_add_test(tc_core, test_coscrewf_pitch_axisPoint);
 
   suite_add_tcase(s, tc_core);
   return s;

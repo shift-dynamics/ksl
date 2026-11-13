@@ -131,6 +131,56 @@ static inline void ksl_screwf_normalized(const ksl_screwf_t* si,
                                          ksl_screwf_t* so);
 
 /*!
+@brief Pitch of a screw.
+
+For a screw \f$\{\underline{v}, \underline{\omega}\}\f$ (linear part first),
+
+\f[
+h = \frac{\underline{\omega}^{T}\underline{v}}{\underline{\omega}^{T}\underline{\omega}},
+\f]
+
+the translation along the screw axis per unit rotation about it. The pitch does not depend
+on the reference point or the coordinate system of the screw, nor on its amplitude. A pure
+translation (\f$\underline{\omega} = 0\f$, classified as in ksl_screw_norm()) has infinite
+pitch, and INFINITY is returned; a zero screw has pitch 0.
+
+@param s [in] screw
+@return pitch of s
+*/
+static inline double ksl_screw_pitch(const ksl_screw_t* s);
+
+/*!
+@brief Single precision version of ksl_screw_pitch().
+*/
+static inline float ksl_screwf_pitch(const ksl_screwf_t* s);
+
+/*!
+@brief Point of the screw axis nearest the reference point of a screw.
+
+A screw \f$\{\underline{v}, \underline{\omega}\}\f$ at a reference point has linear part
+\f$\underline{v} = \tilde{r}\underline{\omega} + h\underline{\omega}\f$, where
+\f$\underline{r}\f$ locates a point of its axis relative to the reference point and \f$h\f$
+is the pitch, ksl_screw_pitch(). The point of the axis nearest the reference point is
+
+\f[
+\underline{r} = \frac{\tilde{\omega}\underline{v}}{\underline{\omega}^{T}\underline{\omega}},
+\f]
+
+in the coordinates of the screw. A pure translation or a zero screw has no axis (classified as
+in ksl_screw_norm()); then r is not set and 1 is returned.
+
+@param s [in] screw
+@param r [out] point of the axis nearest the reference point, relative to it
+@return 0, or 1 if s has no axis
+*/
+static inline int ksl_screw_axisPoint(const ksl_screw_t* s, ksl_vec3_t* r);
+
+/*!
+@brief Single precision version of ksl_screw_axisPoint().
+*/
+static inline int ksl_screwf_axisPoint(const ksl_screwf_t* s, ksl_vec3f_t* r);
+
+/*!
 @brief compute double precision dot product between a coscrew and screw
 */
 static inline double ksl_dot_cs(const ksl_coscrew_t* ci, const ksl_screw_t* si);
@@ -1148,6 +1198,48 @@ static inline void ksl_screwf_normalized(const ksl_screwf_t* KSL_RESTRICT si,
                                          ksl_screwf_t* KSL_RESTRICT so) {
   *so = *si;
   ksl_screwf_normalize(so);
+}
+
+static inline double ksl_screw_pitch(const ksl_screw_t* KSL_RESTRICT s) {
+  const double w = ksl_vec3_l2norm(&s->ang);
+  const double v = ksl_vec3_l2norm(&s->lin);
+  if(w > 1e-12 * v) {
+    return ksl_dot_vv(&s->ang, &s->lin) / (w * w);
+  }
+  return v > 0.0 ? INFINITY : 0.0;
+}
+
+static inline float ksl_screwf_pitch(const ksl_screwf_t* KSL_RESTRICT s) {
+  const float w = ksl_vec3f_l2norm(&s->ang);
+  const float v = ksl_vec3f_l2norm(&s->lin);
+  if(w > 1e-5f * v) {
+    return ksl_dot_vvf(&s->ang, &s->lin) / (w * w);
+  }
+  return v > 0.0f ? INFINITY : 0.0f;
+}
+
+static inline int ksl_screw_axisPoint(const ksl_screw_t* KSL_RESTRICT s,
+                                      ksl_vec3_t* KSL_RESTRICT r) {
+  const double w = ksl_vec3_l2norm(&s->ang);
+  const double v = ksl_vec3_l2norm(&s->lin);
+  if(!(w > 1e-12 * v) || w == 0.0) {
+    return 1;
+  }
+  ksl_cross_vv(&s->ang, &s->lin, r);
+  ksl_vec3_scale(r, 1.0 / (w * w));
+  return 0;
+}
+
+static inline int ksl_screwf_axisPoint(const ksl_screwf_t* KSL_RESTRICT s,
+                                       ksl_vec3f_t* KSL_RESTRICT r) {
+  const float w = ksl_vec3f_l2norm(&s->ang);
+  const float v = ksl_vec3f_l2norm(&s->lin);
+  if(!(w > 1e-5f * v) || w == 0.0f) {
+    return 1;
+  }
+  ksl_cross_vvf(&s->ang, &s->lin, r);
+  ksl_vec3f_scale(r, 1.0f / (w * w));
+  return 0;
 }
 
 static inline double ksl_dot_cs(const ksl_coscrew_t* KSL_RESTRICT ci,

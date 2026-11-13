@@ -495,7 +495,9 @@ no physical meaning. Instead:
 
 Both give the same unit screw in any coordinate system and any length unit.
 ``ksl_screw_norm()`` returns the amplitude and ``ksl_screw_normalize()``
-divides by it. Dividing instead by the dual magnitude
+divides by it. ``ksl_screw_pitch()`` returns :math:`h` and ``ksl_screw_axisPoint()`` the
+point of the axis nearest the reference point,
+:math:`\underline\omega \times \underline v / \lVert\underline\omega\rVert^2`. Dividing instead by the dual magnitude
 :math:`\lVert\underline\omega\rVert + \varepsilon\,\underline\omega\cdot
 \underline v / \lVert\underline\omega\rVert` would also remove the pitch,
 leaving the Plücker coordinates of the screw axis, a line rather than a unit
@@ -556,6 +558,12 @@ Double precision
 
 
 .. doxygenfunction:: ksl_screw_normalized
+
+
+.. doxygenfunction:: ksl_screw_pitch
+
+
+.. doxygenfunction:: ksl_screw_axisPoint
 
 
 .. doxygenfunction:: ksl_dot_cs
@@ -710,6 +718,12 @@ Single precision
 
 
 .. doxygenfunction:: ksl_screwf_normalize
+
+
+.. doxygenfunction:: ksl_screwf_pitch
+
+
+.. doxygenfunction:: ksl_screwf_axisPoint
 
 
 .. doxygenfunction:: ksl_dot_csf
