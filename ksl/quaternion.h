@@ -859,7 +859,7 @@ static inline void ksl_quaternionf_toMat3x3f(ksl_quaternionf_t* KSL_RESTRICT qi,
   ro->m22 = (-x2 - y2 + z2 + w2);
 
   float tmp1 = qi->x * qi->y;
-  float tmp2 = qi->z * qi->y;
+  float tmp2 = qi->z * qi->w;
   ro->m10 = 2.0 * (tmp1 + tmp2);
   ro->m01 = 2.0 * (tmp1 - tmp2);
 

@@ -474,6 +474,23 @@ START_TEST(test_quaternion_product_axial) {
 }
 END_TEST
 
+START_TEST(test_quaternion_toMat3x3f) {
+  /* the single precision rotation matrix is the double precision one */
+  ksl_quaternion_t q = make_test_quaternion(1.0, 2.0, 3.0, 0.7);
+  ksl_quaternionf_t qf;
+  for(int i = 0; i < 4; i++) {
+    qf.at[i] = (float)q.at[i];
+  }
+  ksl_mat3x3_t r;
+  ksl_mat3x3f_t rf;
+  ksl_quaternion_toMat3x3(&q, &r);
+  ksl_quaternionf_toMat3x3f(&qf, &rf);
+  for(int i = 0; i < 9; i++) {
+    ck_assert_double_eq_tol(rf.as_array[i], r.as_array[i], 1e-6);
+  }
+}
+END_TEST
+
 START_TEST(test_quaternion_mat3x3_toQuaternion) {
   /* round trip R -> q -> R, including rotations near pi which exercise each
   branch of the conversion */
@@ -518,6 +535,7 @@ Suite* quaternion_suite(void) {
   tcase_add_test(tc_core, test_quaternion_product_qxq);
   tcase_add_test(tc_core, test_quaternion_product_axial);
   tcase_add_test(tc_core, test_quaternion_mat3x3_toQuaternion);
+  tcase_add_test(tc_core, test_quaternion_toMat3x3f);
   suite_add_tcase(s, tc_core);
 
   return s;
