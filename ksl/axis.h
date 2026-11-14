@@ -70,25 +70,25 @@ reference frame, in the coordinates of the reference frame, is
 
 \f[
 \underline{\omega} = \dot{\theta}_0\,\underline{u}_i + R_i(\theta_0)\bigl(\dot{\theta}_1\,
-\underline{u}_j + R_j(\theta_1)\,\dot{\theta}_2\,\underline{u}_k\bigr) = G\,\dot{\underline{\theta}},
-\qquad G = \begin{bmatrix} \underline{u}_i & R_i\underline{u}_j & R_iR_j\underline{u}_k
+\underline{u}_j + R_j(\theta_1)\,\dot{\theta}_2\,\underline{u}_k\bigr) = E\,\dot{\underline{\theta}},
+\qquad E = \begin{bmatrix} \underline{u}_i & R_i\underline{u}_j & R_iR_j\underline{u}_k
 \end{bmatrix},
 \f]
 
 with \f$\underline{u}_i\f$ the unit vector of axis i. In the coordinates of the rotated frame
-the angular velocity is \f$R^{T}\underline{\omega}\f$. G is singular when the first and third
+the angular velocity is \f$R^{T}\underline{\omega}\f$. E is singular when the first and third
 axes are aligned (gimbal lock): at \f$\cos\theta_1 = 0\f$ for the six Tait-Bryan sequences
 and at \f$\sin\theta_1 = 0\f$ for the six proper Euler sequences.
 
 @param axisType [in] Euler angle sequence
 @param angles [in] Euler angles \f$\theta_0, \theta_1, \theta_2\f$
-@param G [out] rate matrix
+@param E [out] rate matrix
 */
 void ksl_axis_getEulerRateMatrix(const ksl_axis_enum_t axisType,
-                                 const ksl_vec3_t* angles, ksl_mat3x3_t* G);
+                                 const ksl_vec3_t* angles, ksl_mat3x3_t* E);
 
 /*!
-@brief Angular velocity from Euler angle rates: \f$\underline{\omega} = G\dot{\underline{\theta}}\f$.
+@brief Angular velocity from Euler angle rates: \f$\underline{\omega} = E\dot{\underline{\theta}}\f$.
 
 See ksl_axis_getEulerRateMatrix(); the angular velocity is in the coordinates of the
 reference frame.
@@ -103,7 +103,7 @@ void ksl_axis_eulerRatesToOmega(const ksl_axis_enum_t axisType,
                                 ksl_vec3_t* omega);
 
 /*!
-@brief Euler angle rates from angular velocity: \f$\dot{\underline{\theta}} = G^{-1}\underline{\omega}\f$.
+@brief Euler angle rates from angular velocity: \f$\dot{\underline{\theta}} = E^{-1}\underline{\omega}\f$.
 
 See ksl_axis_getEulerRateMatrix(); the angular velocity is in the coordinates of the
 reference frame.
@@ -112,7 +112,7 @@ reference frame.
 @param angles [in] Euler angles
 @param omega [in] angular velocity \f$\underline{\omega}\f$
 @param rates [out] Euler angle rates \f$\dot{\underline{\theta}}\f$
-@return 0, or nonzero if G is singular (gimbal lock), in which case rates is not set
+@return 0, or nonzero if E is singular (gimbal lock), in which case rates is not set
 */
 int ksl_axis_omegaToEulerRates(const ksl_axis_enum_t axisType,
                                const ksl_vec3_t* angles, const ksl_vec3_t* omega,

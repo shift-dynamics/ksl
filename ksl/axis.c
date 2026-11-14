@@ -74,7 +74,7 @@ ksl_axis_enum_t ksl_axis_getEulerAngles(ksl_vec3i_t angles) {
 
 void ksl_axis_getEulerRateMatrix(const ksl_axis_enum_t axisType,
                                  const ksl_vec3_t* restrict angles,
-                                 ksl_mat3x3_t* restrict G) {
+                                 ksl_mat3x3_t* restrict E) {
   const ksl_vec3i_t axes = ksl_axis_getVector(axisType);
   ksl_vec3_t ui = ksl_vec3(0.0, 0.0, 0.0), uj = ui, uk = ui;
   ui.at[axes.at[0]] = 1.0;
@@ -88,9 +88,9 @@ void ksl_axis_getEulerRateMatrix(const ksl_axis_enum_t axisType,
   ksl_product_drv(&rj, &uk, &t);
   ksl_product_drv(&ri, &t, &c2);
   for(int r = 0; r < 3; r++) {
-    G->at[0][r] = ui.at[r];
-    G->at[1][r] = c1.at[r];
-    G->at[2][r] = c2.at[r];
+    E->at[0][r] = ui.at[r];
+    E->at[1][r] = c1.at[r];
+    E->at[2][r] = c2.at[r];
   }
 }
 
@@ -98,24 +98,24 @@ void ksl_axis_eulerRatesToOmega(const ksl_axis_enum_t axisType,
                                 const ksl_vec3_t* restrict angles,
                                 const ksl_vec3_t* restrict rates,
                                 ksl_vec3_t* restrict omega) {
-  ksl_mat3x3_t G;
-  ksl_axis_getEulerRateMatrix(axisType, angles, &G);
-  ksl_product_drv(&G, rates, omega);
+  ksl_mat3x3_t E;
+  ksl_axis_getEulerRateMatrix(axisType, angles, &E);
+  ksl_product_drv(&E, rates, omega);
 }
 
 int ksl_axis_omegaToEulerRates(const ksl_axis_enum_t axisType,
                                const ksl_vec3_t* restrict angles,
                                const ksl_vec3_t* restrict omega,
                                ksl_vec3_t* restrict rates) {
-  /* with the columns g0, g1, g2 of G and d = g0 . (g1 x g2), the rows of
-  G^-1 are (g1 x g2) / d, (g2 x g0) / d and (g0 x g1) / d */
-  ksl_mat3x3_t G;
-  ksl_axis_getEulerRateMatrix(axisType, angles, &G);
+  /* with the columns e0, e1, e2 of E and d = e0 . (e1 x e2), the rows of
+  E^-1 are (e1 x e2) / d, (e2 x e0) / d and (e0 x e1) / d */
+  ksl_mat3x3_t E;
+  ksl_axis_getEulerRateMatrix(axisType, angles, &E);
   ksl_vec3_t c12, c20, c01;
-  ksl_cross_vv(&G.v1, &G.v2, &c12);
-  ksl_cross_vv(&G.v2, &G.v0, &c20);
-  ksl_cross_vv(&G.v0, &G.v1, &c01);
-  const double d = ksl_dot_vv(&G.v0, &c12);
+  ksl_cross_vv(&E.v1, &E.v2, &c12);
+  ksl_cross_vv(&E.v2, &E.v0, &c20);
+  ksl_cross_vv(&E.v0, &E.v1, &c01);
+  const double d = ksl_dot_vv(&E.v0, &c12);
   if(fabs(d) < 1e-12) {
     return 1;
   }

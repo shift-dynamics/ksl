@@ -16,7 +16,7 @@ START_TEST(test_axis_create) {
 END_TEST
 
 START_TEST(test_axis_euler_rates) {
-  /* for all 12 sequences: G theta-dot = w, with w~ = R-dot R^T by central
+  /* for all 12 sequences: E theta-dot = w, with w~ = R-dot R^T by central
   differences of ksl_mat3x3_setFromEulerAngles; and the inverse */
   const ksl_vec3_t angles = ksl_vec3(0.4, -0.7, 1.1);
   const ksl_vec3_t rates = ksl_vec3(0.3, -1.2, 0.8);
