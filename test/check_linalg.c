@@ -1171,7 +1171,10 @@ START_TEST(test_linalg_qr_householder) {
     ck_assert(max_abs_diff(m * m, qtq, id) < 1e-14);
     for(int i = 0; i < m; i++)
       for(int j = 0; j < i && j < n; j++) ck_assert(rr[i * n + j] == 0.0);
-    /* column major: the same factors, transposed storage */
+    /* column major: the same factors, transposed storage; of Q only the
+    first r columns, a basis of the columns of A that the signs of the
+    diagonal of R fix: the others are a basis of the rest, reflected from
+    columns of roundoff whose signs differ with the order of the sums */
     double ac[64], qc[64];
     transpose(m, n, a, ac);
     ksl_linalg_qr_householder_cmo(m, n, ac, qc);
@@ -1179,7 +1182,9 @@ START_TEST(test_linalg_qr_householder) {
     transpose(n, m, ac, rt);
     transpose(m, m, qc, qtt);
     ck_assert(max_abs_diff(m * n, rt, rr) < 1e-14);
-    ck_assert(max_abs_diff(m * m, qtt, q) < 1e-14);
+    for(int i = 0; i < m; i++)
+      for(int j = 0; j < r; j++)
+        ck_assert(fabs(qtt[i * m + j] - q[i * m + j]) < 1e-14);
   }
 }
 END_TEST

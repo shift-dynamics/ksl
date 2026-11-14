@@ -198,8 +198,10 @@ For columns i and j with \f$b_{ii} = \underline{w}_i^{T}\underline{w}_i \ge b_{j
 \f$\alpha = 2b_{ij}\f$, \f$\beta = b_{ii} - b_{jj}\f$, \f$\gamma = \mathrm{sign}(\beta)
 \sqrt{\alpha^{2} + \beta^{2}}\f$, \f$c = \sqrt{(\beta + \gamma)/2\gamma}\f$ and
 \f$s = \alpha/(2\gamma c)\f$. The columns of V for zero singular values span the null space of
-A. Sweeps stop when every pair satisfies \f$|b_{ij}| \le \varepsilon\sqrt{b_{ii}b_{jj}}\f$ with
-\f$\varepsilon = 10^{-15}\f$, or after 60 sweeps.
+A. Sweeps stop when every pair satisfies \f$|b_{ij}| \le \varepsilon\sqrt{b_{ii}b_{jj}}\f$ or
+\f$b_{jj} \le \varepsilon^{2} b_{ii}\f$ (the shorter column negligible, so that the rotation is
+within \f$\varepsilon\f$ of the identity), with \f$\varepsilon = 10^{-15}\f$, or after 60
+sweeps.
 
 @param m [in] row dimension
 @param n [in] column dimension

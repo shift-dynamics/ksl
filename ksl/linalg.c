@@ -2041,7 +2041,14 @@ static int ksl_linalg_svd_jacobi(const int m, const int n, double* W,
           }
           ksl_swap(&bii, &bjj);
         }
-        if(bij == 0.0 || fabs(bij) <= 1e-15 * sqrt(bii * bjj)) {
+        /* converged when the columns are orthogonal to within eps, or when
+        the shorter one is negligible, bjj <= eps^2 bii: then |bij| <= eps bii,
+        the rotation is within eps of the identity, and it would rotate on
+        roundoff alone; this also stops a column whose norm underflows to
+        zero (bjj = 0 with a subnormal bij), for which s underflows to zero
+        and the rotation changes nothing */
+        if(bij == 0.0 || fabs(bij) <= 1e-15 * sqrt(bii * bjj) ||
+           bjj <= 1e-30 * bii) {
           continue;
         }
         rotated = 1;
