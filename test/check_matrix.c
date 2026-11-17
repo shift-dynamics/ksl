@@ -1,8 +1,10 @@
 #include <config.h>
 
 #include <check.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "ksl/SE3.h"
 #include "ksl/mat3x3.h"
@@ -2589,6 +2591,72 @@ START_TEST(test_mat3x3f_normalize) {
 }
 END_TEST
 
+/* the largest difference of a b from the identity, a and b column major */
+static double IdentityError(const double* a, const double* b) {
+  double largest = 0.0;
+  for(int r = 0; r < 3; r++) {
+    for(int c = 0; c < 3; c++) {
+      double e = r == c ? -1.0 : 0.0;
+      for(int k = 0; k < 3; k++) {
+        e += a[3 * k + r] * b[3 * c + k];
+      }
+      largest = fmax(largest, fabs(e));
+    }
+  }
+  return largest;
+}
+
+/* matrices with zeros on their diagonal (a permutation of a diagonal one,
+and a general one) and one whose first pivot is tiny invert, as LU without
+pivoting does not; a singular one does not, and is left as it was */
+START_TEST(test_mat3x3_inverted_pivots) {
+  const double cases[3][9] = {
+    {0.0, 0.0, 3.0, 2.0, 0.0, 0.0, 0.0, -5.0, 0.0},
+    {0.0, 4.0, -1.0, 2.0, 0.0, 3.0, 1.0, -2.0, 0.0},
+    {1e-14, 1.0, 2.0, 1.0, 1e-14, 3.0, 2.0, 3.0, 1.0}};
+  for(int k = 0; k < 3; k++) {
+    ksl_mat3x3_t a, inverse, in_place;
+    memcpy(a.as_array, cases[k], sizeof(cases[k]));
+    ck_assert_int_eq(ksl_mat3x3_inverted(&a, &inverse), 0);
+    ck_assert_double_lt(IdentityError(a.as_array, inverse.as_array), 1e-12);
+    ck_assert_double_lt(IdentityError(inverse.as_array, a.as_array), 1e-12);
+    in_place = a;
+    ck_assert_int_eq(ksl_mat3x3_invert(&in_place), 0);
+    for(int i = 0; i < 9; i++) {
+      ck_assert_double_eq_tol(in_place.as_array[i], inverse.as_array[i],
+                              1e-15);
+    }
+    ksl_mat3x3f_t af, inversef;
+    double product_a[9], product_inverse[9];
+    for(int i = 0; i < 9; i++) {
+      af.as_array[i] = (float)cases[k][i];
+    }
+    if(k < 2) { /* a tiny pivot is no test of single precision */
+      ck_assert_int_eq(ksl_mat3x3f_inverted(&af, &inversef), 0);
+      for(int i = 0; i < 9; i++) {
+        product_a[i] = af.as_array[i];
+        product_inverse[i] = inversef.as_array[i];
+      }
+      ck_assert_double_lt(IdentityError(product_a, product_inverse), 1e-6);
+      ck_assert_int_eq(ksl_mat3x3f_invert(&af), 0);
+      for(int i = 0; i < 9; i++) {
+        ck_assert_float_eq_tol(af.as_array[i], inversef.as_array[i], 1e-7f);
+      }
+    }
+  }
+  /* singular: the third column the sum of the others */
+  ksl_mat3x3_t singular, unchanged;
+  const double rank_two[9] = {1.0, 2.0, 3.0, 0.0, 1.0, 4.0,
+                              1.0, 3.0, 7.0};
+  memcpy(singular.as_array, rank_two, sizeof(rank_two));
+  unchanged = singular;
+  ck_assert_int_lt(ksl_mat3x3_invert(&singular), 0);
+  for(int i = 0; i < 9; i++) {
+    ck_assert_double_eq(singular.as_array[i], unchanged.as_array[i]);
+  }
+}
+END_TEST
+
 Suite* matrix_suite(void) {
   Suite* s = suite_create("matrix");
   TCase* tc_core = tcase_create("core");
@@ -2602,6 +2670,7 @@ Suite* matrix_suite(void) {
   tcase_add_test(tc_core, test_matrix_SE3f_alloc);
   tcase_add_test(tc_core, test_matrix_mat3x3_alloc);
   tcase_add_test(tc_core, test_matrix_mat3x3f_alloc);
+  tcase_add_test(tc_core, test_mat3x3_inverted_pivots);
   tcase_add_test(tc_core, test_mat3x3_normalize);
   tcase_add_test(tc_core, test_mat3x3f_normalize);
   tcase_add_test(tc_core, test_matrix_mat4x4_alloc);

@@ -26,239 +26,145 @@ ksl_mat3x3f_t* ksl_mat3x3f_alloc(const int n) {
   return R;
 }
 
+/* the inverse of a 3x3 matrix by Gauss-Jordan elimination with partial
+pivoting: in each column, the row whose entry is largest in magnitude is
+the pivot. Returns 0, or -(k + 1) if no entry of column k (after the
+eliminations before it) is as large as 1e-12, the matrix being singular; ro
+is then not written. ri and ro may be the same matrix. */
+static int ksl_mat3x3_pivotedInverse(const ksl_mat3x3_t* ri,
+                                     ksl_mat3x3_t* ro) {
+  /* a and x row major: a[r][c] = ri->at[c][r], x the identity */
+  double a[3][3], x[3][3];
+  for(int r = 0; r < 3; r++) {
+    for(int c = 0; c < 3; c++) {
+      a[r][c] = ri->at[c][r];
+      x[r][c] = r == c ? 1.0 : 0.0;
+    }
+  }
+  for(int k = 0; k < 3; k++) {
+    int p = k;
+    for(int r = k + 1; r < 3; r++) {
+      if(fabs(a[r][k]) > fabs(a[p][k])) {
+        p = r;
+      }
+    }
+    if(!(fabs(a[p][k]) >= 1e-12)) {
+      return -(k + 1);
+    }
+    if(p != k) {
+      for(int c = 0; c < 3; c++) {
+        double t = a[k][c];
+        a[k][c] = a[p][c];
+        a[p][c] = t;
+        t = x[k][c];
+        x[k][c] = x[p][c];
+        x[p][c] = t;
+      }
+    }
+    const double pivot = a[k][k];
+    for(int c = 0; c < 3; c++) {
+      a[k][c] /= pivot;
+      x[k][c] /= pivot;
+    }
+    for(int r = 0; r < 3; r++) {
+      if(r == k) {
+        continue;
+      }
+      const double f = a[r][k];
+      for(int c = 0; c < 3; c++) {
+        a[r][c] -= f * a[k][c];
+        x[r][c] -= f * x[k][c];
+      }
+    }
+  }
+  for(int r = 0; r < 3; r++) {
+    for(int c = 0; c < 3; c++) {
+      ro->at[c][r] = x[r][c];
+    }
+  }
+  return 0;
+}
+
+/* single precision ksl_mat3x3_pivotedInverse */
+static int ksl_mat3x3f_pivotedInverse(const ksl_mat3x3f_t* ri,
+                                      ksl_mat3x3f_t* ro) {
+  float a[3][3], x[3][3];
+  for(int r = 0; r < 3; r++) {
+    for(int c = 0; c < 3; c++) {
+      a[r][c] = ri->at[c][r];
+      x[r][c] = r == c ? 1.0f : 0.0f;
+    }
+  }
+  for(int k = 0; k < 3; k++) {
+    int p = k;
+    for(int r = k + 1; r < 3; r++) {
+      if(fabsf(a[r][k]) > fabsf(a[p][k])) {
+        p = r;
+      }
+    }
+    if(!(fabsf(a[p][k]) >= 1e-12f)) {
+      return -(k + 1);
+    }
+    if(p != k) {
+      for(int c = 0; c < 3; c++) {
+        float t = a[k][c];
+        a[k][c] = a[p][c];
+        a[p][c] = t;
+        t = x[k][c];
+        x[k][c] = x[p][c];
+        x[p][c] = t;
+      }
+    }
+    const float pivot = a[k][k];
+    for(int c = 0; c < 3; c++) {
+      a[k][c] /= pivot;
+      x[k][c] /= pivot;
+    }
+    for(int r = 0; r < 3; r++) {
+      if(r == k) {
+        continue;
+      }
+      const float f = a[r][k];
+      for(int c = 0; c < 3; c++) {
+        a[r][c] -= f * a[k][c];
+        x[r][c] -= f * x[k][c];
+      }
+    }
+  }
+  for(int r = 0; r < 3; r++) {
+    for(int c = 0; c < 3; c++) {
+      ro->at[c][r] = x[r][c];
+    }
+  }
+  return 0;
+}
+
 /*!@brief Performs the general matrix inverse for a ksl_mat3x3_t matrix in-place
-with no pivoting. If the matrix is an orthonormal rotation matrix with a
+with partial pivoting. If the matrix is an orthonormal rotation matrix with a
 determinant of one, (i.e. it is in SO3), then the less expensive matrix
 transpose function can be used for performing the inverse */
 inline int ksl_mat3x3_invert(ksl_mat3x3_t* restrict R) {
-  ksl_mat3x3_t a;
-  ksl_mat3x3_copy(R, &a);
-
-  /* Major loop to factor the matrix.
-    Generate factors column by column */
-  for(int row = 0; row < 3; row++) {
-    /* i iterates over rows of a */
-    for(int i = row + 1; i < 3; i++) {
-      /* Evaluate the current entry in the L matrix.*/
-      a.at[row][i] /= a.at[row][row];
-      /* Compute U matrix */
-      for(int j = row + 1; j < 3; j++) {
-        a.at[j][i] -= a.at[row][i] * a.at[j][row];
-      }
-    }
-  }
-
-  ksl_vec3_t b;
-
-  /* Major loop operates on columns of an identity matrix */
-  for(int k = 0; k < 3; k++) {
-    ksl_vec3_t y;
-    memset(&y, 0, sizeof(ksl_vec3_t));
-    y.at[k] = 1.0;
-    /* perform forward substitution L^-1 y -> b
-    where L is unit lower triangular */
-    for(int i = 0; i < 3; i++) {
-      b.at[i] = y.at[i];
-      for(int j = 0; j < i; j++) {
-        b.at[i] -= a.at[j][i] * b.at[j];
-      }
-    }
-
-    /* perform backward substitution U^-1 b -> x
-    where U is non-unit upper triangular */
-    if(fabs(a.at[2][2]) < 1e-12) {
-      return -3;
-    }
-    R->at[k][2] = b.at[2] / a.at[2][2];
-    for(int i = 1; i > -1; i--) {
-      double t = b.at[i];
-      for(int j = i + 1; j < 3; j++) {
-        t -= a.at[j][i] * R->at[k][j];
-      }
-      if(fabs(a.at[i][i]) < 1e-12) {
-        return -(i + 1);
-      }
-      R->at[k][i] = t / a.at[i][i];
-    }
-  }
-
-  return 0;
+  return ksl_mat3x3_pivotedInverse(R, R);
 }
 
-/*!@brief Performs the general matrix inverse for a ksl_mat3x3f_t matrix
-in-place with no pivoting. If the matrix is an orthonormal rotation matrix with
-a determinant of one, (i.e. it is in SO3), then the less expensive matrix
-transpose function can be used for performing the inverse */
+/*!@brief Single precision version of ksl_mat3x3_invert() */
 inline int ksl_mat3x3f_invert(ksl_mat3x3f_t* restrict R) {
-  ksl_mat3x3f_t a;
-  ksl_mat3x3f_copy(R, &a);
-
-  /* Major loop to factor the matrix.
-    Generate factors column by column */
-  for(int row = 0; row < 3; row++) {
-    /* i iterates over rows of a */
-    for(int i = row + 1; i < 3; i++) {
-      /* Evaluate the current entry in the L matrix.*/
-      a.at[row][i] /= a.at[row][row];
-      /* Compute U matrix */
-      for(int j = row + 1; j < 3; j++) {
-        a.at[j][i] -= a.at[row][i] * a.at[j][row];
-      }
-    }
-  }
-
-  ksl_vec3_t b;
-
-  /* Major loop operates on columns of an identity matrix */
-  for(int k = 0; k < 3; k++) {
-    ksl_vec3f_t y;
-    memset(&y, 0, sizeof(ksl_vec3f_t));
-    y.at[k] = 1.0;
-    /* perform forward substitution L^-1 y -> b
-    where L is unit lower triangular */
-    for(int i = 0; i < 3; i++) {
-      b.at[i] = y.at[i];
-      for(int j = 0; j < i; j++) {
-        b.at[i] -= a.at[j][i] * b.at[j];
-      }
-    }
-
-    /* perform backward substitution U^-1 b -> x
-    where U is non-unit upper triangular */
-    if(fabs(a.at[2][2]) < 1e-12) {
-      return -3;
-    }
-    R->at[k][2] = b.at[2] / a.at[2][2];
-    for(int i = 1; i > -1; i--) {
-      double t = b.at[i];
-      for(int j = i + 1; j < 3; j++) {
-        t -= a.at[j][i] * R->at[k][j];
-      }
-      if(fabs(a.at[i][i]) < 1e-12) {
-        return -(i + 1);
-      }
-      R->at[k][i] = t / a.at[i][i];
-    }
-  }
-  return 0;
+  return ksl_mat3x3f_pivotedInverse(R, R);
 }
 
 /*!@brief Performs the general matrix inverse for a ksl_mat3x3_t matrix
-with no pivoting. If the matrix is an orthonormal rotation matrix with a
+with partial pivoting. If the matrix is an orthonormal rotation matrix with a
 determinant of one, (i.e. it is in SO3), then the less expensive matrix
 transpose function can be used for performing the inverse */
 inline int ksl_mat3x3_inverted(const ksl_mat3x3_t* restrict ri,
                                ksl_mat3x3_t* restrict ro) {
-  ksl_mat3x3_t a;
-  ksl_mat3x3_copy(ri, &a);
-
-  /* Major loop to factor the matrix.
-    Generate factors column by column */
-  for(int row = 0; row < 3; row++) {
-    /* i iterates over rows of a */
-    for(int i = row + 1; i < 3; i++) {
-      /* Evaluate the current entry in the L matrix.*/
-      a.at[row][i] /= a.at[row][row];
-      /* Compute U matrix */
-      for(int j = row + 1; j < 3; j++) {
-        a.at[j][i] -= a.at[row][i] * a.at[j][row];
-      }
-    }
-  }
-
-  ksl_vec3_t b;
-
-  /* Major loop operates on columns of an identity matrix */
-  for(int k = 0; k < 3; k++) {
-    ksl_vec3_t y;
-    memset(&y, 0, sizeof(ksl_vec3_t));
-    y.at[k] = 1.0;
-    /* perform forward substitution L^-1 y -> b
-    where L is unit lower triangular */
-    for(int i = 0; i < 3; i++) {
-      b.at[i] = y.at[i];
-      for(int j = 0; j < i; j++) {
-        b.at[i] -= a.at[j][i] * b.at[j];
-      }
-    }
-
-    /* perform backward substitution U^-1 b -> x
-    where U is non-unit upper triangular */
-    if(fabs(a.at[2][2]) < 1e-12) {
-      return -3;
-    }
-    ro->at[k][2] = b.at[2] / a.at[2][2];
-    for(int i = 1; i > -1; i--) {
-      double t = b.at[i];
-      for(int j = i + 1; j < 3; j++) {
-        t -= a.at[j][i] * ro->at[k][j];
-      }
-      if(fabs(a.at[i][i]) < 1e-12) {
-        return -(i + 1);
-      }
-      ro->at[k][i] = t / a.at[i][i];
-    }
-  }
-  return 0;
+  return ksl_mat3x3_pivotedInverse(ri, ro);
 }
 
-/*!@brief Performs the general matrix inverse for a ksl_mat3x3f_t matrix
-with no pivoting. If the matrix is an orthonormal rotation matrix with a
-determinant of one, (i.e. it is in SO3), then the less expensive matrix
-transpose function can be used for performing the inverse */
+/*!@brief Single precision version of ksl_mat3x3_inverted() */
 inline int ksl_mat3x3f_inverted(const ksl_mat3x3f_t* restrict ri,
                                 ksl_mat3x3f_t* restrict ro) {
-  ksl_mat3x3f_t a;
-  ksl_mat3x3f_copy(ri, &a);
-
-  /* Major loop to factor the matrix.
-    Generate factors column by column */
-  for(int row = 0; row < 3; row++) {
-    /* i iterates over rows of a */
-    for(int i = row + 1; i < 3; i++) {
-      /* Evaluate the current entry in the L matrix.*/
-      a.at[row][i] /= a.at[row][row];
-      /* Compute U matrix */
-      for(int j = row + 1; j < 3; j++) {
-        a.at[j][i] -= a.at[row][i] * a.at[j][row];
-      }
-    }
-  }
-
-  ksl_vec3f_t b;
-
-  /* Major loop operates on columns of an identity matrix */
-  for(int k = 0; k < 3; k++) {
-    ksl_vec3f_t y;
-    memset(&y, 0, sizeof(ksl_vec3f_t));
-    y.at[k] = 1.0;
-    /* perform forward substitution L^-1 y -> b
-    where L is unit lower triangular */
-    for(int i = 0; i < 3; i++) {
-      b.at[i] = y.at[i];
-      for(int j = 0; j < i; j++) {
-        b.at[i] -= a.at[j][i] * b.at[j];
-      }
-    }
-
-    /* perform backward substitution U^-1 b -> x
-    where U is non-unit upper triangular */
-    if(fabs(a.at[2][2]) < 1e-12) {
-      return -3;
-    }
-    ro->at[k][2] = b.at[2] / a.at[2][2];
-    for(int i = 1; i > -1; i--) {
-      double t = b.at[i];
-      for(int j = i + 1; j < 3; j++) {
-        t -= a.at[j][i] * ro->at[k][j];
-      }
-      if(fabs(a.at[i][i]) < 1e-12) {
-        return -(i + 1);
-      }
-      ro->at[k][i] = t / a.at[i][i];
-    }
-  }
-  return 0;
+  return ksl_mat3x3f_pivotedInverse(ri, ro);
 }
 
 inline void

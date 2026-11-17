@@ -247,12 +247,14 @@ static inline void ksl_mat3x3f_copy(const ksl_mat3x3f_t* ri, ksl_mat3x3f_t* ro);
 /*!
 @brief Invert a general 3x3 matrix in place.
 
-Uses an LU factorization without pivoting. For a rotation matrix,
-ksl_mat3x3_transpose() gives the same result with far fewer operations.
+Uses Gauss-Jordan elimination with partial pivoting (in each column the
+entry largest in magnitude is the pivot), so a matrix with zeros on its
+diagonal inverts. For a rotation matrix, ksl_mat3x3_transpose() gives the
+same result with far fewer operations.
 
 @param R [in,out] matrix, replaced by its inverse
-@return 0 on success, or a negative value if a pivot is smaller than 1e-12 (the
-matrix is singular or needs pivoting); R is then left partly overwritten
+@return 0 on success, or -(k + 1) if no pivot in column k is as large as
+1e-12 (the matrix is singular); R is then unchanged
 */
 int ksl_mat3x3_invert(ksl_mat3x3_t* R);
 
@@ -264,13 +266,15 @@ int ksl_mat3x3f_invert(ksl_mat3x3f_t* R);
 /*!
 @brief Compute the inverse of a general 3x3 matrix: ro = ri^-1.
 
-Uses an LU factorization without pivoting. For a rotation matrix,
-ksl_mat3x3_transposed() gives the same result with far fewer operations.
+Uses Gauss-Jordan elimination with partial pivoting (in each column the
+entry largest in magnitude is the pivot), so a matrix with zeros on its
+diagonal inverts. For a rotation matrix, ksl_mat3x3_transposed() gives the
+same result with far fewer operations.
 
 @param ri [in] matrix to invert
 @param ro [out] inverse of ri
-@return 0 on success, or a negative value if a pivot is smaller than 1e-12 (the
-matrix is singular or needs pivoting)
+@return 0 on success, or -(k + 1) if no pivot in column k is as large as
+1e-12 (the matrix is singular); ro is then not written
 */
 int ksl_mat3x3_inverted(const ksl_mat3x3_t* ri, ksl_mat3x3_t* ro);
 
